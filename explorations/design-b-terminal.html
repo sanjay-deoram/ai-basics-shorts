@@ -1,0 +1,1000 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Night Terminal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+/* Layout: a terminal session at midnight. Mono runs the page; a heavy grotesk is used only for big title cards. One phosphor accent, used for eyes, caret and the active thing. */
+:root {
+  color-scheme: dark;
+  --ink: #0d0c0b;        /* canvas */
+  --carbon: #161513;     /* terminal windows, cards */
+  --graphite: #24211e;   /* raised chips */
+  --seam: #34302b;       /* hairlines */
+  --ash: #948d83;        /* secondary text */
+  --bone: #f2ede4;       /* primary text, Byte's body */
+  --phosphor: #ffb547;   /* the one accent */
+  --phosphor-glow: rgba(255, 181, 71, .45);
+  --pass: #7dd892;       /* verdict: good, never decorative */
+  --fail: #ff6a5c;       /* verdict: bad, never decorative */
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+}
+* { box-sizing: border-box; }
+html { background: var(--ink); }
+body {
+  margin: 0; background: var(--ink); color: var(--bone);
+  font: 400 14px/1.6 var(--mono);
+  -webkit-font-smoothing: antialiased;
+}
+a { color: var(--bone); }
+a:focus-visible, input:focus-visible { outline: 2px solid var(--phosphor); outline-offset: 2px; }
+.wrap { max-width: 1140px; margin: 0 auto; padding-inline: 20px; padding-block: 0 96px; }
+
+/* ---------- edit tags (shared mechanism) ---------- */
+body:has(#show-tags:checked) [data-ref] { outline: 1px dashed var(--phosphor); outline-offset: 2px; position: relative; }
+body:has(#show-tags:checked) [data-ref]::before {
+  content: attr(data-ref); position: absolute; top: -10px; left: -6px; z-index: 50;
+  font: 600 10px/1 monospace; padding: 3px 5px; border-radius: 4px;
+  background: var(--phosphor); color: var(--ink); pointer-events: none;
+}
+
+/* ---------- top bar ---------- */
+.topbar {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 40;
+  background: rgba(13, 12, 11, .92); backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--seam);
+}
+.topbar-in { max-width: 1140px; margin: 0 auto; padding: 12px 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 10px 20px; }
+.back { font-size: 12px; color: var(--ash); text-decoration: none; }
+.back:hover { color: var(--bone); }
+.brand { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; flex: 1 1 260px; min-width: 0; }
+.brand b { font: 800 18px/1 var(--display); letter-spacing: -.02em; }
+.brand span { font-size: 12px; color: var(--ash); }
+.tag-toggle { font-size: 12px; color: var(--ash); display: inline-flex; align-items: center; gap: 8px; cursor: pointer; border: 1px solid var(--seam); padding: 6px 10px; border-radius: 6px; }
+.tag-toggle input { accent-color: var(--phosphor); margin: 0; }
+
+/* ---------- hero ---------- */
+.hero { padding-block: 56px 24px; display: grid; gap: 14px; }
+.prompt-line { font-size: 13px; color: var(--ash); }
+.prompt-line i { font-style: normal; color: var(--phosphor); }
+.hero h1 { margin: 0; font: 800 clamp(40px, 7vw, 76px)/.95 var(--display); letter-spacing: -.035em; text-wrap: balance; max-width: 14ch; }
+.hero p { margin: 0; max-width: 62ch; color: var(--ash); }
+.hero p b { color: var(--bone); font-weight: 500; }
+
+/* ---------- sections ---------- */
+section { padding-block: 48px 8px; border-top: 1px solid var(--seam); margin-top: 40px; }
+.sec-head { display: grid; gap: 6px; margin-bottom: 28px; }
+.sec-head .cmd { font-size: 12px; color: var(--ash); }
+.sec-head .cmd i { font-style: normal; color: var(--phosphor); }
+.sec-head h2 { margin: 0; font: 700 clamp(26px, 3.6vw, 36px)/1.05 var(--display); letter-spacing: -.025em; text-wrap: balance; }
+.sec-head p { margin: 0; color: var(--ash); max-width: 64ch; font-size: 13px; }
+.note { font-size: 11px; color: var(--ash); line-height: 1.7; }
+.note b { color: var(--bone); font-weight: 500; }
+.note .t { color: var(--phosphor); font-variant-numeric: tabular-nums; }
+
+/* ---------- Byte (ASCII dragon) ---------- */
+.byte { position: relative; font-family: var(--mono); font-size: var(--bs, 11px); line-height: 1.2; width: 37ch; color: var(--bone); }
+.byte pre { margin: 0; font: inherit; white-space: pre; }
+.b-base { color: #e6dfd3; }
+.b-face { position: absolute; left: 0; top: 4.8em; color: var(--phosphor); text-shadow: 0 0 6px var(--phosphor-glow); opacity: 0; }
+
+/* ---------- phone frames ---------- */
+.frames { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-start; }
+.frame-col { display: grid; gap: 12px; width: 340px; max-width: 100%; }
+.phone {
+  position: relative; width: 340px; max-width: 100%; aspect-ratio: 9 / 16;
+  border-radius: 30px; padding: 7px; background: #1c1a18;
+  box-shadow: 0 0 0 1px var(--seam), 0 30px 60px -30px rgba(0, 0, 0, .8);
+}
+.screen {
+  position: relative; width: 100%; height: 100%; overflow: hidden; border-radius: 24px;
+  background: radial-gradient(120% 70% at 50% 0%, #1a1815 0%, var(--ink) 60%);
+  container-type: inline-size;
+}
+.scan {
+  position: absolute; inset: 0; z-index: 30; pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, .025) 0 1px, transparent 1px 3px);
+  mix-blend-mode: screen;
+}
+.vignette { position: absolute; inset: 0; z-index: 29; pointer-events: none; box-shadow: inset 0 0 60px rgba(0, 0, 0, .7); border-radius: 24px; }
+
+/* shared in-video pieces (sized in container units so the frame scales cleanly) */
+.hud { position: absolute; top: 4.5%; left: 6%; right: 6%; display: flex; justify-content: space-between; align-items: center; font: 500 2.9cqw/1 var(--mono); color: var(--ash); letter-spacing: .08em; text-transform: uppercase; z-index: 5; }
+.dots { display: flex; gap: 1.4cqw; }
+.dots i { width: 5cqw; height: 1.4cqw; border-radius: 1px; background: var(--graphite); display: block; }
+.term {
+  background: var(--carbon); border: 1px solid var(--seam); border-radius: 2.4cqw;
+  font: 400 3.5cqw/1.45 var(--mono); color: var(--bone); overflow: hidden;
+}
+.term-h { display: flex; justify-content: space-between; align-items: center; padding: 1.8cqw 3cqw; border-bottom: 1px solid var(--seam); font-size: 2.7cqw; color: var(--ash); letter-spacing: .06em; text-transform: uppercase; }
+.term-b { padding: 3cqw; }
+.term-b .ps { color: var(--phosphor); }
+.chip { font: 700 2.5cqw/1 var(--mono); letter-spacing: .1em; padding: 1cqw 1.6cqw; border-radius: 1cqw; text-transform: uppercase; }
+.chip.fail { color: var(--fail); box-shadow: inset 0 0 0 1px var(--fail); }
+.chip.pass { color: var(--pass); box-shadow: inset 0 0 0 1px var(--pass); }
+.typed { display: inline-block; white-space: nowrap; overflow: hidden; vertical-align: bottom; border-right: .6em solid transparent; }
+
+/* ===== LIVE SAMPLE: 14s loop ===== */
+.live .layer { position: absolute; inset: 0; }
+.live .s-hook { opacity: 0; animation: v-hook 14s linear infinite; display: flex; flex-direction: column; justify-content: center; padding: 0 8%; }
+.hook-l { overflow: hidden; display: block; }
+.hook-l span { display: block; font: 800 13.5cqw/.98 var(--display); letter-spacing: -.035em; color: var(--bone); transform: translateY(110%); }
+.hook-l:nth-child(1) span { animation: hook1 14s cubic-bezier(.2, .7, .2, 1) infinite; }
+.hook-l:nth-child(2) span { animation: hook2 14s cubic-bezier(.2, .7, .2, 1) infinite; }
+.hook-l:nth-child(3) span { animation: hook3 14s cubic-bezier(.2, .7, .2, 1) infinite, glitch 14s steps(1) infinite; }
+.hook-k { margin-top: 5cqw; font: 500 3.1cqw/1.4 var(--mono); color: var(--ash); opacity: 0; animation: hookk 14s linear infinite; }
+.hook-k i { font-style: normal; color: var(--phosphor); }
+
+.live .s-bad { opacity: 0; animation: v-bad 14s cubic-bezier(.2, .7, .2, 1) infinite; transform-origin: 50% 20%; }
+.live .s-bad .term { position: absolute; top: 11%; left: 6%; right: 6%; }
+.bad-type { width: 0; animation: type-bad 14s steps(29) infinite; }
+.weak { padding: 3cqw; }
+.live .s-bad .term.weak { position: absolute; top: 27%; left: 6%; width: 58%; opacity: 0; animation: pop-weak 14s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.weak .lbl, .rich .lbl { font: 500 2.5cqw/1 var(--mono); color: var(--ash); letter-spacing: .08em; text-transform: uppercase; }
+.weak .bar { margin-top: 3cqw; height: 13cqw; display: flex; align-items: flex-end; gap: 2cqw; border-bottom: 1px solid var(--seam); }
+.weak .bar i { width: 7cqw; height: 45%; background: var(--seam); display: block; }
+.weak .cap { margin-top: 2cqw; font: 400 2.6cqw/1.3 var(--mono); color: var(--ash); }
+.stamp { position: absolute; font: 700 3.4cqw/1 var(--mono); letter-spacing: .08em; padding: 2cqw 2.6cqw; border-radius: 1.4cqw; display: inline-flex; gap: 1.6cqw; align-items: center; text-transform: uppercase; background: var(--ink); }
+.stamp svg { width: 3.4cqw; height: 3.4cqw; }
+.stamp.fail { color: var(--fail); box-shadow: inset 0 0 0 2px var(--fail); }
+.stamp.pass { color: var(--pass); box-shadow: inset 0 0 0 2px var(--pass); }
+.live .s-bad .stamp { top: 33%; right: 8%; transform: rotate(-6deg) scale(0); animation: pop-stamp-bad 14s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+
+.live .s-tip { opacity: 0; background: var(--phosphor); color: var(--ink); animation: v-tip 14s linear infinite; display: flex; flex-direction: column; justify-content: center; padding: 0 8%; z-index: 8; }
+.s-tip .k { font: 700 3.2cqw/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.s-tip h3 { margin: 4cqw 0 0; font: 800 17cqw/.92 var(--display); letter-spacing: -.04em; }
+.s-tip p { margin: 5cqw 0 0; font: 500 3.6cqw/1.45 var(--mono); max-width: 30ch; }
+
+.live .s-good { opacity: 0; animation: v-good 14s cubic-bezier(.2, .7, .2, 1) infinite; transform-origin: 50% 20%; }
+.live .s-good .term { position: absolute; top: 11%; left: 6%; right: 6%; }
+.gl { display: block; width: 0; animation: type-line 14s steps(var(--n)) infinite; }
+.gl:nth-child(1) { --n: 32; animation-delay: -5.70s; }
+.gl:nth-child(2) { --n: 24; animation-delay: -5.32s; }
+.gl:nth-child(3) { --n: 28; animation-delay: -4.94s; }
+.gl:nth-child(4) { --n: 30; animation-delay: -4.56s; }
+.gl:nth-child(5) { --n: 26; animation-delay: -4.18s; }
+.gl:nth-child(6) { --n: 15; animation-delay: -3.80s; }
+.live .s-good .term.rich { position: absolute; top: 39%; left: 6%; right: 6%; padding: 3cqw; opacity: 0; transform-origin: 30% 30%; animation: pop-rich 14s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.kpis { margin-top: 2.4cqw; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2cqw; }
+.kpis div { background: var(--graphite); border-radius: 1.2cqw; padding: 1.8cqw; font: 400 2.2cqw/1.2 var(--mono); color: var(--ash); }
+.kpis b { display: block; font: 700 4.2cqw/1.1 var(--mono); color: var(--bone); font-variant-numeric: tabular-nums; }
+.charts { margin-top: 2cqw; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2cqw; }
+.charts svg { width: 100%; height: auto; display: block; background: var(--graphite); border-radius: 1.2cqw; }
+.filters { margin-top: 2cqw; display: flex; gap: 1.4cqw; flex-wrap: wrap; }
+.filters span { font: 500 2.2cqw/1 var(--mono); color: var(--bone); border: 1px solid var(--seam); padding: 1cqw 1.6cqw; border-radius: 9cqw; }
+.live .s-good .stamp { top: 35.5%; right: 7%; transform: rotate(5deg) scale(0); animation: pop-stamp-good 14s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+
+.live .byte-wrap { position: absolute; left: 0; right: 0; bottom: 12%; display: flex; justify-content: center; opacity: 0; animation: v-byte 14s ease-in-out infinite; transform-origin: 50% 100%; }
+.live .byte { --bs: 2.25cqw; }
+.live .f-neutral { animation: f-neutral 14s steps(1) infinite; }
+.live .f-confused { animation: f-confused 14s steps(1) infinite; }
+.live .f-happy { animation: f-happy 14s steps(1) infinite; }
+
+.subs { position: absolute; left: 6%; right: 6%; bottom: 4.5%; height: 7cqw; z-index: 6; }
+.subs span { position: absolute; inset: 0; display: block; text-align: center; font: 700 3.6cqw/7cqw var(--mono); white-space: nowrap; color: var(--bone); opacity: 0; }
+.subs span em { font-style: normal; color: var(--phosphor); }
+.subs span:nth-child(1) { animation: sub1 14s linear infinite; }
+.subs span:nth-child(2) { animation: sub2 14s linear infinite; }
+.subs span:nth-child(3) { animation: sub3 14s linear infinite; }
+.live .dots i:first-child { animation: dot1 14s steps(1) infinite; }
+
+/* timeline keyframes; 1s = 7.142857% */
+@keyframes v-hook { 0% { opacity: 0; transform: scale(1.06); } 2.86% { opacity: 1; transform: scale(1); } 14.29% { opacity: 1; transform: scale(1); } 16.43%, 100% { opacity: 0; transform: scale(.96); } }
+@keyframes hook1 { 0%, .7% { transform: translateY(110%); } 4.3%, 100% { transform: translateY(0); } }
+@keyframes hook2 { 0%, 1.8% { transform: translateY(110%); } 5.4%, 100% { transform: translateY(0); } }
+@keyframes hook3 { 0%, 2.9% { transform: translateY(110%); } 6.4%, 100% { transform: translateY(0); } }
+@keyframes glitch {
+  0% { color: var(--bone); text-shadow: none; translate: 0 0; }
+  7.14% { color: var(--phosphor); text-shadow: -.6cqw 0 var(--fail), .6cqw 0 var(--pass); translate: 1.2cqw 0; }
+  7.6% { text-shadow: .8cqw 0 var(--fail), -.8cqw 0 var(--pass); translate: -1.4cqw 0; }
+  8.1% { text-shadow: -.3cqw 0 var(--fail), .3cqw 0 var(--pass); translate: .6cqw 0; }
+  8.6% { color: var(--phosphor); text-shadow: 0 0 4cqw var(--phosphor-glow); translate: 0 0; }
+  100% { color: var(--phosphor); text-shadow: 0 0 4cqw var(--phosphor-glow); translate: 0 0; }
+}
+@keyframes hookk { 0%, 7.5% { opacity: 0; } 9.3%, 100% { opacity: 1; } }
+@keyframes v-bad { 0%, 16.43% { opacity: 0; transform: scale(1.12); } 18.57% { opacity: 1; transform: scale(1); } 45% { opacity: 1; transform: scale(1); } 46.43%, 100% { opacity: 0; transform: scale(1); } }
+@keyframes type-bad { 0%, 18.57% { width: 0; border-right-color: var(--phosphor); } 27.86% { width: calc(29ch + .6em); border-right-color: var(--phosphor); } 31% { width: calc(29ch + .6em); border-right-color: var(--phosphor); } 31.1%, 100% { width: calc(29ch + .6em); border-right-color: transparent; } }
+@keyframes pop-weak { 0%, 32.86% { opacity: 0; transform: scale(.6); } 34.29% { opacity: 1; transform: scale(1.05); } 35%, 100% { opacity: 1; transform: scale(1); } }
+@keyframes pop-stamp-bad { 0%, 37.14% { transform: rotate(-6deg) scale(0); } 38.57% { transform: rotate(-6deg) scale(1.15); } 39.29%, 100% { transform: rotate(-6deg) scale(1); } }
+@keyframes v-tip {
+  0%, 46.43% { opacity: 0; clip-path: inset(0 0 0 0); transform: none; }
+  46.44% { opacity: 1; clip-path: inset(40% 0 35% 0); transform: translateX(-4%); }
+  47.14% { clip-path: inset(10% 0 60% 0); transform: translateX(3%); }
+  47.6% { clip-path: inset(0 0 0 0); transform: translateX(-1%); }
+  48.57% { opacity: 1; clip-path: inset(0 0 0 0); transform: none; }
+  55.71% { opacity: 1; transform: scale(1); }
+  57.14%, 100% { opacity: 0; transform: scale(1.04); }
+}
+@keyframes v-good { 0%, 57.14% { opacity: 0; transform: scale(1.12); } 58.57% { opacity: 1; transform: scale(1); } 94.29% { opacity: 1; transform: scale(1); } 96.43%, 100% { opacity: 0; transform: scale(1); } }
+@keyframes type-line { 0% { width: 0; border-right-color: var(--phosphor); } 2.71% { width: calc(var(--n) * 1ch + .6em); border-right-color: var(--phosphor); } 2.75%, 100% { width: calc(var(--n) * 1ch + .6em); border-right-color: transparent; } }
+@keyframes pop-rich { 0%, 77.14% { opacity: 0; transform: scale(.7); } 78.57% { opacity: 1; transform: scale(1.04); } 79.29% { opacity: 1; transform: scale(1); } 85% { transform: scale(1); } 94.29%, 100% { opacity: 1; transform: scale(1.05); } }
+@keyframes pop-stamp-good { 0%, 82.86% { transform: rotate(5deg) scale(0); } 84.29% { transform: rotate(5deg) scale(1.18); } 85%, 100% { transform: rotate(5deg) scale(1); } }
+@keyframes v-byte {
+  0%, 16.43% { opacity: 0; transform: translateY(8%); }
+  18.57% { opacity: 1; transform: translateY(0) scale(1); }
+  31.43% { opacity: 1; transform: scale(1); }
+  33.5% { transform: scale(1.14) rotate(-2deg); }
+  44% { opacity: 1; transform: scale(1.14) rotate(-2deg); }
+  46.43% { opacity: 0; transform: scale(1); }
+  57.14% { opacity: 0; transform: translateY(8%); }
+  59.29% { opacity: 1; transform: translateY(0); }
+  77.14% { transform: translateY(0); }
+  78.2% { transform: translateY(-7%); }
+  79.3% { transform: translateY(0); }
+  80.2% { transform: translateY(-3%); }
+  81% { transform: translateY(0); }
+  94.29% { opacity: 1; }
+  96.43%, 100% { opacity: 0; }
+}
+@keyframes f-neutral { 0% { opacity: 1; } 31.43% { opacity: 0; } 57.14% { opacity: 1; } 77.14% { opacity: 0; } }
+@keyframes f-confused { 0% { opacity: 0; } 31.43% { opacity: 1; } 46.43% { opacity: 0; } }
+@keyframes f-happy { 0% { opacity: 0; } 77.14% { opacity: 1; } 96.43% { opacity: 0; } }
+@keyframes sub1 { 0%, 32.86% { opacity: 0; } 34% { opacity: 1; } 45% { opacity: 1; } 46.43%, 100% { opacity: 0; } }
+@keyframes sub2 { 0%, 59.29% { opacity: 0; } 60.5% { opacity: 1; } 76% { opacity: 1; } 77.14%, 100% { opacity: 0; } }
+@keyframes sub3 { 0%, 78.57% { opacity: 0; } 79.8% { opacity: 1; } 93% { opacity: 1; } 94.29%, 100% { opacity: 0; } }
+@keyframes dot1 { 0% { background: var(--graphite); } 57.14% { background: var(--phosphor); } }
+
+/* ===== STATIC BEFORE / AFTER ===== */
+.split .half { position: absolute; left: 0; right: 0; padding: 5% 6%; display: flex; flex-direction: column; gap: 2.6cqw; }
+.split .half.top { top: 0; height: 50%; padding-top: 16%; }
+.split .half.bot { bottom: 0; height: 50%; background: linear-gradient(to bottom, rgba(125, 216, 146, .05), transparent 40%); }
+.split .divider { position: absolute; left: 0; right: 0; top: 50%; height: 0; border-top: 1px dashed var(--seam); z-index: 4; }
+.split .divider span { position: absolute; left: 50%; top: 0; transform: translate(-50%, -50%); font: 700 2.6cqw/1 var(--mono); letter-spacing: .14em; color: var(--ink); background: var(--phosphor); padding: 1.2cqw 2cqw; border-radius: 1cqw; }
+.half-h { display: flex; justify-content: space-between; align-items: center; font: 700 3cqw/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+.half.top .half-h { color: var(--fail); }
+.half.bot .half-h { color: var(--pass); }
+.split .term { font-size: 3.1cqw; }
+.split .term-b { padding: 2.4cqw 3cqw; }
+.split .row { display: flex; gap: 3cqw; align-items: flex-end; min-height: 0; }
+.split .row > .mini { flex: 1; min-width: 0; }
+.split .byte { --bs: 1.5cqw; flex: none; }
+.split .f-confused, .split .f-happy { opacity: 1; }
+.mini { background: var(--carbon); border: 1px solid var(--seam); border-radius: 2cqw; padding: 2.4cqw; }
+.mini .lbl { font: 500 2.3cqw/1 var(--mono); color: var(--ash); letter-spacing: .08em; text-transform: uppercase; }
+.mini .kpis div { padding: 1.2cqw; }
+.mini .kpis b { font-size: 3.2cqw; }
+
+/* ===== CHARACTER SHEET ===== */
+.cast { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 250px), 1fr)); gap: 16px; }
+.pose { background: var(--carbon); border: 1px solid var(--seam); border-radius: 14px; padding: 18px; display: grid; gap: 14px; align-content: start; }
+.pose-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+.pose-h b { font: 700 15px/1.2 var(--display); letter-spacing: -.01em; }
+.pose-h span { font-size: 11px; color: var(--ash); }
+.stage { position: relative; height: 230px; display: flex; align-items: center; justify-content: center; background: radial-gradient(60% 60% at 50% 55%, #1e1c19, var(--carbon)); border-radius: 10px; }
+.stage .byte { --bs: clamp(8px, 2.4vw, 10.5px); }
+.breathe { animation: breathe 4.2s ease-in-out infinite; transform-origin: 50% 90%; }
+.pose-neutral .f-neutral { animation: blink-open 4.2s steps(1) infinite; }
+.pose-neutral .f-blink { animation: blink-shut 4.2s steps(1) infinite; }
+.pose-confused .f-confused { opacity: 1; }
+.pose-confused .byte { animation: tilt 3.2s ease-in-out infinite; transform-origin: 50% 80%; }
+.pose-happy .f-happy { opacity: 1; }
+.pose-happy .byte { animation: hop 1.6s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.pose-talk .f-talk { animation: talk-a 1.2s steps(1) infinite; }
+.pose-talk .f-neutral { animation: talk-b 1.2s steps(1) infinite; }
+.fx { position: absolute; font: 700 16px/1 var(--mono); color: var(--phosphor); text-shadow: 0 0 8px var(--phosphor-glow); pointer-events: none; }
+.q1 { top: 14%; right: 14%; animation: float-q 2.4s ease-in-out infinite; }
+.q2 { top: 26%; right: 8%; font-size: 11px; animation: float-q 2.4s ease-in-out -1.2s infinite; }
+.sp { animation: twinkle 1.6s steps(1) infinite; }
+.sp1 { top: 12%; left: 12%; }
+.sp2 { top: 20%; right: 12%; animation-delay: -.4s; }
+.sp3 { bottom: 18%; left: 9%; animation-delay: -.8s; }
+.sp4 { bottom: 26%; right: 9%; animation-delay: -1.2s; }
+.arm { position: absolute; left: 33ch; top: 15.6em; margin: 0; white-space: pre; font: 700 clamp(8px, 2.4vw, 10.5px)/1.2 var(--mono); color: var(--bone); animation: jab 1.2s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+.arm-wrap { position: relative; font: 400 clamp(8px, 2.4vw, 10.5px)/1.2 var(--mono); }
+@keyframes jab { 0%, 100% { transform: translateX(0); } 40% { transform: translateX(.8ch); } }
+.bubble { position: absolute; top: 9%; right: 6%; font: 500 11px/1.4 var(--mono); color: var(--ink); background: var(--phosphor); padding: 6px 9px; border-radius: 6px; animation: bubble 2.4s ease-in-out infinite; }
+.bubble::after { content: ""; position: absolute; left: 14px; bottom: -5px; width: 10px; height: 10px; background: var(--phosphor); transform: rotate(45deg); }
+.pose p { margin: 0; font-size: 12px; color: var(--ash); line-height: 1.6; }
+.bio { margin-top: 18px; display: grid; grid-template-columns: auto 1fr; gap: 6px 18px; font-size: 13px; max-width: 760px; }
+.bio dt { color: var(--phosphor); }
+.bio dd { margin: 0; color: var(--bone); }
+@keyframes breathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-2px) scaleY(1.012); } }
+@keyframes blink-open { 0% { opacity: 1; } 88% { opacity: 0; } 91% { opacity: 1; } }
+@keyframes blink-shut { 0% { opacity: 0; } 88% { opacity: 1; } 91% { opacity: 0; } }
+@keyframes tilt { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(2deg); } }
+@keyframes hop { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px) scale(1.02); } 55% { transform: translateY(0); } }
+@keyframes talk-a { 0% { opacity: 1; } 50% { opacity: 0; } }
+@keyframes talk-b { 0% { opacity: 0; } 50% { opacity: 1; } }
+@keyframes float-q { 0%, 100% { transform: translateY(0); opacity: .5; } 50% { transform: translateY(-8px); opacity: 1; } }
+@keyframes twinkle { 0% { opacity: 1; } 25% { opacity: .2; } 50% { opacity: 1; } 75% { opacity: .5; } }
+@keyframes bubble { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+/* ===== COLOR ===== */
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 12px; }
+.sw { border: 1px solid var(--seam); border-radius: 10px; background: var(--carbon); }
+.sw .chipc { height: 74px; border-bottom: 1px solid var(--seam); border-radius: 9px 9px 0 0; }
+.sw .meta { padding: 10px 12px; display: grid; gap: 2px; }
+.sw .meta b { font: 700 13px/1.3 var(--display); }
+.sw .meta code { font-size: 12px; color: var(--phosphor); }
+.sw .meta span { font-size: 11px; color: var(--ash); line-height: 1.5; }
+.sw-group { font-size: 11px; color: var(--ash); letter-spacing: .12em; text-transform: uppercase; margin: 22px 0 10px; }
+
+/* ===== TYPE ===== */
+.type-list { display: grid; border-top: 1px solid var(--seam); }
+.type-row { display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr); gap: 8px 24px; padding-block: 18px; border-bottom: 1px solid var(--seam); align-items: baseline; }
+.type-row .spec { font-size: 11px; color: var(--ash); line-height: 1.6; }
+.type-row .spec b { display: block; color: var(--bone); font-weight: 500; font-size: 12px; }
+.type-row .sample { min-width: 0; overflow-wrap: anywhere; }
+.t-display { font: 800 clamp(40px, 6vw, 64px)/.95 var(--display); letter-spacing: -.035em; }
+.t-title { font: 700 clamp(28px, 4vw, 40px)/1.02 var(--display); letter-spacing: -.025em; }
+.t-body { font: 400 18px/1.5 var(--mono); max-width: 40ch; }
+.t-sub { font: 700 18px/1.2 var(--mono); }
+.t-sub em { font-style: normal; color: var(--phosphor); }
+.t-label { font: 500 13px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ash); }
+@media (max-width: 560px) { .type-row { grid-template-columns: 1fr; } }
+
+/* ===== COMPONENTS ===== */
+.comp-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 16px; }
+.comp { background: var(--carbon); border: 1px solid var(--seam); border-radius: 14px; padding: 18px; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.comp > .lab { font-size: 11px; color: var(--ash); letter-spacing: .1em; text-transform: uppercase; }
+.comp.wide { grid-column: 1 / -1; }
+/* prompt card (component scale) */
+.pc { border: 1px solid var(--seam); border-radius: 10px; overflow: hidden; background: var(--ink); }
+.pc-h { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 12px; border-bottom: 1px solid var(--seam); font-size: 11px; color: var(--ash); letter-spacing: .06em; text-transform: uppercase; }
+.pc-b { padding: 12px; font-size: 13px; line-height: 1.6; }
+.pc-b .ps { color: var(--phosphor); }
+.pc-f { padding: 8px 12px; border-top: 1px solid var(--seam); font-size: 11px; color: var(--ash); display: flex; justify-content: space-between; gap: 8px; flex-wrap: wrap; }
+.pc .c { font: 700 10px/1 var(--mono); letter-spacing: .1em; padding: 4px 6px; border-radius: 4px; }
+.pc .c.fail { color: var(--fail); box-shadow: inset 0 0 0 1px var(--fail); }
+.pc .c.pass { color: var(--pass); box-shadow: inset 0 0 0 1px var(--pass); }
+.pc.good { border-color: rgba(125, 216, 146, .35); }
+/* verdicts */
+.verdicts { display: flex; flex-wrap: wrap; gap: 12px; }
+.vd { display: inline-flex; align-items: center; gap: 8px; font: 700 13px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; padding: 10px 14px; border-radius: 8px; }
+.vd svg { width: 14px; height: 14px; }
+.vd.fail { color: var(--fail); box-shadow: inset 0 0 0 2px var(--fail); }
+.vd.pass { color: var(--pass); box-shadow: inset 0 0 0 2px var(--pass); }
+.vd.big { transform: rotate(-4deg); }
+/* tip card */
+.tipcard { background: var(--phosphor); color: var(--ink); border-radius: 12px; padding: 22px; display: grid; gap: 10px; }
+.tipcard .k { font: 700 11px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; display: flex; justify-content: space-between; }
+.tipcard h4 { margin: 0; font: 800 clamp(34px, 5vw, 46px)/.95 var(--display); letter-spacing: -.035em; }
+.tipcard p { margin: 0; font-size: 12px; line-height: 1.5; max-width: 34ch; }
+/* subtitle bar */
+.subbar { background: var(--ink); border: 1px solid var(--seam); border-radius: 10px; padding: 16px; text-align: center; font: 700 17px/1.3 var(--mono); }
+.subbar .w { opacity: .38; animation: karaoke 3.6s steps(1) infinite; }
+.subbar .w:nth-child(1) { animation-delay: 0s; }
+.subbar .w:nth-child(2) { animation-delay: .3s; }
+.subbar .w:nth-child(3) { animation-delay: .6s; }
+.subbar .w:nth-child(4) { animation-delay: .9s; }
+.subbar .w:nth-child(5) { animation-delay: 1.2s; }
+.subbar .w:nth-child(6) { animation-delay: 1.5s; }
+.subbar .w:nth-child(7) { animation-delay: 1.8s; }
+.subbar .w.key { color: var(--phosphor); }
+@keyframes karaoke { 0% { opacity: 1; } 75% { opacity: .38; } }
+/* progress */
+.prog { display: grid; gap: 10px; }
+.prog-row { display: flex; align-items: center; gap: 12px; font-size: 12px; color: var(--ash); }
+.prog-row .seg { display: flex; gap: 6px; }
+.prog-row .seg i { width: 30px; height: 6px; border-radius: 1px; background: var(--graphite); display: block; }
+.prog-row .seg i.on { background: var(--bone); }
+.prog-row .seg i.now { background: var(--phosphor); box-shadow: 0 0 8px var(--phosphor-glow); animation: now 1.2s steps(2) infinite; }
+.prog-ascii { font-size: 13px; color: var(--bone); }
+.prog-ascii i { font-style: normal; color: var(--phosphor); }
+@keyframes now { 50% { opacity: .45; } }
+/* keyword highlighter */
+.hl-text { font-size: 15px; line-height: 1.75; max-width: 52ch; }
+.hl { background-image: linear-gradient(var(--phosphor), var(--phosphor)); background-repeat: no-repeat; background-position: 0 92%; background-size: 0% 3px; padding-bottom: 2px; animation: marker 3.6s cubic-bezier(.65, 0, .35, 1) infinite; }
+.hl-text .dim { color: var(--ash); }
+@keyframes marker { 0%, 12% { background-size: 0% 3px; color: var(--bone); } 34%, 82% { background-size: 100% 3px; color: var(--phosphor); } 100% { background-size: 100% 3px; color: var(--bone); } }
+/* end card */
+.endcard { background: var(--ink); border: 1px solid var(--seam); border-radius: 12px; padding: 18px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: center; }
+.endcard .byte { --bs: 6px; }
+.endcard .byte .f-happy { opacity: 1; }
+.endcard h5 { margin: 0 0 6px; font: 800 22px/1 var(--display); letter-spacing: -.02em; }
+.endcard p { margin: 0 0 12px; font-size: 12px; color: var(--ash); }
+.cta { display: inline-flex; gap: 8px; align-items: center; font: 700 12px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; color: var(--ink); background: var(--bone); padding: 10px 14px; border-radius: 6px; }
+.cta i { font-style: normal; color: var(--ink); animation: caret 1s steps(1) infinite; }
+@keyframes caret { 50% { opacity: 0; } }
+@media (max-width: 420px) { .endcard { grid-template-columns: 1fr; } }
+
+/* ===== MOTION LANGUAGE ===== */
+.motion { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.mo { background: var(--carbon); border: 1px solid var(--seam); border-radius: 14px; display: grid; }
+.mo-stage { position: relative; height: 150px; display: flex; align-items: center; justify-content: center; background: var(--ink); border-bottom: 1px solid var(--seam); overflow: hidden; border-radius: 13px 13px 0 0; }
+.mo-meta { padding: 14px 16px; display: grid; gap: 6px; font-size: 12px; }
+.mo-meta b { font: 700 15px/1.2 var(--display); }
+.mo-meta dl { margin: 0; display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; }
+.mo-meta dt { color: var(--ash); }
+.mo-meta dd { margin: 0; color: var(--bone); overflow-wrap: anywhere; }
+.mo-meta dd.sfx { color: var(--phosphor); }
+/* 1 type-on */
+.m-type { font: 500 22px/1 var(--mono); }
+.m-type .typed { width: 0; animation: m-type 3s steps(11) infinite, m-caret 3s steps(1) infinite; }
+@keyframes m-type { 0%, 8% { width: 0; } 45%, 100% { width: calc(11ch + .6em); } }
+@keyframes m-caret { 0% { border-right-color: var(--phosphor); } 15% { border-right-color: transparent; } 30% { border-right-color: var(--phosphor); } 60% { border-right-color: transparent; } 75% { border-right-color: var(--phosphor); } 90% { border-right-color: transparent; } }
+/* 2 decode */
+.m-dec { display: flex; font: 700 26px/1.2 var(--mono); letter-spacing: .04em; }
+.m-dec .cell { height: 1.2em; overflow: hidden; display: block; }
+.m-dec .cell span { display: block; white-space: pre; animation: m-dec 3s steps(5) infinite; }
+.m-dec .cell:nth-child(2) span { animation-delay: .08s; }
+.m-dec .cell:nth-child(3) span { animation-delay: .16s; }
+.m-dec .cell:nth-child(4) span { animation-delay: .24s; }
+.m-dec .cell:nth-child(5) span { animation-delay: .32s; }
+.m-dec .cell:nth-child(6) span { animation-delay: .40s; }
+.m-dec .cell:nth-child(7) span { animation-delay: .48s; }
+.m-dec { color: var(--phosphor); }
+@keyframes m-dec { 0%, 10% { transform: translateY(0); color: var(--ash); } 30% { transform: translateY(-6em); color: var(--bone); } 100% { transform: translateY(-6em); color: var(--bone); } }
+/* 3 line reveal */
+.m-lines { display: grid; gap: 4px; font: 500 15px/1.3 var(--mono); }
+.m-lines .ln { overflow: hidden; display: block; }
+.m-lines .ln span { display: block; animation: m-line 3s cubic-bezier(.2, .7, .2, 1) infinite; }
+.m-lines .ln:nth-child(2) span { animation-delay: .1s; }
+.m-lines .ln:nth-child(3) span { animation-delay: .2s; }
+.m-lines .ln:nth-child(4) span { animation-delay: .3s; }
+.m-lines .tg { color: var(--phosphor); }
+.m-lines .tx { color: var(--ash); }
+@keyframes m-line { 0%, 6% { transform: translateY(110%); opacity: 0; } 26%, 84% { transform: translateY(0); opacity: 1; } 96%, 100% { transform: translateY(-110%); opacity: 0; } }
+/* 4 glitch cut */
+.m-glitch { position: relative; font: 800 48px/1 var(--display); letter-spacing: -.03em; color: var(--bone); animation: m-glitch 2.4s steps(1) infinite; }
+@keyframes m-glitch {
+  0% { transform: none; text-shadow: none; clip-path: inset(0); color: var(--bone); }
+  70% { transform: translateX(-6px); text-shadow: 3px 0 var(--fail), -3px 0 var(--pass); clip-path: inset(10% 0 45% 0); }
+  73% { transform: translateX(5px); text-shadow: -4px 0 var(--fail), 4px 0 var(--pass); clip-path: inset(55% 0 5% 0); }
+  76% { transform: translateX(-2px); text-shadow: 2px 0 var(--fail), -2px 0 var(--pass); clip-path: inset(0); color: var(--phosphor); }
+  80% { transform: none; text-shadow: none; clip-path: inset(0); color: var(--phosphor); }
+}
+/* 5 verdict pop */
+.m-pop { animation: m-pop 2.4s cubic-bezier(.34, 1.56, .64, 1) infinite; }
+@keyframes m-pop { 0%, 18% { transform: scale(0) rotate(-14deg); opacity: 0; } 36% { transform: scale(1.14) rotate(-4deg); opacity: 1; } 46%, 86% { transform: scale(1) rotate(-4deg); opacity: 1; } 100% { transform: scale(1) rotate(-4deg); opacity: 0; } }
+/* 6 push-in */
+.m-push { font: 400 13px/1.6 var(--mono); color: var(--ash); max-width: 30ch; animation: m-push 4s cubic-bezier(.65, 0, .35, 1) infinite; transform-origin: 62% 58%; }
+.m-push b { font-weight: 700; color: var(--bone); animation: m-push-b 4s steps(1) infinite; }
+@keyframes m-push { 0%, 15% { transform: scale(1); } 45%, 80% { transform: scale(1.9); } 100% { transform: scale(1); } }
+@keyframes m-push-b { 0% { color: var(--bone); } 40% { color: var(--phosphor); } 85% { color: var(--bone); } }
+
+footer { margin-top: 56px; padding-top: 22px; border-top: 1px solid var(--seam); font-size: 12px; color: var(--ash); display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px; }
+
+/* ---------- reduced motion: freeze on the "after" state ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .live .s-good, .live .byte-wrap, .live .s-good .term.rich { opacity: 1 !important; }
+  .live .s-good .stamp { transform: rotate(5deg) scale(1) !important; }
+  .live .gl { width: calc(var(--n) * 1ch + .6em) !important; }
+  .live .f-happy, .pose-neutral .f-neutral, .pose-talk .f-talk { opacity: 1 !important; }
+  .live .subs span:nth-child(3) { opacity: 1 !important; }
+  .m-type .typed { width: calc(11ch + .6em) !important; }
+  .m-dec .cell span { transform: translateY(-6em) !important; color: var(--bone); }
+  .m-lines .ln span { transform: none !important; }
+  .m-pop { transform: rotate(-4deg); }
+  .hl { background-size: 100% 3px; color: var(--phosphor); }
+  .subbar .w { opacity: 1; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-in">
+    <a class="back" href="index.html">&larr; All designs</a>
+    <div class="brand"><b>Night Terminal</b><span>Design B &middot; your site's ASCII dragon, live in a terminal at midnight.</span></div>
+    <label class="tag-toggle"><input type="checkbox" id="show-tags"> Show edit tags</label>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="hero">
+    <div class="prompt-line">sanjay@shorts:~$ <i>./play</i> --series ai-basics --style night-terminal</div>
+    <h1 data-ref="B-01">Learn AI one line at a time.</h1>
+    <p data-ref="B-02">Built from the look of <b>sanjaydeoram.com</b>: near-black canvas, off-white text, monospace everywhere, and an ASCII dragon as the host. One amber phosphor accent marks whatever the viewer should look at right now. Green and red only ever mean <b>good prompt</b> and <b>bad prompt</b>.</p>
+  </div>
+
+  <!-- a. LIVE SAMPLE -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>play</i> sample.mp4 --loop</div>
+      <h2>Live sample</h2>
+      <p>A 14-second slice of the prompting short, running on pure CSS. Watch for the type-on, Byte's face change, the push-in on the confused dragon, the amber title card glitching in, and the verdict pops.</p>
+    </div>
+    <div class="frames">
+      <div class="frame-col">
+        <div class="phone live" data-ref="B-03">
+          <div class="screen">
+            <div class="hud"><span>Prompting 101</span><span class="dots"><i></i><i></i><i></i><i></i><i></i></span></div>
+
+            <div class="layer s-hook">
+              <span class="hook-l"><span>Your prompt</span></span>
+              <span class="hook-l"><span>is the</span></span>
+              <span class="hook-l"><span>problem.</span></span>
+              <div class="hook-k">5 fixes. 60 seconds. <i>&gt;_</i></div>
+            </div>
+
+            <div class="layer s-bad">
+              <div class="term">
+                <div class="term-h"><span>&gt; prompt</span><span class="chip fail">vague</span></div>
+                <div class="term-b"><span class="ps">$ </span><span class="typed bad-type">Create an analytics dashboard</span></div>
+              </div>
+              <div class="term weak">
+                <div class="lbl">output</div>
+                <div class="bar"><i></i><i style="height:30%"></i></div>
+                <div class="cap">1 chart. No filters. Bare minimum.</div>
+              </div>
+              <div class="stamp fail"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M3 3l10 10M13 3L3 13"/></svg>Vague</div>
+            </div>
+
+            <div class="layer s-tip">
+              <div class="k">Tip 1 / 5</div>
+              <h3>Be specific.</h3>
+              <p>Say exactly what you want, and how far to take it.</p>
+            </div>
+
+            <div class="layer s-good">
+              <div class="term">
+                <div class="term-h"><span>&gt; prompt</span><span class="chip pass">clear</span></div>
+                <div class="term-b">
+                  <span class="typed gl"><span class="ps">$ </span>Create an analytics dashboard.</span>
+                  <span class="typed gl">Include as many relevant</span>
+                  <span class="typed gl">features and interactions as</span>
+                  <span class="typed gl">possible. Go beyond the basics</span>
+                  <span class="typed gl">to create a fully-featured</span>
+                  <span class="typed gl">implementation.</span>
+                </div>
+              </div>
+              <div class="term rich">
+                <div class="lbl">output</div>
+                <div class="kpis"><div><b>12.4k</b>visits</div><div><b>3.8%</b>convert</div><div><b>$41k</b>revenue</div></div>
+                <div class="charts">
+                  <svg viewBox="0 0 120 56" aria-hidden="true"><polyline points="6,44 22,38 38,40 54,28 70,30 86,18 102,20 114,10" fill="none" stroke="#ffb547" stroke-width="2.2"/><polyline points="6,48 22,46 38,44 54,42 70,40 86,36 102,35 114,30" fill="none" stroke="#948d83" stroke-width="1.2" stroke-dasharray="3 3"/></svg>
+                  <svg viewBox="0 0 80 56" aria-hidden="true"><rect x="8" y="30" width="9" height="20" fill="#f2ede4"/><rect x="22" y="20" width="9" height="30" fill="#f2ede4"/><rect x="36" y="12" width="9" height="38" fill="#ffb547"/><rect x="50" y="24" width="9" height="26" fill="#f2ede4"/><rect x="64" y="34" width="9" height="16" fill="#f2ede4"/></svg>
+                </div>
+                <div class="filters"><span>Last 30 days</span><span>Region</span><span>Compare</span><span>Export</span></div>
+              </div>
+              <div class="stamp pass"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg>Clear</div>
+            </div>
+
+            <div class="byte-wrap"><div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-neutral">             ___     ___
+              o       o
+
+
+
+                =====</pre><pre class="b-face f-confused">             ___     .-.
+              o       @
+
+
+
+                ~^~^~</pre><pre class="b-face f-happy">             .-.     .-.
+              ^       ^
+
+
+
+                \___/</pre></div></div>
+
+            <div class="subs">
+              <span>Vague in. <em>Vague out.</em></span>
+              <span>Say <em>exactly</em> what you want.</span>
+              <span>Clear prompt. <em>Better result.</em></span>
+            </div>
+            <div class="vignette"></div>
+            <div class="scan"></div>
+          </div>
+        </div>
+        <div class="note" data-ref="B-04"><b>Beats</b> &nbsp;<span class="t">0.0</span> hook lines rise, "problem." glitches &middot; <span class="t">2.3</span> bad prompt zooms in, types on &middot; <span class="t">4.4</span> Byte confused, push-in &middot; <span class="t">4.6</span> weak output pops &middot; <span class="t">5.2</span> VAGUE stamp &middot; <span class="t">6.5</span> amber tip card glitches in &middot; <span class="t">8.0</span> good prompt types on &middot; <span class="t">10.8</span> rich output pops, Byte hops &middot; <span class="t">11.6</span> CLEAR stamp &middot; <span class="t">13.2</span> fade, loop</div>
+      </div>
+
+      <div class="frame-col">
+        <div class="phone split" data-ref="B-05">
+          <div class="screen">
+            <div class="hud"><span>Tip 1 &middot; Be specific</span><span class="dots"><i style="background:var(--phosphor)"></i><i></i><i></i><i></i><i></i></span></div>
+            <div class="half top">
+              <div class="half-h"><span>Before</span><span class="chip fail">vague</span></div>
+              <div class="term"><div class="term-b"><span class="ps" style="color:var(--phosphor)">$ </span>Create an analytics dashboard</div></div>
+              <div class="row">
+                <div class="mini"><div class="lbl">output</div><div class="weak" style="position:static;opacity:1;width:auto;padding:0"><div class="bar" style="height:10cqw"><i></i><i style="height:30%"></i></div><div class="cap">1 chart. No filters.</div></div></div>
+                <div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-confused">             ___     .-.
+              o       @
+
+
+
+                ~^~^~</pre></div>
+              </div>
+            </div>
+            <div class="divider"><span>VS</span></div>
+            <div class="half bot">
+              <div class="half-h"><span>After</span><span class="chip pass">clear</span></div>
+              <div class="term"><div class="term-b"><span style="color:var(--phosphor)">$ </span>Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation.</div></div>
+              <div class="row">
+                <div class="mini"><div class="lbl">output</div><div class="kpis"><div><b>12.4k</b>visits</div><div><b>3.8%</b>conv.</div><div><b>$41k</b>rev.</div></div></div>
+                <div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-happy">             .-.     .-.
+              ^       ^
+
+
+
+                \___/</pre></div>
+              </div>
+            </div>
+            <div class="vignette"></div>
+            <div class="scan"></div>
+          </div>
+        </div>
+        <div class="note" data-ref="B-06"><b>Key frame</b> &nbsp;the "before vs after" split held at <span class="t">~11.0</span> in every tip. Same prompt, same layout, two outcomes. Red and green only appear on the verdict chips.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- b. CHARACTER -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>cat</i> cast/byte.txt</div>
+      <h2>Meet Byte</h2>
+      <p>An ASCII Chinese dragon: horns, brow ridges, long whiskers, scaled neck, two claws. The body is fixed; only the amber face layer swaps, so every expression lines up character-for-character.</p>
+    </div>
+    <div class="cast">
+      <div class="pose pose-neutral" data-ref="B-07">
+        <div class="pose-h"><b>Neutral</b><span>idle: breathe + blink</span></div>
+        <div class="stage"><div class="breathe"><div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-neutral">             ___     ___
+              o       o
+
+
+
+                =====</pre><pre class="b-face f-blink">             ___     ___
+              -       -
+
+
+
+                =====</pre></div></div></div>
+        <p>Default listening face. Blinks every 4.2s so it never looks frozen.</p>
+      </div>
+      <div class="pose pose-confused" data-ref="B-08">
+        <div class="pose-h"><b>Confused</b><span>after a vague prompt</span></div>
+        <div class="stage"><div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-confused">             ___     .-.
+              o       @
+
+
+
+                ~^~^~</pre></div><span class="fx q1">?</span><span class="fx q2">??</span></div>
+        <p>One brow up, one eye spun out, wavy mouth. Tilts side to side.</p>
+      </div>
+      <div class="pose pose-happy" data-ref="B-09">
+        <div class="pose-h"><b>Delighted</b><span>after a clear prompt</span></div>
+        <div class="stage"><div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-happy">             .-.     .-.
+              ^       ^
+
+
+
+                \___/</pre></div><span class="fx sp sp1">*</span><span class="fx sp sp2">+</span><span class="fx sp sp3">+</span><span class="fx sp sp4">*</span></div>
+        <p>Raised brows, smiling eyes, open grin. Hops on the beat.</p>
+      </div>
+      <div class="pose pose-talk" data-ref="B-10">
+        <div class="pose-h"><b>Explaining</b><span>points at the tip</span></div>
+        <div class="stage"><div class="arm-wrap"><div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-talk">             ___     .-.
+              o       o
+
+
+
+                =(O)=</pre><pre class="b-face f-neutral">             ___     ___
+              o       o
+
+
+
+                =====</pre></div><pre class="arm" aria-hidden="true">=--&gt;</pre></div><span class="bubble">be specific.</span></div>
+        <p>Mouth flaps between open and closed while the voiceover runs.</p>
+      </div>
+    </div>
+    <dl class="bio" data-ref="B-11">
+      <dt>name</dt><dd>Byte</dd>
+      <dt>is</dt><dd>A brilliant new hire who takes every word literally.</dd>
+      <dt>so</dt><dd>Give Byte a vague task and you get a vague result. Give it context and it goes all out.</dd>
+    </dl>
+  </section>
+
+  <!-- c. COLOR -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>cat</i> tokens/color.css</div>
+      <h2>Color</h2>
+      <p>Warm charcoal instead of pure black, bone instead of pure white. One accent. Pass and fail are reserved for verdicts and never used as decoration.</p>
+    </div>
+    <div class="sw-group">Neutrals</div>
+    <div class="swatches">
+      <div class="sw" data-ref="B-12"><div class="chipc" style="background:#0d0c0b"></div><div class="meta"><b>Ink</b><code>#0d0c0b</code><span>Video canvas and page background.</span></div></div>
+      <div class="sw" data-ref="B-13"><div class="chipc" style="background:#161513"></div><div class="meta"><b>Carbon</b><code>#161513</code><span>Terminal windows, prompt and output cards.</span></div></div>
+      <div class="sw" data-ref="B-14"><div class="chipc" style="background:#24211e"></div><div class="meta"><b>Graphite</b><code>#24211e</code><span>Raised chips, KPI tiles, empty progress.</span></div></div>
+      <div class="sw" data-ref="B-15"><div class="chipc" style="background:#34302b"></div><div class="meta"><b>Seam</b><code>#34302b</code><span>Hairline borders and dividers.</span></div></div>
+      <div class="sw" data-ref="B-16"><div class="chipc" style="background:#948d83"></div><div class="meta"><b>Ash</b><code>#948d83</code><span>Labels, captions, secondary copy.</span></div></div>
+      <div class="sw" data-ref="B-17"><div class="chipc" style="background:#f2ede4"></div><div class="meta"><b>Bone</b><code>#f2ede4</code><span>Headlines, body text, Byte's outline.</span></div></div>
+    </div>
+    <div class="sw-group">Accent and verdicts</div>
+    <div class="swatches">
+      <div class="sw" data-ref="B-18"><div class="chipc" style="background:#ffb547;box-shadow:inset 0 0 30px rgba(255,255,255,.25)"></div><div class="meta"><b>Phosphor</b><code>#ffb547</code><span>The only accent: Byte's eyes, the caret, tip cards, the word to look at.</span></div></div>
+      <div class="sw" data-ref="B-19"><div class="chipc" style="background:#7dd892"></div><div class="meta"><b>Pass</b><code>#7dd892</code><span>"Clear" verdicts and the After label only.</span></div></div>
+      <div class="sw" data-ref="B-20"><div class="chipc" style="background:#ff6a5c"></div><div class="meta"><b>Fail</b><code>#ff6a5c</code><span>"Vague" verdicts and the Before label only.</span></div></div>
+    </div>
+  </section>
+
+  <!-- d. TYPE -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>cat</i> tokens/type.css</div>
+      <h2>Type</h2>
+      <p>JetBrains Mono carries almost everything, like a terminal would. Bricolage Grotesque at heavy weights is reserved for hooks and tip titles. Sizes are for the 1080 &times; 1920 video canvas.</p>
+    </div>
+    <div class="type-list">
+      <div class="type-row" data-ref="B-21"><div class="spec"><b>Display</b>Bricolage 800 &middot; 150px &middot; -0.035em &middot; lh 0.95</div><div class="sample t-display">Your prompt is the problem.</div></div>
+      <div class="type-row" data-ref="B-22"><div class="spec"><b>Title</b>Bricolage 700 &middot; 96px &middot; -0.025em &middot; lh 1.0</div><div class="sample t-title">Tip 2 / 5 &middot; Explain why</div></div>
+      <div class="type-row" data-ref="B-23"><div class="spec"><b>Body / prompt</b>JetBrains Mono 400 &middot; 40px &middot; lh 1.45</div><div class="sample t-body">Your response will be read aloud by a text-to-speech engine.</div></div>
+      <div class="type-row" data-ref="B-24"><div class="spec"><b>Subtitle</b>JetBrains Mono 700 &middot; 42px &middot; key word in Phosphor</div><div class="sample t-sub">Tell it <em>why</em>, not just what.</div></div>
+      <div class="type-row" data-ref="B-25"><div class="spec"><b>Mono label</b>JetBrains Mono 500 &middot; 30px &middot; caps &middot; +0.14em</div><div class="sample t-label">Prompt &middot; Output &middot; Tip 1 / 5</div></div>
+    </div>
+  </section>
+
+  <!-- e. COMPONENTS -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>ls</i> components/</div>
+      <h2>Components</h2>
+      <p>The parts every episode reuses. Real copy from the prompting short.</p>
+    </div>
+    <div class="comp-grid">
+      <div class="comp" data-ref="B-26">
+        <div class="lab">Prompt card &middot; bad</div>
+        <div class="pc">
+          <div class="pc-h"><span>&gt; prompt</span><span class="c fail">vague</span></div>
+          <div class="pc-b"><span class="ps">$ </span>NEVER use ellipses</div>
+          <div class="pc-f"><span>3 words</span><span>no reason given</span></div>
+        </div>
+      </div>
+      <div class="comp" data-ref="B-27">
+        <div class="lab">Prompt card &middot; good</div>
+        <div class="pc good">
+          <div class="pc-h"><span>&gt; prompt</span><span class="c pass">clear</span></div>
+          <div class="pc-b"><span class="ps">$ </span>Your response will be read aloud by a text-to-speech engine, so never use ellipses since the text-to-speech engine will not know how to pronounce them.</div>
+          <div class="pc-f"><span>25 words</span><span>reason included</span></div>
+        </div>
+      </div>
+      <div class="comp" data-ref="B-28">
+        <div class="lab">Verdict badges</div>
+        <div class="verdicts">
+          <span class="vd fail"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M3 3l10 10M13 3L3 13"/></svg>Vague</span>
+          <span class="vd pass"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg>Clear</span>
+          <span class="vd pass big"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg>Clear</span>
+        </div>
+        <p class="note">Stamped at -4&deg; when it lands on a card; flat when inline.</p>
+      </div>
+      <div class="comp" data-ref="B-29">
+        <div class="lab">Tip title card</div>
+        <div class="tipcard">
+          <div class="k"><span>Tip 2 / 5</span><span>&gt;_</span></div>
+          <h4>Explain why.</h4>
+          <p>Give the reason behind a rule. Claude generalizes from the reason.</p>
+        </div>
+      </div>
+      <div class="comp" data-ref="B-30">
+        <div class="lab">Subtitle bar &middot; word-by-word</div>
+        <div class="subbar"><span class="w">Tell </span><span class="w">it </span><span class="w key">why</span><span class="w">, </span><span class="w">not </span><span class="w">just </span><span class="w">what.</span></div>
+      </div>
+      <div class="comp" data-ref="B-31">
+        <div class="lab">Progress</div>
+        <div class="prog">
+          <div class="prog-row"><span class="seg"><i class="on"></i><i class="now"></i><i></i><i></i><i></i></span><span>2 / 5</span></div>
+          <div class="prog-ascii">[<i>##</i>---] tip 2 of 5</div>
+        </div>
+      </div>
+      <div class="comp wide" data-ref="B-32">
+        <div class="lab">Keyword highlighter</div>
+        <p class="hl-text">"Your response will be read aloud by a <span class="hl">text-to-speech engine</span>, so never use ellipses <span class="dim">since the text-to-speech engine will not know how to pronounce them.</span>"</p>
+      </div>
+      <div class="comp wide" data-ref="B-33">
+        <div class="lab">End card</div>
+        <div class="endcard">
+          <div class="byte" role="img" aria-label="Byte, an ASCII dragon"><pre class="b-base">  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /               \     .-~
+ ~   \   |   ( )     ( )   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=     =/   / /
+         '-._____________.-'
+            /x#x#x#x#x#x\
+     _,-._/ :;:;:;:;:;:;: \_.-,_
+    (_,-,/  x#x#x#x#x#x#x  \,-,_)
+         \_.-=-=-=-=-=-=-._/</pre><pre class="b-face f-happy">             .-.     .-.
+              ^       ^
+
+
+
+                \___/</pre></div>
+          <div>
+            <h5>Next: show examples.</h5>
+            <p>Tip 3 of 5 in the prompting series. sanjaydeoram.com</p>
+            <span class="cta">Follow <i>_</i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- f. MOTION -->
+  <section>
+    <div class="sec-head">
+      <div class="cmd">$ <i>cat</i> tokens/motion.css</div>
+      <h2>Motion language</h2>
+      <p>Six moves, reused in every episode. Everything snaps like a terminal: stepped type, hard cuts, short overshoots. Sound cues are suggestions for the edit.</p>
+    </div>
+    <div class="motion">
+      <div class="mo" data-ref="B-34">
+        <div class="mo-stage"><div class="m-type"><span style="color:var(--phosphor)">$ </span><span class="typed">be specific</span></div></div>
+        <div class="mo-meta"><b>Type-on</b><dl><dt>dur</dt><dd>~35ms per character</dd><dt>ease</dt><dd>steps(n), caret steps(1) at 1s</dd><dt>use</dt><dd>Every prompt the viewer should read</dd><dt>sfx</dt><dd class="sfx">mechanical key clicks</dd></dl></div>
+      </div>
+      <div class="mo" data-ref="B-35">
+        <div class="mo-stage">
+          <div class="m-dec" aria-label="CONTEXT">
+            <span class="cell"><span>#
+x
+;
++
+=
+C</span></span><span class="cell"><span>:
+*
+#
+x
+-
+O</span></span><span class="cell"><span>+
+=
+x
+;
+#
+N</span></span><span class="cell"><span>x
+#
+:
+*
++
+T</span></span><span class="cell"><span>;
+-
++
+#
+x
+E</span></span><span class="cell"><span>=
+x
+*
+:
+;
+X</span></span><span class="cell"><span>*
+;
+#
+=
+x
+T</span></span>
+          </div>
+        </div>
+        <div class="mo-meta"><b>Decode</b><dl><dt>dur</dt><dd>600ms, 80ms stagger per letter</dd><dt>ease</dt><dd>steps(5)</dd><dt>use</dt><dd>Key terms the first time they appear</dd><dt>sfx</dt><dd class="sfx">data chatter blips</dd></dl></div>
+      </div>
+      <div class="mo" data-ref="B-36">
+        <div class="mo-stage">
+          <div class="m-lines">
+            <span class="ln"><span><span class="tg">&lt;role&gt;</span> <span class="tx">data analyst</span></span></span>
+            <span class="ln"><span><span class="tg">&lt;context&gt;</span> <span class="tx">Q3 sales</span></span></span>
+            <span class="ln"><span><span class="tg">&lt;task&gt;</span> <span class="tx">find the dip</span></span></span>
+            <span class="ln"><span><span class="tg">&lt;format&gt;</span> <span class="tx">3 bullets</span></span></span>
+          </div>
+        </div>
+        <div class="mo-meta"><b>Line reveal</b><dl><dt>dur</dt><dd>600ms, 100ms stagger</dd><dt>ease</dt><dd>cubic-bezier(.2, .7, .2, 1)</dd><dt>use</dt><dd>Structured prompts, lists, steps</dd><dt>sfx</dt><dd class="sfx">soft tick per line</dd></dl></div>
+      </div>
+      <div class="mo" data-ref="B-37">
+        <div class="mo-stage"><div class="m-glitch">Vague.</div></div>
+        <div class="mo-meta"><b>Glitch cut</b><dl><dt>dur</dt><dd>240ms</dd><dt>ease</dt><dd>steps(1), RGB split + slice</dd><dt>use</dt><dd>Scene changes, tip cards, the hook</dd><dt>sfx</dt><dd class="sfx">glitch zap</dd></dl></div>
+      </div>
+      <div class="mo" data-ref="B-38">
+        <div class="mo-stage"><span class="vd pass m-pop"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="square"><path d="M2.5 8.5l3.5 3.5 7.5-8"/></svg>Clear</span></div>
+        <div class="mo-meta"><b>Verdict pop</b><dl><dt>dur</dt><dd>420ms</dd><dt>ease</dt><dd>cubic-bezier(.34, 1.56, .64, 1)</dd><dt>use</dt><dd>Stamps, result cards, Byte's hop</dd><dt>sfx</dt><dd class="sfx">bright click + low thud</dd></dl></div>
+      </div>
+      <div class="mo" data-ref="B-39">
+        <div class="mo-stage"><p class="m-push">Create an analytics dashboard. Include as many relevant features as possible. <b>Go beyond the basics</b> to create a fully-featured implementation.</p></div>
+        <div class="mo-meta"><b>Push-in</b><dl><dt>dur</dt><dd>900ms in, hold, 600ms out</dd><dt>ease</dt><dd>cubic-bezier(.65, 0, .35, 1)</dd><dt>use</dt><dd>Zoom to the phrase that makes the prompt work</dd><dt>sfx</dt><dd class="sfx">low whoosh + CRT hum</dd></dl></div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Design B &middot; Night Terminal &middot; pure HTML + CSS</span>
+    <a class="back" href="index.html">&larr; Back to all designs</a>
+  </footer>
+</main>
+</body>
+</html>

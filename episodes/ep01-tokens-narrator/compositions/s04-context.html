@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.5,"sfx":"pop","vol":0.3},
+      {"t":2.3,"sfx":"whoosh","vol":0.28},
+      {"t":2.6,"sfx":"sparkle","vol":0.22,"dur":1.4},
+      {"t":3.8,"sfx":"click-soft","vol":0.25},
+      {"t":4.3,"sfx":"click-soft","vol":0.25}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Context window. Starts zoomed in on 4 squares (Haiku 4.5, 200K tokens), then zooms out
+           to reveal 20 squares (1M tokens: Sonnet 5.5, Opus 5.5, Fable 5.1). 1 square = 50,000 tokens. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-safe { justify-content: space-between; }
+        .s04 .head { display: flex; flex-direction: column; gap: 18px; }
+        .s04 .cam { position: absolute; inset: 0; }
+        .s04 .grid { position: absolute; left: 183px; top: 540px; display: grid; grid-template-columns: repeat(5, 130px); gap: 16px; }
+        .s04 .sq { width: 130px; height: 130px; border-radius: 18px; border: 2px solid var(--stone); background: var(--tok-1); display: grid; place-items: center; font: 400 24px/1 var(--f-mono); color: var(--smoke); }
+        .s04 .sq.h { background: var(--tok-2); border-color: #f3c5dc; color: var(--graphite); }
+        .s04 .legend { position: absolute; left: 90px; right: 130px; top: 1150px; display: flex; flex-direction: column; gap: 16px; }
+        .s04 .lg { display: flex; align-items: center; gap: 18px; font: 400 36px/1.2 var(--f-body); color: var(--ink); }
+        .s04 .lg i { flex: none; width: 34px; height: 34px; border-radius: 8px; border: 2px solid var(--stone); }
+        .s04 .lg b { font-weight: 500; }
+        .s04 .lg.l1 i { background: var(--tok-2); }
+        .s04 .lg.l2 i { background: var(--tok-1); }
+        .s04 .legend .egg-foot { margin-top: 6px; }
+      </style>
+      <div data-hf-id="hf-017m" id="root" data-composition-id="s04-context" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-kxq8" class="grid">
+              <div data-hf-id="hf-gbrm" class="sq h">50K</div><div data-hf-id="hf-yz12" class="sq h">50K</div><div data-hf-id="hf-7o0a" class="sq">50K</div><div data-hf-id="hf-3x8u" class="sq">50K</div><div data-hf-id="hf-4bjv" class="sq">50K</div>
+              <div data-hf-id="hf-zdc3" class="sq h">50K</div><div data-hf-id="hf-zrn4" class="sq h">50K</div><div data-hf-id="hf-4puw" class="sq">50K</div><div data-hf-id="hf-1xpp" class="sq">50K</div><div data-hf-id="hf-2c0q" class="sq">50K</div>
+              <div data-hf-id="hf-2qbr" class="sq">50K</div><div data-hf-id="hf-34ms" class="sq">50K</div><div data-hf-id="hf-6pe1" class="sq">50K</div><div data-hf-id="hf-73p2" class="sq">50K</div><div data-hf-id="hf-gxi2" class="sq">50K</div>
+              <div data-hf-id="hf-gj71" class="sq">50K</div><div data-hf-id="hf-hq44" class="sq">50K</div><div data-hf-id="hf-hbt3" class="sq">50K</div><div data-hf-id="hf-iiq6" class="sq">50K</div><div data-hf-id="hf-i4f5" class="sq">50K</div>
+            </div>
+          </div>
+          <div data-hf-id="hf-ovnn" class="legend">
+            <div data-hf-id="hf-9n4s" class="lg l1"><i data-hf-id="hf-wt6k"></i><span data-hf-id="hf-fa9i">Claude Haiku 4.5: <b data-hf-id="hf-4jts">200K tokens</b></span></div>
+            <div data-hf-id="hf-kimf" class="lg l2"><i data-hf-id="hf-zeb8"></i><span data-hf-id="hf-147z">Sonnet 5.5, Opus 5.5, Fable 5.1: <b data-hf-id="hf-i5bb">1M tokens</b></span></div>
+            <span data-hf-id="hf-xp8k" class="egg-foot">1 square = 50,000 tokens · 1M tokens ≈ 3.5 million characters</span>
+          </div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <div data-hf-id="hf-z992" class="head">
+              <span data-hf-id="hf-ufwf" class="egg-eyebrow">Context window</span>
+              <h2 data-hf-id="hf-zkf3" class="egg-title">How much it can read at once</h2>
+            </div>
+            <p data-hf-id="hf-ajnp" class="egg-label">Your prompt, files and chat history all have to fit.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s04-context"] .s04');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const small = root.querySelectorAll(".sq.h");
+          const rest = root.querySelectorAll(".sq:not(.h)");
+
+          const tl = gsap.timeline({ paused: true });
+          tl.set(cam, { scale: 2, transformOrigin: "183px 540px" }, 0);
+          Egg.fadeUp(tl, root.querySelectorAll(".head > *"), 0.05);
+          Egg.pop(tl, small, 0.5, { stagger: 0.1 });
+          Egg.fadeUp(tl, q(".lg.l1"), 1.1);
+          tl.to(cam, { scale: 1, duration: 1.0, ease: Egg.EASE.move }, 2.3);
+          Egg.pop(tl, rest, 2.5, { stagger: 0.04, dur: 0.45 });
+          Egg.fadeUp(tl, q(".lg.l2"), 3.8);
+          Egg.fadeUp(tl, q(".legend .egg-foot"), 4.3, { y: 12 });
+          Egg.fadeUp(tl, q(".egg-label"), 4.8);
+          Egg.fadeOut(tl, [cam, q(".legend"), q(".egg-safe")], 6.65);
+          window.__timelines["s04-context"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

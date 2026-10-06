@@ -1,0 +1,298 @@
+<title>AI Shorts Design Lab</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&family=Ma+Shan+Zheng&display=swap">
+<style>
+/* Layout: a decision board. Three choices in order (design, storyboard, tool), each a short section with the options side by side and the next step under it. */
+:root {
+  --bg: #f6f5f2;
+  --panel: #ffffff;
+  --sunk: #eceae5;
+  --line: #d9d6cf;
+  --ink: #1b1a17;
+  --muted: #615d55;
+  --faint: #8d887e;
+  --accent: #2f45c8;
+  --accent-soft: #e3e7fb;
+  --good: #1d7a45;
+  --font-display: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15151a; --panel: #1d1d23; --sunk: #25252c; --line: #34343d; --ink: #f1efe9; --muted: #aeaaa1; --faint: #7f7b73;
+    --accent: #93a3ff; --accent-soft: #252a4a; --good: #6fd09a; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15151a; --panel: #1d1d23; --sunk: #25252c; --line: #34343d; --ink: #f1efe9; --muted: #aeaaa1; --faint: #7f7b73;
+  --accent: #93a3ff; --accent-soft: #252a4a; --good: #6fd09a; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--font-body); }
+a { color: var(--accent); }
+a:focus-visible, input:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1120px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 20px 80px; }
+
+.bar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.brand { font: 600 12px/1 var(--font-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--muted); }
+.tag-toggle { display: inline-flex; align-items: center; gap: 8px; font: 500 12px/1 var(--font-mono); color: var(--muted); cursor: pointer; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); }
+.tag-toggle input { accent-color: var(--accent); margin: 0; }
+body:has(#show-tags:checked) [data-ref] { outline: 1px dashed var(--accent); outline-offset: 2px; position: relative; }
+body:has(#show-tags:checked) [data-ref]::before { content: attr(data-ref); position: absolute; top: -10px; left: -6px; z-index: 50; font: 600 10px/1 monospace; padding: 3px 5px; border-radius: 4px; background: var(--ink); color: var(--bg); pointer-events: none; }
+
+header.intro { padding-block: 44px 16px; display: grid; gap: 14px; max-width: 780px; }
+h1 { font: 800 clamp(32px, 5.4vw, 54px)/1.02 var(--font-display); letter-spacing: -0.03em; margin: 0; text-wrap: balance; }
+h2 { font: 800 clamp(22px, 3vw, 30px)/1.1 var(--font-display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h3 { font: 700 18px/1.25 var(--font-display); margin: 0; }
+.lede { color: var(--muted); font-size: 17px; margin: 0; max-width: 64ch; }
+.steps { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.steps a { text-decoration: none; color: var(--ink); font: 600 13px/1 var(--font-body); padding: 10px 14px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); }
+.steps a b { font-family: var(--font-mono); color: var(--accent); margin-right: 6px; }
+.steps a:hover { border-color: var(--accent); }
+
+section { padding-block: 48px 8px; scroll-margin-top: 12px; }
+.s-head { display: grid; gap: 8px; margin-bottom: 22px; max-width: 70ch; }
+.s-head .num { font: 600 11px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.s-head p { margin: 0; color: var(--muted); }
+
+/* design cards */
+.designs { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 16px; }
+.d-card { display: grid; grid-template-rows: auto 1fr; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; text-decoration: none; color: inherit; transition: transform .2s ease, border-color .2s ease; }
+.d-card:hover { transform: translateY(-2px); border-color: var(--accent); }
+.d-info { padding: 18px; display: grid; gap: 10px; align-content: start; }
+.d-info p { margin: 0; color: var(--muted); font-size: 14px; }
+.d-meta { display: grid; gap: 4px; font: 500 12px/1.45 var(--font-mono); color: var(--muted); }
+.d-meta b { color: var(--ink); font-weight: 600; }
+.d-open { font: 600 13px/1 var(--font-body); color: var(--accent); }
+
+/* posters: each previews its own design world, so colors here are literal on purpose and identical in both themes */
+.poster { position: relative; aspect-ratio: 16 / 10; overflow: hidden; display: grid; place-items: center; }
+.p-a { background: #fdfcfc; border-bottom: 1px solid #ebe8e4; place-items: center end; padding-right: 10%; }
+.p-a .orb { width: 34%; aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle at 32% 30%, #ffd7c2 0 8%, transparent 30%), radial-gradient(circle at 70% 70%, #ff4704 0, transparent 55%), radial-gradient(circle at 25% 75%, #ff8fc6 0, transparent 50%), radial-gradient(circle at 60% 25%, #0447ff 0, transparent 60%), #8a6dff; filter: saturate(1.05); animation: breathe 4s ease-in-out infinite; }
+.p-a .orb::before, .p-a .orb::after { content: ""; position: absolute; top: 46%; width: 5%; height: 9%; border-radius: 6px; background: #000; animation: blink 4s infinite; }
+.p-a .orb { position: relative; }
+.p-a .orb::before { left: 38%; } .p-a .orb::after { right: 38%; }
+.p-a .cap { position: absolute; left: 7%; top: 9%; font: 300 clamp(15px, 2.2vw, 20px)/1.05 "Inter", var(--font-display); letter-spacing: -0.02em; color: #000; }
+.p-b { background: #111110; padding-bottom: 22px; }
+.p-b pre { margin: 0; font: 600 clamp(8px, 1.15vw, 11px)/1.15 var(--font-mono); color: #ffb547; text-shadow: 0 0 8px rgba(255, 181, 71, .45); }
+.p-b .cap { position: absolute; left: 7%; bottom: 9%; font: 500 11px/1 var(--font-mono); color: #ece8df; }
+.p-b .cap::after { content: "_"; color: #ffb547; animation: caret 1s steps(1) infinite; }
+.p-c { background: radial-gradient(ellipse at 30% 20%, #f7efdf 0, #efe3cb 70%); }
+.p-c .glyph { font: 400 clamp(64px, 9vw, 92px)/1 "Ma Shan Zheng", "KaiTi", serif; color: #1a1612; }
+.p-c .seal { position: absolute; right: 12%; bottom: 14%; width: 44px; height: 44px; border: 2px solid #c8321e; color: #c8321e; border-radius: 6px; display: grid; place-items: center; font: 400 22px/1 "Ma Shan Zheng", "KaiTi", serif; transform: rotate(-8deg); background: rgba(200, 50, 30, .08); }
+.p-c .stroke { position: absolute; left: 8%; right: 8%; bottom: 22%; height: 6px; border-radius: 6px; background: #1a1612; opacity: .85; transform-origin: left; animation: brush 3.5s ease-in-out infinite; }
+@keyframes breathe { 50% { transform: scale(1.05) translateY(-3px); } }
+@keyframes blink { 0%, 92%, 100% { transform: scaleY(1); } 95% { transform: scaleY(.1); } }
+@keyframes caret { 50% { opacity: 0; } }
+@keyframes brush { 0% { transform: scaleX(0); } 40%, 85% { transform: scaleX(1); } 100% { transform: scaleX(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .poster * { animation: none !important; } }
+
+/* storyboard card */
+.wide { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); gap: 0; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); overflow: hidden; text-decoration: none; color: inherit; }
+.wide:hover { border-color: var(--accent); }
+.wide .d-info { padding: 22px; }
+.v-list { display: grid; gap: 1px; background: var(--line); border-left: 1px solid var(--line); }
+.v-list div { background: var(--sunk); padding: 14px 18px; display: grid; gap: 2px; }
+.v-list b { font: 600 11px/1 var(--font-mono); color: var(--accent); }
+.v-list span { font-weight: 700; }
+.v-list small { color: var(--muted); font-size: 13px; }
+.wide.picked { margin-top: 16px; border-color: var(--accent); }
+.num-chip { justify-self: start; font: 600 11px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--accent); background: var(--accent-soft); padding: 6px 10px; border-radius: 999px; }
+@media (max-width: 720px) { .wide { grid-template-columns: 1fr; } .v-list { border-left: 0; border-top: 1px solid var(--line); } }
+
+/* feedback */
+.how { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 16px; }
+.how > div { padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); display: grid; gap: 8px; align-content: start; }
+.how p { margin: 0; color: var(--muted); font-size: 14px; }
+.example { font: 500 13px/1.6 var(--font-mono); background: var(--sunk); border-radius: 10px; padding: 12px 14px; color: var(--ink); overflow-x: auto; white-space: pre; }
+.example em { font-style: normal; color: var(--accent); }
+
+/* tool comparison */
+.table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; min-width: 680px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 13px 16px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 11px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--sunk); }
+td:first-child { font-weight: 700; width: 22%; }
+td.win { color: var(--ink); }
+td.win::before { content: "\25CF  "; color: var(--good); font-size: 10px; vertical-align: 2px; }
+td:not(.win) { color: var(--muted); }
+.verdict { margin-top: 18px; padding: 20px 22px; border-radius: 16px; background: var(--accent-soft); display: grid; gap: 8px; }
+.verdict p { margin: 0; max-width: 72ch; }
+.verdict .label { font: 600 11px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--accent); }
+.sources { margin-top: 12px; font-size: 13px; color: var(--faint); }
+.sources a { color: var(--muted); }
+
+ol.next { margin: 0; padding-left: 22px; display: grid; gap: 10px; max-width: 70ch; }
+ol.next li { padding-left: 4px; }
+ol.next li::marker { font: 600 13px var(--font-mono); color: var(--accent); }
+ol.next p { margin: 2px 0 0; color: var(--muted); font-size: 14px; }
+code { font: 500 13px/1 var(--font-mono); background: var(--sunk); padding: 2px 5px; border-radius: 4px; }
+</style>
+
+<div class="wrap">
+  <div class="bar">
+    <span class="brand">AI Shorts &middot; Design lab</span>
+    <label class="tag-toggle"><input type="checkbox" id="show-tags"> Show edit tags</label>
+  </div>
+
+  <header class="intro">
+    <h1>Pick the look, the story, and the tool</h1>
+    <p class="lede">This is the starting kit for a series of one-minute vertical videos that teach AI basics in plain language. Make three choices below. Your picks become the design file every future video follows.</p>
+    <nav class="steps" aria-label="Sections">
+      <a href="#design"><b>1</b>Pick a design</a>
+      <a href="#story"><b>2</b>Pick a storyboard</a>
+      <a href="#tool"><b>3</b>Pick a tool</a>
+      <a href="#edits"><b>?</b>How to ask for edits</a>
+    </nav>
+  </header>
+
+  <section id="design">
+    <div class="s-head">
+      <span class="num">Choice 1</span>
+      <h2>Three designs, each with its own mascot</h2>
+      <p>Each page has a live 9:16 sample scene from the prompting video, a character sheet, colors, type, components, and the motion moves with sound pairings. Open each one on your phone too, since that's where people will watch.</p>
+    </div>
+    <div class="designs">
+      <a class="d-card" href="design-a-studio.html" data-ref="H-01">
+        <div class="poster p-a" aria-hidden="true"><span class="cap">Your prompt<br>is the problem.</span><div class="orb"></div></div>
+        <div class="d-info">
+          <h3>A &middot; Eggshell Studio</h3>
+          <p>Your ElevenLabs reference. Warm off-white paper, black ink, very light headlines. Color only shows up inside the mascot.</p>
+          <div class="d-meta"><span><b>Mascot</b> Spark, a soft gradient orb with ink eyes</span><span><b>Feels</b> calm, premium, editorial</span></div>
+          <span class="d-open">Open design A &rarr;</span>
+        </div>
+      </a>
+      <a class="d-card" href="design-b-terminal.html" data-ref="H-02">
+        <div class="poster p-b" aria-hidden="true"><pre>  \\                             //
+   \\_  +                   +  _//
+    \ \__   .-=-=-=-=-=-.   __/ /
+     \___\_/ :;:;:;:;:;: \_/___/
+  ~-.     /  ___     ___  \     .-~
+ ~   \   |   (o)     (o)   |   /   ~
+  ~-. \_/                   \_/ .-~
+      \ |  ,             ,  | /
+~~~~~~ \ \    (_)   (_)    / / ~~~~~~
+        \ \   \=======/   / /
+         '-._____________.-'</pre><span class="cap">&gt; be specific</span></div>
+        <div class="d-info">
+          <h3>B &middot; Night Terminal</h3>
+          <p>Built from your own site: dark screen, monospace type, and an ASCII dragon that types along with you.</p>
+          <div class="d-meta"><span><b>Mascot</b> Byte, an ASCII dragon</span><span><b>Feels</b> techy, hacker, focused</span></div>
+          <span class="d-open">Open design B &rarr;</span>
+        </div>
+      </a>
+      <a class="d-card" href="design-c-ink.html" data-ref="H-03">
+        <div class="poster p-c" aria-hidden="true"><span class="glyph">龙</span><span class="stroke"></span><span class="seal">好</span></div>
+        <div class="d-info">
+          <h3>C &middot; Ink &amp; Lantern</h3>
+          <p>Chinese ink painting on rice paper. Brush-stroke wipes, red seal stamps for good and bad prompts.</p>
+          <div class="d-meta"><span><b>Mascot</b> L&oacute;ng, a small Chinese dragon</span><span><b>Feels</b> warm, crafted, memorable</span></div>
+          <span class="d-open">Open design C &rarr;</span>
+        </div>
+      </a>
+    </div>
+    <a class="wide picked" href="eggshell-styles.html" data-ref="H-10">
+      <div class="d-info">
+        <span class="num-chip">Picked &middot; Eggshell Studio</span>
+        <h3>See it in two more styles</h3>
+        <p>A whiteboard drawing explainer and an isometric workflow, both built in the Eggshell look, with a play button and a scrubber.</p>
+        <span class="d-open">Open the motion styles &rarr;</span>
+      </div>
+      <div class="v-list">
+        <div><b>45s</b><span>Whiteboard drawing</span><small>What is an LLM? Six line drawings</small></div>
+        <div><b>20s</b><span>Isometric workflow</span><small>How AI writes its answer, four blocks</small></div>
+      </div>
+    </a>
+  </section>
+
+  <section id="story">
+    <div class="s-head">
+      <span class="num">Choice 2</span>
+      <h2>Three storyboards for the prompting episode</h2>
+      <p>All three teach the same five habits from Anthropic's prompting guide in 60 seconds, each with a bad prompt and a better one. Every frame lists what's on screen, the motion, the sound, and the voiceover.</p>
+    </div>
+    <a class="wide" href="storyboards.html" data-ref="H-04">
+      <div class="d-info">
+        <h3>Open the storyboards</h3>
+        <p>Each one has a timeline strip, 8 or 9 frames, and a voiceover word count, so you can check it fits in a minute.</p>
+        <span class="d-open">Compare all three &rarr;</span>
+      </div>
+      <div class="v-list">
+        <div><b>V1</b><span>The Glow-Up</span><small>One weak prompt, upgraded five times</small></div>
+        <div><b>V2</b><span>Rapid Fire</span><small>Five split screens, ten seconds each</small></div>
+        <div><b>V3</b><span>The New Hire</span><small>The mascot as a brilliant employee with no context</small></div>
+      </div>
+    </a>
+  </section>
+
+  <section id="tool">
+    <div class="s-head">
+      <span class="num">Choice 3</span>
+      <h2>HyperFrames or Remotion</h2>
+      <p>Both turn code into an MP4 by recording a web page in a headless Chrome browser and stitching the frames with FFmpeg. The difference is what you write.</p>
+    </div>
+    <div class="table-wrap" data-ref="H-05">
+      <table>
+        <thead><tr><th></th><th>HyperFrames (HeyGen)</th><th>Remotion</th></tr></thead>
+        <tbody>
+          <tr><td>You write</td><td class="win">Plain HTML and CSS, with GSAP or CSS for animation</td><td>React components</td></tr>
+          <tr><td>From these design pages</td><td class="win">They carry over almost as they are, since they're already HTML and CSS</td><td>Each piece gets rewritten as a React component</td></tr>
+          <tr><td>Setup</td><td class="win">No build step. <code>npx hyperframes init</code>, preview, render</td><td>A React project with a bundler</td></tr>
+          <tr><td>Working with Claude</td><td class="win">Official Claude Code plugin with a set of video skills, including audio mixing</td><td>Claude writes React well, but there's more project code to manage</td></tr>
+          <tr><td>21st.dev components</td><td>Their look can be rebuilt in HTML and CSS</td><td class="win">React and Tailwind, so many drop in directly</td></tr>
+          <tr><td>Render speed</td><td>Slower locally. Roughly 3 minutes for 30 seconds of 1080p</td><td class="win">Faster, and Remotion Lambda renders in the cloud in parallel</td></tr>
+          <tr><td>Maturity</td><td>Newer, open-sourced in 2026, used in production at HeyGen</td><td class="win">Years older, large community, many examples</td></tr>
+          <tr><td>License</td><td class="win">Apache 2.0, free for any use</td><td>Free for individuals and very small companies. Larger companies need a paid license</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="verdict" data-ref="H-06">
+      <span class="label">Recommendation</span>
+      <p><strong>Go with HyperFrames.</strong> Your design will be plain HTML and CSS, so every scene can reuse the same files with no rewrite, and Claude is very reliable at writing HTML. One-minute shorts render in a few minutes on your own machine, so cloud rendering isn't needed yet. Remotion is the better choice only if you plan to lean heavily on React components from 21st.dev.</p>
+      <p>Your machine already has Node 24, which meets the requirement. FFmpeg still needs to be installed.</p>
+    </div>
+    <p class="sources">Sources: <a href="https://github.com/heygen-com/hyperframes">HyperFrames on GitHub</a> &middot; <a href="https://voyager.so/blog/hyperframes-vs-remotion">Voyager comparison</a> &middot; <a href="https://cookiesforai.app/compare/hyperframes-vs-remotion">Cookies for AI comparison</a> &middot; <a href="https://www.remotion.dev/docs/license">Remotion license</a></p>
+  </section>
+
+  <section id="edits">
+    <div class="s-head">
+      <span class="num">Feedback</span>
+      <h2>How to ask for edits</h2>
+      <p>Every part of every page has a short ID. Point at the ID and say what to change.</p>
+    </div>
+    <div class="how">
+      <div data-ref="H-07">
+        <h3>1. Turn on edit tags</h3>
+        <p>Tick "Show edit tags" at the top of any page. Every block gets a dashed outline and a label like <code>B-07</code> or <code>V2-F03</code>.</p>
+      </div>
+      <div data-ref="H-08">
+        <h3>2. Send the ID and the change</h3>
+        <p>One line per change. Group as many as you like in one message.</p>
+        <div class="example"><em>C-04</em>  make the dragon's whiskers longer
+<em>A-12</em>  slow the zoom down a bit
+<em>V1-F06</em>  tags fly in one at a time
+<em>B</em>  try a teal accent instead of amber</div>
+      </div>
+      <div data-ref="H-09">
+        <h3>3. Or comment on the page</h3>
+        <p>On the published link you can leave a comment directly on any spot and send it to Claude. Mention the ID in the comment when you can, so the change is easy to find.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="after">
+    <div class="s-head">
+      <span class="num">After you pick</span>
+      <h2>What happens next</h2>
+    </div>
+    <ol class="next">
+      <li><strong>Write DESIGN.md</strong><p>Colors, type, mascot rules, motion moves with exact timings and easing, sound pairings, caption style, and the 9:16 safe areas. Every video follows it.</p></li>
+      <li><strong>Set up the video project</strong><p>Install FFmpeg and the chosen tool, then turn the components into reusable scene blocks: title card, prompt card, before and after split, verdict stamp, end card.</p></li>
+      <li><strong>Build episode 01</strong><p>The prompting video from the storyboard you picked, rendered at 1080 by 1920, 60 seconds max, with sound effects.</p></li>
+      <li><strong>Make it a template</strong><p>A short episode script format, so each new topic is mostly writing, and the look stays the same from video to video.</p></li>
+    </ol>
+  </section>
+</div>

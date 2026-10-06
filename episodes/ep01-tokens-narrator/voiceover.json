@@ -1,0 +1,130 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "a23454fce8074ecdac3ff7b0e5471599",
+  "voiceName": "Young Sheldon (Fish Audio community voice)",
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "What's a token? And why should you care?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.05,
+      "text": "AI doesn't read words. It reads tokens."
+    },
+    {
+      "scene": "s02",
+      "at": 2.9,
+      "text": "I."
+    },
+    {
+      "scene": "s02",
+      "at": 3.8,
+      "text": "Love."
+    },
+    {
+      "scene": "s02",
+      "at": 4.7,
+      "text": "Token."
+    },
+    {
+      "scene": "s02",
+      "at": 5.8,
+      "text": "Ization. And the exclamation mark."
+    },
+    {
+      "scene": "s02",
+      "at": 8.5,
+      "text": "That's five tokens."
+    },
+    {
+      "scene": "s03",
+      "at": 0.6,
+      "text": "Everything you send, Claude reads as input tokens."
+    },
+    {
+      "scene": "s03",
+      "at": 4,
+      "text": "Everything it writes back is output tokens."
+    },
+    {
+      "scene": "s04",
+      "at": 0.3,
+      "text": "The context window is how much it can read at once."
+    },
+    {
+      "scene": "s04",
+      "at": 3.6,
+      "text": "Up to a million tokens."
+    },
+    {
+      "scene": "s05",
+      "at": 0.4,
+      "text": "You pay per million tokens."
+    },
+    {
+      "scene": "s05",
+      "at": 2.3,
+      "text": "Bigger models cost more."
+    },
+    {
+      "scene": "s05",
+      "at": 4.2,
+      "text": "And output costs five times more than input."
+    },
+    {
+      "scene": "s06",
+      "at": 0,
+      "text": "Say you ask what ChatGPT Plus includes."
+    },
+    {
+      "scene": "s06",
+      "at": 3.05,
+      "text": "That's sixteen tokens in, sixty-five out."
+    },
+    {
+      "scene": "s06",
+      "at": 6.4,
+      "text": "Less than a tenth of a cent."
+    },
+    {
+      "scene": "s07",
+      "at": 0.2,
+      "text": "Here's the catch."
+    },
+    {
+      "scene": "s07",
+      "at": 1.1,
+      "text": "Claude reads your question, then writes a reply."
+    },
+    {
+      "scene": "s07",
+      "at": 4.05,
+      "text": "Ask a follow-up,"
+    },
+    {
+      "scene": "s07",
+      "at": 5.2,
+      "text": "and Claude rereads the whole chat."
+    },
+    {
+      "scene": "s07",
+      "at": 7.4,
+      "text": "Nine, then eighteen, then more."
+    },
+    {
+      "scene": "s08",
+      "at": 0.3,
+      "text": "So that's tokens."
+    },
+    {
+      "scene": "s08",
+      "at": 2.3,
+      "text": "Follow for more!"
+    }
+  ]
+}

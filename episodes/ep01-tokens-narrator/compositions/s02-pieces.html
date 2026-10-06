@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.2},
+      {"t":1.8,"sfx":"whoosh-short","vol":0.25},
+      {"t":2.3,"sfx":"pop","vol":0.3},
+      {"t":2.9,"sfx":"click","vol":0.34},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.8,"sfx":"click","vol":0.34},
+      {"t":4.2,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.7,"sfx":"click","vol":0.38},
+      {"t":4.85,"sfx":"ping","vol":0.2,"dur":0.9},
+      {"t":5.25,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.8,"sfx":"click","vol":0.34},
+      {"t":6.6,"sfx":"whoosh-short","vol":0.25},
+      {"t":7.2,"sfx":"ping","vol":0.22,"dur":1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Word pieces. The sentence reads as one normal line, the camera pushes in, then Spark (as a
+           pointer) hovers over each cut while the sentence is split one piece at a time, 0.9 s apart:
+           the pieces slide apart, a cut line drops in, the new token takes its tint and the counter counts
+           tokens found (1, 2, 3, then 5). Pieces move by transform only (seek-safe). Cut positions come
+           from canvas text metrics. The split is illustrative and labelled as an example on screen. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .cam { position: absolute; inset: 0; }
+        .s02 .tokrow { position: absolute; left: 140px; right: 140px; top: 580px; height: 360px; flex-wrap: nowrap; }
+        .s02 .egg-token { font-size: 54px; line-height: 1.25; padding: 2px 8px; }
+        .s02 .egg-cut { width: 5px; height: 74px; margin: 0 12px; }
+        .s02 .ptr { position: absolute; inset: 0; }
+        .s02 .count { position: absolute; left: 0; right: 0; top: 1060px; display: flex; justify-content: center; }
+        .s02 .stat { position: absolute; left: 0; right: 0; top: 1160px; display: flex; justify-content: center; }
+        .s02 .foot { position: absolute; left: 0; right: 0; top: 1268px; text-align: center; }
+        .s02 .egg-safe { justify-content: space-between; }
+      </style>
+      <div data-hf-id="hf-ieui" id="root" data-composition-id="s02-pieces" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-l7s2" class="ink" data-draw="0" data-dur="1.0" d="M130 640 Q130 580 190 580 H890 Q950 580 950 640 V880 Q950 940 890 940 H380 L290 1020 L310 940 H190 Q130 940 130 880 Z" />
+            </svg>
+            <div data-hf-id="hf-fyqg" class="tokrow egg-tokens">
+              <span data-hf-id="hf-rmnf" class="egg-token">I</span><i data-hf-id="hf-i8us" class="egg-cut"></i><span data-hf-id="hf-ed28" class="egg-token"> love</span><i data-hf-id="hf-04to" class="egg-cut"></i><span data-hf-id="hf-ojth" class="egg-token"> token</span><i data-hf-id="hf-yxwl" class="egg-cut"></i><span data-hf-id="hf-cg7s" class="egg-token">ization</span><i data-hf-id="hf-zc7m" class="egg-cut"></i><span data-hf-id="hf-7iwj" class="egg-token">!</span>
+            </div>
+            <div data-hf-id="hf-de0u" class="ptr"></div>
+          </div>
+          <div data-hf-id="hf-h8nx" class="count"><span data-hf-id="hf-7cz9" class="egg-counter">Tokens <b data-hf-id="hf-z4i7" class="n">0</b></span></div>
+          <div data-hf-id="hf-xa0m" class="stat"><span data-hf-id="hf-rue6" class="egg-counter">For Claude, 1 token <b data-hf-id="hf-n4yb">≈ 3.5</b> characters</span></div>
+          <span data-hf-id="hf-k0l2" class="foot egg-foot">Example split · each model splits a little differently</span>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-dgyd" class="egg-eyebrow">Word pieces</span>
+            <p data-hf-id="hf-c1i2" class="egg-label">Common words are one token. Long words split into pieces.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const TINTS = ["rgba(4, 71, 255, 0.12)", "rgba(255, 122, 192, 0.24)", "rgba(255, 71, 4, 0.14)"];
+          const CUT_AT = [2.9, 3.8, 4.7, 5.8];
+          const LABELS = ["“I” is one token", "the space joins “love”", "long word → 2 tokens", "punctuation counts too"];
+          const FONT = "400 54px Inter";
+          const PAD = 8, CUT = 5 + 24, HALF = (PAD * 2 + CUT) / 2; // a closed cut hides PAD+CUT+PAD of space
+          const ROW_L = 140, ROW_W = 800, ROW_Y = 760, CUT_TOP = ROW_Y - 37;
+
+          const root = document.querySelector('[data-composition-id="s02-pieces"] .s02');
+          Egg.mountSparks(root);
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const toks = [...root.querySelectorAll(".egg-token")];
+          const cuts = [...root.querySelectorAll(".egg-cut")];
+          const P = Egg.pointer(q(".ptr"), LABELS, { size: 120, gap: 230, mood: "talk" });
+
+          const build = () => {
+            // Final (all-open) layout from canvas text metrics: no DOM measuring.
+            const ctx = document.createElement("canvas").getContext("2d");
+            ctx.font = FONT;
+            const tw = toks.map((t) => ctx.measureText(t.textContent).width + PAD * 2);
+            const total = tw.reduce((a, b) => a + b, 0) + CUT * cuts.length;
+            const left = ROW_L + (ROW_W - total) / 2;
+            const cutCenter = cuts.map((_, k) => left + tw.slice(0, k + 1).reduce((a, b) => a + b, 0) + k * CUT + CUT / 2);
+
+            // Offsets: every still-closed cut pulls the pieces on each side of it together.
+            const tokX = (i, open) => cuts.reduce((x, _, j) => (open.has(j) ? x : x + (i <= j ? HALF : -HALF)), 0);
+            const cutX = (k, open) => cuts.reduce((x, _, j) => (open.has(j) || j === k ? x : x + (k < j ? HALF : -HALF)), 0);
+
+            const tl = gsap.timeline({ paused: true });
+            const open = new Set();
+            toks.forEach((t, i) => tl.set(t, { x: tokX(i, open), backgroundColor: "rgba(0,0,0,0)" }, 0));
+            tl.set(cuts, { opacity: 0, scaleY: 0 }, 0);
+
+            Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+            Egg.draw(tl, q(".egg-svg"), 0.3);
+            Egg.fadeUp(tl, q(".tokrow"), 1.0, { y: 24 });
+            tl.to(cam, { scale: 1.15, transformOrigin: "50% 39.5%", duration: 0.7, ease: Egg.EASE.move }, 1.8);
+            Egg.pop(tl, q(".count .egg-counter"), 2.6);
+            const count = Egg.meter(tl, q(".count .n"));
+
+            CUT_AT.forEach((t, k) => {
+              open.add(k);
+              const target = { x: cutCenter[k] + cutX(k, open), y: CUT_TOP };
+              Egg.pointTo(tl, P, target, k, k === 0 ? 2.3 : t - 0.5);
+              toks.forEach((tok, i) => tl.to(tok, { x: tokX(i, open), duration: 0.45, ease: "back.out(1.6)" }, t));
+              cuts.forEach((c, j) => { if (open.has(j)) tl.to(c, { x: cutX(j, open), duration: 0.45, ease: "back.out(1.6)" }, t); });
+              tl.fromTo(cuts[k], { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: Egg.EASE.pop, immediateRender: false }, t + 0.05);
+              tl.to(toks[k], { backgroundColor: TINTS[k % 3], duration: 0.3, ease: "none" }, t + 0.15);
+              if (k === cuts.length - 1) tl.to(toks[k + 1], { backgroundColor: TINTS[(k + 1) % 3], duration: 0.3, ease: "none" }, t + 0.2);
+              count(k === cuts.length - 1 ? k + 2 : k + 1, t + 0.15, 0.01);
+            });
+            Egg.sparkIdle(tl, P.spark, 2.3, 6.6);
+            Egg.sparkMood(tl, P.spark, "talkhappy", CUT_AT[2] + 0.2, { hop: false });
+            Egg.lipsync(tl, P.spark, Egg.sceneStart("s02-pieces"), 2.3, 6.7);
+            Egg.sparkMood(tl, P.spark, "talk", CUT_AT[3] - 0.5);
+            Egg.pointerHide(tl, P, 6.4);
+
+            tl.to(cam, { scale: 1, duration: 0.7, ease: Egg.EASE.move }, 6.6);
+            Egg.pop(tl, q(".stat .egg-counter"), 7.2);
+            Egg.fadeUp(tl, q(".foot"), 7.5, { y: 12 });
+            Egg.fadeUp(tl, q(".egg-label"), 7.7);
+            Egg.fadeOut(tl, [cam, q(".count"), q(".stat"), q(".foot"), q(".egg-safe")], 9.65);
+            window.__timelines["s02-pieces"] = tl;
+          };
+          document.fonts.load(FONT).then(build);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

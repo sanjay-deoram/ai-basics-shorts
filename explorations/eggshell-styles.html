@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eggshell Motion Styles</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@300;400&family=Inter:wght@400;500&display=swap">
+<style>
+/* Layout: Eggshell Studio page chrome; each style gets a band with a 1080x1920 SVG stage in a phone frame, a player, and its beat list. Single light theme by choice. */
+:root{
+  --eggshell:#fdfcfc; --taupe:#f5f3f1; --stone:#ebe8e4; --btn-border:#e5e5e5;
+  --ink:#000000; --graphite:#44403b; --smoke:#777169; --ash:#a59f97;
+  --violet:#0447ff; --ember:#ff4704; --blush:#ff7ac0;
+  --tag:#0447ff; --tag-on:#fdfcfc;
+  --f-display:'Inter Tight','Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-body:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --shadow:rgba(0,0,0,.4) 0 0 1px 0,rgba(0,0,0,.04) 0 1px 1px 0,rgba(0,0,0,.04) 0 2px 4px 0;
+  --ease:cubic-bezier(.65,0,.35,1);
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:var(--eggshell);color:var(--ink)}
+body{margin:0;font:400 16px/1.5 var(--f-body);letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+
+/* edit tags (shared mechanism) */
+.tag-toggle{display:inline-flex;align-items:center;gap:8px;font:500 13px/1 var(--f-body);background:var(--eggshell);border:1px solid var(--btn-border);border-radius:9999px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tag-toggle input{accent-color:var(--ink);margin:0}
+body:has(#show-tags:checked) [data-ref]{outline:1px dashed var(--tag);outline-offset:2px;position:relative}
+body:has(#show-tags:checked) [data-ref]::before{content:attr(data-ref);position:absolute;top:-10px;left:-6px;z-index:50;font:600 10px/1 monospace;padding:3px 5px;border-radius:4px;background:var(--tag);color:var(--tag-on);pointer-events:none;letter-spacing:0}
+
+.wrap{max-width:1200px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+.topbar{border-bottom:1px solid var(--stone)}
+.topbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding-block:14px}
+.back{font:500 14px/1 var(--f-body);text-decoration:none;border:1px solid var(--btn-border);border-radius:9999px;padding:8px 14px;white-space:nowrap}
+.back:hover{background:var(--taupe)}
+.tb-mid{flex:1 1 260px;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.tb-mid strong{font:500 15px/1.3 var(--f-body)}
+.tb-mid span{font-size:14px;color:var(--smoke)}
+
+.eyebrow{font:400 12px/1.4 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--smoke)}
+.hero .wrap{padding-block:64px 56px;display:grid;gap:16px;max-width:1200px}
+.hero h1{font:300 clamp(40px,7vw,80px)/1.03 var(--f-display);letter-spacing:-.02em;margin:0;text-wrap:balance;max-width:16ch}
+.hero p{font-size:19px;line-height:1.45;color:var(--smoke);max-width:56ch;margin:0}
+
+section{border-top:1px solid var(--stone)}
+section > .wrap{padding-block:72px}
+.band{background:var(--taupe)}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 48px;align-items:end;margin-bottom:40px}
+.sec-head h2{font:300 clamp(32px,4.4vw,48px)/1.08 var(--f-display);letter-spacing:-.02em;margin:8px 0 0;text-wrap:balance}
+.sec-head p{margin:0;color:var(--smoke);max-width:52ch}
+@media (max-width:760px){.sec-head{grid-template-columns:1fr}}
+
+/* player layout */
+.demo{display:grid;grid-template-columns:minmax(0,380px) minmax(0,1fr);gap:40px 56px;align-items:start}
+@media (max-width:820px){.demo{grid-template-columns:minmax(0,1fr)}.demo .player{max-width:380px;margin-inline:auto;width:100%}}
+.player{display:grid;gap:14px}
+.phone{width:100%;aspect-ratio:9/16;max-width:100%;position:relative;border-radius:32px;background:var(--eggshell);border:1px solid var(--stone);box-shadow:var(--shadow),0 40px 60px -40px rgba(68,64,59,.45);overflow:hidden}
+.phone svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.controls{display:flex;align-items:center;gap:12px}
+.play{flex:none;font:500 14px/1 var(--f-body);color:var(--eggshell);background:var(--ink);border:1px solid var(--btn-border);border-radius:9999px;padding:10px 16px;cursor:pointer;min-width:84px}
+.controls input[type=range]{flex:1;min-width:0;accent-color:var(--ink)}
+.time{flex:none;font:400 12px/1 var(--f-mono);color:var(--smoke);font-variant-numeric:tabular-nums;min-width:86px;text-align:right}
+
+.beats{display:grid;gap:0;border-top:1px solid var(--stone);margin:0;padding:0;list-style:none}
+.beats li{border-bottom:1px solid var(--stone)}
+.beats button{all:unset;box-sizing:border-box;width:100%;display:grid;grid-template-columns:64px minmax(0,1fr);gap:4px 16px;padding:14px 8px;cursor:pointer;border-radius:10px}
+.beats button:hover{background:var(--eggshell)}
+.beats button:focus-visible{outline:2px solid var(--ink)}
+.beats .tc{font:400 12px/1.6 var(--f-mono);color:var(--ash);font-variant-numeric:tabular-nums}
+.beats strong{font:400 19px/1.3 var(--f-display);letter-spacing:-.01em}
+.beats small{grid-column:2;font-size:14px;color:var(--smoke)}
+.beats button.on{background:var(--eggshell);box-shadow:var(--shadow)}
+.beats button.on .tc{color:var(--ink)}
+
+.notes{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:16px;margin-top:28px}
+.note{background:var(--eggshell);border-radius:20px;padding:20px 22px;display:grid;gap:8px;align-content:start}
+.band .note{background:var(--eggshell)}
+section:not(.band) .note{background:var(--taupe)}
+.note h3{font:500 14px/1.3 var(--f-body);margin:0}
+.note ul{margin:0;padding-left:18px;color:var(--smoke);font-size:14px;display:grid;gap:4px}
+
+.fit{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:16px}
+.fit > div{background:var(--taupe);border-radius:20px;padding:24px;display:grid;gap:8px;align-content:start}
+.fit h3{font:300 26px/1.15 var(--f-display);letter-spacing:-.02em;margin:0}
+.fit p{margin:0;color:var(--smoke);font-size:15px}
+.fit .ex{font:400 12px/1.6 var(--f-mono);color:var(--graphite)}
+
+/* ---------- shared stage styles (all sizes in 1080x1920 canvas units) ---------- */
+.stage{font-family:var(--f-body)}
+.stage .bg{fill:var(--eggshell)}
+.stage .ink{fill:none;stroke:var(--ink);stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+.stage .eyebrow-t{font:400 30px var(--f-mono);letter-spacing:.08em;fill:var(--smoke)}
+.stage .count-t{font:400 30px var(--f-mono);fill:var(--ash);text-anchor:end}
+.stage .label-t{font:300 64px var(--f-display);letter-spacing:-1.3px;fill:var(--ink);text-anchor:middle}
+.stage .word-t{font:400 56px var(--f-body);fill:var(--ink);text-anchor:middle}
+.stage .word-t.left{text-anchor:start}
+.stage .word-t.right{text-anchor:end}
+.stage .word-t.big{font-size:64px}
+
+/* whiteboard: each scene owns a 7.5s window starting at --s; strokes draw in order of --i */
+.wb .scene{opacity:0;animation:sIn .45s ease var(--s) both,sOut .4s ease calc(var(--s) + 7.05s) forwards}
+.wb path.k{stroke-dasharray:1 1.1;stroke-dashoffset:1.02;animation:draw var(--len,.7s) var(--ease) calc(var(--s) + .35s + var(--i) * .4s) both}
+.wb text.k{opacity:0;transform-box:fill-box;transform-origin:center;animation:txt .45s ease calc(var(--s) + .35s + var(--i) * .4s) both}
+.wb .lbl{opacity:0;animation:txt .5s ease calc(var(--s) + 4.9s) both}
+.wb .prog-fill{transform-box:fill-box;transform-origin:left center;animation:prog 45s linear both}
+.wb .turn{transform-box:view-box;transform-origin:540px 920px;animation:turn 1.4s var(--ease) calc(var(--s) + 4.4s) both}
+.wb .glow{transform-box:fill-box;transform-origin:center;animation:glow 1.2s ease-in-out calc(var(--s) + 4.6s) 2 both}
+
+/* isometric: absolute times; --t = block rises, --h = dot arrives */
+.iso .f-top{fill:var(--eggshell)}
+.iso .f-left{fill:var(--taupe)}
+.iso .f-right{fill:var(--stone)}
+.iso .face{stroke:var(--ink);stroke-width:4;stroke-linejoin:round}
+.iso .f-tint{fill:url(#tint);stroke:none;opacity:0;animation:tint .6s ease var(--h) both}
+.iso .f-num{font:300 110px var(--f-display);fill:var(--ink);text-anchor:middle;dominant-baseline:central}
+.iso .rise{opacity:0;animation:rise .8s cubic-bezier(.3,1.35,.5,1) var(--t) both}
+.iso .pulse{transform-box:fill-box;transform-origin:center;animation:pulse .55s ease var(--h) both}
+.iso .bridge{fill:none;stroke:var(--ink);stroke-width:4;stroke-linecap:round;stroke-dasharray:1 1.1;stroke-dashoffset:1.02;animation:draw .6s var(--ease) var(--t) both}
+.iso .rep{fill:none;stroke:var(--ink);stroke-width:6;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 1.1;stroke-dashoffset:1.02;animation:draw .7s var(--ease) 12.6s both}
+.iso .fade{opacity:0;transform-box:fill-box;animation:txt .5s ease var(--t) both}
+.iso .lab-h{font:400 54px var(--f-display);letter-spacing:-1px;fill:var(--ink)}
+.iso .lab-s{font:400 32px var(--f-body);fill:var(--smoke)}
+.iso .title-t{font:300 92px var(--f-display);letter-spacing:-1.8px;fill:var(--ink)}
+.iso .sum-t{font:300 60px var(--f-display);letter-spacing:-1.2px;text-anchor:middle;fill:var(--ink)}
+.iso .sum-t.muted{fill:var(--smoke)}
+.iso .dot{animation:dotPath 20s linear both}
+.iso .dot-in{transform-box:fill-box;transform-origin:center;animation:pop .5s cubic-bezier(.3,1.6,.5,1) 2.6s both}
+
+@keyframes sIn{from{opacity:0}to{opacity:1}}
+@keyframes sOut{from{opacity:1}to{opacity:0}}
+@keyframes draw{0%{stroke-dashoffset:1.02;opacity:0}1%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+@keyframes txt{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes prog{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes turn{0%{transform:rotate(0)}55%{transform:rotate(-16deg)}100%{transform:rotate(-12deg)}}
+@keyframes glow{0%,100%{transform:scale(1)}50%{transform:scale(1.08)}}
+@keyframes rise{from{opacity:0;transform:translateY(90px)}to{opacity:1;transform:none}}
+@keyframes pulse{0%,100%{transform:scale(1)}40%{transform:scale(1.06)}}
+@keyframes tint{from{opacity:0}to{opacity:.75}}
+@keyframes pop{0%{transform:scale(0)}100%{transform:scale(1)}}
+@keyframes dotPath{0%{transform:translate(330.0px,624.0px)}19%{transform:translate(330.0px,624.0px);animation-timing-function:cubic-bezier(.65,0,.35,1)}24%{transform:translate(750.0px,866.0px)}37%{transform:translate(750.0px,866.0px);animation-timing-function:cubic-bezier(.65,0,.35,1)}42%{transform:translate(330.0px,1108.0px)}55%{transform:translate(330.0px,1108.0px);animation-timing-function:cubic-bezier(.65,0,.35,1)}60%{transform:translate(750.0px,1350.0px)}64%{transform:translate(750.0px,1350.0px);animation-timing-function:cubic-bezier(.65,0,.35,1)}65.5%{transform:translate(818.0px,1389.2px);animation-timing-function:linear}65.813%{transform:translate(786.8px,1401.2px);animation-timing-function:linear}66.125%{transform:translate(750.0px,1405.4px);animation-timing-function:linear}66.438%{transform:translate(713.2px,1401.2px);animation-timing-function:linear}66.75%{transform:translate(682.0px,1389.2px);animation-timing-function:linear}67.063%{transform:translate(661.2px,1371.2px);animation-timing-function:linear}67.375%{transform:translate(653.8px,1350.0px);animation-timing-function:linear}67.688%{transform:translate(661.2px,1328.8px);animation-timing-function:linear}68%{transform:translate(682.0px,1310.8px);animation-timing-function:linear}68.313%{transform:translate(713.2px,1298.8px);animation-timing-function:linear}68.625%{transform:translate(750.0px,1294.6px);animation-timing-function:linear}68.938%{transform:translate(786.8px,1298.8px);animation-timing-function:linear}69.25%{transform:translate(818.0px,1310.8px);animation-timing-function:linear}69.563%{transform:translate(838.8px,1328.8px);animation-timing-function:linear}69.875%{transform:translate(846.2px,1350.0px);animation-timing-function:linear}70.188%{transform:translate(838.8px,1371.2px);animation-timing-function:linear}70.5%{transform:translate(818.0px,1389.2px);animation-timing-function:linear}70.813%{transform:translate(786.8px,1401.2px);animation-timing-function:linear}71.125%{transform:translate(750.0px,1405.4px);animation-timing-function:linear}71.438%{transform:translate(713.2px,1401.2px);animation-timing-function:linear}71.75%{transform:translate(682.0px,1389.2px);animation-timing-function:linear}72.063%{transform:translate(661.2px,1371.2px);animation-timing-function:linear}72.375%{transform:translate(653.8px,1350.0px);animation-timing-function:linear}72.688%{transform:translate(661.2px,1328.8px);animation-timing-function:linear}73%{transform:translate(682.0px,1310.8px);animation-timing-function:linear}73.313%{transform:translate(713.2px,1298.8px);animation-timing-function:linear}73.625%{transform:translate(750.0px,1294.6px);animation-timing-function:linear}73.938%{transform:translate(786.8px,1298.8px);animation-timing-function:linear}74.25%{transform:translate(818.0px,1310.8px);animation-timing-function:linear}74.563%{transform:translate(838.8px,1328.8px);animation-timing-function:linear}74.875%{transform:translate(846.2px,1350.0px);animation-timing-function:linear}75.188%{transform:translate(838.8px,1371.2px);animation-timing-function:linear}75.5%{transform:translate(818.0px,1389.2px);animation-timing-function:cubic-bezier(.65,0,.35,1)}77.5%{transform:translate(750.0px,1350.0px)}100%{transform:translate(750.0px,1350.0px)}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; All designs</a>
+    <div class="tb-mid"><strong>Eggshell Studio &middot; Motion styles</strong><span>Whiteboard drawing and isometric workflow, in the chosen design.</span></div>
+    <label class="tag-toggle"><input type="checkbox" id="show-tags"> Show edit tags</label>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="wrap">
+    <span class="eyebrow">Design A &middot; Style tests</span>
+    <h1>Two more ways to explain, in Eggshell</h1>
+    <p>Your two prompts, built in the Eggshell look and played in a phone frame. Press play, drag the scrubber, or tap a scene to jump to it. Both are vertical 1080 &times; 1920 to match the shorts, rather than the 1920 &times; 1080 in the prompts.</p>
+  </div>
+</div>
+
+<!-- ============ WHITEBOARD ============ -->
+<section class="band" id="whiteboard">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Style 1 &middot; 45 seconds &middot; 6 scenes</span><h2>Whiteboard drawing</h2></div>
+      <p>One black line drawing per scene draws itself stroke by stroke, then a short label fades in under it. The topic is "What is an LLM?" Every drawing finishes before its scene fades out.</p>
+    </div>
+
+    <div class="demo">
+      <div class="player" data-duration="45" data-key="wb" data-ref="W-01">
+        <div class="phone">
+          <svg class="stage wb" viewBox="0 0 1080 1920" role="img" aria-label="Whiteboard explainer: What is an LLM?">
+            <rect class="bg" width="1080" height="1920"/>
+            <path d="M90 120 H990" stroke="#ebe8e4" stroke-width="6" stroke-linecap="round"/>
+            <path class="prog-fill" d="M90 120 H990" stroke="#000" stroke-width="6" stroke-linecap="round"/>
+            <text class="eyebrow-t" x="90" y="208">AI BASICS &#183; WHAT IS AN LLM?</text>
+
+            <!-- 1 · library -->
+            <g class="scene" style="--s:0s">
+              <text class="count-t" x="990" y="208">01 / 06</text>
+              <path class="ink k" pathLength="1" style="--i:0;--len:.8s" d="M200 1180 H880"/>
+              <path class="ink k" pathLength="1" style="--i:1" d="M260 1180 V760 H380 V1180"/>
+              <path class="ink k" pathLength="1" style="--i:2;--len:.4s" d="M285 820 H355 M285 1120 H355"/>
+              <path class="ink k" pathLength="1" style="--i:3" d="M400 1180 V690 H525 V1180"/>
+              <path class="ink k" pathLength="1" style="--i:4;--len:.4s" d="M425 770 H500 M425 810 H500"/>
+              <path class="ink k" pathLength="1" style="--i:5" d="M548 1180 L640 760 L745 784 L655 1180"/>
+              <path class="ink k" pathLength="1" style="--i:6" d="M720 1180 V1110 H870 V1180 M705 1110 V1045 H855 V1110"/>
+              <text class="label-t lbl" x="540" y="1420">It learned from a huge</text>
+              <text class="label-t lbl" x="540" y="1500">library of text.</text>
+            </g>
+
+            <!-- 2 · tokens -->
+            <g class="scene" style="--s:7.5s">
+              <text class="count-t" x="990" y="208">02 / 06</text>
+              <path class="ink k" pathLength="1" style="--i:0;--len:1.2s" d="M170 760 Q170 700 230 700 H850 Q910 700 910 760 V940 Q910 1000 850 1000 H400 L310 1080 L330 1000 H230 Q170 1000 170 940 Z"/>
+              <text class="word-t k" x="275" y="870" style="--i:3">What</text>
+              <text class="word-t k" x="455" y="870" style="--i:3.5">is</text>
+              <text class="word-t k" x="605" y="870" style="--i:4">an</text>
+              <text class="word-t k" x="795" y="870" style="--i:4.5">LLM?</text>
+              <path class="ink k" pathLength="1" style="--i:6;--len:.5s" d="M380 722 V752 M380 777 V807 M380 832 V862 M380 887 V917 M380 942 V972"/>
+              <path class="ink k" pathLength="1" style="--i:6.6;--len:.5s" d="M530 722 V752 M530 777 V807 M530 832 V862 M530 887 V917 M530 942 V972"/>
+              <path class="ink k" pathLength="1" style="--i:7.2;--len:.5s" d="M680 722 V752 M680 777 V807 M680 832 V862 M680 887 V917 M680 942 V972"/>
+              <text class="label-t lbl" x="540" y="1420">It reads your words in</text>
+              <text class="label-t lbl" x="540" y="1500">small pieces called tokens.</text>
+            </g>
+
+            <!-- 3 · next word -->
+            <g class="scene" style="--s:15s">
+              <text class="count-t" x="990" y="208">03 / 06</text>
+              <text class="word-t big left k" x="190" y="770" style="--i:0">The sky is</text>
+              <path class="ink k" pathLength="1" style="--i:1;--len:.5s" d="M560 785 H770"/>
+              <text class="word-t right k" x="330" y="912" style="--i:2">blue</text>
+              <path class="ink k" pathLength="1" style="--i:2.4" d="M370 860 H840 V930 H370 Z"/>
+              <text class="word-t right k" x="330" y="1022" style="--i:3.4">clear</text>
+              <path class="ink k" pathLength="1" style="--i:3.8;--len:.5s" d="M370 970 H560 V1040 H370 Z"/>
+              <text class="word-t right k" x="330" y="1132" style="--i:4.8">loud</text>
+              <path class="ink k" pathLength="1" style="--i:5.2;--len:.4s" d="M370 1080 H430 V1150 H370 Z"/>
+              <path class="ink k" pathLength="1" style="--i:6.4" d="M865 890 C945 860 905 800 790 800 M818 778 L790 800 L818 822"/>
+              <text class="word-t big k" x="665" y="770" style="--i:7.8">blue</text>
+              <text class="label-t lbl" x="540" y="1420">It guesses the most</text>
+              <text class="label-t lbl" x="540" y="1500">likely next word.</text>
+            </g>
+
+            <!-- 4 · one word at a time -->
+            <g class="scene" style="--s:22.5s">
+              <text class="count-t" x="990" y="208">04 / 06</text>
+              <path class="ink k" pathLength="1" style="--i:0" d="M150 760 H330 V860 H150 Z"/>
+              <text class="word-t k" x="240" y="830" style="--i:0.6">The</text>
+              <path class="ink k" pathLength="1" style="--i:1.2;--len:.4s" d="M345 810 H435 M410 788 L435 810 L410 832"/>
+              <path class="ink k" pathLength="1" style="--i:2" d="M450 760 H630 V860 H450 Z"/>
+              <text class="word-t k" x="540" y="830" style="--i:2.6">sky</text>
+              <path class="ink k" pathLength="1" style="--i:3.2;--len:.4s" d="M645 810 H735 M710 788 L735 810 L710 832"/>
+              <path class="ink k" pathLength="1" style="--i:4" d="M750 760 H930 V860 H750 Z"/>
+              <text class="word-t k" x="840" y="830" style="--i:4.6">is</text>
+              <path class="ink k" pathLength="1" style="--i:5.2;--len:.4s" d="M840 875 V985 M818 960 L840 985 L862 960"/>
+              <path class="ink k" pathLength="1" style="--i:6" d="M750 1000 H930 V1100 H750 Z"/>
+              <text class="word-t k" x="840" y="1070" style="--i:6.6">blue</text>
+              <path class="ink k" pathLength="1" style="--i:7.4;--len:.9s" d="M735 1050 H245 Q200 1050 200 1005 V880 M178 905 L200 880 L222 905"/>
+              <text class="label-t lbl" x="540" y="1420">It writes one word,</text>
+              <text class="label-t lbl" x="540" y="1500">then guesses again.</text>
+            </g>
+
+            <!-- 5 · steering -->
+            <g class="scene" style="--s:30s">
+              <text class="count-t" x="990" y="208">05 / 06</text>
+              <g class="turn">
+                <path class="ink k" pathLength="1" style="--i:0;--len:1.2s" d="M540 640 A280 280 0 1 1 540 1200 A280 280 0 1 1 540 640"/>
+                <path class="ink k" pathLength="1" style="--i:1.6;--len:1s" d="M540 692 A228 228 0 1 1 540 1148 A228 228 0 1 1 540 692"/>
+                <path class="ink k" pathLength="1" style="--i:2.4;--len:.6s" d="M540 850 A70 70 0 1 1 540 990 A70 70 0 1 1 540 850"/>
+                <path class="ink k" pathLength="1" style="--i:3.4;--len:.4s" d="M470 920 H262"/>
+                <path class="ink k" pathLength="1" style="--i:4;--len:.4s" d="M610 920 H818"/>
+                <path class="ink k" pathLength="1" style="--i:4.6;--len:.4s" d="M540 990 V1198"/>
+              </g>
+              <path class="ink k" pathLength="1" style="--i:6;--len:.5s" d="M865 690 Q935 780 925 890 M898 866 L925 892 L950 862"/>
+              <path class="ink k" pathLength="1" style="--i:6.6;--len:.5s" d="M215 1150 Q145 1060 155 950 M130 975 L155 948 L182 976"/>
+              <text class="label-t lbl" x="540" y="1420">Your prompt steers</text>
+              <text class="label-t lbl" x="540" y="1500">where it goes.</text>
+            </g>
+
+            <!-- 6 · lightbulb -->
+            <g class="scene" style="--s:37.5s">
+              <text class="count-t" x="990" y="208">06 / 06</text>
+              <path class="ink k" pathLength="1" style="--i:0;--len:1.2s" d="M445 1010 C365 950 335 860 365 780 C405 680 480 645 540 645 C600 645 675 680 715 780 C745 860 715 950 635 1010"/>
+              <path class="ink k" pathLength="1" style="--i:2.6" d="M445 1010 V1070 H635 V1010"/>
+              <path class="ink k" pathLength="1" style="--i:3.4;--len:.4s" d="M455 1112 H625 M485 1152 H595"/>
+              <path class="ink k" pathLength="1" style="--i:4.2;--len:.6s" d="M495 1010 L512 865 L540 905 L568 865 L585 1010"/>
+              <g class="glow">
+                <path class="ink k" pathLength="1" style="--i:5.4;--len:.35s" d="M540 575 V505"/>
+                <path class="ink k" pathLength="1" style="--i:5.8;--len:.35s" d="M345 650 L300 605 M735 650 L780 605"/>
+                <path class="ink k" pathLength="1" style="--i:6.2;--len:.35s" d="M270 830 H205 M810 830 H875"/>
+              </g>
+              <text class="label-t lbl" x="540" y="1420">Clear prompt,</text>
+              <text class="label-t lbl" x="540" y="1500">clearer answer.</text>
+            </g>
+          </svg>
+        </div>
+        <div class="controls">
+          <button class="play" type="button" id="wb-play">Pause</button>
+          <input type="range" id="wb-range" min="0" max="45000" step="10" value="0" aria-label="Whiteboard timeline">
+          <span class="time">0:00.0 / 0:45</span>
+        </div>
+      </div>
+
+      <div>
+        <ol class="beats" data-for="wb">
+          <li data-ref="W-02"><button type="button" data-t="0" data-end="7.5"><span class="tc">0:00</span><strong>A huge library</strong><small>Shelf, then four books. 7 strokes.</small></button></li>
+          <li data-ref="W-03"><button type="button" data-t="7.5" data-end="15"><span class="tc">0:07.5</span><strong>Tokens</strong><small>Speech bubble, words fade in, three cut lines slice it.</small></button></li>
+          <li data-ref="W-04"><button type="button" data-t="15" data-end="22.5"><span class="tc">0:15</span><strong>Next-word guess</strong><small>Three candidate bars; the longest arrows into the blank.</small></button></li>
+          <li data-ref="W-05"><button type="button" data-t="22.5" data-end="30"><span class="tc">0:22.5</span><strong>One word at a time</strong><small>Word boxes chain together, a loop arrow feeds back.</small></button></li>
+          <li data-ref="W-06"><button type="button" data-t="30" data-end="37.5"><span class="tc">0:30</span><strong>Your prompt steers</strong><small>Steering wheel draws, then turns.</small></button></li>
+          <li data-ref="W-07"><button type="button" data-t="37.5" data-end="45"><span class="tc">0:37.5</span><strong>Clear prompt, clearer answer</strong><small>Lightbulb, filament, then rays pulse twice.</small></button></li>
+        </ol>
+        <div class="notes">
+          <div class="note" data-ref="W-08">
+            <h3>Kept from your prompt</h3>
+            <ul><li>6 scenes, 45 seconds</li><li>One black line drawing per scene</li><li>Stroke-by-stroke draw-on, label underneath</li><li>No hand, no clip art, no color fills</li><li>Each drawing finishes about 2.5 seconds before the scene ends</li></ul>
+          </div>
+          <div class="note" data-ref="W-09">
+            <h3>Eggshell touches</h3>
+            <ul><li>Eggshell paper instead of a white board</li><li>Whisper-weight labels with tight tracking</li><li>Thin progress bar and mono scene counter</li><li>Spark could appear at the end. It's left out for now, per "no clip art".</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ISOMETRIC ============ -->
+<section id="isometric">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">Style 2 &middot; 20 seconds &middot; 4 steps</span><h2>Isometric workflow</h2></div>
+      <p>Each step is a paper block that rises into place. A Spark-colored dot travels along a path to the next block, and the block glows when the dot lands. The workflow shown is how an AI writes its answer.</p>
+    </div>
+
+    <div class="demo">
+      <div class="player" data-duration="20" data-key="iso" data-ref="I-01">
+        <div class="phone">
+          <svg class="stage iso" viewBox="0 0 1080 1920" role="img" aria-label="Isometric workflow: how AI writes its answer">
+            <defs>
+              <radialGradient id="tint" cx="35%" cy="30%" r="80%">
+                <stop offset="0" stop-color="#0447ff" stop-opacity=".5"/>
+                <stop offset=".55" stop-color="#ff7ac0" stop-opacity=".35"/>
+                <stop offset="1" stop-color="#ff4704" stop-opacity=".55"/>
+              </radialGradient>
+              <radialGradient id="dotg" cx="35%" cy="30%" r="75%">
+                <stop offset="0" stop-color="#ffffff"/>
+                <stop offset=".18" stop-color="#f1e8ff"/>
+                <stop offset=".55" stop-color="#9d86ff"/>
+                <stop offset=".82" stop-color="#ff7ac0"/>
+                <stop offset="1" stop-color="#ff4704"/>
+              </radialGradient>
+            </defs>
+            <rect class="bg" width="1080" height="1920"/>
+
+            <g class="fade" style="--t:.2s"><text class="eyebrow-t" x="90" y="200">HOW IT WORKS &#183; 4 STEPS</text></g>
+            <g class="fade" style="--t:.4s"><text class="title-t" x="90" y="305">How AI writes</text></g>
+            <g class="fade" style="--t:.55s"><text class="title-t" x="90" y="400">its answer</text></g>
+
+            <path class="bridge" pathLength="1" style="--t:3.4s" d="M415 689 L665 833"/>
+            <path class="bridge" pathLength="1" style="--t:7s" d="M665 931 L415 1075"/>
+            <path class="bridge" pathLength="1" style="--t:10.6s" d="M415 1173 L665 1317"/>
+
+            <!-- block 1 -->
+            <g class="rise" style="--t:1.4s"><g class="pulse" style="--h:2.6s">
+              <polygon class="face f-left" points="160,640 330,738 330,808 160,710"/>
+              <polygon class="face f-right" points="330,738 500,640 500,710 330,808"/>
+              <polygon class="face f-top" points="330,542 500,640 330,738 160,640"/>
+              <polygon class="f-tint" points="330,542 500,640 330,738 160,640"/>
+              <text class="f-num" transform="matrix(.85 -.49 .85 .49 330 640)">1</text>
+            </g></g>
+            <!-- block 2 -->
+            <g class="rise" style="--t:3.6s"><g class="pulse" style="--h:4.8s">
+              <polygon class="face f-left" points="580,882 750,980 750,1050 580,952"/>
+              <polygon class="face f-right" points="750,980 920,882 920,952 750,1050"/>
+              <polygon class="face f-top" points="750,784 920,882 750,980 580,882"/>
+              <polygon class="f-tint" points="750,784 920,882 750,980 580,882"/>
+              <text class="f-num" transform="matrix(.85 -.49 .85 .49 750 882)">2</text>
+            </g></g>
+            <!-- block 3 -->
+            <g class="rise" style="--t:7.2s"><g class="pulse" style="--h:8.4s">
+              <polygon class="face f-left" points="160,1124 330,1222 330,1292 160,1194"/>
+              <polygon class="face f-right" points="330,1222 500,1124 500,1194 330,1292"/>
+              <polygon class="face f-top" points="330,1026 500,1124 330,1222 160,1124"/>
+              <polygon class="f-tint" points="330,1026 500,1124 330,1222 160,1124"/>
+              <text class="f-num" transform="matrix(.85 -.49 .85 .49 330 1124)">3</text>
+            </g></g>
+            <!-- block 4 -->
+            <g class="rise" style="--t:10.8s"><g class="pulse" style="--h:12s">
+              <polygon class="face f-left" points="580,1366 750,1464 750,1534 580,1436"/>
+              <polygon class="face f-right" points="750,1464 920,1366 920,1436 750,1534"/>
+              <polygon class="face f-top" points="750,1268 920,1366 750,1464 580,1366"/>
+              <polygon class="f-tint" points="750,1268 920,1366 750,1464 580,1366"/>
+              <text class="f-num" transform="matrix(.85 -.49 .85 .49 750 1366)">4</text>
+              <path class="rep" pathLength="1" transform="matrix(.85 .49 -.85 .49 750 1366)" d="M80 0 A80 80 0 1 1 40 -69.3 M28.2 -94.7 L40 -69.3 L12.1 -66.9"/>
+            </g></g>
+
+            <!-- labels -->
+            <g class="fade" style="--t:2s">
+              <text class="lab-h" x="600" y="600">You write</text>
+              <text class="lab-h" x="600" y="658">a prompt</text>
+              <text class="lab-s" x="600" y="708">Plain words go in</text>
+            </g>
+            <g class="fade" style="--t:4.9s">
+              <text class="lab-h" x="90" y="870">It's split</text>
+              <text class="lab-h" x="90" y="928">into tokens</text>
+              <text class="lab-s" x="90" y="978">Small word pieces</text>
+            </g>
+            <g class="fade" style="--t:8.5s">
+              <text class="lab-h" x="600" y="1104">It guesses</text>
+              <text class="lab-h" x="600" y="1162">the next token</text>
+              <text class="lab-s" x="600" y="1212">The most likely piece</text>
+            </g>
+            <g class="fade" style="--t:12.1s">
+              <text class="lab-h" x="90" y="1346">It repeats</text>
+              <text class="lab-h" x="90" y="1404">until done</text>
+              <text class="lab-s" x="90" y="1454">One token at a time</text>
+            </g>
+
+            <g class="dot"><g class="dot-in">
+              <circle r="30" fill="url(#dotg)"/>
+              <circle r="30" fill="none" stroke="#000" stroke-opacity=".15" stroke-width="2"/>
+            </g></g>
+
+            <g class="fade" style="--t:16s"><text class="sum-t" x="540" y="1700">Prompt in, answer out,</text></g>
+            <g class="fade" style="--t:16.25s"><text class="sum-t muted" x="540" y="1775">one token at a time.</text></g>
+          </svg>
+        </div>
+        <div class="controls">
+          <button class="play" type="button" id="iso-play">Pause</button>
+          <input type="range" id="iso-range" min="0" max="20000" step="10" value="0" aria-label="Isometric timeline">
+          <span class="time">0:00.0 / 0:20</span>
+        </div>
+      </div>
+
+      <div>
+        <ol class="beats" data-for="iso">
+          <li data-ref="I-02"><button type="button" data-t="0" data-end="1.4"><span class="tc">0:00</span><strong>Title</strong><small>Eyebrow and two-line title rise in.</small></button></li>
+          <li data-ref="I-03"><button type="button" data-t="1.4" data-end="3.4"><span class="tc">0:01.4</span><strong>1 &middot; You write a prompt</strong><small>Block rises with a slight overshoot; the dot pops on top.</small></button></li>
+          <li data-ref="I-04"><button type="button" data-t="3.4" data-end="7"><span class="tc">0:03.4</span><strong>2 &middot; It's split into tokens</strong><small>Path draws, next block rises, dot travels and lands.</small></button></li>
+          <li data-ref="I-05"><button type="button" data-t="7" data-end="10.6"><span class="tc">0:07</span><strong>3 &middot; It guesses the next token</strong><small>Same move, so the rhythm becomes familiar.</small></button></li>
+          <li data-ref="I-06"><button type="button" data-t="10.6" data-end="16"><span class="tc">0:10.6</span><strong>4 &middot; It repeats until done</strong><small>A loop arrow draws on the top face; the dot rides it twice.</small></button></li>
+          <li data-ref="I-07"><button type="button" data-t="16" data-end="20"><span class="tc">0:16</span><strong>Summary</strong><small>One line to remember, held to the end.</small></button></li>
+        </ol>
+        <div class="notes">
+          <div class="note" data-ref="I-08">
+            <h3>Kept from your prompt</h3>
+            <ul><li>20 seconds, one block per step</li><li>Blocks rise in, a dot travels to the next one</li><li>Plain-word labels, 54px on the 1080 canvas</li><li>No shadows, no neon, no particles, no camera spin</li></ul>
+          </div>
+          <div class="note" data-ref="I-09">
+            <h3>Eggshell touches</h3>
+            <ul><li>Eggshell, taupe and stone faces with ink hairlines</li><li>Step numbers printed flat on each block's top</li><li>Color only in the dot and the glow when it lands</li></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FIT ============ -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div><span class="eyebrow">How they fit the series</span><h2>Three styles, one look</h2></div>
+      <p>Pick the style that fits each topic. The colors, type and timing stay the same, so every episode still looks like the same show.</p>
+    </div>
+    <div class="fit">
+      <div data-ref="M-01"><h3>Whiteboard</h3><p>For ideas you can picture. A concept builds up one drawing at a time.</p><span class="ex">What is an LLM? &middot; What is a token? &middot; What is context?</span></div>
+      <div data-ref="M-02"><h3>Isometric workflow</h3><p>For anything with steps in order. The viewer sees how things connect.</p><span class="ex">How AI writes its answer &middot; How RAG works &middot; How an agent uses tools</span></div>
+      <div data-ref="M-03"><h3>Spark with prompt cards</h3><p>For before-and-after lessons. Spark reacts while the prompt gets better.</p><span class="ex">Prompting best practices &middot; Giving feedback to AI</span></div>
+    </div>
+  </div>
+</section>
+
+<script>
+// Each stage is authored as plain CSS animations; this player pauses them and drives time,
+// so the scene can be scrubbed like a video. Local checks can pin a still with ?wb=12&iso=8.
+(function () {
+  const params = new URLSearchParams(location.search);
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fmt = ms => { const s = ms / 1000; return Math.floor(s / 60) + ":" + (s % 60).toFixed(1).padStart(4, "0"); };
+
+  document.querySelectorAll(".player").forEach(p => {
+    const key = p.dataset.key;
+    const dur = +p.dataset.duration * 1000;
+    const stage = p.querySelector(".stage");
+    const btn = p.querySelector(".play");
+    const range = p.querySelector("input[type=range]");
+    const time = p.querySelector(".time");
+    const chips = [...document.querySelectorAll(`.beats[data-for="${key}"] button`)];
+    let anims = [], t = 0, playing = true, last = null;
+
+    const seek = ms => {
+      t = Math.max(0, Math.min(ms, dur));
+      anims.forEach(a => { a.currentTime = t; });
+      range.value = t;
+      time.textContent = fmt(t) + " / " + fmt(dur).replace(/\.0$/, "");
+      const s = t / 1000;
+      chips.forEach(c => c.classList.toggle("on", s >= +c.dataset.t && s < +c.dataset.end));
+    };
+    const setPlaying = on => { playing = on; btn.textContent = on ? "Pause" : "Play"; last = null; };
+
+    const start = () => {
+      anims = stage.getAnimations({ subtree: true });
+      anims.forEach(a => a.pause());
+      const pinned = params.get(key);
+      if (pinned !== null) { setPlaying(false); seek(+pinned * 1000); }
+      else if (reduce) { setPlaying(false); seek(key === "wb" ? 6000 : 17000); }
+      else seek(0);
+      requestAnimationFrame(function tick(now) {
+        if (playing) {
+          if (last !== null) { let n = t + (now - last); if (n >= dur) n = 0; seek(n); }
+          last = now;
+        }
+        requestAnimationFrame(tick);
+      });
+    };
+
+    btn.addEventListener("click", () => setPlaying(!playing));
+    range.addEventListener("input", () => { setPlaying(false); seek(+range.value); });
+    chips.forEach(c => c.addEventListener("click", () => { seek(+c.dataset.t * 1000); setPlaying(true); }));
+
+    (document.fonts ? document.fonts.ready : Promise.resolve()).then(start);
+  });
+})();
+</script>
+</body>
+</html>

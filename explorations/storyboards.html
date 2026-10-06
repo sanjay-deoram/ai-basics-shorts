@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prompting Short Storyboards</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;700;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a production storyboard binder. Each variant is a beat strip (proportional timeline) over a grid of frame cards; thumbnails are neutral wireframes so they work with any of the three designs. */
+:root {
+  --bg: #f6f5f2;
+  --panel: #ffffff;
+  --sunk: #eceae5;
+  --line: #d9d6cf;
+  --ink: #1b1a17;
+  --muted: #615d55;
+  --faint: #8d887e;
+  --accent: #2f45c8;
+  --accent-soft: #e3e7fb;
+  --good: #1d7a45;
+  --good-soft: #dcf0e3;
+  --bad: #b9441a;
+  --bad-soft: #f8e1d6;
+  --wf: #b8b3a8;
+  --wf-fill: #f1efea;
+  --font-display: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Schibsted Grotesk", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #15151a; --panel: #1d1d23; --sunk: #25252c; --line: #34343d; --ink: #f1efe9; --muted: #aeaaa1; --faint: #7f7b73;
+    --accent: #93a3ff; --accent-soft: #252a4a; --good: #6fd09a; --good-soft: #193323; --bad: #f29870; --bad-soft: #3a2219;
+    --wf: #5c5a63; --wf-fill: #26262d; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #15151a; --panel: #1d1d23; --sunk: #25252c; --line: #34343d; --ink: #f1efe9; --muted: #aeaaa1; --faint: #7f7b73;
+  --accent: #93a3ff; --accent-soft: #252a4a; --good: #6fd09a; --good-soft: #193323; --bad: #f29870; --bad-soft: #3a2219;
+  --wf: #5c5a63; --wf-fill: #26262d; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--font-body); }
+a { color: var(--accent); }
+a:focus-visible, input:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.wrap { max-width: 1240px; margin: 0 auto; padding-inline: clamp(16px, 4vw, 40px); padding-block: 20px 80px; }
+
+/* top bar */
+.bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 16px; border-bottom: 1px solid var(--line); }
+.bar a { font: 500 13px/1 var(--font-mono); text-decoration: none; }
+.tag-toggle { display: inline-flex; align-items: center; gap: 8px; font: 500 12px/1 var(--font-mono); color: var(--muted); cursor: pointer; padding: 8px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--panel); }
+.tag-toggle input { accent-color: var(--accent); margin: 0; }
+body:has(#show-tags:checked) [data-ref] { outline: 1px dashed var(--accent); outline-offset: 2px; position: relative; }
+body:has(#show-tags:checked) [data-ref]::before { content: attr(data-ref); position: absolute; top: -10px; left: -6px; z-index: 50; font: 600 10px/1 monospace; padding: 3px 5px; border-radius: 4px; background: var(--ink); color: var(--bg); pointer-events: none; }
+
+header.intro { padding-block: 40px 28px; display: grid; gap: 14px; max-width: 760px; }
+.eyebrow { font: 600 11px/1 var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
+h1 { font: 800 clamp(30px, 5vw, 48px)/1.04 var(--font-display); letter-spacing: -0.025em; margin: 0; text-wrap: balance; }
+h2 { font: 800 clamp(24px, 3.4vw, 34px)/1.1 var(--font-display); letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h3 { font: 700 15px/1.3 var(--font-display); margin: 0; }
+.lede { color: var(--muted); font-size: 17px; margin: 0; max-width: 65ch; }
+
+/* tip legend */
+.tips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.tip { font: 500 12px/1 var(--font-mono); padding: 7px 10px; border-radius: 999px; background: var(--panel); border: 1px solid var(--line); color: var(--ink); }
+.tip b { color: var(--accent); font-weight: 600; margin-right: 4px; }
+
+/* compare table */
+.compare { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); margin-block: 8px 48px; }
+table { border-collapse: collapse; width: 100%; min-width: 720px; font-size: 14px; }
+th, td { text-align: left; vertical-align: top; padding: 14px 16px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font: 600 11px/1.2 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); background: var(--sunk); }
+td:first-child { font-weight: 700; white-space: nowrap; }
+td .vid { display: block; font: 600 11px/1 var(--font-mono); color: var(--accent); margin-bottom: 6px; }
+
+/* nav to variants */
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+.jump a { font: 600 13px/1 var(--font-body); text-decoration: none; color: var(--ink); padding: 10px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--panel); }
+.jump a:hover { border-color: var(--accent); color: var(--accent); }
+
+/* variant */
+.variant { padding-block: 44px 8px; border-top: 1px solid var(--line); scroll-margin-top: 16px; }
+.v-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 16px 32px; align-items: end; margin-bottom: 20px; }
+.v-head .pitch { color: var(--muted); margin: 8px 0 0; max-width: 62ch; }
+.v-stats { display: flex; gap: 20px; font: 500 12px/1.4 var(--font-mono); color: var(--muted); }
+.v-stats strong { display: block; font: 700 20px/1.1 var(--font-display); color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 720px) { .v-head { grid-template-columns: 1fr; } }
+
+/* beat strip */
+.beats { display: flex; height: 44px; border-radius: 10px; overflow: hidden; border: 1px solid var(--line); margin-bottom: 6px; background: var(--panel); }
+.beat { flex: var(--d) 1 0; min-width: 0; border-right: 1px solid var(--line); display: flex; flex-direction: column; justify-content: center; padding-inline: 6px; font: 600 10px/1.2 var(--font-mono); color: var(--muted); text-decoration: none; overflow: hidden; white-space: nowrap; }
+.beat:last-child { border-right: 0; }
+.beat span { color: var(--ink); overflow: hidden; text-overflow: ellipsis; }
+.beat.k-tip { background: var(--accent-soft); }
+.beat.k-tip span { color: var(--accent); }
+.beat:hover { background: var(--sunk); }
+.ticks { display: flex; justify-content: space-between; font: 500 10px/1 var(--font-mono); color: var(--faint); margin-bottom: 24px; font-variant-numeric: tabular-nums; }
+
+/* frames */
+.frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 16px; }
+.frame { display: grid; grid-template-columns: 132px minmax(0, 1fr); gap: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 14px; background: var(--panel); scroll-margin-top: 16px; }
+.f-meta { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.f-id { font: 600 11px/1 var(--font-mono); color: var(--accent); }
+.f-time { font: 500 11px/1 var(--font-mono); color: var(--faint); font-variant-numeric: tabular-nums; }
+.f-body { min-width: 0; display: grid; gap: 8px; align-content: start; }
+.f-body h3 { margin-bottom: 2px; }
+dl { margin: 0; display: grid; gap: 6px; }
+dt { font: 600 10px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--faint); }
+dd { margin: 2px 0 0; font-size: 13px; line-height: 1.45; color: var(--muted); }
+dd.vo { color: var(--ink); font-style: italic; }
+
+/* wireframe thumbnail (9:16) */
+.thumb { position: relative; width: 132px; aspect-ratio: 9 / 16; max-width: 100%; border-radius: 12px; background: var(--wf-fill); border: 1.5px solid var(--wf); overflow: hidden; display: flex; flex-direction: column; justify-content: center; gap: 6px; padding: 10px 9px; }
+.thumb .cam { position: absolute; top: 5px; right: 5px; font: 700 7px/1 var(--font-mono); letter-spacing: .06em; color: var(--accent); background: var(--panel); border: 1px solid var(--accent); padding: 2px 3px; border-radius: 3px; }
+.thumb .cam ~ * { flex-shrink: 0; }
+.w-chip { align-self: flex-start; font: 700 7px/1 var(--font-mono); color: var(--accent); border: 1px solid var(--accent); border-radius: 99px; padding: 3px 5px; }
+.w-title { font: 800 11px/1.1 var(--font-display); color: var(--ink); text-wrap: balance; }
+.w-title.big { font-size: 14px; }
+.w-big { font: 800 44px/1 var(--font-display); color: var(--ink); text-align: center; }
+.w-cap { font: 500 7px/1.3 var(--font-body); color: var(--ink); background: var(--panel); border-radius: 4px; padding: 3px 4px; text-align: center; }
+.w-prompt { border: 1px solid var(--wf); background: var(--panel); border-radius: 6px; padding: 5px; font: 500 6.5px/1.35 var(--font-mono); color: var(--muted); display: grid; gap: 2px; }
+.w-prompt.bad { border-color: var(--bad); }
+.w-prompt.good { border-color: var(--good); }
+.w-prompt .hl { background: var(--accent-soft); color: var(--accent); border-radius: 2px; }
+.w-prompt .st { text-decoration: line-through; color: var(--bad); }
+.w-prompt .tg { color: var(--accent); }
+.w-res { border: 1px dashed var(--wf); border-radius: 6px; padding: 5px; display: grid; gap: 3px; }
+.w-res i { display: block; height: 4px; border-radius: 2px; background: var(--wf); }
+.w-res.thin i:nth-child(n+2) { width: 50%; }
+.w-res.rich { grid-template-columns: 1fr 1fr; }
+.w-res.rich i { height: 10px; }
+.w-res.rich i:first-child { grid-column: 1 / -1; height: 4px; }
+.w-meter { height: 6px; border-radius: 3px; background: var(--panel); border: 1px solid var(--wf); overflow: hidden; }
+.w-meter i { display: block; height: 100%; background: var(--good); }
+.w-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; align-items: start; }
+.w-stamp { align-self: center; font: 800 8px/1 var(--font-mono); letter-spacing: .06em; padding: 4px 6px; border-radius: 4px; transform: rotate(-6deg); border: 1.5px solid currentColor; }
+.w-stamp.bad { color: var(--bad); background: var(--bad-soft); }
+.w-stamp.good { color: var(--good); background: var(--good-soft); }
+.w-tags { display: grid; gap: 3px; }
+.w-tags span { font: 600 6.5px/1 var(--font-mono); color: var(--accent); border: 1px solid var(--accent); border-radius: 3px; padding: 3px 4px; background: var(--panel); }
+.w-checks { display: grid; gap: 3px; font: 600 7px/1.2 var(--font-body); color: var(--ink); }
+.w-checks span::before { content: "\2713  "; color: var(--good); }
+.w-note { align-self: center; width: 78%; background: var(--accent-soft); border-radius: 3px; padding: 5px; font: 600 7px/1.25 var(--font-body); color: var(--ink); transform: rotate(-2deg); }
+/* mascot placeholder: a circle with eyes, mood set by class */
+.w-char { align-self: center; position: relative; width: 34px; height: 34px; border-radius: 50%; background: var(--panel); border: 1.5px solid var(--ink); }
+.w-char::before, .w-char::after { content: ""; position: absolute; top: 12px; width: 4px; height: 5px; border-radius: 2px; background: var(--ink); }
+.w-char::before { left: 10px; } .w-char::after { right: 10px; }
+.w-char.happy::before, .w-char.happy::after { height: 3px; border-radius: 4px 4px 0 0; background: none; border: 1.5px solid var(--ink); border-bottom: 0; width: 6px; }
+.w-char.confused::after { height: 2px; top: 14px; }
+.w-char b { position: absolute; font: 800 12px/1 var(--font-display); color: var(--accent); }
+.w-char.confused b { top: -8px; right: -8px; }
+.w-char.point b { top: 10px; right: -14px; }
+.w-char.happy b { top: -8px; left: -8px; color: var(--good); }
+.w-char.sm { width: 24px; height: 24px; }
+.w-char.sm::before, .w-char.sm::after { top: 8px; }
+.w-char.sm::before { left: 6px; } .w-char.sm::after { right: 6px; }
+
+@media (max-width: 400px) { .frame { grid-template-columns: 1fr; } .thumb { width: 160px; } }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+
+footer.next { margin-top: 56px; padding: 24px; border-radius: 14px; background: var(--panel); border: 1px solid var(--line); display: grid; gap: 8px; }
+footer.next p { margin: 0; color: var(--muted); max-width: 70ch; }
+code { font: 500 13px/1 var(--font-mono); background: var(--sunk); padding: 2px 5px; border-radius: 4px; color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <a href="index.html">&larr; Back to the hub</a>
+    <label class="tag-toggle"><input type="checkbox" id="show-tags"> Show edit tags</label>
+  </div>
+
+  <header class="intro">
+    <span class="eyebrow">Episode 01 &middot; Prompting best practices &middot; 60s vertical</span>
+    <h1>Three ways to tell the same 60 seconds</h1>
+    <p class="lede">Each storyboard teaches the same five habits from Anthropic's prompting guide, with a bad prompt and a better one for every habit. They differ in how the story is told. Thumbnails are plain wireframes, so any of the three designs can be dropped on top.</p>
+    <div class="tips" data-ref="SB-01">
+      <span class="tip"><b>1</b>Be specific</span>
+      <span class="tip"><b>2</b>Explain why</span>
+      <span class="tip"><b>3</b>Show examples</span>
+      <span class="tip"><b>4</b>Label the parts (XML tags)</span>
+      <span class="tip"><b>5</b>Say what to do, not what to avoid</span>
+    </div>
+  </header>
+
+  <div class="compare" data-ref="SB-02">
+    <table>
+      <thead><tr><th>Variant</th><th>How it works</th><th>Why it lands</th><th>Watch out for</th><th>Best as</th></tr></thead>
+      <tbody>
+        <tr><td><span class="vid">V1</span>The Glow-Up</td><td>One weak prompt gets upgraded five times. A quality meter fills and the result improves after each fix.</td><td>Viewers watch one prompt get better step by step. The before/after at the end pays it off.</td><td>The final prompt is long. Each beat zooms in on the new line only.</td><td>A flagship video</td></tr>
+        <tr><td><span class="vid">V2</span>Rapid Fire</td><td>Five split screens, ten seconds each. Bad prompt on top, better prompt below, a stamp on each.</td><td>Easy to scan. It uses the guide's own examples word for word, and the format repeats for every future topic.</td><td>Less story. Motion and sound have to carry the energy.</td><td>The repeatable series format</td></tr>
+        <tr><td><span class="vid">V3</span>The New Hire</td><td>The mascot is a brilliant new employee with zero context. Vague asks go wrong, clear asks go right.</td><td>Most personality. It acts out the guide's own metaphor, and the jokes make it memorable.</td><td>Needs the most character animation. Timing is tight.</td><td>A character-led channel</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="jump" aria-label="Jump to a variant">
+    <a href="#v1">V1 &middot; The Glow-Up</a>
+    <a href="#v2">V2 &middot; Rapid Fire</a>
+    <a href="#v3">V3 &middot; The New Hire</a>
+  </nav>
+
+  <div id="variants"></div>
+
+  <footer class="next">
+    <h3>How to ask for changes</h3>
+    <p>Every frame has an ID like <code>V2-F03</code>. Reply with the ID and what to change, for example: <code>V1-F06 &middot; make the tags fly in one at a time</code> or <code>V3 &middot; swap tip 4 for "give it a role"</code>. On the published page you can also leave a comment right on the frame.</p>
+  </footer>
+</div>
+
+<script>
+// Each frame: id, time range, beat label, kind ('tip' highlights it on the strip), wireframe items, and production notes.
+const VARIANTS = [
+  {
+    id: "v1", code: "V1", name: "The Glow-Up",
+    pitch: "One lazy prompt for a product description gets five upgrades. Each fix adds one highlighted line, the quality meter climbs, and the result card below gets better. It ends on a side-by-side of the first and last prompt.",
+    frames: [
+      { t: [0, 4], beat: "Hook", title: "Same AI, better prompt",
+        wf: [{ t: "title", big: true, text: "Same AI. Better prompt." }, { t: "char", mood: "neutral" }],
+        cam: "POP",
+        visual: "Headline words drop in one at a time. The mascot pops up under them.",
+        motion: "Staggered word drop, 80ms apart. Mascot scales 0 to 1.1 to 1.",
+        sfx: "Soft pop, short riser.",
+        vo: "Same AI, very different answers. The difference is your prompt." },
+      { t: [4, 9], beat: "Bad prompt", title: "What most people type",
+        wf: [{ t: "prompt", v: "bad", lines: ["Write a product description.", "Don't make it boring."] }, { t: "meter", v: 10 }, { t: "res", q: "thin" }],
+        visual: "Prompt card types on. A grey, generic result fades in below. Meter sits at 10%.",
+        motion: "Type-on at about 30 characters a second. Result fades up. Meter wobbles.",
+        sfx: "Key clicks, then a dull thud.",
+        vo: "Here's what most of us type." },
+      { t: [9, 18], beat: "1 Specific", kind: "tip", title: "Fix 1: be specific",
+        wf: [{ t: "chip", text: "1 / 5 BE SPECIFIC" }, { t: "prompt", lines: ["Write a product description", { hl: "for my handmade ceramic mug." }, { hl: "80 words, 3 short benefits." }] }, { t: "meter", v: 30 }, { t: "res", q: "mid" }],
+        cam: "ZOOM IN",
+        visual: "Camera punches in on the card. The new lines slide in with a highlighter sweep.",
+        motion: "Zoom 1.0 to 1.35, then ease back. Highlighter sweeps left to right in 300ms.",
+        sfx: "Whoosh in, marker squeak.",
+        vo: "Say exactly what you want: the product, the length, the shape." },
+      { t: [18, 27], beat: "2 Why", kind: "tip", title: "Fix 2: explain why",
+        wf: [{ t: "chip", text: "2 / 5 EXPLAIN WHY" }, { t: "prompt", lines: ["...3 short benefits.", { hl: "It's for an Etsy listing." }, { hl: "Shoppers skim on phones." }] }, { t: "meter", v: 50 }, { t: "res", q: "mid" }],
+        visual: "The reason line types in. The result card reflows into short, skimmable lines.",
+        motion: "Result lines shrink and stack, 120ms stagger.",
+        sfx: "Light chime when the result reflows.",
+        vo: "Tell it why. Claude uses the reason to make better choices." },
+      { t: [27, 36], beat: "3 Example", kind: "tip", title: "Fix 3: show an example",
+        wf: [{ t: "chip", text: "3 / 5 SHOW AN EXAMPLE" }, { t: "prompt", lines: ["...shoppers skim on phones.", { tag: "<example>" }, { hl: "\"Hand-thrown. Holds 12 oz.\"" }, { tag: "</example>" }] }, { t: "meter", v: 70 }, { t: "res", q: "rich" }],
+        cam: "SLIDE",
+        visual: "A past listing slides in like a sticky note and docks inside the prompt.",
+        motion: "Card slides in from the right with a slight overshoot, then settles.",
+        sfx: "Paper slide, soft tap.",
+        vo: "Show one you like. An example sets the tone better than adjectives." },
+      { t: [36, 44], beat: "4 Tags", kind: "tip", title: "Fix 4: label the parts",
+        wf: [{ t: "chip", text: "4 / 5 LABEL THE PARTS" }, { t: "tags", items: ["<context>", "<instructions>", "<example>"] }, { t: "meter", v: 85 }],
+        visual: "The prompt lines fly apart and land in three labelled boxes.",
+        motion: "Lines lift, rotate slightly, and snap into place one box at a time.",
+        sfx: "Three clicks, one per box.",
+        vo: "Wrap each part in a tag, so the instructions and the example don't get mixed up." },
+      { t: [44, 51], beat: "5 Do", kind: "tip", title: "Fix 5: say what to do",
+        wf: [{ t: "chip", text: "5 / 5 SAY WHAT TO DO" }, { t: "prompt", lines: [{ st: "Don't make it boring." }, { hl: "Write warm, plain sentences," }, { hl: "like a note from the maker." }] }, { t: "meter", v: 100 }],
+        visual: "A red line strikes through \"Don't make it boring.\" The replacement writes in underneath.",
+        motion: "Strike draws in 250ms. Meter fills to 100% and flashes once.",
+        sfx: "Pen scratch, then a level-up ding.",
+        vo: "Say what to do, not what to avoid." },
+      { t: [51, 56], beat: "Before / After", title: "The reveal",
+        wf: [{ t: "row", items: [[{ t: "prompt", v: "bad", lines: ["Write a product", "description."] }, { t: "res", q: "thin" }], [{ t: "prompt", v: "good", lines: ["<context>", "<instructions>", "<example>"] }, { t: "res", q: "rich" }]] }, { t: "stamp", v: "good", text: "BETTER" }],
+        cam: "ZOOM OUT",
+        visual: "Camera pulls back to a split screen: the first prompt and result on the left, the final ones on the right.",
+        motion: "Zoom out with ease-in-out over 600ms. The stamp lands last.",
+        sfx: "Camera shutter, then a stamp thock.",
+        vo: "Before. After. Same AI." },
+      { t: [56, 60], beat: "End", title: "Recap and follow",
+        wf: [{ t: "checks", items: ["Be specific", "Explain why", "Show examples", "Label the parts", "Say what to do"] }, { t: "char", mood: "happy", sm: true }],
+        visual: "Five checkmarks tick down the list. The mascot waves. Follow prompt appears.",
+        motion: "Checks tick at 120ms intervals. Mascot waves twice.",
+        sfx: "Five quick ticks, an outro sting.",
+        vo: "Save this for your next prompt." }
+    ]
+  },
+  {
+    id: "v2", code: "V2", name: "Rapid Fire",
+    pitch: "Five fixes in five ten-second split screens. The bad prompt lands on top and gets stamped, the better one wipes up from below and gets stamped, and one key phrase lights up. Every example is taken from Anthropic's guide.",
+    frames: [
+      { t: [0, 3], beat: "Hook", title: "Five fixes, sixty seconds",
+        wf: [{ t: "big", text: "5" }, { t: "title", text: "prompt fixes in 60 seconds" }],
+        cam: "POP",
+        visual: "A giant 5 slams in, then the line under it. A timer ring starts counting down at the edge of the frame.",
+        motion: "Number scales 2.0 to 1.0 with a hard ease-out. Ring starts drawing.",
+        sfx: "Bass hit, clock ticking under everything.",
+        vo: "Five prompt fixes. Sixty seconds. Go." },
+      { t: [3, 13], beat: "1 Specific", kind: "tip", title: "Be specific",
+        wf: [{ t: "chip", text: "1 / 5" }, { t: "prompt", v: "bad", lines: ["Create an analytics dashboard"] }, { t: "stamp", v: "bad", text: "VAGUE" }, { t: "prompt", v: "good", lines: ["Create an analytics dashboard.", { hl: "Include as many relevant" }, { hl: "features as possible." }, "Go beyond the basics..."] }, { t: "stamp", v: "good", text: "CLEAR" }],
+        visual: "Top: \"Create an analytics dashboard.\" Bottom: the guide's fuller version. \"Go beyond the basics\" lights up.",
+        motion: "Top card slides down, stamp. Bottom card wipes up, stamp. Highlight sweep.",
+        sfx: "Swipe, buzzer-lite, wipe, chime.",
+        vo: "Don't hope for extra effort. Ask for it." },
+      { t: [13, 23], beat: "2 Why", kind: "tip", title: "Explain why",
+        wf: [{ t: "chip", text: "2 / 5" }, { t: "prompt", v: "bad", lines: ["NEVER use ellipses"] }, { t: "stamp", v: "bad", text: "NO REASON" }, { t: "prompt", v: "good", lines: [{ hl: "Your response will be read" }, { hl: "aloud by a text-to-speech" }, "engine, so never use ellipses..."] }, { t: "stamp", v: "good", text: "HAS A REASON" }],
+        visual: "\"NEVER use ellipses\" against the version that explains the text-to-speech reason.",
+        motion: "Same split layout as fix 1, so viewers learn the pattern.",
+        sfx: "Same sound set as fix 1.",
+        vo: "Give the reason. Claude can apply it to cases you didn't list." },
+      { t: [23, 33], beat: "3 Examples", kind: "tip", title: "Show examples",
+        wf: [{ t: "chip", text: "3 / 5" }, { t: "prompt", v: "bad", lines: ["Write a tagline for my bakery."] }, { t: "stamp", v: "bad", text: "GUESSING" }, { t: "prompt", v: "good", lines: ["Write a tagline for my bakery.", { tag: "<examples>" }, { hl: "3 taglines we love" }, { tag: "</examples>" }] }, { t: "stamp", v: "good", text: "ON BRAND" }],
+        visual: "Three example cards fan out and tuck inside an examples tag.",
+        motion: "Cards fan out with a 90ms stagger, then collapse into the tag.",
+        sfx: "Card shuffle.",
+        vo: "Show three to five examples. They steer tone and format better than describing it." },
+      { t: [33, 43], beat: "4 Tags", kind: "tip", title: "Label the parts",
+        wf: [{ t: "chip", text: "4 / 5" }, { t: "prompt", v: "bad", lines: ["Here's the report, summarise it", "and also the notes and make it short..."] }, { t: "stamp", v: "bad", text: "TANGLED" }, { t: "tags", items: ["<instructions>", "<context>", "<input>"] }, { t: "stamp", v: "good", text: "TIDY" }],
+        visual: "A wall of mixed text untangles into instructions, context and input tags.",
+        motion: "Text lines lift out and sort into three boxes.",
+        sfx: "Three clicks.",
+        vo: "Mixing instructions and documents? Wrap each one in its own tag." },
+      { t: [43, 52], beat: "5 Do", kind: "tip", title: "Say what to do",
+        wf: [{ t: "chip", text: "5 / 5" }, { t: "prompt", v: "bad", lines: ["Do not use markdown in", "your response"] }, { t: "stamp", v: "bad", text: "DON'T" }, { t: "prompt", v: "good", lines: [{ hl: "Write in smoothly flowing" }, { hl: "prose paragraphs." }] }, { t: "stamp", v: "good", text: "DO" }],
+        visual: "\"Do not use markdown\" flips over like a card to show \"Write in smoothly flowing prose paragraphs.\"",
+        motion: "3D card flip on the Y axis over 450ms.",
+        sfx: "Card flip, chime.",
+        vo: "Tell it what to do instead of what not to do." },
+      { t: [52, 56], beat: "Recap", title: "All five",
+        wf: [{ t: "checks", items: ["Specific", "Why", "Examples", "Tags", "Do, not don't"] }],
+        cam: "FAST",
+        visual: "The five fix names stack up with checkmarks. Timer ring nearly closed.",
+        motion: "Quick cascade, 100ms each.",
+        sfx: "Five ticks, rising pitch.",
+        vo: "Specific. Why. Examples. Tags. Do, not don't." },
+      { t: [56, 60], beat: "End", title: "Golden rule and follow",
+        wf: [{ t: "title", text: "Would a new coworker get it?" }, { t: "char", mood: "point", sm: true }, { t: "cap", text: "Follow for part 2" }],
+        visual: "The guide's golden rule as the last line, then the follow prompt.",
+        motion: "Timer ring closes with a flash.",
+        sfx: "Final bell.",
+        vo: "If a coworker would be confused, so will Claude." }
+    ]
+  },
+  {
+    id: "v3", code: "V3", name: "The New Hire",
+    pitch: "The mascot plays a brilliant new employee on day one with zero context, which is how Anthropic's guide describes Claude. Each vague request goes wrong in a funny way, the tape rewinds, and the clear request goes right.",
+    frames: [
+      { t: [0, 5], beat: "Cold open", title: "Day one",
+        wf: [{ t: "chip", text: "DAY 1" }, { t: "char", mood: "neutral" }, { t: "title", text: "Brilliant. Zero context." }],
+        cam: "PUSH IN",
+        visual: "The mascot sits at a tiny desk wearing a DAY 1 badge. The title types underneath.",
+        motion: "Slow push-in. Mascot blinks and adjusts its badge.",
+        sfx: "Office ambience, keyboard clatter in the distance.",
+        vo: "Meet your new hire. Brilliant, but it knows nothing about you." },
+      { t: [5, 11], beat: "Fail 1", title: "\"Make a dashboard.\"",
+        wf: [{ t: "note", text: "Make a dashboard." }, { t: "char", mood: "confused" }, { t: "res", q: "thin" }],
+        visual: "A sticky note slaps on the desk. The mascot shrugs and holds up one tiny bar chart.",
+        motion: "Note slaps in with squash and stretch. Shrug and hold for 1 second for the joke.",
+        sfx: "Slap, a short \"bonk\".",
+        vo: "Make a dashboard, you say." },
+      { t: [11, 15], beat: "Rewind", title: "Let's try that again",
+        wf: [{ t: "title", text: "<< REWIND" }, { t: "char", mood: "confused", sm: true }],
+        cam: "VHS",
+        visual: "Tape rewind effect: scan lines and everything plays backwards.",
+        motion: "Reverse the last two seconds at 3x speed with an RGB split.",
+        sfx: "Tape rewind squeal.",
+        vo: "Let's try that again." },
+      { t: [15, 24], beat: "1+2 Specific, why", kind: "tip", title: "Be specific and say why",
+        wf: [{ t: "chip", text: "SPECIFIC + WHY" }, { t: "note", text: "Sales dashboard for Monday standup. Revenue, churn, top 5 deals." }, { t: "char", mood: "happy" }, { t: "res", q: "rich" }],
+        visual: "A longer note: what it's for and what goes on it. The mascot lights up and builds a full dashboard.",
+        motion: "The mascot's eyes go from dots to sparkles. Panels pop in one by one.",
+        sfx: "Light bulb ding, quick pops.",
+        vo: "Say what it's for and what you need. Now it can deliver." },
+      { t: [24, 33], beat: "3 Examples", kind: "tip", title: "Show examples",
+        wf: [{ t: "chip", text: "SHOW EXAMPLES" }, { t: "row", items: [[{ t: "note", text: "Write like us." }], [{ t: "char", mood: "confused", sm: true }]] }, { t: "row", items: [[{ t: "res", q: "mid" }], [{ t: "res", q: "mid" }]] }, { t: "char", mood: "happy", sm: true }],
+        visual: "\"Write like us\" gets stiff corporate copy. You hand over three past posts. The next draft sounds like you.",
+        motion: "Three cards slide across the desk, one after another.",
+        sfx: "Paper slides, then a satisfied hum.",
+        vo: "It can't guess your style. Show it three examples." },
+      { t: [33, 42], beat: "4 Tags", kind: "tip", title: "Label the parts",
+        wf: [{ t: "chip", text: "LABEL THE PARTS" }, { t: "char", mood: "confused", sm: true }, { t: "tags", items: ["<instructions>", "<context>", "<input>"] }],
+        visual: "A pile of papers buries the mascot. The pile sorts itself into three labelled folders and the mascot pops out.",
+        motion: "Pile drops with a bounce. Papers fly to folders on a curved path.",
+        sfx: "Paper avalanche, three folder snaps.",
+        vo: "Dump everything in one pile and it gets buried. Label each part." },
+      { t: [42, 50], beat: "5 Do", kind: "tip", title: "Say what to do",
+        wf: [{ t: "chip", text: "SAY WHAT TO DO" }, { t: "note", text: "Don't be boring." }, { t: "char", mood: "confused", sm: true }, { t: "note", text: "Use short, lively sentences." }, { t: "char", mood: "happy", sm: true }],
+        visual: "\"Don't be boring\" freezes the mascot mid-type. A new note, \"Use short, lively sentences,\" unfreezes it.",
+        motion: "Freeze frame with a blue tint. Snaps back to colour on the new note.",
+        sfx: "Record scratch, then a whoosh.",
+        vo: "\"Don't be boring\" doesn't say what to do. Tell it what good looks like." },
+      { t: [50, 56], beat: "Golden rule", title: "The golden rule",
+        wf: [{ t: "title", big: true, text: "Would a new coworker get it?" }],
+        cam: "HOLD",
+        visual: "Full-screen card with the guide's golden rule. The mascot nods next to it.",
+        motion: "Words fade up line by line. Hold for 2 seconds.",
+        sfx: "Soft gong.",
+        vo: "Before you send it, ask yourself: would a new coworker understand this?" },
+      { t: [56, 60], beat: "End", title: "Clock-out",
+        wf: [{ t: "checks", items: ["Specific + why", "Examples", "Tags", "Do, not don't"] }, { t: "char", mood: "happy", sm: true }, { t: "cap", text: "Follow for day 2" }],
+        visual: "The mascot clocks out and waves. Checklist recap, follow prompt.",
+        motion: "Mascot waves, checks tick.",
+        sfx: "Clock-out punch, outro sting.",
+        vo: "Your new hire is ready. Follow for day two." }
+    ]
+  }
+];
+
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const mmss = s => Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0");
+
+function line(l) {
+  if (typeof l === "string") return `<span>${esc(l)}</span>`;
+  if (l.hl) return `<span><span class="hl">${esc(l.hl)}</span></span>`;
+  if (l.st) return `<span class="st">${esc(l.st)}</span>`;
+  if (l.tag) return `<span class="tg">${esc(l.tag)}</span>`;
+  return "";
+}
+
+function item(w) {
+  switch (w.t) {
+    case "chip": return `<span class="w-chip">${esc(w.text)}</span>`;
+    case "title": return `<div class="w-title${w.big ? " big" : ""}">${esc(w.text)}</div>`;
+    case "big": return `<div class="w-big">${esc(w.text)}</div>`;
+    case "cap": return `<div class="w-cap">${esc(w.text)}</div>`;
+    case "note": return `<div class="w-note">${esc(w.text)}</div>`;
+    case "prompt": return `<div class="w-prompt ${w.v || ""}">${w.lines.map(line).join("")}</div>`;
+    case "res": return `<div class="w-res ${w.q}"><i></i><i></i><i></i></div>`;
+    case "meter": return `<div class="w-meter" aria-label="Prompt quality ${w.v}%"><i style="width:${w.v}%"></i></div>`;
+    case "stamp": return `<span class="w-stamp ${w.v}">${esc(w.text)}</span>`;
+    case "tags": return `<div class="w-tags">${w.items.map(x => `<span>${esc(x)}</span>`).join("")}</div>`;
+    case "checks": return `<div class="w-checks">${w.items.map(x => `<span>${esc(x)}</span>`).join("")}</div>`;
+    case "row": return `<div class="w-row">${w.items.map(col => `<div style="display:grid;gap:4px">${col.map(item).join("")}</div>`).join("")}</div>`;
+    case "char": {
+      const glyph = { confused: "?", point: "&rarr;", happy: "*" }[w.mood] || "";
+      return `<div class="w-char ${w.mood}${w.sm ? " sm" : ""}" aria-hidden="true">${glyph ? `<b>${glyph}</b>` : ""}</div>`;
+    }
+  }
+  return "";
+}
+
+function render() {
+  const host = document.getElementById("variants");
+  host.innerHTML = VARIANTS.map(v => {
+    const total = v.frames[v.frames.length - 1].t[1];
+    const words = v.frames.reduce((n, f) => n + f.vo.split(/\s+/).filter(Boolean).length, 0);
+    const secs = Math.round(words / 150 * 60);
+    const fid = i => `${v.code}-F${String(i + 1).padStart(2, "0")}`;
+    return `
+    <section class="variant" id="${v.id}" data-ref="${v.code}">
+      <div class="v-head">
+        <div>
+          <span class="eyebrow">Variant ${v.code.slice(1)}</span>
+          <h2>${esc(v.name)}</h2>
+          <p class="pitch">${esc(v.pitch)}</p>
+        </div>
+        <div class="v-stats">
+          <div><strong>${v.frames.length}</strong>frames</div>
+          <div><strong>${total}s</strong>runtime</div>
+          <div><strong>${words}</strong>VO words, about ${secs}s spoken</div>
+        </div>
+      </div>
+      <div class="beats" role="list" aria-label="${esc(v.name)} timeline">
+        ${v.frames.map((f, i) => `<a role="listitem" class="beat${f.kind === "tip" ? " k-tip" : ""}" style="--d:${f.t[1] - f.t[0]}" href="#${fid(i)}" title="${fid(i)} ${esc(f.beat)}">${fid(i).slice(3)}<span>${esc(f.beat)}</span></a>`).join("")}
+      </div>
+      <div class="ticks"><span>0:00</span><span>0:15</span><span>0:30</span><span>0:45</span><span>1:00</span></div>
+      <div class="frames">
+        ${v.frames.map((f, i) => `
+        <article class="frame" id="${fid(i)}" data-ref="${fid(i)}">
+          <div class="thumb">${f.cam ? `<span class="cam">${esc(f.cam)}</span>` : ""}${f.wf.map(item).join("")}</div>
+          <div class="f-body">
+            <div class="f-meta"><span class="f-id">${fid(i)}</span><span class="f-time">${mmss(f.t[0])} to ${mmss(f.t[1])}</span></div>
+            <h3>${esc(f.title)}</h3>
+            <dl>
+              <div><dt>On screen</dt><dd>${esc(f.visual)}</dd></div>
+              <div><dt>Motion</dt><dd>${esc(f.motion)}</dd></div>
+              <div><dt>Sound</dt><dd>${esc(f.sfx)}</dd></div>
+              <div><dt>Voiceover / caption</dt><dd class="vo">&ldquo;${esc(f.vo)}&rdquo;</dd></div>
+            </dl>
+          </div>
+        </article>`).join("")}
+      </div>
+    </section>`;
+  }).join("");
+}
+render();
+</script>
+</body>
+</html>

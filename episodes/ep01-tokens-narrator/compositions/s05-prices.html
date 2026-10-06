@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.6,"sfx":"click-soft","vol":0.22},
+      {"t":1.5,"sfx":"whoosh-short","vol":0.22},
+      {"t":2.3,"sfx":"whoosh-short","vol":0.25},
+      {"t":3.8,"sfx":"whoosh","vol":0.22},
+      {"t":4.2,"sfx":"ping","vol":0.25,"dur":1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Price per 1 million tokens (Anthropic API list prices, checked 2026-10-06).
+           Bars are to scale: output bar width = $ × 15.2px ($50 = 760px); input bar the same scale. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-safe { justify-content: space-between; }
+        .s05 .head { display: flex; flex-direction: column; gap: 18px; }
+        .s05 .cam { position: absolute; inset: 0; }
+        .s05 .rows { position: absolute; left: 90px; right: 130px; top: 540px; display: flex; flex-direction: column; gap: 34px; }
+        .s05 .row { display: flex; flex-direction: column; gap: 12px; }
+        .s05 .top { display: flex; justify-content: space-between; align-items: baseline; gap: 20px; }
+        .s05 .name { font: 300 50px/1.1 var(--f-display); letter-spacing: -0.02em; }
+        .s05 .price { font: 400 30px/1 var(--f-mono); color: var(--smoke); white-space: nowrap; }
+        .s05 .price .o { color: var(--ink); }
+        .s05 .bars { display: flex; flex-direction: column; gap: 8px; }
+        .s05 .bar-in { height: 12px; background: var(--ash); }
+        .s05 .bar-out { height: 22px; }
+        .s05 .key { position: absolute; left: 90px; right: 130px; top: 1150px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 30px; }
+        .s05 .key span { display: inline-flex; align-items: center; gap: 12px; font: 400 26px/1 var(--f-mono); color: var(--graphite); }
+        .s05 .key i { display: inline-block; width: 44px; border-radius: 6px; }
+        .s05 .call { position: absolute; left: 90px; top: 1230px; }
+      </style>
+      <div data-hf-id="hf-wwzs" id="root" data-composition-id="s05-prices" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ella" class="egg-scene s05">
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-hnc7" class="rows">
+              <div data-hf-id="hf-thy4" class="row">
+                <div data-hf-id="hf-sijt" class="top"><span data-hf-id="hf-00vl" class="name">Claude Haiku 4.5</span><span data-hf-id="hf-6g9r" class="price">$1 in · <span data-hf-id="hf-rcdr" class="o egg-hl">$5 out</span></span></div>
+                <div data-hf-id="hf-umx2" class="bars"><i data-hf-id="hf-531k" class="egg-bar bar-in" style="width:15px"></i><i data-hf-id="hf-bagw" class="egg-bar bar-out" style="width:76px"></i></div>
+              </div>
+              <div data-hf-id="hf-lt04" class="row">
+                <div data-hf-id="hf-8kpp" class="top"><span data-hf-id="hf-5x2j" class="name">Claude Sonnet 5.5</span><span data-hf-id="hf-n3dw" class="price">$2 in · <span data-hf-id="hf-yq2t" class="o egg-hl">$10 out</span></span></div>
+                <div data-hf-id="hf-rgy2" class="bars"><i data-hf-id="hf-zm6f" class="egg-bar bar-in" style="width:30px"></i><i data-hf-id="hf-scnt" class="egg-bar bar-out" style="width:152px"></i></div>
+              </div>
+              <div data-hf-id="hf-km31" class="row">
+                <div data-hf-id="hf-9rms" class="top"><span data-hf-id="hf-36ab" class="name">Claude Opus 5.5</span><span data-hf-id="hf-1r66" class="price">$4 in · <span data-hf-id="hf-8zz6" class="o egg-hl">$20 out</span></span></div>
+                <div data-hf-id="hf-rv93" class="bars"><i data-hf-id="hf-0fwp" class="egg-bar bar-in" style="width:61px"></i><i data-hf-id="hf-0dze" class="egg-bar bar-out" style="width:304px"></i></div>
+              </div>
+              <div data-hf-id="hf-l0e2" class="row">
+                <div data-hf-id="hf-9dbr" class="top"><span data-hf-id="hf-0tea" class="name">Claude Fable 5.1</span><span data-hf-id="hf-7t3d" class="price">$10 in · <span data-hf-id="hf-9l4h" class="o egg-hl">$50 out</span></span></div>
+                <div data-hf-id="hf-s9k4" class="bars"><i data-hf-id="hf-90qy" class="egg-bar bar-in" style="width:152px"></i><i data-hf-id="hf-gf3c" class="egg-bar bar-out" style="width:760px"></i></div>
+              </div>
+            </div>
+          </div>
+          <div data-hf-id="hf-l8jp" class="key">
+            <span data-hf-id="hf-up7b"><i data-hf-id="hf-qiio" class="egg-bar bar-in"></i>Input</span>
+            <span data-hf-id="hf-q3yg"><i data-hf-id="hf-vhv3" class="egg-bar bar-out"></i>Output</span>
+            <span data-hf-id="hf-en2s" class="egg-foot">Anthropic API list prices · Oct 2026</span>
+          </div>
+          <div data-hf-id="hf-s3rk" class="call"><span data-hf-id="hf-9ae8" class="egg-counter">Output costs <b data-hf-id="hf-qtid">5×</b> input</span></div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <div data-hf-id="hf-z992" class="head">
+              <span data-hf-id="hf-jhn3" class="egg-eyebrow">Price per 1 million tokens</span>
+              <h2 data-hf-id="hf-q9d8" class="egg-title">Same tokens, different prices</h2>
+            </div>
+            <p data-hf-id="hf-qqf3" class="egg-label">Writing costs more than reading.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-prices"] .s05');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelectorAll(".head > *"), 0.05);
+          Egg.fadeUp(tl, root.querySelectorAll(".row .top"), 0.6, { stagger: 0.15 });
+          Egg.bars(tl, root.querySelectorAll(".rows .bar-in"), 1.5, { stagger: 0.1 });
+          Egg.bars(tl, root.querySelectorAll(".rows .bar-out"), 2.3, { stagger: 0.15, dur: 0.9 });
+          Egg.fadeUp(tl, q(".key"), 3.1, { y: 12 });
+          tl.to(cam, { scale: 1.08, transformOrigin: "90px 900px", duration: 0.7, ease: Egg.EASE.move }, 3.8);
+          root.querySelectorAll(".price .o").forEach((o, i) => Egg.highlight(tl, o, 4.0 + i * 0.12));
+          Egg.pop(tl, q(".call .egg-counter"), 4.2);
+          tl.to(cam, { scale: 1, duration: 0.7, ease: Egg.EASE.move }, 5.6);
+          Egg.fadeUp(tl, q(".egg-label"), 6.0);
+          Egg.fadeOut(tl, [cam, q(".key"), q(".call"), q(".egg-safe")], 7.65);
+          window.__timelines["s05-prices"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

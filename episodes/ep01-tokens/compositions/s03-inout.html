@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.25},
+      {"t":0.7,"sfx":"typing","vol":0.3,"dur":0.8},
+      {"t":1.5,"sfx":"pop","vol":0.3},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.25},
+      {"t":3.0,"sfx":"sparkle","vol":0.22,"dur":1.2},
+      {"t":3.9,"sfx":"whoosh-short","vol":0.25},
+      {"t":4.0,"sfx":"pop","vol":0.3},
+      {"t":5.6,"sfx":"chime","vol":0.28,"dur":1.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Input and output. Prompt tokens fly into Spark (IN counter), answer tokens fly out to
+           the answer card (OUT counter). Layout is fixed so the flights never need measuring. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-safe { justify-content: space-between; }
+        .s03 .card-in { position: absolute; left: 90px; right: 130px; top: 300px; padding: 36px 44px; gap: 14px; }
+        .s03 .card-in .egg-mono { font-size: 34px; }
+        .s03 .card-in .egg-body { font-size: 30px; }
+        .s03 .cnt-in { position: absolute; left: 90px; top: 540px; }
+        .s03 .cnt-out { position: absolute; right: 130px; top: 900px; }
+        .s03 .spark { --s: 220px; position: absolute; left: 430px; top: 660px; }
+        .s03 .card-out { position: absolute; left: 90px; right: 130px; top: 1010px; padding: 36px 44px; gap: 14px; }
+        .s03 .card-out ul { margin: 0; padding-left: 34px; display: flex; flex-direction: column; gap: 8px; }
+        .s03 .card-out li { font: 400 34px/1.38 var(--f-body); color: var(--ink); }
+        .s03 .fly-in, .s03 .fly-out { position: absolute; inset: 0; pointer-events: none; }
+      </style>
+      <div data-hf-id="hf-ical" id="root" data-composition-id="s03-inout" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <div data-hf-id="hf-lju4" class="egg-card card-in">
+            <span data-hf-id="hf-4oyc" class="egg-card-kicker">You send</span>
+            <p data-hf-id="hf-17di" class="egg-mono t-in">Summarize this email in 3 bullets.</p>
+            <p data-hf-id="hf-6yid" class="egg-body">+ the long email you pasted below it</p>
+          </div>
+          <div data-hf-id="hf-o6dj" class="cnt-in"><span data-hf-id="hf-iynn" class="egg-counter">Input <b data-hf-id="hf-w4q1" class="n-in">0</b> tokens</span></div>
+          <div data-hf-id="hf-41mp" class="fly-in" data-layout-allow-overlap="">
+            <span data-hf-id="hf-gw7t" class="egg-chipfly" style="left:120px;top:470px">Summ</span>
+            <span data-hf-id="hf-zl3s" class="egg-chipfly" style="left:250px;top:470px">arize</span>
+            <span data-hf-id="hf-ts4f" class="egg-chipfly" style="left:380px;top:470px"> this</span>
+            <span data-hf-id="hf-kdee" class="egg-chipfly" style="left:510px;top:470px"> email</span>
+            <span data-hf-id="hf-mnsd" class="egg-chipfly" style="left:640px;top:470px"> in</span>
+            <span data-hf-id="hf-kj6b" class="egg-chipfly" style="left:770px;top:470px"> 3</span>
+          </div>
+          <div data-hf-id="hf-mk8n" class="spark"></div>
+          <div data-hf-id="hf-3xye" class="fly-out" data-layout-allow-overlap="">
+            <span data-hf-id="hf-nn8n" class="egg-chipfly" style="left:470px;top:820px">Meeting</span>
+            <span data-hf-id="hf-d3vl" class="egg-chipfly" style="left:470px;top:820px"> moved</span>
+            <span data-hf-id="hf-kfiv" class="egg-chipfly" style="left:470px;top:820px"> to</span>
+            <span data-hf-id="hf-tysh" class="egg-chipfly" style="left:470px;top:820px"> Friday</span>
+          </div>
+          <div data-hf-id="hf-wbtm" class="cnt-out"><span data-hf-id="hf-82po" class="egg-counter">Output <b data-hf-id="hf-hlje" class="n-out">0</b> tokens</span></div>
+          <div data-hf-id="hf-0y9f" class="egg-card card-out">
+            <span data-hf-id="hf-rs2v" class="egg-card-kicker">Claude writes</span>
+            <ul data-hf-id="hf-ovcc">
+              <li data-hf-id="hf-idqs">Meeting moved to Friday</li>
+              <li data-hf-id="hf-iwr5">Bring the Q3 numbers</li>
+              <li data-hf-id="hf-ul3b">Reply by Wednesday</li>
+            </ul>
+          </div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-biqg" class="egg-eyebrow">Input and output</span>
+            <p data-hf-id="hf-orcz" class="egg-label">Input is what you send. Output is what it writes back.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s03-inout"] .s03');
+          Egg.mountSparks(root);
+          const q = (s) => root.querySelector(s);
+          const spark = q(".spark");
+          const chipsIn = root.querySelectorAll(".fly-in .egg-chipfly");
+          const chipsOut = root.querySelectorAll(".fly-out .egg-chipfly");
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".card-in"), 0.3);
+          Egg.typeOn(tl, q(".t-in"), 0.7, { cps: 42 });
+          Egg.fadeUp(tl, q(".card-in .egg-body"), 1.4, { y: 14 });
+          Egg.pop(tl, spark, 1.1);
+          Egg.sparkIdle(tl, spark, 1.1, 9);
+          Egg.pop(tl, q(".cnt-in .egg-counter"), 1.5);
+
+          // input tokens pop out of the prompt and fly into Spark
+          Egg.pop(tl, chipsIn, 1.6, { stagger: 0.05, dur: 0.4 });
+          chipsIn.forEach((c, i) => {
+            const left = parseFloat(c.style.left);
+            tl.to(c, { x: 470 - left, y: 290, scale: 0.3, opacity: 0, duration: 0.7, ease: "power2.in" }, 2.0 + i * 0.1);
+          });
+          Egg.count(tl, q(".n-in"), 0, 1200, 2.0, { dur: 1.3 });
+          tl.fromTo(spark, { scale: 1 }, { scale: 1.08, duration: 0.25, yoyo: true, repeat: 3, ease: "sine.inOut" }, 2.6);
+          Egg.sparkMood(tl, spark, "explain", 3.0);
+
+          // output tokens stream out of Spark into the answer
+          Egg.pop(tl, q(".cnt-out .egg-counter"), 3.8);
+          const targets = [140, 330, 520, 640];
+          chipsOut.forEach((c, i) => {
+            const t = 4.0 + i * 0.15;
+            tl.fromTo(c, { scale: 0.3, opacity: 0, x: 0, y: 0 }, { scale: 1, opacity: 1, x: targets[i] - 470, y: 150, duration: 0.6, ease: "power2.out" }, t);
+            tl.to(c, { opacity: 0, duration: 0.25 }, 5.0 + i * 0.05);
+          });
+          Egg.count(tl, q(".n-out"), 0, 90, 4.0, { dur: 1.2 });
+          Egg.fadeUp(tl, q(".card-out"), 4.6);
+          Egg.fadeUp(tl, root.querySelectorAll(".card-out li"), 5.0, { y: 14, stagger: 0.15 });
+          Egg.sparkMood(tl, spark, "happy", 5.6);
+          Egg.fadeUp(tl, q(".egg-label"), 6.0);
+          Egg.fadeOut(tl, [q(".card-in"), q(".cnt-in"), spark, q(".cnt-out"), q(".card-out"), q(".egg-safe")], 7.65);
+          window.__timelines["s03-inout"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

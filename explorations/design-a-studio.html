@@ -1,0 +1,706 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Eggshell Studio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Inter+Tight:wght@300;400&family=Inter:wght@400;500;600&display=swap">
+<style>
+/* Layout: one calm editorial column on eggshell paper; taupe bands hold specimens; the only colour lives inside Spark and the product visuals. Single light theme by choice. */
+:root{
+  --eggshell:#fdfcfc; --taupe:#f5f3f1; --stone:#ebe8e4; --btn-border:#e5e5e5;
+  --ink:#000000; --graphite:#44403b; --smoke:#777169; --ash:#a59f97;
+  --violet:#0447ff; --ember:#ff4704; --blush:#ff7ac0;
+  --good:#157f3c; --good-tint:#e7f3eb; --bad:#b42318; --bad-tint:#fbe9e7;
+  --tag:#0447ff; --tag-on:#fdfcfc;
+  --f-display:'Inter Tight','Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-body:'Inter',ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --f-mono:'Geist Mono','JetBrains Mono',ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --shadow:rgba(0,0,0,.4) 0 0 1px 0,rgba(0,0,0,.04) 0 1px 1px 0,rgba(0,0,0,.04) 0 2px 4px 0;
+  --r-card:20px; --r-lg:24px;
+  color-scheme:light;
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:var(--eggshell);color:var(--ink)}
+body{margin:0;font:400 16px/1.5 var(--f-body);letter-spacing:.01em;-webkit-font-smoothing:antialiased}
+a{color:var(--ink)}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+
+/* ---------- edit tags (shared mechanism) ---------- */
+.tag-toggle{display:inline-flex;align-items:center;gap:8px;font:500 13px/1 var(--f-body);color:var(--ink);background:var(--eggshell);border:1px solid var(--btn-border);border-radius:9999px;padding:8px 14px;cursor:pointer;white-space:nowrap}
+.tag-toggle input{accent-color:var(--ink);margin:0}
+body:has(#show-tags:checked) [data-ref]{outline:1px dashed var(--tag);outline-offset:2px;position:relative}
+body:has(#show-tags:checked) .layer[data-ref]{position:absolute}
+body:has(#show-tags:checked) [data-ref]::before{content:attr(data-ref);position:absolute;top:-10px;left:-6px;z-index:50;font:600 10px/1 monospace;padding:3px 5px;border-radius:4px;background:var(--tag);color:var(--tag-on);pointer-events:none;letter-spacing:0}
+body:has(#show-tags:checked) .screen [data-ref]::before{top:2px;left:2px}
+
+/* ---------- page frame ---------- */
+.wrap{max-width:1200px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+.topbar{border-bottom:1px solid var(--stone)}
+.topbar .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:12px 24px;padding-block:14px}
+.back{font:500 14px/1 var(--f-body);text-decoration:none;border:1px solid var(--btn-border);border-radius:9999px;padding:8px 14px;white-space:nowrap}
+.back:hover{background:var(--taupe)}
+.tb-mid{flex:1 1 260px;min-width:0;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 12px}
+.tb-mid strong{font:500 15px/1.3 var(--f-body)}
+.tb-mid span{font-size:14px;color:var(--smoke)}
+
+.hero .wrap{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:32px;padding-block:72px 64px}
+.eyebrow{font:400 12px/1.4 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--smoke)}
+.hero h1{font:300 clamp(44px,8vw,88px)/1.02 var(--f-display);letter-spacing:-.02em;margin:12px 0 16px;text-wrap:balance}
+.hero p{font-size:20px;line-height:1.4;color:var(--smoke);max-width:34ch;margin:0 0 24px}
+.chips-row{display:flex;flex-wrap:wrap;gap:8px}
+.pill{font:500 13px/1 var(--f-body);border:1px solid var(--btn-border);border-radius:9999px;padding:8px 12px;background:var(--eggshell);color:var(--graphite)}
+.hero-spark{--s:clamp(120px,18vw,190px);margin-right:24px}
+
+section{border-top:1px solid var(--stone)}
+section > .wrap{padding-block:80px}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px 48px;align-items:end;margin-bottom:40px}
+.sec-head h2{font:300 clamp(32px,4.4vw,48px)/1.08 var(--f-display);letter-spacing:-.02em;margin:8px 0 0;text-wrap:balance}
+.sec-head p{margin:0;color:var(--smoke);max-width:52ch}
+.band{background:var(--taupe)}
+
+/* ---------- phone frames ---------- */
+.frames{display:flex;flex-wrap:wrap;gap:40px 48px;justify-content:center}
+.frame-fig{margin:0;width:min(340px,100%);display:flex;flex-direction:column;gap:14px}
+.phone{width:100%;aspect-ratio:9/16;max-width:100%;position:relative;border-radius:32px;background:var(--eggshell);border:1px solid var(--stone);box-shadow:var(--shadow),0 40px 60px -40px rgba(68,64,59,.45)}
+.screen{position:absolute;inset:0;border-radius:inherit;overflow:hidden;container-type:inline-size;background:var(--eggshell)}
+.frame-fig figcaption{font:400 12px/1.6 var(--f-mono);color:var(--smoke)}
+.frame-fig figcaption b{font-weight:500;color:var(--graphite)}
+
+/* ---------- Spark (character) ---------- */
+.spark{--s:120px;position:relative;width:var(--s);aspect-ratio:1;font-size:calc(var(--s) / 100);flex:none}
+.spark::after{content:"";position:absolute;left:20%;right:20%;bottom:-9%;height:7%;border-radius:50%;background:rgba(68,64,59,.14);filter:blur(2px)}
+.spark-body{position:absolute;inset:0;border-radius:50%;overflow:hidden;z-index:1;transform-origin:50% 100%;
+  background:
+    radial-gradient(circle at 33% 25%,rgba(255,255,255,.95) 0 5%,rgba(255,255,255,0) 24%),
+    radial-gradient(circle at 80% 82%,#ff4704 0 9%,rgba(255,71,4,0) 50%),
+    radial-gradient(circle at 16% 80%,#ff7ac0 0 8%,rgba(255,122,192,0) 46%),
+    radial-gradient(circle at 84% 16%,#0447ff 0 8%,rgba(4,71,255,0) 46%),
+    radial-gradient(circle at 50% 58%,rgba(255,221,200,.95) 0,rgba(255,221,200,0) 44%),
+    radial-gradient(circle at 50% 50%,#f1e8ff 0,#c6b4ff 58%,#957dff 100%);
+  box-shadow:inset 0 -6em 14em -6em rgba(68,40,120,.18),0 10em 30em -12em rgba(4,71,255,.35),0 14em 30em -14em rgba(255,71,4,.4);
+  animation:breathe 3.4s cubic-bezier(.65,0,.35,1) infinite}
+.spark-body::after{content:"";position:absolute;inset:-25%;background:conic-gradient(from 0deg,rgba(4,71,255,.35),rgba(255,71,4,.3),rgba(255,122,192,.35),rgba(4,71,255,.35));filter:blur(10px);mix-blend-mode:soft-light;animation:swirl 9s linear infinite}
+.face{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.face .fill,.face ellipse,.face circle{fill:var(--ink)}
+.face .glint{fill:var(--eggshell)}
+.face .tongue{fill:#ff7ac0}
+.face .ink-line{fill:none;stroke:var(--ink);stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.face .eyes{transform-box:fill-box;transform-origin:center;animation:blink 4.8s infinite}
+.s-confused .spark-body{animation:sway 3s cubic-bezier(.65,0,.35,1) infinite}
+.s-happy .spark-body{animation:hop 1.2s cubic-bezier(.5,0,.5,1) infinite}
+.s-explain .spark-body{animation:tilt 3.2s cubic-bezier(.65,0,.35,1) infinite}
+.qmark{position:absolute;right:-22em;top:-20em;font:300 46em/1 var(--f-display);color:var(--ink);animation:bob 2.2s ease-in-out infinite;z-index:3}
+.halo{position:absolute;inset:-22em;border-radius:50%;background:radial-gradient(circle,rgba(255,122,192,.5) 0,rgba(4,71,255,.18) 42%,rgba(253,252,252,0) 68%);filter:blur(4px);animation:halo 2.4s ease-in-out infinite;z-index:0}
+.twinkle{position:absolute;width:16em;height:16em;fill:var(--ink);z-index:3;animation:twinkle 1.6s ease-in-out infinite}
+.twinkle.t1{left:-18em;top:-6em}
+.twinkle.t2{right:-16em;top:-14em;width:11em;height:11em;animation-delay:-.5s}
+.twinkle.t3{right:-22em;top:56em;width:9em;height:9em;animation-delay:-1s}
+.arm{position:absolute;left:94em;top:46em;width:36em;height:2.8em;background:var(--ink);border-radius:2em;transform-origin:0 50%;transform:rotate(-26deg);animation:point 1.8s cubic-bezier(.65,0,.35,1) infinite;z-index:0}
+.arm::after{content:"";position:absolute;right:-3.5em;top:50%;width:8em;height:8em;margin-top:-4em;border-radius:50%;background:var(--ink)}
+.note{position:absolute;left:134em;top:-2em;font:500 12em/1 var(--f-body);white-space:nowrap;background:var(--eggshell);border:1px solid var(--btn-border);border-radius:9999px;padding:.55em .9em;box-shadow:var(--shadow)}
+
+@keyframes breathe{0%,100%{transform:scale(1,1)}50%{transform:scale(1.035,.965)}}
+@keyframes swirl{to{transform:rotate(360deg)}}
+@keyframes blink{0%,91%,97%,100%{transform:scaleY(1)}94%{transform:scaleY(.08)}}
+@keyframes sway{0%,100%{transform:rotate(-11deg) scale(1,1)}50%{transform:rotate(-4deg) scale(1.03,.97)}}
+@keyframes hop{0%,100%{transform:translateY(0) scale(1.07,.93)}30%{transform:translateY(-12%) scale(.95,1.06)}52%{transform:translateY(-16%) scale(1,1)}80%{transform:translateY(0) scale(1.05,.95)}}
+@keyframes tilt{0%,100%{transform:rotate(6deg)}50%{transform:rotate(2deg) scale(1.02,.98)}}
+@keyframes bob{0%,100%{transform:translateY(0) rotate(8deg)}50%{transform:translateY(-6%) rotate(14deg)}}
+@keyframes halo{0%,100%{transform:scale(.92);opacity:.7}50%{transform:scale(1.06);opacity:1}}
+@keyframes twinkle{0%,100%{transform:scale(.4) rotate(0);opacity:.3}50%{transform:scale(1) rotate(45deg);opacity:1}}
+@keyframes point{0%,100%{transform:rotate(-26deg)}50%{transform:rotate(-18deg) translateX(2em)}}
+
+/* ---------- video components (sized in cqw so they match 1080x1920 proportions) ---------- */
+.canvas{container-type:inline-size;width:min(100%,380px);margin-inline:auto}
+.pcard{background:var(--eggshell);border:1px solid var(--stone);border-radius:4.5cqw;padding:3.6cqw 4cqw;box-shadow:var(--shadow)}
+.pc-top{display:flex;align-items:center;justify-content:space-between;gap:2cqw}
+.pc-eyebrow{font:400 2.4cqw/1 var(--f-mono);text-transform:uppercase;letter-spacing:.08em;color:var(--ash)}
+.ptext{font:400 3.2cqw/1.55 var(--f-mono);color:var(--ink);margin:2.2cqw 0 0;letter-spacing:0}
+.tl{display:inline-block;overflow:hidden;white-space:nowrap;vertical-align:bottom;width:var(--w)}
+.tl.blk{display:block}
+.caret{display:inline-block;width:.55em;height:1.2em;background:var(--ink);vertical-align:-.22em;margin-left:.08em;animation:caretBlink .9s steps(1) infinite}
+.caret-wrap{display:inline-block}
+@keyframes caretBlink{50%{opacity:0}}
+
+.stamp{display:inline-flex;align-items:center;gap:.45em;font:500 2.6cqw/1 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;padding:1.3cqw 2.3cqw;border-radius:9999px;border:.45cqw solid currentColor;white-space:nowrap}
+.stamp.bad{color:var(--bad);background:var(--bad-tint)}
+.stamp.good{color:var(--good);background:var(--good-tint)}
+
+.result{background:var(--eggshell);border:1px solid var(--stone);border-radius:4cqw;padding:3cqw;box-shadow:var(--shadow)}
+.r-title{font:500 2.6cqw/1.2 var(--f-body);color:var(--graphite)}
+.result.weak{background:var(--taupe);box-shadow:none}
+.bars{display:flex;align-items:flex-end;gap:2cqw;height:13cqw;margin:2.4cqw 0;padding:0 2cqw;border-bottom:1px solid var(--stone)}
+.bars i{flex:1;background:var(--stone);border-radius:1cqw 1cqw 0 0}
+.r-note{font:400 2.4cqw/1.3 var(--f-mono);color:var(--ash)}
+.r-head{display:flex;align-items:center;justify-content:space-between;gap:1.5cqw}
+.r-chips{display:flex;gap:.8cqw}
+.r-chips i{font:500 1.9cqw/1 var(--f-mono);font-style:normal;padding:.7cqw 1.3cqw;border-radius:9999px;border:1px solid var(--stone);color:var(--smoke)}
+.r-chips i.on{background:var(--ink);border-color:var(--ink);color:var(--eggshell)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:1.6cqw;margin:2.4cqw 0}
+.kpi{background:var(--taupe);border-radius:2.4cqw;padding:1.8cqw}
+.kpi b{display:block;font:400 3.8cqw/1 var(--f-display);letter-spacing:-.02em;color:var(--ink);font-variant-numeric:tabular-nums}
+.kpi span{font:400 1.9cqw/1.3 var(--f-body);color:var(--smoke)}
+.chart{display:block;width:100%;height:auto}
+.chart .grid{stroke:var(--stone);stroke-width:.5;fill:none}
+.chart .area{fill:url(#areaGrad)}
+.chart .line{fill:none;stroke:var(--ink);stroke-width:1.2;stroke-linejoin:round;stroke-linecap:round}
+
+.titlecard{background:var(--taupe);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2.6cqw;text-align:center;padding:8cqw}
+.tc-eyebrow{font:400 2.8cqw/1 var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--smoke)}
+.titlecard h4{font:300 13cqw/1 var(--f-display);letter-spacing:-.02em;margin:0;color:var(--ink)}
+.titlecard p{font:400 3.8cqw/1.4 var(--f-body);color:var(--smoke);margin:0}
+.titlecard.inline{border-radius:5cqw;aspect-ratio:4/3}
+
+.capbar{display:inline-block;background:var(--ink);color:var(--eggshell);font:500 3.9cqw/1.3 var(--f-body);padding:1.8cqw 3.4cqw;border-radius:2.6cqw;letter-spacing:0}
+.capbar .w{color:var(--ash);animation:word 3.6s infinite both}
+
+.stepdots{display:flex;justify-content:center;gap:1.6cqw}
+.stepdots i{width:1.8cqw;height:1.8cqw;border-radius:9999px;background:var(--stone);position:relative;overflow:hidden}
+.stepdots i.done{background:var(--ink)}
+.stepdots i.on{width:7cqw;background:var(--stone)}
+.stepdots i.on::after{content:"";position:absolute;inset:0;background:var(--ink);transform-origin:0 50%;animation:fillStep 3s linear infinite}
+@keyframes fillStep{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+
+.btn{display:inline-flex;align-items:center;justify-content:center;font:500 3.4cqw/1 var(--f-body);padding:2.4cqw 4.4cqw;border-radius:9999px;border:1px solid var(--btn-border);white-space:nowrap}
+.btn.fill{background:var(--ink);color:var(--eggshell)}
+.btn.outline{background:var(--eggshell);color:var(--ink)}
+
+/* ---------- LIVE sample: 14s loop (1s = 7.143%) ---------- */
+.layer{position:absolute}
+.live .prog{top:4.5cqw;left:7cqw;right:7cqw;height:.9cqw;background:var(--stone);border-radius:1cqw;overflow:hidden;z-index:6}
+.live .prog i{display:block;height:100%;width:100%;background:var(--ink);animation:prog 14s linear infinite}
+.live .dots{top:8cqw;left:0;right:0;z-index:6}
+.live .cam{inset:0;transform-origin:50% 24%;animation:cam 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .hook{left:8cqw;right:8cqw;top:60cqw;margin:0;text-align:center;font:300 11cqw/1.06 var(--f-display);letter-spacing:-.02em;opacity:0;animation:hook 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .pos-bad{top:20cqw;left:7cqw;right:7cqw;opacity:0;animation:badCard 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .t-bad{--w:29ch;animation:typeBad 14s infinite}
+.live .pos-conf{top:58cqw;left:9cqw;--s:28cqw;opacity:0;animation:popConf 14s cubic-bezier(.34,1.56,.64,1) infinite}
+.live .pos-weak{top:56cqw;right:7cqw;width:44cqw;opacity:0;animation:weak 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .pos-stampbad{top:51cqw;right:4cqw;font-size:3.4cqw;opacity:0;animation:stampBad 14s infinite}
+.live .titlecard{inset:0;z-index:4;clip-path:inset(0 0 100% 0);animation:wipe 14s infinite}
+.live .titlecard h4{animation:punch 14s infinite}
+.live .pos-good{top:18cqw;left:7cqw;right:7cqw;animation:goodCard 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .l1{--w:30ch;animation:gl1 14s infinite}
+.live .l2{--w:33ch;animation:gl2 14s infinite}
+.live .l3{--w:39ch;animation:gl3 14s infinite}
+.live .l4{--w:37ch;animation:gl4 14s infinite}
+.live .l5{--w:15ch;animation:gl5 14s infinite}
+.live .cw-good{animation:cwGood 14s infinite}
+.live .pos-happy{top:78cqw;left:9cqw;--s:27cqw;animation:popHappy 14s infinite}
+.live .pos-rich{top:70cqw;right:6cqw;width:50cqw;animation:rich 14s cubic-bezier(.16,1,.3,1) infinite}
+.live .kpi{animation:kpi 14s infinite both}
+.live .kpi:nth-child(2){animation-delay:.15s}
+.live .kpi:nth-child(3){animation-delay:.3s}
+.live .chart .line{stroke-dasharray:100;animation:draw 14s infinite}
+.live .pos-stampgood{top:65cqw;right:3cqw;font-size:3.4cqw;transform:rotate(6deg);animation:stampGood 14s infinite}
+.live .caps{left:6cqw;right:6cqw;bottom:9cqw;height:14cqw;z-index:6}
+.live .cap{position:absolute;left:0;right:0;bottom:0;text-align:center;opacity:0}
+.live .c1{animation:cap1 14s infinite}
+.live .c2{animation:cap2 14s infinite}
+.live .c3{animation:cap3 14s infinite}
+.live .c4{animation:cap4 14s infinite}
+.live .c5{opacity:1;animation:cap5 14s infinite}
+
+@keyframes prog{from{width:0}to{width:100%}}
+@keyframes cam{0%,17.9%{transform:scale(1)}20.5%,26%{transform:scale(1.07)}29%,55.5%{transform:scale(1)}59%,71%{transform:scale(1.1)}75%,100%{transform:scale(1)}}
+@keyframes hook{0%{opacity:0;transform:scale(1.14);filter:blur(6px)}3.6%,12.9%{opacity:1;transform:scale(1);filter:blur(0)}15%,100%{opacity:0;transform:scale(.96);filter:blur(0)}}
+@keyframes badCard{0%,15%{opacity:0;transform:translateY(4cqw)}17.9%,42.1%{opacity:1;transform:none}44.3%,100%{opacity:0;transform:translateY(-3cqw)}}
+@keyframes typeBad{0%,17.9%{width:0;animation-timing-function:steps(29,end)}25.7%,100%{width:29ch}}
+@keyframes popConf{0%,26.4%{opacity:0;transform:scale(.3)}28.8%{opacity:1;transform:scale(1)}42.1%{opacity:1;transform:scale(1)}44.3%,100%{opacity:0;transform:scale(.85)}}
+@keyframes weak{0%,28.6%{opacity:0;transform:translateY(3cqw)}31%,42.1%{opacity:1;transform:none}44.3%,100%{opacity:0;transform:none}}
+@keyframes stampBad{0%,35.7%{opacity:0;transform:rotate(-8deg) scale(1.9);animation-timing-function:cubic-bezier(.2,1.4,.4,1)}37.6%,42.1%{opacity:1;transform:rotate(-8deg) scale(1)}44.3%,100%{opacity:0;transform:rotate(-8deg) scale(1)}}
+@keyframes wipe{0%,42.9%{clip-path:inset(100% 0 0 0);animation-timing-function:cubic-bezier(.65,0,.35,1)}45.4%,52.1%{clip-path:inset(0 0 0 0);animation-timing-function:cubic-bezier(.65,0,.35,1)}54.6%,100%{clip-path:inset(0 0 100% 0)}}
+@keyframes punch{0%,44.2%{transform:scale(1.35);opacity:0;animation-timing-function:cubic-bezier(.16,1,.3,1)}47%,100%{transform:scale(1);opacity:1}}
+@keyframes goodCard{0%,53.6%{opacity:0;transform:translateY(4cqw)}55.7%,94.3%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes gl1{0%,55.7%{width:0;animation-timing-function:steps(30,end)}58.6%,100%{width:30ch}}
+@keyframes gl2{0%,58.6%{width:0;animation-timing-function:steps(33,end)}61.8%,100%{width:33ch}}
+@keyframes gl3{0%,61.8%{width:0;animation-timing-function:steps(39,end)}65.5%,100%{width:39ch}}
+@keyframes gl4{0%,65.5%{width:0;animation-timing-function:steps(37,end)}69%,100%{width:37ch}}
+@keyframes gl5{0%,69%{width:0;animation-timing-function:steps(15,end)}70.7%,100%{width:15ch}}
+@keyframes cwGood{0%,68.9%{opacity:0}69%,100%{opacity:1}}
+@keyframes popHappy{0%,74.3%{opacity:0;transform:scale(.3);animation-timing-function:cubic-bezier(.34,1.56,.64,1)}76.4%,94.3%{opacity:1;transform:scale(1)}97%,100%{opacity:0;transform:scale(1)}}
+@keyframes rich{0%,75.7%{opacity:0;transform:translateY(4cqw) scale(.96)}78.2%,94.3%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+@keyframes kpi{0%,78%{opacity:0;transform:scale(.6);animation-timing-function:cubic-bezier(.34,1.56,.64,1)}80.5%,100%{opacity:1;transform:scale(1)}}
+@keyframes draw{0%,80.5%{stroke-dashoffset:100;animation-timing-function:cubic-bezier(.65,0,.35,1)}86.5%,100%{stroke-dashoffset:0}}
+@keyframes stampGood{0%,85.7%{opacity:0;transform:rotate(6deg) scale(1.9);animation-timing-function:cubic-bezier(.2,1.4,.4,1)}87.6%,94.3%{opacity:1;transform:rotate(6deg) scale(1)}97%,100%{opacity:0;transform:rotate(6deg) scale(1)}}
+@keyframes cap1{0%{opacity:0;transform:translateY(1.5cqw)}1.6%,13.8%{opacity:1;transform:none}15%,100%{opacity:0;transform:none}}
+@keyframes cap2{0%,15%{opacity:0;transform:translateY(1.5cqw)}16.6%,41.8%{opacity:1;transform:none}42.9%,100%{opacity:0;transform:none}}
+@keyframes cap3{0%,42.9%{opacity:0;transform:translateY(1.5cqw)}44.5%,52.5%{opacity:1;transform:none}53.6%,100%{opacity:0;transform:none}}
+@keyframes cap4{0%,53.6%{opacity:0;transform:translateY(1.5cqw)}55.2%,73.2%{opacity:1;transform:none}74.3%,100%{opacity:0;transform:none}}
+@keyframes cap5{0%,74.3%{opacity:0;transform:translateY(1.5cqw)}75.9%,95.5%{opacity:1;transform:none}97%,100%{opacity:0;transform:none}}
+
+/* ---------- static before/after frame ---------- */
+.static{display:flex;flex-direction:column;padding:7cqw 6cqw 6cqw;gap:3cqw}
+.st-head{display:flex;align-items:baseline;justify-content:space-between;gap:2cqw}
+.st-head .tc-eyebrow{font-size:2.5cqw}
+.st-title{font:300 6.4cqw/1 var(--f-display);letter-spacing:-.02em}
+.half{display:flex;flex-direction:column;gap:2.4cqw}
+.half-label{align-self:flex-start;font:500 2.6cqw/1 var(--f-body);padding:1.3cqw 2.6cqw;border-radius:9999px;border:1px solid var(--btn-border)}
+.half.after .half-label{background:var(--ink);color:var(--eggshell);border-color:var(--ink)}
+.half .row{display:flex;align-items:center;gap:4cqw}
+.half .row .result{flex:1;min-width:0}
+.half .ptext{font-size:2.9cqw}
+.vs{display:flex;align-items:center;gap:2.4cqw;font:400 2.4cqw/1 var(--f-mono);color:var(--ash);text-transform:uppercase;letter-spacing:.1em}
+.vs::before,.vs::after{content:"";flex:1;height:1px;background:var(--stone)}
+
+/* ---------- character sheet ---------- */
+.char-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:16px}
+.pose-card{background:var(--eggshell);border-radius:var(--r-card);overflow:hidden;border:1px solid var(--stone);display:flex;flex-direction:column}
+.pose-stage{height:220px;display:flex;align-items:center;justify-content:center;background:var(--taupe);position:relative}
+.pose-stage .spark{--s:112px}
+.pose-stage .s-explain{margin-right:96px}
+.pose-meta{padding:18px 20px 22px;display:flex;flex-direction:column;gap:6px}
+.pose-meta h3{font:300 26px/1.1 var(--f-display);letter-spacing:-.02em;margin:0}
+.pose-meta p{margin:0;font-size:14px;color:var(--smoke)}
+.persona{display:grid;grid-template-columns:auto minmax(0,1fr);gap:24px;align-items:center;background:var(--taupe);border-radius:var(--r-lg);padding:28px 32px;margin-bottom:24px}
+.persona .spark{--s:84px}
+.persona h3{font:300 32px/1.1 var(--f-display);letter-spacing:-.02em;margin:0 0 6px}
+.persona p{margin:0;color:var(--graphite);max-width:60ch}
+
+/* ---------- swatches ---------- */
+.swatches{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
+.swatch{display:flex;flex-direction:column;gap:8px;min-width:0}
+.chip{height:84px;border-radius:16px;box-shadow:rgba(0,0,0,.08) 0 0 0 1px inset}
+.swatch b{font:500 14px/1.2 var(--f-body)}
+.swatch code{font:400 12px/1 var(--f-mono);color:var(--graphite)}
+.swatch span{font-size:13px;line-height:1.4;color:var(--smoke)}
+.chip.spark-chip{background:radial-gradient(circle at 30% 30%,#fff 0,rgba(255,255,255,0) 30%),radial-gradient(circle at 80% 80%,#ff4704,rgba(255,71,4,0) 60%),radial-gradient(circle at 80% 15%,#0447ff,rgba(4,71,255,0) 55%),#c6b4ff}
+.swatch-note{margin:24px 0 0;font-size:14px;color:var(--smoke)}
+
+/* ---------- type ---------- */
+.type-list{display:flex;flex-direction:column}
+.type-row{display:grid;grid-template-columns:260px minmax(0,1fr);gap:16px 40px;align-items:baseline;padding-block:24px;border-top:1px solid var(--stone)}
+.type-row:last-child{border-bottom:1px solid var(--stone)}
+.type-spec{font:400 12px/1.7 var(--f-mono);color:var(--smoke)}
+.type-spec b{display:block;font:500 13px/1.4 var(--f-body);color:var(--ink);letter-spacing:.01em;margin-bottom:2px}
+.ts-display{font:300 56px/1.04 var(--f-display);letter-spacing:-.02em;text-wrap:balance}
+.ts-title{font:300 36px/1.1 var(--f-display);letter-spacing:-.02em}
+.ts-body{font:400 19px/1.45 var(--f-body);color:var(--graphite);max-width:46ch}
+.ts-cap{justify-self:start;font:500 17px/1.3 var(--f-body);background:var(--ink);color:var(--eggshell);padding:8px 14px;border-radius:11px}
+.ts-mono{font:400 13px/1.4 var(--f-mono);text-transform:uppercase;letter-spacing:.1em;color:var(--smoke)}
+.ts-prompt{font:400 15px/1.55 var(--f-mono)}
+
+/* ---------- components ---------- */
+.comp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.comp{background:var(--taupe);border-radius:var(--r-lg);padding:24px;display:flex;flex-direction:column;gap:20px;min-width:0}
+.comp-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+.comp-head b{font:500 15px/1.3 var(--f-body)}
+.comp-head span{font:400 12px/1.4 var(--f-mono);color:var(--smoke)}
+.comp-demo{flex:1;display:flex;align-items:center;justify-content:center;min-height:160px}
+.verdicts{display:flex;gap:4cqw;justify-content:center;flex-wrap:wrap}
+.verdicts .stamp{font-size:3.6cqw}
+.kw-text{font:400 4.2cqw/1.6 var(--f-body);color:var(--graphite);margin:0}
+.kw{position:relative;color:var(--ink);font-weight:500;white-space:nowrap;background:linear-gradient(var(--stone),var(--stone)) no-repeat 0 88%/100% 42%;animation:hl 3.6s cubic-bezier(.65,0,.35,1) infinite}
+.kw svg{position:absolute;left:-2%;bottom:-.42em;width:104%;height:.45em;overflow:visible}
+.kw path{fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round;stroke-dasharray:100;animation:scribble 3.6s cubic-bezier(.65,0,.35,1) infinite}
+.kw-tag{display:inline-block;font:500 2.4cqw/1 var(--f-mono);letter-spacing:.1em;background:var(--ink);color:var(--eggshell);padding:1cqw 1.6cqw;border-radius:9999px;margin-bottom:2.4cqw}
+@keyframes hl{0%,8%{background-size:0% 42%}36%,86%{background-size:100% 42%}100%{background-size:0% 42%}}
+@keyframes scribble{0%,30%{stroke-dashoffset:100}52%,86%{stroke-dashoffset:0}100%{stroke-dashoffset:-100}}
+@keyframes word{0%{color:var(--ash)}6%,74%{color:var(--eggshell)}84%,100%{color:var(--ash)}}
+.dots-demo{display:flex;flex-direction:column;gap:2.6cqw;align-items:center;width:100%}
+.dot-labels{display:flex;justify-content:center;gap:2.4cqw;font:400 2.3cqw/1 var(--f-mono);color:var(--ash);text-transform:uppercase;letter-spacing:.06em;flex-wrap:wrap}
+.dot-labels .on{color:var(--ink)}
+.endcard{background:var(--eggshell);border-radius:5cqw;border:1px solid var(--stone);padding:7cqw 6cqw;display:flex;flex-direction:column;align-items:center;gap:3cqw;text-align:center}
+.endcard .spark{--s:20cqw;margin-bottom:2cqw}
+.endcard h4{font:300 7.4cqw/1.08 var(--f-display);letter-spacing:-.02em;margin:0}
+.endcard p{margin:0;font:400 3.6cqw/1.4 var(--f-body);color:var(--smoke)}
+.endcard .btns{display:flex;gap:2cqw;flex-wrap:wrap;justify-content:center;margin-top:1cqw}
+.handle{font:400 2.6cqw/1 var(--f-mono);color:var(--ash);letter-spacing:.04em}
+
+/* ---------- motion tiles ---------- */
+.motion-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr));gap:16px}
+.mtile{border:1px solid var(--stone);border-radius:var(--r-card);overflow:hidden;display:flex;flex-direction:column;background:var(--eggshell)}
+.mdemo{height:170px;background:var(--taupe);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.mmeta{padding:16px 20px 20px;display:flex;flex-direction:column;gap:10px}
+.mmeta h3{font:300 24px/1.1 var(--f-display);letter-spacing:-.02em;margin:0}
+.mspecs{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font:400 12px/1.5 var(--f-mono)}
+.mspecs dt{color:var(--ash);text-transform:uppercase;letter-spacing:.06em}
+.mspecs dd{margin:0;color:var(--graphite)}
+.m-type{font:400 20px/1 var(--f-mono);background:var(--eggshell);border:1px solid var(--stone);border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+.m-type .tl{--w:12ch;animation:mType 3.2s infinite}
+@keyframes mType{0%{width:0;animation-timing-function:steps(12,end)}40%,82%{width:12ch;animation-timing-function:steps(12,end)}100%{width:0}}
+.m-pop{font:500 15px/1 var(--f-mono);text-transform:uppercase;letter-spacing:.06em;color:var(--good);background:var(--good-tint);border:2px solid currentColor;border-radius:9999px;padding:10px 16px;animation:mPop 2.4s infinite}
+@keyframes mPop{0%,10%{transform:scale(0);opacity:0;animation-timing-function:cubic-bezier(.34,1.56,.64,1)}28%,80%{transform:scale(1);opacity:1}92%,100%{transform:scale(.9);opacity:0}}
+.m-zoom{font:300 54px/1 var(--f-display);letter-spacing:-.02em;animation:mZoom 2.6s infinite}
+@keyframes mZoom{0%,8%{transform:scale(1.7);opacity:0;filter:blur(5px);animation-timing-function:cubic-bezier(.16,1,.3,1)}30%,82%{transform:scale(1);opacity:1;filter:blur(0)}100%{transform:scale(1);opacity:0;filter:blur(0)}}
+.m-wipe{position:absolute;inset:0;background:var(--ink);color:var(--eggshell);display:flex;align-items:center;justify-content:center;font:300 34px/1 var(--f-display);letter-spacing:-.02em;animation:mWipe 3s infinite}
+.m-under{font:400 13px/1 var(--f-mono);color:var(--ash);text-transform:uppercase;letter-spacing:.1em}
+@keyframes mWipe{0%,12%{clip-path:inset(100% 0 0 0);animation-timing-function:cubic-bezier(.65,0,.35,1)}36%,78%{clip-path:inset(0 0 0 0);animation-timing-function:cubic-bezier(.65,0,.35,1)}100%{clip-path:inset(0 0 100% 0)}}
+.m-stampcard{position:relative;background:var(--eggshell);border:1px solid var(--stone);border-radius:14px;padding:18px 20px;font:400 14px/1.4 var(--f-mono);animation:mShake 2.6s infinite}
+.m-stampcard .stamp{position:absolute;right:-18px;top:-16px;font-size:13px;padding:7px 11px;border-width:2px;animation:mStamp 2.6s infinite}
+@keyframes mStamp{0%,20%{opacity:0;transform:rotate(-14deg) scale(2.2);animation-timing-function:cubic-bezier(.2,1.4,.4,1)}32%,85%{opacity:1;transform:rotate(-8deg) scale(1)}100%{opacity:0;transform:rotate(-8deg) scale(1)}}
+@keyframes mShake{0%,31%,40%,100%{transform:none}33%{transform:translate(2px,-1px)}35%{transform:translate(-2px,1px)}37%{transform:translate(1px,0)}}
+.m-react{--s:64px}
+.m-react .spark-body{animation:mHop 1.6s cubic-bezier(.5,0,.5,1) infinite}
+@keyframes mHop{0%,100%{transform:translateY(0) scale(1.1,.9)}35%{transform:translateY(-34%) scale(.93,1.08)}55%{transform:translateY(-42%) scale(1,1)}80%{transform:translateY(0) scale(1.12,.88)}90%{transform:translateY(0) scale(.98,1.02)}}
+
+footer{border-top:1px solid var(--stone)}
+footer .wrap{padding-block:32px 48px;display:flex;flex-wrap:wrap;gap:8px 24px;justify-content:space-between;font-size:14px;color:var(--smoke)}
+
+@media (max-width:900px){
+  .swatches{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .sec-head{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:700px){
+  .hero .wrap{grid-template-columns:minmax(0,1fr);padding-block:48px}
+  .hero-spark{margin:0;order:-1}
+  .type-row{grid-template-columns:minmax(0,1fr)}
+  .ts-display{font-size:40px}
+  section > .wrap{padding-block:56px}
+  .persona{grid-template-columns:minmax(0,1fr);padding:24px}
+}
+@media (max-width:520px){
+  .swatches{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0447ff" stop-opacity=".28"/>
+      <stop offset=".6" stop-color="#ff4704" stop-opacity=".12"/>
+      <stop offset="1" stop-color="#ff4704" stop-opacity="0"/>
+    </linearGradient>
+    <path id="star4" d="M8 0 L10 6 L16 8 L10 10 L8 16 L6 10 L0 8 L6 6 Z"/>
+  </defs>
+</svg>
+
+<header class="topbar">
+  <div class="wrap">
+    <a class="back" href="index.html">&larr; All designs</a>
+    <div class="tb-mid"><strong>Design A &middot; Eggshell Studio</strong><span>Warm paper, black ink, one living spark.</span></div>
+    <label class="tag-toggle"><input type="checkbox" id="show-tags"> Show edit tags</label>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow">Design A of 3 &middot; for 60-second AI shorts</span>
+        <h1 data-ref="A-01">Eggshell Studio</h1>
+        <p>A Bauhaus notebook on cream paper. Whisper-weight headlines, black ink, and colour only where something comes alive.</p>
+        <div class="chips-row">
+          <span class="pill">Light theme</span>
+          <span class="pill">1080 &times; 1920 vertical</span>
+          <span class="pill">Mascot: Spark</span>
+        </div>
+      </div>
+      <div class="spark s-neutral hero-spark" data-ref="A-02">
+        <div class="spark-body">
+          <svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="46" rx="3.6" ry="5.4"/><ellipse cx="61" cy="46" rx="3.6" ry="5.4"/><circle class="glint" cx="40.2" cy="43.6" r="1.1"/><circle class="glint" cx="62.2" cy="43.6" r="1.1"/></g><path class="ink-line" d="M43 61 Q50 67 57 61"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== LIVE SAMPLE ===================== -->
+  <section class="band" aria-labelledby="h-sample">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Live sample</span><h2 id="h-sample">Tip 1 of 5, in motion</h2></div>
+        <p>A 14-second slice of the prompting short, looping. A vague prompt gets a weak result, the tip card wipes in, the better prompt types on, and Spark lights up.</p>
+      </header>
+      <div class="frames">
+        <figure class="frame-fig">
+          <div class="phone" data-ref="A-03">
+            <div class="screen live">
+              <div class="prog layer" data-ref="A-04"><i></i></div>
+              <div class="dots stepdots layer" data-ref="A-05"><i class="on"></i><i></i><i></i><i></i><i></i></div>
+              <div class="cam layer">
+                <h3 class="hook layer" data-ref="A-06">Your prompt is the problem.</h3>
+
+                <div class="pcard pos-bad layer" data-ref="A-07">
+                  <div class="pc-top"><span class="pc-eyebrow">Your prompt</span></div>
+                  <p class="ptext"><span class="tl t-bad">Create an analytics dashboard</span><i class="caret"></i></p>
+                </div>
+
+                <div class="spark s-confused pos-conf layer" data-ref="A-08">
+                  <div class="spark-body">
+                    <svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="47" rx="3.6" ry="5.4"/><circle cx="61" cy="47" r="3"/><circle class="glint" cx="40.2" cy="44.6" r="1.1"/></g><path class="ink-line" d="M32 36.5 L44 39.5"/><path class="ink-line" d="M55 37 Q61 32.5 67.5 35.5"/><path class="ink-line" d="M41 63 q4.5 -3.5 9 0 t9 0"/></svg>
+                  </div>
+                  <span class="qmark" aria-hidden="true">?</span>
+                </div>
+
+                <div class="result weak pos-weak layer" data-ref="A-09">
+                  <span class="r-title">Dashboard</span>
+                  <div class="bars"><i style="height:40%"></i><i style="height:62%"></i><i style="height:30%"></i></div>
+                  <span class="r-note">One basic chart.</span>
+                </div>
+
+                <span class="stamp bad pos-stampbad layer" data-ref="A-10">&#x2717; Vague</span>
+
+                <div class="titlecard layer" data-ref="A-11">
+                  <span class="tc-eyebrow">Tip 1 / 5</span>
+                  <h4>Be specific</h4>
+                  <p>Say exactly what you want.</p>
+                </div>
+
+                <div class="pcard pos-good layer" data-ref="A-12">
+                  <div class="pc-top"><span class="pc-eyebrow">Better prompt</span></div>
+                  <p class="ptext"><span class="tl blk l1">Create an analytics dashboard.</span><span class="tl blk l2">Include as many relevant features</span><span class="tl blk l3">and interactions as possible. Go beyond</span><span class="tl blk l4">the basics to create a fully-featured</span><span class="tl l5">implementation.</span><span class="caret-wrap cw-good"><i class="caret"></i></span></p>
+                </div>
+
+                <div class="spark s-happy pos-happy layer" data-ref="A-13">
+                  <i class="halo"></i>
+                  <div class="spark-body">
+                    <svg class="face" viewBox="0 0 100 100" aria-hidden="true"><path class="ink-line" d="M33 48 Q39 40.5 45 48"/><path class="ink-line" d="M55 48 Q61 40.5 67 48"/><path class="fill" d="M40 57 Q50 58 60 57 Q59 70 50 70 Q41 70 40 57 Z"/><path class="tongue" d="M44.5 65.5 Q50 62.5 55.5 65.5 Q53.5 69.6 50 69.7 Q46.5 69.6 44.5 65.5 Z"/></svg>
+                  </div>
+                  <svg class="twinkle t1" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg>
+                  <svg class="twinkle t2" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg>
+                  <svg class="twinkle t3" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg>
+                </div>
+
+                <div class="result pos-rich layer" data-ref="A-14">
+                  <div class="r-head"><span class="r-title">Revenue overview</span><span class="r-chips"><i class="on">7d</i><i>30d</i><i>90d</i></span></div>
+                  <div class="kpis"><div class="kpi"><b>12.4k</b><span>Visitors</span></div><div class="kpi"><b>3.2%</b><span>Converted</span></div><div class="kpi"><b>$48k</b><span>Revenue</span></div></div>
+                  <svg class="chart" viewBox="0 0 100 40" aria-hidden="true"><path class="grid" d="M0 10 H100 M0 22 H100 M0 34 H100"/><path class="area" d="M0 30 L12 27 L22 29 L34 20 L46 22 L58 14 L70 16 L82 8 L100 5 L100 40 L0 40 Z"/><path class="line" pathLength="100" d="M0 30 L12 27 L22 29 L34 20 L46 22 L58 14 L70 16 L82 8 L100 5"/></svg>
+                </div>
+
+                <span class="stamp good pos-stampgood layer" data-ref="A-15">&#x2713; Clear</span>
+              </div>
+
+              <div class="caps layer" data-ref="A-16">
+                <div class="cap c1"><span class="capbar">Why do AI answers feel generic?</span></div>
+                <div class="cap c2"><span class="capbar">A vague ask gets a vague answer.</span></div>
+                <div class="cap c3"><span class="capbar">Fix one: say exactly what you want.</span></div>
+                <div class="cap c4"><span class="capbar">Name the scope. Ask for more.</span></div>
+                <div class="cap c5"><span class="capbar">Same AI. A much better result.</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Live loop &middot; 14s</b><br>0:00 hook &middot; 0:02 vague prompt types on (push-in) &middot; 0:04 Spark confused, weak result &middot; 0:05 VAGUE stamp &middot; 0:06 tip card wipes up &middot; 0:07.5 better prompt types on (camera zoom) &middot; 0:10.4 Spark delighted, dashboard builds &middot; 0:12 CLEAR stamp &middot; 0:13.6 fade to paper</figcaption>
+        </figure>
+
+        <figure class="frame-fig">
+          <div class="phone" data-ref="A-17">
+            <div class="screen static">
+              <div class="st-head"><span class="tc-eyebrow">Tip 1 / 5</span><span class="st-title">Be specific</span></div>
+              <div class="half before" data-ref="A-18">
+                <span class="half-label">Before</span>
+                <div class="pcard">
+                  <div class="pc-top"><span class="pc-eyebrow">Prompt</span><span class="stamp bad">&#x2717; Vague</span></div>
+                  <p class="ptext">Create an analytics dashboard</p>
+                </div>
+                <div class="row">
+                  <div class="spark s-confused" style="--s:17cqw">
+                    <div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="47" rx="3.6" ry="5.4"/><circle cx="61" cy="47" r="3"/></g><path class="ink-line" d="M32 36.5 L44 39.5"/><path class="ink-line" d="M55 37 Q61 32.5 67.5 35.5"/><path class="ink-line" d="M41 63 q4.5 -3.5 9 0 t9 0"/></svg></div>
+                  </div>
+                  <div class="result weak"><span class="r-title">Dashboard</span><div class="bars" style="height:9cqw"><i style="height:40%"></i><i style="height:62%"></i><i style="height:30%"></i></div><span class="r-note">One basic chart.</span></div>
+                </div>
+              </div>
+              <div class="vs">vs</div>
+              <div class="half after" data-ref="A-19">
+                <span class="half-label">After</span>
+                <div class="pcard">
+                  <div class="pc-top"><span class="pc-eyebrow">Prompt</span><span class="stamp good">&#x2713; Clear</span></div>
+                  <p class="ptext">Create an analytics dashboard. Include as many relevant features and interactions as possible. Go beyond the basics to create a fully-featured implementation.</p>
+                </div>
+                <div class="row">
+                  <div class="spark s-happy" style="--s:17cqw">
+                    <div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><path class="ink-line" d="M33 48 Q39 40.5 45 48"/><path class="ink-line" d="M55 48 Q61 40.5 67 48"/><path class="fill" d="M40 57 Q50 58 60 57 Q59 70 50 70 Q41 70 40 57 Z"/><path class="tongue" d="M44.5 65.5 Q50 62.5 55.5 65.5 Q53.5 69.6 50 69.7 Q46.5 69.6 44.5 65.5 Z"/></svg></div>
+                  </div>
+                  <div class="result">
+                    <div class="r-head"><span class="r-title">Revenue</span><span class="r-chips"><i class="on">7d</i><i>30d</i></span></div>
+                    <div class="kpis"><div class="kpi"><b>12.4k</b></div><div class="kpi"><b>3.2%</b></div><div class="kpi"><b>$48k</b></div></div>
+                    <svg class="chart" viewBox="0 0 100 40" aria-hidden="true"><path class="grid" d="M0 10 H100 M0 22 H100 M0 34 H100"/><path class="area" d="M0 30 L12 27 L22 29 L34 20 L46 22 L58 14 L70 16 L82 8 L100 5 L100 40 L0 40 Z"/><path class="line" d="M0 30 L12 27 L22 29 L34 20 L46 22 L58 14 L70 16 L82 8 L100 5"/></svg>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Key frame &middot; 0:12</b><br>Before / After split. Closes every tip as the recap frame and doubles as the thumbnail. Before sits on top in grey, After below in full colour.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CHARACTER ===================== -->
+  <section aria-labelledby="h-char">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Character</span><h2 id="h-char">Meet Spark</h2></div>
+        <p>A soft sphere of light drawn in the same gradient as the product visuals. Black ink eyes keep it in the notebook. It squishes, blinks, tilts, and glows instead of talking.</p>
+      </header>
+      <div class="persona" data-ref="A-20">
+        <div class="spark s-neutral"><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="46" rx="3.6" ry="5.4"/><ellipse cx="61" cy="46" rx="3.6" ry="5.4"/><circle class="glint" cx="40.2" cy="43.6" r="1.1"/><circle class="glint" cx="62.2" cy="43.6" r="1.1"/></g><path class="ink-line" d="M43 61 Q50 67 57 61"/></svg></div></div>
+        <div>
+          <h3>Spark</h3>
+          <p>Spark is the AI on the other side of your prompt: very bright, very eager, and new to your job. Give it a vague ask and it squints. Give it a clear one and it glows.</p>
+        </div>
+      </div>
+      <div class="char-grid">
+        <article class="pose-card" data-ref="A-21">
+          <div class="pose-stage">
+            <div class="spark s-neutral"><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="46" rx="3.6" ry="5.4"/><ellipse cx="61" cy="46" rx="3.6" ry="5.4"/><circle class="glint" cx="40.2" cy="43.6" r="1.1"/><circle class="glint" cx="62.2" cy="43.6" r="1.1"/></g><path class="ink-line" d="M43 61 Q50 67 57 61"/></svg></div></div>
+          </div>
+          <div class="pose-meta"><span class="eyebrow">Pose 1</span><h3>Neutral</h3><p>Listening. Slow breath, a blink every five seconds. Default between beats.</p></div>
+        </article>
+        <article class="pose-card" data-ref="A-22">
+          <div class="pose-stage">
+            <div class="spark s-confused"><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="39" cy="47" rx="3.6" ry="5.4"/><circle cx="61" cy="47" r="3"/><circle class="glint" cx="40.2" cy="44.6" r="1.1"/></g><path class="ink-line" d="M32 36.5 L44 39.5"/><path class="ink-line" d="M55 37 Q61 32.5 67.5 35.5"/><path class="ink-line" d="M41 63 q4.5 -3.5 9 0 t9 0"/></svg></div><span class="qmark" aria-hidden="true">?</span></div>
+          </div>
+          <div class="pose-meta"><span class="eyebrow">Pose 2</span><h3>Confused</h3><p>Shows up after a vague prompt. Tilts and sways, one brow up, a question mark bobbing.</p></div>
+        </article>
+        <article class="pose-card" data-ref="A-23">
+          <div class="pose-stage">
+            <div class="spark s-happy"><i class="halo"></i><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><path class="ink-line" d="M33 48 Q39 40.5 45 48"/><path class="ink-line" d="M55 48 Q61 40.5 67 48"/><path class="fill" d="M40 57 Q50 58 60 57 Q59 70 50 70 Q41 70 40 57 Z"/><path class="tongue" d="M44.5 65.5 Q50 62.5 55.5 65.5 Q53.5 69.6 50 69.7 Q46.5 69.6 44.5 65.5 Z"/></svg></div><svg class="twinkle t1" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg><svg class="twinkle t2" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg><svg class="twinkle t3" viewBox="0 0 16 16" aria-hidden="true"><use href="#star4"/></svg></div>
+          </div>
+          <div class="pose-meta"><span class="eyebrow">Pose 3</span><h3>Delighted</h3><p>Shows up after the better prompt. Squash-and-stretch hops, a pink halo, ink sparkles.</p></div>
+        </article>
+        <article class="pose-card" data-ref="A-24">
+          <div class="pose-stage">
+            <div class="spark s-explain"><i class="arm" aria-hidden="true"></i><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><g class="eyes"><ellipse cx="44" cy="45" rx="3.6" ry="5.4"/><ellipse cx="65" cy="45" rx="3.6" ry="5.4"/><circle class="glint" cx="45.2" cy="42.6" r="1.1"/><circle class="glint" cx="66.2" cy="42.6" r="1.1"/></g><path class="ink-line" d="M60 35.5 Q65 33 70 35.5"/><ellipse class="fill" cx="55" cy="62" rx="3.6" ry="4.4"/></svg></div><span class="note">Be specific.</span></div>
+          </div>
+          <div class="pose-meta"><span class="eyebrow">Pose 4</span><h3>Explaining</h3><p>Looks toward the tip and points with a single ink stroke. Used on tip title beats.</p></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COLOR ===================== -->
+  <section class="band" aria-labelledby="h-color">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Color</span><h2 id="h-color">97% achromatic</h2></div>
+        <p>Paper and ink carry every frame. Violet, ember, and blush appear only inside Spark and the product visuals it reacts to. Verdict green and red are separate and only mark Clear or Vague.</p>
+      </header>
+      <div class="swatches">
+        <div class="swatch" data-ref="A-25"><div class="chip" style="background:#fdfcfc"></div><b>Eggshell</b><code>#fdfcfc</code><span>Canvas. Every frame starts here.</span></div>
+        <div class="swatch" data-ref="A-26"><div class="chip" style="background:#f5f3f1"></div><b>Warm Taupe</b><code>#f5f3f1</code><span>Tip cards, weak results, bands.</span></div>
+        <div class="swatch" data-ref="A-27"><div class="chip" style="background:#ebe8e4"></div><b>Stone</b><code>#ebe8e4</code><span>Hairlines, empty bars, dots.</span></div>
+        <div class="swatch" data-ref="A-28"><div class="chip" style="background:#000000"></div><b>Ink</b><code>#000000</code><span>Headlines, faces, captions, buttons.</span></div>
+        <div class="swatch" data-ref="A-29"><div class="chip" style="background:#44403b"></div><b>Graphite</b><code>#44403b</code><span>Strong secondary text.</span></div>
+        <div class="swatch" data-ref="A-30"><div class="chip" style="background:#777169"></div><b>Smoke</b><code>#777169</code><span>Body and supporting lines.</span></div>
+        <div class="swatch" data-ref="A-31"><div class="chip" style="background:#a59f97"></div><b>Ash</b><code>#a59f97</code><span>Labels, unlit caption words.</span></div>
+        <div class="swatch" data-ref="A-32"><div class="chip" style="background:#0447ff"></div><b>Violet Spark</b><code>#0447ff</code><span>Inside Spark and charts only.</span></div>
+        <div class="swatch" data-ref="A-33"><div class="chip" style="background:#ff4704"></div><b>Ember</b><code>#ff4704</code><span>Inside Spark and charts only.</span></div>
+        <div class="swatch" data-ref="A-34"><div class="chip spark-chip"></div><b>Spark blend</b><code>#ff7ac0 + lilac</code><span>Added blush and lilac to soften the sphere.</span></div>
+        <div class="swatch" data-ref="A-35"><div class="chip" style="background:#157f3c"></div><b>Verdict Good</b><code>#157f3c / #e7f3eb</code><span>Clear stamp. Never decorative.</span></div>
+        <div class="swatch" data-ref="A-36"><div class="chip" style="background:#b42318"></div><b>Verdict Bad</b><code>#b42318 / #fbe9e7</code><span>Vague stamp. Never decorative.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== TYPE ===================== -->
+  <section aria-labelledby="h-type">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Type</span><h2 id="h-type">Whisper the headline, say the rest plainly</h2></div>
+        <p>Sizes are for the 1080 &times; 1920 canvas. Specimens below are shown at about 0.43&times;. Headlines stay at weight 300 with tight tracking; everything else is calm Inter.</p>
+      </header>
+      <div class="type-list">
+        <div class="type-row" data-ref="A-37"><div class="type-spec"><b>Display</b>Inter Tight 300 &middot; 132px / 1.04<br>tracking &minus;0.02em &middot; hooks only</div><div class="ts-display">Your prompt is the problem.</div></div>
+        <div class="type-row" data-ref="A-38"><div class="type-spec"><b>Title</b>Inter Tight 300 &middot; 84px / 1.08<br>tracking &minus;0.02em &middot; tip cards</div><div class="ts-title">Tip 1 &middot; Be specific</div></div>
+        <div class="type-row" data-ref="A-39"><div class="type-spec"><b>Body</b>Inter 400 &middot; 44px / 1.45<br>tracking +0.01em &middot; explanations</div><div class="ts-body">Claude is like a brilliant new hire. It has no context on your norms until you give it.</div></div>
+        <div class="type-row" data-ref="A-40"><div class="type-spec"><b>Caption / subtitle</b>Inter 500 &middot; 40px / 1.3<br>eggshell on ink, 28px radius</div><div class="ts-cap">A vague ask gets a vague answer.</div></div>
+        <div class="type-row" data-ref="A-41"><div class="type-spec"><b>Prompt text</b>Geist Mono 400 &middot; 34px / 1.55<br>anything the viewer would type</div><div class="ts-prompt">Create an analytics dashboard.</div></div>
+        <div class="type-row" data-ref="A-42"><div class="type-spec"><b>Mono label</b>Geist Mono 400 &middot; 28px<br>uppercase, tracking +0.1em</div><div class="ts-mono">Tip 2 / 5 &middot; Prompt &middot; 00:12</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== COMPONENTS ===================== -->
+  <section class="band" aria-labelledby="h-comp">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Components</span><h2 id="h-comp">The pieces every short reuses</h2></div>
+        <p>Each piece is drawn at phone-frame scale, so what you see here is what lands in the video.</p>
+      </header>
+      <div class="comp-grid">
+        <div class="comp" data-ref="A-43">
+          <div class="comp-head"><b>Prompt card &middot; before</b><span>white card, mono text, hairline</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="pcard"><div class="pc-top"><span class="pc-eyebrow">Prompt</span><span class="stamp bad">&#x2717; Vague</span></div><p class="ptext">NEVER use ellipses</p></div></div></div>
+        </div>
+        <div class="comp" data-ref="A-44">
+          <div class="comp-head"><b>Prompt card &middot; after</b><span>same card, verdict flips</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="pcard"><div class="pc-top"><span class="pc-eyebrow">Prompt</span><span class="stamp good">&#x2713; Clear</span></div><p class="ptext">Your response will be read aloud by a text-to-speech engine, so never use ellipses since the text-to-speech engine will not know how to pronounce them.</p></div></div></div>
+        </div>
+        <div class="comp" data-ref="A-45">
+          <div class="comp-head"><b>Verdict badges</b><span>pill stamps, semantic colour only</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="verdicts"><span class="stamp bad">&#x2717; Vague</span><span class="stamp good">&#x2713; Clear</span></div></div></div>
+        </div>
+        <div class="comp" data-ref="A-46">
+          <div class="comp-head"><b>Tip title card</b><span>full-frame taupe, wipes up</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="titlecard inline"><span class="tc-eyebrow">Tip 2 / 5</span><h4>Explain why</h4><p>Context helps Claude aim.</p></div></div></div>
+        </div>
+        <div class="comp" data-ref="A-47">
+          <div class="comp-head"><b>Subtitle bar</b><span>words light up as they are spoken</span></div>
+          <div class="comp-demo"><div class="canvas" style="text-align:center"><span class="capbar"><span class="w">A</span> <span class="w" style="animation-delay:.25s">vague</span> <span class="w" style="animation-delay:.5s">ask</span> <span class="w" style="animation-delay:.75s">gets</span> <span class="w" style="animation-delay:1s">a</span> <span class="w" style="animation-delay:1.25s">vague</span> <span class="w" style="animation-delay:1.5s">answer.</span></span></div></div>
+        </div>
+        <div class="comp" data-ref="A-48">
+          <div class="comp-head"><b>Progress step dots</b><span>active pill fills over the tip</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="dots-demo"><div class="stepdots"><i class="done"></i><i class="on"></i><i></i><i></i><i></i></div><div class="dot-labels"><span>Specific</span><span class="on">Why</span><span>Examples</span><span>Structure</span><span>Role</span></div></div></div></div>
+        </div>
+        <div class="comp" data-ref="A-49">
+          <div class="comp-head"><b>Keyword highlighter</b><span>stone marker + ink underline</span></div>
+          <div class="comp-demo"><div class="canvas"><span class="kw-tag">The why</span><p class="kw-text">Your response will be read aloud by a <span class="kw">text-to-speech engine<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path pathLength="100" d="M1 6 C 20 2, 40 9, 60 5 S 90 3, 99 6"/></svg></span>, so never use ellipses since the text-to-speech engine will not know how to pronounce them.</p></div></div>
+        </div>
+        <div class="comp" data-ref="A-50">
+          <div class="comp-head"><b>End card</b><span>follow CTA, pill buttons</span></div>
+          <div class="comp-demo"><div class="canvas"><div class="endcard">
+            <div class="spark s-happy"><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><path class="ink-line" d="M33 48 Q39 40.5 45 48"/><path class="ink-line" d="M55 48 Q61 40.5 67 48"/><path class="fill" d="M40 57 Q50 58 60 57 Q59 70 50 70 Q41 70 40 57 Z"/><path class="tongue" d="M44.5 65.5 Q50 62.5 55.5 65.5 Q53.5 69.6 50 69.7 Q46.5 69.6 44.5 65.5 Z"/></svg></div></div>
+            <h4>That&rsquo;s tip 1 of 5.</h4>
+            <p>Next: explain why your rule exists.</p>
+            <div class="btns"><span class="btn fill">Follow for tip 2</span><span class="btn outline">Save this</span></div>
+            <span class="handle">@sanjaydeoram</span>
+          </div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MOTION ===================== -->
+  <section aria-labelledby="h-motion">
+    <div class="wrap">
+      <header class="sec-head">
+        <div><span class="eyebrow">Motion</span><h2 id="h-motion">Six moves, used everywhere</h2></div>
+        <p>Every beat in a short is built from these. Each one has a fixed duration, easing, and sound so the videos feel like one series.</p>
+      </header>
+      <div class="motion-grid">
+        <article class="mtile" data-ref="A-51">
+          <div class="mdemo"><div class="m-type"><span class="tl">Be specific.</span><i class="caret"></i></div></div>
+          <div class="mmeta"><h3>Type-on</h3><dl class="mspecs"><dt>Time</dt><dd>40 ms per character</dd><dt>Ease</dt><dd>steps(1) per char</dd><dt>Sound</dt><dd>soft key clicks, every 2&ndash;3 chars</dd></dl></div>
+        </article>
+        <article class="mtile" data-ref="A-52">
+          <div class="mdemo"><span class="m-pop">&#x2713; Clear</span></div>
+          <div class="mmeta"><h3>Pop-in</h3><dl class="mspecs"><dt>Time</dt><dd>420 ms</dd><dt>Ease</dt><dd>cubic-bezier(.34, 1.56, .64, 1)</dd><dt>Sound</dt><dd>bubble pop</dd></dl></div>
+        </article>
+        <article class="mtile" data-ref="A-53">
+          <div class="mdemo"><span class="m-zoom">Tip 1</span></div>
+          <div class="mmeta"><h3>Zoom punch</h3><dl class="mspecs"><dt>Time</dt><dd>600 ms, blur 5px to 0</dd><dt>Ease</dt><dd>cubic-bezier(.16, 1, .3, 1)</dd><dt>Sound</dt><dd>low whoosh into a soft thock</dd></dl></div>
+        </article>
+        <article class="mtile" data-ref="A-54">
+          <div class="mdemo"><span class="m-under">Section break</span><div class="m-wipe">Explain why</div></div>
+          <div class="mmeta"><h3>Wipe reveal</h3><dl class="mspecs"><dt>Time</dt><dd>700 ms in, 700 ms out</dd><dt>Ease</dt><dd>cubic-bezier(.65, 0, .35, 1)</dd><dt>Sound</dt><dd>paper slide</dd></dl></div>
+        </article>
+        <article class="mtile" data-ref="A-55">
+          <div class="mdemo"><div class="m-stampcard">Create an analytics dashboard<span class="stamp bad">&#x2717; Vague</span></div></div>
+          <div class="mmeta"><h3>Verdict stamp</h3><dl class="mspecs"><dt>Time</dt><dd>350 ms + 2px card shake</dd><dt>Ease</dt><dd>cubic-bezier(.2, 1.4, .4, 1)</dd><dt>Sound</dt><dd>rubber stamp thock</dd></dl></div>
+        </article>
+        <article class="mtile" data-ref="A-56">
+          <div class="mdemo"><div class="spark s-happy m-react"><div class="spark-body"><svg class="face" viewBox="0 0 100 100" aria-hidden="true"><path class="ink-line" d="M33 48 Q39 40.5 45 48"/><path class="ink-line" d="M55 48 Q61 40.5 67 48"/><path class="fill" d="M40 57 Q50 58 60 57 Q59 70 50 70 Q41 70 40 57 Z"/><path class="tongue" d="M44.5 65.5 Q50 62.5 55.5 65.5 Q53.5 69.6 50 69.7 Q46.5 69.6 44.5 65.5 Z"/></svg></div></div></div>
+          <div class="mmeta"><h3>Character react</h3><dl class="mspecs"><dt>Time</dt><dd>500 ms per hop, squash 10%</dd><dt>Ease</dt><dd>cubic-bezier(.5, 0, .5, 1)</dd><dt>Sound</dt><dd>bright two-note chime</dd></dl></div>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Design A of 3 &middot; Eggshell Studio</span>
+    <span>If picked, these tokens become design.md.</span>
+  </div>
+</footer>
+
+</body>
+</html>

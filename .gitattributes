@@ -1,0 +1,9 @@
+# Keep text files LF on every machine (the files were authored with LF)
+* text=auto eol=lf
+
+*.mp4 binary
+*.mp3 binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.25},
+      {"t":0.9,"sfx":"typing","vol":0.28,"dur":0.6},
+      {"t":2.2,"sfx":"typing","vol":0.3,"dur":0.75},
+      {"t":3.1,"sfx":"pop","vol":0.25},
+      {"t":3.6,"sfx":"whoosh-short","vol":0.22},
+      {"t":3.9,"sfx":"typing","vol":0.28,"dur":0.4},
+      {"t":4.5,"sfx":"whoosh","vol":0.22},
+      {"t":4.8,"sfx":"typing","vol":0.32,"dur":1.1},
+      {"t":6.1,"sfx":"typing","vol":0.3,"dur":0.9},
+      {"t":7.1,"sfx":"pop","vol":0.25},
+      {"t":7.6,"sfx":"pop","vol":0.25},
+      {"t":8.4,"sfx":"chime","vol":0.28,"dur":2.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Behind the scenes of a chat. Turn 1: your question is split into tokens (Reads 9),
+           Claude's reply streams out token by token (Writes 5). Turn 2: the follow-up is split, then the
+           whole chat is re-read, every earlier token counted again (Reads 18), and the new reply streams.
+           A bar chart shows tokens read per turn growing: 9, 18, 30+. Counts are illustrative. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .egg-safe { justify-content: space-between; }
+        .s07 .head { display: flex; flex-direction: column; gap: 18px; }
+        .s07 .meters { position: absolute; left: 90px; right: 130px; top: 470px; display: flex; align-items: center; gap: 16px; }
+        .s07 .meters .egg-counter { padding: 12px 22px; font-size: 24px; }
+        .s07 .meters .egg-counter b { font-size: 44px; }
+        .s07 .bub { position: absolute; display: flex; flex-wrap: wrap; align-items: center; row-gap: 6px; padding: 18px 26px; border-radius: 30px; max-width: 760px; }
+        .s07 .bub.you { right: 130px; background: var(--taupe); }
+        .s07 .bub.claude { left: 150px; background: var(--eggshell); border: 2px solid var(--stone); }
+        .s07 .bub .egg-token { font-size: 34px; line-height: 1.3; padding: 1px 4px; border-radius: 8px; }
+        .s07 .bub .egg-cut { width: 3px; height: 40px; margin: 0 4px; }
+        .s07 .sdot { position: absolute; left: 90px; width: 44px; height: 44px; border-radius: 50%;
+          background: radial-gradient(circle at 33% 28%, #fff 0 8%, rgba(255,255,255,0) 30%), radial-gradient(circle at 78% 80%, #ff4704 0 12%, rgba(255,71,4,0) 55%), radial-gradient(circle at 80% 18%, #0447ff 0 10%, rgba(4,71,255,0) 50%), radial-gradient(circle at 50% 50%, #f1e8ff 0, #c6b4ff 58%, #957dff 100%); }
+        .s07 .reread { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+        .s07 .reread path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+        .s07 .tag { position: absolute; left: 90px; top: 556px; }
+        .s07 .tag .egg-chip { padding: 10px 18px; font-size: 22px; background: var(--ink); color: var(--eggshell); border-color: var(--ink); }
+        .s07 .chart { position: absolute; left: 90px; right: 130px; top: 1036px; display: flex; flex-direction: column; gap: 14px; }
+        .s07 .crow { display: grid; grid-template-columns: 120px 560px auto; align-items: center; gap: 18px; }
+        .s07 .crow .k { font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); }
+        .s07 .crow .v { font: 300 44px/1 var(--f-display); letter-spacing: -0.02em; font-variant-numeric: tabular-nums; }
+        .s07 .crow .egg-bar { height: 26px; border-radius: 13px; }
+        .s07 .crow.ghost .egg-bar { background: var(--stone); }
+        .s07 .crow.ghost .v { color: var(--smoke); }
+        .s07 .chart .egg-foot { margin-top: 4px; }
+      </style>
+      <div id="root" data-composition-id="s07-chat" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <div class="meters">
+            <span class="egg-chip turn">Turn 1</span>
+            <span class="egg-counter">Reads <b class="n-read">0</b></span>
+            <span class="egg-counter">Writes <b class="n-write">0</b></span>
+          </div>
+          <svg class="reread" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="box" d="M106 606 H930 Q960 606 960 636 V888 Q960 918 930 918 H106 Q76 918 76 888 V636 Q76 606 106 606 Z" />
+          </svg>
+          <div class="tag"><span class="egg-chip">Re-read</span></div>
+          <div class="chat"></div>
+          <div class="chart">
+            <span class="egg-card-kicker">Tokens Claude reads each turn</span>
+            <div class="crow r1"><span class="k">Turn 1</span><i class="egg-bar" style="width:168px"></i><span class="v">9</span></div>
+            <div class="crow r2"><span class="k">Turn 2</span><i class="egg-bar" style="width:336px"></i><span class="v">18</span></div>
+            <div class="crow r3 ghost"><span class="k">Turn 3</span><i class="egg-bar" style="width:560px"></i><span class="v">30+</span></div>
+            <span class="egg-foot">Example counts &#183; real counts vary by model</span>
+          </div>
+          <div class="egg-safe">
+            <div class="head">
+              <span class="egg-eyebrow">Behind the scenes</span>
+              <h2 class="egg-title">Each turn reads the whole chat</h2>
+            </div>
+            <p class="egg-label">The longer the chat, the more each turn reads.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const MSGS = [
+            { who: "you", top: 620, toks: ["What", "'s", " a", " good", " name", " for", " a", " cat", "?"] },
+            { who: "claude", top: 724, toks: ["How", " about", " Mo", "chi", "?"] },
+            { who: "you", top: 828, toks: ["Why", " that", " one", "?"] },
+            { who: "claude", top: 932, toks: ["It", "'s", " short", " and", " sweet", "."] },
+          ];
+          const TINTS = ["rgba(4, 71, 255, 0.12)", "rgba(255, 122, 192, 0.24)", "rgba(255, 71, 4, 0.14)"];
+
+          const root = document.querySelector('[data-composition-id="s07-chat"] .s07');
+          const q = (s) => root.querySelector(s);
+          const chat = q(".chat");
+          const bubs = MSGS.map((m, k) => {
+            const b = document.createElement("div");
+            b.className = `bub ${m.who} m${k}`;
+            b.style.top = m.top + "px";
+            b.innerHTML = m.toks.map((t, i) => (i ? '<i class="egg-cut"></i>' : "") + `<span class="egg-token">${t}</span>`).join("");
+            chat.appendChild(b);
+            if (m.who === "claude") {
+              const d = document.createElement("div");
+              d.className = `sdot d${k}`;
+              d.style.top = m.top + 18 + "px";
+              chat.appendChild(d);
+            }
+            return b;
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          const reads = Egg.meter(tl, q(".n-read"));
+          const writes = Egg.meter(tl, q(".n-write"));
+          const turn = Egg.meter(tl, q(".turn"), (v) => "Turn " + Math.round(v), 1);
+
+          // Claude's reply: bubble appears, then each token (and the cut before it) streams in, tinted.
+          const stream = (k, at) => {
+            tl.fromTo([bubs[k], q(`.d${k}`)], { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.3, ease: Egg.EASE.pop }, at - 0.2);
+            const toks = bubs[k].querySelectorAll(".egg-token");
+            const cuts = bubs[k].querySelectorAll(".egg-cut");
+            toks.forEach((t, i) => {
+              t.style.backgroundColor = TINTS[i % 3];
+              const items = i ? [cuts[i - 1], t] : [t];
+              tl.fromTo(items, { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, at + i * 0.15);
+            });
+            return at + toks.length * 0.15;
+          };
+
+          Egg.fadeUp(tl, root.querySelectorAll(".head > *"), 0.05);
+          Egg.pop(tl, root.querySelectorAll(".meters > *"), 0.3, { stagger: 0.08 });
+
+          // Turn 1
+          Egg.fadeUp(tl, bubs[0], 0.5, { y: 20 });
+          Egg.tokens(tl, bubs[0], 0.9, { cutGap: 0.05, tintGap: 0.05 });
+          reads(9, 1.0, 0.9);
+          stream(1, 2.2);
+          writes(5, 2.2, 0.75);
+          Egg.fadeUp(tl, q(".chart .egg-card-kicker"), 3.0, { y: 12 });
+          Egg.fadeUp(tl, q(".r1"), 3.1, { y: 12 });
+          Egg.bars(tl, q(".r1 .egg-bar"), 3.15);
+
+          // Turn 2: follow-up, then the whole chat is re-read and counted again
+          turn(2, 3.6, 0.2);
+          writes(0, 3.6, 0.15);
+          Egg.fadeUp(tl, bubs[2], 3.6, { y: 20 });
+          Egg.tokens(tl, bubs[2], 3.9, { cutGap: 0.05, tintGap: 0.05 });
+          const box = q(".reread .box");
+          box.setAttribute("pathLength", "1");
+          box.style.strokeDasharray = "0.012 0.012";
+          tl.fromTo(box, { opacity: 0 }, { opacity: 1, duration: 0.5, ease: "none" }, 4.5);
+          Egg.pop(tl, q(".tag .egg-chip"), 4.6);
+          reads(0, 4.6, 0.15);
+          const seen = [...bubs[0].querySelectorAll(".egg-token"), ...bubs[1].querySelectorAll(".egg-token"), ...bubs[2].querySelectorAll(".egg-token")];
+          seen.forEach((t, i) => {
+            tl.fromTo(t, { boxShadow: "0 0 0 0px rgba(0,0,0,0)" }, { boxShadow: "0 0 0 3px rgba(0,0,0,0.85)", duration: 0.06, ease: "none", yoyo: true, repeat: 1 }, 4.8 + i * (1.1 / seen.length));
+          });
+          reads(18, 4.8, 1.1);
+          stream(3, 6.1);
+          writes(6, 6.1, 0.9);
+          Egg.fadeUp(tl, q(".r2"), 7.0, { y: 12 });
+          Egg.bars(tl, q(".r2 .egg-bar"), 7.1);
+          Egg.fadeUp(tl, q(".r3"), 7.5, { y: 12 });
+          Egg.bars(tl, q(".r3 .egg-bar"), 7.6);
+          Egg.fadeUp(tl, q(".chart .egg-foot"), 8.1, { y: 10 });
+          Egg.fadeUp(tl, q(".egg-label"), 8.4);
+          Egg.fadeOut(tl, [q(".meters"), q(".reread"), q(".tag"), chat, q(".chart"), q(".egg-safe")], 10.65);
+          window.__timelines["s07-chat"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

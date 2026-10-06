@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.2},
+      {"t":1.1,"sfx":"click-soft","vol":0.2},
+      {"t":1.9,"sfx":"click-soft","vol":0.2},
+      {"t":2.7,"sfx":"click-soft","vol":0.2},
+      {"t":4,"sfx":"pop","vol":0.35}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- BLOCK · Whiteboard drawing. 6–8s. One black line drawing draws itself stroke by stroke inside
+           the drawing zone (x 150–930, y 520–1200), then a short label fades in under it.
+           Edit: the <svg class="egg-svg"> strokes (data-draw = order, data-dur = seconds), the label, Spark.
+           Rules: one drawing per scene, no fills, every stroke done 1.5s+ before the scene ends. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-safe { justify-content: space-between; }
+        .s02 .spark { --s: 150px; position: absolute; left: 700px; top: 470px; }
+      </style>
+      <div data-hf-id="hf-y6yu" id="root" data-composition-id="s02-whiteboard" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path data-hf-id="hf-1s3y" class="ink" data-draw="0" data-dur="0.8" d="M190 1180 H870" />
+            <path data-hf-id="hf-1f4n" class="ink" data-draw="1" d="M250 1180 V760 H370 V1180" />
+            <path data-hf-id="hf-f2u4" class="ink" data-draw="2" data-dur="0.4" d="M275 820 H345 M275 1120 H345" />
+            <path data-hf-id="hf-eaqj" class="ink" data-draw="3" d="M390 1180 V690 H515 V1180" />
+            <path data-hf-id="hf-6c93" class="ink" data-draw="4" data-dur="0.4" d="M415 770 H490 M415 810 H490" />
+            <path data-hf-id="hf-dapy" class="ink" data-draw="5" d="M538 1180 L630 760 L735 784 L645 1180" />
+            <path data-hf-id="hf-fngb" class="ink" data-draw="6" d="M710 1180 V1110 H860 V1180 M695 1110 V1045 H845 V1110" />
+          </svg>
+          <div data-hf-id="hf-wrb2" class="spark" data-mood="happy"></div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-vu9t" class="egg-eyebrow">The backstory</span>
+            <p data-hf-id="hf-4zqe" class="egg-label">It learned from a huge library of text.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-whiteboard"] .s02');
+          Egg.mountSparks(root);
+          const spark = root.querySelector(".spark");
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.1);
+          const drawn = Egg.draw(tl, root.querySelector(".egg-svg"), 0.3);
+          Egg.fadeUp(tl, root.querySelector(".egg-label"), drawn + 0.1);
+          Egg.pop(tl, spark, 4.0);
+          Egg.sparkIdle(tl, spark, 4.0, 6.5);
+          Egg.sparkMood(tl, spark, "happy", 4.3);
+          Egg.fadeOut(tl, [root.querySelector(".egg-svg"), root.querySelector(".egg-safe"), spark], 6.15);
+          window.__timelines["s02-whiteboard"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
