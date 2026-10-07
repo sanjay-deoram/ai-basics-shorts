@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.0,"sfx":"whoosh","vol":0.18},
+      {"t":4.2,"sfx":"pop","vol":0.28},
+      {"t":5.2,"sfx":"whoosh","vol":0.16},
+      {"t":5.7,"sfx":"whoosh-short","vol":0.2},
+      {"t":6.6,"sfx":"pop","vol":0.26},
+      {"t":8.0,"sfx":"whoosh","vol":0.2},
+      {"t":8.5,"sfx":"whoosh-short","vol":0.22},
+      {"t":8.7,"sfx":"whoosh-short","vol":0.22},
+      {"t":8.9,"sfx":"pop","vol":0.2},
+      {"t":11.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":12.0,"sfx":"ping","vol":0.18,"dur":1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Closeness score. Opens on s07's last frame (same map from assets/wordmap.js, no fade in). A short
+           line joins dog and puppy (zoom in, 0.80); a long line runs from dog to pizza (0.35). Then the map steps
+           aside for two big columns on a 0–1 scale, and Spark points: pizza isn't zero (scores are fuzzy), the
+           closest one wins. Real cosine similarities, see STORYBOARD.md.
+           Voiceover: 0.3 "A computer can score how close two spots are." 3.4 "Dog and puppy: point eight. Dog
+           and pizza: point three five." 8.3 "Pizza isn't zero, because scores are fuzzy. What matters is which
+           is closest." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-safe { justify-content: space-between; }
+        .s08 .cam, .s08 .words, .s08 .ptr { position: absolute; inset: 0; }
+        .s08 .map-dot { fill: var(--ink); }
+        .s08 .map-word { position: absolute; font: 400 42px/54px var(--f-body); color: var(--ink); background: var(--eggshell); padding: 0 6px; border-radius: 10px; white-space: nowrap; }
+        .s08 .score { position: absolute; width: 150px; height: 74px; border: 2px solid var(--ink); border-radius: 9999px; background: var(--eggshell); display: grid; place-items: center; font: 300 46px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s08 .score.near { left: 215px; top: 462px; }
+        .s08 .score.far { left: 555px; top: 778px; }
+        .s08 .col { position: absolute; bottom: 770px; width: 160px; background: var(--ink); border-radius: 16px 16px 0 0; transform-origin: 50% 100%; }
+        .s08 .col.a { left: 220px; height: 400px; }
+        .s08 .col.b { left: 680px; height: 175px; }
+        .s08 .cv { position: absolute; width: 240px; text-align: center; font: 300 64px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s08 .cv.a { left: 180px; top: 676px; }
+        .s08 .cv.b { left: 640px; top: 901px; }
+        .s08 .cl { position: absolute; top: 1172px; width: 320px; text-align: center; font: 400 38px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s08 .cl.a { left: 140px; }
+        .s08 .cl.b { left: 600px; }
+        .s08 .tk { position: absolute; left: 112px; font: 400 26px/1 var(--f-mono); color: var(--graphite); }
+        .s08 .notes { position: absolute; left: 0; right: 0; top: 1262px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+      </style>
+      <div id="root" data-composition-id="s08-score" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <div class="cam" data-layout-allow-overflow="">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path class="ink link near" d="M311.4 601.4 L268.8 588.8" />
+              <path class="ink thin link far" d="M311.4 601.4 L732 884.6" />
+            </svg>
+            <div class="words" data-layout-allow-overlap="">
+              <span class="score near"><span class="n">0.00</span></span>
+              <span class="score far"><span class="n">0.00</span></span>
+            </div>
+          </div>
+          <div class="chart">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path class="ink thin axis0" d="M160 1150 L920 1150" />
+              <path class="axis1" d="M160 650 L920 650" />
+            </svg>
+            <span class="tk" style="top:637px">1.0</span>
+            <span class="tk" style="top:1137px">0</span>
+            <i class="col a"></i><i class="col b"></i>
+            <span class="cv a">0.80</span><span class="cv b">0.35</span>
+            <span class="cl a">dog ↔ puppy</span><span class="cl b">dog ↔ pizza</span>
+          </div>
+          <div class="notes">
+            <span class="egg-foot">Score: 1 = same meaning · 0 = unrelated</span>
+            <span class="egg-foot">Cosine similarity · all-MiniLM-L6-v2</span>
+          </div>
+          <div class="ptr"></div>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Closeness score</span>
+            <p class="egg-label">Closer means more alike.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s08-score"] .s08');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => root.querySelectorAll(s);
+          const cam = q(".cam");
+          WordMap.build(q(".cam .egg-svg"), q(".words"));
+          const links = [...all(".link"), q(".axis0")];
+          links.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          q(".axis1").style.cssText = "fill:none;stroke:#a59f97;stroke-width:4;stroke-linecap:round;stroke-dasharray:1 12";
+          const P = Egg.pointer(q(".ptr"), ["fuzzy, not zero", "closest wins"], { size: 120, mood: "talk" });
+          const fmt = (v) => v.toFixed(2);
+          gsap.set(links, { strokeDashoffset: 1.02 });
+          gsap.set([q(".axis1"), ...all(".tk"), ...all(".cv"), ...all(".cl")], { opacity: 0 });
+          gsap.set(all(".col"), { scaleY: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // dog ↔ puppy: close
+          tl.to(q(".link.near"), { strokeDashoffset: 0, duration: 0.35, ease: Egg.EASE.draw }, 1.0);
+          tl.to(cam, { scale: 1.12, transformOrigin: "290px 595px", duration: 0.6, ease: Egg.EASE.move }, 1.0);
+          Egg.pop(tl, q(".score.near"), 4.2);
+          Egg.count(tl, q(".score.near .n"), 0, 0.8, 4.25, { dur: 0.8, fmt });
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 5.2);
+
+          // dog ↔ pizza: far
+          tl.to(q(".link.far"), { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 5.7);
+          Egg.pop(tl, q(".score.far"), 6.6);
+          Egg.count(tl, q(".score.far .n"), 0, 0.35, 6.65, { dur: 0.8, fmt });
+
+          // the map steps aside: the two scores side by side
+          Egg.fadeOut(tl, cam, 8.0);
+          tl.to(q(".axis0"), { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 8.3);
+          tl.to([q(".axis1"), ...all(".tk")], { opacity: 1, duration: 0.3, ease: "none" }, 8.4);
+          Egg.fadeUp(tl, all(".cl"), 8.5, { y: 14, stagger: 0.2 });
+          tl.to(q(".col.a"), { scaleY: 1, duration: 0.7, ease: Egg.EASE.enter }, 8.5);
+          tl.to(q(".col.b"), { scaleY: 1, duration: 0.7, ease: Egg.EASE.enter }, 8.7);
+          Egg.pop(tl, q(".cv.a"), 8.95);
+          Egg.pop(tl, q(".cv.b"), 9.15);
+
+          // Spark: pizza isn't zero (fuzzy), the closest one wins
+          Egg.pointTo(tl, P, { x: 760, y: 905 }, 0, 9.0);
+          Egg.pointTo(tl, P, { x: 300, y: 680 }, 1, 11.1);
+          Egg.sparkIdle(tl, P.spark, 9.0, 13.7);
+          Egg.lipsync(tl, P.spark, Egg.sceneStart("s08-score"), 9.0, 13.8);
+          Egg.pointerHide(tl, P, 13.4);
+          Egg.fadeUp(tl, q(".egg-label"), 12.0);
+          Egg.fadeUp(tl, all(".notes .egg-foot"), 12.3, { y: 12 });
+
+          Egg.fadeOut(tl, [q(".chart"), q(".notes"), q(".egg-safe")], 13.85);
+          window.__timelines["s08-score"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

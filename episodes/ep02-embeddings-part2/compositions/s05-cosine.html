@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"pop","vol":0.2},
+      {"t":1.0,"sfx":"click-soft","vol":0.22},
+      {"t":4.0,"sfx":"pop","vol":0.22},
+      {"t":4.2,"sfx":"click-soft","vol":0.22},
+      {"t":5.0,"sfx":"click-soft","vol":0.22},
+      {"t":6.3,"sfx":"whoosh-short","vol":0.16},
+      {"t":6.8,"sfx":"pop","vol":0.24},
+      {"t":9.0,"sfx":"pop","vol":0.26},
+      {"t":9.6,"sfx":"sparkle","vol":0.2,"dur":1.2},
+      {"t":13.4,"sfx":"whoosh","vol":0.22},
+      {"t":15.0,"sfx":"ping","vol":0.18,"dur":1},
+      {"t":17.7,"sfx":"whoosh","vol":0.2},
+      {"t":18.7,"sfx":"click","vol":0.28},
+      {"t":19.8,"sfx":"whoosh","vol":0.2},
+      {"t":20.8,"sfx":"click","vol":0.28}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Cosine similarity. Each embedding is drawn as an arrow from one origin; the score is the cosine of
+           the angle between two arrows. The angles are real: the angle between two 384-number embeddings is
+           arccos(cosine similarity) — dog↔puppy 36.49° (0.80), dog↔pizza 69.33° (0.35), all-MiniLM-L6-v2 — each
+           pair drawn flat at its true angle. The second arrow swings puppy → pizza → 0° (1.00) → 90° (0.00) while the
+           readouts follow it (seek-safe: one proxy angle, everything drawn from it in apply()).
+           Voiceover: 0.3 "That score has a name: cosine similarity." 3.9 "Picture each embedding as an arrow. It
+           measures the angle between two arrows." 8.8 "Dog and puppy: a small angle, so a high score." 13.2 "Dog and
+           pizza: a wider angle, so a lower score." 17.4 "Pointing the same way scores one. At a right angle, zero."
+           Origin 190 × 1150, arrows 520 long, dial radius 590. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .egg-safe { justify-content: space-between; }
+        .s09 .head { display: flex; flex-direction: column; gap: 18px; }
+        .s09 .reads { position: absolute; left: 90px; top: 410px; display: flex; gap: 24px; }
+        .s09 .reads .egg-counter b { min-width: 3.4em; text-align: right; }
+        .s09 .wl { position: absolute; font: 400 40px/50px var(--f-body); color: var(--ink); background: var(--eggshell); padding: 0 6px; border-radius: 8px; white-space: nowrap; }
+        .s09 .wl.dog { left: 668px; top: 1088px; }
+        .s09 .ang { position: absolute; font: 400 34px/40px var(--f-body); color: var(--graphite); white-space: nowrap; }
+        .s09 .dl { position: absolute; font: 400 26px/1.2 var(--f-mono); letter-spacing: 0.04em; color: var(--graphite); background: var(--eggshell); padding: 2px 6px; border-radius: 6px; white-space: nowrap; transform-origin: 50% 50%; }
+        .s09 .dl.one { right: 130px; top: 1178px; }
+        .s09 .dl.zero { left: 206px; top: 540px; }
+        .s09 .foot { position: absolute; left: 90px; top: 1240px; display: flex; flex-direction: column; gap: 8px; }
+        .s09 .formula { position: absolute; left: 0; right: 0; top: 740px; text-align: center; font: 400 60px/1.2 var(--f-mono); color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s05-cosine" data-width="1080" data-height="1920">
+        <div class="egg-scene s09">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="dial" d="M780 1150 A590 590 0 0 0 190 560" />
+            <path class="ink thin tk" d="M780 1138 L780 1162 M178 560 L202 560" />
+            <path class="ink arc" d="" />
+            <path class="ink dogarrow" d="M190 1150 L710 1150 M688 1136 L710 1150 L688 1164" />
+            <g class="arm"><path class="ink armpath" d="M190 1150 L710 1150 M688 1136 L710 1150 L688 1164" /></g>
+            <circle class="origin" cx="190" cy="1150" r="11" />
+          </svg>
+          <div class="reads">
+            <span class="egg-counter r-ang">Angle <b class="v-ang">0.0°</b></span>
+            <span class="egg-counter r-cos">Score <b class="v-cos">0.00</b></span>
+          </div>
+          <div class="labels" data-layout-allow-overlap="">
+            <span class="wl dog">dog</span>
+            <span class="wl w-puppy">puppy</span>
+            <span class="wl w-pizza">pizza</span>
+            <span class="ang">0°</span>
+            <span class="dl one">1 · same direction</span>
+            <span class="dl zero">0 · unrelated</span>
+          </div>
+          <span class="formula">score = cos(angle)</span>
+          <div class="foot">
+            <span class="egg-foot">Real angles between the 384-number embeddings.</span>
+            <span class="egg-foot">Opposite directions score −1 · all-MiniLM-L6-v2</span>
+          </div>
+          <div class="egg-safe">
+            <div class="head">
+              <span class="egg-eyebrow">The score</span>
+              <h2 class="egg-title">Cosine similarity</h2>
+            </div>
+            <p class="egg-label">Smaller angle → higher score.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const OX = 190, OY = 1150, LEN = 520, ARC = 110, TXT = 165;
+          const PUPPY = 36.49, PIZZA = 69.33; // arccos(0.804), arccos(0.353): real angles, see STORYBOARD.md
+          const root = document.querySelector('[data-composition-id="s05-cosine"] .s09');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const arm = q(".arm"), arc = q(".arc"), ang = q(".ang");
+          const wPuppy = q(".w-puppy"), wPizza = q(".w-pizza");
+          q(".dial").style.cssText = "fill:none;stroke:#a59f97;stroke-width:4;stroke-linecap:round;stroke-dasharray:1 12";
+          q(".origin").style.cssText = "fill:#000";
+
+          // everything that depends on the angle is drawn from one value, so scrubbing is always right
+          const A = { deg: PUPPY };
+          const apply = () => {
+            const d = A.deg, r = (d * Math.PI) / 180;
+            arm.setAttribute("transform", `rotate(${(-d).toFixed(3)} ${OX} ${OY})`);
+            const tx = OX + LEN * Math.cos(r), ty = OY - LEN * Math.sin(r);
+            [wPuppy, wPizza].forEach((w) => { w.style.left = (tx + 14).toFixed(1) + "px"; w.style.top = (ty - 54).toFixed(1) + "px"; });
+            arc.setAttribute("d", `M${OX + ARC} ${OY} A${ARC} ${ARC} 0 0 0 ${(OX + ARC * Math.cos(r)).toFixed(1)} ${(OY - ARC * Math.sin(r)).toFixed(1)}`);
+            ang.style.left = (OX + TXT * Math.cos(r / 2)).toFixed(1) + "px";
+            ang.style.top = (OY - TXT * Math.sin(r / 2) - 20).toFixed(1) + "px";
+            ang.textContent = d.toFixed(1) + "°";
+            ang.style.visibility = d < 6 ? "hidden" : "visible";
+            q(".v-ang").textContent = d.toFixed(1) + "°";
+            q(".v-cos").textContent = Math.abs(Math.cos(r)) < 0.005 ? "0.00" : Math.cos(r).toFixed(2);
+          };
+          apply();
+          const swing = (to, at, dur) => tl.to(A, { deg: to, duration: dur, ease: "power2.inOut", onUpdate: apply }, at);
+
+          const strokes = [q(".dogarrow"), q(".armpath"), arc, q(".tk")];
+          strokes.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set(strokes, { strokeDashoffset: 1.02 });
+          gsap.set([q(".dial"), q(".dog"), wPuppy, wPizza, ang, ...all(".dl")], { opacity: 0 });
+          gsap.set(q(".origin"), { scale: 0, transformOrigin: "50% 50%" });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelectorAll(".head > *"), 0.05);
+          Egg.fadeUp(tl, q(".formula"), 1.0);
+          Egg.fadeOut(tl, q(".formula"), 3.7);
+
+          // each embedding as an arrow from the same point
+          tl.to(q(".origin"), { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, 4.0);
+          tl.to(q(".dogarrow"), { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 4.2);
+          Egg.fadeUp(tl, q(".dog"), 4.6, { y: 12 });
+          tl.to(q(".armpath"), { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 5.0);
+          Egg.fadeUp(tl, wPuppy, 5.5, { y: 12 });
+
+          // the angle between them, and its cosine
+          tl.to(arc, { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 6.3);
+          tl.to(ang, { opacity: 1, duration: 0.3, ease: "none" }, 6.7);
+          Egg.pop(tl, q(".r-ang"), 6.8);
+          Egg.pop(tl, q(".r-cos"), 9.0);
+          tl.to(q(".dial"), { opacity: 1, duration: 0.5, ease: "none" }, 9.6);
+          tl.to(q(".tk"), { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw }, 9.7);
+          Egg.fadeUp(tl, all(".dl"), 9.8, { y: 10, stagger: 0.2 });
+
+          // dog ↔ pizza: a wider angle, a lower score
+          tl.to(wPuppy, { opacity: 0, duration: 0.2, ease: "none" }, 13.3);
+          swing(PIZZA, 13.4, 1.2);
+          Egg.fadeUp(tl, wPizza, 14.5, { y: 12 });
+          Egg.fadeUp(tl, q(".egg-label"), 15.0);
+          Egg.fadeUp(tl, all(".foot .egg-foot"), 15.4, { y: 12, stagger: 0.15 });
+
+          // same direction = 1, right angle = 0
+          tl.to(wPizza, { opacity: 0, duration: 0.2, ease: "none" }, 17.5);
+          swing(0, 17.7, 1.0);
+          tl.fromTo(q(".dl.one"), { scale: 1 }, { scale: 1.12, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 18.7);
+          swing(90, 19.8, 1.0);
+          tl.fromTo(q(".dl.zero"), { scale: 1 }, { scale: 1.12, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 20.8);
+
+          Egg.fadeOut(tl, [q(".egg-svg"), q(".reads"), q(".labels"), q(".foot"), q(".egg-safe")], 22.25);
+          window.__timelines["s05-cosine"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

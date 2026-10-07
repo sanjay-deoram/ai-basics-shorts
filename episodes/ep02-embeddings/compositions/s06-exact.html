@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.18},
+      {"t":2.1,"sfx":"pop","vol":0.24},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.18},
+      {"t":4.9,"sfx":"click-soft","vol":0.22},
+      {"t":5.2,"sfx":"click","vol":0.28},
+      {"t":5.5,"sfx":"whoosh-short","vol":0.18},
+      {"t":6.4,"sfx":"click","vol":0.28},
+      {"t":6.8,"sfx":"ping","vol":0.18,"dur":1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Is it exact? No: the numbers are the model's best guess, learned from text. But similar meanings
+           get similar fingerprints: the real 384-number strips of puppy and dog look alike, pizza's doesn't
+           (all-MiniLM-L6-v2, assets/fingerprints.js), each lined up in puppy's order (sorted by puppy's values) so they
+           can be compared by eye. Strips: 384 bars, 1.5 px apart, height = value × 400.
+           Voiceover: 0.3 "Is it exact? No. It's the model's best guess." 3.9 "But similar meanings get similar
+           fingerprints." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-safe { justify-content: space-between; }
+        .s06 .guess { position: absolute; left: 90px; top: 300px; white-space: nowrap; }
+        .s06 .k { position: absolute; left: 120px; }
+        .s06 .note { position: absolute; left: 764px; font: 400 38px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s06 .note.a { top: 652px; }
+        .s06 .note.b { top: 997px; }
+        .s06 .foot { position: absolute; left: 120px; top: 1130px; display: flex; flex-direction: column; gap: 8px; }
+      </style>
+      <div id="root" data-composition-id="s06-exact" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <span class="egg-chip guess">A best guess, learned from text</span>
+          <span class="k egg-card-kicker" style="top:458px">puppy</span>
+          <span class="k egg-card-kicker" style="top:688px">dog</span>
+          <span class="k egg-card-kicker" style="top:918px">pizza</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <defs>
+              <clipPath id="s06-clip-0"><rect class="win" x="118" y="470" width="0" height="180" /></clipPath>
+              <clipPath id="s06-clip-1"><rect class="win" x="118" y="700" width="0" height="180" /></clipPath>
+              <clipPath id="s06-clip-2"><rect class="win" x="118" y="930" width="0" height="180" /></clipPath>
+            </defs>
+            <path class="base" d="M120 560 L696 560" /><path class="bars" clip-path="url(#s06-clip-0)" d="" />
+            <path class="base" d="M120 790 L696 790" /><path class="bars" clip-path="url(#s06-clip-1)" d="" />
+            <path class="base" d="M120 1020 L696 1020" /><path class="bars" clip-path="url(#s06-clip-2)" d="" />
+            <path class="ghost" d="" /><path class="ghost" d="" />
+            <path class="ink thin brace" d="M716 560 Q738 560 738 588 L738 647 Q738 675 758 675 Q738 675 738 703 L738 762 Q738 790 716 790" />
+          </svg>
+          <span class="note a">look alike</span>
+          <div class="foot"><span class="egg-foot">Each bar = one of the 384 numbers, in puppy's order.</span><span class="egg-foot">Dotted line = puppy · all-MiniLM-L6-v2</span></div>
+          <span class="note b">different</span>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Is it exact?</span>
+            <p class="egg-label">Not exact. But similar meanings get similar numbers.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const X0 = 120, STEP = 1.5, K = 400, CYS = [560, 790, 1020], WORDS = ["puppy", "dog", "pizza"];
+          const root = document.querySelector('[data-composition-id="s06-exact"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const bars = all(".bars"), wins = all(".win"), bases = all(".base"), ks = all(".k");
+          // line the 384 slots up in puppy's order (lowest to highest) so the three strips can be compared by eye
+          const order = Fingerprints.puppy.map((v, i) => i).sort((a, b) => Fingerprints.puppy[a] - Fingerprints.puppy[b] || a - b);
+          bars.forEach((b, j) => {
+            const vals = order.map((i) => Fingerprints[WORDS[j]][i]);
+            b.setAttribute("d", vals.map((v, i) => `M${(X0 + i * STEP).toFixed(1)} ${CYS[j]} L${(X0 + i * STEP).toFixed(1)} ${(CYS[j] - v * K).toFixed(1)}`).join(""));
+            b.style.cssText = "fill:none;stroke:#000;stroke-width:1.2";
+          });
+          bases.forEach((b) => (b.style.cssText = "fill:none;stroke:#ebe8e4;stroke-width:2"));
+          // puppy's curve, dotted over the dog and pizza strips, so you can see which one follows it
+          const ghosts = all(".ghost");
+          const pup = order.map((i) => Fingerprints.puppy[i]);
+          ghosts.forEach((g, k) => {
+            const cy = CYS[k + 1];
+            g.setAttribute("d", "M" + pup.map((v, i) => `${(X0 + i * STEP).toFixed(1)} ${(cy - v * K).toFixed(1)}`).join(" L"));
+            g.style.cssText = "fill:none;stroke:#a59f97;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1 9";
+          });
+          const brace = q(".brace");
+          brace.setAttribute("pathLength", "1");
+          brace.style.strokeDasharray = "1 1.1";
+          gsap.set(brace, { strokeDashoffset: 1.02 });
+          gsap.set([...ks, ...bases, ...ghosts, q(".guess"), q(".note.a"), q(".note.b")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          const strip = (j, t) => {
+            Egg.fadeUp(tl, ks[j], t, { y: 12 });
+            tl.to(bases[j], { opacity: 1, duration: 0.25, ease: "none" }, t);
+            tl.fromTo(wins[j], { attr: { width: 0 } }, { attr: { width: 384 * STEP + 6 }, duration: 0.8, ease: "power1.inOut" }, t + 0.1);
+          };
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          strip(0, 0.3);
+          Egg.pop(tl, q(".guess"), 2.1);
+          strip(1, 3.9);
+          tl.to(ghosts[0], { opacity: 1, duration: 0.4, ease: "none" }, 4.6);
+          tl.to(brace, { strokeDashoffset: 0, duration: 0.4, ease: Egg.EASE.draw }, 4.9);
+          Egg.fadeUp(tl, q(".note.a"), 5.1, { y: 12 });
+          strip(2, 5.4);
+          tl.to(ghosts[1], { opacity: 1, duration: 0.4, ease: "none" }, 6.1);
+          Egg.fadeUp(tl, q(".note.b"), 6.3, { y: 12 });
+          Egg.fadeUp(tl, q(".foot"), 6.5, { y: 12 });
+          Egg.fadeUp(tl, q(".egg-label"), 6.8);
+
+          Egg.fadeOut(tl, [q(".guess"), ...ks, q(".egg-svg"), q(".note.a"), q(".note.b"), q(".foot"), q(".egg-safe")], 8.25);
+          window.__timelines["s06-exact"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

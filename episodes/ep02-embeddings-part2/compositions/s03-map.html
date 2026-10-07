@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click-soft","vol":0.18},
+      {"t":0.3,"sfx":"pop","vol":0.26},
+      {"t":1.0,"sfx":"click-soft","vol":0.2},
+      {"t":1.15,"sfx":"click-soft","vol":0.2},
+      {"t":2.4,"sfx":"whoosh","vol":0.26},
+      {"t":3.6,"sfx":"pop","vol":0.16},
+      {"t":3.86,"sfx":"pop","vol":0.16},
+      {"t":4.12,"sfx":"pop","vol":0.16},
+      {"t":4.38,"sfx":"pop","vol":0.16},
+      {"t":5.0,"sfx":"click-soft","vol":0.2},
+      {"t":5.3,"sfx":"click-soft","vol":0.2},
+      {"t":6.3,"sfx":"sparkle","vol":0.2,"dur":1.2},
+      {"t":7.3,"sfx":"whoosh","vol":0.18},
+      {"t":7.4,"sfx":"pop","vol":0.2},
+      {"t":9.2,"sfx":"whoosh","vol":0.16},
+      {"t":9.4,"sfx":"whoosh-short","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · A map of meaning. Opens zoomed ×2 on puppy's spot (its two numbers, −0.45 and 0.35, read off
+           the axes), pulls back to the whole map, the other 7 words pop in, animals and food are lassoed, and
+           Spark points: dog + puppy are neighbours, pizza is far away. Axes, dots and
+           words come from assets/wordmap.js and stay on screen at the end: s08 opens on the same frame. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .egg-safe { justify-content: space-between; }
+        .s07 .cam, .s07 .words, .s07 .ptr { position: absolute; inset: 0; }
+        .s07 .map-dot { fill: var(--ink); }
+        .s07 .map-word { position: absolute; font: 400 42px/54px var(--f-body); color: var(--ink); background: var(--eggshell); padding: 0 6px; border-radius: 10px; white-space: nowrap; }
+        .s07 .guide { fill: none; stroke: var(--ash); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1 12; }
+        .s07 .tick { position: absolute; font: 400 30px/40px var(--f-mono); color: var(--graphite); background: var(--eggshell); padding: 0 6px; border-radius: 8px; }
+        .s07 .tick.tx { left: 214px; width: 110px; top: 822px; text-align: center; }
+        .s07 .tick.ty { right: 556px; top: 569px; }
+        .s07 .group { position: absolute; font: 400 30px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); text-align: center; width: 300px; }
+        .s07 .group.ga { left: 112px; top: 1098px; }
+        .s07 .group.gf { left: 628px; top: 1172px; }
+        .s07 .foot { position: absolute; left: 0; right: 0; top: 1300px; text-align: center; }
+      </style>
+      <div data-hf-id="hf-wiyv" id="root" data-composition-id="s03-map" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s07">
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-khay" class="guide g" d="M268.8 588.8 L268.8 800" />
+              <path data-hf-id="hf-6cw6" class="guide g" d="M268.8 588.8 L540 588.8" />
+              <path data-hf-id="hf-bbec" class="ink thin tk" d="M268.8 788 L268.8 812" />
+              <path data-hf-id="hf-lcbv" class="ink thin tk" d="M528 588.8 L552 588.8" />
+              <ellipse data-hf-id="hf-iprd" class="ink thin lasso" cx="262" cy="795" rx="168" ry="285" />
+              <ellipse data-hf-id="hf-63rb" class="ink thin lasso" cx="778" cy="860" rx="170" ry="300" />
+            </svg>
+            <div data-hf-id="hf-2vjz" class="words" data-layout-allow-overlap="">
+              <span data-hf-id="hf-laoo" class="tick tx">-0.45</span>
+              <span data-hf-id="hf-5hvp" class="tick ty">0.35</span>
+              <span data-hf-id="hf-hfmz" class="group ga">Animals</span>
+              <span data-hf-id="hf-pm31" class="group gf">Food</span>
+            </div>
+            <div data-hf-id="hf-de0u" class="ptr"></div>
+          </div>
+          <span data-hf-id="hf-iunu" class="foot egg-foot">384 numbers squashed to 2 · all-MiniLM-L6-v2</span>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-2tpv" class="egg-eyebrow">A map of meaning</span>
+            <p data-hf-id="hf-588h" class="egg-label">Similar meaning → close together.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s03-map"] .s07');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => root.querySelectorAll(s);
+          const cam = q(".cam");
+          const M = WordMap.build(q(".egg-svg"), q(".words"));
+          const draws = [...M.axes, ...all(".tk"), ...all(".lasso")];
+          draws.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          const P = Egg.pointer(q(".ptr"), ["dog + puppy: neighbours", "pizza: far away"], { size: 120, mood: "talk" });
+          const dotIn = (w, t) => {
+            tl.fromTo(M.dots[w], { scale: 0 }, { scale: 1, transformOrigin: "50% 50%", duration: 0.45, ease: Egg.EASE.pop }, t);
+            Egg.fadeUp(tl, M.words[w], t + 0.1, { y: 14, dur: 0.4 });
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          gsap.set(draws, { strokeDashoffset: 1.02 });
+          gsap.set(Object.values(M.dots), { scale: 0, transformOrigin: "50% 50%" });
+          gsap.set(Object.values(M.words), { opacity: 0 });
+          // open zoomed ×2 with map point (350, 690) at the centre of the frame
+          gsap.set(cam, { scale: 2, x: 205, y: 110, transformOrigin: "350px 690px" });
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          tl.to(M.axes, { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 0.1);
+          dotIn("puppy", 0.3);
+          tl.fromTo(all(".g"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 0.8);
+          tl.to(all(".tk"), { strokeDashoffset: 0, duration: 0.25, ease: Egg.EASE.draw, stagger: 0.15 }, 0.85);
+          Egg.pop(tl, q(".tick.tx"), 1.0);
+          Egg.pop(tl, q(".tick.ty"), 1.15);
+
+          // pull back: every word gets a spot
+          tl.to(cam, { scale: 1, x: 0, y: 0, duration: 1.0, ease: Egg.EASE.move }, 2.4);
+          tl.to([...all(".g"), ...all(".tick"), ...all(".tk")], { opacity: 0, duration: 0.3, ease: "none" }, 3.5);
+          [["dog", 3.6], ["cat", 3.73], ["kitten", 3.86], ["fries", 3.99], ["burger", 4.12], ["pizza", 4.25], ["taco", 4.38]].forEach(([w, t]) => dotIn(w, t));
+
+          // similar meanings sit together
+          tl.to(all(".lasso"), { strokeDashoffset: 0, duration: 0.8, ease: Egg.EASE.draw, stagger: 0.3 }, 5.0);
+          Egg.fadeUp(tl, all(".group"), 5.8, { y: 14, stagger: 0.2 });
+          Egg.fadeUp(tl, q(".egg-label"), 6.3);
+          Egg.fadeUp(tl, q(".foot"), 6.6, { y: 12 });
+
+          // Spark: dog and puppy are neighbours, pizza is far away (each stop held ~2 s)
+          tl.to(cam, { scale: 1.12, transformOrigin: "290px 595px", duration: 0.6, ease: Egg.EASE.move }, 7.3);
+          Egg.pointTo(tl, P, { x: 290, y: 595 }, 0, 7.4, { dx: 60 });
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 9.2);
+          Egg.pointTo(tl, P, WordMap.at("pizza"), 1, 9.4, { dx: -32, dy: -125, side: "left" });
+          Egg.sparkIdle(tl, P.spark, 7.4, 11.4);
+          Egg.lipsync(tl, P.spark, Egg.sceneStart("s03-map"), 7.4, 11.5);
+          Egg.pointerHide(tl, P, 11.1);
+
+          // leave the axes, dots and words: s08 starts on this frame
+          Egg.fadeOut(tl, [...all(".lasso"), ...all(".group"), q(".foot"), q(".egg-safe")], 11.45);
+          window.__timelines["s03-map"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

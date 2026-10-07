@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.42,"sfx":"click","vol":0.3},
+      {"t":0.76,"sfx":"click","vol":0.3},
+      {"t":1.1,"sfx":"click","vol":0.3},
+      {"t":1.44,"sfx":"click","vol":0.3},
+      {"t":3.75,"sfx":"chime","vol":0.3,"dur":2.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s13 · End card. Four takeaways, follow pill, happy Spark. Holds on the last frame. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s13 .egg-safe { gap: 56px; justify-content: flex-start; padding-top: 420px; }
+        .s13 .foot { display: flex; align-items: center; gap: 36px; margin-top: 30px; }
+        .s13 .foot { justify-content: center; }
+        .s13 .egg-chip.egg-pill-dark { font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div data-hf-id="hf-qnq4" id="root" data-composition-id="s14-end" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-oswj" class="egg-scene s13">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-8c1x" class="egg-eyebrow">Remember</span>
+            <ul data-hf-id="hf-w8on" class="egg-checks">
+              <li data-hf-id="hf-kqoh"><span data-hf-id="hf-coyi" class="tick"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Text becomes numbers</li>
+              <li data-hf-id="hf-9s00"><span data-hf-id="hf-ptha" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Similar meanings sit close</li>
+              <li data-hf-id="hf-w13v"><span data-hf-id="hf-q7sb" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Search meaning, not words</li>
+              <li data-hf-id="hf-b4a5"><span data-hf-id="hf-qm3c" class="tick"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-79sv" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Claude gets the right info</li>
+            </ul>
+            <div data-hf-id="hf-mlgk" class="foot">
+              <span data-hf-id="hf-ulst" class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s14-end"] .s13');
+          Egg.mountSparks(root);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, root.querySelector(".egg-checks"), 0.3, { gap: 0.34 });
+          Egg.pop(tl, root.querySelector(".egg-pill-dark"), 3.7);
+          window.__timelines["s14-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,205 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "a23454fce8074ecdac3ff7b0e5471599",
+  "voiceName": "Young Sheldon (Fish Audio community voice)",
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "What's an embedding? And why does AI need them?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.2,
+      "text": "To a computer, dog and puppy look nothing alike."
+    },
+    {
+      "scene": "s02",
+      "at": 4.3,
+      "text": "Not one letter matches."
+    },
+    {
+      "scene": "s02",
+      "at": 6.4,
+      "text": "But they mean almost the same thing."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "That's where an embedding model comes in."
+    },
+    {
+      "scene": "s03",
+      "at": 2.6,
+      "text": "It's an AI trained on huge amounts of text."
+    },
+    {
+      "scene": "s03",
+      "at": 5.8,
+      "text": "It learned that dog and puppy fit into the same kinds of sentences."
+    },
+    {
+      "scene": "s04",
+      "at": 0.4,
+      "text": "Give it a word, and it turns the meaning into a list of numbers."
+    },
+    {
+      "scene": "s04",
+      "at": 4.6,
+      "text": "That whole list is the embedding."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "So what do the numbers mean?"
+    },
+    {
+      "scene": "s05",
+      "at": 2.1,
+      "text": "Each one is a score for some quality. Like: is it an animal? Is it food?"
+    },
+    {
+      "scene": "s05",
+      "at": 8.1,
+      "text": "But nobody picked these. The model learned them, so we can't read them one by one."
+    },
+    {
+      "scene": "s05",
+      "at": 13.4,
+      "text": "Together, they're a fingerprint for meaning."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "Is it exact? No. It's the model's best guess."
+    },
+    {
+      "scene": "s06",
+      "at": 3.9,
+      "text": "But similar meanings get similar fingerprints."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "Squash all those numbers down to two, and each word gets a spot on a map."
+    },
+    {
+      "scene": "s07",
+      "at": 5,
+      "text": "Similar meanings land close together."
+    },
+    {
+      "scene": "s07",
+      "at": 7.4,
+      "text": "Dog and puppy are neighbours. Pizza? Way over here."
+    },
+    {
+      "scene": "s08",
+      "at": 0.3,
+      "text": "A computer can score how close two spots are."
+    },
+    {
+      "scene": "s08",
+      "at": 3.4,
+      "text": "Dog and puppy: point eight. Dog and pizza: point three five."
+    },
+    {
+      "scene": "s08",
+      "at": 8.3,
+      "text": "Pizza isn't zero, because scores are fuzzy. What matters is which is closest."
+    },
+    {
+      "scene": "s09",
+      "at": 0.3,
+      "text": "That score has a name: cosine similarity."
+    },
+    {
+      "scene": "s09",
+      "at": 3.9,
+      "text": "Picture each embedding as an arrow. It measures the angle between two arrows."
+    },
+    {
+      "scene": "s09",
+      "at": 8.8,
+      "text": "Dog and puppy: a small angle, so a high score."
+    },
+    {
+      "scene": "s09",
+      "at": 13.2,
+      "text": "Dog and pizza: a wider angle, so a lower score."
+    },
+    {
+      "scene": "s09",
+      "at": 17.4,
+      "text": "Pointing the same way scores one. At a right angle, zero."
+    },
+    {
+      "scene": "s10",
+      "at": 0.3,
+      "text": "So why use them? Search."
+    },
+    {
+      "scene": "s10",
+      "at": 3.1,
+      "text": "Keyword search spots the word bike, and gets it wrong."
+    },
+    {
+      "scene": "s10",
+      "at": 6.9,
+      "text": "Embedding search matches the meaning, and finds the fix."
+    },
+    {
+      "scene": "s11",
+      "at": 0.3,
+      "text": "Where do embeddings live? In a database."
+    },
+    {
+      "scene": "s11",
+      "at": 3.4,
+      "text": "Take a team handbook and split it into chunks."
+    },
+    {
+      "scene": "s11",
+      "at": 6.4,
+      "text": "Each row stores a chunk and its numbers."
+    },
+    {
+      "scene": "s12",
+      "at": 0.3,
+      "text": "A vector database searches those numbers by closeness."
+    },
+    {
+      "scene": "s12",
+      "at": 4.2,
+      "text": "Ask a question, and it becomes numbers too."
+    },
+    {
+      "scene": "s12",
+      "at": 7.2,
+      "text": "The database finds the nearest chunk."
+    },
+    {
+      "scene": "s13",
+      "at": 0.3,
+      "text": "That chunk goes to Claude, along with your question."
+    },
+    {
+      "scene": "s13",
+      "at": 4.3,
+      "text": "So Claude answers from the right page."
+    },
+    {
+      "scene": "s14",
+      "at": 0.3,
+      "text": "So that's embeddings: meaning, turned into numbers."
+    },
+    {
+      "scene": "s14",
+      "at": 3.8,
+      "text": "Follow for more!"
+    }
+  ]
+}

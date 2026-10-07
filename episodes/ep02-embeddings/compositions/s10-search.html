@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":0.6,"sfx":"typing","vol":0.28,"dur":0.6},
+      {"t":3.1,"sfx":"pop","vol":0.26},
+      {"t":3.9,"sfx":"click-soft","vol":0.22},
+      {"t":4.2,"sfx":"click-soft","vol":0.22},
+      {"t":4.25,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.6,"sfx":"error","vol":0.2,"dur":1},
+      {"t":7.0,"sfx":"pop","vol":0.26},
+      {"t":7.2,"sfx":"key-press","vol":0.2},
+      {"t":7.5,"sfx":"typing","vol":0.26,"dur":0.8},
+      {"t":8.5,"sfx":"whoosh-short","vol":0.24},
+      {"t":9.2,"sfx":"chime","vol":0.28,"dur":1.6},
+      {"t":9.25,"sfx":"whoosh-short","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · Why: search by meaning. Weak → better, like the prompt block. Keyword search matches the
+           only shared word, "bike", and lands on the helmet page (✕). Embedding search scores every page
+           (real cosine similarities, see STORYBOARD.md), the wheel page rises to the top (✓). Spark points
+           at each match. Pointer targets come from canvas text metrics, never the DOM. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .egg-safe { justify-content: space-between; }
+        .s09 .query { position: absolute; left: 90px; right: 290px; top: 300px; padding: 30px 40px; gap: 12px; }
+        .s09 .query .egg-mono { font-size: 38px; }
+        .s09 .query .vec { font: 400 26px/1.3 var(--f-mono); color: var(--smoke); margin: 0; }
+        .s09 .mode { position: absolute; left: 90px; top: 540px; }
+        .s09 .mode .egg-chip { position: absolute; left: 0; top: 0; white-space: nowrap; }
+        .s09 .kick { position: absolute; left: 90px; top: 708px; }
+        .s09 .doc { position: absolute; left: 90px; right: 130px; height: 110px; padding: 0 36px; flex-direction: row; align-items: center; justify-content: space-between; border-radius: 30px; }
+        .s09 .doc .t { font: 400 40px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s09 .doc .sc { font: 300 48px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s09 .doc.a { top: 760px; }
+        .s09 .doc.b { top: 900px; }
+        .s09 .doc.c { top: 1040px; }
+        .s09 .doc .egg-stamp { position: absolute; right: 140px; top: -28px; }
+        .s09 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s09 .foot { position: absolute; left: 90px; top: 1186px; }
+        .s09 .ptr, .s09 .docs { position: absolute; inset: 0; }
+      </style>
+      <div data-hf-id="hf-nh4p" id="root" data-composition-id="s10-search" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-anh9" class="egg-scene s09">
+          <div data-hf-id="hf-sqfm" class="egg-card query">
+            <span data-hf-id="hf-i2ym" class="egg-card-kicker">You search</span>
+            <p data-hf-id="hf-mluw" class="egg-mono qt">My <span data-hf-id="hf-w63h" class="egg-hl qhl">bike</span> tire went flat</p>
+            <p data-hf-id="hf-t3v6" class="vec">[-0.009, 0.021, -0.045, …]</p>
+          </div>
+          <div data-hf-id="hf-usix" class="mode">
+            <span data-hf-id="hf-m1wi" class="egg-chip m1">Keyword search</span>
+            <span data-hf-id="hf-jtmn" class="egg-chip m2">Embedding search</span>
+          </div>
+          <span data-hf-id="hf-j1hc" class="kick egg-card-kicker">Help pages</span>
+          <div data-hf-id="hf-ubxh" class="docs" data-layout-allow-overlap="">
+          <div data-hf-id="hf-l5rx" class="egg-card doc a" data-layout-allow-overlap="">
+            <span data-hf-id="hf-pm4b" class="t">Choosing a <span data-hf-id="hf-s6ts" class="egg-hl dhl">bike</span> helmet</span><span data-hf-id="hf-j5ip" class="sc">0.08</span>
+            <span data-hf-id="hf-x46f" class="egg-stamp bad"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-1gbk" d="M6 6 L18 18 M18 6 L6 18" /></svg>Wrong page</span>
+          </div>
+          <div data-hf-id="hf-vtx4" class="egg-card doc b" data-layout-allow-overlap="">
+            <span data-hf-id="hf-ihg9" class="t">How to fix a punctured wheel</span><span data-hf-id="hf-c4mp" class="sc">0.44</span>
+            <span data-hf-id="hf-fsok" class="egg-stamp good"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Right page</span>
+          </div>
+          <div data-hf-id="hf-b4qj" class="egg-card doc c" data-layout-allow-overlap="">
+            <span data-hf-id="hf-h77x" class="t">Our store opening hours</span><span data-hf-id="hf-niw0" class="sc">0.03</span>
+          </div>
+          </div>
+          <span data-hf-id="hf-tumh" class="foot egg-foot">Scores: cosine similarity · all-MiniLM-L6-v2</span>
+          <div data-hf-id="hf-de0u" class="ptr"></div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-c27c" class="egg-eyebrow">Why use them? Search</span>
+            <p data-hf-id="hf-bdkc" class="egg-label">Search by meaning, not exact words.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const FONT = "400 40px Inter";
+          const TEXT_X = 90 + 2 + 36; // card left + border + padding
+          const root = document.querySelector('[data-composition-id="s10-search"] .s09');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => root.querySelectorAll(s);
+          const [A, B, C] = [q(".doc.a"), q(".doc.b"), q(".doc.c")];
+          const P = Egg.pointer(q(".ptr"), ["same word, wrong page", "means the same"], { size: 120, mood: "talk" });
+
+          const build = () => {
+            const ctx = document.createElement("canvas").getContext("2d");
+            ctx.font = FONT;
+            const w = (s) => ctx.measureText(s).width;
+            const bike = { x: TEXT_X + w("Choosing a ") + w("bike") / 2, y: 795 };
+            const wheel = { x: TEXT_X + w("How to fix a ") + w("punctured") / 2, y: 795 };
+
+            const tl = gsap.timeline({ paused: true });
+            gsap.set(all(".doc .sc"), { opacity: 0 });
+            gsap.set(all(".doc .egg-stamp, .mode .egg-chip, .query .vec"), { opacity: 0 });
+            Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+            Egg.fadeUp(tl, q(".query"), 0.3);
+            Egg.typeOn(tl, q(".qt"), 0.6, { cps: 40 });
+            Egg.fadeUp(tl, [q(".kick"), A, B, C], 1.3, { stagger: 0.12 });
+
+            // weak: keyword search matches the shared word
+            Egg.pop(tl, q(".m1"), 3.1);
+            Egg.highlight(tl, q(".qhl"), 3.9);
+            Egg.highlight(tl, q(".dhl"), 4.2);
+            Egg.pointTo(tl, P, bike, 0, 4.25, { dx: 120, dy: -220 });
+            tl.to(A, { borderColor: "#000000", duration: 0.2, ease: "none" }, 5.5);
+            Egg.stamp(tl, q(".doc.a .egg-stamp"), 5.6, A);
+
+            // better: embedding search compares meaning
+            tl.to([q(".doc.a .egg-stamp"), q(".m1")], { opacity: 0, duration: 0.25, ease: "none" }, 6.8);
+            tl.to([q(".qhl"), q(".dhl")], { backgroundSize: "0% 100%", duration: 0.3, ease: "none" }, 6.8);
+            tl.to(A, { borderColor: "#ebe8e4", duration: 0.25, ease: "none" }, 6.8);
+            tl.to([P.line, P.dot, P.labels[0]], { opacity: 0, duration: 0.2, ease: "none" }, 6.8); // Spark waits while the pages are scored
+            Egg.pop(tl, q(".m2"), 7.0);
+            Egg.fadeUp(tl, q(".query .vec"), 7.2, { y: 10 });
+            [[A, 0.08], [B, 0.44], [C, 0.03]].forEach(([card, v], i) => {
+              const el = card.querySelector(".sc");
+              tl.to(el, { opacity: 1, duration: 0.2, ease: "none" }, 7.5 + i * 0.1);
+              Egg.count(tl, el, 0, v, 7.5 + i * 0.1, { dur: 0.7, fmt: (x) => x.toFixed(2) });
+            });
+            tl.to(B, { y: -140, duration: 0.6, ease: Egg.EASE.move }, 8.5);
+            tl.to(A, { y: 140, duration: 0.6, ease: Egg.EASE.move }, 8.5);
+            tl.to(B, { borderColor: "#000000", duration: 0.2, ease: "none" }, 9.1);
+            Egg.stamp(tl, q(".doc.b .egg-stamp"), 9.2, B);
+            Egg.pointTo(tl, P, wheel, 1, 9.25, { dx: 600 - wheel.x, dy: -195, side: "right" });
+            tl.to([P.line, P.dot], { opacity: 1, duration: 0.25, ease: "none" }, 9.55);
+            Egg.sparkIdle(tl, P.spark, 4.25, 11.3);
+            Egg.lipsync(tl, P.spark, Egg.sceneStart("s10-search"), 4.25, 11.4);
+            Egg.pointerHide(tl, P, 11.1);
+            Egg.fadeUp(tl, q(".egg-label"), 9.7);
+            Egg.fadeUp(tl, q(".foot"), 9.9, { y: 12 });
+
+            Egg.fadeOut(tl, [q(".query"), q(".mode"), q(".kick"), q(".docs"), q(".foot"), q(".egg-safe")], 11.25);
+            window.__timelines["s10-search"] = tl;
+          };
+          document.fonts.load(FONT).then(build);
+        })();
+      </script>
+    </template>
+  </body>
+</html>
