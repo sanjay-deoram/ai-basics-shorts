@@ -10,37 +10,31 @@
   </head>
   <body>
     <template>
-      <!-- BLOCK · Title card (hook). 3–4s. Eyebrow, whisper-weight question, Spark pops in under it.
-           Edit: eyebrow text, the h1 text, Spark's mood. Keep the hook to 8 words or fewer. -->
+      <!-- BLOCK · Title card (hook). 3–4s. Eyebrow and whisper-weight question; the narrator avatar
+           (compositions/narrator.html) peeks in large under it. Edit: eyebrow text, the h1 text. Keep the
+           hook to 8 words or fewer, and the lower right free for the avatar. -->
       <style>
         #root { position: absolute; inset: 0; }
         .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
         .s01 .egg-display .w { display: inline-block; }
-        .s01 .spark { --s: 300px; align-self: center; margin-top: 140px; }
       </style>
       <div data-hf-id="hf-6ql4" id="root" data-composition-id="s01-title" data-width="1080" data-height="1920">
         <div data-hf-id="hf-tf6y" class="egg-scene s01">
           <div data-hf-id="hf-7owf" class="egg-safe">
             <span data-hf-id="hf-wod1" class="egg-eyebrow">AI basics · Episode 00</span>
             <h1 data-hf-id="hf-1hyp" class="egg-display">How does AI write its answer?</h1>
-            <div data-hf-id="hf-mk8n" class="spark"></div>
           </div>
         </div>
       </div>
       <script>
         (() => {
           const root = document.querySelector('[data-composition-id="s01-title"] .s01');
-          Egg.mountSparks(root);
           const h1 = root.querySelector(".egg-display");
           h1.innerHTML = h1.textContent.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ");
-          const spark = root.querySelector(".spark");
 
           const tl = gsap.timeline({ paused: true });
           Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.15);
           Egg.fadeUp(tl, h1.querySelectorAll(".w"), 0.3, { y: 60, stagger: 0.07, dur: 0.6 });
-          Egg.pop(tl, spark, 1.1);
-          Egg.sparkIdle(tl, spark, 1.1, 3.5);
-          Egg.sparkMood(tl, spark, "explain", 2.0);
           Egg.fadeOut(tl, root.querySelector(".egg-safe"), 3.15);
           window.__timelines["s01-title"] = tl;
         })();

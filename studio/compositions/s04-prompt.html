@@ -15,10 +15,10 @@
   </head>
   <body>
     <template>
-      <!-- BLOCK · Prompt before/after with Spark. 8–9s.
-           A vague prompt types on, gets a weak answer and a VAGUE stamp while Spark looks confused.
-           The better prompt types on, its key phrase is highlighted, Spark drops to the better answer
-           and lights up, CLEAR stamp. Spark hands off between the two answer rows (two instances). Edit: chip text, both prompts (.egg-hl marks the key phrase),
+      <!-- BLOCK · Prompt before/after. 8–9s.
+           A vague prompt types on, gets a weak answer and a VAGUE stamp. The better prompt types on, its key
+           phrase is highlighted, the better answer lands, CLEAR stamp. The cards fill the safe box, so the narrator
+           avatar steps out for this block (or give a short tip room and add doubt / smile EXPR). Edit: chip text, both prompts (.egg-hl marks the key phrase),
            both answers. Keep the bad prompt under 40 characters and the good one under 110. -->
       <style>
         #root { position: absolute; inset: 0; }
@@ -26,14 +26,11 @@
         .s04 .egg-safe { gap: 30px; justify-content: center; padding-bottom: 40px; }
         .s04 .egg-safe > .egg-chip { margin-bottom: 10px; }
         .s04 .egg-mono { font-size: 38px; }
-        .s04 .row { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 30px; align-items: center; }
-        .s04 .slot { width: 190px; height: 190px; position: relative; }
         .s04 .result { padding: 30px 36px; border-radius: 36px; }
         .s04 .result p, .s04 .result li { font: 400 34px/1.38 var(--f-body); color: var(--smoke); margin: 0; }
         .s04 .result.rich { background: var(--eggshell); }
         .s04 .result.rich ol { margin: 0; padding-left: 40px; display: flex; flex-direction: column; gap: 10px; }
         .s04 .result.rich li { color: var(--ink); }
-        .s04 .spark { --s: 190px; }
         .s04 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
         .s04 .gap-lg { margin-top: 18px; }
       </style>
@@ -49,10 +46,7 @@
                 </div>
                 <p data-hf-id="hf-u4fp" class="egg-mono t-bad">Write about dogs.</p>
               </div>
-              <div data-hf-id="hf-tar7" class="row r1">
-                <div data-hf-id="hf-fv78" class="slot"><div data-hf-id="hf-tgeu" class="spark spark-1" data-mood="confused"></div></div>
-                <div data-hf-id="hf-v8dg" class="egg-card taupe result res-bad"><p data-hf-id="hf-wvbu">Dogs are popular pets. They come in many shapes and sizes.</p></div>
-              </div>
+              <div data-hf-id="hf-v8dg" class="egg-card taupe result res-bad"><p data-hf-id="hf-wvbu">Dogs are popular pets. They come in many shapes and sizes.</p></div>
               <div data-hf-id="hf-hgfu" class="egg-card is-good card-good gap-lg">
                 <div data-hf-id="hf-lc74" class="egg-card-top">
                   <span data-hf-id="hf-39vx" class="egg-card-kicker">Better prompt</span>
@@ -60,15 +54,12 @@
                 </div>
                 <p data-hf-id="hf-1jew" class="egg-mono t-good">Write 3 fun facts about dogs <span data-hf-id="hf-1ry4" class="egg-hl">for a 7-year-old</span>. One short sentence each.</p>
               </div>
-              <div data-hf-id="hf-if9k" class="row r2">
-                <div data-hf-id="hf-exn0" class="slot"><div data-hf-id="hf-sw5t" class="spark spark-2"></div></div>
-                <div data-hf-id="hf-e9qn" class="egg-card result rich res-good">
+              <div data-hf-id="hf-e9qn" class="egg-card result rich res-good">
                   <ol data-hf-id="hf-eaxy">
                     <li data-hf-id="hf-ygh6">A dog's nose print is unique.</li>
                     <li data-hf-id="hf-ogdp">Dogs hear 4x farther than you.</li>
                     <li data-hf-id="hf-jrrj">Puppies are born with eyes shut.</li>
                   </ol>
-                </div>
               </div>
             </div>
           </div>
@@ -77,10 +68,7 @@
       <script>
         (() => {
           const root = document.querySelector('[data-composition-id="s04-prompt"] .s04');
-          Egg.mountSparks(root);
           const q = (s) => root.querySelector(s);
-          const spark1 = q(".spark-1");
-          const spark2 = q(".spark-2");
 
           const tl = gsap.timeline({ paused: true });
           Egg.pop(tl, q(".egg-chip"), 0.2);
@@ -88,21 +76,13 @@
           tl.set([q(".stamp-bad"), q(".stamp-good")], { opacity: 0 }, 0);
           Egg.typeOn(tl, q(".t-bad"), 0.9);
           Egg.fadeUp(tl, q(".res-bad"), 1.6);
-          Egg.pop(tl, spark1, 1.8);
-          Egg.sparkIdle(tl, spark1, 1.8, 6.0);
-          Egg.sparkMood(tl, spark1, "confused", 1.9);
           Egg.stamp(tl, q(".stamp-bad"), 2.4, q(".card-bad"));
           Egg.fadeUp(tl, q(".card-good"), 3.3);
           const typed = Egg.typeOn(tl, q(".t-good"), 3.7, { cps: 42 });
           Egg.highlight(tl, q(".t-good .egg-hl"), typed + 0.15);
           tl.to(q(".zoomwrap"), { scale: 1.03, transformOrigin: "50% 45%", duration: 0.6, ease: Egg.EASE.move }, typed + 0.1);
-          // hand-off: Spark leaves the weak answer and pops up beside the better one
-          tl.to(spark1, { scale: 0.4, opacity: 0, y: 60, duration: 0.35, ease: Egg.EASE.exit }, 5.85);
-          Egg.pop(tl, spark2, 6.05);
-          Egg.sparkIdle(tl, spark2, 6.05, 8.5);
           Egg.fadeUp(tl, q(".res-good"), 6.1);
           Egg.fadeUp(tl, q(".res-good").querySelectorAll("li"), 6.3, { y: 16, stagger: 0.12 });
-          Egg.sparkMood(tl, spark2, "happy", 6.7);
           Egg.stamp(tl, q(".stamp-good"), 7.0, q(".card-good"));
           tl.to(q(".zoomwrap"), { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 7.3);
           Egg.fadeOut(tl, q(".zoomwrap"), 8.15);

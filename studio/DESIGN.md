@@ -1,11 +1,12 @@
 ---
-version: 1.0
+version: 2.0
 name: Eggshell Studio — AI basics shorts
 description: >
   Frame-scale design system for a series of vertical (1080×1920) animated shorts that teach AI
   basics in plain language. Warm eggshell paper, black ink, whisper-weight headlines, and one
-  living spark of color: Spark the mascot. Color appears only inside Spark and the things Spark
-  touches (the isometric dot and glows); everything else is ink on paper.
+  narrator: the stippled Sanjay avatar, who talks, reacts and moves around the frame. Color appears
+  only in his glow and the things that come alive (the isometric dot, token tints, the highlighter);
+  everything else, the avatar included, is ink on paper.
 unit: the frame — 1080×1920 portrait, 30 fps, 60 s maximum
 principle: ink on paper · one idea per scene · color only where something comes alive
 
@@ -18,9 +19,10 @@ colors:
   graphite: "#44403b"     # strong secondary text
   smoke: "#777169"        # body, captions, kickers (lightest text allowed: 4.6:1)
   ash: "#a59f97"          # decoration only, never text (fails contrast)
-  violet: "#0447ff"       # Spark only
-  ember: "#ff4704"        # Spark only
-  blush: "#ff7ac0"        # Spark, highlighter
+  violet: "#0447ff"       # avatar glow, iso dot, token tints
+  ember: "#ff4704"        # avatar glow, iso dot, token tints
+  blush: "#ff7ac0"        # avatar glow, token tints, highlighter
+  claude: "#D97757"       # the Claude logo only (assets/claude-logo.svg)
   good: "#157f3c"         # CLEAR stamp only
   good-tint: "#e7f3eb"
   bad: "#b42318"          # VAGUE stamp only
@@ -95,22 +97,24 @@ and a habit from somewhere else disagree, this file wins. When this file changes
 
 - 1080 × 1920, 30 fps, **60 s maximum**. Most episodes land at 30–50 s.
 - **Social-safe box:** x 90–950, y 220–1500. Shorts, Reels and TikTok cover the top, the bottom
-  420 px (caption, handle, music) and the right edge (like/comment buttons). Text, key drawings
-  and Spark stay inside the box. Backgrounds and decoration may bleed.
+  420 px (caption, handle, music) and the right edge (like/comment buttons). Text and key drawings
+  stay inside the box; the narrator avatar's face does too, though his hair, shoulders and glow may
+  peek past the right edge. Backgrounds and decoration may bleed.
 - The progress bar sits just above the box at y 186.
 - No letterboxing, no frames-within-frames. The paper is the whole screen.
 
 ## 3. Color
 
 - The page is 97% achromatic: eggshell, taupe, stone, ink, graphite, smoke.
-- **Violet, ember and blush live only inside Spark** and in things Spark's energy touches: the
-  isometric dot, the glow when the dot lands, and the highlighter under a key phrase.
+- **Violet, ember and blush live only where something comes alive:** the soft glow behind the
+  narrator avatar, the isometric dot and its landing glow, and the highlighter under a key phrase.
 - Green and red are reserved for the CLEAR and VAGUE stamps. Never use them for decoration.
-- **Token chips** use soft Spark tints (`--tok-1/2/3`: violet 12%, blush 24%, ember 14%), cycling in
-  order. Tokens are what Spark reads and writes, so they share its color. Never use the tints for
+- **Token chips** use soft tints of those three (`--tok-1/2/3`: violet 12%, blush 24%, ember 14%), cycling
+  in order. Tokens are what the AI reads and writes, so they get the living colors. Never use the tints for
   anything that isn't a token or a token amount (the context-window squares count).
 - Text is ink, graphite or smoke. **Ash is never text** (it fails contrast at 2.6:1).
-- No other colors. No gradients except inside Spark.
+- **Claude terracotta (#D97757)** appears only in the Claude logo, when a scene shows Claude itself.
+- No other colors. No gradients except the avatar's glow and the iso dot.
 
 ## 4. Type
 
@@ -122,50 +126,79 @@ and a habit from somewhere else disagree, this file wins. When this file changes
 - Minimum sizes on the 1080 frame: 34 px for anything the viewer must read, 24 px for kickers.
 - Fonts are shipped locally in `assets/fonts/`. Never load them from the network at render time.
 
-## 5. Spark, the mascot
+## 5. The narrator: the Sanjay avatar
 
-A soft sphere of light drawn in the product gradient, with black ink eyes and mouth. Spark is the
-AI on the other side of your prompt: very bright, very eager, and new to your job. Give it a vague
-ask and it squints; give it a clear one and it glows.
+A stippled, Pixar-style 3D cut-out of Sanjay (halftone black and white: curly hair, clear glasses,
+beard, grey suit, dark tie) narrates every episode. He is the person explaining; he is never the AI.
+Spark, the gradient sphere of episodes 01 and 02, is retired: don't use it in new episodes (its helpers
+stay in `eggshell.js` only so those cuts rebuild).
 
-| Mood       | When                                                   | Motion                                |
-| ---------- | ------------------------------------------------------ | ------------------------------------- |
-| `neutral`  | default, listening                                     | breathe 3.4 s cycle, blink every 3.2 s |
-| `confused` | after a vague prompt or a weak answer                  | tilts −10°, "?" appears               |
-| `happy`    | after a clear prompt, at the end card                  | hops twice, blush halo                |
-| `explain`  | on title cards and when pointing at a step             | tilts 6°, eyes look right, small "o"  |
+**Art** (`assets/avatar/`). Cut from two Gemini sheets that share the same rest face, so every part lines
+up: `source-flipbook.jpg` (talking frames, `tools/cut-flipbook.py`) and `source-expressions.jpg` (smile,
+doubtful brows, `tools/cut-expressions.py`). The face is always `f1.png`; only feathered patches change
+on top of it, so the hair, glasses and stipple never flicker.
 
-Rules:
-- Spark never talks in speech bubbles; its face does the acting.
-- One Spark on screen at a time. To "move" Spark between rows, the old one exits and a new one
-  pops in (see the prompt block). Never measure layout at build time to place it.
-- Sizes: 300 px on title cards, 190 px beside answers and on the end card, 150 px as a cameo in
-  whiteboard scenes.
-- Spark may appear in whiteboard scenes as a cameo after the drawing finishes.
-- **Spark as a pointer** (`Egg.pointer`, `Egg.pointTo`, `Egg.pointerHide`): when something on screen
-  needs explaining step by step (a word being split, a number, a part of a diagram), Spark (120 px)
-  hovers about 230 px above the spot, a dotted ink leader runs down to a dot on it, and a short
-  outlined mono label (≤ 26 chars) sits beside Spark on the side with room. Spark glides 0.45 s
-  between stops; give each stop at least 0.9 s so it can be read. Use `explain`, or `happy` with
-  `{ hop: false }`. Get target positions from fixed layout or canvas text metrics, never the DOM.
+| Layer           | File(s)                              | When                                |
+| --------------- | ------------------------------------ | ----------------------------------- |
+| Rest            | `f1.png`                             | always                              |
+| Slightly parted | `mouth-2.png`                        | ee, eh, ah syllables                |
+| Small round     | `mouth-7.png`                        | oo, oh, er syllables                |
+| Lips pressed    | `mouth-8.png`                        | m, b, p (before or after the vowel) |
+| Doubt           | `brows-doubt.png`, `mouth-doubt.png` | one brow up, flat mouth             |
+| Smile           | `mouth-smile.png`                    | closed smile                        |
 
-### Narrator mode (trial: `episodes/ep01-tokens-narrator`)
+Keep the mouth small: the sheet's open mouths (3–6) read as shouting at narrator size and are not
+used. The sheets are 1024 × 1024 (about 220 px per face), so he is a little soft up close; for a
+sharper avatar, regenerate both sheets larger in the same pose and re-run the two cut scripts
+(re-check their `REG` offsets and the mouth/brow ellipses).
 
-One Spark narrates the whole episode from a full-length overlay (`compositions/narrator.html`), and its
-mouth moves with the voiceover (`talk` / `talkhappy` faces, driven by `assets/lipsync.js` from
-`node tools/lipsync.mjs`). It has four states:
+**Talking.** `Egg.avatarTalk` reads `assets/lipsync.js`. `node tools/lipsync.mjs` splits each voice line
+in `voiceover.json` into written syllables, gives each a sound (ee/ah/oh) and its m/b/p closures, and
+places one mouth beat per syllable on the loudness peaks of that line (where speech runs syllables
+together, the widest stretch is split evenly). The mouth half-closes at each hand-off, so every
+syllable reads. Rerun it after any voice change.
 
-| State     | Size   | Where                                   | When                                                   |
-| --------- | ------ | --------------------------------------- | ------------------------------------------------------ |
-| Presenter | 250–280 px | open space in the scene (title, end card, beside a result) | speaking while nothing else needs attention |
-| Corner    | 120 px | centre (880, 300): x 820–940, y 240–360 | speaking over visuals that carry the scene              |
-| Actor     | scene size | the scene's fixed Spark spot          | when Spark plays a role (tokens fly into it)            |
-| Hidden    | 0      | where it was                            | while a scene's own pointer Spark is on screen          |
+**Expressions** (`EXPR` in `compositions/narrator.html`, episode seconds, 0.15 s fades). `doubt` on a
+wrong, weak or "is it exact?" moment; `smile` on a clear answer, a key insight and the end card. A
+talking mouth wins over an expression's mouth; the doubtful brows stay while he talks. One or two
+per scene at most.
 
-The corner sits below the platform top bars, above the right-side like/comment buttons, and clear of
-every scene's content. Keep it free when laying out new scenes. Moves take 0.6 s (back.out); pops 0.5 s.
-Scenes that use narrator mode drop their own Sparks, except the pointer, which also lip-syncs
-(`Egg.lipsync(tl, P.spark, Egg.sceneStart(id), from, to)`).
+**Staging.** One narrator overlay covers the whole episode (`compositions/narrator.html`, track 2). He
+moves into whatever space the scene leaves empty at that moment:
+
+| Place    | Box top-left, scale (540 × 629 box) | Use                                             |
+| -------- | ----------------------------------- | ----------------------------------------------- |
+| `title`  | 620, 800, 1.0                        | large peek from the right, under the hook       |
+| `tr`     | 760, 188, 0.6                        | top right, beside the eyebrow                   |
+| `corner` | 864, 196, 0.46                       | smaller top right, when labels need room        |
+| `br`     | 600, 1050, 0.72                      | bottom right, inside the safe box               |
+| `bl`     | 90, 1050, 0.72                       | bottom left (faces right)                       |
+| `end`    | centred, 196, 0.7                    | above the end-card recap                        |
+
+- **Only park him on empty paper.** Most scenes fill the top first and the bottom last, so the bottom
+  spots are free early: move him up or out before the closing line lands. Check every stop with
+  `npx hyperframes snapshot` at the times he arrives and leaves.
+- **Moves:** glide 0.8 s power2.inOut (he turns to face the content mid-move); slide in 0.55 s
+  back.out(1.4); slide out 0.32 s power2.in. A soft `whoosh-short` (0.1–0.16) on each move.
+- **Never glide across content**: slide out one edge and back in at the new place instead.
+- **Face the content:** mirrored (looking left) on the right half, unmirrored on the left half.
+- **Step out** while a scene's pointer is on screen, or when a scene fills the whole box.
+- A soft blush/violet glow sits behind him; it is the only gradient on the page besides the iso dot.
+
+**Pointer** (`Egg.pointer`, `Egg.pointTo`, `Egg.pointerHide`). When something on screen needs explaining
+step by step, a small flying head of the avatar (about 120 px) hovers about 230 px above the spot, a
+dotted ink leader runs down to a dot on it, and a short outlined mono label (≤ 26 chars) sits beside
+the head on the side with room. The head glides 0.45 s between stops and turns toward the screen
+centre; give each stop at least 0.9 s. Its mouth talks with the voice
+(`Egg.lipsync(tl, P.spark, Egg.sceneStart(id), from, to)`). The narrator steps out meanwhile. Variant:
+`Egg.pointer(layer, labels, { origin: { x: 912, y: 352 } })` draws the leader from beside the corner
+narrator's chin instead (no flying head), with each label at `opts.label { x, y, side }`. Get target
+positions from fixed layout or canvas text metrics, never the DOM.
+
+**Claude.** When a scene shows Claude itself (a prompt sent to Claude, Claude answering), use the
+Claude logo (`assets/claude-logo.svg`) at the scene's actor spot: it pops in, pulses as the prompt
+lands, and turns slowly while Claude answers. The logo file is a drawn stand-in for the Claude mark;
+replace it with the official SVG at the same path when available.
 
 ## 6. Scene blocks
 
@@ -178,15 +211,18 @@ one of each; copy the closest one to start a new scene.
 | Whiteboard drawing    | `s02-whiteboard.html` | 6–8 s       | A concept you can picture (library, tokens, wheel)  |
 | Isometric steps       | `s03-steps.html`      | 8–12 s      | Anything with 2–5 steps in order                    |
 | Prompt before/after   | `s04-prompt.html`     | 8–9 s       | Each prompting tip: weak prompt → better prompt     |
-| End card              | `s05-end.html`        | 4–5 s       | 2–4 takeaways and the follow pill; holds, no fade   |
+| End card              | `s05-end.html`        | 4–5 s       | 2–4 takeaways and the follow pill under the avatar; holds, no fade |
+| Narrator (overlay)    | `narrator.html`       | whole video | The Sanjay avatar: places, moves, expressions, mouth (§5) |
 | Chrome (overlay)      | `chrome.html`         | whole video | Progress bar; set `duration` via `data-variable-values` on its host |
 
-More blocks, built for episode 01 (copy from `../episodes/ep01-tokens/compositions/`):
+More blocks, built for episodes 01–02 (copy from `../episodes/ep01-tokens/compositions/` and
+`../episodes/ep02-embeddings-part*-avatar/compositions/`; the ep01 ones still contain Spark: remove it
+and stage the narrator avatar instead):
 
 | Block                 | File                  | Length | Use it for                                                    |
 | --------------------- | --------------------- | ------ | ------------------------------------------------------------- |
 | Token split + zoom    | `s02-pieces.html`     | 8–9 s  | Showing how text breaks into pieces; camera push in and out   |
-| Input / output flow   | `s03-inout.html`      | 9 s    | Things going into Spark and coming back out, with counters    |
+| Input / output flow   | `s03-inout.html`      | 9 s    | Things going into the AI and coming back out, with counters    |
 | Zoom-out grid         | `s04-context.html`    | 7 s    | Comparing sizes: start zoomed on the small one, pull back     |
 | Comparison bars       | `s05-prices.html`     | 9 s    | Prices, speeds, sizes across models; bars drawn to scale      |
 | Receipt / live math   | `s06-math.html`       | 8 s    | Worked numbers that add up, then a scale-up total             |
@@ -230,8 +266,9 @@ the same across episodes.
 | Re-read scan | (in `s07-chat.html`)   | each earlier token outlined in turn over ~1.1 s while the meter counts | `typing` |
 | Bars         | `Egg.bars`             | 0.7–0.9 s, power3.out, 0.12 s stagger         | `whoosh-short`   |
 | Zoom in/out  | `tl.to(cam, scale)`    | 0.7–1.0 s, power2.inOut; push ≤ 1.15, pull-back reveals from 2.0 | `whoosh` |
-| Spark moods  | `Egg.sparkMood`, `Egg.sparkIdle` | see §5                              | `pop` on entry   |
-| Spark pointer | `Egg.pointTo`         | 0.45 s glide, power2.inOut; label fades in at 60% | soft `whoosh-short` per move |
+| Avatar moves | `narrator.html` PATH   | glide 0.8 s / in 0.55 s / out 0.32 s (§5)     | soft `whoosh-short` per move |
+| Avatar talk  | `Egg.avatarTalk`       | one mouth beat per syllable (§5)              | —                |
+| Pointer      | `Egg.pointTo`          | 0.45 s glide, power2.inOut; label fades in at 60% | soft `whoosh-short` per move |
 | Word split   | (in ep01 `s02-pieces.html`) | sentence reads whole first; one cut every 0.9 s; pieces slide apart by transform | `click` per cut |
 
 Pacing: something visibly changes at least every 1.5 s. Hold each finished state for at least
@@ -245,13 +282,17 @@ Pacing: something visibly changes at least every 1.5 s. Hold each finished state
 - Each scene lists its cues in its `<head>` as `<script type="application/json" class="sfx-cues">`
   with scene-local times. `node tools/build-sfx.mjs` writes them into `index.html` at episode time
   and spreads them across tracks so none overlap. Rerun it after any timing change.
-- **Voiceover:** short, plain lines in the series voice, about 2–3 words per second, written per scene
-  in `voiceover.json` (`scene`, `at` seconds from scene start, `text`). `FISH_API_KEY=… node tools/voiceover.mjs`
+- **Voiceover:** short, plain lines in Sanjay's voice, about 2–3 words per second, written per scene
+  in `voiceover.json` (`scene`, `at` seconds from scene start, `text`). The voice is picked by name
+  from `voices` (`"voice": "sanjay"` by default; `sheldon` is kept as an alternative); each voice's takes
+  are stored side by side, so `node tools/voiceover.mjs --voice=sheldon --place` switches with no API
+  calls. `FISH_API_KEY=… node tools/voiceover.mjs`
   generates each line with Fish Audio (`s2.1-pro-free` unless the account has API credit), measures it,
   flags lines that run past their scene or into the next line, and places them on track 20 at volume 1.
   Unchanged lines are cached. Fix overlaps by moving `at` first, shortening text second.
 - Sync the voice to the picture: say a word as it appears (the token split says each piece on its cut).
   The voice adds to the on-screen text; it doesn't need to read every label aloud.
+- After the voice, `node tools/lipsync.mjs` (mouth beats for the avatar), then `node tools/build-sfx.mjs`.
 - Never store the API key in the project; pass it in the environment when running the tool.
 - No music yet. Captions are not needed while the on-screen text carries the lesson.
 
@@ -270,7 +311,10 @@ Leave 0 s gaps between scenes; each scene fades its own content out and the pape
 ```bash
 node tools/new-episode.mjs ep01-prompting   # copies this kit to ../episodes/ep01-prompting
 cd ../episodes/ep01-prompting
-# edit compositions/*.html and the scene slots in index.html
+# edit compositions/*.html and the scene slots in index.html; write voiceover.json
+FISH_API_KEY=… node tools/voiceover.mjs      # generate + place the voice (Sanjay)
+node tools/lipsync.mjs                       # mouth beats for the avatar
+# stage the avatar: PLACES / PATH / EXPR in compositions/narrator.html (set LEN to the episode length)
 node tools/build-sfx.mjs                     # place sound cues
 npx hyperframes check                        # must pass with 0 errors
 npx hyperframes snapshot --at 2,8,15        # look at real frames
@@ -296,7 +340,9 @@ Do
 - `Egg.count` / GSAP round tiny decimals while tweening. Count money in millionths of a dollar and divide in `fmt`.
 
 Don't
-- Add colors, gradients or shadows outside Spark, cards and the whisper card shadow.
+- Add colors, gradients or shadows outside the avatar's glow, the iso dot, cards and the whisper card shadow.
+- Bring back Spark, make the avatar play Claude, or open his mouth wider than mouth 2.
+- Park the avatar on content, even for a moment; snapshot every stop.
 - Bold Inter Tight, use ash for text, or put text outside the safe box.
 - Tween `opacity`/`visibility` on a `.clip` element, use `Math.random()`, or fetch at render time.
 - Animate layout properties (margin, width, padding of laid-out text) for motion; they snap to whole

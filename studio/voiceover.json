@@ -1,0 +1,18 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": []
+}

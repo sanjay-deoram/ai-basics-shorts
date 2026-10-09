@@ -193,4 +193,13 @@
 .egg-pointer .ptr-line { stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1 9; }
 .egg-pointer .ptr-dot { fill: var(--ink); }
 .egg-pointer .ptr-spark { position: absolute; left: 0; top: 0; }
+/* avatar: 540×629 cut-outs, mirrored to face left; .av-flip turns him to face right */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }
+/* pointer head: --s box (as Spark's), the head about --s tall and centred in it, fading out at the neck */
+.egg-pointer .ptr-avatar { width: var(--s); height: var(--s); overflow: visible; }
+.egg-pointer .ptr-avatar .av-bob { inset: auto; left: calc(var(--s) * -0.357); top: calc(var(--s) * -0.24); width: calc(var(--s) * 1.714); height: calc(var(--s) * 1.997);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 63%, transparent 75%); mask-image: linear-gradient(to bottom, #000 0, #000 63%, transparent 75%); }
 .egg-pointer .ptr-label { position: absolute; font: 400 25px/1 var(--f-mono); letter-spacing: 0.03em; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 13px 20px; white-space: nowrap; }

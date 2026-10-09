@@ -15,12 +15,11 @@
     <template>
       <!-- BLOCK · Whiteboard drawing. 6–8s. One black line drawing draws itself stroke by stroke inside
            the drawing zone (x 150–930, y 520–1200), then a short label fades in under it.
-           Edit: the <svg class="egg-svg"> strokes (data-draw = order, data-dur = seconds), the label, Spark.
+           Edit: the <svg class="egg-svg"> strokes (data-draw = order, data-dur = seconds), the label.
            Rules: one drawing per scene, no fills, every stroke done 1.5s+ before the scene ends. -->
       <style>
         #root { position: absolute; inset: 0; }
         .s02 .egg-safe { justify-content: space-between; }
-        .s02 .spark { --s: 150px; position: absolute; left: 700px; top: 470px; }
       </style>
       <div data-hf-id="hf-y6yu" id="root" data-composition-id="s02-whiteboard" data-width="1080" data-height="1920">
         <div data-hf-id="hf-n9h5" class="egg-scene s02">
@@ -33,7 +32,6 @@
             <path data-hf-id="hf-dapy" class="ink" data-draw="5" d="M538 1180 L630 760 L735 784 L645 1180" />
             <path data-hf-id="hf-fngb" class="ink" data-draw="6" d="M710 1180 V1110 H860 V1180 M695 1110 V1045 H845 V1110" />
           </svg>
-          <div data-hf-id="hf-wrb2" class="spark" data-mood="happy"></div>
           <div data-hf-id="hf-7owf" class="egg-safe">
             <span data-hf-id="hf-vu9t" class="egg-eyebrow">The backstory</span>
             <p data-hf-id="hf-4zqe" class="egg-label">It learned from a huge library of text.</p>
@@ -43,16 +41,11 @@
       <script>
         (() => {
           const root = document.querySelector('[data-composition-id="s02-whiteboard"] .s02');
-          Egg.mountSparks(root);
-          const spark = root.querySelector(".spark");
           const tl = gsap.timeline({ paused: true });
           Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.1);
           const drawn = Egg.draw(tl, root.querySelector(".egg-svg"), 0.3);
           Egg.fadeUp(tl, root.querySelector(".egg-label"), drawn + 0.1);
-          Egg.pop(tl, spark, 4.0);
-          Egg.sparkIdle(tl, spark, 4.0, 6.5);
-          Egg.sparkMood(tl, spark, "happy", 4.3);
-          Egg.fadeOut(tl, [root.querySelector(".egg-svg"), root.querySelector(".egg-safe"), spark], 6.15);
+          Egg.fadeOut(tl, [root.querySelector(".egg-svg"), root.querySelector(".egg-safe")], 6.15);
           window.__timelines["s02-whiteboard"] = tl;
         })();
       </script>

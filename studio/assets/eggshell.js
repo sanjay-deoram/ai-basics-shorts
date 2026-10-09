@@ -40,7 +40,67 @@
   }
 
   // Breathing, slow color swirl and a blink every 3.2s between start and end.
+  /* ---------- Spark (legacy) ---------- */
+  // mountSparks / sparkMood / blink and the Spark parts of sparkIdle and lipsync drive Spark, the mascot of the
+  // first episodes. New episodes use the Sanjay avatar below instead (DESIGN.md §5); these stay so old cuts rebuild.
+
+  /* ---------- avatar (the stippled Sanjay narrator) ---------- */
+  // Cut-outs in assets/avatar (tools/cut-flipbook.py, tools/cut-expressions.py). The face is always f1.png; only
+  // feathered patches change: mouths 2 (slightly parted: ee/eh/ah), 7 (small round: oo/oh/er), 8 (lips pressed:
+  // m/b/p), and the doubt (brows + flat mouth) and smile expressions. Mirrored so he faces left; .av-flip turns him.
+  const AV_LAYERS = ["brows-doubt", "mouth-doubt", "mouth-smile", "mouth-8", "mouth-2", "mouth-7"];
+  function mountAvatar(el) {
+    el.classList.add("avatar");
+    el.innerHTML = `<div class="av-bob"><div class="av-flip"><div class="av-frames"><img class="av-face" src="assets/avatar/f1.png" alt="">` +
+      AV_LAYERS.map((n) => `<img data-av="${n}" src="assets/avatar/${n}.png" alt="">`).join("") + `</div></div></div>`;
+    return el;
+  }
+  // Drive an avatar's mouth from the voiceover: one beat per written syllable (EggLipsync.syl, tools/lipsync.mjs),
+  // the mouth half-closing at each hand-off. offset = episode time of local 0. opts.expr: [[name, from, to], …] in
+  // episode seconds (doubt | smile, 0.15 s fades; a talking mouth wins over an expression's mouth).
+  function avatarTalk(tl, el, offset, from, to, opts = {}) {
+    const L = window.EggLipsync;
+    if (!L) return to;
+    const FPS = L.fps, EXPR = opts.expr || [];
+    const layer = {};
+    el.querySelectorAll("img[data-av]").forEach((im) => (layer[im.dataset.av] = im));
+    const lvl = (i) => (i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0);
+    const ramp = (a, b, x) => { const p = Math.min(1, Math.max(0, (x - a) / (b - a))); return p * p * (3 - 2 * p); };
+    const SYL = (L.syl || []).map(([a, b, peak, sound, flags]) => ({ from: a, to: b, peak, sound, pre: flags & 1, post: flags & 2 }));
+    const SHAPE = { E: "mouth-2", A: "mouth-2", O: "mouth-7" };
+    const on = (name, t) => EXPR.reduce((v, [n, a, b]) => (n === name ? Math.max(v, Math.min(ramp(a, a + 0.15, t), 1 - ramp(b, b + 0.15, t))) : v), 0);
+    const box = { t: from };
+    let si = 0;
+    const apply = () => {
+      const t = offset + box.t, f = t * FPS;
+      const i = Math.floor(f), k = f - i;
+      let open = ramp(0.12, 0.38, lvl(i) * (1 - k) + lvl(i + 1) * k);
+      while (si > 0 && SYL[si].from > f) si--;
+      while (si < SYL.length - 1 && SYL[si].to <= f) si++;
+      const s = SYL[si] && f >= SYL[si].from && f < SYL[si].to ? SYL[si] : null;
+      if (s) open *= 0.45 + 0.55 * ramp(0, 1.6, Math.min(f - s.from, s.to - f));
+      const w = {};
+      if (s) {
+        w[SHAPE[s.sound]] = open;
+        if ((s.pre && f < s.peak) || (s.post && f > s.peak)) w["mouth-8"] = 1 - open;
+      }
+      const doubt = on("doubt", t), smile = on("smile", t);
+      w["brows-doubt"] = doubt;
+      w["mouth-doubt"] = doubt * (1 - open);
+      w["mouth-smile"] = smile * (1 - open);
+      for (const n in layer) layer[n].style.opacity = (w[n] || 0).toFixed(3);
+    };
+    apply();
+    tl.fromTo(box, { t: from }, { t: to, duration: to - from, ease: "none", onUpdate: apply }, from);
+    return to;
+  }
+
   function sparkIdle(tl, spark, start, end) {
+    if (spark.classList.contains("avatar")) {
+      const len = Math.max(0.5, end - start), half = 1.15;
+      tl.fromTo(spark.querySelector(".av-bob"), { y: 0 }, { y: -6, duration: half, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(len / half) - 1) }, start);
+      return end;
+    }
     const body = spark.querySelector(".spark-body");
     const swirl = spark.querySelector(".spark-swirl");
     const len = Math.max(0.5, end - start);
@@ -85,6 +145,7 @@
   // window.EggLipsync = { fps, data } comes from assets/lipsync.js (tools/lipsync.mjs): one char 0-9 per
   // frame of the whole episode = how loud the voiceover is. Drives the .mouth of the talk faces.
   function lipsync(tl, spark, offset, from, to) {
+    if (spark.classList.contains("avatar")) return avatarTalk(tl, spark, offset, from, to);
     const L = window.EggLipsync;
     if (!L) return to;
     const mouths = spark.querySelectorAll(".spark-face .mouth");
@@ -256,22 +317,26 @@
 
 
   /* ---------- Spark pointer ---------- */
-  // Mount a pointer into a full-frame layer. labels: one string per stop.
+  // Mount a pointer into a full-frame layer. labels: one string per stop. The pointer is a small flying avatar
+  // head (about --s tall) that hovers over each stop. opts.origin {x, y}: no head; the leader is drawn from this
+  // fixed point instead (e.g. beside the narrator avatar's chin) and each pointTo places its label with
+  // opts.label {x, y, side}.
   function pointer(layer, labels, opts = {}) {
     const size = opts.size ?? 120;
     layer.classList.add("egg-pointer");
     layer.setAttribute("data-layout-allow-overflow", "");
     layer.innerHTML =
       `<svg class="ptr-svg" viewBox="0 0 1080 1920" aria-hidden="true"><line class="ptr-line" x1="0" y1="0" x2="0" y2="0"/><circle class="ptr-dot" r="8" cx="0" cy="0"/></svg>` +
-      `<div class="spark ptr-spark" data-mood="${opts.mood || "explain"}" style="--s:${size}px"></div>` +
+      (opts.origin ? "" : `<div class="ptr-spark ptr-avatar" style="--s:${size}px"></div>`) +
       labels.map((t) => `<span class="ptr-label">${t}</span>`).join("");
-    mountSparks(layer);
-    return { size, gap: opts.gap ?? 230, shown: false, spark: layer.querySelector(".ptr-spark"), line: layer.querySelector(".ptr-line"), dot: layer.querySelector(".ptr-dot"), labels: [...layer.querySelectorAll(".ptr-label")] };
+    if (!opts.origin) mountAvatar(layer.querySelector(".ptr-avatar"));
+    return { size, gap: opts.gap ?? 230, shown: false, origin: opts.origin, spark: layer.querySelector(".ptr-spark"), line: layer.querySelector(".ptr-line"), dot: layer.querySelector(".ptr-dot"), labels: [...layer.querySelectorAll(".ptr-label")] };
   }
 
   // Glide Spark to hover over target {x, y} (frame px), draw the leader to it and show label i.
   // The first call pops Spark in place. opts: dx, dy (Spark offset from target), side ("left"|"right"), dur.
   function pointTo(tl, P, target, i, at, opts = {}) {
+    if (P.origin) return pointFrom(tl, P, target, i, at, opts);
     const s = P.size, dur = opts.dur ?? 0.45;
     const sx = target.x + (opts.dx ?? 0), sy = target.y + (opts.dy ?? -P.gap);
     const line = { x1: sx, y1: sy + s / 2 + 10, x2: target.x, y2: target.y };
@@ -290,6 +355,8 @@
     }
     const lab = P.labels[i];
     const side = opts.side || (sx > 560 ? "left" : "right");
+    // the head faces the screen centre: left on the right half, right on the left half
+    tl.to(P.spark.querySelector(".av-flip"), { scaleX: sx < 540 ? -1 : 1, duration: 0.2, ease: "power1.inOut" }, at);
     if (side === "right") lab.style.left = sx + s / 2 + 18 + "px";
     else lab.style.right = 1080 - (sx - s / 2 - 18) + "px";
     lab.style.top = sy - 26 + "px";
@@ -298,8 +365,29 @@
     return at + dur;
   }
 
+  // Origin pointer: the leader grows from P.origin to the target, the dot lands, label i fades in at opts.label.
+  function pointFrom(tl, P, target, i, at, opts = {}) {
+    const dur = opts.dur ?? 0.45, o = P.origin;
+    if (!P.shown) {
+      tl.set(P.line, { attr: { x1: o.x, y1: o.y, x2: o.x, y2: o.y } }, 0);
+      tl.set(P.dot, { attr: { cx: target.x, cy: target.y }, opacity: 0 }, 0);
+      tl.to(P.line, { attr: { x2: target.x, y2: target.y }, duration: dur, ease: EASE.move }, at);
+      tl.to(P.dot, { opacity: 1, duration: 0.15, ease: "none" }, at + dur - 0.05);
+      P.shown = true;
+    } else {
+      tl.to(P.line, { attr: { x2: target.x, y2: target.y }, duration: dur, ease: EASE.move }, at);
+      tl.to(P.dot, { attr: { cx: target.x, cy: target.y }, duration: dur, ease: EASE.move }, at);
+    }
+    const lab = P.labels[i], L = opts.label;
+    if (L.side === "left") lab.style.right = 1080 - L.x + "px"; else lab.style.left = L.x + "px";
+    lab.style.top = L.y + "px";
+    P.labels.forEach((l, k) => { if (k !== i) tl.to(l, { opacity: 0, duration: 0.15, ease: "none" }, at); });
+    tl.fromTo(lab, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: EASE.enter }, at + dur * 0.6);
+    return at + dur;
+  }
+
   function pointerHide(tl, P, at) {
-    tl.to([P.spark, P.line, P.dot, ...P.labels], { opacity: 0, duration: 0.3, ease: EASE.exit }, at);
+    tl.to([P.spark, P.line, P.dot, ...P.labels].filter(Boolean), { opacity: 0, duration: 0.3, ease: EASE.exit }, at);
     return at + 0.3;
   }
 
@@ -434,7 +522,7 @@
   }
 
   window.Egg = {
-    EASE, mountSparks, offsetIn, lipsync, sceneStart, sparkIdle, sparkMood, blink, pop, fadeUp, fadeOut, typeOn, highlight,
+    EASE, mountSparks, mountAvatar, avatarTalk, offsetIn, lipsync, sceneStart, sparkIdle, sparkMood, blink, pop, fadeUp, fadeOut, typeOn, highlight,
     stamp, shake, zoom, progress, draw, checks, count, meter, tokens, bars, pointer, pointTo, pointerHide, isoBuild, isoAnimate,
   };
 })();

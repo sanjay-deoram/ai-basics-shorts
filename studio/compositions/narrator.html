@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"whoosh-short","vol":0.26},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.14},
+      {"t":9.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":29.4,"sfx":"whoosh-short","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- BLOCK · Narrator. The stippled Sanjay avatar for the whole episode, on its own overlay track
+           (Egg.mountAvatar / Egg.avatarTalk in assets/eggshell.js: one mouth beat per syllable from
+           assets/lipsync.js, doubt and smile expressions). See DESIGN.md §5.
+           He moves into whatever space each scene leaves empty at that moment (checked against each scene's
+           content over time): title (large peek under the hook), tr (top right), corner (smaller top right),
+           br / bl (bottom right / left, big, inside the social-safe box), end (centred above the recap). He faces
+           the content: left on the right side, right on the left side. While a scene's pointer is on screen (a
+           small flying head, Egg.pointer) he steps out.
+           Pick each place for the moment the scene leaves it empty (check with snapshots); never park him on
+           content. Edit PLACES / PATH / EXPR to restage. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .peek { position: absolute; left: 0; top: 0; width: 540px; height: 629px; }
+        .nar .lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+        .nar .glow {
+          position: absolute; left: 50%; top: 40%; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%;
+          background: radial-gradient(circle at 40% 40%, rgba(255, 122, 192, 0.4), rgba(4, 71, 255, 0.15) 48%, rgba(255, 71, 4, 0) 70%);
+          filter: blur(24px);
+        }
+        .nar .who { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="egg-layer nar" data-layout-allow-overflow="">
+          <div class="peek" data-layout-allow-overflow="">
+            <div class="lean">
+              <div class="glow" data-layout-allow-overflow=""></div>
+              <div class="who"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 34, W = 540;   // = the episode length (narrator host data-duration)
+          // top-left of the 540×629 avatar box, scale, lean (deg), face: -1 looks left, 1 looks right
+          const PLACES = {
+            title: { x: 620, y: 800, s: 1, r: -4, face: -1 },
+            tr: { x: 760, y: 188, s: 0.6, r: -3, face: -1 },
+            corner: { x: 864, y: 196, s: 0.46, r: -3, face: -1 },
+            br: { x: 600, y: 1050, s: 0.72, r: -4, face: -1 },
+            bl: { x: 90, y: 1050, s: 0.72, r: 4, face: 1 },
+            end: { x: 540 - (W * 0.7) / 2, y: 196, s: 0.7, r: 0, face: -1 },
+          };
+          // [episode time, place, how]  how: in / inLeft (slide in from that edge) | out / outLeft (slide off that
+          // edge) | glide (move there, turning to face the content)
+          const PATH = [
+            [0.15, "title", "in"],       // s01: large peek under the hook
+            [3.3, "tr", "glide"],        // s02: the drawing fills the middle
+            [9.9, "tr", "out"],          // s03 / s04: the steps and the prompt cards fill the whole box
+            [29.4, "end", "in"],         // s05 end card
+          ];
+          // [expression, from, to] in episode seconds
+          const EXPR = [
+            ["doubt", 2.2, 3.1],         // sample: a doubtful look on the hook's question
+            ["smile", 31.0, 999],        // end card
+          ];
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const peek = root.querySelector(".peek"), lean = root.querySelector(".lean"), glow = root.querySelector(".glow");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          const at = (p, off) => ({ x: off === "right" ? 1180 : off === "left" ? -W * p.s - 70 : p.x, y: p.y, scale: p.s });
+          gsap.set(peek, { ...at(PLACES.title, "right"), transformOrigin: "0 0" });
+          gsap.set(lean, { rotation: PLACES.title.r, scaleX: -PLACES.title.face });
+          let face = PLACES.title.face;
+          PATH.forEach(([t, place, how]) => {
+            const p = PLACES[place];
+            if (how === "in" || how === "inLeft") {
+              tl.set(peek, at(p, how === "in" ? "right" : "left"), t);
+              tl.set(lean, { rotation: p.r, scaleX: -p.face }, t);
+              tl.to(peek, { x: p.x, duration: 0.55, ease: "back.out(1.4)" }, t);
+              face = p.face;
+            } else if (how === "out" || how === "outLeft") {
+              tl.to(peek, { x: at(p, how === "out" ? "right" : "left").x, duration: 0.32, ease: "power2.in" }, t);
+            } else {
+              tl.to(peek, { x: p.x, y: p.y, scale: p.s, duration: 0.8, ease: "power2.inOut" }, t);
+              tl.to(lean, { rotation: p.r, duration: 0.8, ease: "power2.inOut" }, t);
+              if (p.face !== face) tl.to(lean, { scaleX: -p.face, duration: 0.24, ease: "power1.inOut" }, t + 0.28);
+              face = p.face;
+            }
+          });
+          gsap.set(glow, { opacity: 0 });
+          tl.to(glow, { opacity: 1, duration: 0.6, ease: "power3.out" }, 0.25);
+          tl.fromTo(lean, { y: 0 }, { y: -7, duration: 1.15, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 1.15) - 1) }, 0);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
