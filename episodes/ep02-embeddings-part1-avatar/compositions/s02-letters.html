@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.25},
+      {"t":0.9,"sfx":"pop","vol":0.25},
+      {"t":1.6,"sfx":"click-soft","vol":0.22},
+      {"t":1.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":2.55,"sfx":"click","vol":0.3},
+      {"t":2.7,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.35,"sfx":"click","vol":0.3},
+      {"t":3.5,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.15,"sfx":"click","vol":0.32},
+      {"t":4.4,"sfx":"click-soft","vol":0.22},
+      {"t":4.6,"sfx":"error","vol":0.12,"dur":0.8},
+      {"t":5.9,"sfx":"whoosh","vol":0.22},
+      {"t":6.8,"sfx":"sparkle","vol":0.24,"dur":1.4},
+      {"t":8.9,"sfx":"whoosh","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The problem. "dog" and "puppy" as letter tiles. A dashed scanner checks each letter of dog
+           against puppy (no matches, an ✕ under each), a ≠ is drawn ("in spelling"), the camera pushes in and
+           the slash wipes off, leaving = ("in meaning"). Tiles: 110 × 120, 14 apart. Timed to the voiceover:
+           0.2 "To a computer…", 4.3 "Not one letter matches.", 6.4 "But they mean almost the same thing." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-safe { justify-content: space-between; }
+        .s02 .cam { position: absolute; inset: 0; }
+        .s02 .row { position: absolute; display: flex; gap: 14px; }
+        .s02 .row.dog { left: 361px; top: 500px; }
+        .s02 .row.pup { left: 237px; top: 900px; }
+        .s02 .tile { width: 110px; height: 120px; border: 3px solid var(--ink); border-radius: 18px; background: var(--eggshell); display: grid; place-items: center; font: 400 64px/1 var(--f-mono); color: var(--ink); }
+        .s02 .scan { position: absolute; left: 229px; top: 892px; width: 126px; height: 136px; border: 4px dashed var(--ink); border-radius: 24px; }
+        .s02 .note { position: absolute; left: 640px; top: 766px; font: 400 40px/1.2 var(--f-body); color: var(--graphite); }
+        .s02 .note.b { opacity: 0; }
+        .s02 .count { position: absolute; left: 0; right: 0; top: 1110px; display: flex; justify-content: center; }
+      </style>
+      <div data-hf-id="hf-auce" id="root" data-composition-id="s02-letters" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-t3yi" class="row dog"><span data-hf-id="hf-inmv" class="tile">d</span><span data-hf-id="hf-phr6" class="tile">o</span><span data-hf-id="hf-i9bu" class="tile">g</span></div>
+            <div data-hf-id="hf-srh7" class="row pup"><span data-hf-id="hf-unqj" class="tile">p</span><span data-hf-id="hf-tgtg" class="tile">u</span><span data-hf-id="hf-zjbf" class="tile">p</span><span data-hf-id="hf-z50e" class="tile">p</span><span data-hf-id="hf-y8hs" class="tile">y</span></div>
+            <div data-hf-id="hf-52qf" class="scan" data-layout-allow-overlap=""></div>
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-leh2" class="ink thin x" d="M398 654 L434 690 M434 654 L398 690" />
+              <path data-hf-id="hf-gt8y" class="ink thin x" d="M522 654 L558 690 M558 654 L522 690" />
+              <path data-hf-id="hf-qy80" class="ink thin x" d="M646 654 L682 690 M682 654 L646 690" />
+              <path data-hf-id="hf-0yv8" class="ink bar" d="M478 772 L602 772" />
+              <path data-hf-id="hf-r5ha" class="ink bar" d="M478 812 L602 812" />
+              <path data-hf-id="hf-nh99" class="ink slash" d="M578 732 L502 852" />
+            </svg>
+            <span data-hf-id="hf-v7qj" class="note a">in spelling</span>
+            <span data-hf-id="hf-a2gr" class="note b">in meaning</span>
+          </div>
+          <div data-hf-id="hf-h8nx" class="count"><span data-hf-id="hf-f01w" class="egg-counter">Letters in common <b data-hf-id="hf-z4i7" class="n">0</b></span></div>
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-59y2" class="egg-eyebrow">The problem</span>
+            <p data-hf-id="hf-h3kx" class="egg-label">Different letters. <span data-hf-id="hf-g0si" class="egg-hl">Same meaning.</span></p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-letters"] .s02');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const dogT = root.querySelectorAll(".row.dog .tile");
+          const pupT = root.querySelectorAll(".row.pup .tile");
+          const scan = q(".scan");
+          const xs = root.querySelectorAll(".x");
+          const strokes = [...root.querySelectorAll(".x, .bar, .slash")];
+          strokes.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+
+          const tl = gsap.timeline({ paused: true });
+          gsap.set(strokes, { strokeDashoffset: 1.02 });
+          gsap.set(scan, { opacity: 0 });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.pop(tl, dogT, 0.3);
+          Egg.pop(tl, pupT, 0.8);
+          Egg.pop(tl, q(".count .egg-counter"), 1.5);
+
+          // check each letter of "dog" against every letter of "puppy"
+          [1.9, 2.7, 3.5].forEach((t, i) => {
+            tl.to(dogT[i], { backgroundColor: "#f5f3f1", scale: 1.08, duration: 0.15, ease: "power2.out" }, t);
+            tl.fromTo(scan, { x: 0, opacity: 1 }, { x: 4 * 124, duration: 0.6, ease: "power1.inOut", immediateRender: false }, t);
+            tl.to(dogT[i], { scale: 1, duration: 0.2, ease: "power2.out" }, t + 0.6);
+            tl.to(xs[i], { strokeDashoffset: 0, duration: 0.2, ease: "power2.out" }, t + 0.65);
+          });
+          tl.to(scan, { opacity: 0, duration: 0.2, ease: "none" }, 4.2);
+          tl.fromTo(q(".count .egg-counter"), { scale: 1 }, { scale: 1.12, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 4.6);
+
+          // ≠ … then the slash wipes off and it reads =
+          tl.to(root.querySelectorAll(".bar"), { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw, stagger: 0.15 }, 4.4);
+          tl.to(q(".slash"), { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw }, 4.7);
+          Egg.fadeUp(tl, q(".note.a"), 4.9, { y: 14 });
+          tl.to(cam, { scale: 1.12, transformOrigin: "540px 792px", duration: 0.6, ease: Egg.EASE.move }, 5.9);
+          tl.to(q(".slash"), { strokeDashoffset: -1.02, duration: 0.45, ease: "power2.in" }, 6.8);
+          tl.to(q(".note.a"), { opacity: 0, duration: 0.2, ease: "none" }, 7.05);
+          tl.fromTo(q(".note.b"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.4, ease: Egg.EASE.enter }, 7.15);
+          tl.fromTo(root.querySelectorAll(".bar"), { scale: 1 }, { scale: 1.12, transformOrigin: "50% 50%", duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 7.2);
+          Egg.fadeUp(tl, q(".egg-label"), 7.6);
+          Egg.highlight(tl, q(".egg-hl"), 8.1);
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 8.9);
+
+          Egg.fadeOut(tl, [cam, q(".count"), q(".egg-safe")], 9.65);
+          window.__timelines["s02-letters"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

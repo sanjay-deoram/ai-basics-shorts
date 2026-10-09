@@ -1,0 +1,104 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "What's an embedding? And why does AI need them?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.2,
+      "text": "To a computer, dog and puppy look nothing alike."
+    },
+    {
+      "scene": "s02",
+      "at": 4.3,
+      "text": "Not one letter matches."
+    },
+    {
+      "scene": "s02",
+      "at": 6.4,
+      "text": "But they mean almost the same thing."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "That's where an embedding model comes in."
+    },
+    {
+      "scene": "s03",
+      "at": 2.6,
+      "text": "It's an AI trained on huge amounts of text."
+    },
+    {
+      "scene": "s03",
+      "at": 5.8,
+      "text": "It learned that dog and puppy fit into the same kinds of sentences."
+    },
+    {
+      "scene": "s04",
+      "at": 0.4,
+      "text": "Give it a word, and it turns the meaning into a list of numbers."
+    },
+    {
+      "scene": "s04",
+      "at": 4.6,
+      "text": "That whole list is the embedding."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "So what do the numbers mean?"
+    },
+    {
+      "scene": "s05",
+      "at": 2.1,
+      "text": "Each one is a score for some quality. Like: is it an animal? Is it food?"
+    },
+    {
+      "scene": "s05",
+      "at": 8.1,
+      "text": "But nobody picked these. The model learned them, so we can't read them one by one."
+    },
+    {
+      "scene": "s05",
+      "at": 13.4,
+      "text": "Together, they're a fingerprint for meaning."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "Is it exact? No. It's the model's best guess."
+    },
+    {
+      "scene": "s06",
+      "at": 3.9,
+      "text": "But similar meanings get similar fingerprints."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "So that's what an embedding is."
+    },
+    {
+      "scene": "s07",
+      "at": 2.4,
+      "text": "In part two: how AI uses them. Follow so you don't miss it!"
+    }
+  ]
+}

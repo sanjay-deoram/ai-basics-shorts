@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"whoosh-short","vol":0.26},
+      {"t":3.75,"sfx":"whoosh-short","vol":0.14},
+      {"t":9.8,"sfx":"whoosh-short","vol":0.12},
+      {"t":12.85,"sfx":"whoosh-short","vol":0.12},
+      {"t":15.5,"sfx":"whoosh-short","vol":0.12},
+      {"t":16.4,"sfx":"whoosh-short","vol":0.1},
+      {"t":24.4,"sfx":"whoosh-short","vol":0.12},
+      {"t":29.8,"sfx":"whoosh-short","vol":0.1},
+      {"t":38.4,"sfx":"whoosh-short","vol":0.12},
+      {"t":40.5,"sfx":"whoosh-short","vol":0.1},
+      {"t":42.3,"sfx":"whoosh-short","vol":0.1},
+      {"t":61.0,"sfx":"whoosh-short","vol":0.1},
+      {"t":72.6,"sfx":"whoosh-short","vol":0.12},
+      {"t":75.5,"sfx":"whoosh-short","vol":0.1},
+      {"t":93.85,"sfx":"pop","vol":0.22},
+      {"t":94.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":97,"sfx":"sparkle","vol":0.2,"dur":1.2},
+      {"t":101.1,"sfx":"whoosh-short","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator · the stippled Sanjay avatar for the whole episode, in place of Spark (Egg.mountAvatar /
+           Egg.avatarTalk in assets/eggshell.js: one mouth beat per syllable, doubt and smile expressions).
+           He moves into whatever space each scene leaves empty at that moment (checked against each scene's
+           content over time): title (large peek under the hook), tr (top right), corner (smaller top right),
+           br / bl (bottom right / left, big, inside the social-safe box), end (centred above the recap). He faces
+           the content: left on the right side, right on the left side. While a scene's pointer is on screen (a
+           small flying head, Egg.pointer) he steps out, as Spark did.
+           s09: the Claude logo (assets/claude-logo.svg) stands for Claude: the prompt flies into it at 540 × 860, it
+           pulses as the prompt lands and turns slowly while Claude answers; the avatar narrates from the side.
+           Edit PLACES / PATH / EXPR to restage. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .peek { position: absolute; left: 0; top: 0; width: 540px; height: 629px; }
+        .nar .lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+        .nar .glow {
+          position: absolute; left: 50%; top: 40%; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%;
+          background: radial-gradient(circle at 40% 40%, rgba(255, 122, 192, 0.4), rgba(4, 71, 255, 0.15) 48%, rgba(255, 71, 4, 0) 70%);
+          filter: blur(24px);
+        }
+        .nar .who { position: absolute; inset: 0; }
+        .nar .claude { position: absolute; left: 0; top: 0; width: 180px; height: 180px; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="egg-layer nar" data-layout-allow-overflow="">
+          <img class="claude" src="assets/claude-logo.svg" alt="Claude">
+          <div class="peek" data-layout-allow-overflow="">
+            <div class="lean">
+              <div class="glow" data-layout-allow-overflow=""></div>
+              <div class="who"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 107.5, W = 540;
+          // top-left of the 540×629 avatar box, scale, lean (deg), face: -1 looks left, 1 looks right
+          const PLACES = {
+            title: { x: 620, y: 800, s: 1, r: -4, face: -1 },
+            tr: { x: 760, y: 188, s: 0.6, r: -3, face: -1 },
+            corner: { x: 864, y: 196, s: 0.46, r: -3, face: -1 },
+            br: { x: 600, y: 1050, s: 0.72, r: -4, face: -1 },
+            bl: { x: 90, y: 1050, s: 0.72, r: 4, face: 1 },
+            end: { x: 540 - (W * 0.7) / 2, y: 196, s: 0.7, r: 0, face: -1 },
+          };
+          // [episode time, place, how]  how: in / inLeft (slide in from that edge) | out / outLeft (slide off that
+          // edge) | glide (move there, turning to face the content)
+          const PATH = [
+            [0.15, "title", "in"],
+            [3.75, "br", "glide"],       // s02 recap
+            [9.8, "br", "out"],          // the recap's list reaches the bottom
+            [10.15, "tr", "in"],
+            [12.85, "tr", "out"],        // s03: the map fills the frame as it zooms
+            [15.5, "br", "in"],
+            [16.4, "bl", "glide"],       // walks across the bottom
+            [18.0, "bl", "outLeft"],     // s03 pointer from 19.7
+            [24.4, "bl", "inLeft"],      // s04
+            [29.8, "br", "glide"],
+            [32.5, "br", "out"],         // s04 pointer from 33
+            [38.4, "br", "in"],          // s05 cosine
+            [40.5, "bl", "glide"],
+            [42.3, "bl", "outLeft"],     // the arrows reach the bottom
+            [42.7, "tr", "in"],
+            [47.4, "corner", "glide"],   // a label passes the top right
+            [50.0, "tr", "glide"],
+            [61.0, "corner", "glide"],   // s06 search
+            [64.85, "corner", "out"],    // s06 pointer from 65.1
+            [72.6, "bl", "inLeft"],      // s07 table
+            [75.5, "br", "glide"],
+            [79.2, "br", "out"],         // s07 pointer from 79.5
+            // s08: the database panel fills the frame from the start, so he stays out until s09 (its pointer: 90.9)
+            [94.0, "bl", "inLeft"],      // s09: Spark plays Claude in the middle
+            [97.5, "bl", "outLeft"],     // the answer card takes the bottom
+            [97.8, "tr", "in"],
+            [101.1, "end", "glide"],     // s10 end card
+          ];
+          // [expression, from, to] in episode seconds
+          const EXPR = [
+            ["smile", 17.4, 19.6],       // "Similar meanings land close together."
+            ["doubt", 32.6, 33.2],       // "Pizza isn't zero…"
+            ["doubt", 64.1, 65.0],       // "…and gets it wrong."
+            ["smile", 97.3, 101.0],      // "So Claude answers from the right page."
+            ["smile", 104.9, 999],       // "Follow for more!"
+          ];
+          // the Claude logo in s09: [pop in, swell when the prompt lands, leave]
+          const CLAUDE = { x: 540, y: 860, size: 180, in: 93.9, swell: 97, out: 101.0 };
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const peek = root.querySelector(".peek"), lean = root.querySelector(".lean"), glow = root.querySelector(".glow");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          const at = (p, off) => ({ x: off === "right" ? 1180 : off === "left" ? -W * p.s - 70 : p.x, y: p.y, scale: p.s });
+          gsap.set(peek, { ...at(PLACES.title, "right"), transformOrigin: "0 0" });
+          gsap.set(lean, { rotation: PLACES.title.r, scaleX: -PLACES.title.face });
+          let face = PLACES.title.face;
+          PATH.forEach(([t, place, how]) => {
+            const p = PLACES[place];
+            if (how === "in" || how === "inLeft") {
+              tl.set(peek, at(p, how === "in" ? "right" : "left"), t);
+              tl.set(lean, { rotation: p.r, scaleX: -p.face }, t);
+              tl.to(peek, { x: p.x, duration: 0.55, ease: "back.out(1.4)" }, t);
+              face = p.face;
+            } else if (how === "out" || how === "outLeft") {
+              tl.to(peek, { x: at(p, how === "out" ? "right" : "left").x, duration: 0.32, ease: "power2.in" }, t);
+            } else {
+              tl.to(peek, { x: p.x, y: p.y, scale: p.s, duration: 0.8, ease: "power2.inOut" }, t);
+              tl.to(lean, { rotation: p.r, duration: 0.8, ease: "power2.inOut" }, t);
+              if (p.face !== face) tl.to(lean, { scaleX: -p.face, duration: 0.24, ease: "power1.inOut" }, t + 0.28);
+              face = p.face;
+            }
+          });
+          gsap.set(glow, { opacity: 0 });
+          tl.to(glow, { opacity: 1, duration: 0.6, ease: "power3.out" }, 0.25);
+          tl.fromTo(lean, { y: 0 }, { y: -7, duration: 1.15, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 1.15) - 1) }, 0);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          // the Claude logo (s09)
+          const claude = root.querySelector(".claude");
+          gsap.set(claude, { x: CLAUDE.x - CLAUDE.size / 2, y: CLAUDE.y - CLAUDE.size / 2, scale: 0, rotation: 0, transformOrigin: "50% 50%" });
+          Egg.pop(tl, claude, CLAUDE.in);
+          tl.to(claude, { scale: 1.12, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 3 }, CLAUDE.swell);
+          tl.to(claude, { rotation: 75, duration: CLAUDE.out - CLAUDE.in, ease: "none" }, CLAUDE.in);   // turns slowly: thinking
+          tl.to(claude, { scale: 0, duration: 0.3, ease: "power2.in" }, CLAUDE.out);
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

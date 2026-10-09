@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"click-soft","vol":0.2},
+      {"t":0.6,"sfx":"click-soft","vol":0.2},
+      {"t":1.6,"sfx":"pop","vol":0.2},
+      {"t":2.8,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.4,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.6,"sfx":"pop","vol":0.24},
+      {"t":4.6,"sfx":"typing","vol":0.2,"dur":0.5},
+      {"t":5.6,"sfx":"pop","vol":0.2},
+      {"t":6.2,"sfx":"pop","vol":0.2},
+      {"t":6.5,"sfx":"whoosh-short","vol":0.16},
+      {"t":7.1,"sfx":"click","vol":0.3},
+      {"t":7.5,"sfx":"whoosh-short","vol":0.16},
+      {"t":8.1,"sfx":"click","vol":0.3},
+      {"t":8.5,"sfx":"whoosh-short","vol":0.16},
+      {"t":9.1,"sfx":"click","vol":0.3},
+      {"t":9.7,"sfx":"ping","vol":0.18,"dur":1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The embedding model. A drawn model; a pile of text pages flies into it ("trained on huge amounts
+           of text": all-MiniLM-L6-v2 was trained on over 1 billion sentence pairs). Then a fill-in-the-blank:
+           "dog" and "puppy" both fit "I walked my ___ to the park.", "pizza" doesn't. The model stays on screen
+           at the end: s04 opens with it in the same place. Chip and blank positions come from canvas text
+           metrics. Voiceover: 0.3 "That's where an embedding model comes in." 2.6 "It's an AI trained on huge
+           amounts of text." 5.8 "It learned that dog and puppy fit into the same kinds of sentences." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-safe { justify-content: space-between; }
+        .s03 .mlabel { position: absolute; left: 270px; width: 360px; top: 644px; text-align: center; font: 300 40px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .page { position: absolute; width: 70px; height: 90px; border: 3px solid var(--ink); border-radius: 8px; background: var(--eggshell); padding: 16px 10px; display: flex; flex-direction: column; gap: 10px; }
+        .s03 .page i { display: block; height: 4px; border-radius: 2px; background: var(--ink); }
+        .s03 .page i:nth-child(2) { width: 75%; }
+        .s03 .total { position: absolute; left: 670px; top: 626px; display: flex; flex-direction: column; gap: 6px; }
+        .s03 .total .big { font: 300 96px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .total .unit { font: 400 28px/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); white-space: nowrap; }
+        .s03 .total .egg-foot { margin-top: 12px; display: flex; flex-direction: column; }
+        .s03 .card { position: absolute; left: 90px; right: 130px; top: 950px; height: 170px; padding: 28px 40px; }
+        .s03 .sent { position: absolute; top: 1024px; font: 400 48px/60px var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s03 .blank { position: absolute; top: 1024px; width: 210px; height: 60px; border-bottom: 4px solid var(--ink); }
+        .s03 .chip { position: absolute; top: 1160px; font: 400 44px/1 var(--f-body); color: var(--ink); background: var(--eggshell); border: 3px solid var(--ink); border-radius: 9999px; padding: 10px 26px; white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s03-model" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="machine">
+              <rect class="ink" data-draw="0" data-dur="0.8" x="270" y="580" width="360" height="180" rx="32" />
+              <path class="ink thin" data-draw="1" data-dur="0.4" d="M360 535 L410 580" />
+              <path class="ink thin" data-draw="1" data-dur="0.4" d="M540 535 L490 580" />
+            </g>
+            <path class="ink thin mark ok" d="" />
+            <path class="ink thin mark ok" d="" />
+            <path class="ink thin mark no" d="" />
+          </svg>
+          <span class="mlabel" data-draw="2">Embedding model</span>
+          <div class="pages" data-layout-allow-overlap="">
+            <span class="page" style="left:690px;top:400px" data-rot="-6"><i></i><i></i><i></i></span>
+            <span class="page" style="left:770px;top:410px" data-rot="4"><i></i><i></i><i></i></span>
+            <span class="page" style="left:850px;top:398px" data-rot="-3"><i></i><i></i><i></i></span>
+            <span class="page" style="left:710px;top:500px" data-rot="3"><i></i><i></i><i></i></span>
+            <span class="page" style="left:790px;top:510px" data-rot="-5"><i></i><i></i><i></i></span>
+            <span class="page" style="left:868px;top:500px" data-rot="6"><i></i><i></i><i></i></span>
+          </div>
+          <div class="total">
+            <span class="big">1B+</span>
+            <span class="unit">sentence pairs</span>
+            <span class="egg-foot"><span>all-MiniLM-L6-v2's</span><span>training data</span></span>
+          </div>
+          <div class="egg-card card"><span class="egg-card-kicker">Example sentence</span></div>
+          <span class="sent s1">I walked my</span>
+          <span class="blank"></span>
+          <span class="sent s2">to the park.</span>
+          <span class="chip" data-layout-allow-overlap="" data-w="dog">dog</span>
+          <span class="chip" data-layout-allow-overlap="" data-w="puppy">puppy</span>
+          <span class="chip" data-layout-allow-overlap="" data-w="pizza">pizza</span>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">The embedding model</span>
+            <p class="egg-label">Same sentences → similar meaning.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const SENT = "400 48px Inter", CHIP = "400 44px Inter";
+          const CARD_CX = 520, GAP = 18, BLANK = 210, CHIP_GAP = 44, CHIP_PAD = 26 + 3; // padding + border
+          const root = document.querySelector('[data-composition-id="s03-model"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => root.querySelectorAll(s);
+          const pages = [...all(".page")];
+          const chips = [...all(".chip")];
+          const marks = [...all(".mark")];
+
+          const build = () => {
+            const ctx = document.createElement("canvas").getContext("2d");
+            ctx.font = SENT;
+            const w1 = ctx.measureText("I walked my").width, w2 = ctx.measureText("to the park.").width;
+            const left = CARD_CX - (w1 + GAP + BLANK + GAP + w2) / 2;
+            const bx = left + w1 + GAP + BLANK / 2;
+            q(".s1").style.left = left.toFixed(1) + "px";
+            q(".blank").style.left = (left + w1 + GAP).toFixed(1) + "px";
+            q(".s2").style.left = (left + w1 + GAP + BLANK + GAP).toFixed(1) + "px";
+            ctx.font = CHIP;
+            const cw = chips.map((c) => ctx.measureText(c.textContent).width + CHIP_PAD * 2);
+            let x = CARD_CX - (cw.reduce((a, b) => a + b, 0) + CHIP_GAP * (chips.length - 1)) / 2;
+            const cx = cw.map((w) => { const c = x + w / 2; x += w + CHIP_GAP; return c; });
+            chips.forEach((c, i) => (c.style.left = (cx[i] - cw[i] / 2).toFixed(1) + "px"));
+            // ✓ under dog and puppy, ✕ under pizza
+            marks[0].setAttribute("d", `M${cx[0] - 16} 1272 L${cx[0] - 4} 1286 L${cx[0] + 18} 1258`);
+            marks[1].setAttribute("d", `M${cx[1] - 16} 1272 L${cx[1] - 4} 1286 L${cx[1] + 18} 1258`);
+            marks[2].setAttribute("d", `M${cx[2] - 15} 1257 L${cx[2] + 15} 1287 M${cx[2] + 15} 1257 L${cx[2] - 15} 1287`);
+            marks.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+            gsap.set(marks, { strokeDashoffset: 1.02 });
+
+            pages.forEach((p) => gsap.set(p, { rotation: +p.dataset.rot }));
+            const tl = gsap.timeline({ paused: true });
+            Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+            Egg.draw(tl, root, 0.2);
+
+            // trained on huge amounts of text
+            Egg.pop(tl, pages, 1.6, { stagger: 0.08, dur: 0.45 });
+            pages.forEach((p, i) => {
+              const px = parseFloat(p.style.left) + 35, py = parseFloat(p.style.top) + 45;
+              tl.to(p, { x: 450 - px, y: 560 - py, rotation: 0, scale: 0.3, opacity: 0, duration: 0.6, ease: "power2.in" }, 2.8 + i * 0.3);
+            });
+            [3.4, 4.6].forEach((t) => tl.fromTo(q(".machine"), { scale: 1 }, { scale: 1.04, transformOrigin: "50% 50%", duration: 0.18, ease: "sine.inOut", yoyo: true, repeat: 1, immediateRender: false }, t));
+            Egg.pop(tl, q(".total .big"), 3.6);
+            Egg.fadeUp(tl, q(".total .unit"), 3.8, { y: 14 });
+            Egg.fadeUp(tl, q(".total .egg-foot"), 4.0, { y: 12 });
+
+            // dog and puppy fit the same sentence; pizza doesn't
+            Egg.fadeUp(tl, q(".card"), 5.6);
+            Egg.fadeUp(tl, [q(".s1"), q(".blank"), q(".s2")], 5.8, { y: 20 });
+            Egg.pop(tl, chips, 6.2, { stagger: 0.1, dur: 0.45 });
+            const into = (i, t) => tl.to(chips[i], { x: bx - cx[i], y: 1024 + 30 - 1193, duration: 0.35, ease: Egg.EASE.move }, t);
+            const back = (i, t) => tl.to(chips[i], { x: 0, y: 0, duration: 0.3, ease: Egg.EASE.move }, t);
+            into(0, 6.5); tl.to(marks[0], { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, 7.1); back(0, 7.15);
+            into(1, 7.5); tl.to(marks[1], { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, 8.1); back(1, 8.15);
+            into(2, 8.5); Egg.shake(tl, chips[2], 8.85); tl.to(marks[2], { strokeDashoffset: 0, duration: 0.25, ease: "power2.out" }, 9.1); back(2, 9.2);
+            Egg.fadeUp(tl, q(".egg-label"), 9.7);
+
+            // leave the model: s04 opens with it
+            Egg.fadeOut(tl, [q(".total"), q(".card"), q(".s1"), q(".blank"), q(".s2"), ...chips, ...marks, q(".egg-safe")], 10.65);
+            window.__timelines["s03-model"] = tl;
+          };
+          document.fonts.load(SENT).then(build);
+        })();
+      </script>
+    </template>
+  </body>
+</html>

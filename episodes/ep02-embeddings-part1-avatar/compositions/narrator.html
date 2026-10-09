@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"whoosh-short","vol":0.26},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.14},
+      {"t":13.55,"sfx":"whoosh-short","vol":0.14},
+      {"t":16.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":18.5,"sfx":"whoosh-short","vol":0.12},
+      {"t":24.35,"sfx":"whoosh-short","vol":0.14},
+      {"t":29.1,"sfx":"whoosh-short","vol":0.12},
+      {"t":29.45,"sfx":"whoosh-short","vol":0.1},
+      {"t":48.85,"sfx":"whoosh-short","vol":0.16},
+      {"t":52.6,"sfx":"whoosh-short","vol":0.12},
+      {"t":54.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":55.25,"sfx":"whoosh-short","vol":0.1},
+      {"t":57.25,"sfx":"whoosh-short","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator · the stippled Sanjay avatar for the whole episode, in place of Spark. Cut from two Gemini sheets
+           (assets/avatar: tools/cut-flipbook.py, tools/cut-expressions.py). The face is always f1.png; only
+           feathered patches change, so the hair, glasses and stipple never flicker:
+             mouths  one per syllable (assets/lipsync.js syl, from tools/lipsync.mjs), kept small: 2 (slightly parted)
+                     for ee/eh/ah, 7 (small round) for oo/oh/er, 8 = lips pressed for m/b/p; between syllables the
+                     mouth rests. The sheet's open mouths 3, 4, 5 and 6 read as shouting at this size, so are not used.
+             EXPR    doubt = raised brow + flat mouth, smile = smile mouth (a talking mouth wins over both)
+           He moves around the frame, always into space the scene leaves empty at that moment (checked against
+           each scene's content over time): title (large peek under the hook), tr (top right), br / bl (bottom
+           right / left, big, inside the social-safe box), corner (small top right for s05, whose pointer leader
+           starts beside his chin at 912,352), end (centred above the recap). He faces the content: left on the
+           right side, right on the left side (face). Edit PLACES / PATH / EXPR to restage. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .peek { position: absolute; left: 0; top: 0; width: 540px; height: 629px; }
+        .nar .lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+        .nar .glow {
+          position: absolute; left: 50%; top: 40%; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%;
+          background: radial-gradient(circle at 40% 40%, rgba(255, 122, 192, 0.4), rgba(4, 71, 255, 0.15) 48%, rgba(255, 71, 4, 0) 70%);
+          filter: blur(24px);
+        }
+        .nar .frames { position: absolute; inset: 0; transform: scaleX(-1); }
+        .nar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+        .nar img.face { opacity: 1; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="egg-layer nar" data-layout-allow-overflow="">
+          <div class="peek" data-layout-allow-overflow="">
+            <div class="lean">
+              <div class="glow" data-layout-allow-overflow=""></div>
+              <div class="frames">
+                <img class="face" src="assets/avatar/f1.png" alt="">
+                <img data-x="brows-doubt" src="assets/avatar/brows-doubt.png" alt="">
+                <img data-x="mouth-doubt" src="assets/avatar/mouth-doubt.png" alt="">
+                <img data-x="mouth-smile" src="assets/avatar/mouth-smile.png" alt="">
+                <img data-m="8" src="assets/avatar/mouth-8.png" alt="">
+                <img data-m="2" src="assets/avatar/mouth-2.png" alt="">
+                <img data-m="7" src="assets/avatar/mouth-7.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 65.6, W = 540;
+          // top-left of the 540×629 avatar box, scale, lean (deg), face: -1 looks left (toward content on his left),
+          // 1 looks right
+          const PLACES = {
+            title: { x: 620, y: 800, s: 1, r: -4, face: -1 },
+            tr: { x: 760, y: 188, s: 0.6, r: -3, face: -1 },
+            corner: { x: 864, y: 196, s: 0.46, r: -3, face: -1 },
+            br: { x: 600, y: 1050, s: 0.72, r: -4, face: -1 },
+            bl: { x: 90, y: 1050, s: 0.72, r: 4, face: 1 },
+            end: { x: 540 - (W * 0.7) / 2, y: 196, s: 0.7, r: 0, face: -1 },
+          };
+          // [episode time, place, how]  how: in (slide in from the right) | out / outLeft (slide off that edge) |
+          // glide (move there across the frame, turning to face the content) | pop
+          const PATH = [
+            [0.15, "title", "in"],
+            [3.3, "tr", "glide"],        // s02 fills the middle and bottom
+            [13.55, "br", "glide"],      // s03 opens with the model up top
+            [16.0, "bl", "glide"],       // walks across the bottom
+            [18.5, "bl", "outLeft"],     // the example sentence takes the bottom at 19.3
+            [18.85, "tr", "in"],
+            [24.35, "br", "glide"],      // s04: the model and numbers fill the top
+            [29.1, "br", "out"],         // "384 numbers" and the line take the bottom (out and back in: a glide up
+            [29.45, "tr", "in"],         // the right side would cross the "384" label)
+            [32.4, "corner", "glide"],   // s05: small, to point at the rows
+            [48.85, "bl", "glide"],      // s06 opens: "Is it exact?"
+            [52.6, "br", "glide"],
+            [54.9, "br", "out"],         // the closing line takes the bottom at 55.5; "look alike" / "different"
+            [55.25, "tr", "in"],         // sit between him and the top right, so out and back in
+            [57.25, "end", "glide"],
+          ];
+          // [expression, from, to] in episode seconds; each fades over 0.15 s
+          const EXPR = [
+            ["doubt", 7.7, 9.3],      // "Not one letter matches."
+            ["smile", 9.9, 12.4],     // "But they mean almost the same thing."
+            ["smile", 45.9, 48.6],    // "Together, they're a fingerprint for meaning."
+            ["doubt", 49.25, 50.6],   // "Is it exact?"
+            ["smile", 57.5, 99],      // end card
+          ];
+          const SHAPES = { E: ["2", "2"], A: ["2", "2"], O: ["7", "7"] };   // [normal, loudest] mouth per sound
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const peek = root.querySelector(".peek"), lean = root.querySelector(".lean"), glow = root.querySelector(".glow");
+          const mouths = {}, expr = {};
+          root.querySelectorAll("img[data-m]").forEach((im) => (mouths[im.dataset.m] = im));
+          root.querySelectorAll("img[data-x]").forEach((im) => (expr[im.dataset.x] = im));
+          const L = window.EggLipsync, FPS = L.fps;
+          const lvl = (i) => (i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0);
+          const ramp = (a, b, x) => { const p = Math.min(1, Math.max(0, (x - a) / (b - a))); return p * p * (3 - 2 * p); };
+          const SYL = (L.syl || []).map(([from, to, peak, sound, flags]) => ({ from, to, peak, sound, pre: flags & 1, post: flags & 2 }));
+          const on = (name, t) => EXPR.reduce((v, [n, a, b]) => (n === name ? Math.max(v, Math.min(ramp(a, a + 0.15, t), 1 - ramp(b, b + 0.15, t))) : v), 0);
+
+          const box = { t: 0 };
+          let si = 0;
+          const apply = () => {
+            const t = box.t, f = t * FPS;
+            const i = Math.floor(f), k = f - i;
+            const loud = lvl(i) * (1 - k) + lvl(i + 1) * k;
+            let open = ramp(0.12, 0.38, loud);   // how much the mouth is open at all
+            const big = ramp(0.8, 0.95, loud);     // only the loudest beats get the bigger shape
+            while (si > 0 && SYL[si].from > f) si--;
+            while (si < SYL.length - 1 && SYL[si].to <= f) si++;
+            const s = SYL[si] && f >= SYL[si].from && f < SYL[si].to ? SYL[si] : null;
+            // each syllable is its own beat: the mouth half-closes for a frame or two at the hand-off to the next one,
+            // so syllables with the same shape still read as separate
+            if (s) open *= 0.45 + 0.55 * ramp(0, 1.6, Math.min(f - s.from, s.to - f));
+            const w = {};
+            if (s) {
+              const [small, large] = SHAPES[s.sound];
+              w[small] = (w[small] || 0) + open * (1 - big);
+              w[large] = (w[large] || 0) + open * big;
+              if ((s.pre && f < s.peak) || (s.post && f > s.peak)) w["8"] = 1 - open;   // m/b/p: lips press
+            }
+            for (const m in mouths) mouths[m].style.opacity = (w[m] || 0).toFixed(3);
+            const doubt = on("doubt", t), smile = on("smile", t);
+            expr["brows-doubt"].style.opacity = doubt.toFixed(3);
+            expr["mouth-doubt"].style.opacity = (doubt * (1 - open)).toFixed(3);
+            expr["mouth-smile"].style.opacity = (smile * (1 - open)).toFixed(3);
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          const at = (p, off = false) => ({ x: off ? 1180 : p.x, y: p.y, scale: p.s });
+          gsap.set(peek, { ...at(PLACES.title, true), transformOrigin: "0 0" });
+          gsap.set(lean, { rotation: PLACES.title.r, scaleX: -PLACES.title.face });
+          let face = PLACES.title.face;
+          PATH.forEach(([t, place, how]) => {
+            const p = PLACES[place];
+            if (how === "in") {
+              tl.set(peek, at(p, true), t);
+              tl.set(lean, { rotation: p.r, scaleX: -p.face }, t);
+              tl.to(peek, { x: p.x, duration: 0.55, ease: "back.out(1.4)" }, t);
+              face = p.face;
+            } else if (how === "out" || how === "outLeft") {
+              tl.to(peek, { x: how === "out" ? 1180 : -W * p.s - 70, duration: 0.32, ease: "power2.in" }, t);
+            } else if (how === "glide") {
+              tl.to(peek, { x: p.x, y: p.y, scale: p.s, duration: 0.8, ease: "power2.inOut" }, t);
+              tl.to(lean, { rotation: p.r, duration: 0.8, ease: "power2.inOut" }, t);
+              if (p.face !== face) tl.to(lean, { scaleX: -p.face, duration: 0.24, ease: "power1.inOut" }, t + 0.28);   // turns mid-move
+              face = p.face;
+            } else {
+              tl.set(lean, { rotation: p.r, scaleX: -p.face }, t);
+              tl.fromTo(peek, { x: p.x, y: p.y + 20, scale: p.s * 0.85, opacity: 0 }, { y: p.y, scale: p.s, opacity: 1, duration: 0.5, ease: "back.out(1.8)", immediateRender: false }, t);
+              face = p.face;
+            }
+          });
+          gsap.set(glow, { opacity: 0 });
+          tl.to(glow, { opacity: 1, duration: 0.6, ease: "power3.out" }, 0.25);
+          // idle: a slow bob, never still
+          tl.fromTo(lean, { y: 0 }, { y: -7, duration: 1.15, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 1.15) - 1) }, 0);
+          apply();
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: apply }, 0);
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"click-soft","vol":0.2},
+      {"t":0.8,"sfx":"pop","vol":0.14},
+      {"t":1.16,"sfx":"pop","vol":0.14},
+      {"t":1.52,"sfx":"pop","vol":0.14},
+      {"t":1.88,"sfx":"pop","vol":0.14},
+      {"t":4.3,"sfx":"pop","vol":0.2},
+      {"t":4.5,"sfx":"typing","vol":0.26,"dur":0.8},
+      {"t":5.6,"sfx":"whoosh","vol":0.24},
+      {"t":6.2,"sfx":"pop","vol":0.26},
+      {"t":7.3,"sfx":"sparkle","vol":0.22,"dur":1.2},
+      {"t":7.9,"sfx":"click","vol":0.26},
+      {"t":8.1,"sfx":"pop","vol":0.26},
+      {"t":8.2,"sfx":"whoosh-short","vol":0.14},
+      {"t":9.0,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s11 · Vector database. Each row of the handbook table is a dot, placed by its numbers (real: the 384
+           numbers of 8 handbook chunks from all-MiniLM-L6-v2, squashed to 2 with PCA; see STORYBOARD.md). The
+           question becomes numbers too and lands as a dot; a search ring grows from it until it reaches the
+           nearest chunk, "vacation" (closeness 0.71). Spark points at the match.
+           Voiceover: 0.3 "A vector database searches those numbers by closeness." 4.2 "Ask a question, and it
+           becomes numbers too." 7.2 "The database finds the nearest chunk." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s11 .egg-safe { justify-content: space-between; }
+        .s11 .dbk { position: absolute; left: 116px; top: 400px; }
+        .s11 .dl { position: absolute; font: 400 30px/44px var(--f-body); color: var(--ink); background: var(--eggshell); padding: 0 6px; border-radius: 8px; white-space: nowrap; }
+        .s11 .dl.q { font: 400 30px/44px var(--f-mono); color: var(--graphite); }
+        .s11 .dot { fill: var(--ink); }
+        .s11 .ask { position: absolute; left: 90px; right: 130px; top: 1118px; padding: 24px 40px; gap: 10px; transform-origin: 50% 50%; }
+        .s11 .ask .egg-mono { font-size: 34px; }
+        .s11 .score { position: absolute; left: 108px; top: 634px; width: 120px; height: 58px; border: 2px solid var(--ink); border-radius: 9999px; background: var(--eggshell); display: grid; place-items: center; font: 300 38px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s11 .foot { position: absolute; left: 0; right: 0; top: 1270px; text-align: center; }
+        .s11 .ptr, .s11 .labels { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s08-vectordb" data-width="1080" data-height="1920">
+        <div class="egg-scene s11">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <defs>
+              <radialGradient id="s11-qdot" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#ffffff" /><stop offset=".18" stop-color="#f1e8ff" /><stop offset=".55" stop-color="#9d86ff" /><stop offset=".82" stop-color="#ff7ac0" /><stop offset="1" stop-color="#ff4704" /></radialGradient>
+            </defs>
+            <rect class="ink thin frame" x="90" y="380" width="860" height="700" rx="28" />
+            <g class="dots"></g>
+            <circle class="ink thin ring" cx="289.5" cy="660" r="61" />
+            <path class="ink link" d="M289.5 660 L269.5 602.5" />
+            <g class="qdot"><circle cx="289.5" cy="660" r="17" fill="url(#s11-qdot)" /><circle cx="289.5" cy="660" r="17" fill="none" stroke="#000" stroke-opacity=".2" stroke-width="2" /></g>
+          </svg>
+          <span class="dbk egg-card-kicker">8 chunks</span>
+          <div class="labels" data-layout-allow-overlap=""></div>
+          <span class="score"><span class="n">0.00</span></span>
+          <div class="egg-card ask">
+            <span class="egg-card-kicker">You ask</span>
+            <p class="egg-mono qt">How many vacation days do I get?</p>
+          </div>
+          <span class="foot egg-foot">Each dot = one row · 384 numbers squashed to 2 · all-MiniLM-L6-v2</span>
+          <div class="ptr"></div>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Vector database</span>
+            <p class="egg-label">It finds the nearest chunk.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          // PCA positions of the 8 chunks (and the question) → frame px: x = 520 + 500(a − 0.155), y = 720 − 500(b + 0.095)
+          const CH = [
+            { w: "vacation", a: -0.346, b: 0.14, side: "l" },
+            { w: "expenses", a: -0.299, b: 0.313, side: "l" },
+            { w: "holidays", a: -0.07, b: 0.269, side: "r" },
+            { w: "parking", a: 0.678, b: 0.485, side: "l" },
+            { w: "laptops", a: 0.246, b: -0.046, side: "r" },
+            { w: "sick days", a: -0.323, b: -0.224, side: "r" },
+            { w: "lunch", a: -0.368, b: -0.263, side: "l" },
+            { w: "Wi-Fi", a: 0.483, b: -0.675, side: "r" },
+          ];
+          const px = (a) => +(520 + 500 * (a - 0.155)).toFixed(1), py = (b) => +(720 - 500 * (b + 0.095)).toFixed(1);
+          const root = document.querySelector('[data-composition-id="s08-vectordb"] .s11');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".dots").innerHTML = CH.map((c) => `<circle class="dot" cx="${px(c.a)}" cy="${py(c.b)}" r="11"/>`).join("");
+          q(".labels").innerHTML =
+            CH.map((c) => {
+              const x = px(c.a), y = py(c.b);
+              const pos = c.side === "l" ? `right:${(1080 - x + 18).toFixed(1)}px` : `left:${(x + 18).toFixed(1)}px`;
+              return `<span class="dl" style="${pos};top:${(y - 22).toFixed(1)}px">${c.w}</span>`;
+            }).join("") + `<span class="dl q" style="left:${289.5 + 26}px;top:${660 - 22}px">your question</span>`;
+          const dots = all(".dot"), labs = all(".dl:not(.q)");
+          const frame = q(".frame"), link = q(".link");
+          [frame, link].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          const P = Egg.pointer(q(".ptr"), ["nearest = best match"], { size: 120, mood: "talk" });
+          gsap.set([frame, link], { strokeDashoffset: 1.02 });
+          gsap.set(dots, { scale: 0, transformOrigin: "50% 50%" });
+          gsap.set([...labs, q(".dl.q"), q(".dbk")], { opacity: 0 });
+          gsap.set(q(".ring"), { attr: { r: 0 }, opacity: 0 });
+          gsap.set(q(".qdot"), { scale: 0, transformOrigin: "50% 50%" });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // every row's numbers → a dot in the database
+          tl.to(frame, { strokeDashoffset: 0, duration: 0.8, ease: Egg.EASE.draw }, 0.2);
+          Egg.fadeUp(tl, q(".dbk"), 0.6, { y: 12 });
+          dots.forEach((d, i) => {
+            tl.to(d, { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, 0.8 + i * 0.18);
+            Egg.fadeUp(tl, labs[i], 0.9 + i * 0.18, { y: 10, dur: 0.4 });
+          });
+          Egg.fadeUp(tl, q(".foot"), 2.6, { y: 12 });
+
+          // the question becomes numbers and lands as a dot
+          Egg.fadeUp(tl, q(".ask"), 4.3);
+          Egg.typeOn(tl, q(".qt"), 4.5, { cps: 40 });
+          tl.to(q(".ask"), { x: 289.5 - 520, y: 660 - 1180, scale: 0.05, opacity: 0, duration: 0.7, ease: "power2.in" }, 5.6);
+          tl.to(q(".qdot"), { scale: 1, duration: 0.45, ease: Egg.EASE.pop }, 6.2);
+          Egg.fadeUp(tl, q(".dl.q"), 6.4, { y: 10 });
+
+          // a search ring grows until it reaches the nearest chunk
+          tl.to(q(".ring"), { opacity: 1, duration: 0.1, ease: "none" }, 7.3);
+          tl.to(q(".ring"), { attr: { r: 61 }, duration: 0.6, ease: "power1.out" }, 7.3);
+          tl.to(q(".ring"), { opacity: 0, duration: 0.3, ease: "none" }, 7.95);
+          tl.to(link, { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw }, 7.9);
+          tl.fromTo(dots[0], { scale: 1 }, { scale: 1.5, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 7.95);
+          tl.to([...dots.slice(1), ...labs.slice(1)], { opacity: 0.3, duration: 0.3, ease: "none" }, 8.0);
+          Egg.pop(tl, q(".score"), 8.1);
+          Egg.count(tl, q(".score .n"), 0, 0.71, 8.15, { dur: 0.7, fmt: (v) => v.toFixed(2) });
+          Egg.pointTo(tl, P, { x: 269.5, y: 602.5 }, 0, 8.2, { dx: 160, dy: -230 });
+          Egg.sparkIdle(tl, P.spark, 8.2, 10.4);
+          Egg.lipsync(tl, P.spark, Egg.sceneStart("s08-vectordb"), 8.2, 10.5);
+          Egg.fadeUp(tl, q(".egg-label"), 9.0);
+          Egg.pointerHide(tl, P, 10.15);
+
+          Egg.fadeOut(tl, [q(".egg-svg"), q(".dbk"), q(".labels"), q(".score"), q(".foot"), q(".egg-safe")], 10.45);
+          window.__timelines["s08-vectordb"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

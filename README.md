@@ -13,14 +13,24 @@ Vertical (1080×1920, ≤ 60 s) animated shorts that teach AI basics in plain la
 Episode 01 · What is a token? — [plain](episodes/ep01-tokens/renders/ep01-tokens.mp4) ·
 [with narrator](episodes/ep01-tokens-narrator/renders/ep01-tokens-narrator.mp4)
 
+Episode 02 · What is an embedding? — narrated by the Sanjay avatar:
+[part 1](episodes/ep02-embeddings-part1-avatar/renders/ep02-embeddings-part1-avatar.mp4) ·
+[part 2](episodes/ep02-embeddings-part2-avatar/renders/ep02-embeddings-part2-avatar.mp4)
+(earlier cuts with Spark: [full](episodes/ep02-embeddings/renders/ep02-embeddings.mp4) ·
+[part 1](episodes/ep02-embeddings-part1/renders/ep02-embeddings-part1.mp4) ·
+[part 2](episodes/ep02-embeddings-part2/renders/ep02-embeddings-part2.mp4))
+
 ## Built with
 
 - [HyperFrames](https://hyperframes.heygen.com): each scene is an HTML page animated with
   [GSAP](https://gsap.com), rendered frame by frame to MP4.
-- The Eggshell design system and Spark mascot (`studio/DESIGN.md`), with shared styles and motion
-  helpers in `studio/assets/`.
-- Node.js scripts for sound cues and voiceover ([Fish Audio](https://fish.audio) TTS), FFmpeg for audio
-  and video.
+- The Eggshell design system (`studio/DESIGN.md`), with shared styles and motion helpers in
+  `studio/assets/`.
+- The narrator: a stippled 3D avatar of Sanjay, cut from two Gemini-generated sheets (a talking flipbook
+  and an expression sheet) into a rest face plus mouth and expression patches. His mouth moves once per
+  syllable of the voice, and he moves around the frame into whatever space each scene leaves empty.
+- Node.js scripts for sound cues, voiceover ([Fish Audio](https://fish.audio) TTS, Sanjay's voice) and
+  lip sync, FFmpeg for audio and video, Python (Pillow, NumPy, SciPy) to cut the avatar.
 - [Claude Code](https://claude.com/claude-code) with the HyperFrames skills to write and edit scenes.
 
 ## Set up on a new machine
@@ -51,12 +61,16 @@ cd studio
 node tools/new-episode.mjs ep02-prompting   # copies the kit to episodes/ep02-prompting
 cd ../episodes/ep02-prompting
 # edit compositions/*.html and the scene slots in index.html (or ask Claude Code to)
+# write the lines in voiceover.json, then:
+FISH_API_KEY=… node tools/voiceover.mjs     # generate + place Sanjay's voice
+node tools/lipsync.mjs                      # mouth beats for the avatar
+# stage the avatar in compositions/narrator.html (PLACES / PATH / EXPR)
 node tools/build-sfx.mjs                    # place sound cues
 npm run check                               # must pass with 0 errors
 npm run dev                                 # scrub through it in the browser
 npm run render                              # final 1080×1920 MP4 in renders/
 ```
 
-For a narrated version, add a `voiceover.json` (copy the one in `episodes/ep01-tokens-narrator`),
-write your lines, then run
-`FISH_API_KEY=… node tools/voiceover.mjs`. Keep the key in the environment only, never in the repo.
+Every episode is narrated: the kit's `voiceover.json` uses Sanjay's Fish Audio voice (`"voice": "sanjay"`;
+`--voice=sheldon --place` switches to the other voice without new API calls). Keep the key in the
+environment only, never in the repo.

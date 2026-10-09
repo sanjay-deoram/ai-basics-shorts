@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":0.6,"sfx":"whoosh-short","vol":0.2},
+      {"t":1.6,"sfx":"whoosh-short","vol":0.2},
+      {"t":2.6,"sfx":"whoosh","vol":0.24},
+      {"t":3.3,"sfx":"pop","vol":0.24},
+      {"t":3.9,"sfx":"chime","vol":0.28,"dur":1.8},
+      {"t":4.2,"sfx":"typing","vol":0.24,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s12 · Answering. The closest chunk (from s11) and the question are packed into one prompt, which flies
+           into the Claude logo (the narrator's actor spot, 540 × 860); Claude's answer appears. The answer
+           is an example. Voiceover: 0.3 "That chunk goes to Claude, along with your question." 4.3 "So Claude
+           answers from the right page." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s12 .egg-safe { justify-content: space-between; }
+        .s12 .prompt { position: absolute; left: 90px; right: 130px; top: 380px; padding: 30px 44px; gap: 18px; transform-origin: 50% 50%; }
+        .s12 .part { display: flex; flex-direction: column; gap: 8px; }
+        .s12 .part p { margin: 0; font: 400 36px/1.25 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s12 .answer { position: absolute; left: 90px; right: 130px; top: 1040px; padding: 28px 44px; gap: 12px; }
+        .s12 .answer p { margin: 0; font: 400 40px/1.3 var(--f-body); color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s09-answer" data-width="1080" data-height="1920">
+        <div class="egg-scene s12">
+          <div class="egg-card prompt">
+            <span class="egg-card-kicker">Sent to Claude</span>
+            <div class="part ctx"><span class="egg-card-kicker">Closest chunk</span><p><span class="egg-hl">Staff get 15 vacation days a year.</span></p></div>
+            <div class="part qq"><span class="egg-card-kicker">Question</span><p>How many vacation days do I get?</p></div>
+          </div>
+          <div class="egg-card taupe answer">
+            <span class="egg-card-kicker">Claude answers · example</span>
+            <p class="at">You get 15 vacation days a year.</p>
+          </div>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Answering</span>
+            <p class="egg-label">Right info in, right answer out.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s09-answer"] .s12');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".prompt"), 0.3);
+          tl.fromTo(q(".ctx"), { opacity: 0, x: -60 }, { opacity: 1, x: 0, duration: 0.55, ease: Egg.EASE.enter }, 0.6);
+          Egg.highlight(tl, q(".ctx .egg-hl"), 1.1);
+          tl.fromTo(q(".qq"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.55, ease: Egg.EASE.enter }, 1.6);
+
+          // the prompt goes to Claude (the narrator Spark at 540 × 860)
+          tl.to(q(".prompt"), { x: 20, y: 860 - 516, scale: 0.1, opacity: 0, duration: 0.7, ease: "power2.in" }, 2.6);
+          Egg.fadeUp(tl, q(".answer"), 3.9);
+          Egg.typeOn(tl, q(".at"), 4.2, { cps: 40 });
+          Egg.fadeUp(tl, q(".egg-label"), 5.2);
+
+          Egg.fadeOut(tl, [q(".answer"), q(".egg-safe")], 7.45);
+          window.__timelines["s09-answer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

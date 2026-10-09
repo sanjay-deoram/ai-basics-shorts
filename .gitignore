@@ -12,7 +12,9 @@ node_modules/
 !episodes/ep01-tokens-narrator/renders/ep01-tokens-narrator.mp4
 !episodes/ep02-embeddings/renders/ep02-embeddings.mp4
 !episodes/ep02-embeddings-part1/renders/ep02-embeddings-part1.mp4
+!episodes/ep02-embeddings-part1-avatar/renders/ep02-embeddings-part1-avatar.mp4
 !episodes/ep02-embeddings-part2/renders/ep02-embeddings-part2.mp4
+!episodes/ep02-embeddings-part2-avatar/renders/ep02-embeddings-part2-avatar.mp4
 
 # Secrets (FISH_API_KEY is read from the environment, never stored)
 .env

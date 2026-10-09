@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.24},
+      {"t":1.2,"sfx":"whoosh-short","vol":0.25},
+      {"t":2.0,"sfx":"typing","vol":0.28,"dur":0.6},
+      {"t":2.3,"sfx":"whoosh-short","vol":0.18},
+      {"t":2.45,"sfx":"key-press","vol":0.18},
+      {"t":2.57,"sfx":"key-press","vol":0.18},
+      {"t":2.69,"sfx":"key-press","vol":0.18},
+      {"t":2.81,"sfx":"key-press","vol":0.18},
+      {"t":2.93,"sfx":"key-press","vol":0.18},
+      {"t":3.05,"sfx":"key-press","vol":0.18},
+      {"t":2.5,"sfx":"whoosh","vol":0.2},
+      {"t":4.0,"sfx":"whoosh","vol":0.18},
+      {"t":4.6,"sfx":"click-soft","vol":0.2},
+      {"t":4.8,"sfx":"pop","vol":0.26},
+      {"t":7.3,"sfx":"whoosh","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Word → numbers. Opens on s03's model (same place, already drawn). "puppy" pops in and drops into
+           it; a paper tape slides out with the real first numbers of its embedding (all-MiniLM-L6-v2, see
+           STORYBOARD.md); the camera pushes in on the tape; a brace counts all 384. Exits on a push-in.
+           Voiceover: 0.4 "Give it a word, and it turns the meaning into a list of numbers." 4.6 "That whole
+           list is the embedding." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-safe { justify-content: space-between; }
+        .s04 .cam { position: absolute; inset: 0; }
+        .s04 .row { position: absolute; left: 237px; top: 380px; display: flex; gap: 14px; }
+        .s04 .tile { width: 110px; height: 120px; border: 3px solid var(--ink); border-radius: 18px; background: var(--eggshell); display: grid; place-items: center; font: 400 64px/1 var(--f-mono); color: var(--ink); }
+        .s04 .mlabel { position: absolute; left: 270px; width: 360px; top: 644px; text-align: center; font: 300 40px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s04 .tape { position: absolute; left: 330px; top: 772px; width: 240px; height: 482px; overflow: hidden; }
+        .s04 .paper { position: absolute; inset: 0; background: var(--eggshell); border: 2px solid var(--stone); border-top: none; border-radius: 0 0 18px 18px; box-shadow: var(--shadow); padding: 24px 28px; display: flex; flex-direction: column; }
+        .s04 .paper span { display: block; font: 400 40px/62px var(--f-mono); color: var(--ink); text-align: right; white-space: pre; }
+        .s04 .paper span.more { text-align: center; color: var(--smoke); }
+        .s04 .total { position: absolute; left: 655px; top: 950px; display: flex; flex-direction: column; gap: 6px; }
+        .s04 .total .big { font: 300 96px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s04 .total .unit { font: 400 30px/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); }
+        .s04 .total .egg-foot { margin-top: 18px; display: flex; flex-direction: column; }
+      </style>
+      <div id="root" data-composition-id="s04-numbers" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <div class="cam" data-layout-allow-overflow="">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <g class="machine">
+                <rect class="ink" x="270" y="580" width="360" height="180" rx="32" />
+                <path class="ink thin" d="M360 535 L410 580" />
+                <path class="ink thin" d="M540 535 L490 580" />
+              </g>
+              <path class="ink thin brace" d="M590 782 Q612 782 612 810 L612 985 Q612 1013 634 1013 Q612 1013 612 1041 L612 1216 Q612 1244 590 1244" />
+            </svg>
+            <span class="mlabel">Embedding model</span>
+            <div class="tape">
+              <div class="paper">
+                <span>-0.080</span><span> 0.035</span><span> 0.000</span><span> 0.031</span><span>-0.086</span><span>-0.020</span><span class="more">…</span>
+              </div>
+            </div>
+            <div class="row"><span class="tile">p</span><span class="tile">u</span><span class="tile">p</span><span class="tile">p</span><span class="tile">y</span></div>
+            <div class="total">
+              <span class="big">0</span>
+              <span class="unit">numbers</span>
+              <span class="egg-foot"><span>all-MiniLM-L6-v2</span><span>(open model)</span></span>
+            </div>
+          </div>
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Word → numbers</span>
+            <p class="egg-label">An embedding is a list of numbers.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s04-numbers"] .s04');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const tiles = root.querySelectorAll(".row .tile");
+          const nums = root.querySelectorAll(".paper span");
+          const brace = q(".brace");
+          brace.setAttribute("pathLength", "1");
+          brace.style.strokeDasharray = "1 1.1";
+          gsap.set(brace, { strokeDashoffset: 1.02 });
+          gsap.set(q(".paper"), { y: -510 }); // clear of the tape window, shadow included
+          gsap.set(nums, { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.pop(tl, tiles, 0.3, { stagger: 0.06 });
+
+          // the word drops into the model
+          tiles.forEach((t, i) => {
+            const cx = 237 + 55 + i * 124;
+            tl.to(t, { x: 450 - cx, y: 175, scale: 0.25, opacity: 0, duration: 0.55, ease: "power2.in" }, 1.2 + i * 0.07);
+          });
+          tl.fromTo(q(".machine"), { scale: 1 }, { scale: 1.04, transformOrigin: "50% 50%", duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.0);
+
+          // a tape of numbers prints out of it
+          tl.to(q(".paper"), { y: 0, duration: 0.9, ease: "power1.out" }, 2.3);
+          tl.to(nums, { opacity: 1, duration: 0.12, ease: "none", stagger: 0.12 }, 2.45);
+          tl.to(cam, { scale: 1.12, transformOrigin: "450px 900px", duration: 0.6, ease: Egg.EASE.move }, 2.5);
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 4.0);
+
+          // …and there are 384 of them
+          tl.to(brace, { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 4.6);
+          Egg.pop(tl, q(".total .big"), 4.8);
+          Egg.count(tl, q(".total .big"), 0, 384, 4.8, { dur: 1.0 });
+          Egg.fadeUp(tl, q(".total .unit"), 5.0, { y: 14 });
+          Egg.fadeUp(tl, q(".total .egg-foot"), 5.25, { y: 12 });
+          Egg.fadeUp(tl, q(".egg-label"), 5.4);
+
+          tl.to(cam, { scale: 1.15, transformOrigin: "450px 900px", duration: 0.7, ease: "power2.in" }, 7.3);
+          Egg.fadeOut(tl, [cam, q(".egg-safe")], 7.65);
+          window.__timelines["s04-numbers"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
