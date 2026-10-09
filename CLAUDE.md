@@ -16,7 +16,8 @@ HyperFrames (HTML + GSAP → MP4).
     `narrator.html`, the avatar overlay that narrates the whole episode.
   - `voiceover.json` — voice lines; `"voice": "sanjay"` (Fish Audio) by default, `sheldon` kept as an option.
   - `tools/new-episode.mjs` — copies the kit to `episodes/<slug>`.
-  - `tools/voiceover.mjs` — generates and places the voice lines (`FISH_API_KEY` in the environment).
+  - `tools/voiceover.mjs` — generates and places the voice lines (key from `FISH_API_KEY` or the
+    gitignored `fish.env` at the repo root).
   - `tools/lipsync.mjs` — loudness per frame and one mouth beat per syllable for the avatar.
   - `tools/build-sfx.mjs` — writes each scene's sound cues into `index.html`.
   - `tools/cut-flipbook.py`, `tools/cut-expressions.py` — rebuild `assets/avatar` from the source sheets.

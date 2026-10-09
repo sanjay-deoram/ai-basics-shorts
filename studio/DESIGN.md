@@ -286,14 +286,15 @@ Pacing: something visibly changes at least every 1.5 s. Hold each finished state
   in `voiceover.json` (`scene`, `at` seconds from scene start, `text`). The voice is picked by name
   from `voices` (`"voice": "sanjay"` by default; `sheldon` is kept as an alternative); each voice's takes
   are stored side by side, so `node tools/voiceover.mjs --voice=sheldon --place` switches with no API
-  calls. `FISH_API_KEY=… node tools/voiceover.mjs`
+  calls. `node tools/voiceover.mjs`
   generates each line with Fish Audio (`s2.1-pro-free` unless the account has API credit), measures it,
   flags lines that run past their scene or into the next line, and places them on track 20 at volume 1.
   Unchanged lines are cached. Fix overlaps by moving `at` first, shortening text second.
 - Sync the voice to the picture: say a word as it appears (the token split says each piece on its cut).
   The voice adds to the on-screen text; it doesn't need to read every label aloud.
 - After the voice, `node tools/lipsync.mjs` (mouth beats for the avatar), then `node tools/build-sfx.mjs`.
-- Never store the API key in the project; pass it in the environment when running the tool.
+- The Fish Audio key is read from `FISH_API_KEY` in the environment, or from `fish.env` (`FISH_API_KEY=…`) at
+  the repo root. `fish.env` is gitignored: keep the key on the machine, never commit it.
 - No music yet. Captions are not needed while the on-screen text carries the lesson.
 
 ## 9. Episode recipe (≤ 60 s)
@@ -312,7 +313,7 @@ Leave 0 s gaps between scenes; each scene fades its own content out and the pape
 node tools/new-episode.mjs ep01-prompting   # copies this kit to ../episodes/ep01-prompting
 cd ../episodes/ep01-prompting
 # edit compositions/*.html and the scene slots in index.html; write voiceover.json
-FISH_API_KEY=… node tools/voiceover.mjs      # generate + place the voice (Sanjay)
+node tools/voiceover.mjs                     # generate + place the voice (Sanjay)
 node tools/lipsync.mjs                       # mouth beats for the avatar
 # stage the avatar: PLACES / PATH / EXPR in compositions/narrator.html (set LEN to the episode length)
 node tools/build-sfx.mjs                     # place sound cues

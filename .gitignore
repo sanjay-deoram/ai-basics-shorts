@@ -16,9 +16,10 @@ node_modules/
 !episodes/ep02-embeddings-part2/renders/ep02-embeddings-part2.mp4
 !episodes/ep02-embeddings-part2-avatar/renders/ep02-embeddings-part2-avatar.mp4
 
-# Secrets (FISH_API_KEY is read from the environment, never stored)
+# Secrets (the Fish Audio key: FISH_API_KEY in the environment, or fish.env at the repo root, local only)
 .env
 .env.*
+fish.env
 
 # OS / editor
 Thumbs.db

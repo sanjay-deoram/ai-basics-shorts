@@ -62,7 +62,7 @@ node tools/new-episode.mjs ep02-prompting   # copies the kit to episodes/ep02-pr
 cd ../episodes/ep02-prompting
 # edit compositions/*.html and the scene slots in index.html (or ask Claude Code to)
 # write the lines in voiceover.json, then:
-FISH_API_KEY=… node tools/voiceover.mjs     # generate + place Sanjay's voice
+node tools/voiceover.mjs                    # generate + place Sanjay's voice
 node tools/lipsync.mjs                      # mouth beats for the avatar
 # stage the avatar in compositions/narrator.html (PLACES / PATH / EXPR)
 node tools/build-sfx.mjs                    # place sound cues
@@ -72,5 +72,6 @@ npm run render                              # final 1080×1920 MP4 in renders/
 ```
 
 Every episode is narrated: the kit's `voiceover.json` uses Sanjay's Fish Audio voice (`"voice": "sanjay"`;
-`--voice=sheldon --place` switches to the other voice without new API calls). Keep the key in the
-environment only, never in the repo.
+`--voice=sheldon --place` switches to the other voice without new API calls). The tool reads the Fish
+Audio key from `FISH_API_KEY`, or from a `fish.env` file (`FISH_API_KEY=…`) at the repo root, which is
+gitignored: create it once per machine and never commit it.

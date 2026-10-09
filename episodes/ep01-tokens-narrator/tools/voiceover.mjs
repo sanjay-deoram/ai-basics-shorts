@@ -9,8 +9,8 @@
 // re-running only bills new or edited lines.
 // Old files no longer referenced by any line are left in place; delete them by hand if you like.
 //
-// Usage (from the episode folder; the key is read from the environment, never stored):
-//   FISH_API_KEY=... node tools/voiceover.mjs          generate + place
+// Usage (from the episode folder; the key comes from FISH_API_KEY or the repo's local, gitignored fish.env):
+//   node tools/voiceover.mjs                            generate + place
 //   node tools/voiceover.mjs --place                    place existing files only (no API calls)
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
@@ -39,6 +39,17 @@ const ffprobe = process.env.FFPROBE || "ffprobe";
 const probe = (file) =>
   +execFileSync(ffprobe, ["-v", "error", "-show_entries", "format=duration", "-of", "default=nk=1:nw=1", file]).toString().trim();
 
+// Fish Audio key: FISH_API_KEY in the environment, else FISH_API_KEY=… in fish.env here or in a parent folder
+// (the repo root keeps one on this machine; it is gitignored, never committed).
+function fishKey() {
+  if (process.env.FISH_API_KEY) return process.env.FISH_API_KEY;
+  for (let d = project; ; d = dirname(d)) {
+    const f = join(d, "fish.env");
+    if (existsSync(f)) { const m = readFileSync(f, "utf8").match(/^FISH_API_KEY=(.+)$/m); if (m) return m[1].trim(); }
+    if (dirname(d) === d) return null;
+  }
+}
+
 const counters = {};
 const clips = [];
 for (const line of cfg.lines) {
@@ -50,8 +61,8 @@ for (const line of cfg.lines) {
   const file = join(project, rel);
 
   if (!placeOnly && !existsSync(file)) {
-    const key = process.env.FISH_API_KEY;
-    if (!key) throw new Error("Set FISH_API_KEY to generate audio (or run with --place).");
+    const key = fishKey();
+    if (!key) throw new Error("No Fish Audio key: set FISH_API_KEY or add fish.env at the repo root (or run with --place).");
     const res = await fetch("https://api.fish.audio/v1/tts", {
       method: "POST",
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", model: cfg.model },

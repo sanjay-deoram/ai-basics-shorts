@@ -252,7 +252,8 @@ Pacing: something visibly changes at least every 1.5 s. Hold each finished state
   Unchanged lines are cached. Fix overlaps by moving `at` first, shortening text second.
 - Sync the voice to the picture: say a word as it appears (the token split says each piece on its cut).
   The voice adds to the on-screen text; it doesn't need to read every label aloud.
-- Never store the API key in the project; pass it in the environment when running the tool.
+- The Fish Audio key is read from `FISH_API_KEY` in the environment, or from `fish.env` (`FISH_API_KEY=…`) at
+  the repo root. `fish.env` is gitignored: keep the key on the machine, never commit it.
 - No music yet. Captions are not needed while the on-screen text carries the lesson.
 
 ## 9. Episode recipe (≤ 60 s)
