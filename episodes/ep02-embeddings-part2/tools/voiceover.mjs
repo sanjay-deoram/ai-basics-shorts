@@ -1,6 +1,8 @@
 // Generates the episode voiceover with Fish Audio and places it on the timeline.
 //
-// Reads voiceover.json: { model, voice, speed, volume, lines: [{ scene, at, text }] }
+// Reads voiceover.json: { model, voice, voices, speed, volume, lines: [{ scene, at, text }] }
+//   voice = a key of voices ({ name: { id, name } }) or a raw Fish Audio voice id; --voice=<key> overrides it.
+//   Each voice's takes are kept side by side, so switching back to one already generated needs no API calls.
 //   scene = slot id in index.html (s01, s02…), at = seconds from that scene's start.
 // For each line it calls Fish Audio TTS, saves assets/vo/<scene>-<hash>.mp3 (named by content, so
 // inserting or reordering lines never re-bills the others), measures it with ffprobe,
@@ -12,6 +14,7 @@
 // Usage (from the episode folder; the key is read from the environment, never stored):
 //   FISH_API_KEY=... node tools/voiceover.mjs          generate + place
 //   node tools/voiceover.mjs --place                    place existing files only (no API calls)
+//   node tools/voiceover.mjs --voice=sheldon --place    switch to another voice's takes
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -21,6 +24,9 @@ import { createHash } from "node:crypto";
 const project = join(dirname(fileURLToPath(import.meta.url)), "..");
 const placeOnly = process.argv.includes("--place");
 const cfg = JSON.parse(readFileSync(join(project, "voiceover.json"), "utf8"));
+const voiceKey = (process.argv.find((a) => a.startsWith("--voice=")) || "").slice(8) || cfg.voice;
+const voiceId = cfg.voices?.[voiceKey]?.id ?? voiceKey;
+console.log(`voice: ${cfg.voices?.[voiceKey]?.name ?? voiceKey} (${voiceId})`);
 const indexPath = join(project, "index.html");
 let index = readFileSync(indexPath, "utf8");
 const lockPath = join(project, "assets", "vo", "vo.lock.json");
@@ -45,7 +51,7 @@ for (const line of cfg.lines) {
   if (!slots[line.scene]) throw new Error(`No scene slot ${line.scene} in index.html`);
   counters[line.scene] = (counters[line.scene] || 0) + 1;
   const id = `${line.scene}-${counters[line.scene]}`;
-  const hash = createHash("sha1").update(JSON.stringify([cfg.model, cfg.voice, cfg.speed, line.text])).digest("hex");
+  const hash = createHash("sha1").update(JSON.stringify([cfg.model, voiceId, cfg.speed, line.text])).digest("hex");
   const rel = `assets/vo/${line.scene}-${hash.slice(0, 8)}.mp3`;
   const file = join(project, rel);
 
@@ -57,7 +63,7 @@ for (const line of cfg.lines) {
       headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json", model: cfg.model },
       body: JSON.stringify({
         text: line.text,
-        reference_id: cfg.voice,
+        reference_id: voiceId,
         format: "mp3",
         mp3_bitrate: 128,
         normalize: true,
