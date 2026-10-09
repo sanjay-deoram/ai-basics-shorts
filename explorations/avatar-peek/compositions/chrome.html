@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:34,&quot;min&quot;:5,&quot;max&quot;:180,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay for the whole episode: the thin progress bar at the top of the safe area. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+      </style>
+      <div data-hf-id="hf-t4u5" id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tovl" class="egg-progress"><i data-hf-id="hf-wt6k"></i></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .egg-progress').parentElement;
+          const { duration } = window.__hyperframes.getVariables();
+          const tl = gsap.timeline({ paused: true });
+          Egg.progress(tl, root.querySelector(".egg-progress i"), 0, duration);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

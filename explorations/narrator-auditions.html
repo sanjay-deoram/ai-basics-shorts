@@ -1,0 +1,419 @@
+<title>Narrator Auditions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist+Mono&family=Inter+Tight:wght@300;400&family=Inter:wght@400;500&display=swap">
+<style>
+  /* Layout: one centred column; a shared transport bar, then three 9:16 audition stages side by side with notes under each. */
+  :root {
+    --bg: #f6f4f1;
+    --fg: #161411;
+    --muted: #68625b;
+    --line: #e3dfda;
+    --card: #fdfcfc;
+    --focus: #0447ff;
+    /* The stages are video frames: they keep the Eggshell paper in both themes. */
+    --paper: #fdfcfc;
+    --stone: #ebe8e4;
+    --ink: #000000;
+    --smoke: #777169;
+    --ash: #a59f97;
+    --chip-line: #e5e5e5;
+    --chip-hl: #ffe1f0;
+    --violet: #0447ff;
+    --ember: #ff4704;
+    --blush: #ff7ac0;
+    --f-display: "Inter Tight", "Inter", system-ui, sans-serif;
+    --f-body: "Inter", system-ui, sans-serif;
+    --f-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #141210; --fg: #f1eee9; --muted: #a49e96; --line: #2d2a26; --card: #1c1a17; --focus: #8ea8ff;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #141210; --fg: #f1eee9; --muted: #a49e96; --line: #2d2a26; --card: #1c1a17; --focus: #8ea8ff;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font: 400 16px/1.5 var(--f-body); -webkit-font-smoothing: antialiased; }
+  main { max-width: 1160px; margin: 0 auto; padding-inline: 20px; padding-block: 44px 72px; display: flex; flex-direction: column; gap: 28px; }
+
+  .eyebrow { font: 400 12px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0; }
+  h1 { font: 300 clamp(34px, 5vw, 56px)/1.04 var(--f-display); letter-spacing: -0.02em; margin: 8px 0 12px; text-wrap: balance; }
+  .lede { max-width: 64ch; color: var(--muted); margin: 0; }
+
+  /* transport */
+  .transport { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 14px 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--card); }
+  .transport button { font: 500 14px/1 var(--f-body); color: var(--fg); background: transparent; border: 1px solid var(--line); border-radius: 999px; padding: 9px 14px; cursor: pointer; }
+  .transport button[aria-pressed="true"] { background: var(--fg); color: var(--bg); border-color: var(--fg); }
+  button:focus-visible, input:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+  .scrub { flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 6px; }
+  .scrub input { width: 100%; accent-color: var(--fg); margin: 0; }
+  .phases { display: flex; font: 400 10.5px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+  .phases span { border-left: 1px solid var(--line); padding-left: 5px; white-space: nowrap; overflow: hidden; }
+  .clock { font: 400 13px/1 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--muted); min-width: 5ch; text-align: right; }
+
+  /* auditions */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 20px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 22px; padding: 12px; display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+  .card svg { display: block; width: 100%; height: auto; border-radius: 14px; border: 1px solid var(--line); background: var(--paper); }
+  .notes { padding: 0 8px 8px; display: flex; flex-direction: column; gap: 10px; }
+  .notes .eyebrow { font-size: 11px; }
+  h2 { font: 300 34px/1 var(--f-display); letter-spacing: -0.02em; margin: 0; }
+  .tagline { font: 500 15px/1.4 var(--f-body); margin: 0; }
+  .why { color: var(--muted); font-size: 14.5px; margin: 0; }
+  .moves { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+  .moves li { font-size: 14px; display: grid; grid-template-columns: 4.6em 1fr; gap: 8px; }
+  .moves b { font: 400 10.5px/1.9 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+
+  .fit { border-top: 1px solid var(--line); padding-top: 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px 28px; }
+  .fit h3 { font: 400 12px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin: 0 0 6px; }
+  .fit p { margin: 0; font-size: 14.5px; max-width: 60ch; }
+
+  /* stage type (SVG text, sized in stage units: the frame is 270 wide) */
+  .s-eyebrow { font: 400 8.5px var(--f-mono); letter-spacing: 0.08em; fill: var(--smoke); }
+  .s-title { font: 300 25px var(--f-display); letter-spacing: -0.02em; fill: var(--ink); }
+  .s-chip { font: 400 15px var(--f-mono); fill: var(--ink); }
+  .s-cap { font: 500 14.5px var(--f-body); fill: var(--ink); }
+  .s-type { font: 400 34px var(--f-mono); fill: var(--ink); }
+  .s-q { font: 300 44px var(--f-display); fill: var(--ember); }
+</style>
+
+<main>
+  <header>
+    <p class="eyebrow">AI basics shorts · narrator auditions</p>
+    <h1>Three guides to replace Spark</h1>
+    <p class="lede">Each candidate runs the same 5-second audition: enter, talk, think, point at a word, leave. The three stay in sync, so pause or scrub to compare them at the same moment.</p>
+  </header>
+
+  <div class="transport" role="group" aria-label="Playback">
+    <button id="play" type="button" aria-pressed="true">Pause</button>
+    <button id="slow" type="button" aria-pressed="false">Slow motion</button>
+    <div class="scrub">
+      <input id="scrub" type="range" min="0" max="5" step="0.01" value="0" aria-label="Audition time in seconds">
+      <div class="phases" aria-hidden="true">
+        <span style="flex:6">Enter</span><span style="flex:18">Talk</span><span style="flex:10">Think</span><span style="flex:12">Point</span><span style="flex:4">Leave</span>
+      </div>
+    </div>
+    <span class="clock" id="clock">0.0 s</span>
+  </div>
+
+  <section class="grid">
+    <article class="card">
+      <div id="stage-A"></div>
+      <div class="notes">
+        <p class="eyebrow">Option A</p>
+        <h2>Blink</h2>
+        <p class="tagline">The text cursor, come to life.</p>
+        <p class="why">Every chat with an AI starts with a blinking cursor. Blink is that cursor with a face, so the series' guide is the thing viewers already stare at when they talk to Claude.</p>
+        <ul class="moves">
+          <li><b>Enter</b><span>Grows up from a line, like a cursor appearing</span></li>
+          <li><b>Think</b><span>Types its own thoughts as it moves</span></li>
+          <li><b>Point</b><span>Lies down and underlines the key word</span></li>
+          <li><b>Idle</b><span>Blinks on and off, exactly like a cursor</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div id="stage-B"></div>
+      <div class="notes">
+        <p class="eyebrow">Option B</p>
+        <h2>Nodi</h2>
+        <p class="tagline">A face made of data points.</p>
+        <p class="why">Embeddings, maps of meaning and neural networks are all dots joined by lines. Nodi is built from them, so it can come apart and re-form as whatever the lesson needs.</p>
+        <ul class="moves">
+          <li><b>Enter</b><span>Scattered points fly together into a face</span></li>
+          <li><b>Think</b><span>Rearranges itself into a question mark</span></li>
+          <li><b>Point</b><span>Draws a line out to the word and links it</span></li>
+          <li><b>Idle</b><span>Every point drifts gently, always alive</span></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="card">
+      <div id="stage-C"></div>
+      <div class="notes">
+        <p class="eyebrow">Option C</p>
+        <h2>Bub</h2>
+        <p class="tagline">A chat bubble that talks back.</p>
+        <p class="why">The speech bubble is the universal sign of a chat. Bub arrives like a new message, typing dots first, and the dots become its face.</p>
+        <ul class="moves">
+          <li><b>Enter</b><span>Pops in as a typing indicator, then wakes up</span></li>
+          <li><b>Think</b><span>Tilts, looks up, a question mark pops out</span></li>
+          <li><b>Point</b><span>Stretches its tail out like a finger</span></li>
+          <li><b>Talk</b><span>Squashes and stretches with every word</span></li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section class="fit">
+    <div>
+      <h3>Fits the series</h3>
+      <p>All three keep Spark's violet, blush and ember on the eggshell page, so every episode's colour rules stay the same: colour lives only in the guide and what it touches.</p>
+    </div>
+    <div>
+      <h3>Talks with the voice</h3>
+      <p>Each mouth reads the same lip-sync data Spark uses, opening wider on louder syllables. The mouths here run on a stand-in rhythm.</p>
+    </div>
+    <div>
+      <h3>Next step</h3>
+      <p>Pick A, B or C. I'll build a 5-second 1080×1920 HyperFrames clip of that guide doing this audition, then swap it in for Spark.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const LEN = 5;
+  const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const seg = (t, a, b) => cl((t - a) / (b - a));
+  const lerp = (a, b, p) => a + (b - a) * p;
+  const eOut = (p) => 1 - Math.pow(1 - p, 3);
+  const eIO = (p) => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+  const eBack = (p) => { const s = 1.9; return 1 + (s + 1) * Math.pow(p - 1, 3) + s * Math.pow(p - 1, 2); };
+  const eBackIn = (p) => { const s = 1.7; return (s + 1) * p * p * p - s * p * p; };
+  const hold = (t, a, b) => Math.min(seg(t, a, a + 0.15), 1 - seg(t, b, b + 0.2));
+  // Stand-in lip sync: open while a line is being said, wider on "louder" beats.
+  const mouth = (t) => ((t > 0.62 && t < 2.25) || (t > 3.5 && t < 4.4)) ? cl(Math.abs(Math.sin(t * 13.7)) * (0.55 + 0.45 * Math.sin(t * 5.3 + 1))) : 0;
+  const blink = (t, times) => times.reduce((v, bt) => Math.min(v, cl(Math.abs(t - bt) / 0.07, 0.08, 1)), 1);
+  const typed = (s, t, a) => s.slice(0, cl(Math.floor((t - a) * 28), 0, s.length));
+  const caption = (t, l1, l2) => (t >= 0.6 && t < 2.45 ? typed(l1, t, 0.6) : t >= 3.5 && t < 4.65 ? typed(l2, t, 3.5) : "");
+  function frames(t, F) {
+    if (t <= F[0][0]) return { ...F[0][1] };
+    for (let i = 0; i < F.length - 1; i++) {
+      const [ta, a] = F[i], [tb, b] = F[i + 1];
+      if (t <= tb) { const p = eIO(seg(t, ta, tb)), o = {}; for (const k in a) o[k] = lerp(a[k], b[k], p); return o; }
+    }
+    return { ...F[F.length - 1][1] };
+  }
+  const tf = (x, y, r = 0, sx = 1, sy = sx) => `translate(${x.toFixed(2)} ${y.toFixed(2)}) rotate(${r.toFixed(2)}) scale(${sx.toFixed(3)} ${sy.toFixed(3)})`;
+
+  const gradient = (id, x1, y1, x2, y2) =>
+    `<linearGradient id="${id}" gradientUnits="userSpaceOnUse" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}">
+       <stop offset="0" stop-color="var(--violet)"/><stop offset=".55" stop-color="var(--blush)"/><stop offset="1" stop-color="var(--ember)"/></linearGradient>`;
+
+  function stage(k, label, defs, under, avatar) {
+    const host = document.getElementById(`stage-${k}`);
+    host.innerHTML = `<svg viewBox="0 0 270 480" role="img" aria-label="${label}">
+      <defs>${defs}</defs>
+      <rect width="270" height="480" fill="var(--paper)"/>
+      <rect x="18" y="20" width="234" height="3" rx="1.5" fill="var(--stone)"/>
+      <rect class="prog" x="18" y="20" width="0" height="3" rx="1.5" fill="var(--ink)"/>
+      <text class="s-eyebrow" x="18" y="48">AI BASICS · EPISODE 03</text>
+      <text class="s-title" x="18" y="84">Meet your guide</text>
+      <rect x="40" y="322" width="92" height="38" rx="19" fill="var(--paper)" stroke="var(--chip-line)" stroke-width="1.5"/>
+      <rect class="chip-hl" x="40" y="322" width="92" height="38" rx="19" fill="var(--chip-hl)" opacity="0"/>
+      <text class="s-chip" x="86" y="346" text-anchor="middle">puppy</text>
+      ${under}
+      ${avatar}
+      <text class="s-cap" x="135" y="434" text-anchor="middle"></text>
+    </svg>`;
+    const svg = host.firstElementChild;
+    return { svg, $: (s) => svg.querySelector(s), $$: (s) => [...svg.querySelectorAll(s)] };
+  }
+  function common(S, t, l1, l2, hl) {
+    S.$(".prog").setAttribute("width", (234 * t / LEN).toFixed(1));
+    S.$(".s-cap").textContent = caption(t, l1, l2);
+    S.$(".chip-hl").setAttribute("opacity", hl.toFixed(3));
+  }
+
+  /* ---------- A · Blink: the cursor ---------- */
+  const A = stage("A", "Blink, a living text cursor, auditioning",
+    gradient("A-g", 0, -68, 0, 68), `<text class="s-type" x="60" y="227"></text>`,
+    `<g class="av">
+       <rect x="-17" y="-60" width="34" height="120" rx="17" fill="url(#A-g)"/>
+       <rect x="-28" y="-68" width="56" height="13" rx="6.5" fill="url(#A-g)"/>
+       <rect x="-28" y="55" width="56" height="13" rx="6.5" fill="url(#A-g)"/>
+       <rect x="-11" y="-50" width="4.5" height="44" rx="2.25" fill="#fff" opacity=".35"/>
+       <g class="eyes">
+         <ellipse cx="-7.5" cy="-30" rx="6.5" ry="7.5" fill="var(--paper)"/><ellipse cx="7.5" cy="-30" rx="6.5" ry="7.5" fill="var(--paper)"/>
+         <circle class="pupil" cx="-7" cy="-29" r="3.4" fill="var(--ink)"/><circle class="pupil" cx="8" cy="-29" r="3.4" fill="var(--ink)"/>
+       </g>
+       <path class="happy" d="M-13 -27 q5.5 -7 11 0 M2 -27 q5.5 -7 11 0" stroke="var(--paper)" stroke-width="3" fill="none" stroke-linecap="round" opacity="0"/>
+       <rect class="mouth" x="-6" y="-14" width="12" height="3" rx="1.5" fill="var(--ink)"/>
+     </g>`);
+  function renderA(t) {
+    const S = A;
+    let { x, y, r, s } = frames(t, [
+      [0, { x: 180, y: 215, r: 0, s: 1 }], [2.3, { x: 180, y: 215, r: 0, s: 1 }],
+      [2.5, { x: 84, y: 215, r: -5, s: 1 }], [3.35, { x: 165.6, y: 215, r: -5, s: 1 }],
+      [3.75, { x: 86, y: 372, r: -90, s: 0.62 }], [4.25, { x: 86, y: 372, r: -90, s: 0.62 }],
+      [4.6, { x: 180, y: 215, r: 0, s: 1 }],
+    ]);
+    // Think: types "hmm?" and the cursor steps along after each letter.
+    const n = t >= 3.35 ? 4 : t >= 2.55 ? cl(Math.floor((t - 2.55) / 0.17) + 1, 0, 4) : 0;
+    if (t >= 2.5 && t < 3.35) x = 84 + 20.4 * n;
+    const type = S.$(".s-type");
+    type.textContent = t >= 2.55 && t < 3.55 ? "hmm?".slice(0, n) : "";
+    type.setAttribute("opacity", (1 - seg(t, 3.35, 3.55)).toFixed(3));
+
+    const m = mouth(t);
+    let sy = t < 0.55 ? Math.max(0.02, eBack(seg(t, 0, 0.55))) : 1, sx = 1;
+    sy *= 1 + 0.06 * m; sx *= 1 - 0.03 * m;
+    const av = S.$(".av");
+    av.setAttribute("transform", tf(x, y, r, s * sx, s * sy));
+    // Idle: blinks like a real cursor, ending "off" so the next loop grows back in.
+    av.setAttribute("opacity", t >= 4.6 ? (Math.floor((t - 4.6) * 5) % 2 ? 0.12 : 1) : 1);
+
+    const h = 3 + 10 * m, mo = S.$(".mouth");
+    mo.setAttribute("height", h.toFixed(2)); mo.setAttribute("y", (-12.5 - h / 2).toFixed(2));
+    const happy = hold(t, 3.75, 4.45) > 0.5;
+    const eyes = S.$(".eyes");
+    eyes.setAttribute("opacity", happy ? 0 : 1);
+    eyes.setAttribute("transform", `translate(0 -30) scale(1 ${blink(t, [1.55]).toFixed(3)}) translate(0 30)`);
+    S.$(".happy").setAttribute("opacity", happy ? 1 : 0);
+    const look = t >= 2.45 && t < 3.35 ? -2.2 : 0;
+    S.$$(".pupil").forEach((p) => p.setAttribute("transform", `translate(${look} 0)`));
+    common(S, t, "Hi, I'm Blink.", "Watch this word.", hold(t, 3.75, 4.3));
+  }
+
+  /* ---------- B · Nodi: a face of data points ---------- */
+  const FACE = [[0, -62], [-28, -18], [28, -18], [-56, 10], [56, 10], [-18, 24], [0, 32], [18, 24], [0, 62]];
+  const QMARK = [[-26, -46], [-11, -62], [10, -62], [27, -48], [27, -27], [12, -12], [0, 4], [0, 22], [0, 56]];
+  const SCATTER = FACE.map((_, i) => [Math.cos(i * 2.4 + 0.6) * 118, Math.sin(i * 3.1 + 0.2) * 150]);
+  const RADII = [6, 9.5, 9.5, 6, 6, 5, 5.5, 5, 5];
+  const COLORS = ["--violet", "--violet", "--blush", "--blush", "--ember", "--ember", "--violet", "--blush", "--ember"];
+  const EDGES = [[0, 1], [0, 2], [1, 2], [1, 3], [2, 4], [3, 8], [4, 8], [5, 6], [6, 7]];
+  const BC = { x: 180, y: 212 };
+  const B = stage("B", "Nodi, a face made of connected points, auditioning", "",
+    `<line class="link" stroke="var(--ink)" stroke-width="1.5" stroke-dasharray="3 4" stroke-linecap="round"/>
+     <circle class="link-end" r="5" fill="var(--ember)" opacity="0"/>`,
+    `<g class="edges">${EDGES.map(() => `<line stroke="var(--ash)" stroke-width="1.6" stroke-linecap="round"/>`).join("")}</g>
+     <g class="nodes">${FACE.map((_, i) => `<ellipse rx="${RADII[i]}" ry="${RADII[i]}" fill="var(${COLORS[i]})"/>`).join("")}</g>
+     <g class="glints"><circle r="2.6" fill="var(--paper)"/><circle r="2.6" fill="var(--paper)"/></g>`);
+  const bNodes = B.$$(".nodes ellipse"), bEdges = B.$$(".edges line"), bGlints = B.$$(".glints circle");
+  function renderB(t) {
+    const S = B, m = mouth(t);
+    const q = eIO(seg(t, 2.4, 2.72)) * (1 - eIO(seg(t, 3.08, 3.4)));
+    const ex = eIO(seg(t, 4.6, 4.95));
+    const happy = hold(t, 3.9, 4.5);
+    const bl = blink(t, [1.6, 4.15]);
+    const P = FACE.map(([fx, fy], i) => {
+      const pin = eOut(seg(t, 0.04 + i * 0.04, 0.6 + i * 0.04));
+      let x = lerp(SCATTER[i][0], fx, pin), y = lerp(SCATTER[i][1], fy, pin);
+      x = lerp(x, QMARK[i][0], q); y = lerp(y, QMARK[i][1], q);
+      x = lerp(x, SCATTER[i][0], ex); y = lerp(y, SCATTER[i][1], ex);
+      x += Math.sin(t * 2.1 + i * 1.7) * 1.3; y += Math.cos(t * 1.8 + i * 2.3) * 1.3;
+      const mq = 1 - q;
+      if (i === 6) y += (9 * m + 6 * happy) * mq;
+      if (i === 5 || i === 7) { y += (3 * m - 5 * happy) * mq; x += (i === 5 ? -2.5 : 2.5) * m * mq; }
+      return { x: BC.x + x, y: BC.y + y, o: Math.min(seg(t, 0, 0.25), 1 - ex) };
+    });
+    bNodes.forEach((n, i) => {
+      n.setAttribute("cx", P[i].x.toFixed(2)); n.setAttribute("cy", P[i].y.toFixed(2));
+      n.setAttribute("opacity", P[i].o.toFixed(3));
+      n.setAttribute("ry", (RADII[i] * (i === 1 || i === 2 ? bl : 1)).toFixed(2));
+    });
+    const edgeOp = Math.min(seg(t, 0.4, 0.8), 1 - ex) * (1 - q * 0.9);
+    bEdges.forEach((l, i) => {
+      const [a, b] = EDGES[i];
+      l.setAttribute("x1", P[a].x.toFixed(2)); l.setAttribute("y1", P[a].y.toFixed(2));
+      l.setAttribute("x2", P[b].x.toFixed(2)); l.setAttribute("y2", P[b].y.toFixed(2));
+      l.setAttribute("opacity", edgeOp.toFixed(3));
+    });
+    bGlints.forEach((g, i) => {
+      const e = P[1 + i];
+      g.setAttribute("cx", (e.x - 2.8).toFixed(2)); g.setAttribute("cy", (e.y - 3).toFixed(2));
+      g.setAttribute("opacity", (e.o * (bl > 0.5 ? 1 : 0) * (1 - q)).toFixed(3));
+    });
+    // Point: a line grows from the cheek point to the word and pins it.
+    const d = eIO(seg(t, 3.45, 3.85)), lo = 1 - seg(t, 4.35, 4.6);
+    const from = P[3], to = { x: 86, y: 322 };
+    const link = S.$(".link");
+    link.setAttribute("x1", from.x.toFixed(2)); link.setAttribute("y1", from.y.toFixed(2));
+    link.setAttribute("x2", lerp(from.x, to.x, d).toFixed(2)); link.setAttribute("y2", lerp(from.y, to.y, d).toFixed(2));
+    link.setAttribute("opacity", (t >= 3.45 ? lo : 0).toFixed(3));
+    const end = S.$(".link-end"), pop = seg(t, 3.85, 3.97);
+    end.setAttribute("cx", to.x); end.setAttribute("cy", to.y);
+    end.setAttribute("r", (5 * (pop < 1 ? eBack(pop) : 1)).toFixed(2));
+    end.setAttribute("opacity", (pop > 0 ? lo : 0).toFixed(3));
+    common(S, t, "Hi, I'm Nodi.", "Let's link this one.", hold(t, 3.85, 4.4));
+  }
+
+  /* ---------- C · Bub: the chat bubble ---------- */
+  const C = stage("C", "Bub, a talking chat bubble, auditioning", gradient("C-g", -60, -50, 60, 70), "",
+    `<g class="av">
+       <path class="tail" fill="url(#C-g)"/>
+       <rect x="-62" y="-48" width="124" height="92" rx="38" fill="url(#C-g)"/>
+       <rect x="-42" y="-39" width="36" height="7" rx="3.5" fill="#fff" opacity=".3"/>
+       <g class="dots"><circle cx="-20" r="7" fill="var(--paper)"/><circle cx="0" r="7" fill="var(--paper)"/><circle cx="20" r="7" fill="var(--paper)"/></g>
+       <g class="face">
+         <g class="eyes">
+           <ellipse cx="-22" cy="-8" rx="10" ry="12" fill="var(--paper)"/><ellipse cx="22" cy="-8" rx="10" ry="12" fill="var(--paper)"/>
+           <circle class="pupil" cx="-21" cy="-6" r="5" fill="var(--ink)"/><circle class="pupil" cx="23" cy="-6" r="5" fill="var(--ink)"/>
+         </g>
+         <ellipse class="cheek" cx="-40" cy="14" rx="7" ry="4" fill="var(--paper)" opacity="0"/>
+         <ellipse class="cheek" cx="40" cy="14" rx="7" ry="4" fill="var(--paper)" opacity="0"/>
+         <ellipse class="mouth" cx="0" cy="18" rx="9" ry="2.5" fill="var(--ink)"/>
+         <path class="smile" d="M-11 14 q11 12 22 0" stroke="var(--ink)" stroke-width="3.5" fill="none" stroke-linecap="round" opacity="0"/>
+       </g>
+       <text class="s-q" x="56" y="-50" opacity="0">?</text>
+     </g>`);
+  const cDots = C.$$(".dots circle"), cPupils = C.$$(".pupil"), cCheeks = C.$$(".cheek");
+  function renderC(t) {
+    const S = C, m = mouth(t);
+    const pose = frames(t, [
+      [0, { r: 0, tx: -46, ty: 66, lx: 0, ly: 0 }], [2.4, { r: 0, tx: -46, ty: 66, lx: 0, ly: 0 }],
+      [2.6, { r: -8, tx: -46, ty: 66, lx: -3, ly: -4 }], [3.3, { r: -8, tx: -46, ty: 66, lx: -3, ly: -4 }],
+      [3.45, { r: -4, tx: -46, ty: 66, lx: -3, ly: 3 }], [3.8, { r: -6, tx: -89, ty: 117, lx: -3, ly: 3 }],
+      [4.3, { r: -6, tx: -89, ty: 117, lx: -3, ly: 3 }], [4.6, { r: 0, tx: -46, ty: 66, lx: 0, ly: 0 }],
+    ]);
+    let s = 1;
+    if (t < 0.5) s = Math.max(0.001, eBack(seg(t, 0, 0.5)));
+    if (t > 4.62) s = Math.max(0.001, 1 - eBackIn(seg(t, 4.62, 4.95)));
+    const sx = s * (1 + 0.035 * m), sy = s * (1 - 0.035 * m);
+    S.$(".av").setAttribute("transform", tf(175, 205, pose.r, sx, sy));
+    S.$(".tail").setAttribute("d", `M-36 26 L${pose.tx.toFixed(2)} ${pose.ty.toFixed(2)} L-8 40 Z`);
+    // Enter: arrives as a typing indicator, then the dots become a face.
+    const wake = seg(t, 0.62, 0.8);
+    cDots.forEach((d, i) => d.setAttribute("cy", (-7 * Math.max(0, Math.sin(t * 10 - i * 0.9))).toFixed(2)));
+    S.$(".dots").setAttribute("opacity", (1 - wake).toFixed(3));
+    S.$(".face").setAttribute("opacity", wake.toFixed(3));
+    cPupils.forEach((p) => p.setAttribute("transform", `translate(${pose.lx.toFixed(2)} ${pose.ly.toFixed(2)})`));
+    S.$(".eyes").setAttribute("transform", `translate(0 -8) scale(1 ${blink(t, [1.7, 4.05]).toFixed(3)}) translate(0 8)`);
+    const happy = hold(t, 3.85, 4.5);
+    const think = hold(t, 2.5, 3.25);
+    const mo = S.$(".mouth");
+    mo.setAttribute("rx", lerp(9, 5, think).toFixed(2));
+    mo.setAttribute("ry", (2.5 + 8 * m + 1.8 * think).toFixed(2));
+    mo.setAttribute("opacity", (1 - happy).toFixed(3));
+    S.$(".smile").setAttribute("opacity", happy.toFixed(3));
+    cCheeks.forEach((c) => c.setAttribute("opacity", (0.55 * happy).toFixed(3)));
+    const qp = seg(t, 2.6, 2.85), qm = S.$(".s-q");
+    qm.setAttribute("opacity", (qp > 0 ? 1 - seg(t, 3.2, 3.35) : 0).toFixed(3));
+    qm.setAttribute("transform", `translate(64 -64) scale(${(qp < 1 ? Math.max(0.001, eBack(qp)) : 1).toFixed(3)}) translate(-64 64)`);
+    common(S, t, "Hi, I'm Bub.", "Look right here.", hold(t, 3.8, 4.4));
+  }
+
+  /* ---------- transport ---------- */
+  const playBtn = document.getElementById("play"), slowBtn = document.getElementById("slow");
+  const scrub = document.getElementById("scrub"), clock = document.getElementById("clock");
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let t = reduce ? 1.2 : 0, playing = !reduce, slow = false, last = null;
+  function draw() {
+    renderA(t); renderB(t); renderC(t);
+    scrub.value = t.toFixed(2);
+    clock.textContent = `${t.toFixed(1)} s`;
+  }
+  function setPlaying(p) { playing = p; playBtn.textContent = p ? "Pause" : "Play"; playBtn.setAttribute("aria-pressed", String(p)); last = null; }
+  playBtn.addEventListener("click", () => setPlaying(!playing));
+  slowBtn.addEventListener("click", () => { slow = !slow; slowBtn.setAttribute("aria-pressed", String(slow)); });
+  scrub.addEventListener("input", () => { setPlaying(false); t = +scrub.value; draw(); });
+  function frame(now) {
+    if (playing) {
+      if (last !== null) t = (t + ((now - last) / 1000) * (slow ? 0.35 : 1)) % LEN;
+      last = now;
+      draw();
+    }
+    requestAnimationFrame(frame);
+  }
+  setPlaying(playing);
+  draw();
+  requestAnimationFrame(frame);
+})();
+</script>

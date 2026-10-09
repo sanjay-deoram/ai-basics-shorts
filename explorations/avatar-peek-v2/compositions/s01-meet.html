@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":2.0,"sfx":"pop","vol":0.25}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Meet your guide. Text stays in the left 560 px so the avatar has the right side. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
+        .s01 .egg-display { max-width: 560px; }
+        .s01 .egg-display .w { display: inline-block; }
+        .s01 .egg-chip { align-self: flex-start; }
+      </style>
+      <div id="root" data-composition-id="s01-meet" data-width="1080" data-height="1920">
+        <div class="egg-scene s01">
+          <div class="egg-safe">
+            <span class="egg-eyebrow">AI basics · Your guide</span>
+            <h1 class="egg-display">Meet your guide.</h1>
+            <span class="egg-chip">One idea at a time</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s01-meet"] .s01');
+          const h1 = root.querySelector(".egg-display");
+          h1.innerHTML = h1.textContent.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ");
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.1);
+          Egg.fadeUp(tl, h1.querySelectorAll(".w"), 0.2, { y: 60, stagger: 0.08, dur: 0.6 });
+          Egg.pop(tl, root.querySelector(".egg-chip"), 2.0);
+          window.__timelines["s01-meet"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from the clip start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.3},
+      {"t":4.45,"sfx":"whoosh-short","vol":0.2,"dur":0.55}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Avatar v3 · the talking flipbook (tools/cut-flipbook.py) plus the smile and doubtful-brows panels from the
+           expression sheet (tools/cut-expressions.py). Peeks in from
+           the right edge, mirrored so he faces the content. The face is always f1.png (rest); only a feathered mouth
+           patch changes, so the hair, glasses and stipple never flicker. One mouth per syllable: syllables are the
+           loudness peaks of each voice line (assets/lipsync.js); each takes its sound from the words (LINES) and
+           its size from how loud it is:
+             E (ee/eh): 2 small, 3 big · A (ah/ai): 4 small, 5 big · O (oo/oh/er): 7 small, 6 big
+             "E-m" style entries press the lips (8) as the syllable fades (m/b/p). Between syllables: rest.
+           Expressions (EXPR) fade in their own patches: doubt = raised brows + flat mouth, smile = smile mouth.
+           A talking mouth always wins over an expression's mouth; the brows stay while he talks. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .peek { position: absolute; left: 630px; top: 600px; width: 540px; height: 629px; transform-origin: 50% 100%; }
+        .peek .glow {
+          position: absolute; left: 50%; top: 40%; width: 560px; height: 560px; margin: -280px 0 0 -280px; border-radius: 50%;
+          background: radial-gradient(circle at 40% 40%, rgba(255, 122, 192, 0.42), rgba(4, 71, 255, 0.16) 48%, rgba(255, 71, 4, 0) 70%);
+          filter: blur(24px);
+        }
+        .peek .frames { position: absolute; inset: 0; transform: scaleX(-1); }
+        .peek img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+        .peek img.face { opacity: 1; }
+      </style>
+      <div id="root" data-composition-id="avatar" data-width="1080" data-height="1920">
+        <div class="peek" data-layout-allow-overflow="">
+          <div class="glow" data-layout-allow-overflow=""></div>
+          <div class="frames">
+            <img class="face" src="assets/avatar/f1.png" alt="">
+            <img data-x="brows-doubt" src="assets/avatar/brows-doubt.png" alt="">
+            <img data-x="mouth-doubt" src="assets/avatar/mouth-doubt.png" alt="">
+            <img data-x="mouth-smile" src="assets/avatar/mouth-smile.png" alt="">
+            <img data-m="8" src="assets/avatar/mouth-8.png" alt="">
+            <img data-m="2" src="assets/avatar/mouth-2.png" alt="">
+            <img data-m="4" src="assets/avatar/mouth-4.png" alt="">
+            <img data-m="7" src="assets/avatar/mouth-7.png" alt="">
+            <img data-m="3" src="assets/avatar/mouth-3.png" alt="">
+            <img data-m="5" src="assets/avatar/mouth-5.png" alt="">
+            <img data-m="6" src="assets/avatar/mouth-6.png" alt="">
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 5;
+          // Voice lines (start and length from tools/voiceover.mjs) and one sound per syllable.
+          const LINES = [
+            { at: 0.55, dur: 1.28, v: ["E", "A-m", "A", "E"] },                     // Hey, I'm San-jay.
+            { at: 2.75, dur: 1.46, v: ["E", "O", "E", "A", "O", "E", "O"] },        // Let's learn A-I to-geth-er.
+          ];
+          const SHAPES = { E: ["2", "3"], A: ["4", "5"], O: ["7", "6"] };   // [small, big] mouth per sound
+          // [expression, fade in at, fade out at] — each fades over 0.15 s
+          const EXPR = [["doubt", 2.1, 2.62], ["smile", 4.2, 99]];
+
+          const root = document.querySelector('[data-composition-id="avatar"] .peek');
+          const frames = root.querySelector(".frames");
+          const mouths = {};
+          root.querySelectorAll("img[data-m]").forEach((im) => (mouths[im.dataset.m] = im));
+          const expr = {};
+          root.querySelectorAll("img[data-x]").forEach((im) => (expr[im.dataset.x] = im));
+          const L = window.EggLipsync, FPS = L.fps;
+          const lvl = (i) => (i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0);
+          const smooth = (i) => (lvl(i - 1) + 2 * lvl(i) + lvl(i + 1)) / 4;
+          const ramp = (a, b, x) => { const p = Math.min(1, Math.max(0, (x - a) / (b - a))); return p * p * (3 - 2 * p); };
+
+          // Syllables: loudness peaks at least 4 frames apart. Each owns the frames up to halfway to its neighbours.
+          const syl = [];
+          LINES.forEach((line) => {
+            const f0 = Math.floor(line.at * FPS), f1 = Math.ceil((line.at + line.dur) * FPS);
+            const peaks = [];
+            for (let i = f0; i <= f1; i++) {
+              const s = smooth(i);
+              if (s < 0.35 || s < smooth(i - 1) || s <= smooth(i + 1)) continue;
+              const last = peaks[peaks.length - 1];
+              if (last !== undefined && i - last < 4) { if (s > smooth(last)) peaks[peaks.length - 1] = i; } else peaks.push(i);
+            }
+            peaks.forEach((p, k) => {
+              const [sound, close] = line.v[Math.floor((k * line.v.length) / peaks.length)].split("-");
+              syl.push({ from: k ? (peaks[k - 1] + p) / 2 : f0, to: k < peaks.length - 1 ? (p + peaks[k + 1]) / 2 : f1, peak: p, sound, close: !!close });
+            });
+          });
+
+          const box = { t: 0 };
+          const apply = () => {
+            const f = box.t * FPS;
+            const i = Math.floor(f), k = f - i;
+            const loud = lvl(i) * (1 - k) + lvl(i + 1) * k;     // between frames, so the mouth eases instead of snapping
+            const open = ramp(0.12, 0.38, loud);   // how much the mouth is open at all
+            const big = ramp(0.55, 0.75, loud);    // small → big version of the sound
+            const s = syl.find((x) => f >= x.from && f < x.to);
+            const w = {};
+            if (s) {
+              const [small, large] = SHAPES[s.sound];
+              w[small] = open * (1 - big);
+              w[large] = open * big;
+              if (s.close && f > s.peak) w["8"] = 1 - open;   // lips press together as the m/b/p lands
+            }
+            for (const m in mouths) mouths[m].style.opacity = (w[m] || 0).toFixed(3);
+            const on = (name) => EXPR.reduce((v, [n, a, b]) => (n === name ? Math.max(v, Math.min(ramp(a, a + 0.15, box.t), 1 - ramp(b, b + 0.15, box.t))) : v), 0);
+            const doubt = on("doubt"), smile = on("smile");
+            expr["brows-doubt"].style.opacity = doubt.toFixed(3);
+            expr["mouth-doubt"].style.opacity = (doubt * (1 - open)).toFixed(3);
+            expr["mouth-smile"].style.opacity = (smile * (1 - open)).toFixed(3);
+            frames.style.transform = `scaleX(-1) translateY(${(open * 4).toFixed(2)}px)`;   // the jaw drops a touch
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          gsap.set(root, { x: 620, rotation: 0 });
+          gsap.set(root.querySelector(".glow"), { scale: 0, opacity: 0 });
+          // enter: slides in from past the right edge and leans toward the content
+          tl.to(root, { x: 0, rotation: -5, duration: 0.6, ease: "back.out(1.5)" }, 0.3);
+          tl.to(root.querySelector(".glow"), { scale: 1, opacity: 1, duration: 0.7, ease: "power3.out" }, 0.35);
+          // idle bob
+          tl.to(root, { y: -10, duration: 0.9, ease: "sine.inOut", yoyo: true, repeat: 2 }, 0.9);
+          // glance at the chip: leans further in and turns toward it, eyes unchanged
+          tl.to(root, { x: -26, rotation: -10, duration: 0.35, ease: "power2.out" }, 2.05);
+          tl.to(root, { x: 0, rotation: -5, duration: 0.4, ease: "power2.inOut" }, 2.6);
+          // smile: a little hop
+          tl.to(root, { y: -24, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 4.25);
+          // exit
+          tl.to(root, { x: 640, rotation: 4, duration: 0.42, ease: "power2.in" }, 4.5);
+          tl.to(root.querySelector(".glow"), { opacity: 0, duration: 0.3 }, 4.5);
+          apply();
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: apply }, 0);
+          window.__timelines["avatar"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
