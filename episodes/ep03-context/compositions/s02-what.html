@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"whoosh-short","vol":0.18},
+      {"t":3.6,"sfx":"pop","vol":0.26},
+      {"t":4.5,"sfx":"pop","vol":0.26},
+      {"t":5.9,"sfx":"pop","vol":0.26},
+      {"t":7.2,"sfx":"pop","vol":0.26}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · What is context? The desk from above: "Everything Claude can see right now", then four sheets drop onto
+           it as the voice names them: your message, the chat so far, files and photos, instructions (system prompt,
+           CLAUDE.md). Source: Claude docs, Context windows: "Everything in the request counts toward the context window:
+           the system prompt, every message … (including tool results, images, and documents)". -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .cam { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .sheet { position: absolute; width: 350px; height: 300px; background: var(--eggshell); border: 3px solid var(--ink); border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; padding: 20px; }
+        .s02 .sheet svg { width: 132px; height: 110px; overflow: visible; }
+        .s02 .sheet svg path, .s02 .sheet svg circle { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+        .s02 .sheet .t { font: 300 46px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); text-align: center; text-wrap: balance; }
+        .s02 .sheet .egg-foot { display: flex; flex-direction: column; align-items: center; margin-top: -8px; }
+        .s02 .def { position: absolute; left: 160px; right: 200px; top: 600px; text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s02-what" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">What is context?</span>
+          <div class="cam" data-layout-allow-overflow="">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <rect class="ink deskline" x="110" y="330" width="820" height="720" rx="30" />
+            </svg>
+            <div class="sheet" style="left:150px;top:378px" data-rot="-3">
+              <svg viewBox="0 0 120 100"><path d="M12 14 H108 V66 H52 L30 88 V66 H12 Z" /></svg>
+              <span class="t">Your message</span>
+            </div>
+            <div class="sheet" style="left:542px;top:378px" data-rot="2.5">
+              <svg viewBox="0 0 120 100"><path d="M6 8 H72 V46 H34 L20 60 V46 H6 Z" /><path d="M48 54 H114 V92 H100 V104 L86 92 H48 Z" /></svg>
+              <span class="t">The chat so far</span>
+            </div>
+            <div class="sheet" style="left:150px;top:712px" data-rot="2">
+              <svg viewBox="0 0 120 100"><path d="M8 4 H46 L62 20 V84 H8 Z M46 4 V20 H62" /><path d="M58 36 H116 V96 H58 Z" /><path d="M62 90 L80 68 L92 80 L100 72 L112 90" /><circle cx="101" cy="51" r="6" /></svg>
+              <span class="t">Files &amp; photos</span>
+            </div>
+            <div class="sheet" style="left:542px;top:712px;gap:12px" data-rot="-2">
+              <svg viewBox="0 0 120 100"><path d="M14 20 H22 M38 20 H106 M14 50 H22 M38 50 H106 M14 80 H22 M38 80 H84" /></svg>
+              <span class="t">Instructions</span>
+              <span class="egg-foot"><span>System prompt</span><span>CLAUDE.md</span></span>
+            </div>
+            <p class="egg-label def">Everything Claude can see right now</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.6;
+          const root = document.querySelector('[data-composition-id="s02-what"] .s02');
+          const q = (s) => root.querySelector(s);
+          const sheets = [...root.querySelectorAll(".sheet")];
+          const LAND = [3.6, 4.5, 5.9, 7.2]; // as the voice names each one
+
+          const tl = gsap.timeline({ paused: true });
+          // arrive on the desk from s02's push-in
+          tl.fromTo(q(".cam"), { scale: 1.35, opacity: 0 }, { scale: 1, opacity: 1, transformOrigin: "540px 690px", duration: 0.7, ease: "power2.out" }, 0);
+          const desk = q(".deskline");
+          desk.setAttribute("pathLength", "1");
+          desk.style.strokeDasharray = "1 1.1";
+          tl.fromTo(desk, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 1.0, ease: Egg.EASE.draw }, 0.1);
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.5);
+          Egg.fadeUp(tl, q(".def"), 1.2);
+          Egg.fadeOut(tl, q(".def"), 3.05);
+
+          // each sheet drops onto the desk, then its icon draws
+          sheets.forEach((sh, i) => {
+            const rot = +sh.dataset.rot, t = LAND[i];
+            tl.fromTo(sh, { y: -260, opacity: 0, rotation: rot - 14, scale: 1.12 }, { y: 0, opacity: 1, rotation: rot, scale: 1, duration: 0.55, ease: Egg.EASE.rise }, t);
+            const strokes = sh.querySelectorAll("svg path, svg circle");
+            strokes.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+            tl.fromTo(strokes, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw, stagger: 0.1 }, t + 0.3);
+          });
+
+          tl.to(q(".cam"), { scale: 1.03, transformOrigin: "540px 690px", duration: 0.6, ease: Egg.EASE.move }, 8.0);
+
+          Egg.fadeOut(tl, [q(".cam"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s02-what"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

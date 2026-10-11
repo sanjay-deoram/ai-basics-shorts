@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.18},
+      {"t":1.0,"sfx":"pop","vol":0.16},
+      {"t":1.9,"sfx":"pop","vol":0.16},
+      {"t":2.6,"sfx":"whoosh","vol":0.2},
+      {"t":3.0,"sfx":"pop","vol":0.16},
+      {"t":4.4,"sfx":"pop","vol":0.2},
+      {"t":5.0,"sfx":"error","vol":0.16,"dur":0.8},
+      {"t":5.9,"sfx":"pop","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Many topics in one chat → context rot. One long chat scrolls: dinner (with the vegan friend), a trip, an
+           email, "200 messages later", back to dinner. The vegan message has scrolled far away, and Claude suggests a
+           creamy parmesan risotto (an example; parmesan isn't vegan). Then the label. The long gap is what makes the slip
+           plausible: context rot grows with how much the chat holds. Sources: Claude docs, Context windows: "As token
+           count grows, accuracy and recall degrade, a phenomenon known as context rot." Claude Code best practices: "Long
+           sessions with irrelevant context can reduce performance"; "/clear frequently between tasks". -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s08 .win { position: absolute; left: 0; right: 0; top: 296px; height: 744px; overflow: hidden;
+          -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 70px); mask-image: linear-gradient(to bottom, transparent 0, #000 70px); }
+        .s08 .feed { position: absolute; left: 0; top: -296px; width: 1080px; height: 1920px; }
+        .s08 .bub { position: absolute; padding: 18px 28px; border-radius: 30px; font: 400 36px/1.3 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s08 .bub.you { right: 130px; background: var(--taupe); }
+        .s08 .bub.claude { left: 160px; background: var(--eggshell); border: 2px solid var(--stone); display: flex; align-items: center; gap: 14px; }
+        .s08 .bub.claude i { width: 30px; height: 30px; flex: none; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s08 .div { position: absolute; left: 90px; right: 130px; display: flex; justify-content: center; }
+        .s08 .div span { font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); border: 2px solid var(--btn-border); border-radius: 9999px; padding: 12px 22px; background: var(--eggshell); }
+        .s08 .div.gap span { border-style: dashed; border-color: var(--smoke); }
+        .s08 .slip { position: absolute; left: 160px; top: 1500px; display: flex; gap: 14px; align-items: center; }
+        .s08 .slip span { font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); border-radius: 9999px; padding: 10px 18px; background: var(--eggshell); }
+        .s08 .slip em { font: 400 24px/1 var(--f-mono); font-style: normal; letter-spacing: 0.06em; text-transform: uppercase; color: var(--smoke); }
+        .s08 .lab { position: absolute; left: 90px; right: 130px; top: 1090px; display: flex; flex-direction: column; align-items: center; gap: 16px; text-align: center; }
+        .s08 .lab .egg-body { color: var(--graphite); }
+      </style>
+      <div id="root" data-composition-id="s08-topics" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <span class="egg-eyebrow">Lots of topics, one chat</span>
+          <div class="win">
+            <div class="feed">
+              <div class="div" style="top:330px"><span>Dinner</span></div>
+              <div class="bub you" style="top:400px">Plan dinner for 4. One friend is <span class="egg-hl">vegan</span>.</div>
+              <div class="bub claude" style="top:500px"><i></i>Chickpea curry, 25 minutes.</div>
+              <div class="div" style="top:610px"><span>Trip</span></div>
+              <div class="bub you" style="top:680px">Now help me plan a trip to Lisbon.</div>
+              <div class="bub claude" style="top:780px"><i></i>Day 1: Alfama and a food tour…</div>
+              <div class="div" style="top:890px"><span>Email</span></div>
+              <div class="bub you" style="top:960px">Write an email to my boss.</div>
+              <div class="bub claude" style="top:1060px"><i></i>Hi Sam, quick update on…</div>
+              <div class="div gap" style="top:1170px"><span>200 messages later</span></div>
+              <div class="div" style="top:1240px"><span>Back to dinner</span></div>
+              <div class="bub you" style="top:1310px">Add a side dish for the dinner.</div>
+              <div class="bub claude" style="top:1410px"><i></i>Creamy parmesan risotto!</div>
+              <div class="slip"><span>✕ Not vegan</span><em>Example</em></div>
+            </div>
+          </div>
+          <div class="lab">
+            <h2 class="egg-title">Context rot</h2>
+            <p class="egg-body">The more it holds, the more details slip.</p>
+            <span class="egg-foot">The term used in Claude's docs</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.6;
+          const root = document.querySelector('[data-composition-id="s08-topics"] .s08');
+          const q = (s) => root.querySelector(s);
+          const items = [...q(".feed").children];
+          q(".feed .egg-hl").style.backgroundSize = "100% 100%";
+          // [item indices, reveal time, feed scroll (px) at that moment]
+          const STEPS = [
+            [[0, 1, 2], 0.2, 0],
+            [[3, 4, 5], 1.0, 0],
+            [[6, 7, 8], 1.9, -150],
+            [[9], 2.6, -240],
+            [[10, 11], 3.0, -400],
+            [[12], 4.4, -540],
+          ];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          STEPS.forEach(([idx, at, y]) => {
+            if (y) tl.to(q(".feed"), { y, duration: 0.5, ease: Egg.EASE.move }, at - 0.1);
+            Egg.fadeUp(tl, idx.map((i) => items[i]), at, { y: 24, stagger: 0.18, dur: 0.4 });
+          });
+          // the vegan friend got lost
+          Egg.pop(tl, q(".slip"), 5.0);
+          Egg.shake(tl, items[12], 5.1);
+
+          Egg.fadeUp(tl, q(".lab").children, 5.9, { stagger: 0.12 });
+          Egg.fadeOut(tl, [q(".win"), q(".lab"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s08-topics"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

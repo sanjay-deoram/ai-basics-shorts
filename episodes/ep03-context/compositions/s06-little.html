@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.24},
+      {"t":3.8,"sfx":"sparkle","vol":0.18,"dur":0.9},
+      {"t":6.0,"sfx":"whoosh-short","vol":0.2},
+      {"t":6.2,"sfx":"typing","vol":0.28,"dur":0.6},
+      {"t":8.3,"sfx":"error","vol":0.2,"dur":1},
+      {"t":8.9,"sfx":"whoosh-short","vol":0.25},
+      {"t":9.0,"sfx":"typing","vol":0.28,"dur":1.9},
+      {"t":10.35,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":11.6,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":12.4,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":13.3,"sfx":"chime","vol":0.3,"dur":1.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Too little context. Andrew Ng's line from The Batch (issue 295, 2 Apr 2025), with [AI] for "LLMs", then the
+           dinner before/after. The weak prompt gets a reasonable dish that may not fit; the better prompt adds the details,
+           each highlighted as the voice says it (a deliberate exception to "one highlighted phrase": the fix is the context
+           itself). Both answers are examples, labelled on screen; the curry was checked by hand: vegan (chickpeas, spinach,
+           coconut milk, onion, garlic, curry paste), one pan, about 25 min. Claude is shown with its logo. The cards fill the
+           box, so the narrator avatar is out. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .zoomwrap { position: absolute; inset: 0; }
+        .s06 .egg-safe { gap: 26px; justify-content: center; padding-bottom: 20px; }
+        .s06 .egg-safe > .egg-chip { margin-bottom: 8px; }
+        .s06 .egg-mono { font-size: 38px; }
+        .s06 .result { padding: 26px 36px; border-radius: 36px; gap: 12px; }
+        .s06 .result p { font: 400 36px/1.36 var(--f-body); color: var(--graphite); margin: 0; }
+        .s06 .result.rich { background: var(--eggshell); }
+        .s06 .result.rich p { color: var(--ink); }
+        .s06 .who { display: flex; align-items: center; gap: 12px; }
+        .s06 .who .logo { width: 34px; height: 34px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s06 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s06 .gap-lg { margin-top: 18px; }
+        .s06 .ng { width: 600px; display: flex; flex-direction: column; gap: 14px; margin-bottom: 8px; }
+        .s06 .ng .nq { margin: 0; font: 300 46px/1.18 var(--f-display); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+      </style>
+      <div id="root" data-composition-id="s06-little" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <div class="zoomwrap" data-layout-allow-overflow="">
+            <div class="egg-safe">
+              <div class="ng"><span class="egg-card-kicker">Andrew Ng · The Batch, Apr 2025</span><p class="nq">“On average, I see more people giving <span class="egg-hl">too little context</span> to [AI] than too much.”</p></div>
+              <div class="egg-card is-bad card-bad">
+                <div class="egg-card-top">
+                  <span class="egg-card-kicker">Prompt</span>
+                  <span class="egg-stamp bad stamp-bad"><svg viewBox="0 0 24 24"><path d="M6 6 L18 18 M18 6 L6 18" /></svg>Vague</span>
+                </div>
+                <p class="egg-mono t-bad">Plan a quick dinner.</p>
+              </div>
+              <div class="egg-card taupe result res-bad">
+                <span class="who"><span class="logo"></span><span class="egg-card-kicker">Claude has to guess · example</span></span>
+                <p>Creamy chicken pasta. Ready in 30 minutes.</p>
+              </div>
+              <div class="egg-card is-good card-good gap-lg">
+                <div class="egg-card-top">
+                  <span class="egg-card-kicker">With context</span>
+                  <span class="egg-stamp good stamp-good"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg>Clear</span>
+                </div>
+                <p class="egg-mono t-good">Plan a quick dinner for 4. <span class="egg-hl">One friend is vegan.</span> I have <span class="egg-hl">30 minutes</span> and <span class="egg-hl">one pan</span>.</p>
+              </div>
+              <div class="egg-card result rich res-good">
+                <span class="who"><span class="logo"></span><span class="egg-card-kicker">Claude · example</span></span>
+                <p>One-pan chickpea curry with spinach and coconut milk. Vegan, ready in 25 minutes.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 15.0;
+          const root = document.querySelector('[data-composition-id="s06-little"] .s06');
+          const q = (s) => root.querySelector(s);
+          const hls = root.querySelectorAll(".t-good .egg-hl");
+
+          const tl = gsap.timeline({ paused: true });
+          // Andrew Ng: more people give too little context than too much
+          // starts big in the middle of the box, then settles at the top when the cards come in
+          tl.set(q(".ng"), { scale: 1.45, x: 0, y: 330, transformOrigin: "0 0" }, 0);
+          Egg.fadeUp(tl, q(".ng").children, 0.2, { stagger: 0.12 });
+          Egg.highlight(tl, q(".ng .egg-hl"), 3.8, { dur: 0.55 });
+          tl.to(q(".ng"), { scale: 1, y: 0, duration: 0.7, ease: Egg.EASE.move }, 5.4);
+
+          Egg.fadeUp(tl, q(".card-bad"), 6.0);
+          tl.set([q(".stamp-bad"), q(".stamp-good")], { opacity: 0 }, 0);
+          Egg.typeOn(tl, q(".t-bad"), 6.2);
+          Egg.fadeUp(tl, q(".res-bad"), 7.0);
+          Egg.stamp(tl, q(".stamp-bad"), 8.3, q(".card-bad"));
+
+          Egg.fadeUp(tl, q(".card-good"), 8.9);
+          Egg.typeOn(tl, q(".t-good"), 9.0, { cps: 42 });
+          // each detail lights up as the voice says it: "one vegan friend, thirty minutes, one pan"
+          [10.35, 11.6, 12.4].forEach((t, i) => Egg.highlight(tl, hls[i], t));
+          tl.to(q(".zoomwrap"), { scale: 1.03, transformOrigin: "50% 65%", duration: 0.6, ease: Egg.EASE.move }, 10.2);
+          Egg.fadeUp(tl, q(".res-good"), 12.7);
+          Egg.stamp(tl, q(".stamp-good"), 13.3, q(".card-good"));
+          tl.to(q(".zoomwrap"), { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 13.8);
+          Egg.fadeOut(tl, q(".zoomwrap"), DUR - 0.35);
+          window.__timelines["s06-little"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

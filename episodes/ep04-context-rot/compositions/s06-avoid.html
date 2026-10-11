@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.9,"sfx":"pop","vol":0.3},
+      {"t":2.7,"sfx":"whoosh-short","vol":0.2},
+      {"t":3.7,"sfx":"pop","vol":0.3},
+      {"t":4.4,"sfx":"whoosh-short","vol":0.2},
+      {"t":5.4,"sfx":"pop","vol":0.3},
+      {"t":6.0,"sfx":"sparkle","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · How to avoid it: three habits as isometric steps, each landing as the voice names it. Sources: Claude Code
+           best practices: "/clear frequently between tasks to reset the context window entirely"; CLAUDE.md is "a special
+           file that Claude reads at the start of every conversation" (saved instructions do the same in the Claude app);
+           Effective context engineering: "the smallest set of high-signal tokens". The blocks fill the box, so the avatar
+           is out. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-safe { gap: 18px; }
+      </style>
+      <div id="root" data-composition-id="s06-avoid" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true" />
+          <div class="egg-safe">
+            <span class="egg-eyebrow">How to avoid it</span>
+            <h2 class="egg-title">Good habits</h2>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const STEPS = [
+            { title: "New topic? New chat.", sub: "Claude Code: /clear" },
+            { title: "Key facts up front", sub: "Or saved instructions" },
+            { title: "Share only what it needs", sub: "Skip “just in case”" },
+          ];
+          const AT = [1.9, 3.7, 5.4]; // each dot lands as the voice names the step
+
+          const root = document.querySelector('[data-composition-id="s06-avoid"] .s06');
+          const svg = root.querySelector(".egg-svg");
+          const layout = Egg.isoBuild(svg, STEPS, { id: "s06" });
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelectorAll(".egg-safe > *"), 0.05);
+          const { end } = Egg.isoAnimate(tl, layout, AT);
+          Egg.fadeOut(tl, [svg, root.querySelector(".egg-safe")], Math.max(end, 8.05));
+          window.__timelines["s06-avoid"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

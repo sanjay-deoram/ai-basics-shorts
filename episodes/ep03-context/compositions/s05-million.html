@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.22},
+      {"t":3.1,"sfx":"key-press","vol":0.18},
+      {"t":3.25,"sfx":"key-press","vol":0.18},
+      {"t":3.4,"sfx":"key-press","vol":0.18},
+      {"t":3.55,"sfx":"key-press","vol":0.18},
+      {"t":3.7,"sfx":"key-press","vol":0.18},
+      {"t":6.1,"sfx":"pop","vol":0.26},
+      {"t":8.1,"sfx":"whoosh","vol":0.26},
+      {"t":9.9,"sfx":"chime","vol":0.22,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · What "1M context" means. One page, close up: the context window is how much Claude can hold at once,
+           counted in tokens (the page's words split into tinted token chips). "1M" lands, "= a million tokens", then the
+           camera pulls back from the one page to a grid of 2,000 pages (50 × 40) while the page count runs up.
+           Numbers: Claude help center, "200K tokens (about 500 pages of text)" → 1M ≈ 2,500 pages on that count; the
+           1M-token models use a newer tokenizer with about 30% more tokens for the same text (Claude docs glossary), so
+           ≈ 1,900. Said and shown as "about 2,000 pages". The token split is illustrative. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .lead { position: absolute; left: 90px; right: 230px; top: 300px; font: 300 52px/1.15 var(--f-display); letter-spacing: -0.02em; color: var(--ink); margin: 0; text-wrap: balance; }
+        .s05 .hero { position: absolute; left: 380px; top: 520px; width: 320px; height: 390px; background: var(--eggshell); border: 4px solid var(--ink); border-radius: 18px; padding: 44px 36px; display: flex; flex-direction: column; gap: 26px; }
+        .s05 .hero i { display: block; height: 10px; border-radius: 5px; background: var(--stone); }
+        .s05 .hero i:nth-child(3n) { width: 70%; }
+        .s05 .hero i:first-child { background: var(--ink); width: 60%; }
+        .s05 .grid { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+        .s05 .tk { position: absolute; left: 90px; right: 130px; top: 950px; display: flex; flex-direction: column; align-items: center; gap: 18px; }
+        .s05 .tk .egg-tokens .egg-token { font-size: 48px; }
+        .s05 .out { position: absolute; left: 90px; right: 130px; top: 1000px; display: flex; flex-direction: column; align-items: center; gap: 10px; text-align: center; }
+        .s05 .out .big { font: 300 112px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s05 .out .eq { font: 300 56px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--graphite); }
+        .s05 .out .pg { font: 300 84px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; margin-top: 14px; }
+        .s05 .out .egg-foot { display: flex; flex-direction: column; margin-top: 12px; }
+      </style>
+      <div id="root" data-composition-id="s05-million" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <span class="egg-eyebrow">The context window</span>
+          <p class="lead">How much Claude can hold at once</p>
+          <svg class="grid" viewBox="0 0 1080 1920" aria-hidden="true">
+            <defs>
+              <pattern id="s05-page" x="220" y="450" width="12.8" height="12.8" patternUnits="userSpaceOnUse">
+                <rect x="1.8" y="0.9" width="9.2" height="11" rx="1.2" fill="#fdfcfc" stroke="#000" stroke-width="1" />
+                <path d="M3.6 4 H9.2 M3.6 6.4 H9.2 M3.6 8.8 H7.4" stroke="#a59f97" stroke-width="0.8" />
+              </pattern>
+            </defs>
+            <rect class="pages" x="220" y="450" width="640" height="512" fill="url(#s05-page)" />
+          </svg>
+          <div class="hero"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <div class="tk">
+            <span class="egg-eyebrow" style="position:static">Tokens · little pieces of words</span>
+            <div class="egg-tokens"><span class="egg-token">Con</span><span class="egg-token">text</span><span class="egg-token"> is</span><span class="egg-token"> every</span><span class="egg-token">thing</span></div>
+          </div>
+          <div class="out">
+            <span class="big">1M</span>
+            <span class="eq">= a million tokens</span>
+            <span class="pg">≈ <span class="n">1</span> pages</span>
+            <span class="egg-foot"><span>Claude help center: 200K tokens ≈ 500 pages.</span><span>Newer models fit a bit less per token. Example split.</span></span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 11.6;
+          const root = document.querySelector('[data-composition-id="s05-million"] .s05');
+          const q = (s) => root.querySelector(s);
+          const C = { x: 546, y: 712 }; // the grid's middle page
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.pop(tl, q(".hero"), 0.2);
+          Egg.fadeUp(tl, q(".lead"), 1.3);
+
+          // counted in tokens: little pieces of words
+          Egg.fadeUp(tl, q(".tk .egg-eyebrow"), 2.9, { y: 14 });
+          Egg.pop(tl, root.querySelectorAll(".tk .egg-token"), 3.1, { stagger: 0.15, dur: 0.4 });
+          Egg.fadeOut(tl, q(".tk"), 5.6);
+
+          // 1M = a million tokens
+          Egg.pop(tl, q(".out .big"), 6.1);
+          Egg.fadeUp(tl, q(".out .eq"), 8.0, { y: 20 });
+
+          // pull back: one page becomes 2,000
+          gsap.set(q(".grid"), { opacity: 0 });
+          tl.fromTo(q(".grid"), { scale: 6, opacity: 0, transformOrigin: `${C.x}px ${C.y}px` }, { scale: 1, opacity: 1, duration: 1.3, ease: Egg.EASE.move }, 8.3);
+          tl.to(q(".hero"), { scale: 9.2 / 320, opacity: 0, transformOrigin: "50% 50%", duration: 1.0, ease: Egg.EASE.move }, 8.3);
+          Egg.fadeUp(tl, q(".out .pg"), 8.4, { y: 20 });
+          Egg.count(tl, q(".out .pg .n"), 1, 2000, 8.4, { dur: 1.3, ease: "power2.inOut" });
+          Egg.fadeUp(tl, q(".out .egg-foot"), 10.0, { y: 12 });
+
+          Egg.fadeOut(tl, [q(".grid"), q(".out"), q(".lead"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s05-million"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

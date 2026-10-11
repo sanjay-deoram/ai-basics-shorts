@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click","vol":0.24},
+      {"t":2.9,"sfx":"pop","vol":0.2},
+      {"t":3.7,"sfx":"pop","vol":0.2},
+      {"t":5.0,"sfx":"pop","vol":0.2},
+      {"t":6.3,"sfx":"pop","vol":0.2},
+      {"t":7.6,"sfx":"whoosh","vol":0.22},
+      {"t":7.9,"sfx":"whoosh","vol":0.2},
+      {"t":8.6,"sfx":"error","vol":0.14,"dur":0.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Why, step 4: look-alikes compete. Two pairs of similar facts in one context: your budget and your sister's
+           (everyday); the old copy of auth.js read earlier and the edited one (coding). On "mix-ups" each pair swaps
+           places. Examples, illustrative. Source: Chroma, "Context Rot" (Hong, Troynikov, Huber, 14 Jul 2025, 18 models):
+           "Even a single distractor reduces performance relative to the baseline (needle only), and adding four distractors
+           compounds this degradation further." The avatar sits in the small top-right corner. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .trk { position: absolute; left: 90px; top: 228px; display: flex; align-items: center; gap: 14px; }
+        .s07 .trk .egg-eyebrow { margin-right: 10px; }
+        .s07 .trk i { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--ink); }
+        .s07 .trk i.on { background: var(--ink); }
+        .s07 .ttl { position: absolute; left: 90px; right: 240px; top: 290px; margin: 0; font: 300 64px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s07 .k { position: absolute; left: 90px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s07 .c { position: absolute; width: 410px; height: 190px; padding: 28px 30px; gap: 14px; justify-content: flex-start; }
+        .s07 .c p { margin: 0; font: 400 38px/1.25 var(--f-body); color: var(--ink); }
+        .s07 .c p.m { font: 400 34px/1.3 var(--f-mono); }
+        .s07 .c .code { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+        .s07 .c .code i { display: block; height: 7px; border-radius: 4px; background: var(--stone); }
+        .s07 .cap { position: absolute; left: 90px; right: 130px; top: 1040px; margin: 0; }
+        .s07 .src { position: absolute; left: 90px; right: 130px; top: 1150px; text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s07-lookalikes" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <div class="trk"><span class="egg-eyebrow">Why it happens</span><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></div>
+          <h2 class="ttl">Look-alikes compete</h2>
+          <span class="k k1" style="top:440px">Everyday · example</span>
+          <div class="egg-card c a1" data-layout-allow-overlap="" style="left:90px;top:480px"><span class="egg-card-kicker" data-layout-allow-overlap="">You said</span><p data-layout-allow-overlap="">My budget is <span class="egg-hl" data-layout-allow-overlap="">$500</span>.</p></div>
+          <div class="egg-card c b1" data-layout-allow-overlap="" style="left:540px;top:480px"><span class="egg-card-kicker" data-layout-allow-overlap="">Also in the chat</span><p data-layout-allow-overlap="">My sister's is <span class="egg-hl" data-layout-allow-overlap="">$2,000</span>.</p></div>
+          <span class="k k2" style="top:740px">Coding · example</span>
+          <div class="egg-card c a2" data-layout-allow-overlap="" style="left:90px;top:780px"><span class="egg-card-kicker" data-layout-allow-overlap="">Read earlier</span><p class="m" data-layout-allow-overlap="">auth.js (old)</p><span class="code"><i style="width:80%"></i><i style="width:55%"></i></span></div>
+          <div class="egg-card c b2" data-layout-allow-overlap="" style="left:540px;top:780px"><span class="egg-card-kicker" data-layout-allow-overlap="">After the edit</span><p class="m" data-layout-allow-overlap="">auth.js (new)</p><span class="code"><i style="width:70%"></i><i style="width:85%"></i></span></div>
+          <p class="egg-label cap">More look-alikes, more mix-ups</p>
+          <span class="egg-foot src">Chroma, "Context Rot" (2025): even one look-alike lowers accuracy</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.4;
+          const root = document.querySelector('[data-composition-id="s07-lookalikes"] .s07');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".trk"), 0.05);
+          Egg.fadeUp(tl, q(".ttl"), 0.3);
+          // your budget and your sister's
+          Egg.fadeUp(tl, [q(".k1"), q(".a1")], 2.8, { stagger: 0.1 });
+          root.querySelectorAll(".a1 .egg-hl, .b1 .egg-hl").forEach((h, i) => Egg.highlight(tl, h, 3.3 + i * 0.8));
+          Egg.fadeUp(tl, q(".b1"), 3.7);
+          // the old version of a file and the new one
+          Egg.fadeUp(tl, [q(".k2"), q(".a2")], 4.9, { stagger: 0.1 });
+          Egg.fadeUp(tl, q(".b2"), 6.3);
+
+          // the more look-alikes, the more mix-ups: each pair swaps places and back
+          const swap = (a, b, at) => {
+            tl.to(a, { keyframes: [{ x: 450, y: 26, duration: 0.45, ease: Egg.EASE.move }, { x: 0, y: 0, duration: 0.45, ease: Egg.EASE.move, delay: 0.35 }] }, at);
+            tl.to(b, { keyframes: [{ x: -450, y: -26, duration: 0.45, ease: Egg.EASE.move }, { x: 0, y: 0, duration: 0.45, ease: Egg.EASE.move, delay: 0.35 }] }, at);
+          };
+          swap(q(".a1"), q(".b1"), 7.6);
+          swap(q(".a2"), q(".b2"), 7.9);
+          Egg.fadeUp(tl, q(".cap"), 8.3);
+          Egg.fadeUp(tl, q(".src"), 8.8, { y: 12 });
+
+          Egg.fadeOut(tl, [...root.querySelectorAll(".trk, .ttl, .k, .c, .cap, .src")], DUR - 0.35);
+          window.__timelines["s07-lookalikes"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

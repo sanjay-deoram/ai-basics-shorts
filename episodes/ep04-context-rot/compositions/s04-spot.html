@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.5,"sfx":"click","vol":0.24},
+      {"t":2.0,"sfx":"typing","vol":0.18,"dur":0.6},
+      {"t":3.5,"sfx":"click","vol":0.24},
+      {"t":4.0,"sfx":"typing","vol":0.18,"dur":0.6},
+      {"t":6.1,"sfx":"click","vol":0.24},
+      {"t":6.6,"sfx":"typing","vol":0.18,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · How to spot it: three warning signs, each landing as the voice names it, each with a one-line example from
+           the same Lisbon trip (each starts "e.g."). Sign icon: an ink circle with an eggshell "!" (the end card's tick,
+           turned into a warning). Source: Claude Code best practices: "Claude may start 'forgetting' earlier
+           instructions or making more mistakes". Avatar: small top right (narrator.html "corner"), doubtful on sign 1. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .egg-title { position: absolute; left: 90px; top: 282px; }
+        .s04 .row { position: absolute; left: 90px; width: 860px; height: 190px; }
+        .s04 .ic { position: absolute; left: 0; top: 2px; width: 64px; height: 64px; border-radius: 50%; background: var(--ink); color: var(--eggshell); display: grid; place-items: center; font: 400 40px/1 var(--f-display); }
+        .s04 .h { position: absolute; left: 90px; top: 0; font: 300 58px/1.15 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s04 .ex { position: absolute; left: 90px; top: 92px; display: flex; align-items: center; gap: 18px; background: var(--taupe); border-radius: 28px; padding: 20px 26px; }
+        .s04 .ex em { font-style: normal; color: var(--smoke); }
+        .s04 .ex code { font: 400 32px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s04-spot" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <span class="egg-eyebrow">How to spot it</span>
+          <h2 class="egg-title">3 warning signs</h2>
+          <div class="row r1" style="top:470px">
+            <span class="ic">!</span>
+            <span class="h">Forgets what you told it</span>
+            <div class="ex"><code><em>e.g.</em> Said $500 → picks $900</code></div>
+          </div>
+          <div class="row r2" style="top:800px">
+            <span class="ic">!</span>
+            <span class="h">Repeats a mistake you fixed</span>
+            <div class="ex"><code><em>e.g.</em> “I land Friday” → Thursday again</code></div>
+          </div>
+          <div class="row r3" style="top:1130px">
+            <span class="ic">!</span>
+            <span class="h">Uses details you changed</span>
+            <div class="ex"><code><em>e.g.</em> Moved to May → plans April</code></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.6;
+          const AT = [1.5, 3.5, 6.1]; // each sign lands as the voice names it
+          const root = document.querySelector('[data-composition-id="s04-spot"] .s04');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".egg-title"), 0.3);
+          [".r1", ".r2", ".r3"].forEach((r, i) => {
+            const row = q(r);
+            Egg.pop(tl, row.querySelector(".ic"), AT[i]);
+            Egg.fadeUp(tl, row.querySelector(".h"), AT[i] + 0.08, { y: 24 });
+            Egg.fadeUp(tl, row.querySelector(".ex"), AT[i] + 0.5, { y: 18 });
+          });
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".egg-title"), ...root.querySelectorAll(".row")], DUR - 0.35);
+          window.__timelines["s04-spot"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

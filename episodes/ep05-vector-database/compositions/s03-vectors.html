@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.2},
+      {"t":2.2,"sfx":"pop","vol":0.2},
+      {"t":2.75,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.1,"sfx":"typing","vol":0.22,"dur":0.8},
+      {"t":4.4,"sfx":"pop","vol":0.24},
+      {"t":5.45,"sfx":"whoosh","vol":0.2},
+      {"t":6.0,"sfx":"pop","vol":0.16},
+      {"t":6.3,"sfx":"pop","vol":0.14},
+      {"t":6.6,"sfx":"pop","vol":0.14},
+      {"t":6.9,"sfx":"pop","vol":0.14},
+      {"t":7.75,"sfx":"sparkle","vol":0.2,"dur":1.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The fix: embeddings (whiteboard). An embedding model is drawn; "dog" drops into it and its vector
+           prints out (real first numbers from all-MiniLM-L6-v2, 384 in all) = "a vector". The vector shrinks into a
+           dot on a map of meaning: dog, cat, pets cluster, rent / deposit / payment sit far away (real positions:
+           PCA of the six words' vectors, see STORYBOARD.md). Dog and pets pulse and get lassoed: close together.
+           Map px: x = 230 + 560(a + 0.501), y = 800 − 560 b (one scale on both axes, so distances stay true).
+           Avatar: small top right (narrator.html "corner"). Voiceover: 0.3 "The fix is an embedding model." 2.2 "It
+           turns text into a list of numbers, called a vector." 5.6 "Similar meanings get similar numbers, so dog and
+           pets land close together." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .word { position: absolute; left: 470px; width: 140px; top: 322px; height: 78px; display: grid; place-items: center; font: 400 44px/1 var(--f-mono); color: var(--ink); background: var(--eggshell); border: 3px solid var(--ink); border-radius: 18px; }
+        .s03 .model { position: absolute; left: 300px; width: 480px; top: 575px; text-align: center; font: 300 52px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .vec { position: absolute; left: 140px; width: 800px; top: 812px; text-align: center; font: 400 38px/1 var(--f-mono); color: var(--ink); white-space: pre; transform-origin: 50% 50%; }
+        .s03 .n384 { position: absolute; left: 340px; width: 400px; top: 950px; text-align: center; font: 400 30px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--graphite); }
+        .s03 .isvec { position: absolute; left: 90px; width: 860px; top: 1020px; text-align: center; }
+        .s03 .mdot { fill: var(--ink); }
+        .s03 .mw { position: absolute; font: 400 42px/54px var(--f-body); color: var(--ink); background: var(--eggshell); padding: 0 6px; border-radius: 10px; white-space: nowrap; }
+        .s03 .foot { position: absolute; left: 90px; right: 130px; top: 1224px; text-align: center; }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1290px; }
+      </style>
+      <div data-hf-id="hf-1i98" id="root" data-composition-id="s03-vectors" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <span data-hf-id="hf-g49a" class="egg-eyebrow">The fix: embeddings</span>
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g data-hf-id="hf-l7v7" class="pa">
+              <rect data-hf-id="hf-n5jm" class="ink" data-draw="0" data-dur="0.9" x="300" y="515" width="480" height="180" rx="34" />
+              <path data-hf-id="hf-ywzq" class="ink thin" data-draw="2" data-dur="0.4" d="M540 418 L540 496 M522 478 L540 498 L558 478" />
+              <path data-hf-id="hf-y0v0" class="ink thin" data-draw="3" data-dur="0.4" d="M540 714 L540 790 M522 772 L540 792 L558 772" />
+              <path data-hf-id="hf-j50o" class="ink thin brace" d="M180 880 Q180 904 210 904 L510 904 Q540 904 540 928 Q540 904 570 904 L870 904 Q900 904 900 880" />
+            </g>
+            <g data-hf-id="hf-cjzc" class="pb">
+              <path data-hf-id="hf-mgzz" class="ink thin axis" d="M170 560 L170 1205 L930 1205" />
+              <ellipse data-hf-id="hf-1dr9" class="ink thin lasso" cx="292" cy="782" rx="150" ry="124" />
+              <g data-hf-id="hf-t566" class="dots" />
+            </g>
+          </svg>
+          <span data-hf-id="hf-ftnp" class="word">dog</span>
+          <span data-hf-id="hf-7c3c" class="model">Embedding model</span>
+          <span data-hf-id="hf-dkgb" class="vec">[-0.053, 0.014, 0.007, 0.069, …]</span>
+          <span data-hf-id="hf-c04b" class="n384">384 numbers</span>
+          <h2 data-hf-id="hf-enz2" class="egg-title isvec">= a vector</h2>
+          <div data-hf-id="hf-2vjz" class="words" data-layout-allow-overlap=""></div>
+          <span data-hf-id="hf-do7g" class="foot egg-foot">all-MiniLM-L6-v2 · 384 numbers squashed to 2</span>
+          <p data-hf-id="hf-9r0h" class="egg-label">Similar meaning → close vectors.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.4;
+          // PCA of the six words' 384-number vectors (all-MiniLM-L6-v2), see STORYBOARD.md
+          const W = [
+            { w: "dog", a: -0.465, b: 0.138, side: "r", at: 6.0 },
+            { w: "cat", a: -0.448, b: 0.045, side: "r", at: 6.3 },
+            { w: "pets", a: -0.501, b: -0.069, side: "r", at: 6.45 },
+            { w: "rent", a: 0.362, b: -0.667, side: "r", at: 6.6 },
+            { w: "deposit", a: 0.521, b: 0.324, side: "l", at: 6.75 },
+            { w: "payment", a: 0.531, b: 0.23, side: "l", at: 6.9 },
+          ];
+          const px = (a) => +(230 + 560 * (a + 0.501)).toFixed(1), py = (b) => +(800 - 560 * b).toFixed(1);
+          const root = document.querySelector('[data-composition-id="s03-vectors"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".dots").innerHTML = W.map((d) => `<circle class="mdot" cx="${px(d.a)}" cy="${py(d.b)}" r="13"/>`).join("");
+          q(".words").innerHTML = W.map((d) => {
+            const x = px(d.a), y = py(d.b);
+            const pos = d.side === "l" ? `right:${(1080 - x + 20).toFixed(1)}px` : `left:${(x + 20).toFixed(1)}px`;
+            return `<span class="mw" style="${pos};top:${(y - 27).toFixed(1)}px">${d.w === "dog" || d.w === "pets" ? `<span class="egg-hl">${d.w}</span>` : d.w}</span>`;
+          }).join("");
+          const dots = all(".mdot"), mws = all(".mw");
+          const draws = [q(".brace"), q(".axis"), q(".lasso")];
+          draws.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set(draws, { strokeDashoffset: 1.02 });
+          gsap.set(dots, { scale: 0, transformOrigin: "50% 50%" });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // the embedding model
+          Egg.draw(tl, q(".pa"), 0.3);
+          Egg.fadeUp(tl, q(".model"), 0.9, { y: 14 });
+
+          // "dog" goes in, a vector comes out
+          tl.fromTo(q(".word"), { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.5, ease: Egg.EASE.rise }, 2.2);
+          tl.to(q(".word"), { y: 190, scale: 0.5, opacity: 0, duration: 0.45, ease: "power2.in" }, 2.75);
+          tl.fromTo(q(".pa rect"), { scale: 1 }, { scale: 1.03, svgOrigin: "540 605", duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 3.0);
+          tl.set(q(".vec"), { opacity: 1 }, 3.1);
+          Egg.typeOn(tl, q(".vec"), 3.1, { cps: 40 });
+          tl.to(q(".brace"), { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 3.8);
+          Egg.fadeUp(tl, q(".n384"), 4.0, { y: 12 });
+          Egg.pop(tl, q(".isvec"), 4.4);
+
+          // the vector becomes a point on a map of meaning
+          Egg.fadeOut(tl, [q(".pa"), q(".model"), q(".n384"), q(".isvec")], 5.35);
+          tl.to(q(".vec"), { x: px(W[0].a) - 540, y: py(W[0].b) - 831, scale: 0.04, opacity: 0, duration: 0.6, ease: "power2.in" }, 5.45);
+          tl.to(q(".axis"), { strokeDashoffset: 0, duration: 0.8, ease: Egg.EASE.draw }, 5.6);
+          W.forEach((d, i) => {
+            tl.to(dots[i], { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, d.at);
+            Egg.fadeUp(tl, mws[i], d.at + 0.08, { y: 10, dur: 0.4 });
+          });
+          Egg.fadeUp(tl, q(".foot"), 6.6, { y: 10 });
+
+          // dog and pets: close together
+          [dots[0], dots[2]].forEach((d, i) => tl.fromTo(d, { scale: 1 }, { scale: 1.6, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 7.75 + i * 0.35));
+          Egg.highlight(tl, mws[0].querySelector(".egg-hl"), 7.75, { dur: 0.3 });
+          Egg.highlight(tl, mws[2].querySelector(".egg-hl"), 8.1, { dur: 0.3 });
+          tl.to(q(".lasso"), { strokeDashoffset: 0, duration: 0.7, ease: Egg.EASE.draw }, 8.3);
+          tl.to([mws[3], mws[4], mws[5], dots[3], dots[4], dots[5]], { opacity: 0.4, duration: 0.4, ease: "none" }, 8.3);
+          Egg.fadeUp(tl, q(".egg-label"), 8.5);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".pb"), q(".words"), q(".foot"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s03-vectors"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

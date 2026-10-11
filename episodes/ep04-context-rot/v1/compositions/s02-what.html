@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.22},
+      {"t":0.8,"sfx":"click-soft","vol":0.2},
+      {"t":1.3,"sfx":"click-soft","vol":0.2},
+      {"t":2.2,"sfx":"whoosh","vol":0.14},
+      {"t":6.1,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · What context rot is. A drawn graph: across, how much is in the context; up, how well Claude uses each
+           detail. The line slips gently downward (a slope, not a cliff) while a dot rides it. Illustrative shape, no
+           numbers. Source: Claude docs, Context windows: "As token count grows, accuracy and recall degrade, a phenomenon
+           known as context rot." The avatar stands top right, where the graph is empty. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .ttl { position: absolute; left: 90px; top: 280px; margin: 0; }
+        .s02 .ax { position: absolute; font: 400 32px/1.2 var(--f-body); color: var(--graphite); }
+        .s02 .ay { left: 200px; top: 470px; }
+        .s02 .axx { right: 150px; top: 1124px; text-align: right; }
+        .s02 .note { position: absolute; left: 520px; top: 575px; width: 410px; font: 300 46px/1.12 var(--f-display); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+        .s02 .dot { position: absolute; left: 0; top: 0; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 50%;
+          background: radial-gradient(circle at 35% 30%, #fff 0 10%, #f1e8ff 20%, #9d86ff 55%, #ff7ac0 80%, #ff4704 100%); box-shadow: 0 0 0 2px rgba(0,0,0,.15); }
+        .s02 .foot { position: absolute; left: 90px; right: 130px; top: 1230px; text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s02-what" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">What it is</span>
+          <h2 class="egg-title ttl">Context rot</h2>
+          <svg class="egg-svg g" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="ink" data-draw="0" data-dur="0.6" d="M170 540 V1100 H920" />
+            <path class="ink thin" data-draw="1" data-dur="0.3" d="M150 566 L170 540 L190 566 M894 1080 L920 1100 L894 1120" />
+            <path class="ink curve" d="M190 560 C 420 575, 620 760, 900 1010" />
+          </svg>
+          <span class="ax ay">How well it uses each detail</span>
+          <span class="ax axx">How much is in the context →</span>
+          <span class="dot" data-layout-allow-overlap=""></span>
+          <p class="note">Nothing's deleted. Just harder to use.</p>
+          <span class="egg-foot foot">Claude docs: "As token count grows, accuracy and recall degrade."</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.4;
+          const root = document.querySelector('[data-composition-id="s02-what"] .s02');
+          const q = (s) => root.querySelector(s);
+          const curve = q(".curve");
+          curve.setAttribute("pathLength", "1");
+          curve.style.strokeDasharray = "1 1.1";
+          // points along the curve for the riding dot (cubic Bézier, evaluated here so the dot is seek-safe)
+          const P = [[190, 560], [420, 575], [620, 760], [900, 1010]];
+          const at = (t) => {
+            const u = 1 - t;
+            return [0, 1].map((k) => u * u * u * P[0][k] + 3 * u * u * t * P[1][k] + 3 * u * t * t * P[2][k] + t * t * t * P[3][k]);
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".ttl"), 0.3);
+          Egg.draw(tl, q(".g"), 0.8, { gap: 0.5 });
+          Egg.fadeUp(tl, q(".ay"), 1.2, { y: 12 });
+          Egg.fadeUp(tl, q(".axx"), 1.7, { y: 12 });
+
+          // the more it holds, the worse it uses each detail: the line slips as the dot rides it
+          const D = 3.4, T0 = 2.2;
+          tl.fromTo(curve, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: D, ease: "none" }, T0);
+          const box = { t: 0 };
+          const place = () => { const [x, y] = at(box.t); q(".dot").style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`; };
+          place();
+          Egg.pop(tl, q(".dot"), T0 - 0.2, { dur: 0.4 });
+          tl.fromTo(box, { t: 0 }, { t: 1, duration: D, ease: "none", onUpdate: place }, T0);
+
+          Egg.fadeUp(tl, q(".note"), 6.1);
+          Egg.fadeUp(tl, q(".foot"), 6.9, { y: 12 });
+          Egg.fadeOut(tl, [q(".g"), q(".ttl"), q(".ax.ay"), q(".axx"), q(".dot"), q(".note"), q(".foot"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s02-what"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

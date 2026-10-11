@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click","vol":0.24},
+      {"t":1.2,"sfx":"click-soft","vol":0.18},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.3,"sfx":"pop","vol":0.22},
+      {"t":4.2,"sfx":"pop","vol":0.22},
+      {"t":6.0,"sfx":"error","vol":0.14,"dur":0.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Why, step 3: the middle gets lost. A row of pages (one long context), and a U-shaped curve over it: how well
+           each part is used. Start and end get a tick, the middle pages fade and a "?" appears. Shape is illustrative.
+           Source: Liu et al., "Lost in the Middle" (TACL 2023): "performance is often highest when relevant information
+           occurs at the beginning or end of the input context, and significantly degrades when models must access relevant
+           information in the middle of long contexts". Hedged in the voice ("often") since it tested 2023 models. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .trk { position: absolute; left: 90px; top: 228px; display: flex; align-items: center; gap: 14px; }
+        .s06 .trk .egg-eyebrow { margin-right: 10px; }
+        .s06 .trk i { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--ink); }
+        .s06 .trk i.on { background: var(--ink); }
+        .s06 .ttl { position: absolute; left: 90px; right: 130px; top: 290px; margin: 0; font: 300 64px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s06 .yl { position: absolute; left: 90px; top: 455px; font: 400 32px/1.2 var(--f-body); color: var(--graphite); }
+        .s06 .tick { position: absolute; width: 60px; height: 60px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
+        .s06 .tick svg { width: 32px; height: 32px; fill: none; stroke: var(--eggshell); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+        .s06 .huh { position: absolute; left: 512px; top: 650px; font: 300 120px/1 var(--f-display); color: var(--ink); }
+        .s06 .pl { position: absolute; top: 970px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s06 .src { position: absolute; left: 90px; top: 1008px; white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s06-middle" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <div class="trk"><span class="egg-eyebrow">Why it happens</span><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+          <h2 class="ttl">The middle gets lost</h2>
+          <span class="yl">How well each part gets used</span>
+          <svg class="egg-svg pages" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+          <svg class="egg-svg cv" viewBox="0 0 1080 1920" aria-hidden="true"><path class="ink curve" d="M160 590 C 320 850, 760 850, 920 590" /></svg>
+          <span class="tick t0" style="left:130px;top:560px"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>
+          <span class="tick t1" style="left:890px;top:560px"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>
+          <span class="huh">?</span>
+          <span class="pl p0" style="left:166px">Start</span>
+          <span class="pl p1" style="left:540px">Middle</span>
+          <span class="pl p2" style="left:914px">End</span>
+          <span class="egg-foot src">Liu et al., 2023 · "Lost in the Middle"</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.6;
+          const root = document.querySelector('[data-composition-id="s06-middle"] .s06');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+          // twelve pages in a row: one long context
+          const pages = [...Array(12)].map((_, i) => {
+            const x = 140 + i * 68;
+            const g = document.createElementNS(NS, "g");
+            g.innerHTML = `<rect class="ink thin" x="${x}" y="870" width="52" height="72" rx="6"/><path class="ink thin" d="M${x + 12} 892 H${x + 40} M${x + 12} 908 H${x + 40} M${x + 12} 924 H${x + 30}" style="stroke-width:3"/>`;
+            q(".pages").appendChild(g);
+            gsap.set(g, { transformOrigin: `${x + 26}px 906px` });
+            return g;
+          });
+          gsap.set(root.querySelectorAll(".pl"), { xPercent: -50 });
+          const curve = q(".curve");
+          curve.setAttribute("pathLength", "1");
+          curve.style.strokeDasharray = "1 1.1";
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".trk"), 0.05);
+          Egg.fadeUp(tl, q(".ttl"), 0.3);
+          Egg.pop(tl, pages, 1.2, { stagger: 0.05, dur: 0.4 });
+          Egg.fadeUp(tl, q(".yl"), 1.6, { y: 12 });
+          tl.fromTo(curve, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 1.3, ease: Egg.EASE.draw }, 2.0);
+          // the start and the end: used best
+          Egg.pop(tl, q(".t0"), 3.3);
+          Egg.fadeUp(tl, q(".p0"), 3.4, { y: 10 });
+          Egg.pop(tl, q(".t1"), 4.2);
+          Egg.fadeUp(tl, q(".p2"), 4.3, { y: 10 });
+          // the middle: easiest to miss
+          tl.to(pages.slice(3, 9), { opacity: 0.25, duration: 0.5, ease: "none" }, 5.6);
+          Egg.pop(tl, q(".huh"), 6.0);
+          Egg.fadeUp(tl, q(".p1"), 6.0, { y: 10 });
+          Egg.fadeUp(tl, q(".src"), 6.5, { y: 10 });
+
+          Egg.fadeOut(tl, [q(".trk"), q(".ttl"), q(".yl"), q(".pages"), q(".cv"), q(".t0"), q(".t1"), q(".huh"), q(".p0"), q(".p1"), q(".p2"), q(".src")], DUR - 0.35);
+          window.__timelines["s06-middle"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

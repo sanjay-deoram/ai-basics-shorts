@@ -1,0 +1,22 @@
+{
+  "assets/vo/s01-2b34ad9a.mp3": "How does chat with your PDF actually work?",
+  "assets/vo/s02-1fab6c72.mp3": "Say you search your lease for dog.",
+  "assets/vo/s02-2192463c.mp3": "Zero results.",
+  "assets/vo/s02-a42e3382.mp3": "But it's right there: pets are not allowed.",
+  "assets/vo/s03-bd5d63f9.mp3": "The fix is an embedding model.",
+  "assets/vo/s03-3ce09682.mp3": "It turns text into a list of numbers, called a vector.",
+  "assets/vo/s03-7691a674.mp3": "Similar meanings get similar numbers, so dog and pets land close together.",
+  "assets/vo/s04-7ec8150d.mp3": "When you upload a PDF, the app splits it into chunks,",
+  "assets/vo/s04-7d08b863.mp3": "turns each chunk into a vector,",
+  "assets/vo/s04-b74962ac.mp3": "and saves them as rows in a table.",
+  "assets/vo/s04-e26dd9f8.mp3": "That's your vector database. Here, it's just Postgres with P G vector.",
+  "assets/vo/s05-7369afdf.mp3": "Now you ask: can I have a dog?",
+  "assets/vo/s05-d4c97f94.mp3": "Your question becomes a vector too.",
+  "assets/vo/s05-911bd7df.mp3": "The query sorts the rows by distance, closest first.",
+  "assets/vo/s05-7f92d507.mp3": "Top result: pets are not allowed.",
+  "assets/vo/s06-a73d925b.mp3": "Then the app sends that row and your question to Claude.",
+  "assets/vo/s06-a939b9eb.mp3": "So it answers from your PDF, not from memory.",
+  "assets/vo/s06-5d622183.mp3": "That pattern is called RAG.",
+  "assets/vo/s07-8e2112f5.mp3": "Vector databases search by meaning, not by matching words.",
+  "assets/vo/s07-1672963f.mp3": "Follow for more AI basics."
+}

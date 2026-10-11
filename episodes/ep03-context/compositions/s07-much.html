@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pop","vol":0.2},
+      {"t":2.2,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.8,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.4,"sfx":"whoosh-short","vol":0.16},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.16},
+      {"t":4.6,"sfx":"whoosh-short","vol":0.16},
+      {"t":5.3,"sfx":"pop","vol":0.22},
+      {"t":5.8,"sfx":"error","vol":0.14,"dur":0.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Too much context. The desk with the one detail that matters ("One friend is vegan."). Everything else gets
+           dumped on it "just in case" (a recipe book, old emails, shopping lists…) until the note is buried and greys out.
+           Sheets fly in from the top and sides only; the avatar stands bottom right. Source: Claude docs, Context windows:
+           "more context isn't automatically better"; Effective context engineering: "the smallest possible set of
+           high-signal tokens". -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .cam { position: absolute; inset: 0; }
+        .s07 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s07 .note { position: absolute; left: 330px; top: 590px; width: 420px; height: 190px; background: var(--eggshell); border: 3px solid var(--ink); border-radius: 22px; padding: 24px 28px; display: flex; flex-direction: column; gap: 16px; }
+        .s07 .note p { margin: 0; font: 400 40px/1.2 var(--f-body); color: var(--ink); }
+        .s07 .note .egg-hl { background-size: 100% 100%; }
+        .s07 .pg { position: absolute; width: 300px; height: 190px; background: var(--eggshell); border: 3px solid var(--ink); border-radius: 20px; padding: 22px 24px; display: flex; flex-direction: column; gap: 14px; }
+        .s07 .pg b { font: 400 32px/1.1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s07 .pg i { display: block; height: 6px; border-radius: 3px; background: var(--stone); }
+        .s07 .pg i:last-child { width: 62%; }
+        .s07 .more { position: absolute; left: 150px; top: 990px; }
+      </style>
+      <div id="root" data-composition-id="s07-much" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <span class="egg-eyebrow">Too much context</span>
+          <div class="cam" data-layout-allow-overflow="">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <rect class="ink" x="110" y="330" width="820" height="720" rx="30" />
+            </svg>
+            <div class="note" data-layout-allow-overlap="" data-layout-allow-occlusion="">
+              <span class="egg-card-kicker" data-layout-allow-overlap="" data-layout-allow-occlusion="">The detail that matters</span>
+              <p data-layout-allow-overlap="" data-layout-allow-occlusion="">One friend is <span class="egg-hl">vegan</span>.</p>
+            </div>
+            <div class="pile" data-layout-allow-overlap="" data-layout-allow-occlusion=""></div>
+            <span class="egg-chip more" data-layout-allow-overlap="">+ 300 more pages</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.2;
+          const root = document.querySelector('[data-composition-id="s07-much"] .s07');
+          const q = (s) => root.querySelector(s);
+          // [left, top, rotation, topic, flies in from]; together they bury the note except its top-left corner
+          const SHEETS = [
+            [140, 360, -6, "Recipe book", "left"],
+            [450, 350, 4, "Old emails", "top"],
+            [620, 420, -4, "Shopping lists", "right"],
+            [445, 560, 3, "Past menus", "top"],
+            [140, 665, -3, "Diet blog", "left"],
+            [600, 700, 5, "Receipts", "right"],
+            [300, 780, -5, "Meal photos", "left"],
+            [450, 650, -1, "Food trivia", "top"],
+            [140, 850, 4, "Calendar", "left"],
+            [580, 840, -2, "Notes", "right"],
+            [300, 560, 2, "Grocery app", "top"],
+          ];
+          const pile = q(".pile");
+          pile.innerHTML = SHEETS.map(([l, t, , topic]) => `<div class="pg" style="left:${l}px;top:${t}px" data-layout-allow-overlap="" data-layout-allow-occlusion=""><b data-layout-allow-overlap="" data-layout-allow-occlusion="">${topic}</b><i></i><i></i></div>`).join("");
+          const pgs = [...pile.children];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          tl.fromTo(q(".note"), { opacity: 0, y: 30, rotation: 0 }, { opacity: 1, y: 0, rotation: -2, duration: 0.55, ease: Egg.EASE.rise }, 0.1);
+
+          // everything, just in case: sheets pile on
+          const from = { left: { x: -900, y: 0 }, right: { x: 900, y: 0 }, top: { x: 0, y: -900 } };
+          SHEETS.forEach(([, , rot, , dir], i) => {
+            const f = from[dir];
+            tl.fromTo(pgs[i], { x: f.x, y: f.y, rotation: rot * 3, opacity: 1 }, { x: 0, y: 0, rotation: rot, duration: 0.45, ease: "power3.out" }, 2.2 + i * 0.28);
+          });
+          Egg.pop(tl, q(".more"), 5.3);
+          tl.fromTo(q(".cam"), { scale: 1 }, { scale: 0.96, transformOrigin: "540px 690px", duration: 3.4, ease: "sine.inOut" }, 2.2);
+          tl.to(q(".note"), { opacity: 0.4, duration: 0.4, ease: "none" }, 5.8);
+
+          Egg.fadeOut(tl, [q(".cam"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s07-much"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

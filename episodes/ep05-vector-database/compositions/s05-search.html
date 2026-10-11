@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.3,"sfx":"typing","vol":0.22,"dur":0.85},
+      {"t":2.6,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":4.3,"sfx":"click-soft","vol":0.2},
+      {"t":4.5,"sfx":"click-soft","vol":0.2},
+      {"t":4.7,"sfx":"click-soft","vol":0.2},
+      {"t":5.0,"sfx":"typing","vol":0.18,"dur":1.2},
+      {"t":6.6,"sfx":"whoosh","vol":0.22},
+      {"t":7.8,"sfx":"click","vol":0.24},
+      {"t":8.8,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 2, ask. Opens on s04's last frame (the lease_chunks table). "Can I have a dog?" is typed, becomes
+           a vector (real first numbers, all-MiniLM-L6-v2), and the pgvector query appears: ORDER BY embedding <=> $1
+           LIMIT 1 (<=> = cosine distance). The embedding column turns into each row's real distance to the question,
+           the rows re-sort closest first, and "Pets are not allowed." (0.502) comes out on top. See STORYBOARD.md for
+           the numbers. Avatar: small top right (narrator.html "corner"); everything above y 485 stays left of x 830.
+           Voiceover: 0.3 "Now you ask: can I have a dog?" 2.4 "Your question becomes a vector too." 4.4 "The query sorts
+           the rows by distance, closest first." 7.75 "Top result: pets are not allowed." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .ask { position: absolute; left: 90px; width: 730px; top: 288px; height: 96px; padding: 0 30px; flex-direction: row; align-items: center; gap: 24px; border-radius: 9999px; }
+        .s05 .ask .egg-mono { font-size: 40px; white-space: nowrap; }
+        .s05 .qv { position: absolute; left: 120px; top: 410px; display: flex; align-items: baseline; gap: 18px; white-space: nowrap; }
+        .s05 .qv .egg-mono { font-size: 32px; }
+        .s05 .sql { position: absolute; left: 90px; width: 730px; top: 470px; padding: 24px 34px; gap: 12px; border-radius: 28px; }
+        .s05 .sql .egg-mono { font-size: 32px; line-height: 1.38; white-space: pre; }
+        .s05 .tname { position: absolute; left: 90px; top: 733px; font: 400 28px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s05 .tname i { font-style: normal; color: var(--graphite); }
+        .s05 .th { position: absolute; top: 795px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s05 .row { position: absolute; left: 90px; width: 860px; height: 72px; border-radius: 6px; }
+        .s05 .row .id { position: absolute; left: 0; width: 60px; top: 21px; text-align: center; font: 400 30px/1 var(--f-mono); color: var(--graphite); }
+        .s05 .row .ct { position: absolute; left: 76px; top: 19px; font: 400 30px/1.15 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s05 .row .vc, .s05 .row .ds { position: absolute; left: 526px; top: 22px; font: 400 28px/1 var(--f-mono); color: var(--ink); white-space: pre; }
+        .s05 .row .ds { font-size: 32px; top: 20px; }
+        .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1248px; }
+        .s05 .foot { position: absolute; left: 0; right: 0; top: 1350px; text-align: center; }
+      </style>
+      <div data-hf-id="hf-rxmy" id="root" data-composition-id="s05-search" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ella" class="egg-scene s05">
+          <span data-hf-id="hf-fmaa" class="egg-eyebrow">Step 2 · Ask</span>
+          <div data-hf-id="hf-62yt" class="egg-card ask"><span data-hf-id="hf-v377" class="egg-card-kicker">You ask</span><p data-hf-id="hf-wo1y" class="egg-mono qt">Can I have a dog?</p></div>
+          <div data-hf-id="hf-y099" class="qv"><span data-hf-id="hf-uy1v" class="egg-card-kicker">As a vector</span><span data-hf-id="hf-q160" class="egg-mono qvt">[-0.050, -0.002, 0.033, …]</span></div>
+          <div data-hf-id="hf-d5nu" class="egg-card sql">
+            <span data-hf-id="hf-gx0e" class="egg-card-kicker">SQL · $1 = the question's vector</span>
+            <p data-hf-id="hf-jppr" class="egg-mono sl">SELECT content FROM lease_chunks</p>
+            <p data-hf-id="hf-ef5k" class="egg-mono sl">ORDER BY embedding <span data-hf-id="hf-9ofg" class="egg-hl">&lt;=&gt;</span> $1</p>
+            <p data-hf-id="hf-oax0" class="egg-mono sl"><span data-hf-id="hf-hjqn" class="egg-hl">LIMIT 1</span>;</p>
+          </div>
+          <div data-hf-id="hf-hnc7" class="rows"></div>
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect data-hf-id="hf-keny" class="ink thin" x="90" y="775" width="860" height="420" rx="18" />
+            <path data-hf-id="hf-lsvs" class="ink thin" d="M90 835 L950 835 M150 775 L150 1195 M600 775 L600 1195" />
+            <path data-hf-id="hf-8ur0" class="seps" d="M90 907 L950 907 M90 979 L950 979 M90 1051 L950 1051 M90 1123 L950 1123" />
+          </svg>
+          <span data-hf-id="hf-en4f" class="tname">lease_chunks <i data-hf-id="hf-o8q5">· embedding vector(384)</i></span>
+          <span data-hf-id="hf-iy8q" class="th" style="left:104px">id</span>
+          <span data-hf-id="hf-kr1w" class="th" style="left:166px">content</span>
+          <span data-hf-id="hf-pkh1" class="th h-emb" style="left:616px">embedding</span>
+          <span data-hf-id="hf-ccq3" class="th h-dst" style="left:616px">distance ↑</span>
+          <p data-hf-id="hf-r9om" class="egg-label">Closest row = best match.</p>
+          <span data-hf-id="hf-lf8f" class="foot egg-foot">&lt;=&gt; is pgvector's cosine distance · lower = closer</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.5;
+          // [content, vector, cosine distance to "Can I have a dog?"] — real, all-MiniLM-L6-v2 (STORYBOARD.md)
+          const CH = [
+            ["Rent is due on the 1st.", "[0.001, -0.037, …]", 0.913],
+            ["Pets are not allowed.", "[0.073, 0.057, …]", 0.502],
+            ["No smoking indoors.", "[0.135, 0.068, …]", 0.857],
+            ["Deposit returned in 30 days.", "[0.038, 0.026, …]", 0.942],
+            ["Quiet hours: 10 pm to 8 am.", "[-0.021, -0.019, …]", 0.928],
+          ];
+          const ROW_Y = [835, 907, 979, 1051, 1123];
+          const rank = CH.map((c) => CH.filter((o) => o[2] < c[2]).length);
+          const TOP = rank.indexOf(0);
+          const root = document.querySelector('[data-composition-id="s05-search"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".rows").innerHTML = CH.map(([t, v], i) => `<div class="row" style="top:${ROW_Y[i]}px" data-layout-allow-overlap=""><span class="id" data-layout-allow-overlap="">${i + 1}</span><span class="ct" data-layout-allow-overlap="">${i === TOP ? `<span class="egg-hl">${t}</span>` : t}</span><span class="vc" data-layout-allow-overlap="">${v}</span><span class="ds" data-layout-allow-overlap="">0.000</span></div>`).join("");
+          q(".seps").style.cssText = "fill:none;stroke:#ebe8e4;stroke-width:2";
+          const rows = all(".row");
+          gsap.set([...all(".ds"), q(".h-dst")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // "Can I have a dog?"
+          Egg.fadeUp(tl, q(".ask"), 0.3);
+          Egg.typeOn(tl, q(".qt"), 1.3, { cps: 20 });
+          // …becomes a vector too
+          Egg.fadeUp(tl, q(".qv .egg-card-kicker"), 2.4, { y: 12 });
+          Egg.typeOn(tl, q(".qvt"), 2.6, { cps: 40 });
+
+          // the query: sort by distance to it
+          Egg.fadeUp(tl, q(".sql"), 4.2, { y: 24 });
+          Egg.fadeUp(tl, all(".sl"), 4.3, { y: 14, stagger: 0.2 });
+          Egg.highlight(tl, q(".sql .sl:nth-of-type(2) .egg-hl"), 5.0);
+          tl.to(q(".h-emb"), { opacity: 0, duration: 0.25, ease: "none" }, 5.0);
+          tl.to(q(".h-dst"), { opacity: 1, duration: 0.25, ease: "none" }, 5.2);
+          rows.forEach((r, i) => {
+            const t = 5.1 + i * 0.15;
+            tl.to(r.querySelector(".vc"), { opacity: 0, duration: 0.2, ease: "none" }, t);
+            tl.to(r.querySelector(".ds"), { opacity: 1, duration: 0.2, ease: "none" }, t + 0.1);
+            Egg.count(tl, r.querySelector(".ds"), 0, CH[i][2], t + 0.1, { dur: 0.7, fmt: (v) => v.toFixed(3) });
+          });
+          Egg.fadeUp(tl, q(".foot"), 5.8, { y: 10 });
+          // closest first
+          rows.forEach((r, i) => {
+            const dy = ROW_Y[rank[i]] - ROW_Y[i];
+            tl.to(r, { y: dy, duration: 0.8, ease: Egg.EASE.move }, 6.6);
+            // rows moving down dip out of the way, so the rows moving up stay readable as they pass
+            if (dy > 0) tl.to(r, { keyframes: { opacity: [1, 0.08, 0.08, 1] }, duration: 0.8, ease: "none" }, 6.6);
+          });
+
+          // top result
+          Egg.highlight(tl, q(".sql .sl:nth-of-type(3) .egg-hl"), 7.8);
+          tl.to(rows.filter((_, i) => i !== TOP), { opacity: 0.35, duration: 0.4, ease: "none" }, 8.0);
+          tl.to(rows[TOP], { backgroundColor: "rgba(245, 243, 241, 1)", duration: 0.3, ease: "none" }, 8.0);
+          Egg.highlight(tl, rows[TOP].querySelector(".egg-hl"), 8.8);
+          Egg.fadeUp(tl, q(".egg-label"), 8.6);
+
+          Egg.fadeOut(tl, [...root.querySelectorAll(".egg-eyebrow, .ask, .qv, .sql, .rows, .egg-svg, .tname, .th, .egg-label, .foot")], DUR - 0.35);
+          window.__timelines["s05-search"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

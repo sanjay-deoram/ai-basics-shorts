@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.3},
+      {"t":0.7,"sfx":"typing","vol":0.28,"dur":0.5},
+      {"t":2.2,"sfx":"error","vol":0.2,"dur":1},
+      {"t":3.1,"sfx":"pop","vol":0.24},
+      {"t":4.0,"sfx":"typing","vol":0.28,"dur":1.5},
+      {"t":5.6,"sfx":"sparkle","vol":0.24,"dur":1.4},
+      {"t":9.0,"sfx":"chime","vol":0.3,"dur":1.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · What to do when you spot it: a weak and a better move (prompt before/after block). Weak: keep correcting in
+           the same long chat ("No! I said $500.") → "Sorry! Here's one for $650." → Still wrong. Step chip: "Summarize →
+           new chat". Better: a new chat that starts with the summary of the key facts ($500 total highlighted) → a hotel
+           that fits → On budget. Footnote: Claude Code's /compact does the summary for you. Sources: Claude Code best
+           practices ("/compact <instructions>"; "/clear frequently between tasks"). The cards fill the box, so the
+           avatar is out. Prices are illustrative. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .zoomwrap { position: absolute; inset: 0; }
+        .s05 .egg-safe { gap: 26px; justify-content: center; }
+        .s05 .egg-safe > .egg-chip.tip { margin-bottom: 8px; }
+        .s05 .egg-mono { font-size: 38px; }
+        .s05 .result { padding: 28px 36px; border-radius: 36px; }
+        .s05 .result p { font: 400 36px/1.38 var(--f-body); color: var(--smoke); margin: 0; }
+        .s05 .result.rich { background: var(--eggshell); }
+        .s05 .result.rich p { color: var(--ink); }
+        .s05 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s05 .step { align-self: center; margin: 6px 0; }
+        .s05 .egg-foot { font: 400 26px/1.3 var(--f-mono); color: var(--graphite); align-self: flex-start; }
+      </style>
+      <div id="root" data-composition-id="s05-fix" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <div class="zoomwrap" data-layout-allow-overflow="">
+            <div class="egg-safe">
+              <span class="egg-chip tip"><b>What to do</b> · Start fresh</span>
+              <div class="egg-card is-bad card-bad">
+                <div class="egg-card-top">
+                  <span class="egg-card-kicker">Same long chat</span>
+                  <span class="egg-stamp bad stamp-bad"><svg viewBox="0 0 24 24"><path d="M6 6 L18 18 M18 6 L6 18" /></svg>Still wrong</span>
+                </div>
+                <p class="egg-mono t-bad">No! I said $500.</p>
+              </div>
+              <div class="egg-card taupe result res-bad"><p>Sorry! Here's one for $650.</p></div>
+              <span class="egg-chip step">↓ Summarize → new chat</span>
+              <div class="egg-card is-good card-good">
+                <div class="egg-card-top">
+                  <span class="egg-card-kicker">New chat · the summary</span>
+                  <span class="egg-stamp good stamp-good"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg>On budget</span>
+                </div>
+                <p class="egg-mono t-good">Lisbon, 4 days in May. <span class="egg-hl">Budget: $500 total.</span> Find a hotel.</p>
+              </div>
+              <div class="egg-card result rich res-good"><p>Guesthouse in Alfama, $70 a night. Fits your budget.</p></div>
+              <span class="egg-foot">In Claude Code, /compact writes the summary for you</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.6;
+          const root = document.querySelector('[data-composition-id="s05-fix"] .s05');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.pop(tl, q(".tip"), 0.2);
+          // weak: keep correcting in the same chat
+          Egg.fadeUp(tl, q(".card-bad"), 0.4);
+          tl.set([q(".stamp-bad"), q(".stamp-good")], { opacity: 0 }, 0);
+          Egg.typeOn(tl, q(".t-bad"), 0.7);
+          Egg.fadeUp(tl, q(".res-bad"), 1.4);
+          Egg.stamp(tl, q(".stamp-bad"), 2.2, q(".card-bad"));
+          // better: summary, then a new chat
+          Egg.pop(tl, q(".step"), 3.1);
+          Egg.fadeUp(tl, q(".card-good"), 3.6);
+          const typed = Egg.typeOn(tl, q(".t-good"), 4.0, { cps: 42 });
+          Egg.highlight(tl, q(".t-good .egg-hl"), typed + 0.15);
+          tl.to(q(".zoomwrap"), { scale: 1.03, transformOrigin: "50% 55%", duration: 0.6, ease: Egg.EASE.move }, typed + 0.1);
+          Egg.fadeUp(tl, q(".res-good"), 7.6);
+          Egg.stamp(tl, q(".stamp-good"), 9.0, q(".card-good"));
+          tl.to(q(".zoomwrap"), { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 8.6);
+          Egg.fadeUp(tl, q(".egg-foot"), 8.4, { y: 12 });
+          Egg.fadeOut(tl, q(".zoomwrap"), DUR - 0.35);
+          window.__timelines["s05-fix"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

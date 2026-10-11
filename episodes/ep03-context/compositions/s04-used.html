@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.6,"sfx":"pop","vol":0.2},
+      {"t":1.0,"sfx":"typing","vol":0.2,"dur":0.4},
+      {"t":1.5,"sfx":"pop","vol":0.18},
+      {"t":2.2,"sfx":"pop","vol":0.2},
+      {"t":2.6,"sfx":"typing","vol":0.2,"dur":0.6},
+      {"t":3.1,"sfx":"pop","vol":0.18},
+      {"t":3.8,"sfx":"pop","vol":0.2},
+      {"t":4.2,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":5.0,"sfx":"pop","vol":0.18},
+      {"t":6.3,"sfx":"whoosh-short","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · How it's used. A chat grows turn by turn. Each time you send a message, a reading band sweeps the whole
+           chat from the top and the counter shows how many messages Claude reads (1, 3, 5); the "context" bracket on the
+           left grows to wrap them, then reaches on past the last bubble. Source: Claude docs, Context windows: each
+           turn's input "contains all previous conversation history plus the current user message", and each reply
+           "becomes part of the input for the next turn". -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .bub { position: absolute; padding: 18px 28px; border-radius: 30px; font: 400 36px/1.3 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s04 .bub.you { right: 130px; background: var(--taupe); }
+        .s04 .bub.claude { left: 160px; background: var(--eggshell); border: 2px solid var(--stone); display: flex; align-items: center; gap: 14px; }
+        .s04 .bub.claude i { width: 30px; height: 30px; flex: none; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s04 .band { position: absolute; left: 140px; right: 120px; top: 320px; height: 26px; border-radius: 13px; background: rgba(255, 122, 192, 0.32); }
+        .s04 .rail { position: absolute; left: 108px; top: 330px; width: 6px; height: 600px; border-radius: 3px; background: var(--ink); transform-origin: 50% 0; }
+        .s04 .rail.more { top: 930px; height: 90px; background: none; border-left: 6px dotted var(--ink); width: 0; border-radius: 0; }
+        .s04 .meter { position: absolute; left: 90px; top: 1070px; }
+      </style>
+      <div id="root" data-composition-id="s04-used" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <span class="egg-eyebrow">How it's used</span>
+          <div class="rail"></div>
+          <div class="rail more"></div>
+          <div class="band" data-layout-allow-overlap=""></div>
+          <div class="bub you" style="top:330px">Help me plan a trip to Lisbon.</div>
+          <div class="bub claude" style="top:430px"><i></i>Sure! How many days?</div>
+          <div class="bub you" style="top:530px">Four days. I love food.</div>
+          <div class="bub claude" style="top:630px"><i></i>Day 1: Alfama and a food tour…</div>
+          <div class="bub you" style="top:730px">What should I pack?</div>
+          <div class="bub claude" style="top:830px"><i></i>Light layers and comfy shoes.</div>
+          <span class="egg-counter meter">Claude gets <b class="n">0</b> <span class="u">messages</span></span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.6;
+          const root = document.querySelector('[data-composition-id="s04-used"] .s04');
+          const q = (s) => root.querySelector(s);
+          const bubs = [...root.querySelectorAll(".bub")];
+          const BOTTOM = (i) => 330 + i * 100 + 80; // bottom edge of bubble i
+          const RAIL = 600;
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".meter"), 0.4, { y: 14 });
+          gsap.set(q(".band"), { opacity: 0 });
+          gsap.set(q(".rail"), { scaleY: 0 });
+          gsap.set(q(".rail.more"), { opacity: 0 });
+          const reads = Egg.meter(tl, q(".n"));
+
+          // each send: the message lands, then Claude reads everything from the top
+          const send = (i, at, n) => {
+            tl.fromTo(bubs[i], { opacity: 0, y: 30, scale: 0.96 }, { opacity: 1, y: 0, scale: 1, transformOrigin: "100% 100%", duration: 0.4, ease: Egg.EASE.enter }, at);
+            const scan = 0.3 + n * 0.1;
+            tl.set(q(".band"), { y: 0, opacity: 1 }, at + 0.4);
+            tl.to(q(".band"), { y: BOTTOM(i) - 26 - 320, duration: scan, ease: "none" }, at + 0.4);
+            tl.to(q(".band"), { opacity: 0, duration: 0.2, ease: "none" }, at + 0.4 + scan);
+            tl.to(q(".rail"), { scaleY: (BOTTOM(i) - 330) / RAIL, duration: scan, ease: "none" }, at + 0.4);
+            reads(n, at + 0.4, scan);
+          };
+          const reply = (i, at) => {
+            tl.fromTo(bubs[i], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: Egg.EASE.enter }, at);
+            tl.to(q(".rail"), { scaleY: (BOTTOM(i) - 330) / RAIL, duration: 0.4, ease: Egg.EASE.move }, at);
+          };
+          send(0, 0.6, 1); reply(1, 1.5);
+          send(2, 2.2, 3); reply(3, 3.1);
+          send(4, 3.8, 5); reply(5, 5.0);
+
+          // …and it keeps growing
+          tl.fromTo(q(".rail.more"), { opacity: 0, scaleY: 0 }, { opacity: 1, scaleY: 1, transformOrigin: "50% 0", duration: 0.6, ease: Egg.EASE.enter }, 6.3);
+          Egg.shake(tl, q(".meter"), 6.5);
+
+          Egg.fadeOut(tl, [...bubs, q(".rail"), q(".rail.more"), q(".meter"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s04-used"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

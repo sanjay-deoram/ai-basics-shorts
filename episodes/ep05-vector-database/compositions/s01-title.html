@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.3},
+      {"t":1.1,"sfx":"pop","vol":0.35}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. "What is a vector database?" with the promise (the trick behind chat-with-your-PDF); the narrator
+           avatar peeks in large under it (narrator.html "title"). Voiceover 0.2: "How does chat with your PDF actually work?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
+        .s01 .egg-display .w { display: inline-block; }
+      </style>
+      <div data-hf-id="hf-6ql4" id="root" data-composition-id="s01-title" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tf6y" class="egg-scene s01">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-ynw6" class="egg-eyebrow">AI basics · Episode 05</span>
+            <h1 data-hf-id="hf-w5rm" class="egg-display">What is a vector database?</h1>
+            <p data-hf-id="hf-nr5j" class="egg-body sub">The trick behind “chat with your PDF.”</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.0;
+          const root = document.querySelector('[data-composition-id="s01-title"] .s01');
+          const h1 = root.querySelector(".egg-display");
+          h1.innerHTML = h1.textContent.split(" ").map((w) => `<span class="w">${w}</span>`).join(" ");
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.15);
+          Egg.fadeUp(tl, h1.querySelectorAll(".w"), 0.3, { y: 60, stagger: 0.08, dur: 0.6 });
+          Egg.fadeUp(tl, root.querySelector(".sub"), 1.2);
+          Egg.fadeOut(tl, root.querySelector(".egg-safe"), DUR - 0.35);
+          window.__timelines["s01-title"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

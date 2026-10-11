@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.3,"sfx":"whoosh-short","vol":0.2},
+      {"t":2.2,"sfx":"pop","vol":0.3},
+      {"t":3.0,"sfx":"whoosh-short","vol":0.2},
+      {"t":4.0,"sfx":"pop","vol":0.3},
+      {"t":6.1,"sfx":"whoosh-short","vol":0.2},
+      {"t":7.1,"sfx":"pop","vol":0.3},
+      {"t":8.0,"sfx":"whoosh-short","vol":0.2},
+      {"t":9.0,"sfx":"pop","vol":0.3},
+      {"t":9.6,"sfx":"sparkle","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · How to fight it: four isometric steps, each landing as the voice says it. The subs carry the Claude Code
+           commands for developers (on screen only). Sources: Claude Code best practices: "/clear frequently between tasks to
+           reset the context window entirely"; "/compact <instructions>"; CLAUDE.md "Claude reads at the start of every
+           conversation". Effective context engineering: "the smallest set of high-signal tokens". The blocks fill the box,
+           so the avatar is out. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-safe { gap: 18px; }
+      </style>
+      <div data-hf-id="hf-aqxb" id="root" data-composition-id="s08-fixes" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s08">
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true" />
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span class="egg-eyebrow">How to fight it</span>
+            <h2 class="egg-title">Keep the desk tidy</h2>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const STEPS = [
+            { title: "New topic? New chat.", sub: "Claude Code: /clear" },
+            { title: "Long chat? Summarize it", sub: "Claude Code: /compact" },
+            { title: "Repeat what matters", sub: "Rules → CLAUDE.md" },
+            { title: "Only what it needs", sub: "Fewer look-alikes" },
+          ];
+          const AT = [1.3, 2.6, 5.7, 7.6]; // each dot lands as the voice names the step
+
+          const root = document.querySelector('[data-composition-id="s08-fixes"] .s08');
+          const svg = root.querySelector(".egg-svg");
+          const layout = Egg.isoBuild(svg, STEPS, { id: "s08" });
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelectorAll(".egg-safe > *"), 0.05);
+          const { end } = Egg.isoAnimate(tl, layout, AT);
+          Egg.fadeOut(tl, [svg, root.querySelector(".egg-safe")], Math.max(end, 10.95));
+          window.__timelines["s08-fixes"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

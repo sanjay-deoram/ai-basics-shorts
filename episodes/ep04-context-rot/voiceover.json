@@ -1,0 +1,119 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "Why does AI forget what you told it?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.3,
+      "text": "You tell AI your trip budget: five hundred dollars."
+    },
+    {
+      "scene": "s02",
+      "at": 3.8,
+      "text": "Then you keep chatting. Food, weather, what to pack."
+    },
+    {
+      "scene": "s02",
+      "at": 7.4,
+      "text": "A long chat later, it suggests a nine hundred dollar hotel."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "That's context rot."
+    },
+    {
+      "scene": "s03",
+      "at": 1.9,
+      "text": "Every message adds another page to its desk."
+    },
+    {
+      "scene": "s03",
+      "at": 4.8,
+      "text": "Your budget's still there, but its attention is spread thinner and thinner."
+    },
+    {
+      "scene": "s04",
+      "at": 0.3,
+      "text": "How do you spot it?"
+    },
+    {
+      "scene": "s04",
+      "at": 1.5,
+      "text": "It forgets something you told it."
+    },
+    {
+      "scene": "s04",
+      "at": 3.5,
+      "text": "It repeats a mistake you already fixed."
+    },
+    {
+      "scene": "s04",
+      "at": 6.1,
+      "text": "Or it uses details you changed."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "When you see it, don't just keep correcting it."
+    },
+    {
+      "scene": "s05",
+      "at": 3.0,
+      "text": "Ask for a summary of the key facts, then start a new chat with it."
+    },
+    {
+      "scene": "s05",
+      "at": 7.6,
+      "text": "Clean desk. Now it sticks to your budget."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "To avoid it in the first place:"
+    },
+    {
+      "scene": "s06",
+      "at": 1.9,
+      "text": "New topic? New chat."
+    },
+    {
+      "scene": "s06",
+      "at": 3.7,
+      "text": "Keep key facts up front."
+    },
+    {
+      "scene": "s06",
+      "at": 5.4,
+      "text": "And only share what it needs."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "Long chats bury details. When you spot it, start fresh."
+    },
+    {
+      "scene": "s07",
+      "at": 4.5,
+      "text": "Follow for more AI basics."
+    }
+  ]
+}

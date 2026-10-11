@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click","vol":0.24},
+      {"t":1.2,"sfx":"pop","vol":0.2},
+      {"t":1.6,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.4,"sfx":"key-press","vol":0.2},
+      {"t":3.55,"sfx":"key-press","vol":0.2},
+      {"t":5.1,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":7.5,"sfx":"whoosh-short","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Why, step 2: focus gets spread thin. One token's attention is a bar that always adds up to 100%. With a
+           few earlier tokens it splits into a few big shares (The / cat / sat, illustrative); with a long context it splits
+           into countless slivers. Then a small illustrative chart: what models practiced on, mostly short texts.
+           Sources: Anthropic Engineering, Effective context engineering: LLMs have an "attention budget"; "a model's
+           ability to capture these pairwise relationships gets stretched thin"; "Models develop their attention patterns
+           from training data distributions where shorter sequences are typically more common than longer ones." In each
+           attention head a token's weights sum to 1 (softmax), so more tokens means smaller shares on average. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .trk { position: absolute; left: 90px; top: 228px; display: flex; align-items: center; gap: 14px; }
+        .s05 .trk .egg-eyebrow { margin-right: 10px; }
+        .s05 .trk i { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid var(--ink); }
+        .s05 .trk i.on { background: var(--ink); }
+        .s05 .ttl { position: absolute; left: 90px; right: 130px; top: 290px; margin: 0; font: 300 64px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s05 .who { position: absolute; left: 90px; top: 450px; display: flex; align-items: center; gap: 20px; }
+        .s05 .who .egg-token { font-size: 48px; background: var(--tok-1); }
+        .s05 .who .egg-card-kicker { font-size: 26px; color: var(--graphite); }
+        .s05 .pct { position: absolute; right: 130px; top: 470px; font: 300 56px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s05 .bar { position: absolute; left: 90px; width: 860px; top: 560px; height: 80px; border: 4px solid var(--ink); border-radius: 18px; overflow: hidden; }
+        .s05 .bar .seg { position: absolute; top: 0; bottom: 0; transform-origin: 0 50%; }
+        .s05 .bar .full { left: 0; width: 100%; background: var(--stone); }
+        .s05 .bar .s1 { left: 0; width: 50%; background: var(--tok-1); border-right: 3px solid var(--ink); }
+        .s05 .bar .s2 { left: 50%; width: 30%; background: var(--tok-2); border-right: 3px solid var(--ink); }
+        .s05 .bar .s3 { left: 80%; width: 20%; background: var(--tok-3); }
+        .s05 .bar svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+        .s05 .bar svg path { stroke: var(--ink); stroke-width: 1.6; }
+        .s05 .tok { position: absolute; top: 668px; transform: translateX(-50%); }
+        .s05 .tok .egg-token { font-size: 40px; }
+        .s05 .many { position: absolute; left: 90px; right: 130px; top: 668px; text-align: center; font: 400 26px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); }
+        .s05 .cap { position: absolute; left: 90px; right: 130px; top: 760px; margin: 0; }
+        .s05 .chart { position: absolute; left: 90px; top: 960px; width: 470px; }
+        .s05 .chart .egg-card-kicker { display: block; color: var(--graphite); margin-bottom: 24px; white-space: nowrap; }
+        .s05 .chart svg { width: 470px; height: 300px; overflow: visible; }
+        .s05 .chart rect { fill: var(--stone); stroke: var(--ink); stroke-width: 3; }
+        .s05 .chart text { font: 400 24px var(--f-mono); fill: var(--graphite); letter-spacing: 0.04em; }
+      </style>
+      <div id="root" data-composition-id="s05-thin" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <div class="trk"><span class="egg-eyebrow">Why it happens</span><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <h2 class="ttl">Focus gets spread thin</h2>
+          <div class="who"><span class="egg-token">it</span><span class="egg-card-kicker">One token's attention</span></div>
+          <span class="pct">100%</span>
+          <div class="bar">
+            <span class="seg full"></span>
+            <span class="seg s1"></span><span class="seg s2"></span><span class="seg s3"></span>
+            <svg viewBox="0 0 860 80" preserveAspectRatio="none" aria-hidden="true"><path class="sl" d="" /></svg>
+          </div>
+          <span class="tok t1" style="left:305px"><span class="egg-token">The</span></span>
+          <span class="tok t2" style="left:649px"><span class="egg-token">cat</span></span>
+          <span class="tok t3" style="left:864px"><span class="egg-token">sat</span></span>
+          <span class="many">Shared with a million tokens</span>
+          <p class="egg-label cap">Same 100%. Thinner slices.</p>
+          <div class="chart">
+            <span class="egg-card-kicker">Practice texts · illustrative</span>
+            <svg viewBox="0 0 470 300" aria-hidden="true">
+              <rect x="10" y="20" width="60" height="230" rx="6" />
+              <rect x="90" y="80" width="60" height="170" rx="6" />
+              <rect x="170" y="140" width="60" height="110" rx="6" />
+              <rect x="250" y="185" width="60" height="65" rx="6" />
+              <rect x="330" y="215" width="60" height="35" rx="6" />
+              <rect x="410" y="235" width="50" height="15" rx="6" />
+              <text x="10" y="290">short</text><text x="460" y="290" text-anchor="end">long</text>
+            </svg>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.6;
+          const root = document.querySelector('[data-composition-id="s05-thin"] .s05');
+          const q = (s) => root.querySelector(s);
+          // countless slivers: thin dividers across the bar
+          let d = "";
+          for (let x = 6; x < 860; x += 6.5) d += `M${x.toFixed(1)} 0 V80 `;
+          const sl = q(".sl");
+          sl.setAttribute("d", d.trim());
+          const rects = [...root.querySelectorAll(".chart rect")];
+          rects.forEach((r) => gsap.set(r, { transformOrigin: "50% 100%" }));
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".trk"), 0.05);
+          Egg.fadeUp(tl, q(".ttl"), 0.3);
+          // one token, 100% of its attention
+          Egg.pop(tl, q(".who .egg-token"), 1.2);
+          Egg.fadeUp(tl, q(".who .egg-card-kicker"), 1.4, { y: 12 });
+          Egg.fadeUp(tl, q(".bar"), 1.6, { y: 20 });
+          tl.fromTo(q(".full"), { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: Egg.EASE.enter }, 1.8);
+          Egg.pop(tl, q(".pct"), 2.4);
+          // a short text: a few big shares
+          gsap.set([q(".s1"), q(".s2"), q(".s3")], { opacity: 0 });
+          tl.to([q(".s1"), q(".s2"), q(".s3")], { opacity: 1, duration: 0.3, ease: "none", stagger: 0.15 }, 3.4);
+          Egg.pop(tl, [q(".t1 .egg-token"), q(".t2 .egg-token"), q(".t3 .egg-token")], 3.4, { stagger: 0.15, dur: 0.4 });
+          // a long context: countless slivers
+          tl.to([q(".s1"), q(".s2"), q(".s3"), q(".t1"), q(".t2"), q(".t3")], { opacity: 0, duration: 0.3, ease: "none" }, 5.0);
+          tl.fromTo(sl, { opacity: 0 }, { opacity: 1, duration: 0.8, ease: "power1.in" }, 5.1);
+          Egg.fadeUp(tl, q(".many"), 5.4, { y: 12 });
+          Egg.fadeUp(tl, q(".cap"), 5.9);
+          // and it practiced mostly on shorter texts
+          Egg.fadeUp(tl, q(".chart .egg-card-kicker"), 7.4, { y: 12 });
+          tl.fromTo(root.querySelectorAll(".chart text"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 7.9);
+          tl.fromTo(rects, { scaleY: 0 }, { scaleY: 1, duration: 0.5, ease: Egg.EASE.rise, stagger: 0.1 }, 7.6);
+
+          Egg.fadeOut(tl, [q(".trk"), q(".ttl"), q(".who"), q(".pct"), q(".bar"), q(".many"), q(".cap"), q(".chart")], DUR - 0.35);
+          window.__timelines["s05-thin"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

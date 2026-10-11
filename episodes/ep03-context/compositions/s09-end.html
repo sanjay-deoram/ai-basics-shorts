@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.75,"sfx":"click","vol":0.3},
+      {"t":2.1,"sfx":"click","vol":0.3},
+      {"t":3.45,"sfx":"click","vol":0.3},
+      {"t":5.2,"sfx":"chime","vol":0.3,"dur":2.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · End card. Three takeaways tick in, a footnote for Claude Code users, then the follow pill; the narrator
+           avatar stands centred above them (narrator.html "end") and smiles. No fade-out: the last frame holds so the
+           video loops cleanly. Voiceover: 0.3 "So give Claude what it needs, and skip the rest." 3.3 "New topic? New chat." 5.2 "Follow for more AI basics."
+           Source for the footnote: Claude Code best practices, "/clear: reset context between unrelated tasks." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .egg-safe { gap: 50px; justify-content: flex-start; padding-top: 470px; }
+        .s09 .foot { display: flex; flex-direction: column; align-items: center; gap: 34px; margin-top: 10px; }
+        .s09 .egg-foot { font-size: 26px; color: var(--graphite); align-self: flex-start; padding-left: 90px; }
+        .s09 .egg-chip.egg-pill-dark { font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div id="root" data-composition-id="s09-end" data-width="1080" data-height="1920">
+        <div class="egg-scene s09">
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Remember</span>
+            <ul class="egg-checks">
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Give it what it needs</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Skip the rest</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>New topic? New chat.</li>
+            </ul>
+            <div class="foot">
+              <span class="egg-foot">In Claude Code: /clear</span>
+              <span class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s09-end"] .s09');
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, root.querySelector(".egg-checks"), 0.6, { gap: 1.35 });
+          Egg.fadeUp(tl, root.querySelector(".foot .egg-foot"), 4.1, { y: 12 });
+          Egg.pop(tl, root.querySelector(".egg-pill-dark"), 5.2);
+          window.__timelines["s09-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

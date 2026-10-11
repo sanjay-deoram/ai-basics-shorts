@@ -1,0 +1,119 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "How does chat with your PDF actually work?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.3,
+      "text": "Say you search your lease for dog."
+    },
+    {
+      "scene": "s02",
+      "at": 2.8,
+      "text": "Zero results."
+    },
+    {
+      "scene": "s02",
+      "at": 4,
+      "text": "But it's right there: pets are not allowed."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "The fix is an embedding model."
+    },
+    {
+      "scene": "s03",
+      "at": 2.2,
+      "text": "It turns text into a list of numbers, called a vector."
+    },
+    {
+      "scene": "s03",
+      "at": 5.6,
+      "text": "Similar meanings get similar numbers, so dog and pets land close together."
+    },
+    {
+      "scene": "s04",
+      "at": 0.3,
+      "text": "When you upload a PDF, the app splits it into chunks,"
+    },
+    {
+      "scene": "s04",
+      "at": 4.1,
+      "text": "turns each chunk into a vector,"
+    },
+    {
+      "scene": "s04",
+      "at": 6.2,
+      "text": "and saves them as rows in a table."
+    },
+    {
+      "scene": "s04",
+      "at": 8.35,
+      "text": "That's your vector database. Here, it's just Postgres with P G vector."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "Now you ask: can I have a dog?"
+    },
+    {
+      "scene": "s05",
+      "at": 2.4,
+      "text": "Your question becomes a vector too."
+    },
+    {
+      "scene": "s05",
+      "at": 4.4,
+      "text": "The query sorts the rows by distance, closest first."
+    },
+    {
+      "scene": "s05",
+      "at": 7.75,
+      "text": "Top result: pets are not allowed."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "Then the app sends that row and your question to Claude."
+    },
+    {
+      "scene": "s06",
+      "at": 3.4,
+      "text": "So it answers from your PDF, not from memory."
+    },
+    {
+      "scene": "s06",
+      "at": 6.4,
+      "text": "That pattern is called RAG."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "Vector databases search by meaning, not by matching words."
+    },
+    {
+      "scene": "s07",
+      "at": 4.3,
+      "text": "Follow for more AI basics."
+    }
+  ]
+}

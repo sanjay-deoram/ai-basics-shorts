@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":0.7,"sfx":"click-soft","vol":0.2},
+      {"t":1.1,"sfx":"click-soft","vol":0.2},
+      {"t":2.2,"sfx":"whoosh","vol":0.22},
+      {"t":2.6,"sfx":"pop","vol":0.26},
+      {"t":3.5,"sfx":"typing","vol":0.24,"dur":1.1},
+      {"t":4.9,"sfx":"click","vol":0.22},
+      {"t":6.4,"sfx":"chime","vol":0.26,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Step 3, answer (RAG). The app builds a prompt from the top row (the retrieved chunk, highlighted) and
+           the question; the prompt flies into Claude (the Claude logo, assets/claude-logo.svg), which pulses and turns
+           while it answers: "No. Your lease says pets aren't allowed." with its source (Lease.pdf · row 2). Then the
+           term: RAG = retrieval-augmented generation (find the right rows, then write the answer). The answer is
+           illustrative (labelled "Example answer"). Avatar: small top right (narrator.html "corner"); everything
+           above y 485 stays left of x 830. Voiceover: 0.3 "Then the app sends that row and your question to Claude."
+           3.4 "So it answers from your PDF, not from memory." 6.4 "That pattern is called RAG." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s06 .prompt { position: absolute; left: 90px; width: 730px; top: 290px; padding: 28px 36px; gap: 14px; border-radius: 32px; transform-origin: 50% 50%; }
+        .s06 .prompt .egg-mono { font-size: 30px; line-height: 1.35; white-space: nowrap; }
+        .s06 .prompt .egg-mono b { font-weight: 400; color: var(--smoke); }
+        .s06 .logo { position: absolute; left: 470px; top: 600px; width: 140px; height: 140px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s06 .ans { position: absolute; left: 90px; width: 860px; top: 800px; padding: 30px 36px; gap: 16px; border-radius: 32px; }
+        .s06 .ans .txt { margin: 0; font: 400 40px/1.35 var(--f-body); color: var(--ink); }
+        .s06 .src { align-self: flex-start; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); border: 2px solid var(--btn-border); border-radius: 9999px; padding: 10px 16px; }
+        .s06 .rag { position: absolute; left: 90px; width: 860px; top: 1110px; text-align: center; }
+        .s06 .ragx { position: absolute; left: 90px; width: 860px; top: 1220px; text-align: center; text-wrap: balance; }
+        .s06 .ragx u { text-decoration: none; color: var(--ink); }
+      </style>
+      <div data-hf-id="hf-x977" id="root" data-composition-id="s06-answer" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-anh9" class="egg-scene s06">
+          <span data-hf-id="hf-mjti" class="egg-eyebrow">Step 3 · Answer</span>
+          <div data-hf-id="hf-66bk" class="egg-card prompt">
+            <span data-hf-id="hf-rie2" class="egg-card-kicker">Prompt the app sends</span>
+            <p data-hf-id="hf-9bne" class="egg-mono pl"><b data-hf-id="hf-iigq">From the PDF:</b> <span data-hf-id="hf-ivhm" class="egg-hl">Pets are not allowed.</span></p>
+            <p data-hf-id="hf-xamr" class="egg-mono pl"><b data-hf-id="hf-ldd9">Question:</b> Can I have a dog?</p>
+          </div>
+          <div data-hf-id="hf-e319" class="logo"></div>
+          <div data-hf-id="hf-gg9q" class="egg-card ans">
+            <span data-hf-id="hf-hr4j" class="egg-card-kicker">Example answer</span>
+            <p data-hf-id="hf-qapg" class="txt">No. Your lease says pets aren't allowed.</p>
+            <span data-hf-id="hf-7g97" class="src">Source: Lease.pdf · row 2</span>
+          </div>
+          <h2 data-hf-id="hf-q76u" class="egg-title rag">That's RAG.</h2>
+          <p data-hf-id="hf-4p56" class="egg-body ragx"><u data-hf-id="hf-ss0e">R</u>etrieval-<u data-hf-id="hf-zj7v">A</u>ugmented <u data-hf-id="hf-x5dp">G</u>eneration: find the right rows, then write the answer.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.5;
+          const root = document.querySelector('[data-composition-id="s06-answer"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // the app builds a prompt: the top row + the question
+          Egg.fadeUp(tl, q(".prompt"), 0.3);
+          tl.fromTo(all(".pl")[0], { opacity: 0, x: 0, y: 420 }, { opacity: 1, x: 0, y: 0, duration: 0.55, ease: Egg.EASE.move }, 0.6);
+          Egg.highlight(tl, q(".prompt .egg-hl"), 1.1);
+          tl.fromTo(all(".pl")[1], { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.5, ease: Egg.EASE.enter }, 1.1);
+
+          // …and sends it to Claude
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 1.9);
+          tl.to(q(".prompt"), { scale: 0.96, y: 30, duration: 0.25, ease: "power2.in", yoyo: true, repeat: 1 }, 2.25);
+          tl.fromTo(q(".logo"), { scale: 1 }, { scale: 1.18, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 2.6);
+          tl.to(q(".logo"), { rotation: 90, duration: 2.0, ease: "power1.inOut" }, 3.0);
+
+          // it answers from the PDF
+          Egg.fadeUp(tl, q(".ans"), 3.3);
+          Egg.typeOn(tl, q(".ans .txt"), 3.5, { cps: 38 });
+          Egg.pop(tl, q(".src"), 4.9, { dur: 0.45 });
+
+          // the name of the pattern
+          Egg.fadeUp(tl, q(".rag"), 6.4);
+          Egg.fadeUp(tl, q(".ragx"), 6.8);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".prompt"), q(".logo"), q(".ans"), q(".rag"), q(".ragx")], DUR - 0.35);
+          window.__timelines["s06-answer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

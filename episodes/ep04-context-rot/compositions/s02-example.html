@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"pop","vol":0.2},
+      {"t":2.3,"sfx":"sparkle","vol":0.18,"dur":1.0},
+      {"t":3.9,"sfx":"click-soft","vol":0.16},
+      {"t":4.8,"sfx":"click-soft","vol":0.16},
+      {"t":5.7,"sfx":"click-soft","vol":0.16},
+      {"t":6.5,"sfx":"click-soft","vol":0.16},
+      {"t":7.4,"sfx":"whoosh-short","vol":0.18},
+      {"t":9.3,"sfx":"pop","vol":0.2},
+      {"t":10.1,"sfx":"error","vol":0.16,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example, before the term is named. One chat (labelled "Example"): "Lisbon trip. My budget is $500."
+           ($500 highlighted), then lots of everyday chatting (food, weather, packing, day trips) scrolls the budget off
+           the top, "A long chat later", "Where should I stay?", Claude: "This $900 hotel is perfect!" and "✕ You said
+           $500". The chat sits in y 330–1030 so the avatar has the bottom right (narrator.html "br"). Positions are fixed
+           in JS (every bubble is one line, 92 px tall), so the scroll never measures the DOM. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .win { position: absolute; left: 90px; top: 330px; width: 860px; height: 700px; overflow: hidden; }
+        .s02 .feed { position: absolute; left: 0; top: 0; width: 860px; height: 1700px; }
+        .s02 .it { position: absolute; }
+        .s02 .bub { height: 92px; padding: 0 30px; border-radius: 30px; display: flex; align-items: center; gap: 14px; font: 400 40px/1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s02 .bub.you { right: 0; background: var(--taupe); }
+        .s02 .bub.claude { left: 0; background: var(--eggshell); border: 2px solid var(--stone); }
+        .s02 .bub.claude i { width: 34px; height: 34px; flex: none; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s02 .gap { left: 0; width: 860px; height: 50px; display: flex; justify-content: center; align-items: center; }
+        .s02 .gap span { font: 400 26px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); border: 2px dashed var(--smoke); border-radius: 9999px; padding: 10px 22px; }
+        .s02 .miss { left: 0; height: 52px; display: flex; align-items: center; font: 400 28px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); border-radius: 9999px; padding: 0 20px; background: var(--eggshell); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">Example</span>
+          <div class="win"><div class="feed" data-layout-allow-overflow=""></div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 11.4, WIN = 700, GAP = 22;
+          // [kind, text, appears at] kind: you | claude | gap (dashed time-skip chip) | miss (✕ verdict)
+          const ITEMS = [
+            ["you", 'Lisbon trip. My budget is <span class="egg-hl">$500</span>.', 0.4],
+            ["claude", "Great, let's plan it!", 1.5],
+            ["you", "Best food spots?", 3.9],
+            ["claude", "Time Out Market is a must.", 4.3],
+            ["you", "Weather in May?", 4.8],
+            ["claude", "Warm, around 22°C.", 5.2],
+            ["you", "What should I pack?", 5.7],
+            ["claude", "Light layers, comfy shoes.", 6.1],
+            ["you", "Any day trips?", 6.5],
+            ["claude", "Sintra is 40 min by train.", 6.85],
+            ["gap", "A long chat later", 7.4],
+            ["you", "Where should I stay?", 8.1],
+            ["claude", "This $900 hotel is perfect!", 9.3],
+            ["miss", "✕ You said $500", 10.1],
+          ];
+          const H = { you: 92, claude: 92, gap: 50, miss: 52 };
+
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const feed = root.querySelector(".feed");
+          let y = 0;
+          const laid = ITEMS.map(([kind, text, at], i) => {
+            const top = y;
+            y += H[kind] + GAP;
+            const inner = kind === "claude" ? `<i></i><span>${text}</span>` : kind === "gap" || kind === "you" ? `<span>${text}</span>` : text;
+            const cls = kind === "you" || kind === "claude" ? `bub ${kind}` : kind;
+            return { kind, at, top, bottom: top + H[kind], html: `<div class="it ${cls}${i === 0 ? " key" : ""}" style="top:${top}px">${inner}</div>` };
+          });
+          feed.innerHTML = laid.map((l) => l.html).join("");
+          const els = [...feed.children];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          let scroll = 0;
+          laid.forEach((l, i) => {
+            if (l.kind === "miss") Egg.pop(tl, els[i], l.at);
+            else Egg.fadeUp(tl, els[i], l.at, { y: 24, dur: 0.4 });
+            const need = Math.max(0, l.bottom - WIN + 12);
+            if (need > scroll) {
+              tl.to(feed, { y: -need, duration: 0.4, ease: "power2.out" }, l.at);
+              scroll = need;
+            }
+          });
+          Egg.highlight(tl, feed.querySelector(".key .egg-hl"), 2.3);
+          Egg.shake(tl, els[ITEMS.length - 2], 10.2);
+
+          Egg.fadeOut(tl, [root.querySelector(".win"), root.querySelector(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

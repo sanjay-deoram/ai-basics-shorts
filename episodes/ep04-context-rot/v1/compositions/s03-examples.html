@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"pop","vol":0.2},
+      {"t":2.9,"sfx":"whoosh-short","vol":0.18},
+      {"t":4.6,"sfx":"pop","vol":0.2},
+      {"t":5.9,"sfx":"error","vol":0.16,"dur":0.8},
+      {"t":7.0,"sfx":"whoosh-short","vol":0.2},
+      {"t":7.9,"sfx":"typing","vol":0.24,"dur":0.9},
+      {"t":10.0,"sfx":"whoosh-short","vol":0.16},
+      {"t":11.4,"sfx":"typing","vol":0.22,"dur":0.6},
+      {"t":12.1,"sfx":"error","vol":0.16,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Two examples of context rot, both labelled "Example". Top, everyday: "My budget is $500." … 200 messages
+           later … Claude suggests a $900 hotel. Bottom, coding (Claude Code): "Don't edit the migrations folder." … hours of
+           logs and file reads … it edits a migration. Source: Claude Code best practices: "When the context window is
+           getting full, Claude may start 'forgetting' earlier instructions or making more mistakes." The panels fill the
+           box, so the avatar is out. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .k { position: absolute; left: 90px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s03 .bub { position: absolute; padding: 18px 28px; border-radius: 30px; font: 400 38px/1.3 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s03 .bub.you { right: 130px; background: var(--taupe); }
+        .s03 .bub.claude { left: 90px; background: var(--eggshell); border: 2px solid var(--stone); display: flex; align-items: center; gap: 14px; }
+        .s03 .bub.claude i { width: 32px; height: 32px; flex: none; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s03 .gap { position: absolute; left: 90px; right: 130px; display: flex; justify-content: center; }
+        .s03 .gap span { font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); border: 2px dashed var(--smoke); border-radius: 9999px; padding: 12px 22px; }
+        .s03 .miss { position: absolute; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); border-radius: 9999px; padding: 10px 18px; background: var(--eggshell); }
+        .s03 .term { position: absolute; left: 90px; right: 130px; top: 860px; padding: 30px 36px; gap: 18px; }
+        .s03 .term .ln { margin: 0; font: 400 32px/1.35 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s03 .term .ln.dim { color: var(--smoke); }
+        .s03 .term .ln.cc { display: flex; align-items: center; gap: 14px; }
+        .s03 .term .ln.cc i { width: 30px; height: 30px; flex: none; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+      </style>
+      <div id="root" data-composition-id="s03-examples" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">What it looks like</span>
+          <span class="k ka" style="top:300px">Everyday · example</span>
+          <div class="bub you b1" style="top:350px">My budget is $500.</div>
+          <div class="gap g1" style="top:465px"><span>200 messages later</span></div>
+          <div class="bub claude b2" style="top:540px"><i></i>This $900 hotel is perfect!</div>
+          <span class="miss m1" style="left:90px;top:650px">✕ Over budget</span>
+          <span class="k kb" style="top:800px">Coding · example</span>
+          <div class="egg-card term">
+            <p class="ln t1">&gt; Don't edit the migrations folder.</p>
+            <p class="ln dim t2">… hours of logs and file reads …</p>
+            <p class="ln cc t3"><i></i>Edited migrations/004_users.sql</p>
+          </div>
+          <span class="miss m2" style="left:90px;top:1160px">✕ Forgot the rule</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 13.2;
+          const root = document.querySelector('[data-composition-id="s03-examples"] .s03');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          // everyday: the budget slips
+          Egg.fadeUp(tl, [q(".ka"), q(".b1")], 0.3, { stagger: 0.12 });
+          Egg.fadeUp(tl, q(".g1"), 2.9, { y: 20 });
+          Egg.fadeUp(tl, q(".b2"), 4.6, { y: 24 });
+          Egg.pop(tl, q(".m1"), 5.9);
+          Egg.shake(tl, q(".b2"), 6.0);
+          // coding: the rule slips
+          Egg.fadeUp(tl, [q(".kb"), q(".term")], 7.0, { stagger: 0.12 });
+          Egg.typeOn(tl, q(".t1"), 7.9, { cps: 40 });
+          tl.set([q(".t2"), q(".t3")], { opacity: 0 }, 0);
+          Egg.fadeUp(tl, q(".t2"), 10.0, { y: 14 });
+          Egg.fadeUp(tl, q(".t3"), 11.4, { y: 14 });
+          Egg.pop(tl, q(".m2"), 12.1);
+          Egg.shake(tl, q(".term"), 12.2);
+
+          Egg.fadeOut(tl, [...root.querySelectorAll(".k, .bub, .gap, .miss, .term"), q(".egg-eyebrow")], DUR - 0.35);
+          window.__timelines["s03-examples"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

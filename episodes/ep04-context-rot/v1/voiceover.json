@@ -1,0 +1,144 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "Why does AI forget what you told it earlier?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.3,
+      "text": "It's called context rot."
+    },
+    {
+      "scene": "s02",
+      "at": 2.0,
+      "text": "The more its context holds, the worse it uses any one detail."
+    },
+    {
+      "scene": "s02",
+      "at": 6.0,
+      "text": "Nothing's deleted. It just slowly loses track."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "You tell it your budget: five hundred dollars."
+    },
+    {
+      "scene": "s03",
+      "at": 2.9,
+      "text": "Two hundred messages later, it suggests a nine hundred dollar hotel."
+    },
+    {
+      "scene": "s03",
+      "at": 6.9,
+      "text": "Or in code: don't touch the migrations folder. Hours of logs later, it edits a migration."
+    },
+    {
+      "scene": "s04",
+      "at": 0.3,
+      "text": "So why does it happen? Step one."
+    },
+    {
+      "scene": "s04",
+      "at": 2.8,
+      "text": "Each token looks back at every token before it."
+    },
+    {
+      "scene": "s04",
+      "at": 5.6,
+      "text": "Four tokens make six links. A million make five hundred billion."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "Step two. Each token has a fixed amount of attention to share."
+    },
+    {
+      "scene": "s05",
+      "at": 5.0,
+      "text": "More tokens, thinner slices."
+    },
+    {
+      "scene": "s05",
+      "at": 7.4,
+      "text": "And it was trained mostly on shorter texts."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "Step three. Researchers found AI often uses the start and end best."
+    },
+    {
+      "scene": "s06",
+      "at": 5.5,
+      "text": "Stuff in the middle is the easiest to miss."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "Step four. Look-alikes compete."
+    },
+    {
+      "scene": "s07",
+      "at": 2.9,
+      "text": "Your budget and your sister's. The old version of a file and the new one."
+    },
+    {
+      "scene": "s07",
+      "at": 7.5,
+      "text": "The more look-alikes, the more mix-ups."
+    },
+    {
+      "scene": "s08",
+      "at": 0.3,
+      "text": "So how do you fight it?"
+    },
+    {
+      "scene": "s08",
+      "at": 1.8,
+      "text": "New topic? New chat."
+    },
+    {
+      "scene": "s08",
+      "at": 3.6,
+      "text": "Long chat? Get a summary and start fresh."
+    },
+    {
+      "scene": "s08",
+      "at": 6.9,
+      "text": "Repeat the facts that matter."
+    },
+    {
+      "scene": "s08",
+      "at": 8.8,
+      "text": "And give it only what it needs."
+    },
+    {
+      "scene": "s09",
+      "at": 0.3,
+      "text": "Context rot is real, but a tidy desk keeps it in check."
+    },
+    {
+      "scene": "s09",
+      "at": 4.6,
+      "text": "Follow for more AI basics."
+    }
+  ]
+}

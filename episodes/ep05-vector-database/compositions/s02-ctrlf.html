@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.35,"sfx":"key-press","vol":0.22},
+      {"t":1.48,"sfx":"key-press","vol":0.22},
+      {"t":1.61,"sfx":"key-press","vol":0.22},
+      {"t":2.8,"sfx":"error","vol":0.16,"dur":0.8},
+      {"t":5.1,"sfx":"sparkle","vol":0.18,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The problem, before any term is named. A PDF viewer (labelled "Example") with Lease.pdf open; Ctrl+F
+           for "dog" finds 0 results, yet "Pets are not allowed." is right there on the page (blush highlight).
+           "Same meaning. Different words." Keyword search matches letters, so it can't see that dog and pets mean
+           related things. The card stays in y 300–925 and the label at y 960, so the avatar has the bottom right
+           (narrator.html "br"). Voiceover: 0.3 "Say you search your lease for dog." 2.8 "Zero results." 4.0 "But it's
+           right there: pets are not allowed." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .win { position: absolute; left: 90px; top: 300px; width: 860px; height: 625px; border-radius: 36px; padding: 0; transform-origin: 50% 50%; }
+        .s02 .bar { position: absolute; left: 28px; right: 28px; top: 26px; height: 84px; border: 2px solid var(--ink); border-radius: 9999px; display: flex; align-items: center; gap: 22px; padding: 0 28px; background: var(--eggshell); }
+        .s02 .bar .k { font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s02 .bar .q { font: 400 40px/1 var(--f-mono); color: var(--ink); min-width: 120px; }
+        .s02 .bar .n { margin-left: auto; font: 400 28px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--ink); border: 2px solid var(--ink); border-radius: 9999px; padding: 10px 18px; }
+        .s02 .file { position: absolute; left: 44px; top: 140px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s02 .ln { position: absolute; left: 44px; font: 400 40px/1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s02 .fill { position: absolute; left: 44px; height: 8px; border-radius: 4px; background: var(--stone); }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 962px; }
+      </style>
+      <div data-hf-id="hf-ty3y" id="root" data-composition-id="s02-ctrlf" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <span data-hf-id="hf-21tg" class="egg-eyebrow">Example</span>
+          <div data-hf-id="hf-pepg" class="egg-card win">
+            <div data-hf-id="hf-ufsv" class="bar"><span data-hf-id="hf-aw4c" class="k">Ctrl+F</span><span data-hf-id="hf-m2wk" class="q">dog</span><span data-hf-id="hf-sxuq" class="n">✕ 0 results</span></div>
+            <span data-hf-id="hf-pgj8" class="file">Lease.pdf · page 3</span>
+            <span data-hf-id="hf-lmz3" class="ln l0" style="top:200px">Rent is due on the 1st.</span>
+            <i data-hf-id="hf-2d66" class="fill" style="top:262px;width:700px"></i>
+            <i data-hf-id="hf-vkat" class="fill" style="top:290px;width:560px"></i>
+            <span data-hf-id="hf-r8h9" class="ln l1" style="top:338px"><span data-hf-id="hf-ivhm" class="egg-hl">Pets are not allowed.</span></span>
+            <i data-hf-id="hf-8rc4" class="fill" style="top:400px;width:740px"></i>
+            <i data-hf-id="hf-bxh8" class="fill" style="top:428px;width:610px"></i>
+            <span data-hf-id="hf-qpgk" class="ln l2" style="top:476px">No smoking indoors.</span>
+            <i data-hf-id="hf-amim" class="fill" style="top:538px;width:690px"></i>
+            <i data-hf-id="hf-cgs4" class="fill" style="top:566px;width:420px"></i>
+          </div>
+          <p data-hf-id="hf-u286" class="egg-label">Same meaning. Different words.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.3;
+          const root = document.querySelector('[data-composition-id="s02-ctrlf"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".win"), 0.3);
+          Egg.fadeUp(tl, [q(".file"), ...all(".ln, .fill")], 0.5, { y: 14, stagger: 0.04, dur: 0.4 });
+
+          // Ctrl+F "dog" → 0 results (the voice says "dog" at about 1.4 s)
+          Egg.typeOn(tl, q(".bar .q"), 1.35, { cps: 7.7 });
+          Egg.pop(tl, q(".bar .n"), 2.8, { dur: 0.45 });
+          Egg.shake(tl, q(".bar"), 2.85);
+
+          // …but the answer is right there
+          tl.to([...all(".fill"), q(".l0"), q(".l2")], { opacity: 0.35, duration: 0.4, ease: "none" }, 4.1);
+          tl.to(q(".win"), { scale: 1.035, duration: 0.6, ease: Egg.EASE.move }, 4.3);
+          Egg.highlight(tl, q(".l1 .egg-hl"), 5.1);
+          Egg.fadeUp(tl, q(".egg-label"), 5.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".win"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s02-ctrlf"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

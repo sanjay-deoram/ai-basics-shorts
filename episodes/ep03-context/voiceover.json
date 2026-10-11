@@ -1,0 +1,139 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.2,
+      "text": "What is context? And why does AI need it?"
+    },
+    {
+      "scene": "s02",
+      "at": 0.3,
+      "text": "Context is everything Claude can see while it answers."
+    },
+    {
+      "scene": "s02",
+      "at": 3.6,
+      "text": "Your message."
+    },
+    {
+      "scene": "s02",
+      "at": 4.5,
+      "text": "The chat so far."
+    },
+    {
+      "scene": "s02",
+      "at": 5.9,
+      "text": "Files and photos."
+    },
+    {
+      "scene": "s02",
+      "at": 7.2,
+      "text": "And any instructions you've given it."
+    },
+    {
+      "scene": "s03",
+      "at": 0.3,
+      "text": "Claude learned a lot in training, but nothing about you."
+    },
+    {
+      "scene": "s03",
+      "at": 3.3,
+      "text": "Anything about you or your task has to be in the context."
+    },
+    {
+      "scene": "s04",
+      "at": 0.3,
+      "text": "Each time you hit send, Claude gets the whole chat again, not just your new message."
+    },
+    {
+      "scene": "s04",
+      "at": 5.4,
+      "text": "So the context grows with every message."
+    },
+    {
+      "scene": "s05",
+      "at": 0.3,
+      "text": "But there's a limit, called the context window. It's counted in tokens, little pieces of words."
+    },
+    {
+      "scene": "s05",
+      "at": 5.8,
+      "text": "When you see one M context, that's a million tokens. About two thousand pages."
+    },
+    {
+      "scene": "s06",
+      "at": 0.3,
+      "text": "AI expert Andrew Ing says he sees more people give too little context than too much."
+    },
+    {
+      "scene": "s06",
+      "at": 6.0,
+      "text": "Ask for a quick dinner, and Claude has to guess."
+    },
+    {
+      "scene": "s06",
+      "at": 9.0,
+      "text": "Add the details: one vegan friend, thirty minutes, one pan."
+    },
+    {
+      "scene": "s06",
+      "at": 13.3,
+      "text": "Now it fits."
+    },
+    {
+      "scene": "s07",
+      "at": 0.3,
+      "text": "But more isn't always better."
+    },
+    {
+      "scene": "s07",
+      "at": 2.1,
+      "text": "Dump in everything just in case, and the one detail that matters gets buried."
+    },
+    {
+      "scene": "s08",
+      "at": 0.3,
+      "text": "Same with one long chat that jumps from topic to topic."
+    },
+    {
+      "scene": "s08",
+      "at": 3.5,
+      "text": "Claude can lose track of the vegan friend."
+    },
+    {
+      "scene": "s08",
+      "at": 5.9,
+      "text": "That's context rot. The more it holds, the more details slip."
+    },
+    {
+      "scene": "s09",
+      "at": 0.3,
+      "text": "So give Claude what it needs, and skip the rest."
+    },
+    {
+      "scene": "s09",
+      "at": 3.3,
+      "text": "New topic? New chat."
+    },
+    {
+      "scene": "s09",
+      "at": 5.2,
+      "text": "Follow for more AI basics."
+    }
+  ]
+}

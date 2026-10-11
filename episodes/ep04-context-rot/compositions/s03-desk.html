@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.9,"sfx":"click-soft","vol":0.18},
+      {"t":2.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.0,"sfx":"sparkle","vol":0.16,"dur":1.4},
+      {"t":7.6,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · What it is, and why. Names the term ("Context rot": the longer the chat, the worse AI uses what's in it),
+           then the ep03 desk: the budget note from s02 sits on it with a blush highlight = AI's attention (legend above
+           the desk). Every message adds a page (the chat topics from s02) until the note is half buried; then the
+           attention spreads: a faint highlight lands on every page while the note's fades. "Nothing's deleted. It just
+           gets less attention." Sources: Claude docs, Context windows: "As token count grows, accuracy and recall
+           degrade, a phenomenon known as context rot."; Effective context engineering: an "attention budget" that gets
+           "stretched thin" as context grows. Avatar: small top right (narrator.html "corner"). -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .egg-title { position: absolute; left: 90px; top: 282px; }
+        .s03 .def { position: absolute; left: 90px; top: 392px; width: 680px; text-wrap: balance; }
+        .s03 .legend { position: absolute; left: 110px; top: 528px; display: flex; align-items: center; gap: 14px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s03 .legend i { width: 56px; height: 18px; border-radius: 4px; background: rgba(255, 122, 192, 0.38); }
+        .s03 .note { position: absolute; left: 400px; top: 770px; width: 420px; height: 190px; background: var(--eggshell); border: 3px solid var(--ink); border-radius: 22px; padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+        .s03 .note p { margin: 0; font: 400 52px/1.15 var(--f-body); color: var(--ink); }
+        .s03 .hlw { position: relative; display: inline-block; isolation: isolate; }
+        .s03 .hlw .bar { position: absolute; left: -6px; right: -6px; top: 56%; bottom: 6%; background: rgba(255, 122, 192, 0.38); }
+        .s03 .hlw .t, .s03 .pg b .t { position: relative; }
+        .s03 .pg { position: absolute; width: 270px; height: 150px; background: var(--eggshell); border: 3px solid var(--ink); border-radius: 20px; padding: 20px 22px; display: flex; flex-direction: column; gap: 14px; }
+        .s03 .pg b { font: 400 34px/1.1 var(--f-body); color: var(--ink); white-space: nowrap; position: relative; isolation: isolate; align-self: flex-start; }
+        .s03 .pg b .att { position: absolute; left: -4px; right: -4px; top: 58%; bottom: 4%; background: rgba(255, 122, 192, 0.2); }
+        .s03 .pg i { display: block; height: 6px; border-radius: 3px; background: var(--stone); }
+        .s03 .pg i:last-child { width: 62%; }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1262px; }
+        .s03 .egg-label .ln { display: block; }
+      </style>
+      <div id="root" data-composition-id="s03-desk" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">What it is</span>
+          <h2 class="egg-title">Context rot</h2>
+          <p class="egg-body def">The longer the chat, the worse AI uses what's in it.</p>
+          <span class="legend"><i></i>AI's attention</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect class="ink desk" x="110" y="580" width="820" height="630" rx="30" />
+          </svg>
+          <div class="note" data-layout-allow-overlap="" data-layout-allow-occlusion="">
+            <span class="egg-card-kicker" data-layout-allow-overlap="" data-layout-allow-occlusion="">From message 1</span>
+            <p data-layout-allow-overlap="" data-layout-allow-occlusion=""><span class="hlw" data-layout-allow-overlap="" data-layout-allow-occlusion=""><i class="bar"></i><span class="t">Budget: $500</span></span></p>
+          </div>
+          <div class="pile" data-layout-allow-overlap="" data-layout-allow-occlusion="" data-layout-allow-overflow=""></div>
+          <p class="egg-label"><span class="ln">Nothing's deleted.</span><span class="ln">It just gets less attention.</span></p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.0;
+          const root = document.querySelector('[data-composition-id="s03-desk"] .s03');
+          const q = (s) => root.querySelector(s);
+          // [left, top, rotation, topic, flies in from]: the chat topics from s02 pile on; the note (x 400–820,
+          // y 770–960) keeps its top band clear, so "Budget: $500" is still readable, just crowded.
+          const SHEETS = [
+            [140, 610, -6, "Food spots", "left"],
+            [430, 600, 4, "Weather", "top"],
+            [640, 620, -3, "Packing", "right"],
+            [130, 800, 3, "Day trips", "left"],
+            [480, 915, -4, "Trams", "right"],
+            [640, 905, 5, "Sintra", "right"],
+            [250, 960, -2, "Pastries", "left"],
+            [150, 1030, 4, "Beaches", "left"],
+            [420, 1025, 2, "Phrases", "right"],
+            [630, 1030, -5, "Fado night", "right"],
+          ];
+          const pile = q(".pile");
+          const A = 'data-layout-allow-overlap="" data-layout-allow-occlusion=""';
+          pile.innerHTML = SHEETS.map(([l, t, , topic]) => `<div class="pg" style="left:${l}px;top:${t}px" ${A} data-layout-allow-overflow=""><b ${A}><span class="att"></span><span class="t">${topic}</span></b><i></i><i></i></div>`).join("");
+          const pgs = [...pile.children];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".egg-title"), 0.3);
+          Egg.fadeUp(tl, q(".def"), 1.0);
+          Egg.draw(tl, q(".egg-svg"), 1.9, { dur: 0.6 });
+          tl.fromTo(q(".note"), { opacity: 0, y: 30, rotation: 0 }, { opacity: 1, y: 0, rotation: -2, duration: 0.55, ease: Egg.EASE.rise }, 2.1);
+          Egg.fadeUp(tl, q(".legend"), 2.3, { y: 14 });
+
+          // every message adds a page
+          const from = { left: { x: -900, y: 0 }, right: { x: 900, y: 0 }, top: { x: 0, y: -1000 } };
+          SHEETS.forEach(([, , rot, , dir], i) => {
+            const f = from[dir];
+            tl.fromTo(pgs[i], { x: f.x, y: f.y, rotation: rot * 3, opacity: 1 }, { x: 0, y: 0, rotation: rot, duration: 0.45, ease: "power3.out" }, 2.6 + i * 0.22);
+          });
+
+          // the attention spreads: a faint share lands on every page, the note's share fades
+          const atts = pgs.map((p) => p.querySelector(".att"));
+          tl.set(atts, { opacity: 0 }, 0);
+          tl.to(atts, { opacity: 1, duration: 0.3, ease: "none", stagger: 0.2 }, 5.0);
+          tl.to(q(".hlw .bar"), { opacity: 0.18, duration: 2.2, ease: "power1.inOut" }, 5.0);
+          tl.to(q(".note p"), { color: "#777169", duration: 1.2, ease: "none" }, 6.2);
+
+          Egg.fadeUp(tl, q(".egg-label"), 7.6);
+          Egg.fadeOut(tl, [...root.querySelectorAll(".egg-eyebrow, .egg-title, .def, .legend, .egg-svg, .note, .pile, .egg-label")], DUR - 0.35);
+          window.__timelines["s03-desk"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
