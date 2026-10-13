@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.16},
+      {"t":1.0,"sfx":"click-soft","vol":0.14},
+      {"t":1.6,"sfx":"error","vol":0.1,"dur":0.6},
+      {"t":2.4,"sfx":"click-soft","vol":0.16},
+      {"t":3.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.45,"sfx":"typing","vol":0.16,"dur":0.9},
+      {"t":5.4,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.6,"sfx":"pop","vol":0.16},
+      {"t":6.6,"sfx":"pop","vol":0.18},
+      {"t":7.4,"sfx":"pop","vol":0.18},
+      {"t":8.4,"sfx":"click","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s12 · How it's used: ask, don't copy. A test job (no copy of the code: its drum is crossed out) asks the Scion
+           server "What changed in this commit?" and gets the answer back (an example diff). Then the tools that find and
+           undo bad changes work the same way (the post: "all of the source control queries the client uses are also
+           exposed via API, so in many cases jobs don't need a local repository at all … our automated bisect and revert
+           pipelines wouldn't be practical at scale without this"; "a CI job that needs the diff between a commit and its
+           merge base … can ask the server for it"). Label: "Just ask. No copy needed." Avatar: corner (narrator.html).
+           Voiceover: V.a "Many jobs never copy the code. They just ask the server, like: what changed in this commit?"
+           V.b "Tools that find and undo bad changes work the same way." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s12 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s12 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s12 .solid { fill: var(--eggshell); }
+        .s12 .rack-name { font: 400 30px var(--f-mono); letter-spacing: 0.1em; fill: var(--ink); }
+        .s12 .who { position: absolute; left: 110px; width: 180px; top: 672px; text-align: center; font: 400 32px/1 var(--f-body); color: var(--smoke); }
+        .s12 .nocopy { position: absolute; left: 110px; width: 180px; top: 880px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s12 .ask { position: absolute; left: 300px; width: 400px; top: 620px; text-align: center; font: 400 28px/1.35 var(--f-mono); color: var(--ink); }
+        .s12 .ans { position: absolute; left: 330px; top: 770px; width: 620px; padding: 28px 34px; gap: 12px; border-radius: 32px; }
+        .s12 .ans .egg-mono { font-size: 30px; line-height: 1.4; white-space: nowrap; }
+        .s12 .ans .egg-mono b { font-weight: 400; color: var(--smoke); }
+        .s12 .tk { position: absolute; left: 90px; width: 860px; top: 1010px; text-align: center; font: 400 34px/1.2 var(--f-body); color: var(--graphite); }
+        .s12 .tools { position: absolute; left: 90px; width: 860px; top: 1072px; display: flex; justify-content: center; gap: 24px; }
+        .s12 .tools span { font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 14px 22px; white-space: nowrap; }
+        .s12 .egg-label { position: absolute; left: 90px; width: 860px; top: 1200px; }
+      </style>
+      <div id="root" data-composition-id="s12-ask" data-width="1080" data-height="1920">
+        <div class="egg-scene s12">
+          <span class="egg-eyebrow">4 · How it's used</span>
+          <span class="cap">Ask instead of copy</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-job">
+              <path class="ink solid" data-draw="0" data-dur="0.45" d="M148 545 H252 Q270 545 270 563 V637 Q270 655 252 655 H148 Q130 655 130 637 V563 Q130 545 148 545 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.25" d="M174 585 v8 M226 585 v8 M182 621 Q200 631 218 621" />
+            </g>
+            <g class="g-drum">
+              <path class="ink thin solid" data-draw="0" data-dur="0.35" d="M140 760 A60 14 0 0 1 260 760 V830 A60 14 0 0 1 140 830 Z M140 760 A60 14 0 0 0 260 760" />
+            </g>
+            <g class="g-x"><path class="ink" data-draw="0" data-dur="0.15" d="M124 736 L276 866" /><path class="ink" data-draw="0.4" data-dur="0.15" d="M276 736 L124 866" /></g>
+            <g class="g-rack">
+              <path class="ink solid" data-draw="0" data-dur="0.5" d="M716 545 H884 Q900 545 900 561 V649 Q900 665 884 665 H716 Q700 665 700 649 V561 Q700 545 716 545 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.25" d="M700 605 H900" />
+              <text class="rack-name" data-draw="1.4" x="722" y="586">SCION</text>
+            </g>
+            <g class="g-ask"><path class="ink thin" data-draw="0" data-dur="0.45" d="M286 600 H684 M666 588 L684 600 L666 612" /></g>
+            <g class="g-reply"><path class="ink thin" data-draw="0" data-dur="0.3" d="M800 672 V756 M788 740 L800 756 L812 740" /></g>
+          </svg>
+          <span class="who">Test job</span>
+          <span class="nocopy">No copy</span>
+          <p class="ask">What changed in this commit?</p>
+          <div class="egg-card ans">
+            <span class="egg-card-kicker">The server's answer · example</span>
+            <p class="egg-mono">+ api/server.py <b> 12 lines</b></p>
+            <p class="egg-mono">− docs/setup.md <b>  3 lines</b></p>
+          </div>
+          <p class="tk">Tools that work the same way:</p>
+          <div class="tools"><span class="t1">Find the bad change</span><span class="t2">Undo it</span></div>
+          <p class="egg-label">Just ask. No copy needed.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.4;
+          const V = { a: 0.1, b: 5.8 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s12-ask"] .s12');
+          const q = (s) => root.querySelector(s);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+
+          // "Many jobs never copy the code."
+          Egg.draw(tl, q(".g-job"), 0.3, { gap: 0.4 });
+          Egg.fadeUp(tl, q(".who"), 0.6, { y: 10 });
+          Egg.draw(tl, q(".g-drum"), 1.0);
+          Egg.draw(tl, q(".g-x"), 1.55, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".nocopy"), 1.7, { y: 10 });
+
+          // "They just ask the server, like: what changed in this commit?"
+          Egg.draw(tl, q(".g-rack"), 2.4, { gap: 0.3 });
+          Egg.draw(tl, q(".g-ask"), 3.0);
+          Egg.typeOn(tl, q(".ask"), 4.45, { cps: 34 });
+          Egg.draw(tl, q(".g-reply"), 5.35);
+          Egg.fadeUp(tl, q(".ans"), 5.55, { y: 20 });
+
+          // "Tools that find and undo bad changes work the same way."
+          Egg.fadeUp(tl, q(".tk"), V.b + 0.4, { y: 12 });
+          Egg.pop(tl, q(".t1"), V.b + 0.8, { dur: 0.45 });
+          Egg.pop(tl, q(".t2"), V.b + 1.6, { dur: 0.45 });
+          Egg.fadeUp(tl, q(".egg-label"), V.b + 2.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".who"), q(".nocopy"), q(".ask"), q(".ans"), q(".tk"), q(".tools"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s12-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

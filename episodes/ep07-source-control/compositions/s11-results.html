@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"typing","vol":0.14,"dur":1.1},
+      {"t":1.4,"sfx":"click-soft","vol":0.18},
+      {"t":2,"sfx":"click-soft","vol":0.14},
+      {"t":2.9,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.25,"sfx":"pop","vol":0.22},
+      {"t":4.8,"sfx":"sparkle","vol":0.16,"dur":1},
+      {"t":5.55,"sfx":"click","vol":0.2},
+      {"t":6.1,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s11 · The results. "200×" counts up; a big hatched square (the old git mirrors) and a tiny one (Scion) are
+           drawn to scale by area (420 px vs 30 px sides = 196×, the post's "200x smaller … in terms of CPU and memory").
+           Then: Checkouts: minutes → seconds ("two orders of magnitude faster (in seconds rather than minutes)"), minutes
+           struck out; and a chip, CI got 25% of its CPU back. Avatar: corner (narrator.html); 200× stays left of x 830.
+           Voiceover: V.a "It needs 200 times less computing than their old git mirrors," V.b "and checkouts take seconds,
+           not minutes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s11 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s11 .big { position: absolute; left: 82px; top: 272px; font: 300 200px/1 var(--f-display); letter-spacing: -0.04em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s11 .sub { position: absolute; left: 90px; width: 720px; top: 486px; font: 400 40px/1.35 var(--f-body); color: var(--graphite); }
+        .s11 .tag { position: absolute; width: 360px; top: 1100px; text-align: center; font: 400 28px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s11 .tag.git { left: 180px; }
+        .s11 .tag.scion { left: 625px; }
+        .s11 .row { position: absolute; left: 90px; width: 860px; top: 1180px; display: flex; justify-content: center; align-items: baseline; gap: 24px; font: 300 64px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s11 .row .k { font: 400 28px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s11 .row .min { position: relative; display: inline-block; color: var(--smoke); }
+        .s11 .row .min i { position: absolute; left: -6px; right: -6px; top: 54%; height: 5px; border-radius: 3px; background: var(--ink); transform-origin: 0 50%; }
+        .s11 .ci-row { position: absolute; left: 90px; width: 860px; top: 1312px; display: flex; justify-content: center; }
+        .s11 .ci { white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s11-results" data-width="1080" data-height="1920">
+        <div class="egg-scene s11">
+          <span class="egg-eyebrow">3 · How it works · the result</span>
+          <div class="big"><span class="n">1</span>×</div>
+          <p class="sub">less CPU and memory than their old git mirrors</p>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-git">
+              <path class="ink" data-draw="0" data-dur="0.8" d="M150 660 H570 V1080 H150 Z" />
+              <path class="ink thin hatch" data-draw="1" data-dur="0.6" data-rect="150 660 570 1080" />
+            </g>
+            <g class="g-arrow"><path class="ink thin" data-draw="0" data-dur="0.4" d="M598 860 Q770 860 802 1024 M786 1004 L802 1024 L813 1000" /></g>
+            <g class="g-scion"><path class="ink" data-draw="0" data-dur="0.3" d="M790 1050 H820 V1080 H790 Z" /></g>
+          </svg>
+          <span class="tag git">Old git mirrors</span>
+          <span class="tag scion">Scion</span>
+          <div class="row"><span class="k">Checkouts</span><span class="min">minutes<i></i></span><span>→</span><span class="egg-hl">seconds</span></div>
+          <div class="ci-row"><span class="egg-chip ci">CI: <b>25% of its CPU back</b></span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.6;
+          const V = { a: 0.1, b: 3.9 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s11-results"] .s11');
+          const q = (s) => root.querySelector(s);
+
+          // 45° hatching inside the big square (strokes, not fills)
+          root.querySelectorAll(".hatch").forEach((p) => {
+            const [x1, y1, x2, y2] = p.dataset.rect.split(" ").map(Number);
+            let d = "";
+            for (let c = x1 + y1 + 42; c < x2 + y2 - 30; c += 42) {
+              const a = [Math.max(x1, c - y2), Math.min(y2, c - x1)];
+              const b = [Math.min(x2, c - y1), Math.max(y1, c - x2)];
+              d += `M${a[0] + 8} ${a[1] - 8} L${b[0] - 8} ${b[1] + 8} `;
+            }
+            p.setAttribute("d", d.trim());
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+
+          // "It needs 200 times less computing than their old git mirrors,"
+          Egg.fadeUp(tl, q(".big"), 0.3, { y: 40 });
+          Egg.count(tl, q(".big .n"), 1, 200, 0.3, { dur: 1.1 });
+          Egg.fadeUp(tl, q(".sub"), 0.9, { y: 20 });
+          Egg.draw(tl, q(".g-git"), 1.4, { gap: 0.6 });
+          Egg.fadeUp(tl, q(".tag.git"), 2.4, { y: 14 });
+          Egg.draw(tl, q(".g-arrow"), 2.9);
+          Egg.draw(tl, q(".g-scion"), 3.25);
+          tl.fromTo(q(".g-scion"), { scale: 1 }, { scale: 1.6, transformOrigin: "50% 50%", duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 3.55);
+          Egg.fadeUp(tl, q(".tag.scion"), 3.4, { y: 14 });
+
+          // "and checkouts take seconds, not minutes."
+          Egg.fadeUp(tl, q(".row"), V.b + 0.1, { y: 24 });
+          Egg.highlight(tl, q(".row .egg-hl"), V.b + 0.9);
+          tl.fromTo(q(".row .min i"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: Egg.EASE.move }, V.b + 1.65);
+          Egg.pop(tl, q(".ci"), V.b + 2.2, { dur: 0.45 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".big"), q(".sub"), q(".egg-svg"), ...root.querySelectorAll(".tag"), q(".row"), q(".ci-row")], DUR - 0.35);
+          window.__timelines["s11-results"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

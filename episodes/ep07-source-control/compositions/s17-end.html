@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.45,"sfx":"click","vol":0.28},
+      {"t":0.79,"sfx":"click","vol":0.28},
+      {"t":1.13,"sfx":"click","vol":0.28},
+      {"t":1.47,"sfx":"click","vol":0.28},
+      {"t":4.45,"sfx":"chime","vol":0.28,"dur":2.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s17 · End card. Four takeaways tick in, then the follow pill and the source; the narrator avatar stands
+           centred above them (narrator.html "end") and smiles. No fade-out: the last frame holds so the video loops.
+           Voiceover: 0.1 "Git copies everything. Scion asks only for what it needs. Follow for more AI basics." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s17 .egg-safe { gap: 52px; justify-content: flex-start; padding-top: 460px; }
+        .s17 .foot { display: flex; flex-direction: column; align-items: center; gap: 26px; margin-top: 20px; }
+        .s17 .egg-chip.egg-pill-dark { font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+        .s17 .src { font: 400 24px/1.3 var(--f-mono); letter-spacing: 0.04em; color: var(--smoke); text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s17-end" data-width="1080" data-height="1920">
+        <div class="egg-scene s17">
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Remember</span>
+            <ul class="egg-checks">
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Git copies everything</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Scion's server does the work</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Fetch only what you read</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Built for agent-scale code</li>
+            </ul>
+            <div class="foot">
+              <span class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+              <span class="src">Source: “Redesigning source control at Anthropic”, Anthropic Engineering, Oct 13, 2026</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s17-end"] .s17');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, q(".egg-checks"), 0.3, { gap: 0.34 });
+          Egg.pop(tl, q(".egg-pill-dark"), 4.45);
+          Egg.fadeUp(tl, q(".src"), 4.65, { y: 10 });
+          window.__timelines["s17-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

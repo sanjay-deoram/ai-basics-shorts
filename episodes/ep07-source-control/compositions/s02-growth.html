@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"click-soft","vol":0.18},
+      {"t":0.6,"sfx":"click-soft","vol":0.18},
+      {"t":1.35,"sfx":"pop","vol":0.2},
+      {"t":4.1,"sfx":"sparkle","vol":0.16,"dur":1},
+      {"t":4.95,"sfx":"whoosh","vol":0.22},
+      {"t":5.35,"sfx":"typing","vol":0.14,"dur":1.2},
+      {"t":6.65,"sfx":"pop","vol":0.22},
+      {"t":8.3,"sfx":"click","vol":0.2},
+      {"t":9.1,"sfx":"sparkle","vol":0.14,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Growth. A whiteboard bar chart drawn to scale (2,500 : 30,000 = 50 px : 600 px): the May bar draws and
+           counts to 2,500; on "with Claude" the Claude logo pops, then the September bar shoots up and counts to 30,000+.
+           Label: "The bottleneck: tools built for humans." (the post: the bottleneck is now "developer infrastructure built for human scale") Avatar: corner (narrator.html); the
+           30,000+ number stays left of x 830 above y 485.
+           Voiceover: V.a "In May, they merged 2,500 code changes a day." V.b "With Claude, by September: over 30,000." V.c "The bottleneck became tools built for humans, like git." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s02 .num { position: absolute; width: 360px; text-align: center; font: 300 72px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s02 .num.may { left: 130px; top: 1038px; }
+        .s02 .num.sep { left: 440px; top: 472px; font-size: 84px; }
+        .s02 .num .plus { display: inline-block; }
+        .s02 .mon { position: absolute; width: 240px; text-align: center; top: 1210px; font: 400 30px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s02 .mon.may { left: 190px; }
+        .s02 .mon.sep { left: 500px; }
+        .s02 .logo { position: absolute; left: 752px; top: 612px; width: 120px; height: 120px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 1318px; }
+      </style>
+      <div id="root" data-composition-id="s02-growth" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">1 · Why they left git</span>
+          <span class="cap">Code changes merged per day</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-base"><path class="ink" data-draw="0" data-dur="0.6" d="M150 1180 H930" /></g>
+            <g class="g-may">
+              <path class="ink" data-draw="0" data-dur="0.5" d="M220 1180 V1130 H400 V1180" />
+              <path class="ink thin hatch" data-draw="1" data-dur="0.4" data-rect="220 1130 400 1180" />
+            </g>
+            <g class="g-sep">
+              <path class="ink" data-draw="0" data-dur="0.9" d="M530 1180 V580 H710 V1180" />
+              <path class="ink thin hatch" data-draw="1" data-dur="0.8" data-rect="530 580 710 1180" />
+            </g>
+          </svg>
+          <div class="num may"><span class="n">0</span></div>
+          <div class="num sep"><span class="n">2,500</span><span class="plus">+</span></div>
+          <span class="mon may">May</span>
+          <span class="mon sep">Sep</span>
+          <div class="logo"></div>
+          <p class="egg-label">The bottleneck: <span class="egg-hl">tools built for humans</span>.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 11.6;
+          const V = { a: 0.1, b: 4.1, c: 7.6 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s02-growth"] .s02');
+          const q = (s) => root.querySelector(s);
+          const fmt = (v) => (Math.round(v / 100) * 100).toLocaleString("en-US");
+
+          // 45° hatching inside each bar: strokes, not fills (whiteboard rule), clipped to the bar's rectangle
+          root.querySelectorAll(".hatch").forEach((p) => {
+            const [x1, y1, x2, y2] = p.dataset.rect.split(" ").map(Number);
+            let d = "";
+            for (let c = x1 + y1 + 34; c < x2 + y2 - 24; c += 34) {
+              const a = [Math.max(x1, c - y2), Math.min(y2, c - x1)];
+              const b = [Math.min(x2, c - y1), Math.max(y1, c - x2)];
+              d += `M${a[0] + 6} ${a[1] - 6} L${b[0] - 6} ${b[1] + 6} `;
+            }
+            p.setAttribute("d", d.trim());
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+          Egg.draw(tl, q(".g-base"), 0.2);
+
+          // "In May, Anthropic merged 2,500 code changes a day."
+          Egg.draw(tl, q(".g-may"), 0.6);
+          Egg.fadeUp(tl, q(".mon.may"), 0.7, { y: 14 });
+          Egg.fadeUp(tl, q(".num.may"), 1.35, { y: 20 });
+          Egg.count(tl, q(".num.may .n"), 0, 2500, 1.35, { dur: 1.1, fmt });
+
+          // "With Claude, by September: over 30,000."
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, V.b + 0.05);
+          tl.to(q(".logo"), { rotation: 60, duration: 2.6, ease: "power1.inOut" }, V.b + 0.6);
+          Egg.draw(tl, q(".g-sep"), V.b + 0.9);
+          Egg.fadeUp(tl, q(".mon.sep"), V.b + 1.1, { y: 14 });
+          Egg.fadeUp(tl, q(".num.sep"), V.b + 1.2, { y: 20 });
+          Egg.count(tl, q(".num.sep .n"), 2500, 30000, V.b + 1.3, { dur: 1.2, fmt });
+          Egg.pop(tl, q(".num.sep .plus"), V.b + 2.5, { dur: 0.4 });
+          // "The bottleneck became tools built for humans, like git."
+          Egg.fadeUp(tl, q(".egg-label"), V.c + 0.7);
+          Egg.highlight(tl, q(".egg-label .egg-hl"), V.c + 1.5);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), ...root.querySelectorAll(".num, .mon"), q(".logo"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s02-growth"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.5,"sfx":"whoosh-short","vol":0.18},
+      {"t":0.9,"sfx":"click-soft","vol":0.16},
+      {"t":1.8,"sfx":"click-soft","vol":0.14},
+      {"t":3.7,"sfx":"pop","vol":0.14},
+      {"t":6.1,"sfx":"pop","vol":0.18},
+      {"t":6.85,"sfx":"pop","vol":0.18},
+      {"t":7.6,"sfx":"pop","vol":0.18},
+      {"t":8.4,"sfx":"whoosh-short","vol":0.14},
+      {"t":9.1,"sfx":"click-soft","vol":0.16},
+      {"t":10.6,"sfx":"click-soft","vol":0.14},
+      {"t":12.2,"sfx":"whoosh-short","vol":0.14},
+      {"t":12.6,"sfx":"whoosh-short","vol":0.12},
+      {"t":13.6,"sfx":"click","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · What Scion is. "Scion: Anthropic's own version control system". An ink server rack ("SCION") draws and
+           pulses as it "holds the code"; the heavy work pops out beside it as chips on the words (history · commits ·
+           merges: the post's server "answers questions about file history and blame, creates commits, performs merges
+           and rebases"). Then three clients wired to it, each with a small cache drum; on "ask for the rest" files ride
+           the wires down into the caches ("the client maintains a bounded local object cache"). Label: "The server does
+           the work. Clients just ask." Avatar: corner (narrator.html); the title stays left of x 830.
+           Voiceover: V.a "So they built Scion, their own version control system." V.b "The server holds the code and does
+           the heavy work: history, commits, merges." V.c "Each client keeps a small cache, a local copy of what it already fetched, and asks the server for the rest." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s07 .name { position: absolute; left: 86px; top: 274px; font: 300 112px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s07 .def { position: absolute; left: 90px; width: 740px; top: 404px; font: 400 36px/1.3 var(--f-body); color: var(--graphite); }
+        .s07 .solid { fill: var(--eggshell); }
+        .s07 .rack-name { font: 400 34px var(--f-mono); letter-spacing: 0.1em; fill: var(--ink); }
+        .s07 .chip { position: absolute; display: block; font: 400 28px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 14px 22px; white-space: nowrap; }
+        .s07 .chip.l { right: 714px; }
+        .s07 .chip.r { left: 714px; }
+        .s07 .who { position: absolute; width: 200px; top: 1092px; text-align: center; font: 400 34px/1 var(--f-body); color: var(--smoke); }
+        .s07 .cache { position: absolute; width: 120px; top: 1052px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); }
+        .s07 .file { position: absolute; left: 0; top: 0; width: 34px; height: 42px; }
+        .s07 .file svg { display: block; width: 100%; height: 100%; overflow: visible; }
+        .s07 .file path { fill: var(--eggshell); stroke: var(--ink); stroke-width: 3.5; stroke-linejoin: round; stroke-linecap: round; }
+        .s07 .defn { position: absolute; left: 90px; width: 860px; top: 1142px; text-align: center; font: 400 34px/1.3 var(--f-body); color: var(--graphite); }
+        .s07 .defn b { font-weight: 500; color: var(--ink); }
+        .s07 .egg-label { position: absolute; left: 90px; width: 860px; top: 1212px; }
+      </style>
+      <div id="root" data-composition-id="s07-scion" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <span class="egg-eyebrow">2 · What Scion is</span>
+          <span class="name">Scion</span>
+          <p class="def">Anthropic's own version control system</p>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-wires"></g>
+            <g class="g-rack">
+              <path class="ink solid" data-draw="0" data-dur="0.7" d="M408 520 H672 Q690 520 690 538 V682 Q690 700 672 700 H408 Q390 700 390 682 V538 Q390 520 408 520 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.35" d="M390 580 H690 M390 640 H690" />
+              <path class="ink thin" data-draw="1.6" data-dur="0.35" d="M420 610 H560 M420 670 H560" />
+              <circle class="ink thin" data-draw="2" data-dur="0.25" cx="652" cy="550" r="8" />
+              <circle class="ink thin" data-draw="2.2" data-dur="0.25" cx="652" cy="610" r="8" />
+              <circle class="ink thin" data-draw="2.4" data-dur="0.25" cx="652" cy="670" r="8" />
+              <text class="rack-name" data-draw="2.6" x="420" y="562">SCION</text>
+            </g>
+            <g class="lk1"><path class="ink thin" data-draw="0" data-dur="0.25" d="M366 557 H390" /></g>
+            <g class="lk3"><path class="ink thin" data-draw="0" data-dur="0.25" d="M366 663 H390" /></g>
+            <g class="lk2"><path class="ink thin" data-draw="0" data-dur="0.25" d="M690 610 H714" /></g>
+            <g class="g-clients"></g>
+          </svg>
+          <span class="chip l c1" style="top: 530px">History</span>
+          <span class="chip r c2" style="top: 583px">Merges</span>
+          <span class="chip l c3" style="top: 636px">Commits</span>
+          <div class="whos"></div>
+          <div class="caches"></div>
+                    <div class="files"></div>
+          <p class="defn"><b>Cache:</b> a local copy of what it already fetched</p>
+          <p class="egg-label">The server does the work. Clients just ask.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 15.2;
+          const V = { a: 0.1, b: 3.45, c: 8.4 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s07-scion"] .s07');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+          const CX = [200, 470, 740], FILES = [1, 2, 1];
+          const add = (g, tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); g.appendChild(e); return e; };
+
+          // three clients (box, face, antenna light) wired to the rack, each with a small cache drum beside it
+          const gw = q(".g-wires"), gcl = q(".g-clients");
+          const wire = (x) => [[540, 700], [540, 830], [x, 800], [x, 912]];
+          const bez = (P, t) => [0, 1].map((k) => (1 - t) ** 3 * P[0][k] + 3 * (1 - t) ** 2 * t * P[1][k] + 3 * (1 - t) * t * t * P[2][k] + t ** 3 * P[3][k]);
+          CX.forEach((x, i) => {
+            const P = wire(x);
+            add(gw, "path", { class: "ink thin", "data-draw": i * 0.25, "data-dur": 0.5, d: `M${P[0]} C${P[1]} ${P[2]} ${P[3]}` });
+            add(gcl, "path", { class: "ink solid", "data-draw": i * 0.3, "data-dur": 0.5, d: `M${x - 52} 960 H${x + 52} Q${x + 70} 960 ${x + 70} 978 V1052 Q${x + 70} 1070 ${x + 52} 1070 H${x - 52} Q${x - 70} 1070 ${x - 70} 1052 V978 Q${x - 70} 960 ${x - 52} 960 Z` });
+            add(gcl, "path", { class: "ink thin", "data-draw": i * 0.3 + 0.6, "data-dur": 0.3, d: `M${x} 960 V928 M${x - 26} 1000 v8 M${x + 26} 1000 v8 M${x - 18} 1036 Q${x} 1046 ${x + 18} 1036` });
+            add(gcl, "circle", { class: "ink thin solid", "data-draw": i * 0.3 + 0.8, "data-dur": 0.25, cx: x, cy: 918, r: 10 });
+            add(gcl, "path", { class: "ink thin solid", "data-draw": 1.6 + i * 0.3, "data-dur": 0.35, d: `M${x + 84} 994 A28 8 0 0 1 ${x + 140} 994 V1030 A28 8 0 0 1 ${x + 84} 1030 Z M${x + 84} 994 A28 8 0 0 0 ${x + 140} 994` });
+            const c = document.createElement("span");
+            c.className = "cache"; c.style.left = x + 52 + "px"; c.textContent = "Cache";
+            q(".caches").appendChild(c);
+            const w = document.createElement("span");
+            w.className = "who"; w.style.left = x - 100 + "px"; w.textContent = "Client";
+            q(".whos").appendChild(w);
+          });
+
+          // files: a page with a folded corner; one or two ride each wire down into that client's cache
+          const filesEl = q(".files"), flights = [];
+          CX.forEach((x, i) => {
+            for (let k = 0; k < FILES[i]; k++) {
+              const f = document.createElement("div");
+              f.className = "file";
+              f.innerHTML = '<svg viewBox="0 0 34 42"><path d="M2 2 H22 L32 12 V40 H2 Z"/><path d="M22 2 V12 H32 M8 22 H26 M8 30 H22"/></svg>';
+              filesEl.appendChild(f);
+              flights.push({ f, P: wire(x), land: [x + 112 + (k ? 12 : -6), 968 - k * 10] });
+            }
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+
+          // "So they built Scion, their own version control system."
+          Egg.fadeUp(tl, q(".name"), 0.5, { y: 40 });
+          Egg.draw(tl, q(".g-rack"), 0.9, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".def"), 1.8, { y: 16 });
+
+          // "The server holds the code and does the heavy work: history, commits, merges."
+          tl.fromTo(q(".g-rack"), { scale: 1 }, { scale: 1.05, transformOrigin: "50% 50%", duration: 0.22, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, V.b + 0.25);
+          [[".c1", ".lk1", 6.1], [".c3", ".lk3", 6.85], [".c2", ".lk2", 7.6]].forEach(([c, l, t]) => {
+            Egg.pop(tl, q(c), t, { dur: 0.45 });
+            Egg.draw(tl, q(l), t + 0.05);
+          });
+
+          // "Clients keep a small cache and ask for the rest."
+          Egg.draw(tl, gw, V.c, { gap: 0.4 });
+          Egg.draw(tl, gcl, V.c + 0.1, { gap: 0.4 });
+          Egg.fadeUp(tl, root.querySelectorAll(".who"), V.c + 0.5, { y: 12, stagger: 0.08 });
+          Egg.fadeUp(tl, root.querySelectorAll(".cache"), V.c + 0.9, { y: 10, stagger: 0.08 });
+          flights.forEach(({ f, P, land }, j) => {
+            const t0 = V.c + 3.8 + j * 0.2;
+            const pts = [0.25, 0.5, 0.75, 1].map((t) => bez(P, t));
+            gsap.set(f, { x: P[0][0] - 17, y: P[0][1] - 21, opacity: 0 });
+            tl.to(f, { opacity: 1, duration: 0.12, ease: "none" }, t0);
+            tl.to(f, { keyframes: pts.map(([x, y]) => ({ x: x - 17, y: y - 21, duration: 0.15, ease: "none" })) }, t0);
+            tl.to(f, { x: land[0] - 17, y: land[1] - 21, scale: 0.8, duration: 0.3, ease: Egg.EASE.move }, t0 + 0.6);
+          });
+          Egg.fadeUp(tl, q(".defn"), V.c + 2.2, { y: 12 });
+          Egg.fadeUp(tl, q(".egg-label"), V.c + 5.2);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".name"), q(".def"), q(".egg-svg"), ...root.querySelectorAll(".chip"), q(".whos"), q(".caches"), filesEl, q(".defn"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s07-scion"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.3},
+      {"t":1.45,"sfx":"sparkle","vol":0.18,"dur":1.0},
+      {"t":2.2,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. "Why did Anthropic replace git?" (git highlighted) and what git is, in plain words. The avatar
+           peeks in large under it (narrator.html "title"), so the body line stays narrow and left.
+           Voiceover: 0.2 "Why did Anthropic stop using git, and what did they build instead?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
+        .s01 .egg-display .w { display: inline-block; }
+        .s01 .egg-body { max-width: 500px; color: var(--graphite); }
+        .s01 .egg-body b { font-weight: 500; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s01-title" data-width="1080" data-height="1920">
+        <div class="egg-scene s01">
+          <div class="egg-safe">
+            <span class="egg-eyebrow">Inside Anthropic · Oct 2026</span>
+            <h1 class="egg-display"><span class="w">Why</span> <span class="w">did</span> <span class="w">Anthropic</span> <span class="w">replace</span> <span class="w"><span class="egg-hl">git</span>?</span></h1>
+            <p class="egg-body"><b>Git:</b> the tool that tracks every version of code.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.7;
+          const root = document.querySelector('[data-composition-id="s01-title"] .s01');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.15);
+          Egg.fadeUp(tl, root.querySelectorAll(".egg-display .w"), 0.3, { y: 60, stagger: 0.07, dur: 0.6 });
+          Egg.highlight(tl, q(".egg-hl"), 1.45);
+          Egg.fadeUp(tl, q(".egg-body"), 2.2, { y: 20 });
+          Egg.fadeOut(tl, q(".egg-safe"), DUR - 0.35);
+          window.__timelines["s01-title"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.12},
+      {"t":0.6,"sfx":"click-soft","vol":0.16},
+      {"t":1.3,"sfx":"whoosh-short","vol":0.14},
+      {"t":2.8,"sfx":"pop","vol":0.18},
+      {"t":3.25,"sfx":"pop","vol":0.18},
+      {"t":4.3,"sfx":"click-soft","vol":0.16},
+      {"t":5.8,"sfx":"pop","vol":0.22},
+      {"t":6.5,"sfx":"click","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · Fetching only what you need. The whole folder tree sits on the server (dashed); a client asks, and only
+           the path it needs turns to solid ink, from the top down (all code → api). Then a program reads one file and
+           only that file arrives (server.py); its neighbour stays on the server. Legend: dashed = on the server, solid =
+           on this machine. Label: "Download only what you read." (the post: the client "checks its local store for
+           missing trees and requests them recursively, then repeats the process for blobs"; "sparse checkouts, which only
+           contain the directories the client asks for, and virtualized checkouts, which materialize files on demand").
+           Folder and file names are illustrative. Avatar: corner (narrator.html).
+           Voiceover: V.a "A client asks only for the folders it needs, starting from the top." V.b "Some files arrive
+           only when a program reads them." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s09 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s09 .srv { fill: none; stroke: var(--ash); stroke-width: 4; stroke-dasharray: 10 9; stroke-linejoin: round; stroke-linecap: round; }
+        .s09 .loc { fill: var(--eggshell); }
+        .s09 .nl { position: absolute; width: 200px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--graphite); }
+        .s09 .nl.in { font-size: 24px; }
+        .s09 .who { position: absolute; left: 110px; width: 140px; top: 612px; text-align: center; font: 400 32px/1 var(--f-body); color: var(--smoke); }
+        .s09 .prog { position: absolute; left: 90px; top: 1096px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 14px 22px; white-space: nowrap; }
+        .s09 .legend { position: absolute; left: 90px; width: 860px; top: 1206px; display: flex; justify-content: center; gap: 56px; font: 400 32px/1 var(--f-body); color: var(--graphite); }
+        .s09 .legend span { display: inline-flex; align-items: center; gap: 16px; }
+        .s09 .legend i { display: inline-block; width: 46px; height: 32px; border-radius: 6px; }
+        .s09 .legend .d i { border: 4px dashed var(--ash); }
+        .s09 .legend .s i { border: 4px solid var(--ink); }
+        .s09 .egg-label { position: absolute; left: 90px; width: 860px; top: 1290px; }
+      </style>
+      <div id="root" data-composition-id="s09-fetch" data-width="1080" data-height="1920">
+        <div class="egg-scene s09">
+          <span class="egg-eyebrow">3 · How it works</span>
+          <span class="cap">Getting files</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-srv"></g>
+            <g class="g-client">
+              <path class="ink solid loc" data-draw="0" data-dur="0.45" d="M144 520 H216 Q236 520 236 540 V580 Q236 600 216 600 H144 Q124 600 124 580 V540 Q124 520 144 520 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.25" d="M160 548 v8 M200 548 v8 M166 574 Q180 582 194 574" />
+            </g>
+            <g class="g-ask"><path class="ink thin" data-draw="0" data-dur="0.5" d="M248 560 H456 M440 548 L456 560 L440 572" /></g>
+            <g class="g-loc1"></g>
+            <g class="g-loc2"></g>
+            <g class="g-loc3"></g>
+            <g class="g-read"><path class="ink thin" data-draw="0" data-dur="0.5" d="M176 1090 L298 926 M282 931 L298 926 L300 943" /></g>
+          </svg>
+          <span class="who">Client</span>
+          <div class="labels"></div>
+          <span class="prog">▶ program reads it</span>
+          <div class="legend"><span class="d"><i></i>On the server</span><span class="s"><i></i>On this machine</span></div>
+          <p class="egg-label">Download only what you read.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.4;
+          const V = { a: 0.1, b: 4.1 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s09-fetch"] .s09');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+          const folder = (cx, cy) => { const x = cx - 75, y = cy - 38; return `M${x} ${y} H${x + 50} L${x + 60} ${y + 10} H${x + 150} V${y + 76} H${x} Z`; };
+          const file = (cx, cy) => { const x = cx - 30, y = cy - 38; return `M${x} ${y} H${x + 42} L${x + 60} ${y + 18} V${y + 76} H${x} Z M${x + 42} ${y} V${y + 18} H${x + 60}`; };
+          const elbow = (x1, y1, x2, y2) => `M${x1} ${y1} V${(y1 + y2) / 2} H${x2} V${y2}`;
+          // [id, kind, cx, cy, label, parent]
+          const N = [
+            ["root", "folder", 540, 560, "all code"],
+            ["research", "folder", 200, 740, "research", "root"],
+            ["api", "folder", 420, 740, "api", "root"],
+            ["docs", "folder", 660, 740, "docs", "root"],
+            ["infra", "folder", 870, 740, "infra", "root"],
+            ["r1", "folder", 200, 920, "…", "research"],
+            ["server", "file", 340, 920, "server.py", "api"],
+            ["auth", "file", 500, 920, "auth.py", "api"],
+            ["d1", "file", 660, 920, "…", "docs"],
+            ["i1", "folder", 870, 920, "…", "infra"],
+          ];
+          const byId = Object.fromEntries(N.map((n) => [n[0], n]));
+          const shape = (n) => (n[1] === "folder" ? folder(n[2], n[3]) : file(n[2], n[3]));
+          const edge = (n) => { const p = byId[n[5]]; return elbow(p[2], p[3] + 38, n[2], n[3] - 38); };
+          const add = (g, attrs) => { const e = document.createElementNS(NS, "path"); for (const k in attrs) e.setAttribute(k, attrs[k]); g.appendChild(e); return e; };
+
+          // the whole tree on the server, dashed
+          const srv = [];
+          N.forEach((n) => {
+            if (n[5]) srv.push(add(q(".g-srv"), { class: "srv", d: edge(n) }));
+            srv.push(add(q(".g-srv"), { class: "srv", d: shape(n) }));
+            const l = document.createElement("span");
+            // folder names sit inside the folder (edges leave from its bottom); file names go under the file
+            l.className = "nl" + (n[1] === "folder" ? " in" : ""); l.style.left = n[2] - 100 + "px"; l.style.top = n[3] + (n[1] === "folder" ? -4 : 50) + "px"; l.textContent = n[4];
+            q(".labels").appendChild(l);
+          });
+          // what this client fetches, in solid ink: all code → api, then server.py when a program reads it
+          const local = (g, ids) => ids.forEach((id, k) => {
+            const n = byId[id];
+            if (n[5]) add(q(g), { class: "ink thin", "data-draw": k, "data-dur": 0.3, d: edge(n) });
+            add(q(g), { class: "ink thin loc", "data-draw": k + 0.6, "data-dur": 0.35, d: shape(n) });
+          });
+          local(".g-loc1", ["root"]);
+          local(".g-loc2", ["api"]);
+          local(".g-loc3", ["server"]);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+          tl.fromTo(srv, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none", stagger: 0.04 }, 0.3);
+          tl.fromTo(root.querySelectorAll(".nl"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none", stagger: 0.04 }, 0.5);
+          tl.fromTo(q(".legend .d"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 1.0);
+          gsap.set(q(".legend .s"), { opacity: 0 });
+
+          // "A client asks only for the folders it needs, starting from the top."
+          Egg.draw(tl, q(".g-client"), 0.5, { gap: 0.4 });
+          Egg.fadeUp(tl, q(".who"), 0.7, { y: 10 });
+          Egg.draw(tl, q(".g-ask"), 1.3);
+          Egg.draw(tl, q(".g-loc1"), 2.6, { gap: 0.3 });
+          Egg.draw(tl, q(".g-loc2"), 3.05, { gap: 0.3 });
+          tl.to(q(".legend .s"), { opacity: 1, duration: 0.3, ease: "none" }, 3.4);
+
+          // "Some files arrive only when a program reads them."
+          Egg.pop(tl, q(".prog"), V.b + 0.2, { dur: 0.45 });
+          Egg.draw(tl, q(".g-read"), V.b + 0.9);
+          Egg.draw(tl, q(".g-loc3"), V.b + 1.55, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".egg-label"), V.b + 2.4);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".who"), q(".labels"), q(".prog"), q(".legend"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s09-fetch"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

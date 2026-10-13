@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.16},
+      {"t":0.66,"sfx":"click-soft","vol":0.16},
+      {"t":1.02,"sfx":"click-soft","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.16},
+      {"t":2.25,"sfx":"sparkle","vol":0.18,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s16 · How they built it. Seven ink figures draw in under "7 people · 5 months"; the Claude logo pops on "with
+           Claude" (the post: "A team of seven people built both Scion and Antique … and fully migrated to them in five
+           months"). Avatar: corner (narrator.html); the title stays left of x 830.
+           Voiceover: V.a "Seven people built it in five months, with Claude." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s16 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s16 .egg-title { position: absolute; left: 90px; width: 740px; top: 292px; }
+        .s16 .egg-title span { display: inline-block; }
+        .s16 .logo { position: absolute; left: 465px; top: 830px; width: 150px; height: 150px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s16 .with { position: absolute; left: 90px; width: 860px; top: 1010px; text-align: center; font: 400 36px/1.2 var(--f-body); color: var(--graphite); }
+      </style>
+      <div id="root" data-composition-id="s16-team" data-width="1080" data-height="1920">
+        <div class="egg-scene s16">
+          <span class="egg-eyebrow">6 · How they built it</span>
+          <h2 class="egg-title"><span class="p1">7 people</span> <span class="p2">· 5 months</span></h2>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true"><g class="g-team"></g></svg>
+          <div class="logo"></div>
+          <p class="with">with Claude</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6;
+          const V = { a: 0.1 };   // voice line start (scene seconds)
+          const root = document.querySelector('[data-composition-id="s16-team"] .s16');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+
+          // seven figures: a head and shoulders each, drawn left to right
+          const gt = q(".g-team");
+          for (let i = 0; i < 7; i++) {
+            const x = 195 + i * 115;
+            const add = (tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); gt.appendChild(e); };
+            add("circle", { class: "ink thin", cx: x, cy: 610, r: 30, "data-draw": i * 0.3, "data-dur": 0.3 });
+            add("path", { class: "ink thin", d: `M${x - 46} 760 V718 Q${x - 46} 668 ${x} 668 Q${x + 46} 668 ${x + 46} 718 V760`, "data-draw": i * 0.3 + 0.4, "data-dur": 0.35 });
+          }
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+
+          // "Seven people built it in five months, with Claude."
+          Egg.fadeUp(tl, q(".p1"), 0.25, { y: 30 });
+          Egg.draw(tl, gt, 0.3, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".p2"), 1.5, { y: 30 });
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 2.25);
+          tl.to(q(".logo"), { rotation: 45, duration: 2.0, ease: "power1.inOut" }, 2.8);
+          Egg.fadeUp(tl, q(".with"), 2.45, { y: 12 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".egg-title"), q(".egg-svg"), q(".logo"), q(".with")], DUR - 0.35);
+          window.__timelines["s16-team"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

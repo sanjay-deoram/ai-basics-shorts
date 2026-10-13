@@ -1,0 +1,56 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.2, "text": "Why did Anthropic stop using git, and what did they build instead?" },
+    { "scene": "s02", "at": 0.1, "text": "In May, they merged 2,500 code changes a day." },
+    { "scene": "s02", "at": 4.1, "text": "With Claude, by September: over 30,000." },
+    { "scene": "s02", "at": 7.6, "text": "The bottleneck became tools built for humans, like git." },
+    { "scene": "s03", "at": 0.1, "text": "Git gives every copy the whole project and its entire history." },
+    { "scene": "s03", "at": 4.15, "text": "So you can work offline. For most projects, that's perfect." },
+    { "scene": "s04", "at": 0.1, "text": "But all of Anthropic's code lives in one giant project, with almost 100 gigabytes of history." },
+    { "scene": "s04", "at": 6.65, "text": "Each copy is over 25 gigabytes, and test jobs check out code 25 million times a day." },
+    { "scene": "s05", "at": 0.1, "text": "Hundreds of git mirrors and snapshots bought them time, but got harder to run as merges sped up." },
+    { "scene": "s06", "at": 0.1, "text": "Then they noticed: almost every user was an agent or an automated job, always online." },
+    { "scene": "s06", "at": 5.95, "text": "So why give each one a full copy?" },
+    { "scene": "s07", "at": 0.1, "text": "So they built Scion, their own version control system." },
+    { "scene": "s07", "at": 3.45, "text": "The server holds the code and does the heavy work: history, commits, merges." },
+    { "scene": "s07", "at": 8.4, "text": "Each client keeps a small cache, a local copy of what it already fetched, and asks the server for the rest." },
+    { "scene": "s08", "at": 0.1, "text": "Every change is saved as a changeset: just the files that changed, with links to their contents." },
+    { "scene": "s08", "at": 6.15, "text": "Each link is made from the content itself, so the data never changes and any cache can keep it." },
+    { "scene": "s09", "at": 0.1, "text": "A client asks only for the folders it needs, starting from the top." },
+    { "scene": "s09", "at": 4.1, "text": "Some files arrive only when a program reads them." },
+    { "scene": "s10", "at": 0.1, "text": "When a job needs data, it looks nearest first." },
+    { "scene": "s10", "at": 3.4, "text": "First, scion-daemon: a cache on its own machine, shared by every job running there." },
+    { "scene": "s10", "at": 9.15, "text": "Next, scion-cache: servers in the same region that keep data ready in memory." },
+    { "scene": "s10", "at": 14.35, "text": "Last, the main scion servers: the source of truth, reading from the database and cloud storage." },
+    { "scene": "s10", "at": 20.25, "text": "Each layer answers over 99 percent of requests itself." },
+    { "scene": "s11", "at": 0.1, "text": "It needs 200 times less computing than their old git mirrors," },
+    { "scene": "s11", "at": 3.9, "text": "and checkouts take seconds, not minutes." },
+    { "scene": "s12", "at": 0.1, "text": "Many jobs never copy the code. They just ask the server, like: what changed in this commit?" },
+    { "scene": "s12", "at": 5.8, "text": "Tools that find and undo bad changes work the same way." },
+    { "scene": "s13", "at": 0.1, "text": "With so many changes, making each one wait its turn doesn't work." },
+    { "scene": "s13", "at": 3.85, "text": "So changes land first, and tests run after." },
+    { "scene": "s13", "at": 6.8, "text": "If two clash, Claude usually fixes it before a human would notice." },
+    { "scene": "s14", "at": 0.1, "text": "The catch: a Scion client can't do much without the server." },
+    { "scene": "s14", "at": 3.6, "text": "Branches are discouraged, and code review, search and testing had to be rebuilt." },
+    { "scene": "s14", "at": 8.75, "text": "In return: far less data per copy, and a system that grows by adding machines." },
+    { "scene": "s15", "at": 0.1, "text": "So Anthropic says Scion isn't for most teams, only for giant codebases with swarms of agents." },
+    { "scene": "s15", "at": 6.5, "text": "Instead, they're sharing ideas that git could borrow." },
+    { "scene": "s16", "at": 0.1, "text": "Seven people built it in five months, with Claude." },
+    { "scene": "s17", "at": 0.1, "text": "Git copies everything. Scion asks only for what it needs. Follow for more AI basics." }
+  ]
+}

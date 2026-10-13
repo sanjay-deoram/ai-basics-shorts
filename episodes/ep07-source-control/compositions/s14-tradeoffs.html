@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.16},
+      {"t":0.9,"sfx":"click-soft","vol":0.14},
+      {"t":2.0,"sfx":"pop","vol":0.18},
+      {"t":3.75,"sfx":"pop","vol":0.18},
+      {"t":5.3,"sfx":"pop","vol":0.18},
+      {"t":9.8,"sfx":"pop","vol":0.2},
+      {"t":11.6,"sfx":"pop","vol":0.2},
+      {"t":12.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":12.6,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s14 · The tradeoffs. An ink balance scale; under it two columns, "They gave up" and "They got". Each item
+           appears as the voice names it, and the scale tips: first toward what they gave up, then, "in return", toward
+           what they got. Gave up: working without the server (the post: the client "can compute very little on its own
+           but, in exchange, it requires much less data locally"), branches, mostly ("discourages refs … except for the
+           main ref or release branches"), git's tools ("it requires its own code review, code search, and CI"). Got: far
+           less data per copy, growth by adding machines ("every component is independently scalable"), checkouts in
+           seconds. Avatar: corner (narrator.html).
+           Voiceover: V.a "The catch: a Scion client can't do much without the server." V.b "Branches are discouraged, and
+           code review, search and testing had to be rebuilt." V.c "In return: far less data per copy, and a system that
+           grows by adding machines." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s14 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s14 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s14 .solid { fill: var(--eggshell); }
+        .s14 .col { position: absolute; top: 770px; width: 400px; display: flex; flex-direction: column; gap: 34px; }
+        .s14 .col.l { left: 90px; }
+        .s14 .col.r { left: 550px; }
+        .s14 .col .k { font: 400 26px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s14 .it { display: flex; gap: 18px; align-items: flex-start; font: 400 38px/1.25 var(--f-body); color: var(--ink); }
+        .s14 .it i { flex: none; width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--ink); display: grid; place-items: center; font: 300 38px/1 var(--f-display); font-style: normal; color: var(--ink); margin-top: 0; }
+        .s14 .col.r .it i { background: var(--ink); color: var(--eggshell); }
+      </style>
+      <div id="root" data-composition-id="s14-tradeoffs" data-width="1080" data-height="1920">
+        <div class="egg-scene s14">
+          <span class="egg-eyebrow">5 · The tradeoffs</span>
+          <span class="cap">What they gave up, and what they got</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-stand">
+              <path class="ink" data-draw="0" data-dur="0.4" d="M540 566 V712 M470 712 H610" />
+              <path class="ink thin solid" data-draw="0.5" data-dur="0.3" d="M540 540 L562 572 H518 Z" />
+            </g>
+            <g class="g-beam">
+              <path class="ink" data-draw="0" data-dur="0.5" d="M300 560 H780" />
+              <path class="ink thin" data-draw="1" data-dur="0.3" d="M300 560 L250 640 M300 560 L350 640 M780 560 L730 640 M780 560 L830 640" />
+              <path class="ink thin solid" data-draw="1.6" data-dur="0.35" d="M236 640 H364 Q356 676 300 676 Q244 676 236 640 Z M716 640 H844 Q836 676 780 676 Q724 676 716 640 Z" />
+            </g>
+          </svg>
+          <div class="col l">
+            <span class="k">They gave up</span>
+            <div class="it g1"><i>−</i><span>Working without the server</span></div>
+            <div class="it g2"><i>−</i><span>Branches, mostly</span></div>
+            <div class="it g3"><i>−</i><span>Git's tools: review, search, testing</span></div>
+          </div>
+          <div class="col r">
+            <span class="k">They got</span>
+            <div class="it w1"><i>+</i><span>Far less data per copy</span></div>
+            <div class="it w2"><i>+</i><span>Grows by adding machines</span></div>
+            <div class="it w3"><i>+</i><span>Checkouts in seconds</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 14.6;
+          const V = { a: 0.1, b: 3.6, c: 8.75 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s14-tradeoffs"] .s14');
+          const q = (s) => root.querySelector(s);
+          const beam = q(".g-beam");
+          const tip = (deg, at) => tl.to(beam, { rotation: deg, svgOrigin: "540 560", duration: 0.7, ease: Egg.EASE.rise }, at);
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+          Egg.draw(tl, q(".g-stand"), 0.3, { gap: 0.4 });
+          Egg.draw(tl, beam, 0.5, { gap: 0.4 });
+          Egg.fadeUp(tl, root.querySelectorAll(".col .k"), 0.9, { y: 12, stagger: 0.12 });
+
+          // "The catch: a Scion client can't do much without the server."
+          Egg.fadeUp(tl, q(".g1"), 2.0, { y: 16 });
+          tip(-4, 2.1);
+          // "Branches are discouraged, and code review, search and testing had to be rebuilt."
+          Egg.fadeUp(tl, q(".g2"), V.b + 0.15, { y: 16 });
+          tip(-7, V.b + 0.25);
+          Egg.fadeUp(tl, q(".g3"), V.b + 1.7, { y: 16 });
+          tip(-9, V.b + 1.8);
+          // "In return: far less data per copy, and a system that grows by adding machines."
+          Egg.fadeUp(tl, q(".w1"), V.c + 1.05, { y: 16 });
+          tip(-3, V.c + 1.15);
+          Egg.fadeUp(tl, q(".w2"), V.c + 2.85, { y: 16 });
+          tip(4, V.c + 3.25);
+          Egg.fadeUp(tl, q(".w3"), V.c + 3.85, { y: 16 });
+          tip(8, V.c + 3.95);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".col.l"), q(".col.r")], DUR - 0.35);
+          window.__timelines["s14-tradeoffs"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"typing","vol":0.14,"dur":0.9},
+      {"t":1.5,"sfx":"click-soft","vol":0.16},
+      {"t":1.75,"sfx":"pop","vol":0.16},
+      {"t":3.4,"sfx":"whoosh","vol":0.18},
+      {"t":3.6,"sfx":"error","vol":0.1,"dur":0.6},
+      {"t":4.6,"sfx":"click","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · The workarounds. A grid of small ink racks pops in ("hundreds of git mirrors"), then a timeline: a
+           snapshot pinned in place while the newest code races away from it, the gap growing ("falls behind"); the
+           mirror grid shudders as merges speed up. Label: "Bought time, but harder and harder to run." (the post: "at our
+           peak, we operated several hundred internal git mirrors … This bought us time, but they became harder to operate
+           as our merge rate increased. Seeds fell further from the tip of main between refreshes.") Avatar: corner.
+           Voiceover: V.a "Hundreds of git mirrors and snapshots bought them time, but got harder to run as merges sped up." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s05 .rk rect { fill: var(--eggshell); stroke: var(--ink); stroke-width: 4; }
+        .s05 .rk path { fill: none; stroke: var(--ink); stroke-width: 3; stroke-linecap: round; }
+        .s05 .rk circle { fill: var(--ink); }
+        .s05 .kick { position: absolute; left: 90px; width: 860px; text-align: center; font: 400 28px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s05 .kick.k1 { top: 790px; }
+        .s05 .tline { position: absolute; left: 150px; top: 978px; width: 760px; height: 5px; border-radius: 3px; background: var(--ink); transform-origin: 0 50%; }
+        .s05 .snap { position: absolute; left: 200px; width: 200px; top: 870px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s05 .tip { position: absolute; left: 0; top: 0; width: 1px; height: 1px; }
+        .s05 .tip i { position: absolute; left: -12px; top: 968px; width: 24px; height: 24px; border-radius: 50%; background: var(--ink); }
+        .s05 .tip b { position: absolute; left: -110px; width: 220px; top: 926px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; font-weight: 400; color: var(--ink); white-space: nowrap; }
+        .s05 .tip s { position: absolute; left: -2px; top: 1010px; width: 4px; height: 26px; background: var(--ink); }
+        .s05 .gap { position: absolute; left: 300px; top: 1021px; width: 580px; height: 4px; background: var(--ink); transform-origin: 0 50%; }
+        .s05 .gap-l { position: absolute; left: 298px; top: 1010px; width: 4px; height: 26px; background: var(--ink); }
+        .s05 .behind { position: absolute; left: 300px; width: 580px; top: 1052px; text-align: center; font: 400 36px/1.2 var(--f-body); color: var(--graphite); }
+        .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1180px; }
+      </style>
+      <div id="root" data-composition-id="s05-mirrors" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <span class="egg-eyebrow">1 · Why they left git</span>
+          <span class="cap">The workarounds</span>
+          <svg class="egg-svg grid" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+          <span class="kick k1">Hundreds of git mirrors</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-snap">
+              <path class="ink thin" data-draw="0" data-dur="0.3" d="M282 912 A18 6 0 0 1 318 912 V940 A18 6 0 0 1 282 940 Z" />
+              <path class="ink thin" data-draw="0.5" data-dur="0.2" d="M300 946 V976" />
+            </g>
+          </svg>
+          <div class="tline"></div>
+          <span class="snap">Snapshot</span>
+          <div class="gap-l"></div>
+          <div class="gap"></div>
+          <div class="tip"><i></i><b>Newest code</b><s></s></div>
+          <span class="behind">falls further behind</span>
+          <p class="egg-label">Bought time, but harder and harder to run.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.0;
+          const V = { a: 0.1 };   // voice line start (scene seconds)
+          const root = document.querySelector('[data-composition-id="s05-mirrors"] .s05');
+          const q = (s) => root.querySelector(s);
+
+          // 7 × 4 small racks: the mirrors
+          const grid = q(".grid");
+          let html = "";
+          for (let r = 0; r < 4; r++) for (let c = 0; c < 7; c++) {
+            const x = 173 + c * 108, y = 520 + r * 66;
+            html += `<g class="rk"><rect x="${x}" y="${y}" width="86" height="44" rx="7"/><path d="M${x + 14} ${y + 22} H${x + 50}"/><circle cx="${x + 68}" cy="${y + 22}" r="5"/></g>`;
+          }
+          grid.innerHTML = html;
+          const racks = [...grid.querySelectorAll(".rk")];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+
+          // "Hundreds of git mirrors"
+          tl.fromTo(racks, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, transformOrigin: "50% 50%", duration: 0.35, ease: Egg.EASE.pop, stagger: 0.03 }, 0.25);
+          Egg.fadeUp(tl, q(".k1"), 1.0, { y: 12 });
+
+          // "and snapshots bought them time,"
+          tl.fromTo(q(".tline"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: Egg.EASE.draw }, 1.5);
+          Egg.draw(tl, q(".g-snap"), 1.75);
+          Egg.fadeUp(tl, q(".snap"), 1.8, { y: 10 });
+          gsap.set(q(".tip"), { x: 440 });
+          Egg.pop(tl, q(".tip i"), 2.1, { dur: 0.4 });
+          Egg.fadeUp(tl, q(".tip b"), 2.2, { y: 10 });
+          tl.fromTo([q(".gap-l"), q(".tip s")], { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 2.3);
+          tl.fromTo(q(".gap"), { scaleX: 140 / 580, opacity: 0 }, { scaleX: 140 / 580, opacity: 1, duration: 0.2, ease: "none" }, 2.3);
+
+          // "but got harder to run as merges sped up." The newest code races away; the mirrors shudder.
+          tl.to(q(".tip"), { x: 880, duration: 1.8, ease: "power2.in" }, 3.4);
+          tl.to(q(".gap"), { scaleX: 1, duration: 1.8, ease: "power2.in" }, 3.4);
+          Egg.fadeUp(tl, q(".behind"), 4.6, { y: 12 });
+          Egg.shake(tl, grid, 3.6);
+          Egg.shake(tl, grid, 4.4);
+          Egg.fadeUp(tl, q(".egg-label"), 4.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), ...root.querySelectorAll(".egg-svg, .kick, .tline, .snap, .gap-l, .gap, .tip, .behind"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s05-mirrors"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

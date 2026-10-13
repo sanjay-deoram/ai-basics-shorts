@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.16},
+      {"t":1.3,"sfx":"click-soft","vol":0.14},
+      {"t":1.8,"sfx":"click-soft","vol":0.14},
+      {"t":3.3,"sfx":"pop","vol":0.16},
+      {"t":4.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.9,"sfx":"ping","vol":0.12,"dur":0.8},
+      {"t":6.1,"sfx":"click-soft","vol":0.16},
+      {"t":7.2,"sfx":"error","vol":0.14,"dur":0.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · The insight. One rack ("Main copy": they already used git as one central, authoritative copy) and five
+           users drawn under it: agents and jobs. Wires connect them all and their antenna lights blink: "Always online".
+           Then a big "Full copy · 25 GB+" drum appears and is crossed out. Label: "So why give each one a full copy?"
+           (the post: "nearly all of our clients were agents and jobs that are online by definition … if we designed
+           source control with the fact that agents are always online in mind from the start, what would it look like?")
+           Avatar: corner (narrator.html).
+           Voiceover: V.a "Then they noticed: almost every user was an agent or an automated job, always online." V.b "So
+           why give each one a full copy?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s06 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s06 .solid { fill: var(--eggshell); }
+        .s06 .rack-name { font: 400 26px var(--f-mono); letter-spacing: 0.1em; fill: var(--ink); text-anchor: middle; }
+        .s06 .who { position: absolute; width: 220px; top: 1000px; text-align: center; font: 400 32px/1 var(--f-body); color: var(--smoke); }
+        .s06 .chip { position: absolute; top: 708px; left: 90px; width: 860px; display: flex; justify-content: center; }
+        .s06 .chip span { font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 12px 20px; }
+        .s06 .full { position: absolute; left: 672px; top: 1106px; font: 400 36px/1.25 var(--f-body); color: var(--ink); }
+        .s06 .full small { display: block; font: 400 24px/1.3 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s06 .egg-label { position: absolute; left: 90px; width: 860px; top: 1290px; }
+      </style>
+      <div id="root" data-composition-id="s06-online" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <span class="egg-eyebrow">1 · Why they left git</span>
+          <span class="cap">What they noticed</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-wires"></g>
+            <g class="g-rack">
+              <path class="ink solid" data-draw="0" data-dur="0.6" d="M456 520 H624 Q640 520 640 536 V624 Q640 640 624 640 H456 Q440 640 440 624 V536 Q440 520 456 520 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.3" d="M440 580 H640" />
+              <text class="rack-name" data-draw="1.5" x="540" y="560">MAIN</text>
+              <text class="rack-name" data-draw="1.7" x="540" y="620">COPY</text>
+            </g>
+            <g class="g-users"></g>
+            <g class="g-full">
+              <path class="ink solid" data-draw="0" data-dur="0.45" d="M440 1100 A90 22 0 0 1 620 1100 V1190 A90 22 0 0 1 440 1190 Z" />
+              <path class="ink" data-draw="0.8" data-dur="0.25" d="M440 1100 A90 22 0 0 0 620 1100" />
+            </g>
+            <g class="g-x"><path class="ink" data-draw="0" data-dur="0.2" d="M416 1066 L644 1230" /><path class="ink" data-draw="0.5" data-dur="0.2" d="M644 1066 L416 1230" /></g>
+          </svg>
+          <div class="chip"><span>Always online</span></div>
+          <div class="whos"></div>
+          <p class="full">Full copy<small>25 GB+ each</small></p>
+          <p class="egg-label">So why give each one a full copy?</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.0;
+          const V = { a: 0.1, b: 5.95 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s06-online"] .s06');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+          const UX = [190, 365, 540, 715, 890], WHO = ["Agent", "CI job", "Agent", "Research job", "Agent"];
+          const add = (g, tag, attrs) => { const e = document.createElementNS(NS, tag); for (const k in attrs) e.setAttribute(k, attrs[k]); g.appendChild(e); return e; };
+
+          // five users: a rounded box with eyes and a smile, an antenna with a light; a wire from the rack to each light
+          const gu = q(".g-users"), gw = q(".g-wires"), lights = [];
+          UX.forEach((x, i) => {
+            add(gu, "path", { class: "ink solid", "data-draw": i * 0.3, "data-dur": 0.45, d: `M${x - 44} 880 H${x + 44} Q${x + 60} 880 ${x + 60} 896 V964 Q${x + 60} 980 ${x + 44} 980 H${x - 44} Q${x - 60} 980 ${x - 60} 964 V896 Q${x - 60} 880 ${x - 44} 880 Z` });
+            add(gu, "path", { class: "ink thin", "data-draw": i * 0.3 + 0.6, "data-dur": 0.25, d: `M${x} 880 V853 M${x - 22} 916 v8 M${x + 22} 916 v8 M${x - 16} 948 Q${x} 958 ${x + 16} 948` });
+            lights.push(add(gu, "circle", { class: "ink thin solid", "data-draw": i * 0.3 + 0.9, "data-dur": 0.2, cx: x, cy: 844, r: 9 }));
+            add(gw, "path", { class: "ink thin", "data-draw": i * 0.15, "data-dur": 0.4, d: `M540 640 C540 740 ${x} 730 ${x} 835` });
+            const w = document.createElement("span");
+            w.className = "who"; w.style.left = x - 110 + "px"; w.textContent = WHO[i];
+            q(".whos").appendChild(w);
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+
+          // "Then they noticed: almost every user was an agent or an automated job, always online."
+          Egg.draw(tl, q(".g-rack"), 0.3, { gap: 0.3 });
+          Egg.draw(tl, gu, 1.3, { gap: 0.4 });
+          Egg.fadeUp(tl, root.querySelectorAll(".who"), 3.3, { y: 12, stagger: 0.08 });
+          Egg.draw(tl, gw, 4.6, { gap: 0.4 });
+          lights.forEach((l, i) => tl.to(l, { scale: 1.6, transformOrigin: "50% 50%", duration: 0.16, ease: "power2.out", yoyo: true, repeat: 3 }, 4.9 + i * 0.06));
+          Egg.pop(tl, q(".chip span"), 4.95, { dur: 0.45 });
+
+          // "So why give each one a full copy?"
+          Egg.draw(tl, q(".g-full"), V.b + 0.15, { gap: 0.4 });
+          Egg.fadeUp(tl, q(".full"), V.b + 0.45, { y: 12 });
+          Egg.draw(tl, q(".g-x"), V.b + 1.2, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".egg-label"), V.b + 1.4);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".chip"), q(".whos"), q(".full"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s06-online"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.14},
+      {"t":0.9,"sfx":"click-soft","vol":0.14},
+      {"t":1.7,"sfx":"click","vol":0.16},
+      {"t":3.5,"sfx":"click","vol":0.16},
+      {"t":5.3,"sfx":"typing","vol":0.12,"dur":0.7},
+      {"t":7.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":7.5,"sfx":"pop","vol":0.16},
+      {"t":7.8,"sfx":"pop","vol":0.16},
+      {"t":8.1,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s15 · Who it's for. Codebases drawn as circles from small to giant. A bracket under the small ones: "Most teams:
+           git is the right fit"; one under the giant one: "Scion" (giant codebases, swarms of agents: small dots gather
+           round it). Then "Ideas git could borrow" with three chips (the post: "Scion is by no means a suitable
+           replacement for git for general use … only make sense for truly enormous monorepos, with either tens of
+           thousands of engineers or swarms of agents"; and git could gain "novel server architectures", "comprehensive
+           server-side RPCs", and "sparse and shallow features … made to compose well"). Avatar: corner (narrator.html).
+           Voiceover: V.a "So Anthropic says Scion isn't for most teams, only for giant codebases with swarms of agents."
+           V.b "Instead, they're sharing ideas that git could borrow." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s15 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s15 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s15 .ag { fill: var(--ink); }
+        .s15 .gl { position: absolute; left: 110px; width: 500px; top: 862px; text-align: center; font: 400 36px/1.25 var(--f-body); color: var(--ink); }
+        .s15 .sl { position: absolute; left: 620px; width: 280px; top: 852px; text-align: center; font: 300 56px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s15 .sk { position: absolute; left: 600px; width: 320px; top: 918px; text-align: center; font: 400 24px/1.4 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); }
+        .s15 .sk span { display: block; }
+        .s15 .ik { position: absolute; left: 90px; width: 860px; top: 1040px; text-align: center; font: 400 34px/1.2 var(--f-body); color: var(--graphite); }
+        .s15 .ideas { position: absolute; left: 90px; width: 860px; top: 1100px; display: flex; flex-wrap: wrap; justify-content: center; gap: 18px; }
+        .s15 .ideas span { font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 14px 22px; white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s15-who" data-width="1080" data-height="1920">
+        <div class="egg-scene s15">
+          <span class="egg-eyebrow">5 · The tradeoffs</span>
+          <span class="cap">Who it's for</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-sizes">
+              <circle class="ink thin" data-draw="0" data-dur="0.3" cx="170" cy="782" r="18" />
+              <circle class="ink thin" data-draw="0.5" data-dur="0.3" cx="250" cy="770" r="30" />
+              <circle class="ink thin" data-draw="1" data-dur="0.35" cx="360" cy="754" r="46" />
+              <circle class="ink thin" data-draw="1.5" data-dur="0.4" cx="500" cy="734" r="66" />
+              <circle class="ink" data-draw="2.2" data-dur="0.6" cx="760" cy="680" r="120" />
+            </g>
+            <g class="g-git"><path class="ink thin" data-draw="0" data-dur="0.4" d="M140 820 V840 H580 V820" /></g>
+            <g class="g-scion"><path class="ink thin" data-draw="0" data-dur="0.3" d="M640 820 V840 H880 V820" /></g>
+            <g class="g-swarm"></g>
+          </svg>
+          <p class="gl">Most teams: git is the right fit</p>
+          <span class="sl">Scion</span>
+          <span class="sk"><span>Giant codebases</span><span>Swarms of agents</span></span>
+          <p class="ik">Ideas git could borrow:</p>
+          <div class="ideas"><span>Smarter git servers</span><span>Ask the server via API</span><span>Partial copies that work together</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.6;
+          const V = { a: 0.1, b: 6.5 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s15-who"] .s15');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+
+          // a swarm of small agent dots around the giant codebase (fixed positions on a ring)
+          const sw = q(".g-swarm"), dots = [];
+          for (let k = 0; k < 12; k++) {
+            const a = (k / 12) * 2 * Math.PI - Math.PI / 2, r = 142 + (k % 2) * 12;
+            if (Math.sin(a) > 0.6) continue;   // keep the dots clear of the bracket below
+            const c = document.createElementNS(NS, "circle");
+            c.setAttribute("class", "ag"); c.setAttribute("cx", (760 + r * Math.cos(a)).toFixed(1)); c.setAttribute("cy", (680 + r * Math.sin(a)).toFixed(1)); c.setAttribute("r", 8);
+            sw.appendChild(c); dots.push(c);
+          }
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+          Egg.draw(tl, q(".g-sizes"), 0.3, { gap: 0.4 });
+
+          // "So Anthropic says Scion isn't for most teams, only for giant codebases with swarms of agents."
+          Egg.draw(tl, q(".g-git"), 1.7);
+          Egg.fadeUp(tl, q(".gl"), 1.9, { y: 12 });
+          Egg.draw(tl, q(".g-scion"), 3.5);
+          Egg.fadeUp(tl, q(".sl"), 3.65, { y: 12 });
+          Egg.fadeUp(tl, q(".sk"), 3.95, { y: 10 });
+          tl.fromTo(dots, { scale: 0, opacity: 0, transformOrigin: "50% 50%" }, { scale: 1, opacity: 1, duration: 0.3, ease: Egg.EASE.pop, stagger: 0.05 }, 5.3);
+
+          // "Instead, they're sharing ideas that git could borrow."
+          Egg.fadeUp(tl, q(".ik"), V.b + 0.5, { y: 12 });
+          Egg.pop(tl, q(".ideas").children, V.b + 1.0, { dur: 0.45, stagger: 0.3 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".gl"), q(".sl"), q(".sk"), q(".ik"), q(".ideas")], DUR - 0.35);
+          window.__timelines["s15-who"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

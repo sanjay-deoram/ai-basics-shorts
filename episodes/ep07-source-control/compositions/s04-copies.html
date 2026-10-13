@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":2.2,"sfx":"click-soft","vol":0.18},
+      {"t":2.4,"sfx":"pop","vol":0.16},
+      {"t":4.9,"sfx":"pop","vol":0.2},
+      {"t":6.85,"sfx":"whoosh-short","vol":0.16},
+      {"t":7.1,"sfx":"click-soft","vol":0.16},
+      {"t":7.5,"sfx":"click-soft","vol":0.16},
+      {"t":8.1,"sfx":"pop","vol":0.2},
+      {"t":10.0,"sfx":"typing","vol":0.16,"dur":1.5},
+      {"t":10.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":12.0,"sfx":"impact-bass-1","vol":0.18,"dur":1.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Why git strained. One ink drum: all of Anthropic's code in one repository, almost 100 GB of history.
+           It fans out into checkouts, each "25 GB+" (git gives every copy the whole repository). On "25 million times a
+           day" each copy multiplies (ghost copies stack behind it) and the counter runs to 25,000,000; then "= 600
+           million GB a day" (the post's "over 600 PB of git traffic per day", fetched naively). Avatar: corner
+           (narrator.html); the caption above the drum stays left of x 830.
+           Voiceover: V.a "But all of Anthropic's code lives in one giant project, with almost 100 gigabytes of history."
+           V.b "Each copy is over 25 gigabytes, and test jobs check out code 25 million times a day." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s04 .ghost { fill: var(--eggshell); stroke: var(--ash); stroke-width: 4; stroke-linejoin: round; }
+        .s04 .solid { fill: var(--eggshell); }
+        .s04 .big { position: absolute; left: 370px; width: 340px; top: 588px; text-align: center; }
+        .s04 .big b { display: block; font: 300 64px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s04 .big span { display: block; margin-top: 12px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s04 .gb { position: absolute; width: 200px; top: 1036px; text-align: center; font: 400 36px/1 var(--f-body); color: var(--ink); }
+        .s04 .count { position: absolute; left: 90px; width: 860px; top: 1112px; display: flex; justify-content: center; align-items: baseline; gap: 20px; }
+        .s04 .count b { font: 300 84px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s04 .count .lbl { font: 400 36px/1.2 var(--f-body); color: var(--smoke); }
+        .s04 .egg-label { position: absolute; left: 90px; width: 860px; top: 1262px; }
+        .s04 .foot { position: absolute; left: 90px; width: 860px; top: 1350px; text-align: center; font: 400 34px/1.3 var(--f-body); color: var(--smoke); }
+      </style>
+      <div id="root" data-composition-id="s04-copies" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <span class="egg-eyebrow">1 · Why they left git</span>
+          <span class="cap">All their code, in one giant project</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-ghosts"></g>
+            <g class="g-drum">
+              <path class="ink solid" data-draw="0" data-dur="0.7" d="M370 540 A170 38 0 0 1 710 540 V730 A170 38 0 0 1 370 730 Z" />
+              <path class="ink" data-draw="1" data-dur="0.4" d="M370 540 A170 38 0 0 0 710 540" />
+            </g>
+            <g class="g-arrows"></g>
+            <g class="g-copies"></g>
+          </svg>
+          <div class="big"><b>~100 GB</b><span>of history</span></div>
+          <div class="gb-wrap"></div>
+          <div class="count"><b>× <span class="n">0</span></b><span class="lbl">checkouts a day</span></div>
+          <p class="egg-label">= 600 million GB a day</p>
+          <p class="foot">of git traffic, if each one fetched it all</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 13.6;
+          const V = { a: 0.1, b: 6.65 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s04-copies"] .s04');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+          const X = [220, 427, 633, 840], TOP = 920, RX = 62, RY = 15, H = 78;
+          const drum = (x, y) => `M${x - RX} ${y} A${RX} ${RY} 0 0 1 ${x + RX} ${y} V${y + H} A${RX} ${RY} 0 0 1 ${x - RX} ${y + H} Z`;
+          const lid = (x, y) => `M${x - RX} ${y} A${RX} ${RY} 0 0 0 ${x + RX} ${y}`;
+          const path = (g, d, cls, n, dur) => {
+            const p = document.createElementNS(NS, "path");
+            p.setAttribute("d", d); p.setAttribute("class", cls);
+            if (n !== undefined) { p.dataset.draw = n; p.dataset.dur = dur; }
+            g.appendChild(p);
+            return p;
+          };
+
+          // arrows from the drum to each copy, then the copies, then three ghost copies stacked behind each one
+          const ga = q(".g-arrows"), gc = q(".g-copies"), gg = q(".g-ghosts");
+          X.forEach((x, i) => {
+            const sx = 540 + (x - 540) * 0.18, sy = 784, ex = x, ey = TOP - 34;
+            const a = Math.atan2(ey - sy, ex - sx), L = 22;
+            const h1 = [ex - L * Math.cos(a - 0.45), ey - L * Math.sin(a - 0.45)], h2 = [ex - L * Math.cos(a + 0.45), ey - L * Math.sin(a + 0.45)];
+            path(ga, `M${sx.toFixed(1)} ${sy} L${ex} ${ey} M${h1[0].toFixed(1)} ${h1[1].toFixed(1)} L${ex} ${ey} L${h2[0].toFixed(1)} ${h2[1].toFixed(1)}`, "ink thin", i * 0.25, 0.45);
+            path(gc, drum(x, TOP), "ink thin solid", i * 0.3, 0.5);
+            path(gc, lid(x, TOP), "ink thin", i * 0.3 + 0.9, 0.3);
+            for (let k = 3; k >= 1; k--) path(gg, drum(x + k * 11, TOP - k * 11), "ghost g" + i);
+          });
+          const gbWrap = q(".gb-wrap");
+          X.forEach((x) => { const s = document.createElement("span"); s.className = "gb"; s.style.left = x - 100 + "px"; s.textContent = "25 GB+"; gbWrap.appendChild(s); });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+
+          // "But all of Anthropic's code lives in one giant project, with almost 100 gigabytes of history."
+          Egg.fadeUp(tl, q(".cap"), 0.5, { y: 16 });
+          Egg.draw(tl, q(".g-drum"), 2.2);
+          Egg.fadeUp(tl, q(".big"), 4.85, { y: 16 });
+
+          // "Each copy is over 25 gigabytes, and test jobs check out code 25 million times a day."
+          Egg.draw(tl, ga, V.b + 0.2, { gap: 0.4 });
+          Egg.draw(tl, gc, V.b + 0.45, { gap: 0.4 });
+          Egg.fadeUp(tl, root.querySelectorAll(".gb"), V.b + 1.45, { y: 16, stagger: 0.07 });
+          Egg.fadeUp(tl, q(".count"), V.b + 2.6, { y: 20 });
+          Egg.count(tl, q(".count .n"), 0, 25e6, V.b + 3.35, { dur: 1.6, fmt: (v) => (Math.round(v / 1e4) * 1e4).toLocaleString("en-US") });
+          [0, 1, 2, 3].forEach((i) => {
+            const gh = [...gg.querySelectorAll(".g" + i)].reverse();   // nearest ghost first
+            tl.fromTo(gh, { opacity: 0, x: -11, y: 11 }, { opacity: 1, x: 0, y: 0, duration: 0.3, ease: Egg.EASE.enter, stagger: 0.12 }, V.b + 3.45 + i * 0.22);
+          });
+          Egg.pop(tl, q(".egg-label"), V.b + 5.35, { dur: 0.5 });
+          Egg.fadeUp(tl, q(".foot"), V.b + 5.55, { y: 12 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".egg-svg"), q(".big"), gbWrap, q(".count"), q(".egg-label"), q(".foot")], DUR - 0.35);
+          window.__timelines["s04-copies"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"pop","vol":0.16},
+      {"t":2.9,"sfx":"typing","vol":0.16,"dur":1.0},
+      {"t":4.5,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.8,"sfx":"pop","vol":0.16},
+      {"t":6.3,"sfx":"click-soft","vol":0.16},
+      {"t":7.4,"sfx":"sparkle","vol":0.14,"dur":0.9},
+      {"t":8.9,"sfx":"click","vol":0.18},
+      {"t":10.5,"sfx":"pop","vol":0.16},
+      {"t":10.8,"sfx":"pop","vol":0.16},
+      {"t":11.1,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Changesets. An example changeset card lists only the files that changed, each with a link (arrow) to
+           its contents in storage (the post: "a changeset stores a list of the files that changed relative to its first
+           parent, along with content-addressed pointers to the compressed file contents in blob storage"). Then: a file's
+           contents → fingerprint → its address "9f2c…" ("content-addressed": "a piece of data never changes once it's
+           stored, and any server can cache it without checking with the others"); three caches each keep a copy.
+           File names and fingerprints are illustrative (labelled "Example"). Avatar: corner (narrator.html).
+           Voiceover: V.a "Every change is saved as a changeset: just the files that changed, with links to their
+           contents." V.b "Each link is made from the content itself, so the data never changes and any cache can keep it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s08 .cap { position: absolute; left: 90px; top: 300px; font: 400 40px/1.3 var(--f-body); color: var(--graphite); }
+        .s08 .card { position: absolute; left: 90px; top: 500px; width: 540px; height: 310px; padding: 0; }
+        .s08 .card .egg-card-kicker { position: absolute; left: 40px; top: 34px; }
+        .s08 .card .t { position: absolute; left: 40px; top: 82px; margin: 0; font: 400 34px/1.2 var(--f-body); color: var(--graphite); }
+        .s08 .card .row { position: absolute; left: 40px; margin: 0; font: 400 32px/40px var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s08 .card .r1 { top: 160px; }
+        .s08 .card .r2 { top: 230px; }
+        .s08 .skick { position: absolute; left: 700px; top: 606px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s08 .blob { position: absolute; left: 700px; width: 250px; height: 60px; border: 2px solid var(--ink); border-radius: 16px; background: var(--eggshell); display: flex; align-items: center; justify-content: center; font: 400 30px/1 var(--f-mono); color: var(--ink); }
+        .s08 .blob.b1 { top: 650px; }
+        .s08 .blob.b2 { top: 720px; }
+        .s08 .fp { position: absolute; left: 252px; width: 200px; top: 900px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s08 .addr { position: absolute; left: 480px; top: 924px; font: 400 48px/1 var(--f-mono); color: var(--ink); }
+        .s08 .doc-cap { position: absolute; left: 90px; width: 200px; top: 1020px; text-align: center; font: 400 24px/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--smoke); }
+        .s08 .note { position: absolute; left: 90px; width: 860px; top: 1080px; text-align: center; font: 300 56px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+        .s08 .cp { position: absolute; width: 140px; top: 1236px; text-align: center; font: 400 26px/1 var(--f-mono); color: var(--ink); }
+        .s08 .ckick { position: absolute; left: 90px; width: 860px; top: 1390px; text-align: center; font: 400 34px/1.2 var(--f-body); color: var(--graphite); }
+      </style>
+      <div id="root" data-composition-id="s08-changesets" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <span class="egg-eyebrow">3 · How it works</span>
+          <span class="cap">Changesets</span>
+          <div class="egg-card card">
+            <span class="egg-card-kicker">Changeset · example</span>
+            <p class="t">Only the files that changed:</p>
+            <p class="row r1">api/server.py</p>
+            <p class="row r2">docs/setup.md</p>
+          </div>
+          <span class="skick">Storage</span>
+          <div class="blob b1"><span class="egg-hl h1">9f2c…</span></div>
+          <div class="blob b2">41ab…</div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="g-links">
+              <path class="ink thin" data-draw="0" data-dur="0.3" d="M642 680 H692 M676 668 L692 680 L676 692" />
+              <path class="ink thin" data-draw="0.6" data-dur="0.3" d="M642 750 H692 M676 738 L692 750 L676 762" />
+            </g>
+            <g class="g-doc">
+              <path class="ink thin solid" data-draw="0" data-dur="0.4" d="M150 900 H212 L236 924 V1004 H150 Z" />
+              <path class="ink thin" data-draw="1" data-dur="0.3" d="M212 900 V924 H236 M166 944 H218 M166 962 H218 M166 980 H204" />
+            </g>
+            <g class="g-fp"><path class="ink thin" data-draw="0" data-dur="0.4" d="M262 950 H446 M428 938 L446 950 L428 962" /></g>
+            <g class="g-caches"></g>
+          </svg>
+          <span class="doc-cap">The contents</span>
+          <span class="fp">Fingerprint</span>
+          <span class="addr"><span class="egg-hl h2">9f2c…</span></span>
+          <p class="note">Same content, same address: it never changes.</p>
+          <div class="cps"></div>
+          <p class="ckick">So any cache can keep a copy.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 12.8;
+          const V = { a: 0.1, b: 6.15 };   // voice line starts (scene seconds)
+          const root = document.querySelector('[data-composition-id="s08-changesets"] .s08');
+          const q = (s) => root.querySelector(s);
+          const NS = "http://www.w3.org/2000/svg";
+
+          // three cache drums, each receiving a copy of 9f2c…
+          const gc = q(".g-caches"), CXS = [300, 540, 780];
+          CXS.forEach((x, i) => {
+            const p = document.createElementNS(NS, "path");
+            p.setAttribute("class", "ink thin solid"); p.dataset.draw = i * 0.4; p.dataset.dur = 0.3;
+            p.setAttribute("d", `M${x - 50} 1300 A50 12 0 0 1 ${x + 50} 1300 V1350 A50 12 0 0 1 ${x - 50} 1350 Z M${x - 50} 1300 A50 12 0 0 0 ${x + 50} 1300`);
+            gc.appendChild(p);
+            const c = document.createElement("span");
+            c.className = "cp"; c.style.left = x - 70 + "px"; c.textContent = "9f2c…";
+            q(".cps").appendChild(c);
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".cap")], 0.1);
+
+          // "Every change is saved as a changeset: just the files that changed, with links to their contents."
+          Egg.fadeUp(tl, q(".card"), 0.4);
+          gsap.set(q(".card .t"), { opacity: 0 });
+          Egg.fadeUp(tl, q(".card .t"), 2.75, { y: 12 });
+          Egg.typeOn(tl, q(".r1"), 3.0, { cps: 34 });
+                    Egg.typeOn(tl, q(".r2"), 3.45, { cps: 34 });
+                    Egg.draw(tl, q(".g-links"), 4.5, { gap: 0.4 });
+          Egg.fadeUp(tl, q(".skick"), 4.6, { y: 10 });
+          Egg.pop(tl, [q(".b1"), q(".b2")], 4.75, { dur: 0.45, stagger: 0.2 });
+
+          // "Each link is made from the content itself, so the data never changes and any cache can keep it."
+          Egg.draw(tl, q(".g-doc"), V.b + 0.15, { gap: 0.4 });
+          Egg.fadeUp(tl, q(".doc-cap"), V.b + 0.4, { y: 10 });
+          Egg.draw(tl, q(".g-fp"), V.b + 0.8);
+          Egg.fadeUp(tl, q(".fp"), V.b + 0.85, { y: 10 });
+          Egg.pop(tl, q(".addr"), V.b + 1.25, { dur: 0.45 });
+          Egg.highlight(tl, q(".h2"), V.b + 1.6);
+          Egg.highlight(tl, q(".h1"), V.b + 1.8);
+          Egg.fadeUp(tl, q(".note"), V.b + 2.75);
+          Egg.draw(tl, gc, V.b + 4.3, { gap: 0.75 });
+          tl.fromTo(root.querySelectorAll(".cp"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: Egg.EASE.enter, stagger: 0.3 }, V.b + 4.4);
+          Egg.fadeUp(tl, q(".ckick"), V.b + 5.1, { y: 12 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cap"), q(".card"), q(".skick"), q(".b1"), q(".b2"), q(".egg-svg"), q(".doc-cap"), q(".fp"), q(".addr"), q(".note"), q(".cps"), q(".ckick")], DUR - 0.35);
+          window.__timelines["s08-changesets"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
