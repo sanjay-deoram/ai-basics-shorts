@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.45,"sfx":"typing","vol":0.2,"dur":1.15},
+      {"t":5.8,"sfx":"typing","vol":0.2,"dur":0.65},
+      {"t":6.8,"sfx":"pop","vol":0.2},
+      {"t":7.7,"sfx":"click-soft","vol":0.2},
+      {"t":7.85,"sfx":"click-soft","vol":0.2},
+      {"t":8.0,"sfx":"click-soft","vol":0.2},
+      {"t":8.15,"sfx":"click-soft","vol":0.2},
+      {"t":8.3,"sfx":"click-soft","vol":0.2},
+      {"t":9.1,"sfx":"whoosh","vol":0.22},
+      {"t":10.4,"sfx":"click","vol":0.24},
+      {"t":10.6,"sfx":"chime","vol":0.22,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1, retrieve. Opens on s02's last frame (the vector database). "Can I expense a home office
+           chair?" is typed as the voice asks it; the eyebrow names the step as the voice does; the question becomes numbers too (real first numbers, all-MiniLM-L6-v2). Each row gets its match
+           score with the question (cosine similarity, real, counts up), the rows re-sort closest first, and the top
+           two, both about expenses, light up: "Home office gear: up to $300 a year." 0.403 and "Submit expense
+           receipts in 30 days." 0.365 (next is 0.163). See STORYBOARD.md for the numbers. Avatar: small top right (narrator.html
+           "corner"); everything above y 485 stays left of x 830. Voiceover: 0.3 "Now you ask: can I expense a home office
+           chair?" 3.6 "Step one, retrieve. Your question becomes numbers too," 7.5 "and the database finds the chunks
+           closest in meaning:" 10.45 "the two about expenses." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .ask { position: absolute; left: 90px; width: 720px; top: 290px; padding: 24px 34px; gap: 10px; border-radius: 30px; }
+        .s03 .ask .egg-mono { font-size: 30px; white-space: nowrap; }
+        .s03 .qv { position: absolute; left: 124px; top: 446px; display: flex; align-items: baseline; gap: 18px; white-space: nowrap; }
+        .s03 .qv .egg-mono { font-size: 28px; }
+        .s03 .cmp { position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center; }
+        .s03 .cmp .egg-chip { align-self: center; color: var(--ink); }
+        .s03 .tname { position: absolute; left: 140px; top: 722px; font: 400 28px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s03 .tname i { font-style: normal; color: var(--graphite); }
+        .s03 .th { position: absolute; top: 788px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s03 .row { position: absolute; left: 90px; width: 860px; height: 88px; border-radius: 6px; }
+        .s03 .row .id { position: absolute; left: 0; width: 60px; top: 28px; text-align: center; font: 400 30px/1 var(--f-mono); color: var(--graphite); }
+        .s03 .row .ct { position: absolute; left: 76px; top: 12px; font: 400 30px/1.1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s03 .row .vc { position: absolute; left: 76px; top: 54px; font: 400 22px/1 var(--f-mono); color: var(--graphite); white-space: pre; }
+        .s03 .row .sc { position: absolute; left: 716px; top: 26px; font: 400 34px/1 var(--f-mono); color: var(--ink); }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+        .s03 .foot { position: absolute; left: 90px; width: 860px; top: 1404px; text-align: center; text-wrap: balance; }
+      </style>
+      <div data-hf-id="hf-qgk0" id="root" data-composition-id="s03-retrieve" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <span data-hf-id="hf-tph2" class="egg-eyebrow">Step 1 · Retrieve</span>
+          <div data-hf-id="hf-62yt" class="egg-card ask">
+            <span data-hf-id="hf-v377" class="egg-card-kicker">You ask</span>
+            <p data-hf-id="hf-23k0" class="egg-mono qt">Can I expense a home office chair?</p>
+          </div>
+          <div data-hf-id="hf-y099" class="qv"><span data-hf-id="hf-0wsp" class="egg-card-kicker">As numbers</span><span data-hf-id="hf-mrxi" class="egg-mono qvt">[0.033, 0.075, -0.008, …]</span></div>
+          <div data-hf-id="hf-2f3o" class="cmp"><span data-hf-id="hf-kuh3" class="egg-chip">↓ Compare with every chunk</span></div>
+          <div data-hf-id="hf-hnc7" class="rows"></div>
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path data-hf-id="hf-rkol" class="ink thin" d="M92 726 L92 752 A16 6 0 0 0 124 752 L124 726 A16 6 0 0 0 92 726 A16 6 0 0 0 124 726" />
+            <rect data-hf-id="hf-td8i" class="ink thin" x="90" y="770" width="860" height="496" rx="18" />
+            <path data-hf-id="hf-qz9s" class="ink thin" d="M90 826 L950 826 M150 770 L150 1266" />
+            <path data-hf-id="hf-4ara" class="seps" d="M90 914 L950 914 M90 1002 L950 1002 M90 1090 L950 1090 M90 1178 L950 1178" />
+          </svg>
+          <span data-hf-id="hf-ilqq" class="tname">Vector database <i data-hf-id="hf-zlu4">· 384 numbers per chunk</i></span>
+          <span data-hf-id="hf-f8qz" class="th" style="left:112px">#</span>
+          <span data-hf-id="hf-ynj9" class="th" style="left:166px">Chunk · its numbers</span>
+          <span data-hf-id="hf-hbm5" class="th h-sc" style="left:716px">Match ↓</span>
+          <p data-hf-id="hf-mz39" class="egg-label">The 2 closest chunks win.</p>
+          <span data-hf-id="hf-63sq" class="foot egg-foot">Match = cosine similarity, higher = closer in meaning · real numbers, all-MiniLM-L6-v2</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 12.9;
+          // [chunk, first numbers, cosine similarity to "Can I expense a home office chair?"] — real (STORYBOARD.md)
+          const CH = [
+            ["New hires get 20 vacation days.", "[0.019, -0.012, 0.114, …]", 0.149],
+            ["Home office gear: up to $300 a year.", "[-0.032, 0.012, 0.053, …]", 0.403],
+            ["Flights over $500 need approval.", "[0.107, -0.007, 0.030, …]", 0.163],
+            ["Submit expense receipts in 30 days.", "[0.014, 0.058, 0.014, …]", 0.365],
+            ["Laptops are replaced every 3 years.", "[-0.036, -0.020, 0.071, …]", 0.119],
+          ];
+          const ROW_Y = [826, 914, 1002, 1090, 1178], K = 2;
+          const rank = CH.map((c) => CH.filter((o) => o[2] > c[2]).length);
+          const root = document.querySelector('[data-composition-id="s03-retrieve"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".rows").innerHTML = CH.map(([t, v], i) => `<div class="row" style="top:${ROW_Y[i]}px" data-layout-allow-overlap=""><span class="id" data-layout-allow-overlap="">${i + 1}</span><span class="ct" data-layout-allow-overlap="">${rank[i] < K ? `<span class="egg-hl" data-layout-allow-overlap="">${t}</span>` : t}</span><span class="vc" data-layout-allow-overlap="">${v}</span><span class="sc" data-layout-allow-overlap="">0.000</span></div>`).join("");
+          q(".seps").style.cssText = "fill:none;stroke:#ebe8e4;stroke-width:2";
+          const rows = all(".row"), rest = rows.filter((_, i) => rank[i] >= K);
+          const top = rows.filter((_, i) => rank[i] < K).sort((a, b) => rank[rows.indexOf(a)] - rank[rows.indexOf(b)]);   // closest first
+          gsap.set([...all(".sc"), q(".h-sc")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "now you ask: can I expense a home office chair?"
+          Egg.fadeUp(tl, q(".ask"), 0.3);
+          Egg.typeOn(tl, q(".qt"), 1.45, { cps: 30 });
+          // "step one, retrieve"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 3.6);
+          // "your question becomes numbers too"
+          Egg.fadeUp(tl, q(".qv .egg-card-kicker"), 5.6, { y: 12 });
+          Egg.typeOn(tl, q(".qvt"), 5.8, { cps: 40 });
+          Egg.pop(tl, q(".cmp .egg-chip"), 6.8);
+
+          // the database scores every chunk against it
+          Egg.fadeUp(tl, q(".h-sc"), 7.6, { y: 10 });
+          tl.to(all(".vc"), { opacity: 0.4, duration: 0.3, ease: "none" }, 7.6);
+          rows.forEach((r, i) => {
+            const t = 7.7 + i * 0.15;
+            tl.to(r.querySelector(".sc"), { opacity: 1, duration: 0.2, ease: "none" }, t);
+            Egg.count(tl, r.querySelector(".sc"), 0, CH[i][2], t, { dur: 0.7, fmt: (v) => v.toFixed(3) });
+          });
+          // closest first
+          rows.forEach((r, i) => {
+            const dy = ROW_Y[rank[i]] - ROW_Y[i];
+            tl.to(r, { y: dy, duration: 0.8, ease: Egg.EASE.move }, 9.1);
+            // rows moving down dip out of the way, so the rows moving up stay readable as they pass
+            if (dy > 0) tl.to(r, { keyframes: { opacity: [1, 0.08, 0.08, 1] }, duration: 0.8, ease: "none" }, 9.1);
+          });
+
+          // the two about expenses
+          tl.to(rest, { opacity: 0.35, duration: 0.4, ease: "none" }, 10.4);
+          tl.to(top, { backgroundColor: "rgba(245, 243, 241, 1)", duration: 0.3, ease: "none" }, 10.4);
+          top.forEach((r, i) => Egg.highlight(tl, r.querySelector(".egg-hl"), 10.6 + i * 0.25));
+          Egg.fadeUp(tl, q(".egg-label"), 11.1);
+          Egg.fadeUp(tl, q(".foot"), 11.3, { y: 10 });
+
+          Egg.fadeOut(tl, [...root.querySelectorAll(".egg-eyebrow, .ask, .qv, .cmp, .rows, .egg-svg, .tname, .th, .egg-label, .foot")], DUR - 0.35);
+          window.__timelines["s03-retrieve"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,20 @@
+{
+  "assets/vo/s01-58fcf312.mp3": "How does AI answer from docs it never learned?",
+  "assets/vo/s02-f5189c19.mp3": "Ask an AI: can I return my shoes after 40 days?",
+  "assets/vo/s02-470e5f9f.mp3": "It has to guess.",
+  "assets/vo/s03-8202612e.mp3": "On its own, an AI only knows what it learned in training.",
+  "assets/vo/s03-4cbc832e.mp3": "The real answer is in the store's docs, and it never saw them.",
+  "assets/vo/s04-bee28c20.mp3": "The fix is rag: retrieval-augmented generation.",
+  "assets/vo/s04-8c101e8e.mp3": "Look up the right part of the docs first, then answer.",
+  "assets/vo/s05-3bc05b71.mp3": "So the app finds the return policy and adds it to the prompt.",
+  "assets/vo/s05-31efb17b.mp3": "Now Claude answers from the docs: yes, within 60 days.",
+  "assets/vo/s06-6bbd4b70.mp3": "That's rag: look it up, then answer.",
+  "assets/vo/s06-0cb982c5.mp3": "Follow for part two: how the lookup works.",
+  "assets/vo/s01-28de6a24.mp3": "AI knows the internet, but not your company.",
+  "assets/vo/s02-d2e3c050.mp3": "Ask an AI about your company: can I expense a home office chair?",
+  "assets/vo/s02-8384d785.mp3": "It can't answer.",
+  "assets/vo/s03-93ca242b.mp3": "AI learned from public text, like websites and books.",
+  "assets/vo/s03-a527efdd.mp3": "Your company's docs are private, so it never saw them.",
+  "assets/vo/s05-f029845e.mp3": "With rag, the app searches your company's docs and grabs only the part it needs.",
+  "assets/vo/s05-6dbb33fb.mp3": "Then Claude answers from it: yes, up to 300 dollars a year."
+}

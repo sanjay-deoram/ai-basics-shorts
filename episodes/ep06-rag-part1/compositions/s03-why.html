@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.2},
+      {"t":0.9,"sfx":"pop","vol":0.16},
+      {"t":2.6,"sfx":"click-soft","vol":0.14},
+      {"t":3.5,"sfx":"click-soft","vol":0.14},
+      {"t":4.0,"sfx":"click-soft","vol":0.2},
+      {"t":4.5,"sfx":"click-soft","vol":0.16},
+      {"t":5.3,"sfx":"click","vol":0.2},
+      {"t":6.0,"sfx":"click","vol":0.2},
+      {"t":6.2,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Why it can't answer (whiteboard). A circle is drawn: "What it learned · from public text", with
+           websites, books, articles and code inside. Outside it, a stack of your company's docs (handbook, policies,
+           wiki) is drawn with a padlock on the front page: private. An ✕ between the stack and the circle: it never
+           saw them. "Private docs were never in its training." Drawing inside x 110–940, y 555–1025. Avatar: small
+           top right (narrator.html "corner"); nothing above y 485 reaches past x 830. Voiceover: 0.3 "AI learned from
+           public text, like websites and books." 3.95 "Your company's docs are private, so it never saw them." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .mem-h { position: absolute; left: 110px; width: 470px; top: 640px; text-align: center; font: 300 50px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .mem-s { position: absolute; left: 110px; width: 470px; top: 702px; text-align: center; font: 400 34px/1 var(--f-body); color: var(--smoke); }
+        .s03 .mw { position: absolute; font: 400 34px/1 var(--f-body); color: var(--graphite); white-space: nowrap; }
+        .s03 .sname { position: absolute; left: 600px; width: 350px; top: 1012px; text-align: center; font: 400 26px/1.3 var(--f-mono); color: var(--ink); }
+        .s03 .sname i { display: block; font-style: normal; font-size: 22px; color: var(--graphite); }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1130px; }
+      </style>
+      <div id="root" data-composition-id="s03-why" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">Why it can't answer</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="pa">
+              <circle class="ink" data-draw="0" data-dur="0.9" cx="345" cy="790" r="235" />
+            </g>
+            <g class="pb">
+              <path class="ink thin" data-draw="0" data-dur="0.4" d="M700 620 L700 600 L930 600 L930 940 L910 940" />
+              <path class="ink thin" data-draw="1" data-dur="0.4" d="M680 640 L680 620 L910 620 L910 960 L890 960" />
+              <path class="ink thin" data-draw="2" data-dur="0.6" d="M660 640 L850 640 L890 680 L890 980 L660 980 Z M850 640 L850 680 L890 680" />
+              <path class="ink thin" data-draw="3" data-dur="0.4" d="M688 720 L862 720 M688 770 L840 770 M688 820 L856 820" />
+            </g>
+            <path class="ink lock" d="M755 878 L755 858 A20 20 0 0 1 795 858 L795 878 M740 878 L810 878 L810 936 L740 936 Z" />
+            <path class="ink cross" d="M603 773 L637 807 M637 773 L603 807" />
+          </svg>
+          <span class="mem-h">What it learned</span>
+          <span class="mem-s">from public text</span>
+          <span class="mw" style="left:180px;top:790px">books</span>
+          <span class="mw" style="left:330px;top:790px">code</span>
+          <span class="mw" style="left:205px;top:858px">websites</span>
+          <span class="mw" style="left:280px;top:926px">articles</span>
+          <span class="sname">Your company's docs<i>handbook · policies · wiki</i></span>
+          <p class="egg-label">Private docs were never in its training.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.8;
+          const root = document.querySelector('[data-composition-id="s03-why"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const mw = all(".mw");
+          const lines = [q(".lock"), q(".cross")];
+          lines.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set(lines, { strokeDashoffset: 1.02 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // what the AI learned: public text
+          Egg.draw(tl, q(".pa"), 0.3);
+          Egg.fadeUp(tl, q(".mem-h"), 0.9, { y: 16 });
+          Egg.fadeUp(tl, q(".mem-s"), 1.45, { y: 12 });
+          // "like websites and books"
+          Egg.fadeUp(tl, mw[2], 2.6, { y: 12, dur: 0.45 });
+          Egg.fadeUp(tl, [mw[0], mw[3], mw[1]], 3.5, { y: 12, stagger: 0.2, dur: 0.45 });
+
+          // your company's docs sit outside it, locked
+          Egg.draw(tl, q(".pb"), 4.0, { gap: 0.25 });
+          Egg.fadeUp(tl, q(".sname"), 4.5, { y: 12 });
+          tl.to(q(".lock"), { strokeDashoffset: 0, duration: 0.45, ease: Egg.EASE.draw }, 5.3);
+          // …so it never saw them
+          tl.to(q(".cross"), { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw }, 6.0);
+          Egg.fadeUp(tl, q(".egg-label"), 6.2);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".egg-svg"), ...all(".mem-h, .mem-s, .mw, .sname"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s03-why"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

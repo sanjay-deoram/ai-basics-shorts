@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.65,"sfx":"click","vol":0.3},
+      {"t":1.43,"sfx":"click","vol":0.3},
+      {"t":2.21,"sfx":"click","vol":0.3},
+      {"t":2.95,"sfx":"chime","vol":0.3,"dur":1.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · End card. Three takeaways tick in with the voice (AI never saw your docs, RAG finds the right part, Claude
+           answers from it), the sources, then the follow pill pointing to Part 2; the narrator avatar stands
+           centred above them (narrator.html "end") and smiles. No fade-out: the last frame holds so the video loops
+           cleanly. Voiceover: 0.3 "That's rag: look it up, then answer." 2.85 "Follow for part two: how the lookup
+           works." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-safe { gap: 50px; justify-content: flex-start; padding-top: 470px; }
+        .s06 .foot { display: flex; flex-direction: column; align-items: center; gap: 34px; margin-top: 10px; }
+        .s06 .egg-foot { font-size: 26px; color: var(--graphite); align-self: center; text-align: center; }
+        .s06 .egg-chip.egg-pill-dark { font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div data-hf-id="hf-g7bq" id="root" data-composition-id="s06-end" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-anh9" class="egg-scene s06">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-8c1x" class="egg-eyebrow">Remember</span>
+            <ul data-hf-id="hf-w8on" class="egg-checks">
+              <li data-hf-id="hf-r4py"><span data-hf-id="hf-coyi" class="tick"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg></span>AI never saw your docs</li>
+              <li data-hf-id="hf-ckx0"><span data-hf-id="hf-ptha" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></span>RAG finds the right part</li>
+              <li data-hf-id="hf-nmh5"><span data-hf-id="hf-q7sb" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Claude answers from it</li>
+            </ul>
+            <div data-hf-id="hf-mlgk" class="foot">
+              <span data-hf-id="hf-lfkh" class="egg-foot">Sources: OpenAI · Anthropic · Lewis et al. 2020</span>
+              <span data-hf-id="hf-mlh9" class="egg-chip egg-pill-dark">Follow for Part 2: how it works</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s06-end"] .s06');
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, root.querySelector(".egg-checks"), 0.5, { gap: 0.78 });
+          Egg.fadeUp(tl, root.querySelector(".foot .egg-foot"), 2.6, { y: 12 });
+          Egg.pop(tl, root.querySelector(".egg-pill-dark"), 2.95);
+          window.__timelines["s06-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.0,"sfx":"click-soft","vol":0.16},
+      {"t":2.3,"sfx":"click","vol":0.22},
+      {"t":2.6,"sfx":"click","vol":0.22},
+      {"t":2.9,"sfx":"click","vol":0.22},
+      {"t":3.2,"sfx":"click","vol":0.22},
+      {"t":3.85,"sfx":"whoosh-short","vol":0.18},
+      {"t":5.85,"sfx":"key-press","vol":0.2},
+      {"t":6.4,"sfx":"key-press","vol":0.2},
+      {"t":6.95,"sfx":"key-press","vol":0.2},
+      {"t":7.5,"sfx":"key-press","vol":0.2},
+      {"t":8.05,"sfx":"key-press","vol":0.2},
+      {"t":10.8,"sfx":"typing","vol":0.16,"dur":0.7},
+      {"t":11.6,"sfx":"sparkle","vol":0.2,"dur":1.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Setup, done once (labelled "Example"). A page of the company's docs appears with its real words
+           ("Employee handbook · §7": vacation days, home office gear, flights, expense receipts, laptops). Dashed cut
+           lines sweep across it between the sentences, one by one ("splits your company's docs into small chunks"); the page
+           dissolves and the five pieces spread apart into outlined chunk cards. Each drops through the embedding model
+           and lands as a row of the vector database with the first of its 384 numbers (real, all-MiniLM-L6-v2, see
+           STORYBOARD.md) ("turns each chunk into numbers… the app saves them in a vector database"). The chunks are one short
+           sentence each for legibility (footnote: real chunks are a few hundred tokens, per Anthropic). The table
+           (title y 722, frame y 770–1266) stays on screen at the end: s03 opens on the same frame. Avatar: small top
+           right (narrator.html "corner"); the page stays left of x 830. Voiceover: 0.3 "But before anyone asks, the app
+           splits your company's docs into small chunks." 5.1 "An embedding model turns each chunk into numbers that
+           capture its meaning." 9.9 "The app saves them in a vector database, ready for questions." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .page { position: absolute; left: 90px; top: 280px; width: 740px; height: 296px; padding: 0; border-radius: 24px; }
+        .s02 .pk { position: absolute; left: 122px; top: 298px; }
+        .s02 .cut { fill: none; stroke: var(--ink); stroke-width: 3; stroke-dasharray: 12 10; stroke-linecap: round; }
+        .s02 .ck { position: absolute; left: 108px; height: 44px; padding: 0 12px; display: flex; align-items: center; font: 400 28px/1 var(--f-body); color: var(--ink); background: rgba(253, 252, 252, 0); border: 2px solid rgba(0, 0, 0, 0); border-radius: 10px; white-space: nowrap; transform-origin: 0 50%; }
+        .s02 .model { position: absolute; left: 340px; width: 400px; top: 626px; text-align: center; font: 300 40px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s02 .tname { position: absolute; left: 140px; top: 722px; font: 400 28px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s02 .tname i { font-style: normal; color: var(--graphite); }
+        .s02 .th { position: absolute; top: 788px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s02 .row { position: absolute; left: 90px; width: 860px; height: 88px; border-radius: 6px; }
+        .s02 .row .id { position: absolute; left: 0; width: 60px; top: 28px; text-align: center; font: 400 30px/1 var(--f-mono); color: var(--graphite); }
+        .s02 .row .ct { position: absolute; left: 76px; top: 12px; font: 400 30px/1.1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s02 .row .vc { position: absolute; left: 76px; top: 54px; font: 400 22px/1 var(--f-mono); color: var(--graphite); white-space: pre; }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+        .s02 .foot { position: absolute; left: 90px; width: 860px; top: 1404px; text-align: center; text-wrap: balance; }
+      </style>
+      <div id="root" data-composition-id="s02-setup" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">Setup · done once</span>
+          <div class="rows"></div>
+          <div class="egg-card page"></div>
+          <span class="egg-card-kicker pk">Example · Employee handbook · §7</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="cuts" />
+            <rect class="ink thin box" x="340" y="600" width="400" height="90" rx="26" />
+            <path class="ink thin cyl" d="M92 726 L92 752 A16 6 0 0 0 124 752 L124 726 A16 6 0 0 0 92 726 A16 6 0 0 0 124 726" />
+            <g class="grid">
+              <rect class="ink thin" data-draw="0" data-dur="0.8" x="90" y="770" width="860" height="496" rx="18" />
+              <path class="ink thin" data-draw="1" data-dur="0.5" d="M90 826 L950 826" />
+              <path class="ink thin" data-draw="2" data-dur="0.35" d="M150 770 L150 1266" />
+            </g>
+            <path class="seps" d="M90 914 L950 914 M90 1002 L950 1002 M90 1090 L950 1090 M90 1178 L950 1178" />
+          </svg>
+          <div class="cks" data-layout-allow-overlap=""></div>
+          <span class="model">Embedding model</span>
+          <span class="tname">Vector database <i>· 384 numbers per chunk</i></span>
+          <span class="th" style="left:112px">#</span>
+          <span class="th" style="left:166px">Chunk · its numbers</span>
+          <p class="egg-label">Your docs, saved by meaning.</p>
+          <span class="foot egg-foot">Example · real chunks are a few hundred tokens (Anthropic) · numbers: all-MiniLM-L6-v2</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 13.8;
+          // The page's sentences = the chunks, and the first three of each one's 384 numbers (all-MiniLM-L6-v2), see STORYBOARD.md
+          const CH = [
+            ["New hires get 20 vacation days.", "[0.019, -0.012, 0.114, …]"],
+            ["Home office gear: up to $300 a year.", "[-0.032, 0.012, 0.053, …]"],
+            ["Flights over $500 need approval.", "[0.107, -0.007, 0.030, …]"],
+            ["Submit expense receipts in 30 days.", "[0.014, 0.058, 0.014, …]"],
+            ["Laptops are replaced every 3 years.", "[-0.036, -0.020, 0.071, …]"],
+          ];
+          // line centres on the page (46 px apart, so each cut falls in a clear gap), then chunk-card centres once split (56 px apart)
+          const LINE_C = [352, 398, 444, 490, 536], CARD_C = [332, 388, 444, 500, 556], CARD_H = 44;
+          const CUT_Y = LINE_C.slice(1).map((c, i) => (c + LINE_C[i]) / 2 + 3);   // +3: glyphs sit a little high in their line box
+          const ROW_Y = [826, 914, 1002, 1090, 1178];
+          const root = document.querySelector('[data-composition-id="s02-setup"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".cuts").innerHTML = CUT_Y.map((y) => `<path class="cut" d="M110 ${y} L810 ${y}" />`).join("");
+          q(".cks").innerHTML = CH.map(([t], i) => `<span class="ck" style="top:${CARD_C[i] - CARD_H / 2}px" data-layout-allow-overlap="">${t}</span>`).join("");
+          q(".rows").innerHTML = CH.map(([t, v], i) => `<div class="row" style="top:${ROW_Y[i]}px"><span class="id">${i + 1}</span><span class="ct">${t}</span><span class="vc">${v}</span></div>`).join("");
+          q(".seps").style.cssText = "fill:none;stroke:#ebe8e4;stroke-width:2";
+          const cuts = all(".cut"), cks = all(".ck"), rows = all(".row");
+          const off = LINE_C.map((c, i) => c - CARD_C[i]);   // a chunk's offset while it is still a line of the page
+          const box = q(".box"), cyl = q(".cyl");
+          [box, cyl].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set([box, cyl], { strokeDashoffset: 1.02 });
+          gsap.set(q(".seps"), { opacity: 0 });
+          cuts.forEach((c, i) => gsap.set(c, { scaleX: 0, svgOrigin: `110 ${CUT_Y[i]}` }));
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // a page of the company's docs, real words
+          Egg.fadeUp(tl, q(".page"), 0.3);
+          Egg.fadeUp(tl, q(".pk"), 0.4, { y: 12 });
+          cks.forEach((c, i) => tl.fromTo(c, { opacity: 0, y: off[i] + 14 }, { opacity: 1, y: off[i], duration: 0.45, ease: Egg.EASE.enter }, 0.5 + i * 0.08));
+          // the model and an empty database wait below
+          tl.to(box, { strokeDashoffset: 0, duration: 0.7, ease: Egg.EASE.draw }, 1.0);
+          Egg.fadeUp(tl, q(".model"), 1.3, { y: 12 });
+          Egg.draw(tl, q(".grid"), 1.2, { gap: 0.25 });
+          tl.to(cyl, { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 1.4);
+          tl.to(q(".seps"), { opacity: 1, duration: 0.3, ease: "none" }, 1.8);
+          Egg.fadeUp(tl, [q(".tname"), ...all(".th")], 1.5, { y: 12, stagger: 0.08 });
+
+          // "the app splits your company's docs": a cut between each sentence
+          cuts.forEach((c, i) => tl.to(c, { scaleX: 1, duration: 0.22, ease: "power2.out" }, 2.3 + i * 0.3));
+          // "into small chunks": the page dissolves, the pieces spread apart into chunk cards
+          tl.to([q(".page"), q(".pk"), ...cuts], { opacity: 0, duration: 0.35, ease: "none" }, 3.85);
+          cks.forEach((c, i) => tl.to(c, { y: 0, borderColor: "rgba(0, 0, 0, 1)", backgroundColor: "rgba(253, 252, 252, 1)", duration: 0.5, ease: Egg.EASE.move }, 3.85 + i * 0.06));
+
+          // "turns each chunk into numbers that capture its meaning": through the model, into a row
+          cks.forEach((c, i) => {
+            const t = 5.6 + i * 0.55;
+            tl.to(c, { x: 372, y: 645 - CARD_C[i], scaleX: 0.25, scaleY: 0.6, opacity: 0, duration: 0.3, ease: "power2.in" }, t);
+            tl.fromTo(box, { scale: 1 }, { scale: 1.04, svgOrigin: "540 645", duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t + 0.25);
+            tl.fromTo(rows[i].querySelector(".ct"), { opacity: 0, y: -40 }, { opacity: 1, y: 0, duration: 0.35, ease: Egg.EASE.enter }, t + 0.3);
+            Egg.pop(tl, rows[i].querySelector(".id"), t + 0.3, { dur: 0.4 });
+            Egg.typeOn(tl, rows[i].querySelector(".vc"), t + 0.38, { cps: 48 });
+          });
+          // "the app saves them in a vector database"
+          rows.forEach((r, i) => tl.fromTo(r, { backgroundColor: "rgba(245, 243, 241, 0)" }, { backgroundColor: "rgba(245, 243, 241, 1)", duration: 0.2, ease: "none", yoyo: true, repeat: 1, immediateRender: false }, 10.8 + i * 0.12));
+          Egg.fadeUp(tl, q(".egg-label"), 11.6);
+          tl.to([box, q(".model")], { opacity: 0.25, duration: 0.4, ease: "none" }, 11.6);
+          Egg.fadeUp(tl, q(".foot"), 12.0, { y: 10 });
+
+          // leave the database: s03 starts on this frame
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), box, q(".model"), q(".egg-label"), q(".foot")], DUR - 0.35);
+          window.__timelines["s02-setup"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

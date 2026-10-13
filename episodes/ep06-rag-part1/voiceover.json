@@ -1,0 +1,30 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.2, "text": "AI knows the internet, but not your company." },
+    { "scene": "s02", "at": 0.3, "text": "Ask an AI about your company: can I expense a home office chair?" },
+    { "scene": "s02", "at": 4.6, "text": "It can't answer." },
+    { "scene": "s03", "at": 0.3, "text": "AI learned from public text, like websites and books." },
+    { "scene": "s03", "at": 3.95, "text": "Your company's docs are private, so it never saw them." },
+    { "scene": "s04", "at": 0.3, "text": "The fix is rag: retrieval-augmented generation." },
+    { "scene": "s04", "at": 3.9, "text": "Look up the right part of the docs first, then answer." },
+    { "scene": "s05", "at": 0.3, "text": "With rag, the app searches your company's docs and grabs only the part it needs." },
+    { "scene": "s05", "at": 4.95, "text": "Then Claude answers from it: yes, up to 300 dollars a year." },
+    { "scene": "s06", "at": 0.3, "text": "That's rag: look it up, then answer." },
+    { "scene": "s06", "at": 2.85, "text": "Follow for part two: how the lookup works." }
+  ]
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":2.6,"sfx":"whoosh-short","vol":0.18},
+      {"t":2.82,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.3,"sfx":"sparkle","vol":0.16,"dur":1.0},
+      {"t":4.7,"sfx":"click-soft","vol":0.2},
+      {"t":8.1,"sfx":"pop","vol":0.26},
+      {"t":8.5,"sfx":"whoosh","vol":0.22},
+      {"t":9.6,"sfx":"typing","vol":0.24,"dur":1.5},
+      {"t":11.6,"sfx":"click","vol":0.22},
+      {"t":12.2,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2, augment, then step 3, generate. The prompt the app sends builds up: "Answer using these docs:",
+           the two retrieved chunks fly up from where the database was (highlighted), then the question. The eyebrow
+           turns to step 3; the prompt goes to Claude (the Claude logo), which pulses and turns while the answer types
+           on: "Yes. You can expense up to $300 a year for it. Submit the receipt within 30 days." with its source. The answer
+           is illustrative (labelled "Example answer"). Avatar: small top right (narrator.html "corner"); the prompt
+           card stays left of x 830. Voiceover: 0.3 "Step two, augment. Those two chunks go into the prompt, along with
+           your question." 5.9 "Step three, generate. Claude reads the prompt and answers from your docs." 10.85 "Yes,
+           you can: up to 300 dollars a year." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .prompt { position: absolute; left: 90px; width: 740px; top: 290px; padding: 26px 34px; gap: 10px; border-radius: 30px; transform-origin: 50% 50%; }
+        .s04 .prompt .egg-mono { font-size: 28px; line-height: 1.4; white-space: nowrap; }
+        .s04 .prompt .egg-mono b { font-weight: 400; color: var(--smoke); }
+        .s04 .logo { position: absolute; left: 482px; top: 668px; width: 116px; height: 116px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s04 .ans { position: absolute; left: 90px; width: 860px; top: 830px; padding: 30px 36px; gap: 16px; border-radius: 32px; }
+        .s04 .ans .txt { margin: 0; font: 400 38px/1.36 var(--f-body); color: var(--ink); text-wrap: balance; }
+        .s04 .src { align-self: flex-start; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); border: 2px solid var(--btn-border); border-radius: 9999px; padding: 10px 16px; }
+        .s04 .egg-label { position: absolute; left: 90px; width: 860px; top: 1150px; }
+        .s04 .foot { position: absolute; left: 90px; width: 860px; top: 1254px; text-align: center; text-wrap: balance; }
+      </style>
+      <div data-hf-id="hf-wvu0" id="root" data-composition-id="s04-generate" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <span data-hf-id="hf-82gm" class="egg-eyebrow e1">Step 2 · Augment</span>
+          <span data-hf-id="hf-tgf0" class="egg-eyebrow e2">Step 3 · Generate</span>
+          <div data-hf-id="hf-66bk" class="egg-card prompt">
+            <span data-hf-id="hf-rie2" class="egg-card-kicker">Prompt the app sends</span>
+            <p data-hf-id="hf-9bne" class="egg-mono pl"><b data-hf-id="hf-r8l3">Answer using these docs:</b></p>
+            <p data-hf-id="hf-6d3y" class="egg-mono pl"><span data-hf-id="hf-4mut" class="egg-hl">Home office gear: up to $300 a year.</span></p>
+            <p data-hf-id="hf-6rez" class="egg-mono pl"><span data-hf-id="hf-atoj" class="egg-hl">Submit expense receipts in 30 days.</span></p>
+            <p data-hf-id="hf-75q0" class="egg-mono pl"><b data-hf-id="hf-ldd9">Question:</b></p>
+            <p data-hf-id="hf-du9v" class="egg-mono pl">Can I expense a home office chair?</p>
+          </div>
+          <div data-hf-id="hf-e319" class="logo"></div>
+          <div data-hf-id="hf-gg9q" class="egg-card ans">
+            <span data-hf-id="hf-hr4j" class="egg-card-kicker">Example answer</span>
+            <p data-hf-id="hf-ojwu" class="txt">Yes. You can expense up to <span data-hf-id="hf-tf3f" class="egg-hl">$300 a year</span> for it. Submit the receipt within 30 days.</p>
+            <span data-hf-id="hf-zwvb" class="src">Source: company docs · 2 chunks</span>
+          </div>
+          <p data-hf-id="hf-m5xo" class="egg-label">Answered from your docs.</p>
+          <span data-hf-id="hf-n3yl" class="foot egg-foot">Steps as Anthropic describes them, “Introducing Contextual Retrieval” (2024)</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 14.2;
+          const root = document.querySelector('[data-composition-id="s04-generate"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const pl = all(".prompt .pl");
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".e1"), 0.05);
+          tl.set(q(".e2"), { opacity: 0 }, 0);
+
+          // step 2, augment: the app builds the prompt
+          Egg.fadeUp(tl, q(".prompt"), 0.3);
+          Egg.fadeUp(tl, pl[0], 0.55, { y: 14 });
+          // "those two chunks go into the prompt": they fly up from where the database was
+          [pl[1], pl[2]].forEach((p, i) => tl.fromTo(p, { opacity: 0, y: 560 }, { opacity: 1, y: 0, duration: 0.55, ease: Egg.EASE.move }, 2.6 + i * 0.22));
+          Egg.highlight(tl, pl[1].querySelector(".egg-hl"), 3.3);
+          Egg.highlight(tl, pl[2].querySelector(".egg-hl"), 3.55);
+          // "along with your question"
+          Egg.fadeUp(tl, [pl[3], pl[4]], 4.7, { y: -30, stagger: 0.12, dur: 0.45 });
+
+          // "step three, generate"
+          Egg.fadeOut(tl, q(".e1"), 5.9, { dur: 0.25 });
+          Egg.fadeUp(tl, q(".e2"), 6.05, { y: 16 });
+          // "Claude reads the prompt and answers from your docs"
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 8.1);
+          tl.to(q(".prompt"), { scale: 0.96, y: 30, duration: 0.25, ease: "power2.in", yoyo: true, repeat: 1 }, 8.5);
+          tl.fromTo(q(".logo"), { scale: 1 }, { scale: 1.18, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 8.85);
+          tl.to(q(".logo"), { rotation: 90, duration: 2.0, ease: "power1.inOut" }, 9.1);
+          Egg.fadeUp(tl, q(".ans"), 9.4);
+          tl.set(q(".src"), { opacity: 0 }, 0);
+          Egg.typeOn(tl, q(".ans .txt"), 9.6, { cps: 40 });
+          Egg.pop(tl, q(".src"), 11.6, { dur: 0.45 });
+          // "yes, you can: up to 300 dollars a year"
+          Egg.highlight(tl, q(".ans .egg-hl"), 12.2);
+          Egg.fadeUp(tl, q(".egg-label"), 12.5);
+          Egg.fadeUp(tl, q(".foot"), 12.7, { y: 10 });
+
+          Egg.fadeOut(tl, [q(".e2"), q(".prompt"), q(".logo"), q(".ans"), q(".egg-label"), q(".foot")], DUR - 0.35);
+          window.__timelines["s04-generate"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

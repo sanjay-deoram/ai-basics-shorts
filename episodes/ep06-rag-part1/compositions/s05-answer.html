@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.18},
+      {"t":0.8,"sfx":"whoosh-short","vol":0.14},
+      {"t":1.3,"sfx":"typing","vol":0.12,"dur":1.4},
+      {"t":2.9,"sfx":"ping","vol":0.2},
+      {"t":3.3,"sfx":"pop","vol":0.2},
+      {"t":3.8,"sfx":"sparkle","vol":0.14,"dur":0.8},
+      {"t":4.9,"sfx":"whoosh","vol":0.2},
+      {"t":5.5,"sfx":"click-soft","vol":0.2},
+      {"t":5.65,"sfx":"pop","vol":0.24},
+      {"t":6.0,"sfx":"whoosh-short","vol":0.16},
+      {"t":6.5,"sfx":"typing","vol":0.22,"dur":1.8},
+      {"t":8.45,"sfx":"click","vol":0.2},
+      {"t":8.75,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · With RAG: the same question (s02), answered from the company's docs, in one move. Your company's docs
+           (3,000 pages, a grid of sections) are searched (a scan line sweeps across); one section lights up, Handbook
+           §7.3 Home office, and grows into a card: "only this part". The rest of the docs fade, the card slides up
+           under the question, a frame draws around both ("= the prompt"), it goes to Claude (the Claude logo), and the
+           answer types on: "Yes. You can expense up to $300 a year for it. Submit the receipt within 30 days." with
+           its source and an ink "✓ From your docs" stamp. The company, its handbook and the answer are illustrative
+           (labelled "Example" in s02 and "Example answer" here). Avatar: small top right (narrator.html "corner");
+           everything above y 485 stays left of x 830. Voiceover: 0.3 "With rag, the app searches your company's docs
+           and grabs only the part it needs." 4.95 "Then Claude answers from it: yes, up to 300 dollars a year." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .ask { position: absolute; left: 90px; width: 720px; top: 306px; padding: 24px 34px; gap: 10px; border-radius: 30px; }
+        .s05 .ask .egg-mono { font-size: 30px; white-space: nowrap; }
+        .s05 .dname { position: absolute; left: 90px; top: 452px; font: 400 26px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s05 .dname i { font-style: normal; color: var(--graphite); }
+        .s05 .tile { fill: var(--stone); }
+        .s05 .found { position: absolute; left: 90px; width: 720px; height: 236px; top: 1000px; padding: 26px 34px; gap: 10px; border-radius: 30px; }
+        .s05 .found .txt { margin: 0; font: 400 34px/1.4 var(--f-body); color: var(--ink); }
+        .s05 .tag { position: absolute; left: 112px; top: 704px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); padding: 6px 12px; }
+        .s05 .logo { position: absolute; left: 488px; top: 746px; width: 104px; height: 104px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s05 .ans { position: absolute; left: 90px; width: 860px; top: 884px; padding: 30px 36px; gap: 16px; border-radius: 32px; }
+        .s05 .ans .txt { margin: 0; font: 400 38px/1.36 var(--f-body); color: var(--ink); text-wrap: balance; }
+        .s05 .src { align-self: flex-start; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); border: 2px solid var(--btn-border); border-radius: 9999px; padding: 10px 16px; }
+        .s05 .ok { position: absolute; left: 630px; top: 854px; color: var(--ink); background: var(--eggshell); font-size: 28px; }
+        .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1196px; }
+      </style>
+      <div id="root" data-composition-id="s05-answer" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <span class="egg-eyebrow">With RAG</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="docs"><g class="cols" /><rect class="pick" /><path class="scan" d="M86 494 L86 968" /></g>
+            <rect class="ink thin frame" x="68" y="290" width="760" height="428" rx="44" />
+          </svg>
+          <div class="egg-card ask">
+            <span class="egg-card-kicker">You ask</span>
+            <p class="egg-mono">Can I expense a home office chair?</p>
+          </div>
+          <span class="dname">Your company's docs <i>· 3,000 pages</i></span>
+          <div class="egg-card found">
+            <span class="egg-card-kicker">Only this part · Handbook §7.3</span>
+            <p class="txt">Home office: <span class="egg-hl">up to $300 a year</span> for a desk, chair or monitor. Submit receipts within 30 days.</p>
+          </div>
+          <span class="tag">= the prompt</span>
+          <div class="logo"></div>
+          <div class="egg-card ans">
+            <span class="egg-card-kicker">Example answer</span>
+            <p class="txt">Yes. You can expense up to <span class="egg-hl">$300 a year</span> for it. Submit the receipt within 30 days.</p>
+            <span class="src">Source: Handbook §7.3 Home office</span>
+          </div>
+          <span class="egg-stamp ok">✓ From your docs</span>
+          <p class="egg-label">Same AI. Now it knows your rules.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.7;
+          // the docs as a grid of sections; one of them (PICK) is the home-office policy
+          const COLS = 24, ROWS = 13, X0 = 90, Y0 = 500, W = 32, H = 30, P = 36, PICK = { c: 15, r: 7 };
+          const FOUND_TOP = 1000, FOUND_H = 236, PROMPT_TOP = 460;
+          const root = document.querySelector('[data-composition-id="s05-answer"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          q(".cols").innerHTML = Array.from({ length: COLS }, (_, c) => `<g class="col">${Array.from({ length: ROWS }, (_, r) =>
+            c === PICK.c && r === PICK.r ? "" : `<rect class="tile" x="${X0 + c * P}" y="${Y0 + r * P}" width="${W}" height="${H}" rx="4"/>`).join("")}</g>`).join("");
+          const px = X0 + PICK.c * P, py = Y0 + PICK.r * P;
+          const pick = q(".pick");
+          Object.entries({ x: px, y: py, width: W, height: H, rx: 4 }).forEach(([k, v]) => pick.setAttribute(k, v));
+          pick.style.fill = "#ebe8e4";   // stone, until it is picked
+          const scan = q(".scan");
+          scan.style.cssText = "fill:none;stroke:#000;stroke-width:4;stroke-linecap:round";
+          const cols = all(".col"), frame = q(".frame");
+          frame.setAttribute("pathLength", "1");
+          frame.style.strokeDasharray = "1 1.1";
+          gsap.set(frame, { strokeDashoffset: 1.02 });
+          gsap.set(scan, { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // the same question; "the app searches your company's docs"
+          Egg.fadeUp(tl, q(".ask"), 0.3);
+          Egg.fadeUp(tl, q(".dname"), 0.7, { y: 12 });
+          tl.fromTo([...cols, pick], { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none", stagger: 0.02 }, 0.8);
+          tl.to(scan, { opacity: 1, duration: 0.15, ease: "none" }, 1.3);
+          tl.fromTo(scan, { x: 0 }, { x: 868, duration: 1.4, ease: "none" }, 1.3);
+          tl.to(scan, { opacity: 0, duration: 0.15, ease: "none" }, 2.7);
+          cols.forEach((g, c) => tl.to(g, { keyframes: { opacity: [1, 0.35, 1] }, duration: 0.3, ease: "none" }, 1.3 + (c / COLS) * 1.4));
+
+          // "and grabs only the part it needs"
+          tl.to(cols, { opacity: 0.3, duration: 0.3, ease: "none" }, 2.9);
+          tl.to(pick, { fill: "rgba(255, 122, 192, 0.75)", duration: 0.2, ease: "none" }, 2.9);
+          tl.fromTo(pick, { scale: 1 }, { scale: 1.6, svgOrigin: `${px + W / 2} ${py + H / 2}`, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 2.9);
+          tl.fromTo(q(".found"), { opacity: 0, scale: 0.05, x: px + W / 2 - 450, y: py + H / 2 - (FOUND_TOP + FOUND_H / 2) }, { opacity: 1, scale: 1, x: 0, y: 0, duration: 0.6, ease: Egg.EASE.move }, 3.3);
+          Egg.highlight(tl, q(".found .egg-hl"), 3.9);
+
+          // it goes into the prompt, with the question
+          Egg.fadeOut(tl, [q(".docs"), q(".dname")], 4.75);
+          tl.to(q(".found"), { y: PROMPT_TOP - FOUND_TOP, duration: 0.7, ease: Egg.EASE.move }, 4.9);
+          tl.to(frame, { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 5.5);
+          Egg.fadeUp(tl, q(".tag"), 5.85, { y: 10 });
+
+          // "then Claude answers from it"
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 5.65);
+          const nudge = (el, y0) => tl.fromTo(el, { y: y0 }, { y: y0 + 14, duration: 0.22, ease: "power2.in", yoyo: true, repeat: 1, immediateRender: false }, 6.0);
+          [q(".ask"), frame, q(".tag")].forEach((el) => nudge(el, 0));
+          nudge(q(".found"), PROMPT_TOP - FOUND_TOP);
+          tl.fromTo(q(".logo"), { scale: 1 }, { scale: 1.18, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 6.35);
+          tl.to(q(".logo"), { rotation: 90, duration: 2.0, ease: "power1.inOut" }, 6.5);
+          Egg.fadeUp(tl, q(".ans"), 6.3);
+          tl.set(q(".src"), { opacity: 0 }, 0);
+          Egg.typeOn(tl, q(".ans .txt"), 6.5, { cps: 45 });
+          Egg.pop(tl, q(".src"), 8.45, { dur: 0.45 });
+          // "yes, up to 300 dollars a year"
+          Egg.highlight(tl, q(".ans .egg-hl"), 8.55);
+          tl.set(q(".ok"), { opacity: 0 }, 0);
+          Egg.stamp(tl, q(".ok"), 8.75, q(".ans"));
+          Egg.fadeUp(tl, q(".egg-label"), 9.0);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".egg-svg"), q(".ask"), q(".tag"), q(".logo"), q(".ans"), q(".ok"), q(".egg-label")], DUR - 0.35);
+          Egg.fadeOut(tl, q(".found"), DUR - 0.35, { y: PROMPT_TOP - FOUND_TOP - 20 });   // it sits 540 px up by now
+          window.__timelines["s05-answer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

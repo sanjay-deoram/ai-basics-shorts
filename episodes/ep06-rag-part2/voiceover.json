@@ -1,0 +1,32 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.2, "text": "How does rag work? Let's follow one question." },
+    { "scene": "s02", "at": 0.3, "text": "But before anyone asks, the app splits your company's docs into small chunks." },
+    { "scene": "s02", "at": 5.1, "text": "An embedding model turns each chunk into numbers that capture its meaning." },
+    { "scene": "s02", "at": 9.9, "text": "The app saves them in a vector database, ready for questions." },
+    { "scene": "s03", "at": 0.3, "text": "Now you ask: can I expense a home office chair?" },
+    { "scene": "s03", "at": 3.6, "text": "Step one, retrieve. Your question becomes numbers too," },
+    { "scene": "s03", "at": 7.5, "text": "and the database finds the chunks closest in meaning:" },
+    { "scene": "s03", "at": 10.45, "text": "the two about expenses." },
+    { "scene": "s04", "at": 0.3, "text": "Step two, augment. Those two chunks go into the prompt, along with your question." },
+    { "scene": "s04", "at": 5.9, "text": "Step three, generate. Claude reads the prompt and answers from your docs." },
+    { "scene": "s04", "at": 10.85, "text": "Yes, you can: up to 300 dollars a year." },
+    { "scene": "s05", "at": 0.3, "text": "Retrieve, augment, generate. That's rag." },
+    { "scene": "s05", "at": 3.85, "text": "Follow for more AI basics." }
+  ]
+}

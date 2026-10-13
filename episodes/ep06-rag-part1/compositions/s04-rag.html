@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.5,"sfx":"click-soft","vol":0.18},
+      {"t":2.25,"sfx":"click-soft","vol":0.18},
+      {"t":3.5,"sfx":"click-soft","vol":0.18},
+      {"t":3.95,"sfx":"pop","vol":0.22},
+      {"t":4.6,"sfx":"pop","vol":0.22},
+      {"t":5.25,"sfx":"pop","vol":0.22},
+      {"t":6.15,"sfx":"sparkle","vol":0.16,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · The fix: RAG, in OpenAI's words. The quote card (verbatim, OpenAI's "Optimizing LLM Accuracy" guide):
+           Retrieving / Augment / Generating light up as the voice says each part of the name. Then the three letters,
+           each with a plain-language line: R Retrieve, A Augment, G Generate. "An open-book exam for AI." (the guide's
+           own analogy: in-context memory is having the textbook in the exam). Avatar: small top right (narrator.html
+           "corner"); the quote card stays left of x 830. Voiceover: 0.3 "The fix is rag: retrieval-augmented
+           generation." 3.9 "Look up the right part of the docs first, then answer." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .quote { position: absolute; left: 90px; width: 740px; top: 290px; padding: 30px 40px; gap: 16px; border-radius: 32px; }
+        .s04 .quote .txt { margin: 0; font: 400 34px/1.42 var(--f-body); color: var(--ink); }
+        .s04 .row { position: absolute; left: 90px; width: 860px; height: 140px; }
+        .s04 .row .L { position: absolute; left: 0; width: 120px; top: 0; text-align: center; font: 300 128px/1 var(--f-display); color: var(--ink); }
+        .s04 .row .w { position: absolute; left: 150px; top: 6px; font: 300 60px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s04 .row .g { position: absolute; left: 150px; top: 82px; font: 400 34px/1.2 var(--f-body); color: var(--smoke); white-space: nowrap; }
+        .s04 .egg-label { position: absolute; left: 90px; width: 860px; top: 1100px; }
+        .s04 .foot { position: absolute; left: 90px; width: 860px; top: 1206px; text-align: center; }
+      </style>
+      <div data-hf-id="hf-7hpj" id="root" data-composition-id="s04-rag" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <span data-hf-id="hf-kuc2" class="egg-eyebrow">The fix: RAG</span>
+          <div data-hf-id="hf-g1f6" class="egg-card quote">
+            <span data-hf-id="hf-urxo" class="egg-card-kicker">OpenAI's definition</span>
+            <p data-hf-id="hf-wzbz" class="txt">“RAG is the process of <span data-hf-id="hf-5pea" class="egg-hl">Retrieving</span> content to <span data-hf-id="hf-jh0w" class="egg-hl">Augment</span> your LLM’s prompt before <span data-hf-id="hf-jkp9" class="egg-hl">Generating</span> an answer.”</p>
+          </div>
+          <div data-hf-id="hf-axag" class="row" style="top:612px"><span data-hf-id="hf-dhyj" class="L">R</span><span data-hf-id="hf-qpz0" class="w">Retrieve</span><span data-hf-id="hf-kkau" class="g">find the right part of the docs</span></div>
+          <div data-hf-id="hf-2fik" class="row" style="top:762px"><span data-hf-id="hf-6qr2" class="L">A</span><span data-hf-id="hf-zzuj" class="w">Augment</span><span data-hf-id="hf-h85w" class="g">add it to the prompt</span></div>
+          <div data-hf-id="hf-a373" class="row" style="top:912px"><span data-hf-id="hf-5y50" class="L">G</span><span data-hf-id="hf-czk7" class="w">Generate</span><span data-hf-id="hf-nvcs" class="g">the AI writes the answer</span></div>
+          <p data-hf-id="hf-xde2" class="egg-label">An open-book exam for AI.</p>
+          <span data-hf-id="hf-n5yp" class="foot egg-foot">Quote: OpenAI, Optimizing LLM Accuracy · LLM = AI model</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.8;
+          const root = document.querySelector('[data-composition-id="s04-rag"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const hls = all(".quote .egg-hl"), rows = all(".row");
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // OpenAI's definition; each part of the name lights up as the voice says it
+          Egg.fadeUp(tl, q(".quote"), 0.3);
+          [1.5, 2.25, 3.5].forEach((t, i) => Egg.highlight(tl, hls[i], t, { dur: 0.35 }));
+
+          // in plain words: R, A, G
+          [3.95, 4.6, 5.25].forEach((t, i) => {
+            Egg.pop(tl, rows[i].querySelector(".L"), t, { dur: 0.5 });
+            Egg.fadeUp(tl, [rows[i].querySelector(".w"), rows[i].querySelector(".g")], t + 0.1, { y: 16, stagger: 0.08, dur: 0.45 });
+          });
+          Egg.fadeUp(tl, q(".egg-label"), 6.15);
+          Egg.fadeUp(tl, q(".foot"), 6.35, { y: 10 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".quote"), ...rows, q(".egg-label"), q(".foot")], DUR - 0.35);
+          window.__timelines["s04-rag"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

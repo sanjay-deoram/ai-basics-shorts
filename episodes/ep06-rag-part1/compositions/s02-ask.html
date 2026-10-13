@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.2,"sfx":"typing","vol":0.2,"dur":1.5},
+      {"t":3.2,"sfx":"pop","vol":0.24},
+      {"t":3.5,"sfx":"whoosh-short","vol":0.16},
+      {"t":4.85,"sfx":"error","vol":0.16,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The problem, before any term is named (labelled "Example"). An employee asks a question only someone at
+           the company could answer: "Can I expense a home office chair?". Claude (the Claude logo) has never seen the
+           company's expense policy, so it can't say (taupe = weak answer, illustrative) and gets an ink "✕ Can't know"
+           stamp. "It can't answer." Everything stays above y 960, so the avatar has the bottom right (narrator.html
+           "br"). Voiceover: 0.3 "Ask an AI about your company: can I expense a home office chair?" 4.6 "It can't
+           answer." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .ask { position: absolute; left: 90px; width: 860px; top: 290px; padding: 26px 36px; gap: 12px; border-radius: 32px; }
+        .s02 .ask .egg-mono { font-size: 34px; white-space: nowrap; }
+        .s02 .logo { position: absolute; left: 90px; top: 466px; width: 88px; height: 88px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
+        .s02 .who { position: absolute; left: 200px; top: 498px; }
+        .s02 .ans { position: absolute; left: 90px; width: 860px; top: 590px; padding: 30px 36px; gap: 14px; border-radius: 32px; }
+        .s02 .ans .txt { margin: 0; font: 400 36px/1.38 var(--f-body); color: var(--graphite); text-wrap: balance; }
+        .s02 .nope { position: absolute; left: 676px; top: 558px; color: var(--ink); background: var(--eggshell); font-size: 28px; }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 868px; }
+      </style>
+      <div id="root" data-composition-id="s02-ask" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">Example · at your company</span>
+          <div class="egg-card ask">
+            <span class="egg-card-kicker">You ask</span>
+            <p class="egg-mono qt">Can I expense a home office chair?</p>
+          </div>
+          <div class="logo"></div>
+          <span class="egg-card-kicker who">Claude · without your company's docs</span>
+          <div class="egg-card taupe ans">
+            <span class="egg-card-kicker">Example answer</span>
+            <p class="txt">I don't have your company's expense policy. Check your handbook or ask HR.</p>
+          </div>
+          <span class="egg-stamp nope">✕ Can't know</span>
+          <p class="egg-label">It can't answer.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.8;
+          const root = document.querySelector('[data-composition-id="s02-ask"] .s02');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+
+          // the employee's question (the voice reads it as it types)
+          Egg.fadeUp(tl, q(".ask"), 0.3);
+          Egg.typeOn(tl, q(".qt"), 1.2, { cps: 18 });
+
+          // Claude, without the company's docs, can't know
+          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 3.2);
+          Egg.fadeUp(tl, q(".who"), 3.3, { y: 12 });
+          Egg.fadeUp(tl, q(".ans"), 3.5);
+          tl.to(q(".logo"), { rotation: 60, duration: 1.6, ease: "power1.inOut" }, 3.7);
+          tl.set(q(".nope"), { opacity: 0 }, 0);
+          Egg.stamp(tl, q(".nope"), 4.85, q(".ans"));
+          Egg.fadeUp(tl, q(".egg-label"), 5.15);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".ask"), q(".logo"), q(".who"), q(".ans"), q(".nope"), q(".egg-label")], DUR - 0.35);
+          window.__timelines["s02-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
