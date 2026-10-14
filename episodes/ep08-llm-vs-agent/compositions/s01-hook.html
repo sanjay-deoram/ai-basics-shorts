@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"whoosh-short","vol":0.3},
+      {"t":0.85,"sfx":"sparkle","vol":0.18,"dur":1.0},
+      {"t":2.15,"sfx":"click-soft","vol":0.2},
+      {"t":2.8,"sfx":"pop","vol":0.25}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. "LLM vs AI agent: what's the difference?" ("difference" highlighted as the voice says it). Under
+           it, the two players: an ink LLM box draws on "LLM", "vs", and an agent pops on "AI agent". The narrator avatar
+           peeks in large from the right (narrator.html "title"). Voiceover 0.2: "What's the difference between an LLM
+           and an AI agent?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
+        .s01 .egg-display .w { display: inline-block; }
+        .s01 .vs { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+        .s01 .llm-t { position: absolute; left: 110px; top: 1010px; width: 220px; text-align: center; font: 300 72px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s01 .vs-t { position: absolute; left: 350px; top: 1022px; width: 80px; text-align: center; font: 400 34px/1 var(--f-mono); color: var(--smoke); }
+        .s01 .agent-at { position: absolute; left: 450px; top: 960px; }
+        .s01 .kick { position: absolute; top: 1180px; width: 220px; text-align: center; }
+      </style>
+      <div data-hf-id="hf-sqll" id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tf6y" class="egg-scene s01">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-thwt" class="egg-eyebrow">AI basics · Episode 08</span>
+            <h1 data-hf-id="hf-yuh4" class="egg-display"><span data-hf-id="hf-0rk7" class="w">LLM</span> <span data-hf-id="hf-xi2j" class="w">vs</span> <span data-hf-id="hf-hlbq" class="w">AI</span> <span data-hf-id="hf-tuxl" class="w">agent:</span> <span data-hf-id="hf-14v0" class="w">what's</span> <span data-hf-id="hf-9o0j" class="w">the</span> <span data-hf-id="hf-fr20" class="w"><span data-hf-id="hf-dzqn" class="egg-hl">difference?</span></span></h1>
+          </div>
+          <div data-hf-id="hf-abk4" class="vs" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <rect data-hf-id="hf-scuk" class="ink" data-draw="0" data-dur="0.5" x="110" y="960" width="220" height="170" rx="36" />
+            </svg>
+            <span data-hf-id="hf-kqe0" class="llm-t">LLM</span>
+            <span data-hf-id="hf-wg7w" class="vs-t">vs</span>
+            <div data-hf-id="hf-bk6r" class="agent-at"><span data-hf-id="hf-j6i8" class="egg-agent" style="--s:170px">&gt;_</span></div>
+            <span data-hf-id="hf-0s0o" class="egg-card-kicker kick" style="left:110px">The model</span>
+            <span data-hf-id="hf-v16n" class="egg-card-kicker kick" style="left:425px">The agent</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.0;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1);
+          Egg.fadeUp(tl, all(".egg-display .w"), 0.3, { y: 60, stagger: 0.07, dur: 0.6 });
+          Egg.highlight(tl, q(".egg-display .egg-hl"), 0.85);
+          // "…between an LLM" → the model draws; "…and an AI agent?" → the agent pops
+          Egg.draw(tl, q(".vs svg"), 2.1);
+          Egg.fadeUp(tl, q(".llm-t"), 2.2, { y: 14 });
+          Egg.fadeUp(tl, q(".vs-t"), 2.45, { y: 10 });
+          Egg.pop(tl, q(".agent-at"), 2.75);
+          Egg.fadeUp(tl, all(".kick")[0], 2.35, { y: 10 });
+          Egg.fadeUp(tl, all(".kick")[1], 2.9, { y: 10 });
+          Egg.fadeOut(tl, [q(".egg-safe"), q(".vs")], DUR - 0.35);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

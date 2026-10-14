@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":1.1,"sfx":"pop","vol":0.22},
+      {"t":2.3,"sfx":"whoosh","vol":0.2},
+      {"t":2.6,"sfx":"click-soft","vol":0.2},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.2,"sfx":"click-soft","vol":0.2},
+      {"t":5.6,"sfx":"whoosh-short","vol":0.12},
+      {"t":5.85,"sfx":"click-soft","vol":0.2},
+      {"t":7.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":7.15,"sfx":"whoosh","vol":0.16},
+      {"t":7.25,"sfx":"click-soft","vol":0.2},
+      {"t":8.15,"sfx":"click","vol":0.26},
+      {"t":8.75,"sfx":"whoosh-short","vol":0.12},
+      {"t":9.05,"sfx":"pop","vol":0.22},
+      {"t":9.87,"sfx":"chime","vol":0.26,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Example · same request. The s02 request ("Book a table for 2, Friday 7pm.") goes to an agent. Opens close
+           on the request card, pulls back as the run log starts; each step draws its ink icon and lands on the voice's
+           word while a living dot walks down the rail (finished steps turn ink): Memory "You love Italian food" →
+           Search "3 Italian places open Fri 7pm" → Calendar "Friday 7pm is free" → Asks you "Book Luigi's at 7pm for 2?"
+           (push in; "Yes" taps) → Books it "Luigi's · Fri 7pm · for 2" → DONE stamp on the request card. "It doesn't
+           just answer. It gets it done." Illustrative (labelled "Example"). Avatar: corner (smile on "done"); the card
+           stays left of x 830, also while zoomed. Voiceover: 0.3 "Same request, given to an agent." 2.5 "It remembers
+           you love Italian, searches for open tables, and checks your calendar." 7.1 "It asks before booking, then books
+           it. Done." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .cam { position: absolute; inset: 0; }
+        .s05 .ask { position: absolute; left: 90px; top: 290px; width: 700px; padding: 26px 34px; gap: 12px; }
+        .s05 .ask .who { display: flex; align-items: center; gap: 16px; }
+        .s05 .ask .egg-mono { font-size: 32px; white-space: nowrap; }
+        .s05 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s05 .rail { fill: none; stroke: var(--stone); stroke-width: 6; stroke-linecap: round; }
+        .s05 .row { position: absolute; left: 0; width: 1080px; height: 100px; }
+        .s05 .node { position: absolute; left: 117px; top: 37px; width: 26px; height: 26px; border-radius: 50%; border: 4px solid var(--ink); background: var(--eggshell); }
+        .s05 .ic { position: absolute; left: 166px; top: 12px; width: 76px; height: 76px; overflow: visible; }
+        .s05 .txt { position: absolute; left: 270px; top: 8px; display: flex; flex-direction: column; gap: 8px; }
+        .s05 .txt b { font: 400 38px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s05 .line { display: flex; align-items: center; gap: 22px; }
+        .s05 .yes { align-self: auto; padding: 10px 22px; font-size: 26px; }
+        .s05 .dot { position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+        .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1290px; }
+      </style>
+      <div data-hf-id="hf-v7ic" id="root" data-composition-id="s05-example" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ella" class="egg-scene s05">
+          <span data-hf-id="hf-nkt4" class="egg-eyebrow">Example · same request</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-62yt" class="egg-card ask">
+              <div data-hf-id="hf-1ytk" class="egg-card-top">
+                <span data-hf-id="hf-af47" class="who"><span data-hf-id="hf-e6zc" class="egg-agent agent" style="--s:50px">&gt;_</span><span data-hf-id="hf-bhcj" class="egg-card-kicker">You ask an agent</span></span>
+                <span data-hf-id="hf-j9jz" class="egg-stamp good done"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Done</span>
+              </div>
+              <p data-hf-id="hf-458m" class="egg-mono typed">Book a table for 2, Friday 7pm.</p>
+            </div>
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-rh76" class="rail" data-draw="0" data-dur="0.8" d="M130 560 V1120" />
+            </svg>
+            <div data-hf-id="hf-qlli" class="row r1" style="top:510px">
+              <svg data-hf-id="hf-5h13" class="ic" viewBox="0 0 80 80" aria-hidden="true"><rect data-hf-id="hf-s3hh" class="ink thin" data-draw="0" x="16" y="8" width="52" height="64" rx="8" /><path data-hf-id="hf-ndy3" class="ink thin" data-draw="1" d="M28 28 H56 M28 42 H56 M28 56 H46" /><path data-hf-id="hf-jahc" class="ink thin" data-draw="2" d="M8 22 H22 M8 40 H22 M8 58 H22" /></svg>
+              <span data-hf-id="hf-wjnp" class="node"></span>
+              <div data-hf-id="hf-kvio" class="txt"><span data-hf-id="hf-oyok" class="egg-card-kicker">Memory</span><b data-hf-id="hf-wnlc">You love Italian food</b></div>
+            </div>
+            <div data-hf-id="hf-w08q" class="row r2" style="top:650px">
+              <svg data-hf-id="hf-otbr" class="ic" viewBox="0 0 80 80" aria-hidden="true"><circle data-hf-id="hf-fjca" class="ink thin" data-draw="0" cx="34" cy="34" r="22" /><path data-hf-id="hf-3auk" class="ink thin" data-draw="1" d="M50 50 L70 70" /></svg>
+              <span data-hf-id="hf-bba1" class="node"></span>
+              <div data-hf-id="hf-gju0" class="txt"><span data-hf-id="hf-suqr" class="egg-card-kicker">Search</span><b data-hf-id="hf-tgv7">3 Italian places open Fri 7pm</b></div>
+            </div>
+            <div data-hf-id="hf-e7au" class="row r3" style="top:790px">
+              <svg data-hf-id="hf-of0q" class="ic" viewBox="0 0 80 80" aria-hidden="true"><rect data-hf-id="hf-it0x" class="ink thin" data-draw="0" x="8" y="16" width="64" height="56" rx="8" /><path data-hf-id="hf-o2qn" class="ink thin" data-draw="1" d="M8 32 H72 M26 8 V22 M54 8 V22" /><path data-hf-id="hf-dud9" class="ink thin" data-draw="2" d="M27 52 L37 61 L55 43" /></svg>
+              <span data-hf-id="hf-ci74" class="node"></span>
+              <div data-hf-id="hf-fcwx" class="txt"><span data-hf-id="hf-2255" class="egg-card-kicker">Calendar</span><b data-hf-id="hf-fm2y">Friday 7pm is free</b></div>
+            </div>
+            <div data-hf-id="hf-cyl5" class="row r4" style="top:930px">
+              <svg data-hf-id="hf-o0pp" class="ic" viewBox="0 0 80 80" aria-hidden="true"><path data-hf-id="hf-cgh5" class="ink thin" data-draw="0" d="M18 12 H62 Q70 12 70 20 V44 Q70 52 62 52 H36 L22 66 V52 H18 Q10 52 10 44 V20 Q10 12 18 12 Z" /><path data-hf-id="hf-5r84" class="ink thin" data-draw="1" d="M27 32 H29 M39 32 H41 M51 32 H53" /></svg>
+              <span data-hf-id="hf-c3w3" class="node"></span>
+              <div data-hf-id="hf-fr7y" class="txt"><span data-hf-id="hf-v9ko" class="egg-card-kicker">Asks you first</span><span data-hf-id="hf-6c9z" class="line"><b data-hf-id="hf-ch3v">Book Luigi's at 7pm for 2?</b><span data-hf-id="hf-ypy5" class="egg-chip yes">Yes</span></span></div>
+            </div>
+            <div data-hf-id="hf-u1si" class="row r5" style="top:1070px">
+              <svg data-hf-id="hf-qsuw" class="ic" viewBox="0 0 80 80" aria-hidden="true"><circle data-hf-id="hf-x6jb" class="ink thin" data-draw="0" cx="40" cy="40" r="30" /><path data-hf-id="hf-v3pg" class="ink thin" data-draw="1" d="M26 41 L36 51 L55 31" /></svg>
+              <span data-hf-id="hf-a4cy" class="node"></span>
+              <div data-hf-id="hf-ekav" class="txt"><span data-hf-id="hf-bza0" class="egg-card-kicker">Books it</span><b data-hf-id="hf-iysz">Luigi's · Fri 7pm · for 2</b></div>
+            </div>
+            <div data-hf-id="hf-wb8g" class="dot" data-layout-allow-overflow=""></div>
+          </div>
+          <p data-hf-id="hf-npjv" class="egg-label">It doesn't just answer. It gets it done.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 12.0;
+          const root = document.querySelector('[data-composition-id="s05-example"] .s05');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam"), dot = q(".dot");
+          const tl = gsap.timeline({ paused: true });
+          const view = (s, fx, fy, px = fx, py = fy) => ({ scale: s, x: px - s * fx, y: py - s * fy });
+          gsap.set(cam, { transformOrigin: "0 0" });
+          tl.set(cam, view(1.15, 440, 365, 500, 640), 0);
+
+          // "Same request, given to an agent."
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, q(".ask"), 0.1, { y: 24 });
+          Egg.typeOn(tl, q(".typed"), 0.4, { cps: 40 });
+          Egg.pop(tl, q(".agent"), 1.05);
+          tl.set(q(".done"), { opacity: 0 }, 0);
+          // pull back: the run log
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.9, ease: Egg.EASE.move }, 2.3);
+          Egg.draw(tl, q("svg.egg-svg"), 2.4);
+
+          // each step: icon draws, text lands, the dot arrives (node centres: x 130, row top + 50)
+          const STEPS = [[".r1", 2.6], [".r2", 4.2], [".r3", 5.85], [".r4", 7.25], [".r5", 9.05]];
+          const ROW_Y = [560, 700, 840, 980, 1120];
+          tl.fromTo(dot, { x: 113, y: ROW_Y[0] - 17, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: Egg.EASE.pop }, 2.55);
+          STEPS.forEach(([s, t], i) => {
+            const row = q(s);
+            Egg.pop(tl, row.querySelector(".node"), i ? t - 0.15 : 2.5, { dur: 0.35 });
+            Egg.draw(tl, row.querySelector(".ic"), t, { gap: 0.12, dur: 0.35 });
+            Egg.fadeUp(tl, row.querySelector(".txt"), t + 0.05, { y: 18 });
+            if (i > 0) {
+              tl.to(dot, { y: ROW_Y[i] - 17, duration: 0.4, ease: Egg.EASE.move }, t - 0.3);
+              tl.to(q(STEPS[i - 1][0] + " .node"), { backgroundColor: "#000000", duration: 0.2, ease: "none" }, t - 0.3);
+            }
+          });
+          // "It asks before booking": push in on the question; you tap Yes
+          tl.to(cam, { ...view(1.1, 400, 390), duration: 0.6, ease: Egg.EASE.move }, 7.15);
+          Egg.pop(tl, q(".yes"), 8.15);
+          tl.to(q(".yes"), { borderColor: "#000000", color: "#000000", duration: 0.15, ease: "none" }, 8.3);
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.6, ease: Egg.EASE.move }, 8.75);
+          // "Done."
+          tl.to(q(".r5 .node"), { backgroundColor: "#000000", duration: 0.2, ease: "none" }, 9.8);
+          tl.to(dot, { scale: 0, opacity: 0, duration: 0.25, ease: Egg.EASE.exit }, 9.8);
+          Egg.stamp(tl, q(".done"), 9.87, q(".ask"));
+          Egg.fadeUp(tl, q(".egg-label"), 10.4);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam, q(".egg-label")], DUR - 0.35);
+          window.__timelines["s05-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.2},
+      {"t":2.3,"sfx":"whoosh","vol":0.2},
+      {"t":2.9,"sfx":"click-soft","vol":0.18},
+      {"t":3.95,"sfx":"click-soft","vol":0.18},
+      {"t":5.5,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":6.35,"sfx":"whoosh-short","vol":0.16},
+      {"t":6.95,"sfx":"pop","vol":0.22},
+      {"t":8.08,"sfx":"error","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · 1 · The LLM. Starts zoomed in on an ink box that draws itself: "LLM · large language model". The camera
+           pulls back as the voice says "reads your words and writes words back": an arrow in ("words in") and an arrow
+           out ("words out"). Then the live example: "Book a table for 2, Friday 7pm." types on, a dot carries it into
+           the box, and advice comes out (taupe card). On "Then it stops" a stop chip lands and the box goes quiet.
+           "It answers. You do the rest." Avatar: corner (doubt on "Then it stops"); the prompt card stays left of x 830.
+           Voiceover: 0.3 "An LLM, a large language model, reads your words and writes words back." 5.4 "Ask it to
+           book dinner, and you get advice. Then it stops." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .cam { position: absolute; inset: 0; }
+        .s02 .ask { position: absolute; left: 90px; top: 290px; width: 740px; padding: 28px 36px; gap: 12px; }
+        .s02 .ask .egg-mono { font-size: 34px; white-space: nowrap; }
+        .s02 .llm-t { position: absolute; left: 260px; width: 400px; top: 655px; text-align: center; font: 300 120px/1 var(--f-display); letter-spacing: -0.03em; color: var(--ink); }
+        .s02 .llm-s { position: absolute; left: 260px; width: 400px; top: 792px; text-align: center; }
+        .s02 .lab { position: absolute; left: 492px; }
+        .s02 .answer { position: absolute; left: 90px; top: 1010px; width: 740px; padding: 28px 36px; gap: 12px; }
+        .s02 .answer p { font: 400 34px/1.38 var(--f-body); color: var(--graphite); margin: 0; }
+        .s02 .at { position: absolute; width: 0; height: 0; display: flex; align-items: center; justify-content: center; }
+        .s02 .stop { flex: none; white-space: nowrap; align-self: auto; }
+        .s02 .stop i { display: block; width: 18px; height: 18px; border-radius: 3px; background: var(--ink); }
+        .s02 .dot { position: absolute; left: 0; top: 0; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+        .s02 .egg-label { position: absolute; left: 90px; width: 740px; top: 1320px; }
+      </style>
+      <div data-hf-id="hf-xce4" id="root" data-composition-id="s02-llm" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <span data-hf-id="hf-p66w" class="egg-eyebrow">1 · The LLM</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-62yt" class="egg-card ask">
+              <span data-hf-id="hf-v377" class="egg-card-kicker">You ask</span>
+              <p data-hf-id="hf-458m" class="egg-mono typed">Book a table for 2, Friday 7pm.</p>
+            </div>
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <rect data-hf-id="hf-e1ay" class="ink box" data-draw="0" data-dur="0.9" x="260" y="610" width="400" height="240" rx="44" />
+              <path data-hf-id="hf-40g0" class="ink thin" data-draw="9" data-dur="0.45" d="M460 462 V590" />
+              <path data-hf-id="hf-1hbj" class="ink thin" data-draw="10" data-dur="0.2" d="M440 570 L460 592 L480 570" />
+              <path data-hf-id="hf-glab" class="ink thin" data-draw="12" data-dur="0.45" d="M460 870 V990" />
+              <path data-hf-id="hf-22ue" class="ink thin" data-draw="13" data-dur="0.2" d="M440 970 L460 992 L480 970" />
+            </svg>
+            <span data-hf-id="hf-kqe0" class="llm-t">LLM</span>
+            <span data-hf-id="hf-e93o" class="egg-card-kicker llm-s">Large language model</span>
+            <span data-hf-id="hf-2jri" class="egg-card-kicker lab l-in" style="top:515px">Words in</span>
+            <span data-hf-id="hf-y055" class="egg-card-kicker lab l-out" style="top:918px">Words out</span>
+            <div data-hf-id="hf-wb8g" class="dot" data-layout-allow-overflow=""></div>
+            <div data-hf-id="hf-qwq9" class="egg-card taupe answer">
+              <span data-hf-id="hf-jpwb" class="egg-card-kicker">LLM · answer</span>
+              <p data-hf-id="hf-yexh">Try Luigi's or Roma Trattoria. Call them to book a table.</p>
+            </div>
+            <div data-hf-id="hf-prk3" class="at" style="left:460px;top:1250px" data-layout-allow-overflow=""><span data-hf-id="hf-835y" class="egg-chip stop"><i data-hf-id="hf-wt6k"></i>Then it stops</span></div>
+          </div>
+          <p data-hf-id="hf-j55k" class="egg-label">It answers. You do the rest.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.4;
+          const root = document.querySelector('[data-composition-id="s02-llm"] .s02');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam"), dot = q(".dot");
+          const tl = gsap.timeline({ paused: true });
+          // camera: point (fx, fy) of the page shown at screen (px, py), scale s
+          const view = (s, fx, fy, px = fx, py = fy) => ({ scale: s, x: px - s * fx, y: py - s * fy });
+          gsap.set(cam, { transformOrigin: "0 0" });
+          tl.set(cam, view(1.6, 460, 730, 520, 820), 0);
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1, { y: 16 });
+          // "An LLM, a large language model": the box draws while we're close
+          Egg.draw(tl, q(".egg-svg"), 0.3, { gap: 0.3 });
+          Egg.fadeUp(tl, q(".llm-t"), 0.45, { y: 20 });
+          Egg.fadeUp(tl, q(".llm-s"), 1.0, { y: 10 });
+          // "reads your words and writes words back": pull back; arrows in and out
+          tl.to(cam, { ...view(1, 0, 0), duration: 1.0, ease: Egg.EASE.move }, 2.3);
+          Egg.fadeUp(tl, q(".l-in"), 2.95, { y: 10 });
+          Egg.fadeUp(tl, q(".l-out"), 3.95, { y: 10 });
+
+          // "Ask it to book dinner": the request types on and travels in
+          Egg.fadeUp(tl, q(".ask"), 5.2, { y: 24 });
+          Egg.typeOn(tl, q(".typed"), 5.5, { cps: 40 });
+          tl.fromTo(dot, { x: 445, y: 450, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.2, ease: Egg.EASE.pop }, 6.3);
+          tl.to(dot, { y: 600, duration: 0.35, ease: "power2.in" }, 6.4);
+          tl.to(dot, { scale: 0, opacity: 0, duration: 0.12 }, 6.72);
+          tl.fromTo([q(".box"), q(".llm-t")], { scale: 1 }, { scale: 1.05, transformOrigin: "50% 50%", duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 6.72);
+          // "and you get advice": the answer comes out; the camera leans in on it
+          Egg.fadeUp(tl, q(".answer"), 6.95, { y: 30 });
+          tl.to(cam, { ...view(1.06, 460, 360), duration: 0.6, ease: Egg.EASE.move }, 7.0);
+          // "Then it stops": stop chip, the box goes quiet
+          Egg.pop(tl, q(".stop"), 8.05);
+          tl.to(q(".box"), { stroke: "#a59f97", duration: 0.4, ease: "none" }, 8.1);
+          tl.to(q(".llm-t"), { color: "#777169", duration: 0.4, ease: "none" }, 8.1);
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.6, ease: Egg.EASE.move }, 8.5);
+          Egg.fadeUp(tl, q(".egg-label"), 8.75);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam, q(".egg-label")], DUR - 0.35);
+          window.__timelines["s02-llm"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

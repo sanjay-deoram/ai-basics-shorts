@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.42,"sfx":"click","vol":0.3},
+      {"t":0.87,"sfx":"click","vol":0.3},
+      {"t":1.32,"sfx":"click","vol":0.3},
+      {"t":2.15,"sfx":"chime","vol":0.3,"dur":1.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · End card. Three takeaways tick in as the voice says "That's the difference.", then the note and sources,
+           then the follow pill on "Follow"; the narrator avatar stands centred above them (narrator.html "end") and
+           smiles. No fade-out: the last frame holds so the video loops cleanly. Voiceover: 0.3 "That's the difference."
+           2.0 "Follow for more AI basics." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .egg-safe { gap: 50px; justify-content: flex-start; padding-top: 470px; }
+        .s07 .foot { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 10px; }
+        .s07 .egg-foot { font-size: 26px; color: var(--graphite); text-align: center; }
+        .s07 .egg-chip.egg-pill-dark { margin-top: 20px; font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div data-hf-id="hf-pt5l" id="root" data-composition-id="s07-end" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-9vtg" class="egg-scene s07">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-8c1x" class="egg-eyebrow">Remember</span>
+            <ul data-hf-id="hf-w8on" class="egg-checks">
+              <li data-hf-id="hf-ctcs"><span data-hf-id="hf-coyi" class="tick"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg></span>LLM: words in, words out</li>
+              <li data-hf-id="hf-o9xz"><span data-hf-id="hf-ptha" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Agent: LLM + tools + loop</li>
+              <li data-hf-id="hf-8e28"><span data-hf-id="hf-q7sb" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></span>One answers. One acts.</li>
+            </ul>
+            <div data-hf-id="hf-mlgk" class="foot">
+              <span data-hf-id="hf-7y77" class="egg-foot f1">The dinner booking is an illustrative example</span>
+              <span data-hf-id="hf-8nxw" class="egg-foot f2">Sources: JetBrains · Anthropic</span>
+              <span data-hf-id="hf-ulst" class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s07-end"] .s07');
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, root.querySelector(".egg-checks"), 0.3, { gap: 0.45 });
+          Egg.fadeUp(tl, [root.querySelector(".f1"), root.querySelector(".f2")], 1.8, { y: 12, stagger: 0.15 });
+          Egg.pop(tl, root.querySelector(".egg-pill-dark"), 2.1);
+          window.__timelines["s07-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

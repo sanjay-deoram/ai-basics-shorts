@@ -1,0 +1,31 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.2, "text": "What's the difference between an LLM and an AI agent?" },
+    { "scene": "s02", "at": 0.3, "text": "An LLM, a large language model, reads your words and writes words back." },
+    { "scene": "s02", "at": 5.4, "text": "Ask it to book dinner, and you get advice. Then it stops." },
+    { "scene": "s03", "at": 0.3, "text": "An AI agent wraps that same model in a system," },
+    { "scene": "s03", "at": 3.7, "text": "with tools it can use, memory, and a loop." },
+    { "scene": "s04", "at": 0.2, "text": "It thinks, takes an action, checks the result, and loops until the job is done." },
+    { "scene": "s05", "at": 0.3, "text": "Same request, given to an agent." },
+    { "scene": "s05", "at": 2.5, "text": "It remembers you love Italian, searches for open tables, and checks your calendar." },
+    { "scene": "s05", "at": 7.1, "text": "It asks before booking, then books it. Done." },
+    { "scene": "s06", "at": 0.3, "text": "So, an LLM answers questions. An agent completes tasks." },
+    { "scene": "s07", "at": 0.3, "text": "That's the difference." },
+    { "scene": "s07", "at": 2.0, "text": "Follow for more AI basics." }
+  ]
+}

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.55,"sfx":"whoosh","vol":0.22},
+      {"t":1.1,"sfx":"pop","vol":0.2},
+      {"t":4.0,"sfx":"click-soft","vol":0.2},
+      {"t":5.25,"sfx":"click-soft","vol":0.2},
+      {"t":6.0,"sfx":"whoosh-short","vol":0.16},
+      {"t":6.75,"sfx":"sparkle","vol":0.16,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 2 · The AI agent. Opens at 2× on the same LLM box as s02, then pulls back: the box sits inside a bigger
+           ink outline, badged "AI agent". On the voice's words, tools draw (search + calendar), then memory (a notebook),
+           then a loop arrow around the model. "An agent = LLM + tools + memory + a loop." Avatar: corner; nothing sits
+           above y 485 but the eyebrow. Voiceover: 0.3 "An AI agent wraps that same model in a system," 3.7 "with tools
+           it can use, memory, and a loop." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .cam { position: absolute; inset: 0; }
+        .s03 .llm-t { position: absolute; left: 370px; width: 300px; top: 740px; text-align: center; font: 300 100px/1 var(--f-display); letter-spacing: -0.03em; color: var(--ink); }
+        .s03 .badge { position: absolute; left: 146px; top: 552px; display: flex; align-items: center; gap: 20px; }
+        .s03 .at { position: absolute; width: 0; height: 0; display: flex; align-items: center; justify-content: center; }
+        .s03 .tag { flex: none; white-space: nowrap; align-self: auto; }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+      </style>
+      <div data-hf-id="hf-amtp" id="root" data-composition-id="s03-agent" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <span data-hf-id="hf-p5n9" class="egg-eyebrow">2 · The AI agent</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <rect data-hf-id="hf-nj9z" class="ink box" x="370" y="690" width="300" height="200" rx="40" />
+              <g data-hf-id="hf-x6tm" class="g-out"><rect data-hf-id="hf-10ii" class="ink thin" data-draw="0" data-dur="1.0" x="110" y="520" width="820" height="720" rx="56" /></g>
+              <g data-hf-id="hf-qrnr" class="g-tools">
+                <circle data-hf-id="hf-0kgi" class="ink thin" data-draw="0" data-dur="0.4" cx="204" cy="1044" r="26" />
+                <path data-hf-id="hf-sump" class="ink thin" data-draw="1" data-dur="0.2" d="M223 1063 L248 1088" />
+                <rect data-hf-id="hf-9sww" class="ink thin" data-draw="1" data-dur="0.45" x="280" y="1018" width="84" height="74" rx="10" />
+                <path data-hf-id="hf-lij7" class="ink thin" data-draw="2" data-dur="0.3" d="M280 1040 H364 M302 1008 V1026 M342 1008 V1026" />
+                <path data-hf-id="hf-b5dr" class="ink thin" data-draw="3" data-dur="0.25" d="M302 1066 L316 1078 L340 1054" />
+              </g>
+              <g data-hf-id="hf-xrvp" class="g-mem">
+                <rect data-hf-id="hf-0iqq" class="ink thin" data-draw="0" data-dur="0.45" x="700" y="1006" width="76" height="92" rx="10" />
+                <path data-hf-id="hf-fkxp" class="ink thin" data-draw="1" data-dur="0.3" d="M716 1032 H760 M716 1052 H760 M716 1072 H748" />
+                <path data-hf-id="hf-bi4c" class="ink thin" data-draw="2" data-dur="0.25" d="M690 1026 H708 M690 1052 H708 M690 1078 H708" />
+              </g>
+              <g data-hf-id="hf-zxyw" class="g-loop">
+                <path data-hf-id="hf-m97y" class="ink thin" data-draw="0" data-dur="0.7" d="M602.1 639.6 A240 160 0 1 1 365.7 667.4" />
+                <path data-hf-id="hf-3eze" class="ink thin" data-draw="2" data-dur="0.2" d="M350.8 694.1 L365.7 667.4 L335.2 666.1" />
+              </g>
+            </svg>
+            <span data-hf-id="hf-kqe0" class="llm-t">LLM</span>
+            <div data-hf-id="hf-9s2p" class="badge"><span data-hf-id="hf-nu0o" class="egg-agent" style="--s:64px">&gt;_</span><span data-hf-id="hf-izes" class="egg-card-kicker">AI agent</span></div>
+            <div data-hf-id="hf-a35g" class="at" style="left:265px;top:1160px" data-layout-allow-overflow=""><span data-hf-id="hf-qtlk" class="egg-chip tag t-tools">Tools</span></div>
+            <div data-hf-id="hf-ucep" class="at" style="left:734px;top:1160px" data-layout-allow-overflow=""><span data-hf-id="hf-lgrg" class="egg-chip tag t-mem">Memory</span></div>
+            <div data-hf-id="hf-rjmv" class="at" style="left:846px;top:790px" data-layout-allow-overflow=""><span data-hf-id="hf-q6tk" class="egg-chip tag t-loop">Loop</span></div>
+          </div>
+          <p data-hf-id="hf-851b" class="egg-label">An agent = LLM + tools + memory + a loop.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.4;
+          const root = document.querySelector('[data-composition-id="s03-agent"] .s03');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          const view = (s, fx, fy, px = fx, py = fy) => ({ scale: s, x: px - s * fx, y: py - s * fy });
+          gsap.set(cam, { transformOrigin: "0 0" });
+          tl.set(cam, view(2, 520, 790, 520, 860), 0);
+          // the same model as s02, close up
+          tl.fromTo([q(".box"), q(".llm-t")], { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none" }, 0);
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.1, { y: 16 });
+          // "An AI agent wraps that same model in a system": pull back, the outline draws around it
+          tl.to(cam, { ...view(1, 0, 0), duration: 1.0, ease: Egg.EASE.move }, 0.55);
+          Egg.draw(tl, q(".g-out"), 0.85);
+          Egg.pop(tl, q(".badge"), 1.1);
+          tl.fromTo([q(".box"), q(".llm-t")], { scale: 1 }, { scale: 1.05, transformOrigin: "50% 50%", duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 2.0);
+          // "…in a system": a slow lean in on the whole agent, easing back as the parts arrive
+          tl.to(cam, { ...view(1.03, 520, 880), duration: 0.6, ease: Egg.EASE.move }, 2.5);
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.6, ease: Egg.EASE.move }, 3.75);
+          // "with tools it can use, memory, and a loop"
+          Egg.draw(tl, q(".g-tools"), 3.95, { gap: 0.22 });
+          Egg.pop(tl, q(".t-tools"), 4.15);
+          Egg.draw(tl, q(".g-mem"), 5.2, { gap: 0.2 });
+          Egg.pop(tl, q(".t-mem"), 5.35);
+          Egg.draw(tl, q(".g-loop"), 5.95, { gap: 0.3 });
+          Egg.pop(tl, q(".t-loop"), 6.3);
+          Egg.fadeUp(tl, q(".egg-label"), 6.75);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam, q(".egg-label")], DUR - 0.35);
+          window.__timelines["s03-agent"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

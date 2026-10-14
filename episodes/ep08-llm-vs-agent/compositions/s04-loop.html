@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"click-soft","vol":0.18},
+      {"t":0.45,"sfx":"pop","vol":0.2},
+      {"t":0.9,"sfx":"whoosh","vol":0.18},
+      {"t":1.15,"sfx":"pop","vol":0.2},
+      {"t":2.22,"sfx":"pop","vol":0.2},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.16},
+      {"t":4.5,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · How an agent works. Opens close on "Think" and pulls back as the loop draws: Think (plans the next step)
+           → Act (uses a tool) → Check (looks at the result), three ink arcs with arrowheads. A living dot runs the
+           loop on the voice's words, then laps it on "loops"; the agent sits in the middle and a DONE stamp lands on
+           "done". "Think, act, check. Repeat until it's done." Avatar: corner; nothing above y 485 but the eyebrow.
+           Voiceover: 0.2 "It thinks, takes an action, checks the result, and loops until the job is done." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .cam { position: absolute; inset: 0; }
+        .s04 .at { position: absolute; width: 0; height: 0; display: flex; align-items: center; justify-content: center; }
+        .s04 .stop { flex: none; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+        .s04 .stop.up { flex-direction: column-reverse; }
+        .s04 .pill { font: 400 34px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); border: 3px solid var(--ink); border-radius: 9999px; padding: 16px 28px; white-space: nowrap; }
+        .s04 .sub { white-space: nowrap; }
+        .s04 .dot { position: absolute; left: 0; top: 0; width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+        .s04 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s04 .egg-label { position: absolute; left: 90px; width: 860px; top: 1290px; }
+      </style>
+      <div data-hf-id="hf-55yp" id="root" data-composition-id="s04-loop" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <span data-hf-id="hf-6x1c" class="egg-eyebrow">How an agent works</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-3tuu" class="egg-svg loop" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-9h4c" class="ink thin" data-draw="0" data-dur="0.5" d="M574.2 651.8 A240 240 0 0 1 734.8 929.9" />
+              <path data-hf-id="hf-7bpi" class="ink thin" data-draw="1" data-dur="0.15" d="M752.1 911.1 L734.8 929.9 L726.7 905.7" />
+              <path data-hf-id="hf-pzuu" class="ink thin" data-draw="2" data-dur="0.5" d="M660.6 1058.4 A240 240 0 0 1 339.4 1058.4" />
+              <path data-hf-id="hf-d9u0" class="ink thin" data-draw="3" data-dur="0.15" d="M364.4 1063.4 L339.4 1058.4 L347 1082.8" />
+              <path data-hf-id="hf-ss7s" class="ink thin" data-draw="4" data-dur="0.5" d="M265.2 929.9 A240 240 0 0 1 425.8 651.8" />
+              <path data-hf-id="hf-gmbw" class="ink thin" data-draw="5" data-dur="0.15" d="M408.9 671 L425.8 651.8 L400.9 646.2" />
+            </svg>
+            <div data-hf-id="hf-wb8g" class="dot" data-layout-allow-overflow=""></div>
+            <div data-hf-id="hf-9msq" class="at" style="left:500px;top:640px" data-layout-allow-overflow=""><div data-hf-id="hf-a054" class="stop up st0"><span data-hf-id="hf-zmf8" class="pill">Think</span><span data-hf-id="hf-qkv5" class="egg-card-kicker sub">Plans the next step</span></div></div>
+            <div data-hf-id="hf-xdvt" class="at" style="left:708px;top:1000px" data-layout-allow-overflow=""><div data-hf-id="hf-afqe" class="stop st1"><span data-hf-id="hf-9cdc" class="pill">Act</span><span data-hf-id="hf-8icg" class="egg-card-kicker sub">Uses a tool</span></div></div>
+            <div data-hf-id="hf-3glt" class="at" style="left:292px;top:1000px" data-layout-allow-overflow=""><div data-hf-id="hf-6hmd" class="stop st2"><span data-hf-id="hf-39sc" class="pill">Check</span><span data-hf-id="hf-vpfs" class="egg-card-kicker sub">Looks at the result</span></div></div>
+            <div data-hf-id="hf-x3qf" class="at" style="left:500px;top:850px" data-layout-allow-overflow=""><span data-hf-id="hf-35tg" class="egg-agent who" style="--s:130px">&gt;_</span></div>
+            <div data-hf-id="hf-zft8" class="at" style="left:500px;top:985px" data-layout-allow-overflow=""><span data-hf-id="hf-j9jz" class="egg-stamp good done"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Done</span></div>
+          </div>
+          <p data-hf-id="hf-fhmx" class="egg-label">Think, act, check. Repeat until it's done.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.8;
+          const root = document.querySelector('[data-composition-id="s04-loop"] .s04');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam"), dot = q(".dot");
+          const tl = gsap.timeline({ paused: true });
+          const view = (s, fx, fy, px = fx, py = fy) => ({ scale: s, x: px - s * fx, y: py - s * fy });
+          gsap.set(cam, { transformOrigin: "0 0" });
+          tl.set(cam, view(1.25, 500, 700, 500, 760), 0);
+          const CX = 500, CY = 880, R = 240, HALF = 17;
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.pop(tl, q(".who"), 0.15);
+          Egg.draw(tl, q(".loop"), 0.2, { gap: 0.3 });
+          // "It thinks, takes an action, checks the result": each stop pops as the voice names it
+          Egg.pop(tl, q(".st0"), 0.42);
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.8, ease: Egg.EASE.move }, 0.9);
+          Egg.pop(tl, q(".st1"), 1.12);
+          Egg.pop(tl, q(".st2"), 2.2);
+
+          // the dot runs the loop: Think → Act → Check → Think, then one lap on "loops"
+          const box = { a: -90 };
+          const place = () => {
+            const r = (box.a * Math.PI) / 180;
+            gsap.set(dot, { x: CX + R * Math.cos(r) - HALF, y: CY + R * Math.sin(r) - HALF });
+          };
+          place();
+          tl.fromTo(dot, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: Egg.EASE.pop }, 0.45);
+          tl.fromTo(box, { a: -90 }, { a: 30, duration: 0.55, ease: Egg.EASE.move, onUpdate: place, immediateRender: false }, 0.65);
+          tl.to(box, { a: 150, duration: 0.6, ease: Egg.EASE.move, onUpdate: place }, 1.7);
+          tl.to(box, { a: 270, duration: 0.6, ease: Egg.EASE.move, onUpdate: place }, 2.65);
+          tl.to(box, { a: 630, duration: 1.0, ease: "none", onUpdate: place }, 3.3);
+          const punch = (el, t) => tl.fromTo(el, { scale: 1 }, { scale: 1.12, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t);
+          [[".st0", 3.25],[".st1", 3.63], [".st2", 3.97], [".st0", 4.3]].forEach(([s, t]) => punch(q(s), t));
+
+          // "until the job is done"
+          tl.set(q(".done"), { opacity: 0 }, 0);
+          Egg.stamp(tl, q(".done"), 4.5, q(".who"));
+          tl.to(cam, { ...view(1.04, 500, 880), duration: 0.6, ease: Egg.EASE.move }, 4.45);
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.6, ease: Egg.EASE.move }, 5.3);
+          Egg.fadeUp(tl, q(".egg-label"), 5.0);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam, q(".egg-label")], DUR - 0.35);
+          window.__timelines["s04-loop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

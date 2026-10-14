@@ -1,0 +1,14 @@
+{
+  "assets/vo/s01-fe008358.mp3": "What's the difference between an LLM and an AI agent?",
+  "assets/vo/s02-7ed6ed29.mp3": "An LLM, a large language model, reads your words and writes words back.",
+  "assets/vo/s02-0ff9cd2b.mp3": "Ask it to book dinner, and you get advice. Then it stops.",
+  "assets/vo/s03-24dbb3e0.mp3": "An AI agent wraps that same model in a system,",
+  "assets/vo/s03-9489ac8d.mp3": "with tools it can use, memory, and a loop.",
+  "assets/vo/s04-70c3c745.mp3": "It thinks, takes an action, checks the result, and loops until the job is done.",
+  "assets/vo/s05-eb579e1e.mp3": "Same request, given to an agent.",
+  "assets/vo/s05-14ccbb4a.mp3": "It remembers you love Italian, searches for open tables, and checks your calendar.",
+  "assets/vo/s05-9a3ad578.mp3": "It asks before booking, then books it. Done.",
+  "assets/vo/s06-240d8e1a.mp3": "So, an LLM answers questions. An agent completes tasks.",
+  "assets/vo/s07-e4b8e92b.mp3": "That's the difference.",
+  "assets/vo/s07-1672963f.mp3": "Follow for more AI basics."
+}

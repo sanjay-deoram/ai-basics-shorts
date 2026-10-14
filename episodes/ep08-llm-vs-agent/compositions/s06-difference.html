@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"click-soft","vol":0.18},
+      {"t":1.3,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":2.4,"sfx":"whoosh","vol":0.2},
+      {"t":2.95,"sfx":"pop","vol":0.22},
+      {"t":3.6,"sfx":"sparkle","vol":0.18,"dur":0.9},
+      {"t":4.6,"sfx":"whoosh-short","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · The difference. Two halves split by a "vs" rule. Top: the ink LLM box, "An LLM answers questions." and
+           "One reply · no tools · then it stops". Bottom: the agent, "An AI agent completes tasks." and "Tools · memory ·
+           loops until done". The camera leans into the top half, glides down to the bottom half as the voice turns to the
+           agent, then pulls back to show both. Avatar: corner (smile on "completes tasks"); content above y 485 stays
+           left of x 830, also while zoomed. Voiceover: 0.3 "So, an LLM answers questions. An agent completes tasks." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s06 .cam { position: absolute; inset: 0; }
+        .s06 .llm-t { position: absolute; left: 90px; width: 180px; top: 532px; text-align: center; font: 300 60px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s06 .who { position: absolute; font: 400 30px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--graphite); }
+        .s06 .egg-title { position: absolute; left: 90px; width: 860px; font-size: 80px; white-space: nowrap; }
+        .s06 .facts { position: absolute; left: 90px; font-size: 26px; }
+        .s06 .agent-at { position: absolute; left: 90px; top: 930px; }
+        .s06 .vs-t { position: absolute; left: 400px; width: 120px; top: 852px; text-align: center; font: 400 34px/1 var(--f-mono); color: var(--smoke); }
+      </style>
+      <div data-hf-id="hf-zyhe" id="root" data-composition-id="s06-difference" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-anh9" class="egg-scene s06">
+          <span data-hf-id="hf-p6gk" class="egg-eyebrow">The difference</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <g data-hf-id="hf-70dr" class="g-llm"><rect data-hf-id="hf-zdtd" class="ink" data-draw="0" data-dur="0.5" x="90" y="500" width="180" height="124" rx="30" /></g>
+              <g data-hf-id="hf-t8a4" class="g-rule"><path data-hf-id="hf-qhyf" class="ink thin" data-draw="0" data-dur="0.4" d="M90 870 H390 M530 870 H830" /></g>
+            </svg>
+            <span data-hf-id="hf-kqe0" class="llm-t">LLM</span>
+            <span data-hf-id="hf-i57w" class="who w-llm" style="left:300px;top:547px">An LLM</span>
+            <h2 data-hf-id="hf-ni3t" class="egg-title t-llm" style="top:656px"><span data-hf-id="hf-kb8t" class="egg-hl">answers questions.</span></h2>
+            <span data-hf-id="hf-6b9r" class="egg-card-kicker facts f-llm" style="top:768px">One reply · no tools · then it stops</span>
+            <span data-hf-id="hf-wg7w" class="vs-t">vs</span>
+            <div data-hf-id="hf-bk6r" class="agent-at"><span data-hf-id="hf-xi1b" class="egg-agent" style="--s:124px">&gt;_</span></div>
+            <span data-hf-id="hf-f1zl" class="who w-agent" style="left:250px;top:977px">An AI agent</span>
+            <h2 data-hf-id="hf-n88t" class="egg-title t-agent" style="top:1086px"><span data-hf-id="hf-nl39" class="egg-hl">completes tasks.</span></h2>
+            <span data-hf-id="hf-lbbt" class="egg-card-kicker facts f-agent" style="top:1198px">Tools · memory · loops until done</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.4;
+          const root = document.querySelector('[data-composition-id="s06-difference"] .s06');
+          const q = (s) => root.querySelector(s);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          const view = (s, fx, fy, px = fx, py = fy) => ({ scale: s, x: px - s * fx, y: py - s * fy });
+          gsap.set(cam, { transformOrigin: "0 0" });
+          tl.set(cam, view(1.12, 90, 660), 0);
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          // "So, an LLM answers questions."
+          Egg.draw(tl, q(".g-llm"), 0.2);
+          Egg.fadeUp(tl, q(".llm-t"), 0.4, { y: 12 });
+          Egg.fadeUp(tl, q(".w-llm"), 0.55, { y: 12 });
+          Egg.fadeUp(tl, q(".t-llm"), 1.1, { y: 30 });
+          Egg.highlight(tl, q(".t-llm .egg-hl"), 1.3, { dur: 0.6 });
+          Egg.fadeUp(tl, q(".f-llm"), 1.95, { y: 10 });
+          // "An agent completes tasks." — glide down to the agent half
+          Egg.draw(tl, q(".g-rule"), 2.3);
+          Egg.fadeUp(tl, q(".vs-t"), 2.4, { y: 10 });
+          tl.to(cam, { ...view(1.12, 90, 1100), duration: 0.8, ease: Egg.EASE.move }, 2.4);
+          Egg.pop(tl, q(".agent-at"), 2.95);
+          Egg.fadeUp(tl, q(".w-agent"), 3.05, { y: 12 });
+          Egg.fadeUp(tl, q(".t-agent"), 3.4, { y: 30 });
+          Egg.highlight(tl, q(".t-agent .egg-hl"), 3.6, { dur: 0.6 });
+          Egg.fadeUp(tl, q(".f-agent"), 4.25, { y: 10 });
+          // pull back: both halves
+          tl.to(cam, { ...view(1, 0, 0), duration: 0.8, ease: Egg.EASE.move }, 4.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam], DUR - 0.35);
+          window.__timelines["s06-difference"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
