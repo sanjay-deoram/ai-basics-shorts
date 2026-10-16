@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click-soft","vol":0.18},
+      {"t":0.6,"sfx":"typing","vol":0.18,"dur":0.6},
+      {"t":2.65,"sfx":"whoosh-short","vol":0.18},
+      {"t":2.95,"sfx":"key-press","vol":0.22},
+      {"t":3.35,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 4 · Your app runs it (whiteboard + code). A row: the Claude logo, the app box and a weather API cloud;
+           an order ticket waits by Claude. your_app.py types "result = get_weather(**block.input)". On "Claude never runs
+           it" Claude's caption reads "Never runs code"; on "Your app does" the ticket slides into the app, the run bar
+           lands on the call, an arrow draws to the weather API and back, and the result comment appears. Avatar: out.
+           Voice: "Here's the trick: Claude never runs it. Your app does," -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s06 .logo { position: absolute; left: 110px; top: 326px; width: 124px; height: 124px; }
+        .s06 .app-t { position: absolute; left: 360px; top: 362px; width: 300px; text-align: center; font: 300 50px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s06 .cap { position: absolute; top: 484px; text-align: center; height: 30px; }
+        .s06 .cap span { position: absolute; left: 0; right: 0; top: 0; white-space: nowrap; }
+        .s06 .cap .b { opacity: 0; color: var(--ink); }
+        .s06 .ticket { position: absolute; left: 0; top: 0; width: 64px; height: 80px; }
+        .s06 .ticket rect { fill: var(--eggshell); stroke: var(--ink); stroke-width: 4; }
+        .s06 .ticket path { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+        .s06 .code { position: absolute; left: 90px; top: 580px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s06-run" data-width="1080" data-height="1920">
+        <div class="egg-scene s06">
+          <span class="egg-eyebrow">4 · Your app runs it</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect class="ink box" data-draw="0" data-dur="0.45" x="360" y="318" width="300" height="140" rx="32" />
+            <path class="ink thin" data-draw="1" data-dur="0.45" d="M762 436 H882 Q912 436 912 408 Q912 378 882 378 Q876 344 842 344 Q810 344 802 372 Q768 370 762 400 Q746 402 746 418 Q746 436 762 436 Z" />
+            <path class="ink thin go" d="M672 372 H730 M714 358 L732 372 L714 386" />
+            <path class="ink thin back" d="M730 410 H672 M688 396 L670 410 L688 424" />
+          </svg>
+          <img class="logo" src="assets/claude-logo.svg" alt="Claude">
+          <span class="app-t">Your app</span>
+          <div class="cap c1" style="left:40px;width:270px"><span class="egg-card-kicker a">Writes the call</span><span class="egg-card-kicker b">Never runs code</span></div>
+          <div class="cap c2" style="left:360px;width:300px"><span class="egg-card-kicker a">Runs it</span></div>
+          <div class="cap c3" style="left:720px;width:230px"><span class="egg-card-kicker a">Weather API</span></div>
+          <svg class="ticket" viewBox="0 0 64 80" aria-hidden="true"><rect x="4" y="4" width="56" height="72" rx="8" /><path d="M16 24 H48 M16 40 H48 M16 56 H38" /></svg>
+          <div class="egg-code code"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.65;
+          const root = document.querySelector('[data-composition-id="s06-run"] .s06');
+          const q = (s) => root.querySelector(s);
+          const card = q(".code");
+          Egg.codeCard(card, `
+# in your app, not in Claude:
+result = get_weather(**block.input)
+# → "22°C, light rain"`, { lang: "py", file: "app.py", tag: "Runs on your side" });
+          const tl = gsap.timeline({ paused: true });
+          const stroke = (el, at, dur = 0.3) => {
+            el.setAttribute("pathLength", "1");
+            el.style.strokeDasharray = "1 1.1";
+            tl.fromTo(el, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: dur, ease: Egg.EASE.draw }, at);
+          };
+
+          // "Here's the trick:"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.pop(tl, q(".logo"), 0.05);
+          Egg.draw(tl, q(".egg-svg"), 0.1, { gap: 0.2 });
+          Egg.fadeUp(tl, q(".app-t"), 0.25, { y: 12 });
+          Egg.fadeUp(tl, [q(".c1 .a"), q(".c2 .a"), q(".c3 .a")], 0.35, { y: 10 });
+          tl.fromTo(q(".ticket"), { x: 256, y: 340, scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: Egg.EASE.pop }, 0.4);
+          Egg.fadeUp(tl, card, 0.45, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.6, { cps: 100, lineGap: 0, to: 2 });
+          // "Claude never runs it."
+          tl.to(q(".c1 .a"), { opacity: 0, y: -10, duration: 0.2, ease: Egg.EASE.exit }, 0.95);
+          tl.fromTo(q(".c1 .b"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: Egg.EASE.enter }, 1.05);
+          Egg.shake(tl, q(".logo"), 1.05);
+          // "Your app does,"
+          tl.to(q(".ticket"), { x: 478, y: 348, duration: 0.35, ease: Egg.EASE.move }, 2.6);
+          tl.to(q(".ticket"), { scale: 0.4, opacity: 0, duration: 0.2, ease: Egg.EASE.exit }, 2.92);
+          tl.fromTo(q(".box"), { scale: 1 }, { scale: 1.05, transformOrigin: "50% 50%", duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 2.95);
+          Egg.codeRun(tl, card, 1, 2.95);
+          stroke(q(".go"), 3.0);
+          tl.fromTo(q(".c3 .a"), { color: "#777169" }, { color: "#000000", duration: 0.15, ease: "none", immediateRender: false }, 3.2);
+          stroke(q(".back"), 3.15, 0.2);
+          Egg.codeType(tl, card, 3.2, { cps: 140, from: 2 });
+          Egg.codeRun(tl, card, 2, 3.22, { dur: 0.12 });
+
+          Egg.fadeOut(tl, root.querySelectorAll(".egg-eyebrow, .egg-svg, .logo, .app-t, .cap, .ticket, .code"), DUR - 0.18, { dur: 0.18 });
+          window.__timelines["s06-run"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -91,7 +91,8 @@ function wordSyllables(raw) {
   if (sp && sp.length === out.length) sp.forEach((snd, k) => (out[k].sound = snd));
   return out;
 }
-const textSyllables = (text) => text.split(/\s+/).flatMap(wordSyllables);
+// [bracket] tags are Fish Audio delivery cues (e.g. [excited]); they are not spoken, so they get no mouth beats
+const textSyllables = (text) => text.replace(/\[[^\]]*\]/g, " ").trim().split(/\s+/).flatMap(wordSyllables);
 
 const allClips = [...index.matchAll(/<audio[^>]*id="(vo-[^"]*)"[^>]*>/g)].map((m) => ({
   id: m[1], start: +m[0].match(/data-start="([\d.]+)"/)[1], dur: +m[0].match(/data-duration="([\d.]+)"/)[1],

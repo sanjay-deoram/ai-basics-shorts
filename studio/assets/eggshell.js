@@ -184,6 +184,15 @@
     return at + (opts.dur ?? 0.35);
   }
 
+  // Number punch (.egg-num): a big whisper numeral pops in mid-frame, holds, then flies through the camera
+  // (scales up and fades) as the scene's content arrives. Opens each item of a numbered list. Returns when it's gone.
+  function numPunch(tl, el, at, opts = {}) {
+    const hold = opts.hold ?? 0.4;
+    tl.fromTo(el, { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: EASE.pop }, at);
+    tl.to(el, { scale: 3.2, opacity: 0, duration: 0.42, ease: "power2.in" }, at + 0.4 + hold);
+    return at + 0.82 + hold;
+  }
+
   // Wrap every character of el's text in a span (keeps nested spans like .egg-hl), then reveal at cps.
   function typeOn(tl, el, at, opts = {}) {
     const cps = opts.cps ?? 34;
@@ -206,6 +215,7 @@
       el.dataset.split = "1";
     }
     const chars = el.querySelectorAll(".c");
+    if (!chars.length) return at;
     tl.fromTo(chars, { opacity: 0 }, { opacity: 1, duration: 0.001, ease: "none", stagger: 1 / cps }, at);
     return at + chars.length / cps;
   }
@@ -521,8 +531,79 @@
     return { end, lands };
   }
 
+  /* ---------- code card ---------- */
+  // Fill a .egg-code card from source text: one .ln per line, a line number, syntax colours (lang "json" or
+  // "py"), and the run bar. Built before the timeline, with no whitespace between lines, so Egg.typeOn can
+  // type the whole body (it keeps the colour spans). opts.small: the denser .sm size. Returns the body element.
+  function codeCard(card, src, opts = {}) {
+    const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+    const span = (c, t) => (c ? `<span class="t-${c}">${esc(t)}</span>` : esc(t));
+    const RE = {
+      json: /("(?:[^"\\]|\\.)*")(?=\s*:)|("(?:[^"\\]|\\.)*")|(\b(?:true|false|null)\b|-?\d+(?:\.\d+)?)|([{}\[\],:])/g,
+      py: /(#.*$)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')(?=\s*:)|("(?:[^"\\]|\\.)*"|'(?:[^'\\]|\\.)*')|\b(if|else|elif|def|return|for|in|import|from|and|or|not|None|True|False)\b|([A-Za-z_]\w*)(?=\()|(-?\d+(?:\.\d+)?)|(>>>|[{}\[\]().,:=*+\-])/g,
+    };
+    const CLS = { json: ["k", "s", "kw", "p"], py: ["c", "k", "s", "kw", "fn", "kw", "p"] };
+    const lang = opts.lang ?? "json";
+    const hl = (line) => {
+      let out = "", last = 0, m;
+      const re = new RegExp(RE[lang].source, "g");
+      while ((m = re.exec(line))) {
+        out += esc(line.slice(last, m.index));
+        const g = m.slice(1).findIndex((x) => x !== undefined);
+        out += span(CLS[lang][g], m[0]);
+        last = m.index + m[0].length;
+      }
+      return out + esc(line.slice(last));
+    };
+    const top = opts.file ? `<div class="egg-code-top"><i></i><i></i><i></i>${esc(opts.file)}${opts.tag ? `<span class="tag">${esc(opts.tag)}</span>` : ""}</div>` : "";
+    if (opts.small) { card.classList.add("sm"); card.dataset.lh = "40"; }
+    const lines = src.replace(/^\n|\n\s*$/g, "").split("\n");
+    card.innerHTML = top + `<div class="egg-code-body"><div class="egg-code-bar"></div>` +
+      lines.map((l, i) => `<div class="ln"><span class="no">${i + 1}</span><span class="tx">${hl(l)}</span></div>`).join("") + `</div>`;
+    return card.querySelector(".egg-code-body");
+  }
+
+  // Type a code card's lines on (numbers appear with their line); opts.from / opts.to type only lines [from, to).
+  // Returns the end time.
+  function codeType(tl, card, at, opts = {}) {
+    const cps = opts.cps ?? 60;
+    let t = at;
+    [...card.querySelectorAll(".ln")].slice(opts.from ?? 0, opts.to).forEach((ln) => {
+      tl.fromTo(ln.querySelector(".no"), { opacity: 0 }, { opacity: 1, duration: 0.001 }, t);
+      t = typeOn(tl, ln.querySelector(".tx"), t, { cps }) + (opts.lineGap ?? 0.02);
+    });
+    return t;
+  }
+
+  // The run bar: show it on line i (0-based) and dim the other lines, as a debugger does. Call again to step;
+  // pass i = -1 to hide the bar and undim. Fixed 50 px lines, no layout reads.
+  function codeRun(tl, card, i, at, opts = {}) {
+    const bar = card.querySelector(".egg-code-bar");
+    const lns = [...card.querySelectorAll(".ln")];
+    const dur = opts.dur ?? 0.25;
+    const lh = +(card.dataset.lh || 50);
+    if (!card.dataset.run) { gsap.set(bar, { y: 0, scaleY: 1, opacity: 0, transformOrigin: "0 0" }); card.dataset.run = "1"; }
+    if (i < 0) {
+      tl.to(bar, { opacity: 0, duration: dur, ease: EASE.exit }, at);
+      tl.to(lns, { opacity: 1, duration: dur, ease: "none" }, at);
+      return at + dur;
+    }
+    const to = Array.isArray(i) ? i : [i];
+    if (!card.dataset.shown) {
+      // first show: appear on the line instead of sliding down from line 1
+      card.dataset.shown = "1";
+      tl.set(bar, { y: to[0] * lh, scaleY: to.length }, at);
+      tl.to(bar, { opacity: 1, duration: dur, ease: "none" }, at);
+    } else {
+      tl.to(bar, { y: to[0] * lh, scaleY: to.length, opacity: 1, duration: dur, ease: EASE.move }, at);
+    }
+    lns.forEach((ln, k) => tl.to(ln, { opacity: to.includes(k) ? 1 : (opts.dim ?? 0.38), duration: dur, ease: "none" }, at));
+    return at + dur;
+  }
+
   window.Egg = {
-    EASE, mountSparks, mountAvatar, avatarTalk, offsetIn, lipsync, sceneStart, sparkIdle, sparkMood, blink, pop, fadeUp, fadeOut, typeOn, highlight,
+    EASE, mountSparks, mountAvatar, avatarTalk, offsetIn, lipsync, sceneStart, sparkIdle, sparkMood, blink, pop, fadeUp, fadeOut, numPunch, typeOn, highlight,
     stamp, shake, zoom, progress, draw, checks, count, meter, tokens, bars, pointer, pointTo, pointerHide, isoBuild, isoAnimate,
+    codeCard, codeType, codeRun,
   };
 })();

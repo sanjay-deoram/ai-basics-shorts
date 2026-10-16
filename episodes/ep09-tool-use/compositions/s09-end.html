@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.9,"sfx":"sparkle","vol":0.16,"dur":0.8},
+      {"t":1.5,"sfx":"click","vol":0.28},
+      {"t":3.0,"sfx":"click","vol":0.28},
+      {"t":4.4,"sfx":"click","vol":0.28},
+      {"t":4.9,"sfx":"chime","vol":0.26,"dur":1.6},
+      {"t":5.6,"sfx":"pop","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · End card. "That's tool use" (highlighted as it's said), then three ticks on the voice: Claude asks for a
+           tool · Your app runs it · Claude answers; the follow pill pops on "Follow". The narrator avatar stands centred
+           above (narrator.html "end") and smiles. No sources on screen. No fade-out: the last frame holds so the video
+           loops cleanly. Voice: "So that's tool use! Claude asks for a tool, your app runs it, and Claude answers. Follow for more AI
+           basics." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .egg-safe { gap: 50px; justify-content: flex-start; padding-top: 470px; }
+        .s09 .egg-chip.egg-pill-dark { margin-top: 10px; font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div data-hf-id="hf-pt5l" id="root" data-composition-id="s09-end" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-9vtg" class="egg-scene s09">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <h2 data-hf-id="hf-qme0" class="egg-title">That's <span data-hf-id="hf-eewc" class="egg-hl">tool use</span></h2>
+            <ul data-hf-id="hf-w8on" class="egg-checks">
+              <li data-hf-id="hf-wnot"><span data-hf-id="hf-ptha" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Claude asks for a tool</li>
+              <li data-hf-id="hf-as1p"><span data-hf-id="hf-q7sb" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Your app runs it</li>
+              <li data-hf-id="hf-67o7"><span data-hf-id="hf-qm3c" class="tick"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-79sv" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Claude answers</li>
+            </ul>
+            <span data-hf-id="hf-ulst" class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s09-end"] .s09');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-title"), 0.05, { y: 24 });
+          // "Claude asks for a tool, your app runs it, and Claude answers."
+          [1.5, 3.0, 4.4].forEach((t, i) => {
+            const li = root.querySelectorAll(".egg-checks li")[i];
+            tl.fromTo(li, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: Egg.EASE.enter }, t);
+            tl.fromTo(li.querySelector(".tick"), { scale: 0 }, { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, t + 0.1);
+          });
+          // "That's tool use" (highlight) · "Follow" (pill)
+          Egg.highlight(tl, q(".egg-title .egg-hl"), 0.9);
+          Egg.pop(tl, q(".egg-pill-dark"), 5.6);
+          window.__timelines["s09-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"typing","vol":0.2,"dur":1.9},
+      {"t":1.05,"sfx":"key-press","vol":0.22},
+      {"t":1.7,"sfx":"click-soft","vol":0.18},
+      {"t":2.85,"sfx":"key-press","vol":0.22},
+      {"t":3.4,"sfx":"key-press","vol":0.22},
+      {"t":4.85,"sfx":"key-press","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 1 · The tool (code + whiteboard). tools.py types: the Python function, then the tool definition (name,
+           description, input_schema). The run bar lands on the function ("a function in your app") and a drawn box
+           below says where it lives: "Your app · runs here". Then it lands on name → description → inputs as they're
+           said, and each appears in a second drawn box: "Claude sees only this". (Claude never sees the code, only the
+           definition.) Avatar: out. Voice: "A tool is just a function in your app, with a name, a description, and the
+           inputs it needs." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .def { position: absolute; left: 90px; top: 290px; width: 860px; }
+        .s03 .bx { position: absolute; top: 1010px; display: flex; flex-direction: column; gap: 14px; }
+        .s03 .bx .egg-card-kicker { color: var(--graphite); }
+        .s03 .bx b { font: 400 34px/1.3 var(--f-mono); font-weight: 400; color: var(--ink); white-space: nowrap; }
+        .s03 .bx .it { font: 400 40px/1.25 var(--f-body); color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s03-tool" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">1 · The tool</span>
+          <div class="egg-code def"></div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="ink thin a1" d="M290 942 V990 M276 976 L290 992 L304 976" />
+            <rect class="ink b1" x="90" y="1000" width="400" height="300" rx="36" />
+            <path class="ink thin a2" d="M750 942 V990 M736 976 L750 992 L764 976" />
+            <rect class="ink b2" x="550" y="1000" width="400" height="300" rx="36" />
+          </svg>
+          <div class="bx x1" style="left:126px">
+            <span class="egg-card-kicker">Your app · runs here</span>
+            <b>get_weather()</b>
+          </div>
+          <div class="bx x2" style="left:586px">
+            <span class="egg-card-kicker">Claude sees only this</span>
+            <span class="it i1">Name</span>
+            <span class="it i2">Description</span>
+            <span class="it i3">Inputs</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.95;
+          const root = document.querySelector('[data-composition-id="s03-tool"] .s03');
+          const q = (s) => root.querySelector(s);
+          const card = q(".def");
+          Egg.codeCard(card, `
+def get_weather(location):
+    return weather_api.lookup(location)
+
+tool = {
+    "name": "get_weather",
+    "description": "Current weather in a city",
+    "input_schema": {
+        "type": "object",
+        "properties": {
+            "location": {"type": "string"},
+        },
+        "required": ["location"],
+    },
+}`, { lang: "py", file: "tools.py", tag: "Python", small: true });
+          const tl = gsap.timeline({ paused: true });
+          const draw = (el, at, dur = 0.45) => {
+            el.setAttribute("pathLength", "1");
+            el.style.strokeDasharray = "1 1.1";
+            tl.fromTo(el, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: dur, ease: Egg.EASE.draw }, at);
+          };
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, card, 0.05, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.1, { cps: 170, lineGap: 0 });
+          // "a function in your app"
+          Egg.codeRun(tl, card, [0, 1], 1.05);
+          draw(q(".a1"), 1.55, 0.25);
+          draw(q(".b1"), 1.7, 0.5);
+          Egg.fadeUp(tl, q(".x1"), 1.9, { y: 14 });
+          // "with a name, a description, and the inputs it needs"
+          Egg.codeRun(tl, card, 4, 2.85);
+          draw(q(".a2"), 2.7, 0.25);
+          draw(q(".b2"), 2.8, 0.5);
+          Egg.fadeUp(tl, [q(".x2 .egg-card-kicker"), q(".i1")], 2.95, { y: 14 });
+          Egg.codeRun(tl, card, 5, 3.4);
+          Egg.fadeUp(tl, q(".i2"), 3.45, { y: 14 });
+          Egg.codeRun(tl, card, [6, 7, 8, 9, 10, 11, 12], 4.85);
+          Egg.fadeUp(tl, q(".i3"), 4.9, { y: 14 });
+
+          Egg.fadeOut(tl, root.querySelectorAll(".egg-eyebrow, .def, .egg-svg, .bx"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s03-tool"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

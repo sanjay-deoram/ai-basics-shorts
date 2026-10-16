@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"typing","vol":0.18,"dur":0.5},
+      {"t":0.6,"sfx":"key-press","vol":0.22},
+      {"t":1.1,"sfx":"typing","vol":0.16,"dur":0.4},
+      {"t":1.85,"sfx":"pop","vol":0.22},
+      {"t":2.2,"sfx":"typing","vol":0.16,"dur":2.3},
+      {"t":4.6,"sfx":"chime","vol":0.24,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · 6 · Claude answers. The REPL shows the second reply: stop_reason 'end_turn' (no more tools needed), then
+           print(resp.content[-1].text) (the last block; [0] could be a thinking block). prompt.html lights every block and a dot carries them up ("Now Claude can
+           answer"). The answer card pops with the Claude logo turning and types, in step with the voice: "It's 22°C and
+           raining lightly in Tokyo." Avatar: out. Voice: "Now Claude can answer for real: it's twenty-two degrees and
+           raining lightly in Tokyo." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s08 .repl { position: absolute; left: 90px; top: 290px; width: 860px; }
+        .s08 .ans { position: absolute; left: 90px; top: 580px; width: 860px; padding: 32px 40px; gap: 16px; }
+        .s08 .ans .who { display: flex; align-items: center; gap: 16px; }
+        .s08 .ans img { width: 56px; height: 56px; }
+        .s08 .ans p { margin: 0; font: 400 46px/1.32 var(--f-body); color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s08-answer" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <span class="egg-eyebrow">6 · Claude answers</span>
+          <div class="egg-code repl"></div>
+          <div class="egg-card ans">
+            <span class="who"><img src="assets/claude-logo.svg" alt="Claude"><span class="egg-card-kicker">Claude · answer</span></span>
+            <p class="typed">It's 22°C and raining lightly in Tokyo.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.5;
+          const root = document.querySelector('[data-composition-id="s08-answer"] .s08');
+          const q = (s) => root.querySelector(s);
+          const card = q(".repl");
+          Egg.codeCard(card, `
+>>> resp.stop_reason
+'end_turn'
+>>> print(resp.content[-1].text)`, { lang: "py", file: "Python", tag: "Second reply" });
+          const tl = gsap.timeline({ paused: true });
+
+          // "Now Claude can answer for real:"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, card, 0.05, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.1, { cps: 90, lineGap: 0, to: 2 });
+          Egg.codeRun(tl, card, 1, 0.6);
+          Egg.codeType(tl, card, 1.1, { cps: 90, from: 2 });
+          Egg.codeRun(tl, card, 2, 1.55);
+          // "it's twenty-two degrees and raining lightly in Tokyo."
+          Egg.fadeUp(tl, q(".ans"), 1.85, { y: 30, dur: 0.45 });
+          tl.fromTo(q(".ans img"), { rotation: -40 }, { rotation: 90, duration: 2.8, ease: "power1.inOut" }, 1.85);
+          Egg.typeOn(tl, q(".typed"), 2.2, { cps: 17 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), card, q(".ans")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s08-answer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

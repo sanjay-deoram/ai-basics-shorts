@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"pop","vol":0.22},
+      {"t":2.0,"sfx":"typing","vol":0.18,"dur":0.6},
+      {"t":3.9,"sfx":"click-soft","vol":0.2},
+      {"t":4.65,"sfx":"error","vol":0.12},
+      {"t":5.45,"sfx":"click-soft","vol":0.2},
+      {"t":5.85,"sfx":"sparkle","vol":0.14,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · On its own (whiteboard). The Claude logo pops with a speech bubble: "Words in, words out." A drawn sun and
+           cloud with "Tokyo weather, right now?", then an ink cross ("it can't check the weather in Tokyo"). On "unless
+           you give it a tool" a function box f( ) draws below, labelled "+ a tool", a dashed line connects it up to the
+           weather, and the cross lifts. Avatar: corner; everything above y 485 stays left of x 830. Voice: "On its
+           own, Claude can only write text, so it can't check the weather in Tokyo, unless you give it a tool." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .claude { position: absolute; left: 90px; top: 320px; width: 150px; height: 150px; }
+        .s02 .bubble { position: absolute; left: 280px; top: 318px; width: 540px; padding: 26px 34px; gap: 10px; }
+        .s02 .bubble p { margin: 0; font: 400 38px/1.35 var(--f-body); color: var(--ink); }
+        .s02 .wx-t { position: absolute; left: 310px; top: 610px; display: flex; flex-direction: column; gap: 10px; }
+        .s02 .big { font: 300 60px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s02 .fx { position: absolute; left: 96px; top: 880px; width: 160px; height: 160px; display: grid; place-items: center; font: 400 52px/1 var(--f-mono); color: var(--ink); }
+        .s02 .tool-t { position: absolute; left: 310px; top: 912px; display: flex; flex-direction: column; gap: 10px; }
+        .s02 .dash { stroke-dasharray: 10 14; }
+      </style>
+      <div id="root" data-composition-id="s02-problem" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">On its own</span>
+          <img class="claude" src="assets/claude-logo.svg" alt="Claude">
+          <div class="egg-card bubble">
+            <span class="egg-card-kicker">Claude</span>
+            <p class="words">Words in, words out.</p>
+          </div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="wx">
+              <circle class="ink thin" cx="146" cy="622" r="34" />
+              <path class="ink thin" d="M146 566 V578 M196 622 H208 M181 587 L190 578 M111 587 L102 578" />
+              <path class="ink" d="M112 726 H232 Q262 726 262 698 Q262 668 232 668 Q226 634 192 634 Q160 634 152 662 Q118 660 112 690 Q96 692 96 708 Q96 726 112 726 Z" />
+            </g>
+            <path class="ink cross" d="M88 600 L272 760 M272 600 L88 760" />
+            <rect class="ink box" x="96" y="880" width="160" height="160" rx="36" />
+            <path class="ink thin dash link" d="M176 870 V748" />
+          </svg>
+          <div class="wx-t">
+            <span class="egg-card-kicker">You ask</span>
+            <span class="big">Tokyo weather, right now?</span>
+          </div>
+          <span class="fx">f( )</span>
+          <div class="tool-t">
+            <span class="egg-card-kicker">Unless…</span>
+            <span class="big">+ a tool</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.5;
+          const root = document.querySelector('[data-composition-id="s02-problem"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const draw = (els, at, dur = 0.45) => {
+            const solid = els.filter((el) => !el.classList.contains("dash"));
+            const dashed = els.filter((el) => el.classList.contains("dash"));
+            solid.forEach((el) => { el.setAttribute("pathLength", "1"); el.style.strokeDasharray = "1 1.1"; });
+            if (solid.length) tl.fromTo(solid, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: dur, ease: Egg.EASE.draw, stagger: 0.12 }, at);
+            if (dashed.length) tl.fromTo(dashed, { opacity: 0, scaleY: 0, transformOrigin: "50% 100%" }, { opacity: 1, scaleY: 1, duration: dur, ease: Egg.EASE.draw }, at);
+          };
+
+          // "On its own, Claude can only write text"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.pop(tl, q(".claude"), 0.2);
+          tl.fromTo(q(".claude"), { rotation: -30 }, { rotation: 0, duration: 0.8, ease: Egg.EASE.enter }, 0.2);
+          Egg.fadeUp(tl, q(".bubble"), 1.4, { y: 24 });
+          Egg.typeOn(tl, q(".words"), 2.0, { cps: 34 });
+          // "so it can't check the weather in Tokyo"
+          draw(all(".wx .ink"), 3.0);
+          Egg.fadeUp(tl, q(".wx-t"), 3.9, { y: 18 });
+          draw([q(".cross")], 4.6, 0.3);
+          tl.to([q(".wx"), q(".wx-t")], { opacity: 0.4, duration: 0.3, ease: "none" }, 4.85);
+          // "unless you give it a tool"
+          draw([q(".box")], 5.15, 0.5);
+          Egg.fadeUp(tl, q(".fx"), 5.45, { y: 12 });
+          Egg.fadeUp(tl, q(".tool-t"), 5.3, { y: 16 });
+          draw([q(".link")], 5.75, 0.3);
+          tl.to(q(".cross"), { opacity: 0, duration: 0.25, ease: "none" }, 5.85);
+          tl.to([q(".wx"), q(".wx-t")], { opacity: 1, duration: 0.25, ease: "none" }, 5.85);
+
+          Egg.fadeOut(tl, all(".egg-eyebrow, .claude, .bubble, .egg-svg, .wx-t, .fx, .tool-t"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s02-problem"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

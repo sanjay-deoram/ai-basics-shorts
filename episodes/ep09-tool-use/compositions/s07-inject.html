@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"typing","vol":0.18,"dur":0.8},
+      {"t":0.65,"sfx":"key-press","vol":0.22},
+      {"t":1.6,"sfx":"key-press","vol":0.22},
+      {"t":2.6,"sfx":"key-press","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · 5 · Add the result (Python). The app wraps the result as a tool_result block (with the tool_use id), then
+           appends two messages to msgs: Claude's reply (role "assistant") and a user message carrying
+           the tool_result. The run bar lands on the block ("adds the result"), then on msgs += [...] ("to the
+           messages") as prompt.html adds block 3 "Assistant · tool_use" and block 4 "User · tool_result"; then on the
+           second create call (same args, tools included) ("sends everything back") the whole prompt lights up. Avatar: out. Voice: "then adds
+           the result to the messages and sends everything back." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s07 .inj { position: absolute; left: 90px; top: 290px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s07-inject" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <span class="egg-eyebrow">5 · Add the result</span>
+          <div class="egg-code inj"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.6;
+          const root = document.querySelector('[data-composition-id="s07-inject"] .s07');
+          const q = (s) => root.querySelector(s);
+          const card = q(".inj");
+          Egg.codeCard(card, `
+tool_result = {
+    "type": "tool_result",
+    "tool_use_id": block.id,
+    "content": result,
+}
+msgs += [
+    {"role": "assistant", "content": resp.content},
+    {"role": "user", "content": [tool_result]},
+]
+resp = client.messages.create(...)  # same args`, { lang: "py", file: "app.py", tag: "Into the prompt", small: true });
+          const tl = gsap.timeline({ paused: true });
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.0, { y: 16, dur: 0.35 });
+          Egg.fadeUp(tl, card, 0.0, { y: 24, dur: 0.35 });
+          Egg.codeType(tl, card, 0.05, { cps: 320, lineGap: 0 });
+          // "adds the result to the messages" → blocks 3 and 4 (prompt.html)
+          Egg.codeRun(tl, card, [0, 1, 2, 3, 4], 0.65);
+          Egg.codeRun(tl, card, [5, 6, 7, 8], 1.6);
+          // "and sends everything back"
+          Egg.codeRun(tl, card, 9, 2.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), card], DUR - 0.25, { dur: 0.25 });
+          window.__timelines["s07-inject"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

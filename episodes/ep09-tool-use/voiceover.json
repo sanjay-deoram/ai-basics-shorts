@@ -1,0 +1,23 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 0.95,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01",
+      "at": 0.15,
+      "text": "[excited] What is tool use, and how does it actually work? On its own, Claude can only write text, so it can't check the weather in Tokyo, unless you give it a tool! A tool is just a function in your app, with a name, a description, and the inputs it needs. You send that tool list along with your question, so Claude sees both in its prompt. Claude notices it needs live data, so instead of guessing, it replies with a tool call: get weather, Tokyo. But Claude never runs that code itself. Your app does! Then it adds the result to the messages and sends everything back. And now Claude can answer for real: it's twenty-two degrees and raining lightly in Tokyo. [excited] So that's tool use! Claude asks for a tool, your app runs it, and Claude answers. Follow for more AI basics!"
+    }
+  ]
+}

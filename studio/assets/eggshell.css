@@ -123,6 +123,14 @@
 .egg-progress { position: absolute; left: var(--safe-left); right: var(--safe-left); top: 186px; height: 6px; border-radius: 6px; background: var(--stone); overflow: hidden; }
 .egg-progress i { display: block; width: 100%; height: 100%; background: var(--ink); transform-origin: 0 50%; transform: scaleX(0); }
 
+/* number punch: Egg.numPunch pops it mid-frame, then flies it through the camera */
+.egg-num { position: absolute; left: 0; right: 0; top: 600px; margin: 0; text-align: center; font: 300 520px/1 var(--f-display); letter-spacing: -0.04em; color: var(--ink); transform-origin: 50% 50%; opacity: 0; }
+
+/* an AI agent (any coding agent, not Claude specifically; use the Claude logo when it's Claude): ink rounded square
+   with a terminal prompt, and an iso-dot light that shows it's running */
+.egg-agent { --s: 96px; position: relative; flex: none; width: var(--s); height: var(--s); display: grid; place-items: center; border: calc(var(--s) * 0.045) solid var(--ink); border-radius: 28%; background: var(--eggshell); font: 400 calc(var(--s) * 0.34)/1 var(--f-mono); color: var(--ink); }
+.egg-agent::after { content: ""; position: absolute; right: -9%; top: -9%; width: 28%; height: 28%; border-radius: 50%; border: calc(var(--s) * 0.03) solid var(--eggshell); background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+
 .egg-checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 28px; }
 .egg-checks li { display: flex; align-items: center; gap: 26px; font: 300 60px/1.15 var(--f-display); letter-spacing: -0.02em; }
 .egg-checks li .tick { flex: none; width: 64px; height: 64px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
@@ -203,3 +211,29 @@
 .egg-pointer .ptr-avatar .av-bob { inset: auto; left: calc(var(--s) * -0.357); top: calc(var(--s) * -0.24); width: calc(var(--s) * 1.714); height: calc(var(--s) * 1.997);
   -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 63%, transparent 75%); mask-image: linear-gradient(to bottom, #000 0, #000 63%, transparent 75%); }
 .egg-pointer .ptr-label { position: absolute; font: 400 25px/1 var(--f-mono); letter-spacing: 0.03em; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 13px 20px; white-space: nowrap; }
+
+/* ---------- code card (Egg.codeCard / Egg.codeRun) ----------
+   A dark editor card for real code: file name, line numbers, syntax colours, and a run bar that steps
+   from line to line. Ink is the page's own black; the syntax colours are the living colours, lightened so
+   they read on ink. Lines are 50 px tall and the gutter 76 px, so motion uses fixed coordinates. */
+.egg-code { position: relative; background: var(--ink); border-radius: 36px; padding: 24px 0 26px; box-shadow: var(--shadow); color: #ebe8e4; overflow: hidden; }
+.egg-code-top { display: flex; align-items: center; gap: 12px; padding: 0 32px 16px; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: #a59f97; }
+.egg-code-top i { flex: none; width: 14px; height: 14px; border-radius: 50%; background: #44403b; }
+.egg-code-top i:nth-of-type(3) { margin-right: 10px; }
+.egg-code-top .tag { margin-left: auto; color: #ebe8e4; }
+.egg-code-body { position: relative; font: 400 34px/50px var(--f-mono); white-space: pre; }
+.egg-code-body .ln { position: relative; height: 50px; padding-left: 76px; }
+.egg-code-body .ln > .no { position: absolute; left: 0; top: 0; width: 52px; text-align: right; font-size: 26px; color: #a59f97; }
+.egg-code-bar { position: absolute; left: 0; right: 0; top: 0; height: 50px; background: rgba(255, 255, 255, 0.11); opacity: 0; }
+.egg-code-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 7px; background: linear-gradient(180deg, #9d86ff, #ff7ac0 60%, #ff4704); }
+/* .sm: denser code (26 px, 40 px lines) so real, unwrapped lines up to ~51 characters fit the 860 px card */
+.egg-code.sm .egg-code-body { font-size: 26px; line-height: 40px; }
+.egg-code.sm .egg-code-body .ln { height: 40px; padding-left: 50px; }
+.egg-code.sm .egg-code-body .ln > .no { width: 34px; font-size: 20px; }
+.egg-code.sm .egg-code-bar { height: 40px; }
+.egg-code .t-k { color: #a996ff; }   /* keys */
+.egg-code .t-s { color: #ff8ac8; }   /* strings */
+.egg-code .t-kw { color: #ff6a33; }  /* keywords */
+.egg-code .t-fn { color: #fdfcfc; }  /* function calls */
+.egg-code .t-p { color: #a59f97; }   /* punctuation */
+.egg-code .t-c { color: #a59f97; }   /* comments */

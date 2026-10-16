@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.22},
+      {"t":1.0,"sfx":"click-soft","vol":0.2},
+      {"t":2.1,"sfx":"click-soft","vol":0.18},
+      {"t":2.8,"sfx":"error","vol":0.1},
+      {"t":3.6,"sfx":"typing","vol":0.18,"dur":0.5},
+      {"t":4.55,"sfx":"key-press","vol":0.22},
+      {"t":4.65,"sfx":"typing","vol":0.18,"dur":0.6},
+      {"t":5.5,"sfx":"key-press","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 3 · Claude's reply. The Claude logo with "Needs live data" ("spots that it needs live data"), a guess chip
+           "Sunny, probably?" struck through ("instead of guessing"). Then a Python REPL types what came back: stop_reason
+           'tool_use', then the last content block's name and input on one line: ('get_weather', {'location': 'Tokyo'}), the run bar on each
+           answer as the voice says it. Avatar: out. Voice: "Claude spots that it needs live data, so instead of
+           guessing, it replies with a tool call: get weather, Tokyo." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .who { position: absolute; left: 90px; top: 300px; display: flex; align-items: center; gap: 18px; }
+        .s05 .who img { width: 80px; height: 80px; }
+        .s05 .chip { position: absolute; top: 314px; padding: 14px 22px; font-size: 26px; }
+        .s05 .needs { left: 300px; border-color: var(--ink); color: var(--ink); }
+        .s05 .guess { left: 630px; }
+        .s05 .strike { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; }
+        .s05 .repl { position: absolute; left: 90px; top: 420px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s05-reply" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <span class="egg-eyebrow">3 · Claude's reply</span>
+          <div class="who"><img src="assets/claude-logo.svg" alt="Claude"></div>
+          <span class="egg-chip chip needs">Needs live data</span>
+          <span class="egg-chip chip guess">Sunny, probably?</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="strike" d="M622 342 L940 342" /></svg>
+          <div class="egg-code repl"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.6;
+          const root = document.querySelector('[data-composition-id="s05-reply"] .s05');
+          const q = (s) => root.querySelector(s);
+          const card = q(".repl");
+          Egg.codeCard(card, `
+>>> resp.stop_reason
+'tool_use'
+>>> block = resp.content[-1]
+>>> block.name, block.input
+('get_weather', {'location': 'Tokyo'})`, { lang: "py", file: "Python", tag: "What came back", small: true });
+          const tl = gsap.timeline({ paused: true });
+
+          // "Claude spots that it needs live data"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.pop(tl, q(".who img"), 0.15);
+          Egg.pop(tl, q(".needs"), 1.0, { dur: 0.45 });
+          // "so instead of guessing"
+          Egg.fadeUp(tl, q(".guess"), 2.1, { y: 14 });
+          const strike = q(".strike");
+          strike.setAttribute("pathLength", "1");
+          strike.style.strokeDasharray = "1 1.1";
+          tl.fromTo(strike, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.3, ease: Egg.EASE.draw }, 2.75);
+          tl.to([q(".guess"), strike], { opacity: 0.35, duration: 0.25, ease: "none" }, 3.05);
+          // "it replies with a tool call: get weather, Tokyo." Claude turns while it replies
+          tl.to(q(".who img"), { rotation: 120, duration: 2.6, ease: "power1.inOut" }, 3.6);
+          Egg.fadeUp(tl, card, 3.45, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 3.6, { cps: 90, lineGap: 0, to: 2 });
+          Egg.codeRun(tl, card, 1, 4.55);
+          Egg.codeType(tl, card, 4.65, { cps: 100, lineGap: 0, from: 2, to: 4 });
+          Egg.codeType(tl, card, 5.4, { cps: 70, lineGap: 0, from: 4 });
+          Egg.codeRun(tl, card, 4, 5.5);
+
+          Egg.fadeOut(tl, root.querySelectorAll(".egg-eyebrow, .who, .chip, .egg-svg, .repl"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s05-reply"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

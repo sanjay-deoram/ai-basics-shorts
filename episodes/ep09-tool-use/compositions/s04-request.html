@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"typing","vol":0.2,"dur":1.0},
+      {"t":0.95,"sfx":"key-press","vol":0.22},
+      {"t":2.2,"sfx":"key-press","vol":0.22},
+      {"t":3.0,"sfx":"whoosh-short","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 2 · The request (Python → the prompt). The question goes into msgs, then the API call types:
+           client.messages.create with model, max_tokens, tools=[tool] and messages=msgs. The run bar lands on tools=[tool] ("that tool list") and
+           prompt.html adds block 1 "System · tools"; then on q / msgs ("your question") and block 2 "User" lands. A
+           drawn arrow from the code down to the panel: "becomes Claude's prompt" ("so Claude sees both in its
+           prompt"). Avatar: out. Voice: "You send that tool list along with your question, so Claude sees both in its
+           prompt." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .req { position: absolute; left: 90px; top: 290px; width: 860px; }
+        .s04 .becomes { position: absolute; left: 580px; top: 772px; display: flex; flex-direction: column; gap: 8px; }
+        .s04 .becomes b { font: 300 48px/1.1 var(--f-display); font-weight: 300; letter-spacing: -0.02em; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s04-request" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <span class="egg-eyebrow">2 · The request</span>
+          <div class="egg-code req"></div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="ink arrow" d="M530 752 V884 M510 862 L530 886 L550 862" />
+          </svg>
+          <div class="becomes">
+            <span class="egg-card-kicker">Both become</span>
+            <b>Claude's prompt</b>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.15;
+          const root = document.querySelector('[data-composition-id="s04-request"] .s04');
+          const q = (s) => root.querySelector(s);
+          const card = q(".req");
+          Egg.codeCard(card, `
+q = "What's the weather in Tokyo?"
+msgs = [{"role": "user", "content": q}]
+
+resp = client.messages.create(
+    model=MODEL,
+    max_tokens=1024,
+    tools=[tool],
+    messages=msgs,
+)`, { lang: "py", file: "app.py", tag: "Send the request", small: true });
+          const tl = gsap.timeline({ paused: true });
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, card, 0.05, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.1, { cps: 200, lineGap: 0 });
+          // "that tool list" → block 1 · "your question" → block 2 (prompt.html)
+          Egg.codeRun(tl, card, 6, 0.95);
+          Egg.codeRun(tl, card, [0, 1], 2.2);
+          // "so Claude sees both in its prompt"
+          const arrow = q(".arrow");
+          arrow.setAttribute("pathLength", "1");
+          arrow.style.strokeDasharray = "1 1.1";
+          tl.fromTo(arrow, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: 0.45, ease: Egg.EASE.draw }, 3.0);
+          Egg.fadeUp(tl, q(".becomes"), 3.15, { y: 14 });
+          Egg.codeRun(tl, card, [6, 7], 3.1);
+
+          Egg.fadeOut(tl, root.querySelectorAll(".egg-eyebrow, .req, .egg-svg, .becomes"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s04-request"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
