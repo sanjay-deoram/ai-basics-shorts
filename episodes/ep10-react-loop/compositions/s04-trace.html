@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":0.89,"sfx":"typing","vol":0.18,"dur":1.9},
+      {"t":3.3,"sfx":"typing","vol":0.15,"dur":1.0},
+      {"t":5.15,"sfx":"typing","vol":0.15,"dur":0.8},
+      {"t":6.55,"sfx":"typing","vol":0.15,"dur":1.5},
+      {"t":9.25,"sfx":"typing","vol":0.15,"dur":1.5},
+      {"t":10.9,"sfx":"typing","vol":0.15,"dur":0.9},
+      {"t":12.05,"sfx":"typing","vol":0.15,"dur":0.9},
+      {"t":12.95,"sfx":"typing","vol":0.15,"dur":0.9},
+      {"t":14.1,"sfx":"chime","vol":0.2,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · The loop, for real (worked example). "You ask" types the question: "Do I need an umbrella for my next
+           meeting?" The loop drawing (compositions/loop.html, lower middle) runs it while this trace card, at the
+           bottom, writes each step on the voice: Think "Where is the meeting?" · Act next_meeting() · Observe "3 pm,
+           Toronto" · (back around) Think "Weather in Toronto?" · Act get_weather("Toronto") · Observe "Rain, 12°C" ·
+           Think "I have enough to answer." The second call depends on the first result, which is why it's a loop and
+           not a plan made up front. Claude's answer opens from the drawing's Answer box. The Think lines paraphrase
+           Claude's reasoning and the data is an example ("Example run"). Avatar: out. Voice: "Say you ask: do I need an
+           umbrella for my next meeting? Claude thinks: where is it? It calls next meeting: three p.m., Toronto. Back
+           around! What's the weather in Toronto? It calls get weather: rain. Now it has enough: yes, bring one!" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .ask { position: absolute; left: 90px; top: 280px; width: 860px; padding: 26px 40px; gap: 12px; }
+        .s04 .ask .egg-mono { font-size: 38px; line-height: 1.4; }
+        .s04 .trace { position: absolute; left: 90px; top: 962px; width: 860px; }
+      </style>
+      <div data-hf-id="hf-gi10" id="root" data-composition-id="s04-trace" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <span data-hf-id="hf-kttw" class="egg-eyebrow">The loop, for real</span>
+          <div data-hf-id="hf-62yt" class="egg-card ask">
+            <span data-hf-id="hf-v377" class="egg-card-kicker">You ask</span>
+            <p data-hf-id="hf-iia4" class="egg-mono q">Do I need an umbrella for my next meeting?</p>
+          </div>
+          <div data-hf-id="hf-x6lg" class="egg-code trace"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.3;
+          const root = document.querySelector('[data-composition-id="s04-trace"] .s04');
+          const q = (s) => root.querySelector(s);
+          const card = q(".trace");
+          Egg.codeCard(card, `
+Think:   Where is the meeting?
+Act:     next_meeting()
+Observe: "3 pm, Toronto"
+Think:   Weather in Toronto?
+Act:     get_weather(city="Toronto")
+Observe: "Rain, 12°C"
+Think:   I have enough to answer.`, { lang: "json", file: "ReAct trace", tag: "Example run" });
+          // Think / Act / Observe in the key colour, so the three steps read at a glance
+          card.querySelectorAll(".tx").forEach((tx) => { tx.innerHTML = tx.innerHTML.replace(/^(Think|Act|Observe)/, '<span class="t-k">$1</span>'); });
+          const tl = gsap.timeline({ paused: true });
+          const line = (i, at, cps) => { Egg.codeRun(tl, card, i, at); return Egg.codeType(tl, card, at, { from: i, to: i + 1, cps, lineGap: 0 }); };
+
+          // "Say you ask: do I need an umbrella for my next meeting?"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, q(".ask"), 0.1, { y: 24 });
+          Egg.typeOn(tl, q(".q"), 0.89, { cps: 22 });
+          Egg.fadeUp(tl, card, 2.9, { y: 30, dur: 0.4 });
+          // loop 1: "Claude thinks: where is it? It calls next meeting: three p.m., Toronto."
+          line(0, 3.3, 30);
+          line(1, 5.15, 30);
+          line(2, 6.55, 16);
+          // "Back around!" loop 2: "What's the weather in Toronto? It calls get weather: rain."
+          Egg.codeRun(tl, card, 3, 8.95);
+          Egg.codeType(tl, card, 9.25, { from: 3, to: 4, cps: 18, lineGap: 0 });
+          line(4, 10.9, 34);
+          line(5, 12.05, 24);
+          // loop 3: "Now it has enough: yes, bring one!"
+          line(6, 12.95, 36);
+          Egg.codeRun(tl, card, -1, 14.2);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".ask"), card], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s04-trace"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

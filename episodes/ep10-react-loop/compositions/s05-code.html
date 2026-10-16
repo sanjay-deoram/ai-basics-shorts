@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.35,"sfx":"typing","vol":0.2,"dur":1.45},
+      {"t":0.9,"sfx":"key-press","vol":0.22},
+      {"t":1.58,"sfx":"key-press","vol":0.2},
+      {"t":2.77,"sfx":"key-press","vol":0.22},
+      {"t":3.3,"sfx":"key-press","vol":0.18},
+      {"t":3.93,"sfx":"key-press","vol":0.22},
+      {"t":4.56,"sfx":"key-press","vol":0.22},
+      {"t":5.4,"sfx":"key-press","vol":0.22},
+      {"t":6.46,"sfx":"key-press","vol":0.22},
+      {"t":7.8,"sfx":"key-press","vol":0.22},
+      {"t":8.95,"sfx":"click-soft","vol":0.22},
+      {"t":9.25,"sfx":"typing","vol":0.18,"dur":0.65},
+      {"t":10.0,"sfx":"typing","vol":0.18,"dur":0.8},
+      {"t":10.9,"sfx":"chime","vol":0.2,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · The loop in Python (live code). agent.py types: the ReAct loop as a real manual tool-use loop with the
+           Anthropic Python SDK (exact excerpt of code/react_agent.py, reviewed by a second agent). The run bar steps on
+           the voice and the loop drawing's dot follows it (compositions/loop.html, now under the code): create → Think
+           ("Call Claude"), tools=TOOLS with the tray lit ("with the tools"), the stop_reason check ("If it asks for
+           one"), the assistant turn appended, run(b) → Act ("run it"), the tool_results appended → Observe ("add the
+           result"), back up to create ("and go again"), the check ("When it stops asking"), return the text → Answer
+           ("that's the answer"). Then the live edit on "cap the steps": `while True:` is struck and retyped as
+           `for step in range(10):`, and the fallback return types in on "so it can't loop forever". Avatar: out.
+           Voice: "In Python, it's just a loop. Call Claude with the tools. If it asks for one, run it, add the result,
+           and go again. When it stops asking, that's the answer. And cap the steps, so it can't loop forever." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .code { position: absolute; left: 90px; top: 280px; width: 860px; }
+        .s05 .tx-new { position: absolute; left: 50px; top: 0; }
+        .s05 .strike { position: absolute; left: 112px; top: 19px; width: 176px; height: 3px; border-radius: 2px; background: #ff8ac8; transform-origin: 0 50%; }
+      </style>
+      <div data-hf-id="hf-62iz" id="root" data-composition-id="s05-code" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ella" class="egg-scene s05">
+          <span data-hf-id="hf-poa1" class="egg-eyebrow">In Python</span>
+          <div data-hf-id="hf-lvju" class="egg-code code"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 11.65;
+          const root = document.querySelector('[data-composition-id="s05-code"] .s05');
+          const q = (s) => root.querySelector(s);
+          const card = q(".code");
+          // exact excerpt of code/react_agent.py agent(), with line 3 as first typed (before the cap edit)
+          Egg.codeCard(card, `
+def agent(ask):
+    messages = [{"role": "user", "content": ask}]
+    while True:
+        resp = client.messages.create(
+            model=MODEL, max_tokens=16000,
+            tools=TOOLS, messages=messages)
+        if resp.stop_reason != "tool_use":
+            return resp.content[-1].text
+        messages.append({"role": "assistant",
+                         "content": resp.content})
+        results = [run(b) for b in resp.content
+                   if b.type == "tool_use"]
+        messages.append({"role": "user",
+                         "content": results})
+    return "Stopped after 10 steps"`, { lang: "py", file: "agent.py", tag: "Python", small: true });
+          // the cap edit: line 3's replacement sits on top of it, typed later; a strike crosses out the old text
+          const ln3 = card.querySelectorAll(".ln")[2];
+          const tmp = document.createElement("div");
+          Egg.codeCard(tmp, "    for step in range(10):", { lang: "py" });
+          const fresh = document.createElement("span");
+          fresh.className = "tx-new";
+          fresh.innerHTML = tmp.querySelector(".tx").innerHTML;
+          const strike = document.createElement("div");
+          strike.className = "strike";
+          ln3.append(fresh, strike);
+
+          const tl = gsap.timeline({ paused: true });
+          // "In Python, it's just a loop." (the loop drawing slides down first)
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.3, { y: 16 });
+          Egg.fadeUp(tl, card, 0.3, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.35, { cps: 420, lineGap: 0, to: 14 });
+          // "Call Claude with the tools."
+          Egg.codeRun(tl, card, [3, 4, 5], 0.9);
+          Egg.codeRun(tl, card, 5, 1.58);
+          // "If it asks for one, run it, add the result, and go again."
+          Egg.codeRun(tl, card, 6, 2.77);
+          Egg.codeRun(tl, card, [8, 9], 3.3);
+          Egg.codeRun(tl, card, [10, 11], 3.93);
+          Egg.codeRun(tl, card, [12, 13], 4.56);
+          Egg.codeRun(tl, card, [3, 4, 5], 5.4);
+          // "When it stops asking, that's the answer."
+          Egg.codeRun(tl, card, 6, 6.46);
+          Egg.codeRun(tl, card, 7, 7.8);
+          // "And cap the steps, so it can't loop forever."
+          Egg.codeRun(tl, card, 2, 8.88);
+          tl.fromTo(strike, { scaleX: 0 }, { scaleX: 1, duration: 0.25, ease: Egg.EASE.draw }, 8.95);
+          tl.to([ln3.querySelector(".tx"), strike], { opacity: 0, duration: 0.15, ease: "none" }, 9.2);
+          Egg.typeOn(tl, fresh, 9.25, { cps: 40 });
+          Egg.codeType(tl, card, 10.0, { from: 14, cps: 45 });
+          Egg.codeRun(tl, card, 14, 10.05);
+          Egg.codeRun(tl, card, -1, 10.9);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), card], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s05-code"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

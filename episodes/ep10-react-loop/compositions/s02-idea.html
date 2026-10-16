@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.4,"sfx":"sparkle","vol":0.14,"dur":0.7},
+      {"t":2.4,"sfx":"click-soft","vol":0.2},
+      {"t":2.95,"sfx":"pop","vol":0.16},
+      {"t":3.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.2,"sfx":"key-press","vol":0.22},
+      {"t":4.75,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.35,"sfx":"click-soft","vol":0.2},
+      {"t":5.95,"sfx":"whoosh-short","vol":0.14},
+      {"t":6.65,"sfx":"whoosh-short","vol":0.16},
+      {"t":7.1,"sfx":"chime","vol":0.2,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · What ReAct means (whiteboard). "Reason + Act", with "Re" and "Act" highlighted as the voice says "reason"
+           and "act". Then one drawing, built on the voice: a thought cloud "Think" (its thought bubbles pop), and a
+           living dot that draws each arrow as it travels: to an f( ) box "Act" (it presses), to an eye "Observe" (it
+           blinks), and back to Think ("and loops"). Then the dot draws the way out to "Answer" ("until it can answer"),
+           and the label lands: "Loop until it can answer." Avatar: corner; everything above y 485 stays left of x 830.
+           Voice: "ReAct is short for reason and act. The agent thinks, acts with a tool, observes the result, and loops
+           until it can answer." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .egg-title { position: absolute; left: 90px; top: 284px; margin: 0; }
+        .s02 .ico { fill: var(--eggshell); }
+        .s02 .lab { position: absolute; font: 300 56px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s02 .fx { position: absolute; left: 730px; top: 940px; width: 120px; height: 120px; display: grid; place-items: center; font: 400 34px/1 var(--f-mono); color: var(--ink); }
+        .s02 .ans { position: absolute; left: 760px; top: 505px; width: 190px; height: 72px; border: 2px solid var(--ink); border-radius: 22px; display: grid; place-items: center; font: 300 44px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); background: var(--eggshell); }
+        .s02 .egg-label { position: absolute; left: 90px; top: 1210px; width: 860px; margin: 0; }
+        .s02 .mv { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+        .s02 .dot { position: absolute; left: -18px; top: -18px; width: 36px; height: 36px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+      </style>
+      <div data-hf-id="hf-7n4a" id="root" data-composition-id="s02-idea" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <span data-hf-id="hf-f4n1" class="egg-eyebrow">What ReAct means</span>
+          <h2 data-hf-id="hf-md0r" class="egg-title"><span data-hf-id="hf-9v83" class="egg-hl h1">Re</span>ason + <span data-hf-id="hf-n6gz" class="egg-hl h2">Act</span></h2>
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <!-- arrows (filled in from Egg.curve below), under the icons -->
+            <path data-hf-id="hf-759m" class="ink thin e0" /><path data-hf-id="hf-47on" class="ink thin hd0" />
+            <path data-hf-id="hf-b3dn" class="ink thin e1" /><path data-hf-id="hf-09km" class="ink thin hd1" />
+            <path data-hf-id="hf-2fhs" class="ink thin e2" /><path data-hf-id="hf-u3ut" class="ink thin hd2" />
+            <path data-hf-id="hf-375l" class="ink thin e3" /><path data-hf-id="hf-tc70" class="ink thin hd3" />
+            <g data-hf-id="hf-teim" class="think">
+              <path data-hf-id="hf-txxg" class="ink ico" d="M478 708 H612 Q652 708 652 670 Q652 632 614 630 Q606 592 566 592 Q528 592 518 624 Q480 620 472 656 Q444 660 444 684 Q444 708 478 708 Z" />
+            </g>
+            <circle data-hf-id="hf-n54v" class="ink thin b1" cx="452" cy="732" r="10" />
+            <circle data-hf-id="hf-y867" class="ink thin b2" cx="432" cy="758" r="6" />
+            <g data-hf-id="hf-ymry" class="act"><rect data-hf-id="hf-hj5v" class="ink ico" x="730" y="940" width="120" height="120" rx="30" /></g>
+            <g data-hf-id="hf-2vdh" class="eye">
+              <path data-hf-id="hf-gxep" class="ink ico" d="M190 1000 Q290 932 390 1000 Q290 1068 190 1000 Z" />
+              <circle data-hf-id="hf-yovf" class="ink pupil" cx="290" cy="1000" r="26" />
+            </g>
+          </svg>
+          <span data-hf-id="hf-j79v" class="lab l1" style="left:486px;top:522px">Think</span>
+          <span data-hf-id="hf-3nwi" class="fx">f( )</span>
+          <span data-hf-id="hf-f12h" class="lab l2" style="left:748px;top:1080px">Act</span>
+          <span data-hf-id="hf-dcrh" class="lab l3" style="left:196px;top:1080px">Observe</span>
+          <div data-hf-id="hf-d79q" class="ans">Answer</div>
+          <div data-hf-id="hf-h40p" class="mv"><div data-hf-id="hf-lu65" class="dot"></div></div>
+          <p data-hf-id="hf-xy14" class="egg-label">Loop until it can answer.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.1;
+          const root = document.querySelector('[data-composition-id="s02-idea"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const draw = (els, at, dur = 0.45) => {
+            els.forEach((el) => { el.setAttribute("pathLength", "1"); el.style.strokeDasharray = "1 1.1"; });
+            tl.fromTo(els, { strokeDashoffset: 1.02, opacity: 0 }, { strokeDashoffset: 0, opacity: 1, duration: dur, ease: Egg.EASE.draw, stagger: 0.1 }, at);
+          };
+          // station centres and the four arrows (think → act → observe → think, and think → answer)
+          const T = [548, 650], A = [790, 1000], O = [290, 1000], ANS = [855, 541];
+          const legs = [
+            Egg.curve(T, [800, 640], A, { from: 0.24, to: 0.82 }),
+            Egg.curve(A, [540, 1120], O, { from: 0.18, to: 0.82 }),
+            Egg.curve(O, [262, 664], T, { from: 0.16, to: 0.78 }),
+            Egg.curve(T, [700, 520], ANS, { from: 0.32, to: 0.66 }),
+          ];
+          legs.forEach((c, i) => { q(".e" + i).setAttribute("d", c.d); q(".hd" + i).setAttribute("d", c.head); });
+          const mv = q(".mv"), dot = q(".dot");
+          gsap.set(mv, { x: T[0], y: T[1] });
+          const leg = (i, at, dur) => Egg.travel(tl, mv, legs[i], at, dur, { draw: q(".e" + i), head: q(".hd" + i) });
+          const bump = (el, at, to, origin) => tl.fromTo(el, { scale: 1 }, { scale: to, svgOrigin: origin, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, at);
+
+          // "ReAct is short for reason and act."
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, q(".egg-title"), 0.15, { y: 30 });
+          Egg.highlight(tl, q(".h1"), 1.4);
+          Egg.highlight(tl, q(".h2"), 1.95);
+          // "The agent thinks," the cloud draws, its bubbles pop, the dot appears in it
+          draw([q(".think .ink")], 2.4, 0.5);
+          Egg.fadeUp(tl, q(".l1"), 2.6, { y: 14 });
+          Egg.pop(tl, [q(".b1"), q(".b2")], 2.8, { dur: 0.35, stagger: 0.1 });
+          tl.fromTo(dot, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: Egg.EASE.pop }, 2.95);
+          bump(q(".think"), 3.05, 1.06, "548 650");
+          // "acts with a tool," the box draws, the dot draws the arrow to it, the box presses
+          draw([q(".act .ink")], 3.35, 0.35);
+          Egg.pop(tl, q(".fx"), 3.55, { dur: 0.35 });
+          Egg.fadeUp(tl, q(".l2"), 3.9, { y: 14 });
+          leg(0, 3.6, 0.6);
+          bump(q(".act"), 4.2, 0.9, "790 1000");
+          tl.fromTo(q(".fx"), { scale: 1 }, { scale: 0.9, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 4.2);
+          // "observes the result," the eye draws, the dot draws the arrow to it, the eye blinks
+          draw(all(".eye .ink"), 4.45, 0.35);
+          Egg.fadeUp(tl, q(".l3"), 4.85, { y: 14 });
+          leg(1, 4.75, 0.6);
+          tl.fromTo(q(".eye"), { scaleY: 1 }, { scaleY: 0.12, svgOrigin: "290 1000", duration: 0.1, ease: "power2.in", yoyo: true, repeat: 1, immediateRender: false }, 5.35);
+          // "and loops" back to Think
+          leg(2, 5.95, 0.6);
+          bump(q(".think"), 6.55, 1.06, "548 650");
+          // "until it can answer." the way out
+          Egg.fadeUp(tl, q(".egg-label"), 6.35, { y: 24 });
+          leg(3, 6.65, 0.45);
+          tl.fromTo(q(".ans"), { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: Egg.EASE.pop }, 6.95);
+          tl.to(dot, { scale: 0, opacity: 0, duration: 0.2, ease: Egg.EASE.exit }, 7.15);
+
+          Egg.fadeOut(tl, all(".egg-eyebrow, .egg-title, .egg-svg, .lab, .fx, .ans, .egg-label"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s02-idea"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

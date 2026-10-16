@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"click-soft","vol":0.2},
+      {"t":0.7,"sfx":"pop","vol":0.18},
+      {"t":1.6,"sfx":"typing","vol":0.18,"dur":1.5},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":2.75,"sfx":"pop","vol":0.16},
+      {"t":3.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.75,"sfx":"pop","vol":0.14},
+      {"t":4.18,"sfx":"key-press","vol":0.22},
+      {"t":5.37,"sfx":"key-press","vol":0.22},
+      {"t":6.19,"sfx":"key-press","vol":0.22},
+      {"t":6.45,"sfx":"sparkle","vol":0.14,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Where do the tools come from? (whiteboard + code). A drawn "Your app" box and the Claude logo, joined by
+           an arrow. A request card (tools=TOOLS, messages=…) flies along it into Claude, twice ("with every request");
+           Claude pulses as each lands. Below, tools.py types the real tool list (exact excerpt of code/react_agent.py),
+           and the run bar lands on get_weather's name, description and inputs as they're said. Label: "Claude can only
+           pick from this list." Avatar: out. Voice: "But where do the tools come from? Your app sends a list with every
+           request: each tool's name, what it does, and its inputs." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .app { position: absolute; left: 90px; top: 320px; width: 240px; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; }
+        .s03 .app b { font: 300 48px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .claude { position: absolute; left: 800px; top: 335px; width: 120px; height: 120px; }
+        .s03 .claude-k { position: absolute; left: 790px; top: 474px; width: 140px; text-align: center; }
+        .s03 .every { position: absolute; left: 345px; top: 432px; width: 430px; text-align: center; }
+        .s03 .req { position: absolute; left: 0; top: 0; width: 230px; padding: 14px 18px; gap: 6px; }
+        .s03 .req .egg-mono { font-size: 24px; line-height: 1.3; white-space: nowrap; }
+        .s03 .code { position: absolute; left: 90px; top: 590px; width: 860px; }
+        .s03 .egg-label { position: absolute; left: 90px; top: 1240px; width: 860px; margin: 0; font-size: 56px; }
+      </style>
+      <div data-hf-id="hf-rle3" id="root" data-composition-id="s03-tools" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <span data-hf-id="hf-3isr" class="egg-eyebrow">Where do the tools come from?</span>
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect data-hf-id="hf-7qgi" class="ink box" data-draw="0" x="90" y="320" width="240" height="150" rx="34" />
+            <path data-hf-id="hf-uzyr" class="ink thin arrow" data-draw="1" d="M346 410 H770 M752 396 L770 410 L752 424" />
+          </svg>
+          <div data-hf-id="hf-gk5l" class="app"><b data-hf-id="hf-p9xx">Your app</b><span data-hf-id="hf-p5tb" class="egg-card-kicker">tools.py</span></div>
+          <span data-hf-id="hf-28ke" class="egg-card-kicker every">Sent with every request</span>
+          <img data-hf-id="hf-5trj" class="claude" src="assets/claude-logo.svg" alt="Claude">
+          <span data-hf-id="hf-6845" class="egg-card-kicker claude-k">Claude</span>
+          <div data-hf-id="hf-cr31" class="egg-card req r1" data-layout-allow-overlap=""><span data-hf-id="hf-sw78" class="egg-card-kicker">Request</span><p data-hf-id="hf-rne3" class="egg-mono">tools=TOOLS</p><p data-hf-id="hf-ymh3" class="egg-mono">messages=[…]</p></div>
+          <div data-hf-id="hf-qhnc" class="egg-card req r2" data-layout-allow-overlap=""><span data-hf-id="hf-e1x8" class="egg-card-kicker">Request</span><p data-hf-id="hf-nojv" class="egg-mono">tools=TOOLS</p><p data-hf-id="hf-fvqf" class="egg-mono">messages=[…]</p></div>
+          <div data-hf-id="hf-lvju" class="egg-code code"></div>
+          <p data-hf-id="hf-qlom" class="egg-label">Claude can only pick from this list.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.5;
+          const root = document.querySelector('[data-composition-id="s03-tools"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const card = q(".code");
+          // exact excerpt of code/react_agent.py
+          Egg.codeCard(card, `
+TOOLS = [
+    {"name": "next_meeting",
+     "description": "The user's next meeting",
+     "input_schema": {"type": "object",
+                      "properties": {}}},
+    {"name": "get_weather",
+     "description": "Weather forecast for a city",
+     "input_schema": {"type": "object",
+                      "properties": {"city": {
+                          "type": "string"}},
+                      "required": ["city"]}},
+]`, { lang: "py", file: "tools.py", tag: "Python", small: true });
+          const tl = gsap.timeline({ paused: true });
+          const logo = q(".claude");
+          const pulse = (at) => tl.fromTo(logo, { scale: 1 }, { scale: 1.14, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, at);
+          // a request card rides the arrow from the app into Claude
+          const send = (el, at) => {
+            tl.fromTo(el, { x: 150, y: 300, scale: 0.6, opacity: 0 }, { x: 170, y: 270, scale: 1, opacity: 1, duration: 0.25, ease: Egg.EASE.pop }, at);
+            tl.to(el, { x: 560, y: 270, duration: 0.5, ease: Egg.EASE.move }, at + 0.25);
+            tl.to(el, { x: 700, y: 330, scale: 0.3, opacity: 0, duration: 0.2, ease: Egg.EASE.exit }, at + 0.7);
+            pulse(at + 0.75);
+          };
+
+          // "But where do the tools come from?"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.draw(tl, q(".egg-svg"), 0.15, { gap: 0.25, dur: 0.45 });
+          Egg.fadeUp(tl, q(".app"), 0.35, { y: 14 });
+          Egg.pop(tl, logo, 0.7);
+          tl.fromTo(logo, { rotation: -30 }, { rotation: 0, duration: 0.8, ease: Egg.EASE.enter, immediateRender: false }, 0.7);
+          Egg.fadeUp(tl, q(".claude-k"), 0.9, { y: 10 });
+          // "Your app sends a list with every request:"
+          Egg.fadeUp(tl, card, 1.5, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 1.6, { cps: 300, lineGap: 0 });
+          send(q(".r1"), 2.0);
+          Egg.fadeUp(tl, q(".every"), 2.4, { y: 10 });
+          send(q(".r2"), 3.0);
+          // "each tool's name, what it does, and its inputs."
+          Egg.codeRun(tl, card, 5, 4.18);
+          Egg.codeRun(tl, card, 6, 5.37);
+          Egg.codeRun(tl, card, [7, 8, 9, 10], 6.19);
+          Egg.fadeUp(tl, q(".egg-label"), 6.45, { y: 20 });
+
+          Egg.fadeOut(tl, all(".egg-eyebrow, .egg-svg, .app, .every, .claude, .claude-k, .code, .egg-label"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s03-tools"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

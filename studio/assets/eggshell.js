@@ -601,9 +601,64 @@
     return at + dur;
   }
 
+  /* ---------- loops and flows (ep10) ---------- */
+  // A quadratic curve p0 → p1 bent toward c, for arrows between drawn stations. opts.from / opts.to (0–1) trim the
+  // visible stroke so it starts and ends outside the icons it joins. Returns { d, head, at(t) }: the trimmed path,
+  // an arrowhead at the trimmed end, and the point at t on the full curve (for Egg.travel).
+  function curve(p0, c, p1, opts = {}) {
+    const a = opts.from ?? 0, b = opts.to ?? 1;
+    const at = (t) => {
+      const u = 1 - t;
+      return [u * u * p0[0] + 2 * u * t * c[0] + t * t * p1[0], u * u * p0[1] + 2 * u * t * c[1] + t * t * p1[1]];
+    };
+    const r = (v) => Math.round(v * 10) / 10;
+    const s = at(a), e = at(b);
+    const k = [
+      (1 - a) * (1 - b) * p0[0] + ((1 - a) * b + a * (1 - b)) * c[0] + a * b * p1[0],
+      (1 - a) * (1 - b) * p0[1] + ((1 - a) * b + a * (1 - b)) * c[1] + a * b * p1[1],
+    ];
+    const len = Math.hypot(e[0] - k[0], e[1] - k[1]) || 1;
+    const dx = (e[0] - k[0]) / len, dy = (e[1] - k[1]) / len, h = opts.head ?? 18;
+    const wing = (sgn) => [e[0] - h * (dx * 0.87 - sgn * dy * 0.5), e[1] - h * (dy * 0.87 + sgn * dx * 0.5)];
+    const [w1, w2] = [wing(1), wing(-1)];
+    return {
+      at, from: a, to: b,
+      d: `M${r(s[0])} ${r(s[1])} Q${r(k[0])} ${r(k[1])} ${r(e[0])} ${r(e[1])}`,
+      head: `M${r(w1[0])} ${r(w1[1])} L${r(e[0])} ${r(e[1])} L${r(w2[0])} ${r(w2[1])}`,
+    };
+  }
+
+  // Move el along a curve (Egg.curve) over dur, seek-safe (one tween, positions computed from its progress).
+  // opts.draw: a <path> holding the curve's d, drawn on in step with el (it appears to be drawn by el);
+  // opts.head: its arrowhead, shown when el arrives. el is positioned with x / y (place it at left 0, top 0).
+  function travel(tl, el, cv, at, dur, opts = {}) {
+    const o = { t: 0 };
+    const { draw, head } = opts;
+    if (draw && !draw.dataset.travel) {
+      draw.dataset.travel = "1";
+      draw.setAttribute("pathLength", "1");
+      gsap.set(draw, { strokeDasharray: "1 1.1", strokeDashoffset: 1.02, opacity: 0 });
+      if (head) gsap.set(head, { opacity: 0 });
+    }
+    const span = cv.to - cv.from;
+    tl.to(o, {
+      t: 1, duration: dur, ease: opts.ease ?? EASE.move,
+      onUpdate: () => {
+        const [x, y] = cv.at(o.t);
+        if (el) gsap.set(el, { x, y });
+        if (draw && opts.drawn !== false) {
+          const p = Math.min(1, Math.max(0, (o.t - cv.from) / span));
+          gsap.set(draw, { strokeDashoffset: 1.02 * (1 - p), opacity: p > 0 ? 1 : 0 });
+          if (head) gsap.set(head, { opacity: p >= 0.98 ? 1 : 0 });
+        }
+      },
+    }, at);
+    return at + dur;
+  }
+
   window.Egg = {
     EASE, mountSparks, mountAvatar, avatarTalk, offsetIn, lipsync, sceneStart, sparkIdle, sparkMood, blink, pop, fadeUp, fadeOut, numPunch, typeOn, highlight,
     stamp, shake, zoom, progress, draw, checks, count, meter, tokens, bars, pointer, pointTo, pointerHide, isoBuild, isoAnimate,
-    codeCard, codeType, codeRun,
+    codeCard, codeType, codeRun, curve, travel,
   };
 })();

@@ -278,6 +278,7 @@ the same across episodes.
 | Bars         | `Egg.bars`             | 0.7–0.9 s, power3.out, 0.12 s stagger         | `whoosh-short`   |
 | Zoom in/out  | `tl.to(cam, scale)`    | 0.7–1.0 s, power2.inOut; push ≤ 1.15, pull-back reveals from 2.0 | `whoosh` |
 | Code card    | `Egg.codeCard`, `Egg.codeType`, `Egg.codeRun` | types at 60–85 chars/s; the run bar moves 0.25 s to the line being explained and dims the rest (as a debugger does) | `typing`, `key-press` per step |
+| Loop travel  | `Egg.curve`, `Egg.travel` | a dot rides a curved arrow between drawn stations and draws it as it goes; 0.5–0.7 s, power2.inOut; the arrowhead lands with it (ep10 loop) | `whoosh-short` per leg |
 | Number punch | `Egg.numPunch`         | pop 0.4 s, hold 0.4 s, flies through the camera 0.42 s (scale 3.2, power2.in) | `pop` in, `whoosh` through |
 | Avatar moves | `narrator.html` PATH   | glide 0.8 s / in 0.55 s / out 0.32 s (§5)     | soft `whoosh-short` per move |
 | Avatar talk  | `Egg.avatarTalk`       | one mouth beat per syllable (§5)              | —                |

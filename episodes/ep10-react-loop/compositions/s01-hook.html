@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"whoosh-short","vol":0.3},
+      {"t":0.75,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":1.8,"sfx":"typing","vol":0.2,"dur":0.65}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. "What is tool use?" ("tool use" highlighted as the voice says it). Under it a one-line code card
+           types a real tool call, agent("Do I need an umbrella?"), and the run bar flashes on it: the episode's example in one
+           line. The narrator avatar peeks in large from the right (narrator.html "title"). Voice (one take for the whole episode): "What is tool use, and how does it actually work?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-safe { justify-content: flex-start; gap: 40px; padding-top: 90px; }
+        .s01 .egg-display .w { display: inline-block; }
+        .s01 .sub { font: 300 54px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--graphite); margin: 0; }
+        .s01 .egg-code { width: 770px; padding: 22px 0 22px; }
+      </style>
+      <div data-hf-id="hf-sqll" id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tf6y" class="egg-scene s01">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-arws" class="egg-eyebrow">AI basics · Episode 10</span>
+            <h1 data-hf-id="hf-yuh4" class="egg-display"><span data-hf-id="hf-0jp6" class="w">What</span> <span data-hf-id="hf-fj2o" class="w">is</span> <span data-hf-id="hf-9o0j" class="w">the</span> <span data-hf-id="hf-fr20" class="w"><span data-hf-id="hf-5207" class="egg-hl">ReAct loop?</span></span></h1>
+            <p data-hf-id="hf-babm" class="sub">…and how does it work?</p>
+            <div data-hf-id="hf-9sid" class="egg-code call"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 2.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const card = q(".call");
+          Egg.codeCard(card, `agent("Do I need an umbrella?")`, { lang: "py" });
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, [...root.querySelectorAll(".egg-display .w")], 0.15, { y: 60, stagger: 0.07, dur: 0.55 });
+          Egg.highlight(tl, q(".egg-hl"), 0.75);
+          // "…and how does it work?"
+          Egg.fadeUp(tl, q(".sub"), 1.6, { y: 20 });
+          Egg.fadeUp(tl, card, 1.7, { y: 24 });
+          const end = Egg.codeType(tl, card, 1.8, { cps: 48 });
+          Egg.codeRun(tl, card, 0, end + 0.02, { dur: 0.15 });
+          Egg.fadeOut(tl, q(".egg-safe"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
