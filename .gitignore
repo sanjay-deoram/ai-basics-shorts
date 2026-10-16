@@ -17,6 +17,7 @@ node_modules/
 !episodes/ep02-embeddings-part2-avatar/renders/ep02-embeddings-part2-avatar.mp4
 !episodes/ep07-source-control/renders/ep07-source-control.mp4
 !episodes/ep07-source-control/renders/ep07-source-control-45s.mp4
+!episodes/ep09-tool-use/renders/ep09-tool-use.mp4
 
 # Secrets (the Fish Audio key: FISH_API_KEY in the environment, or fish.env at the repo root, local only)
 .env
