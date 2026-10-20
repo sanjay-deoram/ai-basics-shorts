@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.35,"sfx":"click","vol":0.26},
+      {"t":0.67,"sfx":"click","vol":0.26},
+      {"t":0.99,"sfx":"click","vol":0.26},
+      {"t":1.31,"sfx":"click","vol":0.26},
+      {"t":1.63,"sfx":"click","vol":0.26},
+      {"t":3.3,"sfx":"chime","vol":0.28,"dur":1.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · End card. The five ideas tick in, one each, then the sources and the follow pill; the narrator avatar stands
+           centred above them (narrator.html "end") and smiles. No fade-out: the last frame holds so the video loops
+           cleanly. Voiceover: 0.3 "Developers aren't going away. They're becoming conductors." 3.3 "Follow for more AI
+           basics." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-safe { gap: 40px; justify-content: flex-start; padding-top: 450px; }
+        .s08 .egg-checks { gap: 24px; }
+        .s08 .egg-checks li { font-size: 58px; }
+        .s08 .foot { display: flex; flex-direction: column; align-items: center; gap: 14px; margin-top: 6px; }
+        .s08 .egg-foot { font-size: 26px; color: var(--graphite); text-align: center; }
+        .s08 .egg-chip.egg-pill-dark { margin-top: 14px; font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div data-hf-id="hf-qnq4" id="root" data-composition-id="s08-end" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-oswj" class="egg-scene s08">
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-8c1x" class="egg-eyebrow">Remember</span>
+            <ul data-hf-id="hf-w8on" class="egg-checks">
+              <li data-hf-id="hf-3ipb"><span data-hf-id="hf-coyi" class="tick"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Hand agents whole features</li>
+              <li data-hf-id="hf-jtjf"><span data-hf-id="hf-ptha" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Write a spec first</li>
+              <li data-hf-id="hf-8ekt"><span data-hf-id="hf-q7sb" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Be the conductor</li>
+              <li data-hf-id="hf-j3in"><span data-hf-id="hf-qm3c" class="tick"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-79sv" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Lean context, let it loop</li>
+              <li data-hf-id="hf-5kxy"><span data-hf-id="hf-nty5" class="tick"><svg data-hf-id="hf-3t7q" viewBox="0 0 24 24"><path data-hf-id="hf-8gpy" d="M5 12.5 L10 17.5 L19 7" /></svg></span>Sandbox your agents</li>
+            </ul>
+            <div data-hf-id="hf-mlgk" class="foot">
+              <span data-hf-id="hf-640t" class="egg-foot">Sources: Anthropic · GitHub · Simon Willison</span>
+              <span data-hf-id="hf-ulst" class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s08-end"] .s08');
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelector(".egg-eyebrow"), 0.05);
+          Egg.checks(tl, root.querySelector(".egg-checks"), 0.25, { gap: 0.32 });
+          Egg.fadeUp(tl, root.querySelector(".foot .egg-foot"), 2.4, { y: 12 });
+          Egg.pop(tl, root.querySelector(".egg-pill-dark"), 3.3);
+          window.__timelines["s08-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

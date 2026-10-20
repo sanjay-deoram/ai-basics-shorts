@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pencil","vol":0.2},
+      {"t":1.0,"sfx":"pencil","vol":0.18},
+      {"t":1.9,"sfx":"pop","vol":0.18},
+      {"t":2.75,"sfx":"pop","vol":0.16},
+      {"t":3.85,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.0,"sfx":"pop","vol":0.22},
+      {"t":4.25,"sfx":"pencil","vol":0.2},
+      {"t":6.3,"sfx":"pencil-short","vol":0.2},
+      {"t":6.85,"sfx":"whoosh-short","vol":0.12},
+      {"t":6.95,"sfx":"pop","vol":0.22},
+      {"t":7.2,"sfx":"pencil","vol":0.2},
+      {"t":8.75,"sfx":"pencil-short","vol":0.2},
+      {"t":9.3,"sfx":"whoosh-short","vol":0.12},
+      {"t":9.5,"sfx":"pencil","vol":0.18},
+      {"t":10.1,"sfx":"click-soft","vol":0.2},
+      {"t":10.4,"sfx":"click-soft","vol":0.2},
+      {"t":10.7,"sfx":"click-soft","vol":0.2},
+      {"t":11.05,"sfx":"whoosh-short","vol":0.12},
+      {"t":12.75,"sfx":"pop","vol":0.22},
+      {"t":13.65,"sfx":"chime","vol":0.18},
+      {"t":14.25,"sfx":"page","vol":0.26}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Few-shot (37.95–52.55). "With few-shot, you give it a handful, usually three to five. You add a payment
+           system that's down, marked high, and an invoice question, marked medium. Now it sees your whole scale, so it's
+           much more likely to answer high, and in the same format."
+           The prompt card with all three spots filled: the password note from s04 first, then the camera pans to each new
+           note as it's stuck on, written and its answer ringed (High red, Medium orange). The three-box scale is ticked
+           all the way across, and the reply comes back "Priority: High" in the same format. Avatar: corner until the
+           first zoom. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .box { position: absolute; width: 250px; text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s05-few" data-width="1080" data-height="1920">
+        <div class="sk-scene s05">
+          <div class="sk-cam">
+            <div class="s05-page" style="position:absolute;inset:0">
+              <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+              <span class="sk-abs sk-h1 c-teal sk-w t1" style="left:90px;top:236px">Few-shot</span>
+              <span class="sk-abs sk-h2 c-teal b0" style="left:660px;top:262px">3–5</span>
+              <span class="sk-abs sk-note c-soft t2" style="left:100px;top:384px">a handful of examples, then the task</span>
+
+              <span class="sk-abs sk-kicker sc-k" style="left:110px;top:1068px">now it has seen the whole scale</span>
+              <span class="sk-abs box sk-h3 c-green" style="left:110px;top:1124px">Low</span>
+              <span class="sk-abs box sk-h3 c-orange" style="left:400px;top:1124px">Medium</span>
+              <span class="sk-abs box sk-h3 c-red" style="left:690px;top:1124px">High</span>
+
+              <span class="sk-abs sk-h2 ai" style="left:470px;top:1344px;width:140px;text-align:center">AI</span>
+              <span class="sk-abs sk-note c-green same" style="left:120px;top:1366px">same format ✓</span>
+              <span class="sk-abs sk-kicker r1k" style="left:318px;top:1482px">reply</span>
+              <span class="sk-abs sk-h3 r1" style="left:340px;top:1546px"><span class="rp">Priority:</span> <span class="c-red">High</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-few"] .s05');
+          const cam = root.querySelector(".sk-cam"), page = root.querySelector(".s05-page"), ink = root.querySelector(".sk-ink");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const C = Sk.C;
+
+          const P = Sk.promptCard(page, ink, { notes: 3, seed: 300 });
+          const [N1, N2, N3] = P.notes;
+          const badge = Sk.ring($(".b0"), { color: C.teal, seed: 301, padX: 22, padY: 4 });
+          const boxes = [110, 400, 690].map((x, i) => Sk.shape(ink, "path", [Sk.roundRect(x, 1110, 250, 160, 18)], { stroke: [C.green, C.orange, C.red][i], strokeWidth: 3.2, fill: ["#e9f4ec", "#fbefe2", "#fbe8e8"][i], fillStyle: "solid", seed: 340 + i }));
+          const ticks = [235, 525, 815].map((x, i) => Sk.shape(ink, "linearPath", [[[x - 40, 1222], [x - 12, 1246], [x + 44, 1188]]], { stroke: [C.green, C.orange, C.red][i], strokeWidth: 7, seed: 350 + i }));
+          const arrow = Sk.arrow(ink, [[520, 1284], [505, 1310], [530, 1336]], { strokeWidth: 3.2, seed: 360, head: 22 });
+          const aiBox = Sk.shape(ink, "path", [Sk.roundRect(455, 1340, 170, 112, 26)], { fill: "#efe9ff", fillStyle: "solid", strokeWidth: 3.2, seed: 361 });
+          const spark = Sk.sparkle(ink, 622, 1342, 24, { seed: 362 });
+          const b1 = Sk.bubble(ink, 300, 1520, 480, 116, 520, { seed: 363 });
+          const preRings = P.notes.map((n, i) => Sk.underline(n.el.querySelector(".pre"), { color: C.green, seed: 370 + i, drop: -8 }));
+          const repRing = Sk.underline($(".rp"), { color: C.green, seed: 375 });
+          const tick = Sk.shape(ink, "linearPath", [[[808, 1574], [824, 1594], [866, 1544]]], { stroke: C.green, strokeWidth: 7, seed: 364 });
+
+          // 0–3.6 · title; the card; the password note from s04 is stuck in first; badge 3–5
+          Sk.frame(tl, cam, [84, 226, 820, 430], 0, 0);
+          Sk.write(tl, $(".t1"), 0.1, { dur: 0.5 });
+          Sk.home(tl, cam, 0.8, 0.75);
+          Sk.write(tl, $(".t2"), 1.0, { dur: 0.6 });
+          Sk.draw(tl, P.card, 1.0, 0.45);
+          Sk.write(tl, P.kicker, 1.2, { dur: 0.2 });
+          Sk.write(tl, P.ins, 1.25, { dur: 0.45 });
+          Sk.draw(tl, P.spots, 1.5, 0.35);
+          Sk.slap(tl, N1.el, 1.85, { rot: -2, dy: 300 });
+          Sk.draw(tl, N1.ring, 2.2, 0.25);
+          Sk.write(tl, P.issue[0], 2.0, { dur: 0.45 });
+          Sk.write(tl, P.issue[1], 2.4, { dur: 0.4 });
+          Sk.write(tl, P.issue[2], 2.75, { dur: 0.2 });
+          Sk.pop(tl, $(".b0"), 2.75); Sk.draw(tl, badge, 2.8, 0.35);
+          Sk.punch(tl, $(".b0"), 3.28, 1.15);
+
+          // 3.85–6.8 · note 2: the payment system, marked High
+          Sk.frame(tl, cam, [370, 580, 930, 870], 3.85, 0.55);
+          Sk.slap(tl, N2.el, 3.95, { rot: 1.5, dy: 320 });
+          Sk.write(tl, N2.text, 4.25, { dur: 1.2 });
+          gsap.set(N2.line, { opacity: 0 });
+          tl.to(N2.line, { opacity: 1, duration: 0.3 }, 5.65);
+          Sk.draw(tl, N2.ring, 6.3, 0.35);
+
+          // 6.85–9.2 · note 3: the invoice question, marked Medium
+          Sk.frame(tl, cam, [560, 580, 930, 870], 6.85, 0.5);
+          Sk.slap(tl, N3.el, 6.9, { rot: -1.5, dy: 320 });
+          Sk.write(tl, N3.text, 7.2, { dur: 1.0 });
+          gsap.set(N3.line, { opacity: 0 });
+          tl.to(N3.line, { opacity: 1, duration: 0.3 }, 8.35);
+          Sk.draw(tl, N3.ring, 8.75, 0.35);
+
+          // 9.3–11 · the whole scale, ticked all the way across
+          Sk.frame(tl, cam, [90, 590, 950, 1300], 9.3, 0.7);
+          Sk.write(tl, $(".sc-k"), 9.5, { dur: 0.5 });
+          Sk.draw(tl, boxes, 9.55, 0.45);
+          Sk.pop(tl, root.querySelectorAll(".box.sk-h3"), 9.75, { stagger: 0.08 });
+          Sk.draw(tl, ticks[0], 10.1, 0.2); Sk.draw(tl, ticks[1], 10.4, 0.2); Sk.draw(tl, ticks[2], 10.7, 0.2);
+
+          // 11.05–14.3 · down to the reply: High, in the same format
+          Sk.frame(tl, cam, [90, 1050, 950, 1680], 11.05, 0.75);
+          Sk.draw(tl, arrow, 11.5, 0.3);
+          Sk.draw(tl, [aiBox, spark], 11.7, 0.35);
+          Sk.pop(tl, $(".ai"), 11.8);
+          Sk.draw(tl, b1, 12.4, 0.25);
+          Sk.write(tl, $(".r1k"), 12.4, { dur: 0.2 });
+          Sk.pop(tl, $(".r1"), 12.72);
+          Sk.draw(tl, tick, 13.0, 0.2);
+          Sk.frame(tl, cam, [90, 590, 950, 1680], 13.3, 0.6);
+          Sk.draw(tl, preRings.concat(repRing), 13.6, 0.4, { together: true });
+          Sk.write(tl, $(".same"), 13.65, { dur: 0.45 });
+
+          Sk.pageOut(tl, page, 14.25, 0.35);
+          window.__timelines["s05-few"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

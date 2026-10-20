@@ -1,0 +1,36 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.2, "text": "This pilot approves code from his phone." },
+    { "scene": "s01", "at": 2.6, "text": "His dev team? All AI agents." },
+    { "scene": "s01", "at": 5.0, "text": "Five things to know. The last one matters most." },
+    { "scene": "s02", "at": 0.2, "text": "One: AI went from autocomplete to whole features." },
+    { "scene": "s02", "at": 3.75, "text": "It reads your code, writes it, tests it, and merges." },
+    { "scene": "s03", "at": 0.2, "text": "Two: don't just prompt. Write a spec:" },
+    { "scene": "s03", "at": 3.2, "text": "what to build, and what done looks like." },
+    { "scene": "s04", "at": 0.2, "text": "Three: go from coder to conductor." },
+    { "scene": "s04", "at": 2.95, "text": "You make the big calls, and split the work for agents." },
+    { "scene": "s05", "at": 0.2, "text": "Four: context." },
+    { "scene": "s05", "at": 1.95, "text": "Your code, tools, skills and MCP servers share one limited window." },
+    { "scene": "s06", "at": 0.2, "text": "And loops: set the goal, then let the agent loop until it's done." },
+    { "scene": "s07", "at": 0.2, "text": "Five, the big one: prompt injection." },
+    { "scene": "s07", "at": 3.0, "text": "Hidden text in a pull request can trick an agent into leaking your keys." },
+    { "scene": "s07", "at": 6.9, "text": "So run agents in a sandbox." },
+    { "scene": "s08", "at": 0.3, "text": "Developers aren't going away. They're becoming conductors." },
+    { "scene": "s08", "at": 3.3, "text": "Follow for more AI basics." }
+  ]
+}

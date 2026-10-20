@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.35,"sfx":"click-soft","vol":0.16},
+      {"t":0.95,"sfx":"ping","vol":0.22,"dur":1.0},
+      {"t":1.75,"sfx":"click","vol":0.3},
+      {"t":2.05,"sfx":"pop","vol":0.24},
+      {"t":2.6,"sfx":"whoosh","vol":0.2},
+      {"t":3.0,"sfx":"pop","vol":0.16},
+      {"t":3.3,"sfx":"pop","vol":0.16},
+      {"t":5.12,"sfx":"impact-bass-1","vol":0.2,"dur":1.2},
+      {"t":6.85,"sfx":"sparkle","vol":0.16,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. Pilot wings draw in ink; a phone rises under them and a dev agent's notification lands ("Add dark
+           mode · 48 tests passed"); a tap approves it and a "Merged" stamp lands. The camera pulls back: the phone shrinks
+           and four background agents pop in around it (developer, reviewer, tester, ops), "A whole team of AI agents".
+           Then the title: a big 5 punches in, "things to know about coding with AI agents · The last one matters most."
+           Avatar: corner during the story, slides out and back in large under the title (narrator.html "title").
+           Voiceover: 0.2 "This pilot approves code from his phone." 2.6 "His dev team? All AI agents." 5.0 "Five things to
+           know. The last one matters most." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s01 .story { position: absolute; inset: 0; }
+        .s01 .pilot { position: absolute; left: 0; right: 0; top: 418px; text-align: center; font: 400 26px/1 var(--f-mono); letter-spacing: 0.24em; text-transform: uppercase; color: var(--graphite); }
+        .s01 .phone { position: absolute; left: 310px; top: 500px; width: 460px; height: 760px; border: 8px solid var(--ink); border-radius: 72px; background: var(--eggshell); }
+        .s01 .notch { position: absolute; left: 162px; top: 20px; width: 120px; height: 30px; border-radius: 15px; background: var(--ink); }
+        .s01 .clock { position: absolute; left: 46px; top: 22px; font: 400 26px/1.3 var(--f-mono); color: var(--ink); }
+        .s01 .note { position: absolute; left: 20px; right: 20px; top: 92px; padding: 24px 26px; gap: 14px; border-radius: 34px; }
+        .s01 .who { display: flex; align-items: center; gap: 14px; }
+        .s01 .nt { margin: 0; font: 500 40px/1.15 var(--f-body); color: var(--ink); }
+        .s01 .ns { margin: 0; font: 400 34px/1.2 var(--f-body); color: var(--smoke); }
+        .s01 .btn { position: relative; display: grid; place-items: center; height: 76px; border-radius: 9999px; background: var(--ink); color: var(--eggshell); font: 500 34px/1 var(--f-body); }
+        .s01 .btn span { grid-area: 1 / 1; }
+        .s01 .tap { position: absolute; left: 50%; top: 50%; width: 96px; height: 96px; margin: -48px 0 0 -48px; border-radius: 50%; border: 5px solid var(--eggshell); background: rgba(253, 252, 252, 0.28); opacity: 0; }
+        .s01 .merged { position: absolute; left: 610px; top: 546px; }
+        .s01 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s01 .mini { position: absolute; left: 20px; right: 20px; display: flex; align-items: center; gap: 14px; padding: 16px 22px; border-radius: 26px; background: var(--taupe); }
+        .s01 .mini .egg-card-kicker { color: var(--graphite); }
+        .s01 .m1 { top: 494px; }
+        .s01 .m2 { top: 584px; }
+        .s01 .bar { position: absolute; left: 150px; width: 144px; bottom: 18px; height: 8px; border-radius: 4px; background: var(--ink); }
+        .s01 .team { position: absolute; width: 260px; padding: 22px 24px; gap: 8px; border-radius: 30px; }
+        .s01 .team .role { margin: 0; font: 300 46px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s01 .team .st { font: 400 24px/1.2 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--smoke); white-space: nowrap; }
+        .s01 .dots i { font-style: normal; }
+        .s01 .a1 { left: 110px; top: 640px; }
+        .s01 .a2 { left: 690px; top: 640px; }
+        .s01 .a3 { left: 110px; top: 900px; }
+        .s01 .a4 { left: 690px; top: 900px; }
+        .s01 .team-label { position: absolute; left: 90px; width: 860px; top: 1200px; }
+        .s01 .big5 { position: absolute; left: 70px; top: 262px; margin: 0; font: 300 380px/1 var(--f-display); letter-spacing: -0.04em; color: var(--ink); transform-origin: 30% 60%; }
+        .s01 .tl { position: absolute; left: 330px; margin: 0; }
+        .s01 .tl1 { top: 330px; }
+        .s01 .tl2 { top: 444px; }
+        .s01 .about { position: absolute; left: 90px; width: 860px; top: 668px; margin: 0; font: 300 64px/1.2 var(--f-display); letter-spacing: -0.02em; color: var(--graphite); }
+        .s01 .last { position: absolute; left: 90px; top: 772px; }
+      </style>
+      <div data-hf-id="hf-sqll" id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tf6y" class="egg-scene s01">
+          <span data-hf-id="hf-n6d0" class="egg-eyebrow">AI basics · Coding with AI agents</span>
+          <div data-hf-id="hf-8lfq" class="story" data-layout-allow-overflow="">
+            <svg data-hf-id="hf-q8z4" class="egg-svg wings" viewBox="0 0 1080 1920" aria-hidden="true">
+              <circle data-hf-id="hf-zs4h" class="ink" data-draw="0" cx="540" cy="365" r="30" />
+              <circle data-hf-id="hf-b2qg" class="ink thin" data-draw="1" cx="540" cy="365" r="11" />
+              <path data-hf-id="hf-kvwo" class="ink" style="stroke-width:7" data-draw="2" d="M505 352 C450 330 370 322 300 336" />
+              <path data-hf-id="hf-j7s3" class="ink" style="stroke-width:7" data-draw="2" d="M575 352 C630 330 710 322 780 336" />
+              <path data-hf-id="hf-wxay" class="ink" style="stroke-width:7" data-draw="3" d="M507 366 C455 352 395 350 335 362" />
+              <path data-hf-id="hf-dg23" class="ink" style="stroke-width:7" data-draw="3" d="M573 366 C625 352 685 350 745 362" />
+              <path data-hf-id="hf-w0jd" class="ink" style="stroke-width:7" data-draw="4" d="M510 380 C465 374 420 376 375 388" />
+              <path data-hf-id="hf-mzlz" class="ink" style="stroke-width:7" data-draw="4" d="M570 380 C615 374 660 376 705 388" />
+            </svg>
+            <span data-hf-id="hf-3upp" class="pilot">Pilot</span>
+            <div data-hf-id="hf-kda4" class="phone">
+              <span data-hf-id="hf-3snx" class="clock">9:41</span>
+              <span data-hf-id="hf-in1l" class="notch"></span>
+              <div data-hf-id="hf-0w5m" class="egg-card note">
+                <div data-hf-id="hf-xhzk" class="who"><span data-hf-id="hf-1gdm" class="egg-agent" style="--s:48px">&gt;_</span><span data-hf-id="hf-i65n" class="egg-card-kicker">Dev agent · #482</span></div>
+                <p data-hf-id="hf-pmob" class="nt">Add dark mode</p>
+                <p data-hf-id="hf-kq7x" class="ns">48 tests passed</p>
+                <div data-hf-id="hf-spj4" class="btn"><span data-hf-id="hf-v7wf" class="b1">Approve</span><span data-hf-id="hf-a0hm" class="b2">Approved</span><i data-hf-id="hf-170r" class="tap"></i></div>
+              </div>
+              <div data-hf-id="hf-x4op" class="mini m1"><span data-hf-id="hf-kvgi" class="egg-agent" style="--s:40px">&gt;_</span><span data-hf-id="hf-2vib" class="egg-card-kicker">Reviewer · passed</span></div>
+              <div data-hf-id="hf-12sq" class="mini m2"><span data-hf-id="hf-tr52" class="egg-agent" style="--s:40px">&gt;_</span><span data-hf-id="hf-jhvu" class="egg-card-kicker">Ops · deployed</span></div>
+              <span data-hf-id="hf-flu0" class="bar"></span>
+            </div>
+            <span data-hf-id="hf-snsv" class="egg-stamp good merged"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Merged</span>
+          </div>
+          <div data-hf-id="hf-g9s9" class="egg-card team a1"><span data-hf-id="hf-5rz0" class="egg-agent" style="--s:60px">&gt;_</span><p data-hf-id="hf-5tuj" class="role">Developer</p><span data-hf-id="hf-qovq" class="st">Coding<span data-hf-id="hf-r6mh" class="dots"><i data-hf-id="hf-74k6">.</i><i data-hf-id="hf-amyi">.</i><i data-hf-id="hf-b19j">.</i></span></span></div>
+          <div data-hf-id="hf-k7wa" class="egg-card team a2"><span data-hf-id="hf-1l90" class="egg-agent" style="--s:60px">&gt;_</span><p data-hf-id="hf-nv9s" class="role">Reviewer</p><span data-hf-id="hf-2lr0" class="st">Reviewing<span data-hf-id="hf-qh4t" class="dots"><i data-hf-id="hf-bfkk">.</i><i data-hf-id="hf-btvl">.</i><i data-hf-id="hf-c86m">.</i></span></span></div>
+          <div data-hf-id="hf-o60b" class="egg-card team a3"><span data-hf-id="hf-0ebx" class="egg-agent" style="--s:60px">&gt;_</span><p data-hf-id="hf-uzf8" class="role">Tester</p><span data-hf-id="hf-xu0s" class="st">Testing<span data-hf-id="hf-ro1w" class="dots"><i data-hf-id="hf-cmhn">.</i><i data-hf-id="hf-d0so">.</i><i data-hf-id="hf-df3p">.</i></span></span></div>
+          <div data-hf-id="hf-0ois" class="egg-card team a4"><span data-hf-id="hf-0smy" class="egg-agent" style="--s:60px">&gt;_</span><p data-hf-id="hf-l1fp" class="role">Ops</p><span data-hf-id="hf-fg3x" class="st">Deploying<span data-hf-id="hf-r9qv" class="dots"><i data-hf-id="hf-dteq">.</i><i data-hf-id="hf-ylha">.</i><i data-hf-id="hf-y769">.</i></span></span></div>
+          <p data-hf-id="hf-cntf" class="egg-label team-label">A whole team of AI agents</p>
+
+          <p data-hf-id="hf-5ufv" class="big5">5</p>
+          <h1 data-hf-id="hf-s0ao" class="egg-display tl tl1">things</h1>
+          <h1 data-hf-id="hf-50ky" class="egg-display tl tl2">to know</h1>
+          <p data-hf-id="hf-zs9d" class="about">about coding with AI agents</p>
+          <p data-hf-id="hf-p5td" class="egg-body last">The <span data-hf-id="hf-uiu9" class="egg-hl">last one</span> matters most.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.2;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          // "This pilot approves code from his phone."
+          Egg.draw(tl, q(".wings"), 0.3, { gap: 0.1, dur: 0.45 });
+          Egg.fadeUp(tl, q(".pilot"), 0.55, { y: 12 });
+          tl.fromTo(q(".phone"), { y: 140, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: Egg.EASE.enter }, 0.1);
+          tl.fromTo(q(".note"), { y: -40, opacity: 0 }, { y: 0, opacity: 1, duration: 0.45, ease: Egg.EASE.rise }, 0.95);
+          Egg.fadeUp(tl, [q(".m1"), q(".m2")], 1.25, { y: 16, stagger: 0.12 });
+          tl.set([q(".b2"), q(".merged")], { opacity: 0 }, 0);
+          // the tap
+          tl.fromTo(q(".tap"), { scale: 1.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.18, ease: "power2.out" }, 1.62);
+          tl.to(q(".btn"), { scale: 0.95, duration: 0.1, ease: "power2.out", yoyo: true, repeat: 1 }, 1.75);
+          tl.to(q(".tap"), { scale: 2.1, opacity: 0, duration: 0.45, ease: "power2.out" }, 1.82);
+          tl.to(q(".b1"), { opacity: 0, duration: 0.15, ease: "none" }, 1.85);
+          tl.to(q(".b2"), { opacity: 1, duration: 0.15, ease: "none" }, 1.9);
+          Egg.stamp(tl, q(".merged"), 2.05, q(".phone"));
+
+          // "His dev team? All AI agents." The camera pulls back and the team pops in around the phone.
+          tl.to(q(".story"), { scale: 0.6, transformOrigin: "540px 880px", duration: 0.8, ease: Egg.EASE.move }, 2.6);
+          Egg.pop(tl, [q(".a1"), q(".a2"), q(".a3"), q(".a4")], 3.0, { stagger: 0.12 });
+          all(".team .dots").forEach((d, k) => {
+            tl.fromTo(d.querySelectorAll("i"), { opacity: 0.15 }, { opacity: 1, duration: 0.16, ease: "none", stagger: 0.16, repeat: 2, repeatDelay: 0.1 }, 3.4 + k * 0.08);
+          });
+          tl.fromTo(all(".team .egg-agent"), { scale: 1 }, { scale: 1.08, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.1, immediateRender: false }, 3.6);
+          Egg.fadeUp(tl, q(".team-label"), 3.75);
+          tl.to([q(".egg-eyebrow"), q(".story"), ...all(".team"), q(".team-label")], { opacity: 0, y: -24, duration: 0.35, ease: Egg.EASE.exit }, 4.7);
+
+          // "Five things to know. The last one matters most."
+          tl.fromTo(q(".big5"), { scale: 2.4, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.5, ease: "back.out(1.6)" }, 5.1);
+          Egg.fadeUp(tl, [q(".tl1"), q(".tl2")], 5.35, { y: 50, stagger: 0.12, dur: 0.6 });
+          Egg.fadeUp(tl, q(".about"), 5.75);
+          Egg.fadeUp(tl, q(".last"), 6.5);
+          Egg.highlight(tl, q(".last .egg-hl"), 6.85);
+
+          Egg.fadeOut(tl, [q(".big5"), q(".tl1"), q(".tl2"), q(".about"), q(".last")], DUR - 0.35);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.14},
+      {"t":0.35,"sfx":"typing","vol":0.16,"dur":0.45},
+      {"t":0.86,"sfx":"click-soft","vol":0.18},
+      {"t":1.6,"sfx":"click-soft","vol":0.18},
+      {"t":2.6,"sfx":"click-soft","vol":0.18},
+      {"t":3.25,"sfx":"whoosh-short","vol":0.1},
+      {"t":3.8,"sfx":"pop","vol":0.16},
+      {"t":7.8,"sfx":"typing","vol":0.18,"dur":1.7},
+      {"t":9.5,"sfx":"whoosh-short","vol":0.1},
+      {"t":11.8,"sfx":"click-soft","vol":0.16},
+      {"t":13.1,"sfx":"pop","vol":0.16},
+      {"t":17.2,"sfx":"whoosh-short","vol":0.1},
+      {"t":18.3,"sfx":"key-press","vol":0.2},
+      {"t":19.9,"sfx":"key-press","vol":0.2},
+      {"t":21.55,"sfx":"error","vol":0.14,"dur":0.6},
+      {"t":23.45,"sfx":"typing","vol":0.16,"dur":0.7},
+      {"t":25.6,"sfx":"whoosh-short","vol":0.1},
+      {"t":26.05,"sfx":"typing","vol":0.16,"dur":0.7},
+      {"t":29.0,"sfx":"typing","vol":0.16,"dur":0.75},
+      {"t":31.0,"sfx":"whoosh-short","vol":0.1},
+      {"t":31.25,"sfx":"key-press","vol":0.2},
+      {"t":33.9,"sfx":"click-soft","vol":0.16},
+      {"t":35.0,"sfx":"key-press","vol":0.2},
+      {"t":37.0,"sfx":"typing","vol":0.16,"dur":0.9},
+      {"t":40.4,"sfx":"whoosh-short","vol":0.1},
+      {"t":40.65,"sfx":"typing","vol":0.16,"dur":0.6},
+      {"t":41.8,"sfx":"typing","vol":0.16,"dur":0.4},
+      {"t":42.65,"sfx":"typing","vol":0.16,"dur":0.6},
+      {"t":43.75,"sfx":"typing","vol":0.16,"dur":0.4},
+      {"t":44.45,"sfx":"whoosh","vol":0.12},
+      {"t":44.7,"sfx":"key-press","vol":0.2},
+      {"t":46.85,"sfx":"chime","vol":0.16},
+      {"t":47.75,"sfx":"click-soft","vol":0.18},
+      {"t":49.9,"sfx":"pop","vol":0.12},
+      {"t":50.5,"sfx":"pop","vol":0.12},
+      {"t":51.05,"sfx":"pop","vol":0.12},
+      {"t":52.1,"sfx":"click-soft","vol":0.18},
+      {"t":62.6,"sfx":"chime","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- IDE · the whole episode (0–65.6) happens in one editor window, so the code keeps evolving instead of cutting.
+           s01 a command palette lists zero_shot / one_shot / few_shot; s02 a hover doc defines "shot"; s03 triage.py
+           (code/zero_shot.py) types itself, the camera visits the system line and the single user message, a peek
+           shows TICKET, two runs: Priority.HIGH, then a sentence that raises ValueError (squiggle + inline error);
+           s04 diff-inserts EX_LOW and the user/assistant example turns (code/one_shot.py), runs (HIGH, then MEDIUM:
+           a guess), a lens says the examples only cover Low; s05 inserts the High and Medium examples
+           (code/few_shot.py), zooms out to the whole file, three runs all HIGH; s06 the terminal's NETWORK tab shows
+           the body size of each request (code/request_size.py: 200 B vs 520 B, the 320 B of examples on every one);
+           s07 a README tab with the recap. Terminal outputs are illustrative (labelled). Narrator: the cam bubble below. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="ide" data-width="1080" data-height="1920">
+        <div class="ide-root">
+          <div class="ide-steps">
+            <div class="ide-step st0"><b>0</b>zero-shot</div>
+            <div class="ide-step st1"><b>1</b>one-shot</div>
+            <div class="ide-step st3"><b>3+</b>few-shot</div>
+          </div>
+          <div class="ide-win">
+            <div class="ide-title">
+              <div class="ide-dot" style="left:20px;background:#ff5f57"></div>
+              <div class="ide-dot" style="left:44px;background:#febc2e"></div>
+              <div class="ide-dot" style="left:68px;background:#28c840"></div>
+              <div class="ide-tab on tab-py" style="left:100px">triage.py<span class="mod">●</span></div>
+              <div class="ide-tab tab-tk" style="left:290px">tickets.py</div>
+              <div class="ide-tab tab-md" style="left:470px;border:1px solid rgba(41,46,66,0);border-bottom:none">README.md</div>
+            </div>
+            <div class="ide-ed">
+              <div class="ide-cam" data-layout-allow-overflow=""></div>
+            </div>
+            <div class="ide-md">
+              <h1>Shots, in one screen</h1>
+              <div class="rule"></div>
+              <div class="row m0"><code>zero-shot</code><span>the instruction alone</span></div>
+              <div class="row m1"><code>one-shot</code><span>adds a single example</span></div>
+              <div class="row m2"><code>few-shot</code><span>adds a handful (3–5)</span></div>
+              <div class="quote mq">Start with zero-shot. Add examples when the answers come back inconsistent.</div>
+              <div class="follow mf">★ Follow for more AI basics</div>
+            </div>
+            <div class="ide-term">
+              <div class="ide-ttabs"><span class="on tt-term">TERMINAL</span><span class="tt-net">NETWORK</span></div>
+              <div class="ide-tnote">illustrative output</div>
+              <div class="ide-tbody"><div class="tlines" style="position:absolute;left:0;right:0;top:0"></div></div>
+              <div class="ide-net"></div>
+            </div>
+            <div class="ide-status">
+              <span style="left:16px">⎇ main</span>
+              <span style="left:120px">Python 3.12</span>
+              <span class="msgs m-1" style="left:300px">messages: 1</span>
+              <span class="msgs m-3" style="left:300px">messages: 3</span>
+              <span class="msgs m-7" style="left:300px">messages: 7</span>
+              <span style="right:16px"><img class="claude" src="assets/claude-logo.svg" alt="">claude-opus-5-5</span>
+            </div>
+            <div class="ide-pal">
+              <div class="in"><span style="color:var(--dim)">&gt; </span><span class="q">shot</span></div>
+              <div class="it i0"><span class="ico">◆</span>zero_shot.py<span class="sub">no examples</span></div>
+              <div class="it i1"><span class="ico">◆</span>one_shot.py<span class="sub">one example</span></div>
+              <div class="it i2"><span class="ico">◆</span>few_shot.py<span class="sub">a handful</span></div>
+            </div>
+            <div class="ide-pop doc" style="left:60px;top:120px;width:820px">
+              <div class="hd">shot &nbsp;<span style="color:var(--cmt)">(noun)</span></div>
+              <div class="bd">
+                <div class="d0">one example: an input paired with<br>the output you want back</div>
+                <div class="d1" style="margin-top:14px"><span style="color:var(--dim)">input </span> <span class="ide-s">"My password reset email hasn't arrived."</span></div>
+                <div class="d2"><span style="color:var(--dim)">output</span> <span class="ide-s">"Low"</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="ide"] .ide-root');
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const CW = 13.2, ROW = 30, TOP = 12, X0 = 74;     // Geist Mono 22px advance, row height, editor padding
+
+          // ---------- Python highlighting ----------
+          const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+          const KW = new Set(["import", "from", "def", "return", "for", "in", "class", "if", "else", "None", "True", "False"]);
+          function hl(src) {
+            const re = /("(?:[^"\\]|\\.)*")|(#.*$)|(\b\d+\b)|([A-Za-z_]\w*)(?=\()|([A-Za-z_]\w*)(?==[^=])|([A-Za-z_]\w*)/g;
+            let out = "", last = 0, m;
+            while ((m = re.exec(src))) {
+              out += esc(src.slice(last, m.index));
+              const [t, s, c, n, f, k, id] = m;
+              out += s ? `<span class="ide-s">${esc(t)}</span>` : c ? `<span class="ide-c">${esc(t)}</span>` : n ? `<span class="ide-n">${t}</span>`
+                : f ? `<span class="ide-f">${t}</span>` : k ? `<span style="color:var(--key)">${t}</span>` : KW.has(id) ? `<span class="ide-k">${t}</span>` : t;
+              last = m.index + t.length;
+            }
+            return out + esc(src.slice(last));
+          }
+
+          // ---------- the file: few_shot.py, each line tagged with the stage that adds it ----------
+          const SRC = [
+            [0, "import anthropic"],
+            [0, "from tickets import TICKET, Priority"],
+            [0, ""],
+            [1, 'EX_LOW = "My password reset email hasn\'t arrived."'],
+            [3, 'EX_HIGH = "The payment system is down."'],
+            [3, 'EX_MED = "A question about my invoice."'],
+            [1, ""],
+            [0, "client = anthropic.Anthropic()"],
+            [0, "reply = client.messages.create("],
+            [0, '    model="claude-opus-5-5",'],
+            [0, "    max_tokens=1024,"],
+            [0, '    system="Label the ticket High, Medium or Low.",'],
+            [0, "    messages=["],
+            [1, '        {"role": "user", "content": EX_LOW},'],
+            [1, '        {"role": "assistant", "content": "Low"},'],
+            [3, '        {"role": "user", "content": EX_HIGH},'],
+            [3, '        {"role": "assistant", "content": "High"},'],
+            [3, '        {"role": "user", "content": EX_MED},'],
+            [3, '        {"role": "assistant", "content": "Medium"},'],
+            [0, '        {"role": "user", "content": TICKET},'],
+            [0, "    ],"],
+            [0, ")"],
+            [0, "label = reply.content[-1].text"],
+            [0, "print(Priority(label))"],
+          ];
+          const cam = $(".ide-cam");
+          const rows = SRC.map(([st, text], i) => {
+            const r = document.createElement("div");
+            r.className = "ide-row";
+            let html = hl(text);
+            if (i === 11) html = html.replace("High", '<span class="w-hi">High</span>').replace("Medium", '<span class="w-md">Medium</span>').replace("Low.", '<span class="w-lo">Low</span>.');
+            if (i === 14) html = html.replace('"Low"', '<span class="w-ex">"Low"</span>');
+            r.innerHTML = `<div class="bg"></div><div class="gut"></div><span class="tx">${html}</span>`;
+            cam.appendChild(r);
+            return { el: r, tx: r.querySelector(".tx"), bg: r.querySelector(".bg"), gut: r.querySelector(".gut"), st, len: text.length, y: 0 };
+          });
+          const nums = SRC.map((_, i) => {
+            const n = document.createElement("div");
+            n.className = "ide-row";
+            n.innerHTML = `<span class="no">${i + 1}</span>`;
+            cam.appendChild(n);
+            gsap.set(n, { y: TOP + i * ROW, opacity: 0 });
+            return n;
+          });
+          const extra = (cls, html) => { const d = document.createElement("div"); d.className = cls; d.innerHTML = html; cam.appendChild(d); return d; };
+          const cursor = extra("ide-cursor", "");
+          gsap.set(cursor, { opacity: 0 });
+          rows.forEach((r) => { gsap.set(r.el, { y: 0 }); gsap.set(r.tx, { clipPath: "inset(0% 100% 0% 0%)" }); gsap.set(r.gut, { opacity: 0 }); gsap.set(r.bg, { backgroundColor: "rgba(122,162,247,0)" }); });
+
+          // layout: visible rows stack from the top; inserting rows pushes the rest down
+          const shown = new Set();
+          const layout = () => { let k = 0; const ys = {}; rows.forEach((r, i) => { if (shown.has(i)) ys[i] = TOP + ROW * k++; }); return { ys, count: k }; };
+          let nCount = 0;
+          const showNums = (count, at) => { for (let i = nCount; i < count; i++) tl.to(nums[i], { opacity: 1, duration: 0.15 }, at); nCount = Math.max(nCount, count); };
+          function type(i, at, dur) {
+            const r = rows[i];
+            tl.to(r.tx, { clipPath: "inset(0% 0% 0% 0%)", duration: dur, ease: `steps(${Math.max(1, r.len)})` }, at);
+            if (dur >= 0.3) {
+              tl.set(cursor, { opacity: 1, y: r.y + 2, x: X0 }, at);
+              tl.to(cursor, { x: X0 + r.len * CW, duration: dur, ease: `steps(${Math.max(1, r.len)})` }, at);
+              tl.set(cursor, { opacity: 0 }, at + dur + 0.25);
+            }
+            return at + dur;
+          }
+          // insert rows (indexes) at time `at`: push the rows below down, then type each new row (with a green diff bar)
+          function insert(idx, at, durs) {
+            idx.forEach((i) => shown.add(i));
+            const { ys, count } = layout();
+            rows.forEach((r, i) => {
+              if (!(i in ys)) return;
+              if (idx.includes(i)) { tl.set(r.el, { y: ys[i] }, at); r.y = ys[i]; return; }
+              if (r.y !== ys[i]) { tl.fromTo(r.el, { y: r.y }, { y: ys[i], duration: 0.3, ease: "power2.inOut", immediateRender: false }, at); r.y = ys[i]; }
+            });
+            showNums(count, at);
+            let t = at + 0.3;
+            idx.forEach((i, k) => {
+              tl.to(rows[i].gut, { opacity: 1, duration: 0.15 }, t);
+              tl.to(rows[i].bg, { backgroundColor: "rgba(158,206,106,0.10)", duration: 0.15 }, t);
+              t = type(i, t, durs[k] ?? 0.4) + 0.05;
+            });
+            return t;
+          }
+          const lit = (i, at, col = "rgba(122,162,247,0.18)", dur = 0.2) => tl.to(rows[i].bg, { backgroundColor: col, duration: dur }, at);
+          const unlit = (idxs, at) => idxs.forEach((i) => tl.to(rows[i].bg, { backgroundColor: "rgba(122,162,247,0)", duration: 0.25 }, at));
+          const ungut = (idxs, at) => idxs.forEach((i) => tl.to(rows[i].gut, { opacity: 0, duration: 0.3 }, at));
+
+          // camera: frame an editor-local box inside the 940 x 552 viewport (never past the file's left or top edge)
+          const VW = 940, VH = 552;
+          function frame(box, at, dur = 0.7, max = 1.45) {
+            const [x1, y1, x2, y2] = box;
+            const s = Math.min(VW / (x2 - x1), VH / (y2 - y1), max);
+            let x = VW / 2 - ((x1 + x2) / 2) * s, y = VH / 2 - ((y1 + y2) / 2) * s;
+            x = 940 * s <= VW ? (VW - 940 * s) / 2 : Math.min(0, Math.max(VW - 940 * s, x));
+            y = Math.min(0, y);
+            if (dur <= 0) tl.set(cam, { x, y, scale: s }, at); else tl.to(cam, { x, y, scale: s, duration: dur, ease: "power2.inOut" }, at);
+          }
+          const rowsBox = (a, b, x2 = 760) => [0, rows[a].y - 18, x2, rows[b].y + ROW + 18];
+
+          // ---------- terminal ----------
+          const tlines = $(".tlines");
+          let tRow = 0, tBase = 0;
+          const TVIS = 8;
+          function out(html, at, opts = {}) {
+            const d = document.createElement("div");
+            d.className = "ide-tl " + (opts.cls || "");
+            d.innerHTML = html;
+            d.style.position = "absolute"; d.style.left = "0"; d.style.right = "0"; d.style.top = `${tRow * ROW}px`;
+            tlines.appendChild(d);
+            if (opts.typed) { gsap.set(d, { clipPath: "inset(0% 100% 0% 0%)" }); tl.to(d, { clipPath: "inset(0% 0% 0% 0%)", duration: opts.typed, ease: "steps(18)" }, at); }
+            else { gsap.set(d, { opacity: 0 }); tl.to(d, { opacity: 1, duration: 0.08 }, at); }
+            tRow += opts.rows || 1;
+            if (tRow - tBase > TVIS) { tBase = tRow - TVIS; tl.to(tlines, { y: -tBase * ROW, duration: 0.2, ease: "power2.out" }, at); }
+            return d;
+          }
+          const run = (at) => out('<span class="ps">❯</span> python triage.py', at, { typed: 0.3 });
+          function clear(at) {
+            tl.to(tlines.children, { opacity: 0, duration: 0.15 }, at);
+            tBase = tRow; tl.set(tlines, { y: -tBase * ROW }, at + 0.16);
+          }
+
+          // ---------- header pills ----------
+          const steps = [$(".st0"), $(".st1"), $(".st3")];
+          const COL = ["#7aa2f7", "#bb9af7", "#7dcfff"];
+          function step(i, at, on = true) {
+            tl.to(steps[i], { borderColor: on ? COL[i] : "#292e42", color: on ? "#e6e9f8" : "#9aa0c4", backgroundColor: on ? "rgba(122,162,247,0.12)" : "rgba(26,27,38,0.6)", duration: 0.25 }, at);
+            tl.to(steps[i].querySelector("b"), { backgroundColor: on ? COL[i] : "#292e42", color: on ? "#16161e" : "#c0caf5", duration: 0.25 }, at);
+          }
+
+          // ---------- inline extras (lens, peek, error) ----------
+          const lens0 = extra("ide-lens", '1 message · <b style="color:#e0af68">no examples</b>');
+          const lens1 = extra("ide-lens", 'examples: <b style="color:#9ece6a">Low</b> · <b style="color:#e0af68">High? Medium?</b>');
+          const lens3 = extra("ide-lens", 'examples: <b style="color:#9ece6a">Low · High · Medium</b>');
+          [lens0, lens1, lens3].forEach((l) => gsap.set(l, { opacity: 0, x: X0 + 15 * CW + 30 - 74 }));
+          const peek = extra("ide-pop", '<div class="hd">tickets.py · line 3</div><div class="bd"><span>TICKET</span> = <span class="ide-s">"I can\'t access my account,<br>&nbsp;&nbsp;and my report is due today."</span></div>');
+          gsap.set(peek, { opacity: 0, left: 100, width: 760 });
+          const squig = extra("ide-squig", "");
+          const errl = extra("ide-errlens", "■ ValueError: not a valid Priority");
+          gsap.set([squig, errl], { opacity: 0 });
+
+          // ===== s01 · 0–3.6 · command palette =====
+          const pal = $(".ide-pal");
+          tl.fromTo(pal, { opacity: 0, y: -14, scale: 0.98 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "power3.out" }, 0.15);
+          tl.fromTo($(".ide-pal .q"), { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.45, ease: "steps(4)" }, 0.35);
+          [[".i0", 0.86, 0], [".i1", 1.6, 1], [".i2", 2.6, 2]].forEach(([s, t, i]) => {
+            tl.fromTo($(s), { opacity: 0, x: -10 }, { opacity: 1, x: 0, duration: 0.25, ease: "power2.out" }, t - 0.1);
+            tl.to($(s), { backgroundColor: "rgba(122,162,247,0.18)", duration: 0.12 }, t);
+            if (i < 2) tl.to($(s), { backgroundColor: "rgba(122,162,247,0)", duration: 0.2 }, [1.6, 2.6][i]);
+            step(i, t);
+            step(i, t + 0.75, i === 2);
+          });
+          tl.to(pal, { opacity: 0, y: -10, duration: 0.25, ease: "power2.in" }, 3.3);
+          step(2, 3.5, false);
+
+          // ===== s02 · 3.6–7.6 · what a shot is =====
+          const doc = $(".doc");
+          tl.fromTo(doc, { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.75);
+          tl.fromTo($(".d0"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 4.3);
+          tl.fromTo($(".d1"), { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.25 }, 5.45);
+          tl.fromTo($(".d2"), { opacity: 0, x: -8 }, { opacity: 1, x: 0, duration: 0.25 }, 6.4);
+          tl.to(doc, { opacity: 0, y: -10, duration: 0.25, ease: "power2.in" }, 7.45);
+
+          // ===== s03 · 7.6–22.7 · zero-shot =====
+          step(0, 7.6);
+          const Z = [0, 1, 2, 7, 8, 9, 10, 11, 12, 19, 20, 21, 22, 23];
+          Z.forEach((i) => shown.add(i));
+          { const { ys, count } = layout(); Z.forEach((i, k) => { rows[i].y = ys[i]; gsap.set(rows[i].el, { y: ys[i] }); type(i, 7.8 + k * 0.125, 0.12); }); showNums(count, 7.8); }
+          tl.set($(".m-1"), { opacity: 1 }, 7.8);
+          gsap.set($(".m-1"), { opacity: 0 }); gsap.set([$(".m-3"), $(".m-7")], { opacity: 0 });
+          // "sorting tickets into high, medium, or low"
+          frame(rowsBox(8, 12), 9.5, 0.7);
+          lit(11, 9.55);
+          [[".w-hi", "#f7768e", 9.58], [".w-md", "#e0af68", 9.97], [".w-lo", "#9ece6a", 10.46]].forEach(([s, c, t]) => {
+            tl.to(root.querySelector(s), { color: c, textShadow: `0 0 14px ${c}`, duration: 0.15 }, t);
+          });
+          // "your instruction and the ticket, and nothing else"
+          frame(rowsBox(11, 19), 11.6, 0.7, 1.3);
+          lit(19, 13.05);
+          gsap.set(peek, { top: rows[19].y + ROW + 12 });
+          tl.fromTo(peek, { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, 13.1);
+          gsap.set(lens0, { y: rows[12].y + 4 });
+          tl.to(lens0, { opacity: 1, duration: 0.25 }, 13.45);
+          tl.to(peek, { opacity: 0, duration: 0.25 }, 16.9);
+          unlit([11, 19], 16.9);
+          // "picks its own format": whole file, then two runs
+          frame([0, 0, 940, TOP + 14 * ROW + 20], 17.2, 0.7, 1);
+          run(18.3); out("Priority.HIGH", 18.75, { cls: "ok" });
+          run(19.9);
+          out("Traceback (most recent call last):", 20.55, { cls: "err" });
+          out('  File "triage.py", line 14, in &lt;module&gt;', 20.65, { cls: "err" });
+          out('ValueError: "Probably High: they\'re locked out with a deadline." is not a valid Priority', 21.55, { cls: "err", rows: 3 });
+          gsap.set(squig, { y: rows[23].y + 27, x: X0 + 6 * CW, width: 15 * CW });
+          gsap.set(errl, { y: rows[23].y, x: X0 + 23 * CW + 20 });
+          tl.to([squig, errl], { opacity: 1, duration: 0.2 }, 21.6);
+          lit(23, 21.6, "rgba(247,118,142,0.14)");
+
+          // ===== s04 · 22.7–36.4 · one-shot =====
+          step(0, 22.75, false); step(1, 22.75);
+          tl.to([squig, errl, lens0], { opacity: 0, duration: 0.2 }, 22.8);
+          unlit([23], 22.8);
+          clear(22.85);
+          frame([0, 0, 940, 552], 23.1, 0.5, 1);
+          insert([3, 6], 23.15, [0.65, 0.05]);
+          lit(19, 24.6); unlit([19], 25.3);
+          tl.set($(".m-1"), { opacity: 0 }, 25.9); tl.set($(".m-3"), { opacity: 1 }, 25.9);
+          // "a user turn with a missing password reset email, then an assistant turn that answers low"
+          frame([0, 80, 820, 420], 25.55, 0.6, 1.35);
+          insert([13], 25.75, [0.75]);
+          lit(3, 27.0); unlit([3], 28.6);
+          insert([14], 28.65, [0.8]);
+          tl.to(root.querySelector(".w-ex"), { color: "#9ece6a", textShadow: "0 0 14px #9ece6a", duration: 0.15 }, 30.5);
+          // "Now the replies copy that format"
+          frame([0, 0, 940, 552], 31.0, 0.6, 1);
+          run(31.2); out("Priority.HIGH", 31.75, { cls: "ok" });
+          // "but the model has only seen low, so it has to guess where high begins"
+          gsap.set(lens1, { y: rows[12].y + 4 });
+          tl.to(lens1, { opacity: 1, duration: 0.25 }, 33.85);
+          run(35.0); out("Priority.MEDIUM   <span style=\"color:#9aa0c4\"># a guess</span>", 35.65, { cls: "warn" });
+
+          // ===== s05 · 36.4–47.5 · few-shot =====
+          step(1, 36.45, false); step(2, 36.45);
+          ungut([3, 13, 14], 36.5); unlit([3, 13, 14], 36.5);
+          tl.to(lens1, { opacity: 0, duration: 0.2 }, 36.5);
+          clear(36.55);
+          insert([4, 5], 36.9, [0.45, 0.45]);
+          // "so you add a payment outage marked high, and an invoice question marked medium"
+          frame([0, 360, 860, 620], 40.3, 0.6, 1.3);
+          tl.set($(".m-3"), { opacity: 0 }, 40.6); tl.set($(".m-7"), { opacity: 1 }, 40.6);
+          insert([15], 40.45, [0.6]);
+          insert([16], 41.55, [0.45]);
+          insert([17], 42.45, [0.6]);
+          insert([18], 43.55, [0.45]);
+          gsap.set(lens3, { y: rows[12].y + 4 });
+          tl.to(lens3, { opacity: 1, duration: 0.25 }, 44.25);
+          // "The labels get more consistent, and the format holds": zoom out to the whole file, three runs
+          frame([0, 0, 940, TOP + 24 * ROW + 16], 44.45, 0.75, 1);
+          out('<span class="ps">❯</span> for i in 1 2 3; do python triage.py; done', 44.7, { typed: 0.35 });
+          out("Priority.HIGH", 45.25, { cls: "ok" });
+          out("Priority.HIGH", 45.6, { cls: "ok" });
+          out("Priority.HIGH", 45.95, { cls: "ok" });
+
+          // ===== s06 · 47.5–52 · the cost: every request carries the examples =====
+          const net = $(".ide-net");
+          const W = 330 / 520;
+          const NR = [["zero_shot.py", 1, 200, 0], ["few_shot.py · call 1", 7, 520, 1], ["few_shot.py · call 2", 7, 520, 1], ["few_shot.py · call 3", 7, 520, 1]];
+          net.innerHTML = `<div class="ide-tl" style="color:var(--dim);font-size:17px">request${"&nbsp;".repeat(14)}msgs${"&nbsp;".repeat(3)}body</div>` +
+            NR.map(([n, m, b, ex], i) => `<div class="nr nr${i}" style="position:absolute;left:0;right:0;top:${34 + i * 46}px;height:40px">
+              <span class="ide-tl" style="position:absolute;left:0;font-size:19px">${n}</span>
+              <span class="ide-tl" style="position:absolute;left:258px;font-size:19px">${m}</span>
+              <span class="ide-tl" style="position:absolute;left:310px;font-size:19px">${b} B</span>
+              <span class="bar" style="position:absolute;left:420px;top:6px;height:22px;width:${200 * W}px;border-radius:4px;background:#3b4261"></span>
+              ${ex ? `<span class="exb" style="position:absolute;left:${420 + 200 * W}px;top:6px;height:22px;width:${320 * W}px;border-radius:0 4px 4px 0;background:#7dcfff"></span>` : ""}
+            </div>`).join("") + `<div class="ide-tl exl" style="position:absolute;left:${420 + 200 * W}px;top:220px;font-size:17px;color:#7dcfff">↑ 320 B of examples, every call</div>`;
+          gsap.set(net, { opacity: 0 });
+          gsap.set(net.querySelectorAll(".nr, .exl"), { opacity: 0 });
+          tl.to(tlines, { opacity: 0, duration: 0.15 }, 47.7);
+          tl.to($(".tt-term"), { color: "#9aa0c4", boxShadow: "inset 0 -2px 0 rgba(0,0,0,0)", duration: 0.15 }, 47.75);
+          tl.to($(".tt-net"), { color: "#c0caf5", boxShadow: "inset 0 -2px 0 #7aa2f7", duration: 0.15 }, 47.75);
+          tl.set(net, { opacity: 1 }, 47.75);
+          tl.to($(".ide-tnote"), { opacity: 0, duration: 0.15 }, 47.75);
+          [[0, 47.95], [1, 48.45], [2, 49.95], [3, 50.5]].forEach(([i, t]) => {
+            const r = net.querySelectorAll(".nr")[i];
+            tl.to(r, { opacity: 1, duration: 0.12 }, t);
+            tl.fromTo(r.querySelectorAll(".bar, .exb"), { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.4, ease: "power2.out", stagger: 0.12 }, t);
+          });
+          tl.to(net.querySelector(".exl"), { opacity: 1, duration: 0.2 }, 50.9);
+          tl.to(net.querySelectorAll(".exb"), { boxShadow: "0 0 16px #7dcfff", duration: 0.25, yoyo: true, repeat: 1 }, 51.1);
+
+          // ===== s07 · 52–65.6 · README recap =====
+          const md = $(".ide-md");
+          gsap.set(md, { autoAlpha: 0 });
+          tl.to($(".tab-py"), { color: "#9aa0c4", backgroundColor: "rgba(26,27,38,0)", borderColor: "rgba(41,46,66,0)", duration: 0.15 }, 52.05);
+          tl.to($(".tab-md"), { color: "#c0caf5", backgroundColor: "#1a1b26", borderColor: "#292e42", duration: 0.15 }, 52.05);
+          tl.to(md, { autoAlpha: 1, duration: 0.25 }, 52.05);
+          tl.set([$(".ide-ed"), $(".ide-term")], { autoAlpha: 0 }, 52.3);
+          [0, 1, 2].forEach((i) => step(i, 52.05));
+          gsap.set(md.querySelectorAll(".row, .quote, .follow"), { opacity: 0, y: 14 });
+          [[".m0", 52.25], [".m1", 54.5], [".m2", 56.4], [".mq", 58.2], [".mf", 62.6]].forEach(([s, t]) => {
+            tl.to(md.querySelector(s), { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, t);
+          });
+          tl.fromTo(md.querySelector(".mf"), { scale: 1 }, { scale: 1.06, duration: 0.25, yoyo: true, repeat: 1, ease: "power2.out" }, 63.1);
+
+          window.__timelines["ide"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

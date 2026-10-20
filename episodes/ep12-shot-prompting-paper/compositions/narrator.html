@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"pop","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator · Sanjay in a round cam disc at the bottom centre (x 440–640, y 1272–1472), the strip every scene
+           leaves empty. Mouth from assets/lipsync.js (Egg.avatarTalk); the ring breathes with the voice level
+           (EggLipsync.data, seek-safe). On dark / colour panels the disc stays as is. Smiles on the recap. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .camd { position: absolute; left: 440px; top: 1272px; width: 200px; height: 200px; }
+        .camd .halo { position: absolute; inset: -12px; border-radius: 50%; background: rgba(217,87,58,0.22); }
+        .camd .disc { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 38%, #ffffff, #ece5d3 75%); box-shadow: 0 0 0 5px #fff, 0 12px 30px rgba(40,30,10,0.18); }
+        .camd .who { position: absolute; left: -11px; top: -26px; width: 540px; height: 629px; transform: scale(0.41); transform-origin: 0 0; }
+        .camd .tag { position: absolute; left: 50%; top: 214px; width: 160px; margin-left: -80px; text-align: center; height: 40px; border-radius: 20px; background: #fff; box-shadow: 0 4px 14px rgba(40,30,10,0.12); font: 600 22px/40px "Inter", sans-serif; color: #17251d; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="camd">
+          <div class="halo"></div>
+          <div class="disc"><div class="who" data-layout-allow-overflow=""></div></div>
+          <div class="tag">Sanjay</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 65.6;
+          const EXPR = [["smile", 52.1, 999]];   // the recap
+          const root = document.querySelector('[data-composition-id="narrator"] .camd');
+          const halo = root.querySelector(".halo");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          tl.fromTo(root, { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 0.15);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          // voice level → halo size (computed from the playhead, so any frame can be seeked)
+          const L = window.EggLipsync;
+          const lvl = (t) => { if (!L) return 0; const i = Math.floor(t * L.fps); return i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0; };
+          const box = { t: 0 };
+          const apply = () => {
+            const v = Math.max(lvl(box.t), lvl(box.t - 1 / 30) * 0.7);
+            halo.style.transform = `scale(${(1 + 0.07 * v).toFixed(3)})`;
+            halo.style.opacity = (0.35 + 0.65 * v).toFixed(2);
+          };
+          apply();
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: apply }, 0);
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

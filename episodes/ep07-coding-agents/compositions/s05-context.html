@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"pop","vol":0.24},
+      {"t":0.75,"sfx":"whoosh","vol":0.2},
+      {"t":1.4,"sfx":"click-soft","vol":0.18},
+      {"t":1.95,"sfx":"typing","vol":0.2,"dur":0.6},
+      {"t":3.0,"sfx":"typing","vol":0.2,"dur":0.3},
+      {"t":3.67,"sfx":"typing","vol":0.2,"dur":0.25},
+      {"t":4.25,"sfx":"typing","vol":0.2,"dur":0.5},
+      {"t":5.6,"sfx":"error","vol":0.12,"dur":0.6},
+      {"t":5.85,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 4 / 5 · Context. "Context window: everything the AI sees at once", drawn as a box of 200 squares. As
+           the voice names them, your code, tools, skills and MCP servers fill it (each in its own tint, with a legend
+           that says what it is) and "Window used" counts up to 85%. On "limited window" the box shakes and the few
+           empty squares pulse. "Load only what the task needs." The amounts are illustrative. Avatar: corner; the title
+           and subtitle stay left of x 830. Voiceover: 0.2 "Four: context." 1.95 "Your code, tools, skills and MCP servers
+           share one limited window." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .cam { position: absolute; inset: 0; }
+        .s05 .egg-title { position: absolute; left: 90px; top: 290px; }
+        .s05 .sub { position: absolute; left: 90px; top: 392px; }
+        .s05 .win { position: absolute; left: 90px; top: 500px; width: 860px; height: 456px; border: 4px solid var(--ink); border-radius: 32px; background: var(--eggshell); }
+        .s05 .sq { position: absolute; width: 36px; height: 36px; border-radius: 8px; border: 2px solid var(--stone); background: var(--eggshell); }
+        .s05 .leg { position: absolute; left: 90px; top: 990px; width: 860px; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 30px; }
+        .s05 .li { display: flex; align-items: center; gap: 18px; }
+        .s05 .sw { flex: none; width: 40px; height: 40px; border-radius: 10px; }
+        .s05 .li b { display: block; font: 500 34px/1.2 var(--f-body); color: var(--ink); }
+        .s05 .li span { display: block; font: 400 24px/1.3 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--smoke); }
+        .s05 .egg-counter { position: absolute; left: 90px; top: 1190px; }
+        .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1310px; }
+      </style>
+      <div data-hf-id="hf-qk0x" id="root" data-composition-id="s05-context" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ella" class="egg-scene s05">
+          <p data-hf-id="hf-8732" class="egg-num" data-layout-allow-overlap="" data-layout-allow-overflow="">4</p>
+          <span data-hf-id="hf-yf0a" class="egg-eyebrow">4 / 5 · Context</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <h2 data-hf-id="hf-tb7y" class="egg-title">Context window</h2>
+            <p data-hf-id="hf-pdwn" class="egg-body sub">Everything the AI sees at once.</p>
+            <div data-hf-id="hf-v0ka" class="win"></div>
+            <div data-hf-id="hf-rsqk" class="leg">
+              <div data-hf-id="hf-bqrv" class="li l0"><i data-hf-id="hf-q4l6" class="sw" style="background:var(--tok-1)"></i><div data-hf-id="hf-yeow"><b data-hf-id="hf-p0cj">Your code</b><span data-hf-id="hf-1dd0">files it reads</span></div></div>
+              <div data-hf-id="hf-7snu" class="li l1"><i data-hf-id="hf-gl2f" class="sw" style="background:var(--tok-2)"></i><div data-hf-id="hf-y7yw"><b data-hf-id="hf-0pr0">Tools</b><span data-hf-id="hf-y70f">run tests, search</span></div></div>
+              <div data-hf-id="hf-1my1" class="li l2"><i data-hf-id="hf-vsco" class="sw" style="background:var(--tok-3)"></i><div data-hf-id="hf-x11t"><b data-hf-id="hf-xvhb">Skills</b><span data-hf-id="hf-nb4n">saved how-tos (.md)</span></div></div>
+              <div data-hf-id="hf-0va8" class="li l3"><i data-hf-id="hf-v2u3" class="sw" style="background:rgba(68, 64, 59, 0.22)"></i><div data-hf-id="hf-xfcu"><b data-hf-id="hf-4xjr">MCP servers</b><span data-hf-id="hf-jju0">outside data</span></div></div>
+            </div>
+            <span data-hf-id="hf-d2js" class="egg-counter">Window used <b data-hf-id="hf-s7o1" class="pct">0%</b></span>
+            <p data-hf-id="hf-x12a" class="egg-label">Load only what the task needs.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.4;
+          const root = document.querySelector('[data-composition-id="s05-context"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const cam = q(".cam");
+
+          // 200 squares, 20 × 10, filled row by row
+          const win = q(".win"), COLS = 20, ROWS = 10, STEP = 40.2;
+          for (let i = 0; i < COLS * ROWS; i++) {
+            const s = document.createElement("i");
+            s.className = "sq";
+            s.style.left = (24 + (i % COLS) * STEP).toFixed(1) + "px";
+            s.style.top = (22 + Math.floor(i / COLS) * STEP).toFixed(1) + "px";
+            win.appendChild(s);
+          }
+          const sq = all(".sq");
+          // [squares, tint, voice time]: your code, tools, skills, MCP servers = 170 of 200 (85%)
+          const GROUPS = [
+            [64, "rgba(4, 71, 255, 0.12)", 1.95],
+            [30, "rgba(255, 122, 192, 0.24)", 3.0],
+            [24, "rgba(255, 71, 4, 0.14)", 3.67],
+            [52, "rgba(68, 64, 59, 0.22)", 4.25],
+          ];
+
+          // "Four: context."
+          Egg.numPunch(tl, q(".egg-num"), 0.05, { hold: 0.3 });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.9, { y: 16 });
+          Egg.fadeUp(tl, q(".egg-title"), 1.1);
+          Egg.fadeUp(tl, q(".sub"), 1.3);
+          tl.fromTo(win, { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.5, ease: Egg.EASE.enter }, 1.35);
+          Egg.fadeUp(tl, q(".egg-counter"), 1.6, { y: 16 });
+
+          // "Your code, tools, skills and MCP servers…"
+          const pct = Egg.meter(tl, q(".pct"), (v) => Math.round(v) + "%");
+          let n = 0, used = 0;
+          GROUPS.forEach(([count, tint, t], g) => {
+            const part = sq.slice(n, n + count);
+            const stagger = Math.min(0.009, 0.5 / count);
+            tl.to(part, { backgroundColor: tint, borderColor: "rgba(0,0,0,0)", duration: 0.12, ease: "none", stagger }, t);
+            Egg.fadeUp(tl, q(".l" + g), t, { y: 16 });
+            n += count; used += count;
+            pct((used / sq.length) * 100, t, count * stagger + 0.12, "power1.out");
+          });
+          tl.to(cam, { scale: 1.035, transformOrigin: "540px 760px", duration: 3.2, ease: "sine.inOut" }, 2.0);
+
+          // "…share one limited window."
+          Egg.shake(tl, win, 5.6);
+          tl.fromTo(sq.slice(n), { scale: 1 }, { scale: 0.7, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 3, stagger: 0.012, immediateRender: false }, 5.65);
+          tl.fromTo(q(".egg-counter"), { scale: 1 }, { scale: 1.08, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 5.75);
+          Egg.fadeUp(tl, q(".egg-label"), 5.85);
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 6.3);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam], DUR - 0.35);
+          window.__timelines["s05-context"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

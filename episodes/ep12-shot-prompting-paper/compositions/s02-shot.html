@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.75,"sfx":"pop","vol":0.14},
+      {"t":2.88,"sfx":"click-soft","vol":0.16},
+      {"t":3.72,"sfx":"whoosh-short","vol":0.08}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · a shot (3.6–7.6): "A shot is one example." Then a little stack of cards drops in under it (like a photo
+           tucked into the sentence): input = a ticket, output = its label. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s02-t1 { top: 420px; font-size: 104px; line-height: 120px; }
+        .s02-t2 { top: 540px; font-size: 104px; line-height: 120px; color: var(--coral); }
+        .s02-stack { position: absolute; left: 150px; top: 760px; width: 780px; height: 400px; }
+        .s02-stack .back { position: absolute; inset: 0; background: #fbf8f0; border-radius: 30px; box-shadow: var(--card-shadow); }
+        .s02-stack .front { position: absolute; inset: 0; background: #fff; border-radius: 30px; box-shadow: var(--card-shadow); padding: 46px 52px; }
+        .s02-k { font: 500 24px/30px var(--f-mono); color: var(--muted); letter-spacing: 0.08em; }
+        .s02-in { font: 500 44px/56px var(--f-body); color: var(--ink); margin-top: 12px; }
+        .s02-link { height: 2px; margin: 34px 0 30px; background: repeating-linear-gradient(90deg, #c9c1ad 0 10px, transparent 10px 20px); transform-origin: 0 50%; }
+        .s02-orow { display: flex; align-items: center; justify-content: space-between; }
+        .s02-orow .pill { font-size: 40px; height: 72px; line-height: 72px; padding: 0 34px; border-radius: 36px; }
+      </style>
+      <div id="root" data-composition-id="s02-shot" data-width="1080" data-height="1920">
+        <div class="kin s02-t1"><span class="w">A</span> <span class="w">shot</span> <span class="w">is</span></div>
+        <div class="kin s02-t2"><span class="w">one</span> <span class="w">example.</span></div>
+        <div class="s02-stack">
+          <div class="back"></div>
+          <div class="front">
+            <div class="s02-k">INPUT</div>
+            <div class="s02-in">My password reset email never arrived.</div>
+            <div class="s02-link"></div>
+            <div class="s02-orow"><div class="s02-k">OUTPUT</div><span class="pill low">Low</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s02-shot"]');
+          const q = (s) => r.querySelector(s), E = (t) => t - 3.6;
+          const tl = gsap.timeline({ paused: true });
+          FX.words(tl, r.querySelectorAll(".s02-t1 .w"), [E(3.72), E(3.8), E(4.1)], { dur: 0.35 });
+          FX.words(tl, r.querySelectorAll(".s02-t2 .w"), [E(4.28), E(4.5)], { dur: 0.4 });
+          tl.fromTo(q(".s02-stack"), { opacity: 0, y: 80, rotation: 6, scale: 0.9 }, { opacity: 1, y: 0, rotation: -2, scale: 1, duration: 0.6, ease: "back.out(1.4)" }, E(5.3));
+          tl.fromTo(q(".s02-stack .back"), { rotation: 0 }, { rotation: 6, duration: 0.6, ease: "power3.out" }, E(5.45));
+          tl.fromTo(q(".s02-link"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, E(6.0));
+          tl.fromTo(q(".s02-orow"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, E(6.4));
+          FX.pop(tl, q(".s02-orow .pill"), E(6.48));
+          FX.out(tl, [...r.querySelectorAll(".kin .w")], E(7.3), { dur: 0.25, stagger: 0.01 });
+          tl.to(q(".s02-stack"), { opacity: 0, y: 60, rotation: 4, duration: 0.3, ease: "power2.in" }, E(7.3));
+          window.__timelines["s02-shot"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

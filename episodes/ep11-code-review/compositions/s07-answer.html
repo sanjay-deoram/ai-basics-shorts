@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"whoosh-short","vol":0.12},
+      {"t":1.1,"sfx":"typing","vol":0.18,"dur":0.45},
+      {"t":1.55,"sfx":"chime","vol":0.14,"dur":0.6},
+      {"t":1.85,"sfx":"click-soft","vol":0.18},
+      {"t":2.2,"sfx":"chime","vol":0.14,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · 2 · Answer every finding. The two posted comments become threads, with a counter "Open findings 2". On
+           "a fix": the Important thread gets a commit (fix: stop at n) and its 2-line diff (<= → <), then RESOLVED · FIXED.
+           On "a reason": the Pre-existing thread gets the reply "Not from this PR. Filed a follow-up." and RESOLVED ·
+           REASON. The counter reaches 0. No fade: s08 opens on this exact frame. Everything ends above y 1040 (avatar br).
+           Voice: "Every finding needs a fix or a reason." (Example replies.) -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .ctr { position: absolute; left: 90px; top: 336px; }
+        .s07 .thr { position: absolute; left: 90px; width: 860px; padding: 20px 30px; gap: 10px; border-radius: 34px; }
+        .s07 .thr .top { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .s07 .ctag { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border: 2px solid var(--ink); border-radius: 9999px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); }
+        .s07 .thr p { margin: 0; font: 400 34px/1.3 var(--f-body); color: var(--ink); }
+        .s07 .res { color: var(--ink); background: var(--eggshell); border-color: var(--ink); font-size: 24px; padding: 10px 18px; }
+        .s07 .row { position: absolute; left: 130px; display: flex; align-items: center; gap: 18px; height: 52px; }
+        .s07 .row .egg-card-kicker { width: 120px; color: var(--graphite); }
+        .s07 .commit { display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border: 2px solid var(--btn-border); border-radius: 9999px; font: 400 26px/1 var(--f-mono); color: var(--ink); }
+        .s07 .row p { margin: 0; font: 400 34px/1.3 var(--f-body); color: var(--ink); }
+        .s07 .fix { position: absolute; left: 130px; top: 652px; width: 820px; }
+        .s07 .fix .t-p { border-radius: 6px; }
+      </style>
+      <div id="root" data-composition-id="s07-answer" data-width="1080" data-height="1920">
+        <div class="egg-scene s07">
+          <div class="egg-counter ctr">Open findings <b class="n">2</b></div>
+          <div class="egg-card thr ta" style="top:430px">
+            <div class="top"><span class="ctag">Important</span><span class="egg-stamp res ra">Resolved · fixed</span></div>
+            <p>Off by one: items[n] is undefined</p>
+          </div>
+          <div class="row fr" style="top:590px"><span class="egg-card-kicker">Fix</span><span class="commit">fix: stop at n</span></div>
+          <div class="egg-code fix"></div>
+          <div class="egg-card thr tb" style="top:826px">
+            <div class="top"><span class="ctag">Pre-existing</span><span class="egg-stamp res rb">Resolved · reason</span></div>
+            <p>getItems() errors aren't caught</p>
+          </div>
+          <div class="row rr" style="top:984px"><span class="egg-card-kicker">Reason</span><p>Not from this PR. Filed a follow-up.</p></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s07-answer"] .s07');
+          const q = (s) => root.querySelector(s);
+          const card = q(".fix");
+          Egg.codeCard(card, `
+-for (let i = 0; i <= n; i++) {
++for (let i = 0; i < n; i++) {`, { lang: "js", diff: true, nums: [3, 3] });
+          const tl = gsap.timeline({ paused: true });
+          const open = Egg.meter(tl, q(".n"), (v) => String(Math.round(v)), 2);
+
+          // "Every finding needs…": the two posted comments, now threads
+          Egg.fadeUp(tl, [q(".ctr"), q(".ta"), q(".tb")], 0.05, { y: 24, stagger: 0.08, dur: 0.45 });
+          tl.set([q(".ra"), q(".rb")], { opacity: 0 }, 0);
+          // "…a fix": a commit and its diff, then the thread resolves
+          Egg.fadeUp(tl, q(".fr"), 0.95, { y: 14, dur: 0.4 });
+          Egg.fadeUp(tl, card, 1.05, { y: 20, dur: 0.4 });
+          Egg.codeType(tl, card, 1.1, { cps: 140, lineGap: 0 });
+          const le = [...card.querySelectorAll(".ln")[0].querySelectorAll(".t-p")].find((s) => s.textContent === "<=");
+          tl.fromTo(le, { backgroundColor: "rgba(255, 138, 200, 0)", color: "#a59f97" }, { backgroundColor: "rgba(255, 138, 200, 1)", color: "#000000", duration: 0.25, ease: "none" }, 1.5);
+          Egg.stamp(tl, q(".ra"), 1.55, q(".ta"));
+          open(1, 1.55, 0.2);
+          // "…or a reason": a reply, then the thread resolves
+          Egg.fadeUp(tl, q(".rr"), 1.85, { y: 14, dur: 0.4 });
+          Egg.stamp(tl, q(".rb"), 2.2, q(".tb"));
+          open(0, 2.2, 0.2);
+          window.__timelines["s07-answer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

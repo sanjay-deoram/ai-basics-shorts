@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":2.9,"sfx":"pop","vol":0.14},
+      {"t":6.18,"sfx":"pop","vol":0.14},
+      {"t":7.55,"sfx":"pop","vol":0.16},
+      {"t":8.2,"sfx":"whoosh-short","vol":0.1},
+      {"t":8.7,"sfx":"click-soft","vol":0.16},
+      {"t":9.2,"sfx":"click-soft","vol":0.16},
+      {"t":11.4,"sfx":"pop","vol":0.12},
+      {"t":12.5,"sfx":"whoosh-short","vol":0.08}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · one-shot (22.7–36.4). Hard cut to a blue panel: "One-shot". A user circle and a Claude circle with
+           coloured dots running between them; the example turn ("My password reset email never arrived.") and the
+           answer ("Low"). Cut back to paper: the replies now come back as one word; the scale shows the model has
+           only seen Low, and a marker guesses where High begins. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s04-blue { background: var(--blue); }
+        .s04-h { top: 320px; font-size: 104px; line-height: 120px; color: #fff; }
+        .s04-sub { top: 450px; font: 500 40px/52px var(--f-body); color: #fff; letter-spacing: 0; }
+        .s04-node { position: absolute; top: 590px; width: 190px; height: 190px; border-radius: 50%; background: #fff; display: flex; align-items: center; justify-content: center; box-shadow: 0 14px 36px rgba(10,30,70,0.25); }
+        .s04-node svg, .s04-node img { width: 92px; height: 92px; }
+        .s04-u { left: 170px; } .s04-a { left: 720px; }
+        .s04-lab { position: absolute; top: 806px; width: 300px; text-align: center; font: 600 30px/40px var(--f-body); color: #fff; }
+        .s04-lu { left: 115px; } .s04-la { left: 665px; }
+        .s04-dots { position: absolute; left: 390px; top: 675px; width: 300px; height: 20px; }
+        .s04-dots i { position: absolute; top: 0; width: 20px; height: 20px; border-radius: 50%; }
+        .s04-say { top: 880px; padding: 34px 38px; border-radius: 28px; }
+        .s04-say1 { left: 90px; width: 470px; font: 500 38px/50px var(--f-body); color: var(--ink); }
+        .s04-say2 { left: 620px; width: 330px; height: 180px; display: flex; align-items: center; justify-content: center; }
+        .s04-say2 .pill { font-size: 48px; height: 88px; line-height: 88px; padding: 0 44px; border-radius: 44px; }
+        .s04-k { display: block; font: 500 22px/30px var(--f-mono); letter-spacing: 0.08em; color: var(--muted); margin-bottom: 10px; }
+        .s04-h2 { top: 330px; font-size: 84px; line-height: 100px; }
+        .s04-rep { left: 110px; width: 860px; height: 110px; padding: 0 40px; display: flex; align-items: center; gap: 26px; }
+        .s04-rep .k { font: 500 24px/30px var(--f-mono); color: var(--muted); letter-spacing: 0.06em; }
+        .s04-rep .v { font: 650 46px/56px var(--f-display); color: var(--ink); }
+        .s04-rep .ok { margin-left: auto; width: 46px; height: 46px; }
+        .s04-rep1 { top: 490px; } .s04-rep2 { top: 624px; }
+        .s04-scale { left: 110px; top: 830px; width: 860px; height: 330px; padding: 40px; }
+        .s04-sk { font: 500 24px/30px var(--f-mono); color: var(--muted); letter-spacing: 0.08em; }
+        .s04-segs { position: absolute; left: 40px; right: 40px; top: 110px; height: 130px; display: flex; gap: 16px; }
+        .s04-seg { flex: 1; border-radius: 20px; border: 3px dashed #cfc7b4; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 600 34px/42px var(--f-body); color: var(--muted); }
+        .s04-seg small { font: 600 30px/36px var(--f-body); color: #6e6a60; }
+        .s04-seg.low { border: 3px solid var(--low); background: var(--low-tint); color: var(--low); }
+        .s04-seg.low small { color: var(--low); }
+        .s04-mark { position: absolute; top: 92px; left: 0; width: 6px; height: 166px; border-radius: 3px; background: var(--coral); }
+        .s04-mark span { position: absolute; left: -26px; top: 172px; width: 58px; height: 44px; border-radius: 22px; background: var(--coral); color: #fff; text-align: center; font: 700 30px/44px var(--f-body); }
+      </style>
+      <div id="root" data-composition-id="s04-one" data-width="1080" data-height="1920">
+        <div class="panel s04-blue">
+          <div class="kin s04-h"><span class="w">One-shot</span></div>
+          <div class="kin s04-sub"><span class="w">one example, ahead of the real ticket</span></div>
+          <div class="s04-dots" data-layout-allow-overflow=""><i style="background:#ffd36e"></i><i style="background:#ff9a7a"></i><i style="background:#ffffff"></i><i style="background:#9fe0b4"></i></div>
+          <div class="s04-node s04-u"><svg viewBox="0 0 24 24" fill="none" stroke="#17251d" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></div>
+          <div class="s04-node s04-a"><img src="assets/claude-logo.svg" alt=""></div>
+          <div class="s04-lab s04-lu">user turn</div>
+          <div class="s04-lab s04-la">assistant turn</div>
+          <div class="card s04-say s04-say1"><span class="s04-k">EXAMPLE</span><span class="s04-t"></span></div>
+          <div class="card s04-say s04-say2"><span class="pill low">Low</span></div>
+        </div>
+
+        <div class="kin s04-h2"><span class="w">Same</span> <span class="w">format</span> <span class="w">now</span></div>
+        <div class="card s04-rep s04-rep1"><span class="k">CALL 1</span><span class="v">High</span><svg class="ok" viewBox="0 0 24 24" fill="none" stroke="#23744a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <div class="card s04-rep s04-rep2"><span class="k">CALL 2</span><span class="v">High</span><svg class="ok" viewBox="0 0 24 24" fill="none" stroke="#23744a" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+        <div class="card s04-scale">
+          <div class="s04-sk">LABELS IT HAS SEEN</div>
+          <div class="s04-segs">
+            <div class="s04-seg low">Low<small>seen</small></div>
+            <div class="s04-seg">Medium<small>?</small></div>
+            <div class="s04-seg">High<small>?</small></div>
+          </div>
+          <div class="s04-mark"><span>?</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s04-one"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 22.7).toFixed(3);
+          const tl = gsap.timeline({ paused: true });
+
+          // blue panel: the example
+          FX.words(tl, q(".s04-h .w"), E(22.85), { dur: 0.4 });
+          FX.words(tl, q(".s04-sub .w"), E(23.6), { dur: 0.4, y: 20 });
+          FX.pop(tl, q(".s04-u"), E(25.55));
+          tl.fromTo(q(".s04-lu"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, E(25.9));
+          tl.fromTo(q(".s04-say1"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.4)" }, E(26.2));
+          FX.type(tl, q(".s04-t"), "My password reset email never arrived.", E(26.35), 1.9);
+          r.querySelectorAll(".s04-dots i").forEach((d, i) => {
+            tl.fromTo(d, { x: 0, opacity: 0 }, { x: 280, opacity: 1, duration: 0.9, ease: "power1.inOut", repeat: 2 }, E(28.3) + i * 0.22);
+            tl.to(d, { opacity: 0, duration: 0.2, ease: "none" }, E(31.0));
+          });
+          FX.pop(tl, q(".s04-a"), E(28.85));
+          tl.fromTo(q(".s04-la"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, E(29.2));
+          tl.fromTo(q(".s04-say2"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.4)" }, E(29.9));
+          FX.pop(tl, q(".s04-say2 .pill"), E(30.25), { from: 0.4 });
+
+          // back to paper: replies copy the format, the scale has one label
+          tl.to(q(".s04-blue"), { yPercent: -100, duration: 0.45, ease: "power3.inOut" }, E(30.85));
+          FX.words(tl, r.querySelectorAll(".s04-h2 .w"), [E(31.2), E(31.75), E(32.1)]);
+          tl.fromTo(q(".s04-rep1"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, E(31.4));
+          tl.fromTo(q(".s04-rep2"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.5)" }, E(31.9));
+          tl.fromTo(q(".s04-scale"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, E(32.9));
+          tl.fromTo(q(".s04-seg.low"), { scale: 0.92 }, { scale: 1, duration: 0.4, ease: "back.out(2.5)" }, E(34.1));
+          // the marker hunts for the Medium / High boundary
+          tl.fromTo(q(".s04-mark"), { x: 559, opacity: 0 }, { x: 559, opacity: 1, duration: 0.25, ease: "none" }, E(35.1));
+          tl.to(q(".s04-mark"), { x: 650, duration: 0.3, ease: "sine.inOut" }, E(35.35));
+          tl.to(q(".s04-mark"), { x: 480, duration: 0.35, ease: "sine.inOut" }, E(35.65));
+          tl.to(q(".s04-mark"), { x: 562, duration: 0.3, ease: "sine.inOut" }, E(36.0));
+          window.__timelines["s04-one"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

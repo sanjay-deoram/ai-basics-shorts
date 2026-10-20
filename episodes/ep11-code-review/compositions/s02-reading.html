@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"click-soft","vol":0.18},
+      {"t":0.75,"sfx":"click-soft","vol":0.2},
+      {"t":2.0,"sfx":"pop","vol":0.16},
+      {"t":2.25,"sfx":"whoosh-short","vol":0.14},
+      {"t":2.6,"sfx":"whoosh-short","vol":0.1},
+      {"t":3.2,"sfx":"sparkle","vol":0.14,"dur":0.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The reading moves (whiteboard). A scroll of diff lines draws with an ink eye above it, its dotted scan
+           line crawling down. On "didn't remove review" a boxed "Review" is drawn over the scroll and stays. On "But they
+           moved most of the reading" the scan line lifts off the eye and three Claude logos take over, each sweeping a
+           third of the scroll fast (violet / ember / blush scan lines); the eye shrinks to the bottom, "A person decides".
+           Label: "The reading moves to machines." Avatar: corner. Voice: "They didn't remove review. But they moved most
+           of the reading to machines." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .eye { transform-box: view-box; }
+        .s02 .scan { stroke: var(--ink); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 14; fill: none; }
+        .s02 .sweep { stroke-width: 6; stroke-linecap: round; fill: none; opacity: 0; }
+        .s02 .lead { stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; stroke-dasharray: 1 10; fill: none; }
+        .s02 .rev-bg { fill: var(--eggshell); }
+        .s02 .rev { font: 300 64px var(--f-display); letter-spacing: -0.02em; fill: var(--ink); text-anchor: middle; }
+        .s02 .logo { position: absolute; width: 104px; height: 104px; }
+        .s02 .dec { position: absolute; left: 400px; top: 1150px; }
+        .s02 .egg-label { position: absolute; left: 90px; top: 1250px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s02-reading" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect class="ink thin frame" data-draw="0" data-dur="0.4" x="170" y="520" width="300" height="600" rx="26" />
+            <path class="ink thin" data-draw="1" data-dur="0.25" d="M210 580 H400" />
+            <path class="ink thin" data-draw="1.3" data-dur="0.25" d="M210 640 H350" />
+            <path class="ink thin" data-draw="1.6" data-dur="0.25" d="M240 700 H430" />
+            <path class="ink thin" data-draw="1.9" data-dur="0.25" d="M240 760 H380" />
+            <path class="ink thin" data-draw="2.2" data-dur="0.25" d="M210 820 H420" />
+            <path class="ink thin" data-draw="2.5" data-dur="0.25" d="M210 880 H330" />
+            <path class="ink thin" data-draw="2.8" data-dur="0.25" d="M240 940 H410" />
+            <path class="ink thin" data-draw="3.1" data-dur="0.25" d="M240 1000 H360" />
+            <path class="ink thin" data-draw="3.4" data-dur="0.25" d="M210 1060 H400" />
+            <g class="eye">
+              <path class="ink thin" data-draw="0.5" data-dur="0.4" d="M250 440 Q320 392 390 440 Q320 488 250 440 Z" />
+              <circle class="ink" data-draw="1" data-dur="0.2" cx="320" cy="440" r="12" />
+            </g>
+            <path class="scan" d="M190 0 H450" />
+            <path class="lead l0" d="M482 620 H628" />
+            <path class="lead l1" d="M482 820 H628" />
+            <path class="lead l2" d="M482 1020 H628" />
+            <path class="sweep w0" stroke="#0447ff" d="M190 0 H450" />
+            <path class="sweep w1" stroke="#ff4704" d="M190 0 H450" />
+            <path class="sweep w2" stroke="#ff7ac0" d="M190 0 H450" />
+            <g class="review">
+              <rect class="rev-bg" x="200" y="735" width="240" height="110" rx="20" />
+              <rect class="ink thin rbox" x="200" y="735" width="240" height="110" rx="20" />
+              <text class="rev" x="320" y="812">Review</text>
+            </g>
+          </svg>
+          <img class="logo g0" src="assets/claude-logo.svg" alt="Claude" style="left:640px;top:568px">
+          <img class="logo g1" src="assets/claude-logo.svg" alt="Claude" style="left:640px;top:768px">
+          <img class="logo g2" src="assets/claude-logo.svg" alt="Claude" style="left:640px;top:968px">
+          <span class="egg-card-kicker dec">A person decides</span>
+          <p class="egg-label">The reading moves to machines.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.35;
+          const root = document.querySelector('[data-composition-id="s02-reading"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+
+          // the scroll and the eye draw; the eye's dotted scan line crawls down the scroll
+          Egg.draw(tl, q(".egg-svg"), 0.02, { gap: 0.1 });
+          const scan = q(".scan");
+          tl.fromTo(scan, { y: 560, opacity: 0 }, { y: 560, opacity: 1, duration: 0.2, ease: "none" }, 0.35);
+          tl.to(scan, { y: 720, duration: 1.5, ease: "none" }, 0.55);
+          // "They didn't remove review." The boxed word is drawn over the scroll and stays
+          const rbox = q(".rbox");
+          rbox.setAttribute("pathLength", "1");
+          rbox.style.strokeDasharray = "1 1.1";
+          tl.fromTo(q(".rev-bg"), { opacity: 0 }, { opacity: 1, duration: 0.2, ease: "none" }, 0.75);
+          tl.fromTo(rbox, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.6, ease: Egg.EASE.draw }, 0.75);
+          tl.fromTo(q(".rev"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.45, ease: Egg.EASE.enter }, 1.05);
+          // "But they moved most of the reading…" The scan line lifts off; three Claude logos sweep the scroll fast
+          tl.to(scan, { opacity: 0, y: 690, duration: 0.25, ease: Egg.EASE.exit }, 1.95);
+          Egg.pop(tl, all(".logo"), 2.0, { stagger: 0.12 });
+          all(".lead").forEach((l, i) => {
+            l.setAttribute("pathLength", "1");
+            tl.fromTo(l, { strokeDasharray: "0.001 1", opacity: 0 }, { strokeDasharray: "1 0.001", opacity: 1, duration: 0.35, ease: Egg.EASE.draw }, 2.2 + i * 0.1);
+          });
+          const bands = [[545, 705], [745, 905], [945, 1095]];
+          all(".sweep").forEach((w, i) => {
+            const [a, b] = bands[i];
+            tl.set(w, { y: a }, 0);
+            tl.to(w, { opacity: 1, duration: 0.1, ease: "none" }, 2.25 + i * 0.1);
+            tl.fromTo(w, { y: a }, { y: b, duration: 0.48, ease: "sine.inOut", yoyo: true, repeat: 3, immediateRender: false }, 2.25 + i * 0.1);
+          });
+          // the eye shrinks and moves down: a person decides
+          tl.to(q(".eye"), { x: 0, y: 735, scale: 0.6, svgOrigin: "320 440", duration: 0.65, ease: Egg.EASE.move }, 2.6);
+          Egg.fadeUp(tl, q(".dec"), 3.15, { y: 10 });
+          Egg.fadeUp(tl, q(".egg-label"), 3.2, { y: 20 });
+          Egg.fadeOut(tl, all(".egg-svg, .logo, .dec, .egg-label"), DUR - 0.32, { dur: 0.3 });
+          window.__timelines["s02-reading"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

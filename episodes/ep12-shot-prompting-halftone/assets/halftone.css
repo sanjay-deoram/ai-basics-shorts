@@ -1,0 +1,79 @@
+/* ep12 · "Halftone" look (after a Swiss product film): white paper, one electric blue, mono "// 03 — zero-shot"
+   labels and a running timecode, big tight sans headlines with serif-italic accent words, white cards on a grid,
+   and Sanjay's stippled avatar shown large. 1080×1920 canvas px. */
+
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Instrument Serif"; src: url("fonts/InstrumentSerif-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: block; }
+@font-face { font-family: "Instrument Serif"; src: url("fonts/InstrumentSerif-400.woff2") format("woff2"); font-weight: 400; font-style: normal; font-display: block; }
+
+:root {
+  --white: #ffffff;
+  --ink: #0b0b0b;
+  --grey: #6f6f6f;
+  --line: #e7e7e7;
+  --dash: #dcdcdc;
+  --blue: #1f5bff;
+  --blue-tint: #e8eeff;
+  --red: #d92d20;
+  --user: #c2410c;        /* user turns: orange */
+  --user-ink: #a63f06;
+  --user-tint: #fff1e8;
+  --asst: #1f5bff;        /* assistant turns: blue, with the Claude logo */
+  --asst-ink: #1748cc;
+  --asst-tint: #eaf0ff;
+  --sys: #4a4a4a;         /* system instruction: grey */
+  --sys-tint: #f2f2f2;
+  --f-display: "Inter Tight", "Inter", sans-serif;
+  --f-body: "Inter", sans-serif;
+  --f-mono: "Geist Mono", monospace;
+  --f-serif: "Instrument Serif", serif;
+}
+
+.panel { position: absolute; inset: 0; }
+
+/* headline: tight sans, accent words in serif italic */
+.hd { position: absolute; left: 90px; right: 90px; font: 600 108px/116px var(--f-display); letter-spacing: -0.045em; color: var(--ink); }
+.hd em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; font-size: 1.12em; color: var(--blue); }
+.hd .ln { display: block; overflow: hidden; padding-bottom: 10px; }
+.hd .ln > span { display: inline-block; }
+
+/* cards */
+.cd { position: absolute; background: #fff; border: 2px solid var(--line); border-radius: 22px; }
+.cd .lb { position: absolute; left: 30px; top: 24px; font: 400 23px/30px var(--f-mono); color: var(--grey); }
+.cell { position: absolute; border: 2px dashed var(--dash); border-radius: 22px; }
+.mk { font: 400 23px/30px var(--f-mono); color: var(--grey); }
+.bpill { display: inline-block; height: 64px; padding: 0 28px; border-radius: 32px; background: var(--blue); color: #fff; font: 600 32px/64px var(--f-body); }
+
+/* camera: each scene wraps its content in .cam and zooms / pans it with FX.zoom (transform-origin 0 0) */
+.cam { position: absolute; inset: 0; transform-origin: 0 0; }
+
+/* message turns: system grey, user orange, assistant blue (Claude logo) */
+.msg { position: absolute; display: flex; align-items: center; gap: 22px; padding: 0 26px 0 0; border-radius: 16px; overflow: hidden; }
+.msg .who { flex: none; align-self: stretch; width: 186px; display: flex; align-items: center; gap: 10px; padding-left: 22px; font: 600 25px/30px var(--f-body); color: #fff; }
+.msg .who img { width: 28px; height: 28px; border-radius: 50%; background: #fff; padding: 3px; }
+.msg .t { font: 500 34px/44px var(--f-body); color: var(--ink); padding: 18px 0; }
+.msg.sys { background: var(--sys-tint); } .msg.sys .who { background: var(--sys); }
+.msg.u { background: var(--user-tint); } .msg.u .who { background: var(--user); }
+.msg.a { background: var(--asst-tint); } .msg.a .who { background: var(--asst); }
+.msg.a .t { color: var(--asst-ink); font-weight: 650; }
+.legend { position: absolute; display: flex; gap: 22px; font: 400 23px/30px var(--f-mono); color: var(--ink); }
+.legend i { display: inline-block; width: 18px; height: 18px; border-radius: 5px; margin-right: 8px; vertical-align: -2px; }
+
+/* callouts: a ring drawn around something + a label chip, and drawn arrows */
+.co { position: absolute; pointer-events: none; }
+.co svg { position: absolute; left: -10px; top: -10px; width: calc(100% + 20px); height: calc(100% + 20px); overflow: visible; }
+.co rect { fill: none; stroke: var(--blue); stroke-width: 5; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.co.warn rect { stroke: var(--red); }
+.co .cl { position: absolute; white-space: nowrap; height: 48px; padding: 0 18px; border-radius: 24px; background: var(--blue); color: #fff; font: 600 25px/48px var(--f-body); }
+.co.warn .cl { background: var(--red); }
+.arw { position: absolute; overflow: visible; pointer-events: none; }
+.arw path { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; }
+.hl { display: inline-block; background: linear-gradient(rgba(31,91,255,0.2), rgba(31,91,255,0.2)) no-repeat 0 88% / calc(var(--hl, 0) * 100%) 38%; }
+
+/* Sanjay avatar cut-outs (540×629), mirrored to face left; .av-flip turns him to face right */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }

@@ -1,0 +1,91 @@
+/* ep12 · Live IDE look (v3): the whole short happens inside a dark editor + terminal, for developers.
+   Tokyo-Night-style palette, Geist Mono for code, Inter for UI and captions. Canvas pixels on the 1080x1920 frame. */
+
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --app: #0b0d14;        /* page behind the window */
+  --win: #1a1b26;        /* editor */
+  --bar: #16161e;        /* title bar, terminal, status */
+  --line: #292e42;       /* borders, active line */
+  --fg: #c0caf5;
+  --dim: #9aa0c4;        /* line numbers, UI labels (≥ 4.5:1 on every panel, also on tinted rows) */
+  --cmt: #565f89;        /* decoration only */
+  --kw: #bb9af7; --str: #9ece6a; --fn: #7aa2f7; --num: #ff9e64; --key: #7dcfff;
+  --red: #f7768e; --yellow: #e0af68; --green: #9ece6a; --blue: #7aa2f7; --cyan: #7dcfff; --purple: #bb9af7;
+  --claude: #D97757;
+  --mono: "Geist Mono", ui-monospace, monospace;
+  --ui: "Inter", system-ui, sans-serif;
+}
+
+.ide-root { position: absolute; inset: 0; color: var(--fg); font-family: var(--ui); -webkit-font-smoothing: antialiased; }
+
+/* header: the three techniques as pills */
+.ide-steps { position: absolute; left: 90px; right: 90px; top: 236px; height: 56px; display: flex; gap: 14px; }
+.ide-step { flex: 1; height: 56px; border-radius: 28px; border: 2px solid var(--line); display: flex; align-items: center; justify-content: center; gap: 10px; font: 600 26px/1 var(--mono); color: var(--dim); background: rgba(26, 27, 38, 0.6); }
+.ide-step b { font: 700 24px/1 var(--mono); padding: 4px 9px; border-radius: 8px; background: var(--line); color: var(--fg); }
+
+/* the window */
+.ide-win { position: absolute; left: 70px; top: 316px; width: 940px; height: 930px; border-radius: 18px; overflow: hidden; background: var(--win); border: 1px solid #2f3449; box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(0, 0, 0, 0.4); }
+.ide-title { position: absolute; left: 0; right: 0; top: 0; height: 48px; background: var(--bar); border-bottom: 1px solid var(--line); }
+.ide-dot { position: absolute; top: 17px; width: 14px; height: 14px; border-radius: 50%; }
+.ide-tab { position: absolute; top: 8px; height: 40px; padding: 0 18px; border-radius: 9px 9px 0 0; font: 400 21px/40px var(--mono); color: var(--dim); white-space: nowrap; }
+.ide-tab.on { background: var(--win); color: var(--fg); border: 1px solid var(--line); border-bottom: none; }
+.ide-tab .mod { color: var(--yellow); margin-left: 8px; }
+
+/* editor */
+.ide-ed { position: absolute; left: 0; right: 0; top: 48px; height: 552px; overflow: hidden; }
+.ide-cam { position: absolute; left: 0; top: 0; width: 940px; height: 1000px; transform-origin: 0 0; }
+.ide-row { position: absolute; left: 0; width: 940px; height: 30px; font: 400 22px/30px var(--mono); white-space: pre; }
+.ide-row .no { position: absolute; left: 0; width: 50px; text-align: right; color: var(--dim); }
+.ide-row .tx { position: absolute; left: 74px; }
+.ide-row .bg { position: absolute; left: 0; right: 0; top: 0; bottom: 0; }
+.ide-row .gut { position: absolute; left: 58px; top: 3px; width: 5px; height: 24px; border-radius: 2px; background: var(--green); }
+.ide-k { color: var(--kw); } .ide-s { color: var(--str); } .ide-f { color: var(--fn); } .ide-n { color: var(--num); } .ide-c { color: var(--cmt); }
+.ide-lens { position: absolute; left: 74px; font: 400 21px/24px var(--ui); color: var(--dim); white-space: nowrap; }
+.ide-lens b { font-weight: 600; }
+.ide-cursor { position: absolute; width: 3px; height: 26px; background: #c0caf5; }
+.ide-hl { position: absolute; left: 0; width: 940px; background: rgba(122, 162, 247, 0.16); border-left: 4px solid var(--blue); }
+.ide-squig { position: absolute; height: 6px; background: repeating-linear-gradient(135deg, transparent 0 3px, var(--red) 3px 5px, transparent 5px 8px); }
+.ide-errlens { position: absolute; font: 400 20px/30px var(--mono); color: var(--red); white-space: nowrap; }
+
+/* overlays inside the window */
+.ide-pal { position: absolute; left: 110px; width: 720px; top: 70px; border-radius: 14px; background: #1f2335; border: 1px solid #3b4261; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6); overflow: hidden; }
+.ide-pal .in { height: 64px; padding: 0 22px; font: 400 26px/64px var(--mono); border-bottom: 1px solid var(--line); white-space: nowrap; }
+.ide-pal .it { height: 58px; padding: 0 22px; font: 400 24px/58px var(--mono); color: var(--fg); white-space: nowrap; position: relative; }
+.ide-pal .it .ico { color: var(--yellow); margin-right: 14px; }
+.ide-pal .it .sub { color: var(--dim); margin-left: 14px; font-size: 19px; }
+.ide-pop { position: absolute; border-radius: 14px; background: #1f2335; border: 1px solid #3b4261; box-shadow: 0 24px 60px rgba(0, 0, 0, 0.55); }
+.ide-pop .hd { padding: 16px 24px 12px; border-bottom: 1px solid var(--line); font: 400 22px/1.2 var(--mono); color: var(--dim); }
+.ide-pop .bd { padding: 18px 24px 20px; font: 400 26px/1.45 var(--mono); }
+
+/* terminal panel */
+.ide-term { position: absolute; left: 0; right: 0; top: 600px; bottom: 30px; background: var(--bar); border-top: 1px solid var(--line); }
+.ide-ttabs { position: absolute; left: 22px; top: 0; height: 40px; display: flex; gap: 26px; font: 600 16px/40px var(--ui); letter-spacing: 0.08em; color: var(--dim); }
+.ide-ttabs span.on { color: var(--fg); box-shadow: inset 0 -2px 0 var(--blue); }
+.ide-tnote { position: absolute; right: 20px; top: 0; font: 400 16px/40px var(--ui); color: var(--dim); }
+.ide-tbody { position: absolute; left: 22px; right: 22px; top: 48px; bottom: 8px; overflow: hidden; }
+.ide-tl { font: 400 21px/30px var(--mono); white-space: pre-wrap; word-break: break-word; }
+.ide-tl .ps { color: var(--green); } .ide-tl.err { color: var(--red); } .ide-tl.ok { color: var(--green); } .ide-tl.warn { color: var(--yellow); }
+.ide-net { position: absolute; left: 22px; right: 22px; top: 48px; bottom: 8px; }
+
+/* status bar */
+.ide-status { position: absolute; left: 0; right: 0; bottom: 0; height: 30px; background: #1f2335; border-top: 1px solid var(--line); font: 400 17px/30px var(--ui); color: var(--dim); white-space: nowrap; }
+.ide-status span { position: absolute; top: 0; }
+.ide-status .claude { display: inline-block; width: 16px; height: 16px; vertical-align: -3px; margin-right: 6px; }
+
+/* README preview (recap) */
+.ide-md { position: absolute; left: 0; right: 0; top: 48px; bottom: 30px; padding: 40px 54px; background: var(--win); }
+.ide-md h1 { font: 700 56px/1.15 var(--ui); color: #e6e9f8; margin: 0 0 8px; letter-spacing: -0.01em; }
+.ide-md .rule { height: 1px; background: var(--line); margin: 18px 0 26px; }
+.ide-md .row { display: flex; align-items: center; gap: 24px; margin: 0 0 30px; font: 400 38px/1.3 var(--ui); color: var(--fg); }
+.ide-md .row code { font: 400 32px/1 var(--mono); padding: 10px 14px; border-radius: 10px; background: #24283b; color: var(--key); min-width: 240px; text-align: center; }
+.ide-md .quote { margin-top: 36px; padding: 22px 28px; border-left: 5px solid var(--claude); background: rgba(217, 119, 87, 0.08); font: 400 36px/1.35 var(--ui); color: #e6e9f8; border-radius: 0 10px 10px 0; }
+.ide-md .follow { display: inline-flex; align-items: center; gap: 12px; margin-top: 40px; height: 76px; padding: 0 34px; border-radius: 14px; background: #e6e9f8; color: #1a1b26; font: 700 34px/76px var(--ui); }
+
+/* bottom caption strip (scene compositions) */
+.cap { position: absolute; left: 90px; width: 610px; top: 1282px; }
+.cap .k { font: 600 22px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); }
+.cap .t { margin-top: 12px; font: 700 60px/1.05 var(--ui); letter-spacing: -0.02em; color: #e6e9f8; }
+.cap .d { margin-top: 12px; font: 400 32px/1.3 var(--ui); color: #a9b1d6; }

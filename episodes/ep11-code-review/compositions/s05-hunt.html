@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"typing","vol":0.16,"dur":0.5},
+      {"t":0.35,"sfx":"typing","vol":0.18,"dur":1.0},
+      {"t":1.75,"sfx":"pop","vol":0.16},
+      {"t":1.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":2.05,"sfx":"key-press","vol":0.2},
+      {"t":2.3,"sfx":"key-press","vol":0.2},
+      {"t":2.55,"sfx":"key-press","vol":0.2},
+      {"t":2.9,"sfx":"key-press","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 2 · The bug hunt. The rail moves to 2 AI REVIEW. PR #4187 "Send every item in the list" types, and its
+           diff (sync.js, +4 −0) types under it: a loop with an off-by-one bug (i <= n reads items[n], which is
+           undefined). Three Claude logos (an illustration: the number of agents isn't given) each sweep a different part
+           of the diff at the same time and drop a flag where they find something (lines 1, 2, 3, 3). Smoke line: "Does it
+           solve its problem, fit the system, or break something else?" The header, diff and flags stay put into s06.
+           Avatar: out. Voice: "On every pull request, agents hunt for bugs in parallel." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .head { position: absolute; left: 90px; top: 344px; display: flex; align-items: center; gap: 18px; padding: 18px 30px; border: 2px solid var(--stone); border-radius: 9999px; background: var(--eggshell); font: 400 30px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s05 .head b { font-weight: 400; color: var(--smoke); }
+        .s05 .diff { position: absolute; left: 90px; top: 450px; width: 860px; }
+        .s05 .band { position: absolute; left: 90px; top: 0; width: 860px; height: 50px; opacity: 0; }
+        .s05 .band.b0 { background: rgba(157, 134, 255, 0.3); }
+        .s05 .band.b1 { background: rgba(255, 106, 51, 0.3); }
+        .s05 .band.b2 { background: rgba(255, 122, 192, 0.3); }
+        .s05 .flag { position: absolute; width: 34px; height: 40px; fill: none; stroke: #fdfcfc; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s05 .flag .fl { fill: #fdfcfc; }
+        .s05 .agents { position: absolute; left: 90px; top: 848px; width: 860px; height: 96px; display: flex; align-items: center; justify-content: space-between; }
+        .s05 .crew { display: flex; gap: 30px; }
+        .s05 .ag { position: relative; width: 84px; height: 84px; }
+        .s05 .ag img { width: 84px; height: 84px; }
+        .s05 .ag i { position: absolute; right: -6px; top: -6px; width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--eggshell); }
+        .s05 .q { position: absolute; left: 90px; top: 985px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s05-hunt" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <div class="head"><span class="ht">#4187 · Send every item in the list</span></div>
+          <div class="egg-code diff"></div>
+          <span class="band b0" data-layout-allow-overlap=""></span>
+          <span class="band b1" data-layout-allow-overlap=""></span>
+          <span class="band b2" data-layout-allow-overlap=""></span>
+          <svg class="flag f0" viewBox="0 0 34 40" style="left:893px;top:519px" aria-hidden="true"><path d="M7 37 V4" /><path class="fl" d="M7 5 H28 L23 12.5 L28 20 H7 Z" /></svg>
+          <svg class="flag f1" viewBox="0 0 34 40" style="left:893px;top:569px" aria-hidden="true"><path d="M7 37 V4" /><path class="fl" d="M7 5 H28 L23 12.5 L28 20 H7 Z" /></svg>
+          <svg class="flag f2" viewBox="0 0 34 40" style="left:845px;top:619px" aria-hidden="true"><path d="M7 37 V4" /><path class="fl" d="M7 5 H28 L23 12.5 L28 20 H7 Z" /></svg>
+          <svg class="flag f3" viewBox="0 0 34 40" style="left:893px;top:619px" aria-hidden="true"><path d="M7 37 V4" /><path class="fl" d="M7 5 H28 L23 12.5 L28 20 H7 Z" /></svg>
+          <div class="agents">
+            <span class="egg-card-kicker">Agents · in parallel</span>
+            <div class="crew">
+              <span class="ag"><img src="assets/claude-logo.svg" alt="Claude"><i style="background:#9d86ff"></i></span>
+              <span class="ag"><img src="assets/claude-logo.svg" alt="Claude"><i style="background:#ff6a33"></i></span>
+              <span class="ag"><img src="assets/claude-logo.svg" alt="Claude"><i style="background:#ff7ac0"></i></span>
+            </div>
+          </div>
+          <p class="egg-body q">Does it solve its problem, fit the system, or break something else?</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.75;
+          const root = document.querySelector('[data-composition-id="s05-hunt"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const card = q(".diff");
+          // example diff: real JavaScript apart from its intended bug (i <= n reads items[n], which is undefined)
+          Egg.codeCard(card, `
+ const items = await getItems(url);
++const n = items.length;
++for (let i = 0; i <= n; i++) {
++  send(items[i]);
++}`, { lang: "js", diff: true, file: "sync.js", tag: "+4 −0" });
+          const tl = gsap.timeline({ paused: true });
+
+          // "On every pull request,"
+          Egg.fadeUp(tl, q(".head"), 0.05, { y: 16, dur: 0.4 });
+          Egg.typeOn(tl, q(".ht"), 0.1, { cps: 80 });
+          Egg.fadeUp(tl, card, 0.25, { y: 30, dur: 0.4 });
+          Egg.codeType(tl, card, 0.35, { cps: 140, lineGap: 0 });
+          Egg.fadeUp(tl, q(".q"), 1.1, { y: 16 });
+          // "…agents hunt for bugs in parallel." Each sweeps its own part of the diff at the same time
+          Egg.fadeUp(tl, q(".agents .egg-card-kicker"), 1.75, { y: 10 });
+          Egg.pop(tl, all(".ag"), 1.75, { stagger: 0.1 });
+          const top = 450 + 24 + 40;   // first code line (card top + padding + file bar)
+          [[0, 1], [1, 3], [2, 4]].forEach(([a, b], i) => {
+            const band = q(".b" + i);
+            tl.set(band, { y: top + a * 50 }, 0);
+            tl.to(band, { opacity: 1, duration: 0.12, ease: "none" }, 1.9 + i * 0.05);
+            tl.fromTo(band, { y: top + a * 50 }, { y: top + b * 50, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 2, immediateRender: false }, 1.9 + i * 0.05);
+          });
+          // flags land where something is found
+          [[".f0", 2.05], [".f1", 2.3], [".f2", 2.55], [".f3", 2.9]].forEach(([f, t]) => {
+            tl.fromTo(q(f), { y: -24, opacity: 0, scale: 0.6 }, { y: 0, opacity: 1, scale: 1, duration: 0.3, ease: Egg.EASE.pop }, t);
+          });
+          // hand-off: the header, diff and flags stay for s06
+          Egg.fadeOut(tl, all(".band, .agents, .q"), DUR - 0.32, { dur: 0.3 });
+          window.__timelines["s05-hunt"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"pop","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator · the Sanjay avatar as a pair-programming cam bubble (ep12 v3, IDE look): a 224 px circle under the
+           editor window, bottom right (x 736–960, y 1268–1492), on the strip the window leaves empty for the whole
+           episode. Mouth from assets/lipsync.js (Egg.avatarTalk); the ring and the mic dot pulse with the voice level
+           (EggLipsync.data, seek-safe). Smiles on the recap. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .camb { position: absolute; left: 736px; top: 1268px; width: 224px; height: 224px; }
+        .camb .disc { position: absolute; inset: 0; border-radius: 50%; overflow: hidden; background: radial-gradient(circle at 50% 35%, #2f3550, #1a1b26 70%); }
+        .camb .who { position: absolute; left: -12px; top: -30px; width: 540px; height: 629px; transform: scale(0.46); transform-origin: 0 0; }
+        .camb .ring { position: absolute; inset: -5px; border-radius: 50%; border: 3px solid #7aa2f7; }
+        .camb .tag { position: absolute; left: 52px; top: 196px; height: 36px; padding: 0 16px 0 12px; border-radius: 18px; background: #16161e; border: 1px solid #3b4261; font: 600 19px/34px "Inter", sans-serif; color: #c0caf5; white-space: nowrap; }
+        .camb .mic { display: inline-block; width: 10px; height: 10px; border-radius: 50%; background: #9ece6a; margin-right: 8px; vertical-align: 1px; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="camb">
+          <div class="ring"></div>
+          <div class="disc"><div class="who" data-layout-allow-overflow=""></div></div>
+          <div class="tag"><span class="mic"></span>sanjay</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 65.6;
+          const EXPR = [["smile", 52.1, 999]];   // the recap
+          const root = document.querySelector('[data-composition-id="narrator"] .camb');
+          const ring = root.querySelector(".ring"), mic = root.querySelector(".mic");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          tl.fromTo(root, { opacity: 0, scale: 0.6, transformOrigin: "50% 50%" }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 0.15);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          // voice level → ring glow and mic dot (computed from the playhead, so any frame can be seeked)
+          const L = window.EggLipsync;
+          const lvl = (t) => { if (!L) return 0; const i = Math.floor(t * L.fps); return i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0; };
+          const box = { t: 0 };
+          const apply = () => {
+            const v = Math.max(lvl(box.t), lvl(box.t - 1 / 30) * 0.7);
+            ring.style.boxShadow = `0 0 ${(8 + 26 * v).toFixed(1)}px rgba(122,162,247,${(0.25 + 0.5 * v).toFixed(2)})`;
+            ring.style.borderColor = v > 0.15 ? "#7aa2f7" : "#3b4261";
+            mic.style.opacity = (0.35 + 0.65 * v).toFixed(2);
+          };
+          apply();
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: apply }, 0);
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

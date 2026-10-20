@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.0,"sfx":"tick","vol":0.22},
+      {"t":1.8,"sfx":"tick","vol":0.22},
+      {"t":2.62,"sfx":"tick","vol":0.22},
+      {"t":3.08,"sfx":"tick","vol":0.22},
+      {"t":3.65,"sfx":"blip","vol":0.16},
+      {"t":4.45,"sfx":"zoom-in","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · hook (0–4.9): the headline rises line by line as it's said, "few-shot" in blue serif italic, then
+           "and when to use each." with a highlight sweep on "when". Sanjay is big beside it (narrator.html). Exit:
+           the camera pushes through the headline. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s01-hd { top: 320px; font-size: 118px; line-height: 124px; }
+        .s01-q { position: absolute; left: 90px; top: 872px; font: italic 400 76px/84px var(--f-serif); color: var(--blue); }
+        .s01-q .ln { display: block; overflow: hidden; }
+        .s01-q .ln > span { display: inline-block; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="cam">
+          <div class="hd s01-hd">
+            <span class="ln"><span>Zero-shot,</span></span>
+            <span class="ln"><span>one-shot,</span></span>
+            <span class="ln"><span>and <em>few-shot</em></span></span>
+            <span class="ln"><span>prompting,</span></span>
+          </div>
+          <div class="s01-q"><span class="ln"><span>and <span class="hl">when</span> to use each.</span></span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s01-hook"]');
+          const cam = r.querySelector(".cam");
+          const tl = gsap.timeline({ paused: true });
+          tl.set(cam, { x: 0, y: 0, scale: 1, opacity: 1 }, 0);
+          FX.rise(tl, r.querySelectorAll(".s01-hd .ln > span"), [0.95, 1.75, 2.45, 3.0]);
+          FX.rise(tl, r.querySelector(".s01-q .ln > span"), 3.6);
+          FX.hl(tl, r.querySelector(".s01-q .hl"), 3.9);
+          // push through the headline
+          tl.to(cam, { scale: 1.35, x: -190, y: -260, opacity: 0, duration: 0.42, ease: "power3.in" }, 4.48);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

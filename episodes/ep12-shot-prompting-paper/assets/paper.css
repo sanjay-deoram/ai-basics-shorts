@@ -1,0 +1,50 @@
+/* ep12 · "Paper" look (after a warm, minimal SaaS launch film): cream paper, centred kinetic type, a chat prompt
+   box with a cursor, hard cuts to solid colour panels and dark "action" interludes. 1080×1920 canvas px. */
+
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --paper: #f3eee1;
+  --paper-hi: #f8f5ec;
+  --ink: #17251d;
+  --muted: #5d625a;
+  --line: #e2dccd;
+  --coral: #d9573a;
+  --high: #b93a2b;
+  --high-tint: #fbe6e1;
+  --med: #8a5a00;
+  --med-tint: #fbefd4;
+  --low: #23744a;
+  --low-tint: #e1f1e6;
+  --blue: #3f74c4;
+  --clay: #a3532f;
+  --dark: #141414;
+  --f-display: "Inter Tight", "Inter", sans-serif;
+  --f-body: "Inter", sans-serif;
+  --f-mono: "Geist Mono", monospace;
+  --card-shadow: 0 1px 2px rgba(40, 30, 10, 0.08), 0 10px 30px rgba(40, 30, 10, 0.10);
+}
+
+/* full-bleed panels inside a scene */
+.panel { position: absolute; inset: 0; }
+
+/* centred kinetic line */
+.kin { position: absolute; left: 90px; right: 90px; text-align: center; font-family: var(--f-display); font-weight: 500; color: var(--ink); letter-spacing: -0.025em; }
+.kin .w { display: inline-block; }
+
+/* label pills */
+.pill { display: inline-block; padding: 0 26px; height: 64px; border-radius: 32px; font: 600 34px/64px var(--f-body); }
+.pill.high { background: var(--high-tint); color: var(--high); }
+.pill.med { background: var(--med-tint); color: var(--med); }
+.pill.low { background: var(--low-tint); color: var(--low); }
+
+/* white UI card */
+.card { position: absolute; background: #fff; border-radius: 30px; box-shadow: var(--card-shadow); }
+
+/* Sanjay avatar cut-outs (540×629), mirrored to face left; .av-flip turns him to face right */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }

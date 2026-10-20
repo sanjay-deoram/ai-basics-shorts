@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.86,"sfx":"click-soft","vol":0.16},
+      {"t":1.6,"sfx":"click-soft","vol":0.16},
+      {"t":2.61,"sfx":"click-soft","vol":0.16},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.08}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · hook (0–3.6): the three names rise in as they're said, each with its count of examples as dots
+           (none, one, a handful), then "prompting." -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s01-stack { position: absolute; left: 90px; right: 90px; top: 470px; display: flex; flex-direction: column; align-items: center; gap: 30px; }
+        .s01-row { display: flex; align-items: center; gap: 34px; height: 130px; }
+        .s01-row .nm { font: 500 118px/130px var(--f-display); letter-spacing: -0.035em; color: var(--ink); }
+        .s01-dots { display: flex; gap: 14px; }
+        .s01-dots i { display: block; width: 30px; height: 30px; border-radius: 50%; border: 4px solid var(--ink); }
+        .s01-dots i.on { background: var(--coral); border-color: var(--coral); }
+        .s01-pr { font: 500 96px/120px var(--f-display); letter-spacing: -0.03em; color: var(--coral); margin-top: 18px; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="s01-stack">
+          <div class="s01-row"><span class="nm">zero-shot</span><span class="s01-dots"><i></i><i></i><i></i></span></div>
+          <div class="s01-row"><span class="nm">one-shot</span><span class="s01-dots"><i class="on"></i><i></i><i></i></span></div>
+          <div class="s01-row"><span class="nm">few-shot</span><span class="s01-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div>
+          <div class="s01-pr">prompting.</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s01-hook"]');
+          const rows = r.querySelectorAll(".s01-row"), pr = r.querySelector(".s01-pr");
+          const tl = gsap.timeline({ paused: true });
+          FX.words(tl, rows, [0.8, 1.55, 2.5]);
+          rows.forEach((row, i) => FX.pop(tl, row.querySelectorAll("i"), [0.8, 1.55, 2.5][i] + 0.2, { stagger: 0.06, dur: 0.35 }));
+          FX.words(tl, pr, 3.0, { dur: 0.35 });
+          FX.out(tl, [...rows, pr], 3.32, { dur: 0.26, stagger: 0.015 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

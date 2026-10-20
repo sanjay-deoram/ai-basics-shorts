@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pop","vol":0.14},
+      {"t":0.65,"sfx":"pop","vol":0.18},
+      {"t":0.85,"sfx":"click-soft","vol":0.18},
+      {"t":1.5,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.25,"sfx":"whoosh","vol":0.12},
+      {"t":2.4,"sfx":"typing","vol":0.14,"dur":0.55}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 1 · Fresh-context review. Left: the Claude logo that wrote the change, with the long chat it wrote it in.
+           Right: a second Claude logo pops in over an empty outlined box (FRESH CONTEXT). The small sync.js diff card
+           slides out of the chat into the empty box, leaving the chat behind; the camera punches into the box as a scan
+           line passes over the diff. Label: "Reviews the diff". Avatar: corner. Voice: "A second agent reviews the diff in
+           a fresh context." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .cam { position: absolute; inset: 0; }
+        .s04 .logo { position: absolute; width: 100px; height: 100px; }
+        .s04 .k { position: absolute; width: 360px; margin-left: -180px; text-align: center; }
+        .s04 .chat { position: absolute; left: 90px; top: 530px; width: 360px; display: flex; flex-direction: column; gap: 18px; }
+        .s04 .bub { width: 270px; padding: 20px 22px; border-radius: 26px; background: var(--taupe); display: flex; flex-direction: column; gap: 12px; }
+        .s04 .bub.r { align-self: flex-end; background: var(--stone); }
+        .s04 .bub i { display: block; height: 10px; border-radius: 5px; background: var(--ash); opacity: 0.55; }
+        .s04 .box { position: absolute; left: 520px; top: 530px; width: 430px; height: 430px; border: 3px dashed var(--ink); border-radius: 40px; }
+        .s04 .box .egg-card-kicker { position: absolute; left: 30px; top: 28px; color: var(--graphite); }
+        .s04 .mini { position: absolute; left: 0; top: 0; width: 330px; padding: 22px 26px; border-radius: 28px; background: var(--ink); box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+        .s04 .mini .h { font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; color: #a59f97; }
+        .s04 .mini i { display: block; height: 12px; border-radius: 6px; background: #44403b; }
+        .s04 .mini i.add { background: #a996ff; opacity: 0.8; }
+        .s04 .scanl { position: absolute; left: 0; top: 0; width: 330px; height: 6px; border-radius: 3px; background: linear-gradient(90deg, #9d86ff, #ff7ac0 60%, #ff4704); opacity: 0; }
+        .s04 .egg-label { position: absolute; left: 520px; top: 990px; width: 430px; font-size: 56px; }
+      </style>
+      <div id="root" data-composition-id="s04-fresh" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <div class="cam">
+            <img class="logo a1" src="assets/claude-logo.svg" alt="Claude" style="left:220px;top:356px">
+            <span class="egg-card-kicker k k1" style="left:270px;top:476px">Agent 1 · wrote it</span>
+            <div class="chat">
+              <div class="bub"><i style="width:200px"></i><i style="width:140px"></i></div>
+              <div class="bub r"><i style="width:220px"></i><i style="width:170px"></i><i style="width:120px"></i></div>
+              <div class="bub"><i style="width:180px"></i></div>
+              <div class="bub r"><i style="width:210px"></i><i style="width:150px"></i></div>
+              <div class="bub"><i style="width:230px"></i><i style="width:190px"></i><i style="width:100px"></i></div>
+              <div class="bub r"><i style="width:160px"></i></div>
+            </div>
+            <img class="logo a2" src="assets/claude-logo.svg" alt="Claude" style="left:685px;top:356px">
+            <span class="egg-card-kicker k k2" style="left:735px;top:476px">Agent 2</span>
+            <div class="box"><span class="egg-card-kicker">Fresh context</span></div>
+            <div class="mini" data-layout-allow-overlap="">
+              <span class="h">SYNC.JS · +4 −0</span>
+              <i style="width:250px"></i><i class="add" style="width:180px"></i><i class="add" style="width:270px"></i><i class="add" style="width:150px"></i><i class="add" style="width:40px"></i>
+              <span class="scanl"></span>
+            </div>
+            <p class="egg-label">Reviews the diff</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.5;
+          const root = document.querySelector('[data-composition-id="s04-fresh"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const mini = q(".mini");
+
+          // the agent that wrote the change, and its long chat
+          Egg.pop(tl, q(".a1"), 0.05);
+          Egg.fadeUp(tl, q(".k1"), 0.2, { y: 10 });
+          Egg.fadeUp(tl, all(".bub"), 0.15, { y: 20, stagger: 0.06, dur: 0.4 });
+          tl.fromTo(mini, { x: 105, y: 760, opacity: 0, scale: 0.9 }, { x: 105, y: 760, opacity: 1, scale: 1, duration: 0.35, ease: Egg.EASE.pop }, 0.55);
+          // "A second agent…"
+          Egg.pop(tl, q(".a2"), 0.65);
+          Egg.fadeUp(tl, q(".k2"), 0.8, { y: 10 });
+          tl.fromTo(q(".box"), { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.45, ease: Egg.EASE.enter }, 0.85);
+          // "…reviews the diff": the diff leaves the chat for the empty box; the chat stays behind
+          tl.to(mini, { x: 570, y: 650, duration: 0.65, ease: Egg.EASE.move }, 1.5);
+          tl.to(q(".chat"), { opacity: 0.45, duration: 0.4, ease: "none" }, 1.6);
+          Egg.fadeUp(tl, q(".egg-label"), 1.95, { y: 16 });
+          // "…in a fresh context": punch into the box while a scan line passes over the diff
+          tl.to(q(".cam"), { scale: 1.06, transformOrigin: "735px 745px", duration: 0.6, ease: Egg.EASE.move }, 2.25);
+          tl.fromTo(q(".scanl"), { y: 40, opacity: 1 }, { y: 205, opacity: 1, duration: 0.6, ease: "power1.inOut", immediateRender: false }, 2.4);
+          tl.to(q(".scanl"), { opacity: 0, duration: 0.1, ease: "none" }, 3.0);
+          tl.fromTo(q(".box .egg-card-kicker"), { color: "#44403b" }, { color: "#000000", duration: 0.2, immediateRender: false }, 2.4);
+          Egg.fadeOut(tl, q(".cam"), DUR - 0.32, { dur: 0.3 });
+          window.__timelines["s04-fresh"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

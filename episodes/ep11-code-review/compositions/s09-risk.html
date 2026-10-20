@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.18},
+      {"t":0.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":1.1,"sfx":"pop","vol":0.16},
+      {"t":1.8,"sfx":"whoosh-short","vol":0.1},
+      {"t":3.5,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.85,"sfx":"pop","vol":0.18},
+      {"t":6.95,"sfx":"click","vol":0.16},
+      {"t":8.45,"sfx":"whoosh-short","vol":0.14},
+      {"t":10.05,"sfx":"pop","vol":0.18},
+      {"t":11.3,"sfx":"whoosh-short","vol":0.14},
+      {"t":12.6,"sfx":"pop","vol":0.18},
+      {"t":13.4,"sfx":"whoosh-short","vol":0.12},
+      {"t":13.9,"sfx":"pop","vol":0.16},
+      {"t":14.4,"sfx":"whoosh-short","vol":0.16},
+      {"t":14.75,"sfx":"error","vol":0.12,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · 4 · Risk sets the approvals. The rail moves to 4 APPROVAL. PR #4187 slides into a drawn Classifier box
+           ("decides how many people must approve"); three empty tier rows appear. Then one tier per sentence, the iso dot
+           travelling to each: LOW · "Docs or button text" (a README.md chip and a button label change, "Save" → "Save
+           draft") · "0 people" · "Once the checks are green." Then MEDIUM · "Normal product change" · "1 person". Then
+           HIGH · "Riskiest code" · "2 people". The dot settles back on MEDIUM (PR #4187 is a normal product change) and a
+           HUMAN approval slot opens; a Claude logo with "Approved" flies at it, bounces off and drops away: "Needs a
+           person." Notes: "The change sets the tier, not the author." and "Only trusted authors get the lighter paths."
+           Avatar: out. Voice: "Then a classifier decides how many people must approve. A change to docs or button text
+           needs no one, once the checks are green. A normal product change needs one person. The riskiest code needs two
+           people. And a bot's approval never counts as a person's." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s09 .pr { position: absolute; left: 90px; top: 374px; padding: 16px 26px; border: 2px solid var(--stone); border-radius: 9999px; background: var(--eggshell); font: 400 30px/1.2 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s09 .clf { position: absolute; left: 520px; top: 352px; width: 430px; text-align: center; font: 300 54px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s09 .clk { position: absolute; left: 520px; top: 424px; width: 430px; text-align: center; }
+        .s09 .hd { position: absolute; top: 522px; }
+        .s09 .rw { position: absolute; left: 90px; width: 860px; border: 2px solid var(--stone); border-radius: 30px; background: var(--eggshell); }
+        .s09 .rw .ctag { position: absolute; left: 60px; top: 28px; display: inline-flex; align-items: center; height: 52px; padding: 0 20px; border: 2px solid var(--btn-border); border-radius: 9999px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; color: var(--ink); }
+        .s09 .rw .ex { position: absolute; left: 250px; top: 34px; font: 400 34px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s09 .rw .ap { position: absolute; left: 680px; top: 18px; display: flex; align-items: baseline; gap: 12px; white-space: nowrap; }
+        .s09 .rw .ap b { font: 300 64px/1 var(--f-display); letter-spacing: -0.02em; font-weight: 300; color: var(--ink); }
+        .s09 .rw .ap span { font: 400 34px/1 var(--f-body); color: var(--ink); }
+        .s09 .rw .demo { position: absolute; left: 250px; top: 92px; display: flex; gap: 14px; align-items: center; }
+        .s09 .rw .demo span { display: inline-flex; align-items: center; height: 44px; padding: 0 16px; border: 2px solid var(--btn-border); border-radius: 12px; font: 400 24px/1 var(--f-mono); color: var(--graphite); white-space: nowrap; }
+        .s09 .rw .sub { position: absolute; left: 250px; top: 154px; margin: 0; font: 400 30px/1.2 var(--f-body); color: var(--graphite); }
+        .s09 .mv { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+        .s09 .dot { position: absolute; left: -15px; top: -15px; width: 30px; height: 30px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+        .s09 .glow { position: absolute; left: -40px; top: -40px; width: 80px; height: 80px; border-radius: 50%; background: radial-gradient(circle, rgba(255, 122, 192, 0.45), rgba(4, 71, 255, 0.12) 55%, rgba(253, 252, 252, 0) 72%); opacity: 0; }
+        .s09 .slot { position: absolute; left: 90px; top: 1052px; width: 440px; height: 130px; border: 3px dashed var(--ink); border-radius: 30px; }
+        .s09 .slot .egg-card-kicker { position: absolute; left: 28px; top: 20px; color: var(--graphite); }
+        .s09 .slot p { position: absolute; left: 28px; top: 60px; margin: 0; font: 400 38px/1.2 var(--f-body); color: var(--ink); opacity: 0; }
+        .s09 .bot { position: absolute; left: 600px; top: 1076px; display: flex; align-items: center; gap: 16px; }
+        .s09 .bot img { width: 80px; height: 80px; }
+        .s09 .bot span { display: inline-flex; align-items: center; height: 52px; padding: 0 20px; border: 2px solid var(--ink); border-radius: 9999px; background: var(--eggshell); font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--ink); }
+        .s09 .tier { position: absolute; left: 90px; top: 1222px; width: 860px; margin: 0; font: 300 48px/1.15 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s09 .light { position: absolute; left: 90px; top: 1352px; width: 860px; margin: 0; font: 400 32px/1.3 var(--f-body); color: var(--graphite); }
+      </style>
+      <div id="root" data-composition-id="s09-risk" data-width="1080" data-height="1920">
+        <div class="egg-scene s09">
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="ink thin arw" d="M296 412 H496 M480 398 L496 412 L480 426" />
+            <rect class="ink thin box" x="520" y="340" width="430" height="140" rx="32" />
+          </svg>
+          <span class="clf">Classifier</span>
+          <span class="egg-card-kicker clk">reads the change</span>
+          <div class="pr">#4187</div>
+          <span class="egg-card-kicker hd" style="left:150px">Risk</span>
+          <span class="egg-card-kicker hd" style="left:340px">Example</span>
+          <span class="egg-card-kicker hd" style="left:770px">Must approve</span>
+          <div class="rw r0" style="top:560px;height:210px"><span class="ctag">LOW</span><span class="ex">Docs or button text</span><span class="ap"><b>0</b><span>people</span></span>
+            <span class="demo"><span>README.md</span><span>"Save" → "Save draft"</span></span>
+            <p class="sub">Once the checks are green.</p></div>
+          <div class="rw r1" style="top:786px;height:110px"><span class="ctag">MEDIUM</span><span class="ex">Normal product change</span><span class="ap"><b>1</b><span>person</span></span></div>
+          <div class="rw r2" style="top:912px;height:110px"><span class="ctag">HIGH</span><span class="ex">Riskiest code</span><span class="ap"><b>2</b><span>people</span></span></div>
+          <div class="mv dv"><div class="glow"></div><div class="dot"></div></div>
+          <div class="slot"><span class="egg-card-kicker">Human · 1 person</span><p>Needs a person.</p></div>
+          <div class="bot"><img src="assets/claude-logo.svg" alt="Claude"><span>Approved</span></div>
+          <p class="tier">The change sets the tier, not the author.</p>
+          <p class="light">Only trusted authors get the lighter paths.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.45;
+          const root = document.querySelector('[data-composition-id="s09-risk"] .s09');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const rows = [q(".r0"), q(".r1"), q(".r2")];
+          const dv = q(".dv"), dot = q(".dot");
+          const fill = (r) => [...r.querySelectorAll(".ex, .ap, .demo, .sub")];
+          rows.forEach((r) => gsap.set(fill(r), { opacity: 0 }));
+
+          // "Then a classifier decides how many people must approve."
+          Egg.fadeUp(tl, q(".pr"), 0.1, { y: 14 });
+          [q(".arw"), q(".box")].forEach((el, i) => {
+            el.setAttribute("pathLength", "1");
+            el.style.strokeDasharray = "1 1.1";
+            tl.fromTo(el, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.5, ease: Egg.EASE.draw }, 0.25 + i * 0.15);
+          });
+          Egg.fadeUp(tl, [q(".clf"), q(".clk")], 0.5, { y: 12 });
+          tl.to(q(".pr"), { x: 470, scale: 0.5, opacity: 0, duration: 0.5, ease: Egg.EASE.move }, 0.6);
+          tl.fromTo(q(".box"), { scale: 1 }, { scale: 1.04, svgOrigin: "735 410", duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 1.1);
+          Egg.fadeUp(tl, [...all(".hd"), ...rows], 1.8, { y: 20, stagger: 0.1, dur: 0.5 });
+          Egg.fadeUp(tl, q(".tier"), 2.6, { y: 14 });
+          // the dot comes out of the classifier and visits each tier as its sentence is said
+          const P = [[120, 614], [120, 840], [120, 966]];
+          const C = [
+            Egg.curve([735, 486], [400, 470], P[0]),
+            Egg.curve(P[0], [120, 727], P[1]),
+            Egg.curve(P[1], [120, 903], P[2]),
+            Egg.curve(P[2], [140, 903], P[1]),
+          ];
+          gsap.set(dv, { x: 735, y: 486 });
+          tl.fromTo(dot, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.25, ease: Egg.EASE.pop }, 3.3);
+          const on = (r, at) => tl.to(r, { borderColor: "#000000", duration: 0.2, ease: "none" }, at);
+          const off = (r, at) => tl.to(r, { borderColor: "#ebe8e4", duration: 0.25, ease: "none" }, at);
+          // "A change to docs or button text needs no one, once the checks are green."
+          Egg.travel(tl, dv, C[0], 3.45, 0.55); on(rows[0], 3.95);
+          Egg.fadeUp(tl, [rows[0].querySelector(".ex"), rows[0].querySelector(".demo")], 3.9, { y: 10, stagger: 0.25 });
+          Egg.pop(tl, rows[0].querySelector(".ap"), 5.85);
+          Egg.fadeUp(tl, rows[0].querySelector(".sub"), 6.95, { y: 10 });
+          Egg.fadeUp(tl, q(".light"), 7.6, { y: 10 });
+          // "A normal product change needs one person."
+          Egg.travel(tl, dv, C[1], 8.45, 0.5); off(rows[0], 8.45); on(rows[1], 8.9);
+          Egg.fadeUp(tl, rows[1].querySelector(".ex"), 8.75, { y: 10 });
+          Egg.pop(tl, rows[1].querySelector(".ap"), 10.05);
+          // "The riskiest code needs two people."
+          Egg.travel(tl, dv, C[2], 11.3, 0.45); off(rows[1], 11.3); on(rows[2], 11.7);
+          Egg.fadeUp(tl, rows[2].querySelector(".ex"), 11.6, { y: 10 });
+          Egg.pop(tl, rows[2].querySelector(".ap"), 12.6);
+          // PR #4187 is a normal product change: the dot settles on MEDIUM, and one human slot opens
+          Egg.travel(tl, dv, C[3], 13.25, 0.45); off(rows[2], 13.25); on(rows[1], 13.65);
+          tl.to(q(".glow"), { opacity: 1, duration: 0.3, ease: "none" }, 13.65);
+          Egg.fadeUp(tl, q(".slot"), 13.4, { y: 16, dur: 0.45 });
+          // "And a bot's approval never counts as a person's." It bounces off the slot and drops away
+          const bot = q(".bot");
+          Egg.pop(tl, bot, 13.9);
+          tl.to(bot, { x: -150, duration: 0.38, ease: "power2.in" }, 14.4);
+          Egg.shake(tl, q(".slot"), 14.78);
+          tl.to(bot, { x: -40, y: -40, rotation: 12, duration: 0.22, ease: "power2.out" }, 14.78);
+          tl.to(bot, { x: 40, y: 40, rotation: 30, opacity: 0, duration: 0.38, ease: "power2.in" }, 15.0);
+          tl.to(q(".slot p"), { opacity: 1, duration: 0.3, ease: "none" }, 15.15);
+          Egg.fadeOut(tl, all(".egg-svg, .clf, .clk, .hd, .rw, .slot, .tier, .light"), DUR - 0.3, { dur: 0.28 });
+          tl.to(dv, { opacity: 0, duration: 0.28, ease: Egg.EASE.exit }, DUR - 0.3);
+          window.__timelines["s09-risk"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

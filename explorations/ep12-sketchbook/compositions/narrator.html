@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"whoosh-short","vol":0.14},
+      {"t":5.15,"sfx":"whoosh-short","vol":0.1},
+      {"t":5.5,"sfx":"whoosh-short","vol":0.12},
+      {"t":18.85,"sfx":"whoosh-short","vol":0.1},
+      {"t":27.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":34.55,"sfx":"whoosh-short","vol":0.1},
+      {"t":51.95,"sfx":"whoosh-short","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- BLOCK · Narrator. The stippled Sanjay avatar for the whole episode, on its own overlay track
+           (sketchbook episode: a scribbled yellow blob replaces the glow; Egg.mountAvatar / Egg.avatarTalk in assets/eggshell.js: one mouth beat per syllable from
+           assets/lipsync.js, doubt and smile expressions). See DESIGN.md §5.
+           He moves into whatever space each scene leaves empty at that moment (checked against each scene's
+           content over time): title (large peek under the hook), tr (top right), corner (smaller top right),
+           br / bl (bottom right / left, big, inside the social-safe box), end (centred above the recap). He faces
+           the content: left on the right side, right on the left side. While a scene's pointer is on screen (a
+           small flying head, Egg.pointer) he steps out.
+           Pick each place for the moment the scene leaves it empty (check with snapshots); never park him on
+           content. Edit PLACES / PATH / EXPR to restage. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .peek { position: absolute; left: 0; top: 0; width: 540px; height: 629px; }
+        .nar .lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+        /* sketchbook episode: a scribbled highlighter blob behind him instead of the soft glow */
+        .nar .glow { position: absolute; left: 0; top: 0; width: 540px; height: 629px; overflow: visible; mix-blend-mode: multiply; }
+        .nar .who { position: absolute; inset: 0; }
+      </style>
+      <div data-hf-id="hf-mebu" id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-3ub1" class="egg-layer nar" data-layout-allow-overflow="">
+          <div data-hf-id="hf-rxew" class="peek" data-layout-allow-overflow="">
+            <div data-hf-id="hf-0ie8" class="lean">
+              <svg data-hf-id="hf-5mei" class="glow" viewBox="0 0 540 629" aria-hidden="true" data-layout-allow-overflow=""></svg>
+              <div data-hf-id="hf-xhzk" class="who"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 68.0, W = 540;   // = the episode length (narrator host data-duration)
+          // top-left of the 540×629 avatar box, scale, lean (deg), face: -1 looks left, 1 looks right
+          const PLACES = {
+            title: { x: 620, y: 800, s: 1, r: -4, face: -1 },
+            tr: { x: 760, y: 188, s: 0.6, r: -3, face: -1 },
+            corner: { x: 864, y: 196, s: 0.46, r: -3, face: -1 },
+            br: { x: 600, y: 1050, s: 0.72, r: -4, face: -1 },
+            bl: { x: 90, y: 1050, s: 0.72, r: 4, face: 1 },
+            low: { x: 700, y: 1185, s: 0.5, r: -3, face: -1 },
+            end: { x: 540 - (W * 0.7) / 2, y: 196, s: 0.7, r: 0, face: -1 },
+          };
+          // [episode time, place, how]  how: in / inLeft (slide in from that edge) | out / outLeft (slide off that
+          // edge) | glide (move there, turning to face the content)
+          const PATH = [
+            [0.15, "title", "in"],      // s01: big peek under the three names
+            [4.2, "title", "out"],      // s02: the example sticky note fills the middle
+            [7.35, "corner", "in"],     // s03 opens on its title; the badge stays left of x 860
+            [11.0, "corner", "out"],    // s03 zooms into the prompt card
+            [27.15, "corner", "in"],    // s04 title
+            [29.0, "corner", "out"],    // s04 zooms to the example slot
+            [38.05, "corner", "in"],    // s05 title
+            [41.75, "corner", "out"],   // s05 zooms to the new slots
+            [52.75, "low", "in"],       // s06: small, under the editor window, right of the cost note
+            [58.0, "low", "out"],
+            [58.4, "end", "in"],        // s07 recap rows start at y 690
+          ];
+          // [expression, from, to] in episode seconds
+          const EXPR = [
+            ["smile", 54.6, 55.9],      // "…so start with zero-shot"
+            ["smile", 58.4, 999],       // recap
+          ];
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const peek = root.querySelector(".peek"), lean = root.querySelector(".lean"), glow = root.querySelector(".glow");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          const at = (p, off) => ({ x: off === "right" ? 1180 : off === "left" ? -W * p.s - 70 : p.x, y: p.y, scale: p.s });
+          gsap.set(peek, { ...at(PLACES.title, "right"), transformOrigin: "0 0" });
+          gsap.set(lean, { rotation: PLACES.title.r, scaleX: -PLACES.title.face });
+          let face = PLACES.title.face;
+          PATH.forEach(([t, place, how]) => {
+            const p = PLACES[place];
+            if (how === "in" || how === "inLeft") {
+              tl.set(peek, at(p, how === "in" ? "right" : "left"), t);
+              tl.set(lean, { rotation: p.r, scaleX: -p.face }, t);
+              tl.to(peek, { x: p.x, duration: 0.55, ease: "back.out(1.4)" }, t);
+              face = p.face;
+            } else if (how === "out" || how === "outLeft") {
+              tl.to(peek, { x: at(p, how === "out" ? "right" : "left").x, duration: 0.32, ease: "power2.in" }, t);
+            } else {
+              tl.to(peek, { x: p.x, y: p.y, scale: p.s, duration: 0.8, ease: "power2.inOut" }, t);
+              tl.to(lean, { rotation: p.r, duration: 0.8, ease: "power2.inOut" }, t);
+              if (p.face !== face) tl.to(lean, { scaleX: -p.face, duration: 0.24, ease: "power1.inOut" }, t + 0.28);
+              face = p.face;
+            }
+          });
+          Sk.shape(glow, "ellipse", [272, 330, 470, 500], { fill: Sk.C.hl, fillStyle: "zigzag", hachureGap: 14, fillWeight: 9, hachureAngle: -38, stroke: "none", roughness: 2.2, seed: 21 });
+          glow.querySelectorAll("path").forEach((p) => p.setAttribute("opacity", "0.42"));
+          gsap.set(glow, { opacity: 0 });
+          tl.to(glow, { opacity: 1, duration: 0.6, ease: "power3.out" }, 0.25);
+          tl.fromTo(lean, { y: 0 }, { y: -7, duration: 1.15, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 1.15) - 1) }, 0);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

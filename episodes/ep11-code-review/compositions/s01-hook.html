@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"whoosh-short","vol":0.26},
+      {"t":1.25,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.0,"sfx":"key-press","vol":0.18},
+      {"t":4.05,"sfx":"whoosh","vol":0.1},
+      {"t":4.25,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. "How the Claude Code team reviews code" types in at the top. A light app.js card (10 placeholder
+           lines) slides up; on "ninety percent" the camera punches in on the card, a small Claude logo stamps into the
+           gutter of 9 of the 10 lines and the counter ticks 0% → 90% (WRITTEN BY CLAUDE), then holds. Avatar: title (bottom
+           right). Voice: "How does the Claude Code team review code, when Claude writes about ninety percent of it?" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .cam { position: absolute; inset: 0; }
+        .s01 .egg-eyebrow { position: absolute; left: 90px; top: 236px; }
+        .s01 .egg-display { position: absolute; left: 90px; top: 290px; width: 860px; }
+        .s01 .egg-display .w { display: inline-block; }
+        .s01 .app { position: absolute; left: 90px; top: 840px; width: 510px; padding: 30px 34px 30px; gap: 0; }
+        .s01 .app .egg-card-kicker { margin-bottom: 18px; }
+        .s01 .row { position: relative; height: 40px; display: flex; align-items: center; gap: 14px; }
+        .s01 .row .no { width: 30px; text-align: right; font: 400 22px/1 var(--f-mono); color: var(--smoke); }
+        .s01 .row .slot { position: relative; width: 34px; height: 34px; }
+        .s01 .row .slot img { position: absolute; inset: 0; width: 34px; height: 34px; opacity: 0; }
+        .s01 .row .bar { height: 12px; border-radius: 6px; background: var(--stone); }
+        .s01 .ctr { position: absolute; left: 90px; top: 1386px; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="egg-scene s01">
+          <div class="cam">
+            <span class="egg-eyebrow">AI basics · Episode 11</span>
+            <h1 class="egg-display t1"><span class="w">How</span> <span class="w">the</span> <span class="w">Claude</span> <span class="w">Code</span> <span class="w">team</span> <span class="w"><span class="egg-hl">reviews code</span></span></h1>
+            <div class="egg-card app" data-layout-allow-overlap="">
+              <span class="egg-card-kicker">app.js</span>
+              <div class="rows"></div>
+            </div>
+            <div class="egg-counter ctr"><b class="pct">0%</b>Written by Claude</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.4;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          // ten placeholder lines; the logo stamps on all but line 7
+          const W = [300, 380, 250, 340, 400, 210, 320, 360, 280, 230];
+          q(".rows").innerHTML = W.map((w, i) => `<div class="row"><span class="no">${i + 1}</span><span class="slot"><img src="assets/claude-logo.svg" alt=""></span><span class="bar" style="width:${w}px"></span></div>`).join("");
+          const tl = gsap.timeline({ paused: true });
+
+          // "How does the Claude Code team review code,"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          Egg.fadeUp(tl, all(".t1 .w"), 0.2, { y: 60, stagger: 0.09, dur: 0.58 });
+          Egg.highlight(tl, q(".t1 .egg-hl"), 1.75, { dur: 0.5 });
+          Egg.fadeUp(tl, q(".app"), 1.25, { y: 60, dur: 0.6 });
+          Egg.fadeUp(tl, all(".row"), 1.4, { y: 10, stagger: 0.055, dur: 0.38 });
+          Egg.fadeUp(tl, q(".ctr"), 2.6, { y: 16 });
+          // "…when Claude writes about ninety percent of it?" Punch in on the card as the logos stamp in, then hold
+          tl.to(q(".cam"), { scale: 1.05, transformOrigin: "345px 760px", duration: 0.62, ease: Egg.EASE.move }, 4.0);
+          const logos = all(".row .slot img").filter((_, i) => i !== 6);
+          tl.fromTo(logos, { scale: 1.8, opacity: 0, rotation: -30 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.32, ease: Egg.EASE.stamp, stagger: 0.075 }, 4.05);
+          Egg.count(tl, q(".pct"), 0, 90, 4.05, { dur: 0.95, fmt: (v) => Math.round(v) + "%" });
+          Egg.fadeOut(tl, q(".cam"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

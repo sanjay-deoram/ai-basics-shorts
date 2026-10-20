@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Chrome · the mono labels along the top of the safe box for the whole episode: "// 03 — zero-shot" on the left,
+           "AI BASICS  00:00:12:04" (running timecode, 30 fps) on the right. Both read the playhead, so any frame can be
+           seeked. They turn white while the blue panel is up (45.7–61.6). -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .ch { position: absolute; top: 230px; font: 400 26px/34px "Geist Mono", monospace; color: #6f6f6f; white-space: pre; }
+        .ch-l { left: 90px; } .ch-r { right: 90px; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="ch ch-l">// 01 — hook</div>
+        <div class="ch ch-r">AI BASICS  00:00:00:00</div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 69.6;
+          const r = document.querySelector('[data-composition-id="chrome"]');
+          const L = r.querySelector(".ch-l"), R = r.querySelector(".ch-r");
+          const SCENES = [[0, "01 — hook"], [4.9, "02 — a shot"], [13.85, "03 — zero-shot"], [29.75, "04 — one-shot"], [45.35, "05 — few-shot"], [56.2, "06 — the cost"], [61.4, "07 — rule of thumb"]];
+          const ZOOMS = [[26.35, 29.65], [32.55, 38.35], [43.3, 45.35], [48.6, 52.8], [58.9, 60.3]];
+          const p2 = (n) => String(n).padStart(2, "0");
+          const box = { t: 0 };
+          const apply = () => {
+            const t = box.t;
+            let s = SCENES[0][1];
+            for (const [a, name] of SCENES) if (t >= a) s = name;
+            L.textContent = "// " + s;
+            const f = Math.floor(t * 30 + 1e-6);
+            const sec = Math.floor(f / 30);
+            R.textContent = `AI BASICS  00:${p2(Math.floor(sec / 60))}:${p2(sec % 60)}:${p2(f % 30)}`;
+            const onBlue = t >= 45.7 && t < 61.6;
+            L.style.color = R.style.color = onBlue ? "#ffffff" : "#6f6f6f";
+            // fade out while a scene's camera is zoomed in (the headline passes underneath)
+            const z = ZOOMS.reduce((v, [a, b]) => Math.max(v, Math.min(1, (t - a) / 0.2, (b - t) / 0.2)), 0);
+            L.style.opacity = R.style.opacity = (1 - Math.max(0, z)).toFixed(2);
+          };
+          apply();
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: apply }, 0);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"click-soft","vol":0.16},
+      {"t":2.5,"sfx":"click-soft","vol":0.16},
+      {"t":4.7,"sfx":"click-soft","vol":0.16},
+      {"t":6.2,"sfx":"whoosh-short","vol":0.08},
+      {"t":10.5,"sfx":"whoosh-short","vol":0.08},
+      {"t":11.55,"sfx":"click","vol":0.2},
+      {"t":11.7,"sfx":"chime","vol":0.18,"dur":1.85}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · recap (52–65.6) on paper: the three rows with their dots and a line each; then "Start with zero-shot."
+           and when to add examples; then the "ai basics" lockup with a Follow button the cursor clicks. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s07-row { position: absolute; left: 130px; right: 130px; height: 160px; }
+        .s07-row .top { display: flex; align-items: center; justify-content: space-between; }
+        .s07-row .nm { font: 500 84px/100px var(--f-display); letter-spacing: -0.03em; color: var(--ink); }
+        .s07-row .d { font: 500 38px/48px var(--f-body); color: var(--muted); margin-top: 4px; }
+        .s07-dots { display: flex; gap: 12px; }
+        .s07-dots i { display: block; width: 28px; height: 28px; border-radius: 50%; border: 4px solid var(--ink); }
+        .s07-dots i.on { background: var(--coral); border-color: var(--coral); }
+        .s07-r1 { top: 400px; } .s07-r2 { top: 600px; } .s07-r3 { top: 800px; }
+        .s07-a { top: 500px; font-size: 100px; line-height: 116px; }
+        .s07-b { top: 616px; font-size: 100px; line-height: 116px; color: var(--coral); }
+        .s07-c { top: 800px; font: 500 46px/60px var(--f-body); color: var(--muted); letter-spacing: 0; }
+        .s07-logo { position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center; align-items: center; gap: 20px; font: 600 128px/140px var(--f-display); letter-spacing: -0.045em; color: var(--ink); }
+        .s07-logo i { display: block; width: 46px; height: 46px; border-radius: 50%; background: var(--coral); margin-top: 18px; }
+        .s07-tag { top: 730px; font: 500 42px/54px var(--f-body); color: var(--muted); letter-spacing: 0; }
+        .s07-btn { position: absolute; left: 0; right: 0; top: 850px; text-align: center; }
+        .s07-btn span { display: inline-block; height: 88px; padding: 0 56px; border-radius: 44px; background: var(--coral); color: #fff; font: 600 38px/88px var(--f-body); }
+        .s07-cursor { position: absolute; left: 0; top: 0; width: 54px; height: 54px; }
+      </style>
+      <div id="root" data-composition-id="s07-end" data-width="1080" data-height="1920">
+        <div class="s07-row s07-r1"><div class="top"><span class="nm">zero-shot</span><span class="s07-dots"><i></i><i></i><i></i></span></div><div class="d">the instruction alone</div></div>
+        <div class="s07-row s07-r2"><div class="top"><span class="nm">one-shot</span><span class="s07-dots"><i class="on"></i><i></i><i></i></span></div><div class="d">adds a single example</div></div>
+        <div class="s07-row s07-r3"><div class="top"><span class="nm">few-shot</span><span class="s07-dots"><i class="on"></i><i class="on"></i><i class="on"></i></span></div><div class="d">adds a handful</div></div>
+
+        <div class="kin s07-a"><span class="w">Start</span> <span class="w">with</span></div>
+        <div class="kin s07-b"><span class="w">zero-shot.</span></div>
+        <div class="kin s07-c"><span class="w">Add examples when the answers come back inconsistent.</span></div>
+
+        <div class="s07-logo"><span>ai basics</span><i></i></div>
+        <div class="kin s07-tag"><span class="w">plain-language AI, one short at a time</span></div>
+        <div class="s07-btn"><span>Follow for more</span></div>
+        <svg class="s07-cursor" viewBox="0 0 24 24"><path d="M4 2l15 11-7 1-3.5 7z" fill="#17251d" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s07-end"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 52).toFixed(3);
+          const tl = gsap.timeline({ paused: true });
+          const rows = r.querySelectorAll(".s07-row");
+          [E(52.2), E(54.45), E(56.65)].forEach((t, i) => {
+            FX.words(tl, rows[i].querySelector(".top"), t, { dur: 0.4 });
+            FX.pop(tl, rows[i].querySelectorAll("i"), t + 0.2, { dur: 0.3, stagger: 0.05 });
+            tl.fromTo(rows[i].querySelector(".d"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, t + 0.55);
+          });
+          FX.out(tl, rows, E(58.0), { dur: 0.25, stagger: 0.04 });
+          FX.words(tl, r.querySelectorAll(".s07-a .w"), [E(58.2), E(58.45)]);
+          FX.words(tl, q(".s07-b .w"), E(58.85));
+          FX.words(tl, q(".s07-c .w"), E(59.6), { y: 20 });
+          FX.out(tl, [...r.querySelectorAll(".s07-a .w, .s07-b .w, .s07-c .w")], E(62.35), { dur: 0.25 });
+
+          tl.fromTo(q(".s07-logo"), { opacity: 0, scale: 0.9, filter: "blur(10px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.5, ease: "power3.out" }, E(62.6));
+          FX.pop(tl, q(".s07-logo i"), E(62.9));
+          FX.words(tl, q(".s07-tag .w"), E(62.95), { y: 16 });
+          tl.fromTo(q(".s07-btn span"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.4, ease: "back.out(1.6)" }, E(63.1));
+          tl.fromTo(q(".s07-cursor"), { x: 900, y: 1300, opacity: 0 }, { x: 640, y: 905, opacity: 1, duration: 0.6, ease: "power3.inOut" }, E(63.0));
+          tl.to([q(".s07-cursor"), q(".s07-btn span")], { scale: 0.9, duration: 0.08, yoyo: true, repeat: 1, ease: "none" }, E(63.55));
+          tl.to(q(".s07-btn span"), { backgroundColor: "#17251d", duration: 0.2, ease: "none" }, E(63.6));
+          window.__timelines["s07-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.9,"sfx":"pop","vol":0.12},
+      {"t":2.4,"sfx":"pop","vol":0.12},
+      {"t":2.9,"sfx":"pop","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · the cost (47.5–52): dark screen. "The cost is a longer prompt." Three requests stack up; in each one
+           the examples (coral) ride along between the instruction and the ticket. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s06-dark { background: var(--dark); }
+        .s06-h1 { top: 340px; font-size: 96px; line-height: 112px; color: #f5f5f5; }
+        .s06-h2 { top: 452px; font-size: 96px; line-height: 112px; color: #ff8f7d; }
+        .s06-req { position: absolute; left: 110px; width: 860px; }
+        .s06-req .k { font: 500 24px/30px var(--f-mono); color: #a3a3a3; letter-spacing: 0.08em; }
+        .s06-bar { margin-top: 14px; height: 74px; display: flex; gap: 8px; }
+        .s06-bar i { display: block; height: 74px; border-radius: 14px; font: 600 25px/74px var(--f-body); font-style: normal; text-align: center; }
+        .s06-bar .ins { width: 160px; background: #3a3a3a; color: #e5e5e5; }
+        .s06-bar .ex { flex: 1; background: var(--coral); color: #fff; transform-origin: 0 50%; }
+        .s06-bar .tk { width: 150px; background: #3a3a3a; color: #e5e5e5; }
+        .s06-r1 { top: 680px; } .s06-r2 { top: 840px; } .s06-r3 { top: 1000px; }
+      </style>
+      <div id="root" data-composition-id="s06-cost" data-width="1080" data-height="1920">
+        <div class="panel s06-dark">
+          <div class="kin s06-h1"><span class="w">The</span> <span class="w">cost:</span> <span class="w">a</span></div>
+          <div class="kin s06-h2"><span class="w">longer</span> <span class="w">prompt.</span></div>
+          <div class="s06-req s06-r1"><div class="k">REQUEST 1</div><div class="s06-bar"><i class="ins">instruction</i><i class="ex">examples</i><i class="tk">ticket</i></div></div>
+          <div class="s06-req s06-r2"><div class="k">REQUEST 2</div><div class="s06-bar"><i class="ins">instruction</i><i class="ex">examples</i><i class="tk">ticket</i></div></div>
+          <div class="s06-req s06-r3"><div class="k">REQUEST 3</div><div class="s06-bar"><i class="ins">instruction</i><i class="ex">examples</i><i class="tk">ticket</i></div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s06-cost"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 47.5).toFixed(3);
+          const tl = gsap.timeline({ paused: true });
+          FX.words(tl, r.querySelectorAll(".s06-h1 .w"), [E(47.7), E(47.92), E(48.2)], { dur: 0.35 });
+          FX.words(tl, r.querySelectorAll(".s06-h2 .w"), [E(48.35), E(48.75)], { dur: 0.4 });
+          r.querySelectorAll(".s06-req").forEach((req, i) => {
+            const t = [E(49.4), E(49.9), E(50.4)][i];
+            tl.fromTo(req, { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, t);
+            tl.fromTo(req.querySelector(".ex"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, t + 0.15);
+          });
+          tl.to(r.querySelectorAll(".s06-bar .ex"), { backgroundColor: "#ef6a4b", duration: 0.2, yoyo: true, repeat: 1, ease: "none" }, E(51.3));
+          window.__timelines["s06-cost"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

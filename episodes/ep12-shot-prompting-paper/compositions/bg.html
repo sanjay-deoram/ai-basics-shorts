@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Paper background for the whole episode: warm cream with two very soft light pools that drift slowly
+           (no grain or noise). Scenes cut to solid panels on top of it. -->
+      <style>
+        #root { position: absolute; inset: 0; background: #f3eee1; overflow: hidden; }
+        .pool { position: absolute; border-radius: 50%; }
+        .pool.a { left: -260px; top: 120px; width: 1200px; height: 1200px; background: radial-gradient(circle, rgba(255,253,246,0.85), rgba(255,253,246,0) 65%); }
+        .pool.b { left: 240px; top: 980px; width: 1100px; height: 1100px; background: radial-gradient(circle, rgba(233,224,203,0.7), rgba(233,224,203,0) 65%); }
+      </style>
+      <div id="root" data-composition-id="bg" data-width="1080" data-height="1920">
+        <div class="pool a"></div>
+        <div class="pool b"></div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="bg"]');
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(r.querySelector(".pool.a"), { x: 0, y: 0 }, { x: 180, y: 260, duration: 65.6, ease: "sine.inOut" }, 0);
+          tl.fromTo(r.querySelector(".pool.b"), { x: 0, y: 0 }, { x: -200, y: -160, duration: 65.6, ease: "sine.inOut" }, 0);
+          window.__timelines["bg"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"pop","vol":0.24},
+      {"t":0.78,"sfx":"whoosh","vol":0.2},
+      {"t":1.5,"sfx":"click-soft","vol":0.2},
+      {"t":2.25,"sfx":"sparkle","vol":0.18,"dur":1.0},
+      {"t":2.6,"sfx":"whoosh-short","vol":0.16},
+      {"t":3.3,"sfx":"pop","vol":0.22},
+      {"t":4.35,"sfx":"click-soft","vol":0.18},
+      {"t":4.75,"sfx":"click-soft","vol":0.18},
+      {"t":5.25,"sfx":"pop","vol":0.2},
+      {"t":5.4,"sfx":"pop","vol":0.2},
+      {"t":5.55,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 3 / 5 · Coder → conductor. "Coder" is struck through; "Conductor" lands highlighted. The camera pushes
+           in on a goal card ("You decide · Goal: a flight booking app"), pulls back as ink branches split it into three
+           milestones (search flights, pick a seat, pay), and an agent pops onto each one. "You decide. Agents build."
+           The goal is an illustrative example. Avatar: corner; the top row stays left of x 830. Voiceover: 0.2 "Three:
+           go from coder to conductor." 2.95 "You make the big calls, and split the work for agents." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .cam { position: absolute; inset: 0; }
+        .s04 .swap { position: absolute; left: 90px; top: 300px; display: flex; align-items: baseline; gap: 30px; }
+        .s04 .swap .egg-title { position: relative; }
+        .s04 .from { color: var(--smoke); }
+        .s04 .strike { position: absolute; left: -8px; right: -8px; top: 54%; height: 8px; border-radius: 4px; background: var(--ink); transform-origin: 0 50%; }
+        .s04 .arrow { font: 300 70px/1 var(--f-display); color: var(--graphite); }
+        .s04 .goal { position: absolute; left: 190px; width: 700px; top: 500px; padding: 26px 34px; gap: 8px; align-items: center; text-align: center; }
+        .s04 .goal p { margin: 0; white-space: nowrap; font: 300 48px/1.1 var(--f-display); letter-spacing: -0.02em; }
+        .s04 .ms { position: absolute; top: 820px; width: 240px; height: 180px; padding: 22px 24px; gap: 8px; border-radius: 30px; }
+        .s04 .ms p { margin: 0; font: 300 44px/1.12 var(--f-display); letter-spacing: -0.02em; }
+        .s04 .m1 { left: 150px; }
+        .s04 .m2 { left: 420px; }
+        .s04 .m3 { left: 690px; }
+        .s04 .ag { position: absolute; top: 1070px; }
+        .s04 .g1 { left: 228px; }
+        .s04 .g2 { left: 498px; }
+        .s04 .g3 { left: 768px; }
+        .s04 .egg-label { position: absolute; left: 90px; width: 860px; top: 1230px; }
+      </style>
+      <div data-hf-id="hf-db5o" id="root" data-composition-id="s04-conductor" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-ijpb" class="egg-scene s04">
+          <p data-hf-id="hf-705z" class="egg-num" data-layout-allow-overlap="" data-layout-allow-overflow="">3</p>
+          <span data-hf-id="hf-40sa" class="egg-eyebrow">3 / 5 · Coder → conductor</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-rk1d" class="swap">
+              <h2 data-hf-id="hf-9mj2" class="egg-title from">Coder<i data-hf-id="hf-7qtu" class="strike"></i></h2>
+              <span data-hf-id="hf-v68i" class="arrow">→</span>
+              <h2 data-hf-id="hf-gu4u" class="egg-title to"><span data-hf-id="hf-t6v2" class="egg-hl">Conductor</span></h2>
+            </div>
+            <div data-hf-id="hf-i0mn" class="egg-card goal">
+              <span data-hf-id="hf-vlve" class="egg-card-kicker">You decide</span>
+              <p data-hf-id="hf-2hhh">Goal: a flight booking app</p>
+            </div>
+            <svg data-hf-id="hf-281s" class="egg-svg tree" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-jp80" class="ink thin" data-draw="0" d="M540 648 V730" />
+              <path data-hf-id="hf-qye3" class="ink thin" data-draw="1" d="M540 730 H270 V816" />
+              <path data-hf-id="hf-p48a" class="ink thin" data-draw="1" d="M540 730 V816" />
+              <path data-hf-id="hf-g5ir" class="ink thin" data-draw="1" d="M540 730 H810 V816" />
+              <path data-hf-id="hf-17qe" class="ink thin" data-draw="4" d="M270 1004 V1066" />
+              <path data-hf-id="hf-tqhg" class="ink thin" data-draw="4" d="M540 1004 V1066" />
+              <path data-hf-id="hf-aj4y" class="ink thin" data-draw="4" d="M810 1004 V1066" />
+            </svg>
+            <div data-hf-id="hf-7sw8" class="egg-card ms m1"><span data-hf-id="hf-oeqo" class="egg-card-kicker">Milestone 1</span><p data-hf-id="hf-79mg">Search flights</p></div>
+            <div data-hf-id="hf-ggs3" class="egg-card ms m2"><span data-hf-id="hf-n7tl" class="egg-card-kicker">Milestone 2</span><p data-hf-id="hf-aaiu">Pick a seat</p></div>
+            <div data-hf-id="hf-cio2" class="egg-card ms m3"><span data-hf-id="hf-nm4m" class="egg-card-kicker">Milestone 3</span><p data-hf-id="hf-zt53">Pay</p></div>
+            <span data-hf-id="hf-zksa" class="egg-agent ag g1" style="--s:84px">&gt;_</span>
+            <span data-hf-id="hf-7hkv" class="egg-agent ag g2" style="--s:84px">&gt;_</span>
+            <span data-hf-id="hf-h65o" class="egg-agent ag g3" style="--s:84px">&gt;_</span>
+            <p data-hf-id="hf-m62o" class="egg-label">You decide. Agents build.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.2;
+          const root = document.querySelector('[data-composition-id="s04-conductor"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const cam = q(".cam");
+
+          // "Three:"
+          Egg.numPunch(tl, q(".egg-num"), 0.05, { hold: 0.35 });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.9, { y: 16 });
+
+          // "go from coder to conductor."
+          Egg.fadeUp(tl, q(".from"), 0.95, { y: 40 });
+          tl.fromTo(q(".strike"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: Egg.EASE.draw }, 1.5);
+          Egg.fadeUp(tl, [q(".arrow"), q(".to")], 1.85, { y: 30, stagger: 0.1 });
+          Egg.highlight(tl, q(".to .egg-hl"), 2.25);
+          // the swap starts big mid-frame and rises to the top as the goal arrives
+          tl.fromTo(q(".swap"), { y: 470, scale: 1.18, transformOrigin: "0 0" }, { y: 0, scale: 1, duration: 0.7, ease: Egg.EASE.move, immediateRender: true }, 2.6);
+
+          // "You make the big calls": push in on the goal…
+          tl.set(cam, { transformOrigin: "540px 575px" }, 0);
+          Egg.pop(tl, q(".goal"), 3.3);
+          tl.to(cam, { scale: 1.05, duration: 0.6, ease: Egg.EASE.move }, 3.3);
+          // "…and split the work for agents": pull back as it branches
+          tl.to(cam, { scale: 1, duration: 0.8, ease: Egg.EASE.move }, 4.2);
+          const tree = q(".tree");
+          Egg.draw(tl, tree, 4.3, { gap: 0.2, dur: 0.4 });
+          Egg.fadeUp(tl, all(".ms"), 4.75, { y: 30, stagger: 0.12 });
+          Egg.pop(tl, all(".ag"), 5.25, { stagger: 0.15 });
+          tl.fromTo(all(".ag"), { y: 0 }, { y: -10, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 3, stagger: 0.1, immediateRender: false }, 5.9);
+          Egg.fadeUp(tl, q(".egg-label"), 5.6);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam], DUR - 0.35);
+          window.__timelines["s04-conductor"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

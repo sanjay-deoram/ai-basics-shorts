@@ -1,0 +1,24 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1.05,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "[excited] Let's look at zero-shot, one-shot, and few-shot prompting, and when to use each. A shot is one example, an input paired with the output you want back. The model copies patterns from your prompt, so examples teach it your format and your labels. Say you're sorting support tickets into high, medium, or low. Zero-shot sends just your instruction and the ticket. It's the cheapest, and it works for tasks the model already knows, like summarizing. But it picks its own format, so one call returns a word, and the next returns a sentence that breaks your parser. One-shot adds one example before the real ticket. You write a user turn with a missing password reset email, then an assistant turn that answers low. That usually fixes the format, so use it when you need a set shape, like JSON. But the model has only seen low, so it has to guess where high begins. Few-shot uses three to five examples across the whole scale, so you add a payment outage marked high, and an invoice question marked medium. Use it for classifiers and data extraction, where your own categories matter. The labels get more consistent, but every request carries those examples, so the prompt gets longer. [excited] So start with zero-shot. Add one example when the format keeps changing, and add a few when the labels are inconsistent. Follow for more AI basics!"
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"pop","vol":0.24},
+      {"t":0.78,"sfx":"whoosh","vol":0.2},
+      {"t":1.4,"sfx":"typing","vol":0.18,"dur":0.3},
+      {"t":2.0,"sfx":"key-press","vol":0.22},
+      {"t":2.55,"sfx":"whoosh","vol":0.2},
+      {"t":3.9,"sfx":"click","vol":0.24},
+      {"t":5.0,"sfx":"click","vol":0.24},
+      {"t":5.92,"sfx":"click","vol":0.24},
+      {"t":6.78,"sfx":"click","vol":0.24},
+      {"t":6.95,"sfx":"chime","vol":0.2,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · 1 / 5 · The shift. A big 1 punches in and flies through the camera. The camera starts close on an editor:
+           "Then · autocomplete": `return price` gets the grey suggestion ` * 1.08;`, accepted with Tab. It pulls back:
+           below, "Now · a whole feature": the agent takes "Add dark mode" (the PR the pilot approved in s01) and ticks
+           off read the codebase (214 files) · write the code (9 files changed) · run the tests (48 passed) · merge the
+           PR (#482) as the voice names each one. Task and numbers are an illustrative example. Avatar: corner; the
+           editor stays left of x 830. Voiceover: 0.2 "One: AI went from autocomplete to whole features." 3.75 "It
+           reads your code, writes it, tests it, and merges." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .cam { position: absolute; inset: 0; }
+        .s02 .ed { position: absolute; left: 90px; top: 300px; width: 660px; padding: 28px 34px; gap: 14px; border-radius: 34px; }
+        .s02 .ed .egg-mono { font-size: 34px; white-space: pre; }
+        .s02 .ghost { color: var(--smoke); }
+        .s02 .tab { font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); border: 2px solid var(--ink); border-radius: 10px; padding: 8px 12px; }
+        .s02 .now { position: absolute; left: 90px; top: 650px; width: 860px; padding: 34px 40px; gap: 22px; }
+        .s02 .task { display: flex; align-items: center; gap: 26px; }
+        .s02 .task h2 { margin: 0; font: 300 64px/1.1 var(--f-display); letter-spacing: -0.02em; }
+        .s02 .rows { list-style: none; margin: 4px 0 0; padding: 0; display: flex; flex-direction: column; gap: 18px; }
+        .s02 .rows li { position: relative; display: flex; align-items: center; gap: 22px; font: 400 38px/1.2 var(--f-body); color: var(--ink); }
+        .s02 .rows .d { margin-left: auto; font: 400 26px/1 var(--f-mono); color: var(--smoke); white-space: nowrap; }
+        .s02 .st { position: relative; flex: none; width: 52px; height: 52px; }
+        .s02 .st .ring { position: absolute; inset: 0; border-radius: 50%; border: 4px solid var(--stone); border-top-color: var(--ink); }
+        .s02 .st .tick { position: absolute; inset: 0; border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
+        .s02 .st .tick svg { width: 30px; height: 30px; fill: none; stroke: var(--eggshell); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+      </style>
+      <div data-hf-id="hf-272r" id="root" data-composition-id="s02-shift" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-n9h5" class="egg-scene s02">
+          <p data-hf-id="hf-67jx" class="egg-num" data-layout-allow-overlap="" data-layout-allow-overflow="">1</p>
+          <span data-hf-id="hf-b4fx" class="egg-eyebrow">1 / 5 · The shift</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-hfap" class="egg-card ed">
+              <div data-hf-id="hf-1ytk" class="egg-card-top"><span data-hf-id="hf-yu6b" class="egg-card-kicker">Then · autocomplete</span><span data-hf-id="hf-z9i2" class="tab">Tab ⇥</span></div>
+              <p data-hf-id="hf-ds0w" class="egg-mono">function withTax(price) {</p>
+              <p data-hf-id="hf-rtvl" class="egg-mono">  return price<span data-hf-id="hf-oih4" class="ghost"> * 1.08;</span></p>
+            </div>
+            <div data-hf-id="hf-8xry" class="egg-card now">
+              <div data-hf-id="hf-lc74" class="egg-card-top"><span data-hf-id="hf-2d92" class="egg-card-kicker">Now · a whole feature</span><span data-hf-id="hf-hz2z" class="egg-card-kicker">Example</span></div>
+              <div data-hf-id="hf-9z7j" class="task"><span data-hf-id="hf-wq6u" class="egg-agent" style="--s:88px">&gt;_</span><h2 data-hf-id="hf-pt99">Add dark mode</h2></div>
+              <ul data-hf-id="hf-5oyj" class="rows">
+                <li data-hf-id="hf-ahbj"><span data-hf-id="hf-7km0" class="st"><i data-hf-id="hf-39si" class="ring"></i><i data-hf-id="hf-7boz" class="tick"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg></i></span>Read the codebase<span data-hf-id="hf-kdrp" class="d">214 files</span></li>
+                <li data-hf-id="hf-3olb"><span data-hf-id="hf-vwj4" class="st"><i data-hf-id="hf-yh7a" class="ring"></i><i data-hf-id="hf-lm4z" class="tick"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-6h6t" d="M5 12.5 L10 17.5 L19 7" /></svg></i></span>Write the code<span data-hf-id="hf-2cat" class="d">9 files changed</span></li>
+                <li data-hf-id="hf-1bwx"><span data-hf-id="hf-upm1" class="st"><i data-hf-id="hf-yvib" class="ring"></i><i data-hf-id="hf-l7ty" class="tick"><svg data-hf-id="hf-30lo" viewBox="0 0 24 24"><path data-hf-id="hf-7o3w" d="M5 12.5 L10 17.5 L19 7" /></svg></i></span>Run the tests<span data-hf-id="hf-6xq1" class="d">48 passed</span></li>
+                <li data-hf-id="hf-hdb5"><span data-hf-id="hf-v3x2" class="st"><i data-hf-id="hf-z9tc" class="ring"></i><i data-hf-id="hf-ktix" class="tick"><svg data-hf-id="hf-2man" viewBox="0 0 24 24"><path data-hf-id="hf-79sv" d="M5 12.5 L10 17.5 L19 7" /></svg></i></span>Merge the PR<span data-hf-id="hf-b4yy" class="d">#482</span></li>
+              </ul>
+            </div>
+            <p data-hf-id="hf-cikc" class="egg-label">From one line to a whole feature.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.9;
+          const root = document.querySelector('[data-composition-id="s02-shift"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+
+          // "One:"
+          Egg.numPunch(tl, q(".egg-num"), 0.05, { hold: 0.35 });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.9, { y: 16 });
+
+          // "AI went from autocomplete…": close on the editor, the suggestion appears, Tab accepts it
+          const cam = q(".cam");
+          tl.set(cam, { scale: 1.16, transformOrigin: "420px 450px" }, 0);
+          tl.fromTo(q(".ed"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.5, ease: Egg.EASE.enter }, 0.82);
+          tl.set([q(".ghost"), q(".tab")], { opacity: 0 }, 0);
+          tl.to(q(".ghost"), { opacity: 1, duration: 0.3, ease: "none" }, 1.45);
+          Egg.pop(tl, q(".tab"), 1.9, { dur: 0.4 });
+          tl.to(q(".ghost"), { color: "#000000", duration: 0.15, ease: "none" }, 2.05);
+
+          // "…to whole features": pull back, the whole task arrives
+          tl.to(cam, { scale: 1, duration: 0.9, ease: Egg.EASE.move }, 2.5);
+          tl.to(q(".ed"), { opacity: 0.45, duration: 0.6, ease: "none" }, 2.7);
+          tl.fromTo(q(".now"), { opacity: 0, y: 90 }, { opacity: 1, y: 0, duration: 0.7, ease: Egg.EASE.rise }, 2.65);
+          tl.set(all(".st .tick"), { scale: 0 }, 0);
+          tl.fromTo(all(".rows li"), { opacity: 0, x: -24 }, { opacity: 0.4, x: 0, duration: 0.4, ease: Egg.EASE.enter, stagger: 0.07 }, 3.05);
+          Egg.fadeUp(tl, q(".egg-label"), 3.35);
+
+          // "It reads your code, writes it, tests it, and merges."
+          const rows = all(".rows li");
+          [3.85, 4.95, 5.88, 6.75].forEach((t, i) => {
+            const li = rows[i];
+            tl.to(li, { opacity: 1, duration: 0.2, ease: "none" }, t - 0.45);
+            tl.fromTo(li.querySelector(".ring"), { rotation: 0 }, { rotation: 540, duration: 0.5, ease: "none" }, t - 0.45);
+            tl.to(li.querySelector(".tick"), { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, t + 0.05);
+          });
+          tl.fromTo(q(".task .egg-agent"), { scale: 1 }, { scale: 1.08, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 7, immediateRender: false }, 3.5);
+          tl.to(cam, { scale: 1.03, transformOrigin: "520px 1050px", duration: 0.6, ease: Egg.EASE.move }, 5.0);
+          tl.to(cam, { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 6.9);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), cam], DUR - 0.35);
+          window.__timelines["s02-shift"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

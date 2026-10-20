@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"pop","vol":0.16},
+      {"t":0.12,"sfx":"typing","vol":0.18,"dur":0.9},
+      {"t":1.0,"sfx":"typing","vol":0.16,"dur":0.35},
+      {"t":1.35,"sfx":"key-press","vol":0.22},
+      {"t":1.62,"sfx":"pencil-short","vol":0.2},
+      {"t":2.3,"sfx":"click-soft","vol":0.2},
+      {"t":2.6,"sfx":"pencil-short","vol":0.2},
+      {"t":3.55,"sfx":"click-soft","vol":0.2},
+      {"t":4.0,"sfx":"pencil-short","vol":0.2},
+      {"t":5.4,"sfx":"page","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · In code (52.55–58.3). "Examples make the prompt longer, so start with zero-shot, and add them when the
+           answers aren't consistent."
+           A code editor (not drawn: a clean dark IDE window) types code/shots.py, exactly as it is in the repo; its
+           terminal runs it and prints the real lengths of the two prompts (109 vs 273 characters), and the longer one
+           is ringed. On "start with zero-shot" the run bar lands on build_prompt([]); on "add them" it moves to
+           build_prompt(examples) and the three example lines light up. Avatar: "low" (small, under the window, right of the note). -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .ide { position: absolute; left: 90px; top: 306px; width: 860px; height: 860px; border-radius: 18px; overflow: hidden; background: #1e1f29; box-shadow: 0 18px 40px rgba(30, 26, 20, 0.28), 0 2px 0 rgba(30, 26, 20, 0.1); }
+        .s06 .bar { position: absolute; left: 0; right: 0; top: 0; height: 48px; background: #2a2c38; }
+        .s06 .dot { position: absolute; top: 17px; width: 14px; height: 14px; border-radius: 50%; }
+        .s06 .tab { position: absolute; left: 96px; top: 8px; height: 40px; padding: 0 20px; border-radius: 10px 10px 0 0; background: #1e1f29; color: #d7dae0; font: 400 21px/40px var(--f-mono); }
+        .s06 .ed { position: absolute; left: 0; right: 0; top: 60px; font: 400 22px/32px var(--f-mono); color: #d7dae0; }
+        .s06 .ln { position: relative; height: 32px; white-space: pre; padding-left: 62px; }
+        .s06 .ln .no { position: absolute; left: 0; width: 46px; text-align: right; color: #5c6370; }
+        .s06 .rowhl { position: absolute; left: 0; right: 0; height: 32px; }
+        .s06 .k { color: #c678dd; } .s06 .s { color: #98c379; } .s06 .f { color: #61afef; } .s06 .p { color: #e5c07b; }
+        .s06 .term { position: absolute; left: 0; right: 0; top: 684px; bottom: 0; background: #15161d; border-top: 1px solid #2f3140; font: 400 22px/36px var(--f-mono); color: #d7dae0; padding: 10px 24px; }
+        .s06 .term .hd { font: 400 17px/28px var(--f-mono); letter-spacing: 0.1em; color: #7f8494; }
+        .s06 .term .ps { color: #98c379; }
+        .s06 .term .n0, .s06 .term .n1 { margin: 0 8px; }
+        .s06 .tag { position: absolute; font: 700 34px/1 var(--f-note); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s06-code" data-width="1080" data-height="1920">
+        <div class="sk-scene s06">
+          <div class="s06-page" style="position:absolute;inset:0">
+            <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+            <span class="sk-abs sk-h3 sk-w t1" style="left:90px;top:232px">In code</span>
+            <div class="ide">
+              <div class="bar">
+                <div class="dot" style="left:20px;background:#ff5f57"></div>
+                <div class="dot" style="left:44px;background:#febc2e"></div>
+                <div class="dot" style="left:68px;background:#28c840"></div>
+                <div class="tab">shots.py</div>
+              </div>
+              <div class="ed">
+                <div class="rowhl hl-ex" style="top:32px;height:96px;background:rgba(95,211,217,0.14)"></div>
+                <div class="rowhl hl-zero" style="top:480px;background:rgba(97,175,239,0.2)"></div>
+                <div class="rowhl hl-few" style="top:512px;background:rgba(95,211,217,0.2)"></div>
+                <div class="ln"><span class="no">1</span>examples = [</div>
+                <div class="ln"><span class="no">2</span>    (<span class="s">"My password reset email hasn't arrived."</span>, <span class="s">"Low"</span>),</div>
+                <div class="ln"><span class="no">3</span>    (<span class="s">"The payment system is down."</span>, <span class="s">"High"</span>),</div>
+                <div class="ln"><span class="no">4</span>    (<span class="s">"A question about my invoice."</span>, <span class="s">"Medium"</span>),</div>
+                <div class="ln"><span class="no">5</span>]</div>
+                <div class="ln"><span class="no">6</span>issue = (<span class="s">"I can't access my account, "</span></div>
+                <div class="ln"><span class="no">7</span>         <span class="s">"and my report is due today."</span>)</div>
+                <div class="ln"><span class="no">8</span></div>
+                <div class="ln"><span class="no">9</span><span class="k">def</span> <span class="f">build_prompt</span>(shots):</div>
+                <div class="ln"><span class="no">10</span>    lines = [<span class="s">"Rate this issue: High, Medium or Low."</span>]</div>
+                <div class="ln"><span class="no">11</span>    <span class="k">for</span> text, label <span class="k">in</span> shots:</div>
+                <div class="ln"><span class="no">12</span>        lines += [<span class="s">f"Issue: </span><span class="p">{text}</span><span class="s">"</span>, <span class="s">f"Priority: </span><span class="p">{label}</span><span class="s">"</span>]</div>
+                <div class="ln"><span class="no">13</span>    lines += [<span class="s">f"Issue: </span><span class="p">{issue}</span><span class="s">"</span>, <span class="s">"Priority:"</span>]</div>
+                <div class="ln"><span class="no">14</span>    <span class="k">return</span> <span class="s">"\n"</span>.<span class="f">join</span>(lines)</div>
+                <div class="ln"><span class="no">15</span></div>
+                <div class="ln"><span class="no">16</span>zero_shot = <span class="f">build_prompt</span>([])</div>
+                <div class="ln"><span class="no">17</span>few_shot = <span class="f">build_prompt</span>(examples)</div>
+                <div class="ln"><span class="no">18</span><span class="f">print</span>(<span class="s">"zero-shot:"</span>, <span class="f">len</span>(zero_shot), <span class="s">"characters"</span>)</div>
+                <div class="ln"><span class="no">19</span><span class="f">print</span>(<span class="s">"few-shot:"</span>, <span class="f">len</span>(few_shot), <span class="s">"characters"</span>)</div>
+                <span class="tag tg-zero" style="left:560px;top:478px;color:#8fbcff">← start here</span>
+                <span class="tag tg-few" style="left:560px;top:510px;color:#6fe0e6">← add examples</span>
+              </div>
+              <div class="term">
+                <div class="hd">TERMINAL</div>
+                <div class="tl t-cmd"><span class="ps">$</span> python3 shots.py</div>
+                <div class="tl t-o1">zero-shot: <span class="n0">109</span> characters</div>
+                <div class="tl t-o2">few-shot: <span class="n1">273</span> characters</div>
+              </div>
+            </div>
+            <span class="sk-abs sk-note c-soft cost" style="left:96px;top:1196px">longer prompt = a bit more cost</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s06-code"] .s06');
+          const page = root.querySelector(".s06-page");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+
+          const r0 = Sk.ring($(".n0"), { color: "#8fbcff", seed: 601, padX: 6, padY: 0, width: 3 });
+          const r1 = Sk.ring($(".n1"), { color: "#6fe0e6", seed: 602, padX: 6, padY: 0, width: 3 });
+          const hls = [$(".hl-ex"), $(".hl-zero"), $(".hl-few")];
+          gsap.set(hls, { opacity: 0, transformOrigin: "0 50%" });
+          gsap.set([$(".tg-zero"), $(".tg-few")], { opacity: 0 });
+
+          // the window opens; the file types itself
+          tl.fromTo($(".ide"), { opacity: 0, y: 40, scale: 0.97 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 0);
+          Sk.write(tl, $(".t1"), 0.05, { dur: 0.3 });
+          Sk.writeLines(tl, root.querySelectorAll(".ed .ln"), 0.12, { dur: 0.045, gap: 0 });
+          // "Examples make the prompt longer": run it, the few-shot prompt is much longer
+          Sk.write(tl, $(".t-cmd"), 1.0, { dur: 0.3, ease: "steps(8)" });
+          tl.fromTo($(".t-o1"), { opacity: 0 }, { opacity: 1, duration: 0.05 }, 1.38);
+          tl.fromTo($(".t-o2"), { opacity: 0 }, { opacity: 1, duration: 0.05 }, 1.5);
+          Sk.draw(tl, r1, 1.62, 0.3);
+          Sk.write(tl, $(".cost"), 1.7, { dur: 0.7 });
+          // "so start with zero-shot": the run bar lands on build_prompt([])
+          tl.fromTo(hls[1], { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.25, ease: "power2.out" }, 2.3);
+          tl.to($(".tg-zero"), { opacity: 1, duration: 0.2 }, 2.45);
+          Sk.draw(tl, r0, 2.6, 0.3);
+          // "and add them when the answers aren't consistent": on to build_prompt(examples); the examples light up
+          tl.to([hls[1], $(".tg-zero")], { opacity: 0, duration: 0.2 }, 3.5);
+          tl.fromTo(hls[2], { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.25, ease: "power2.out" }, 3.55);
+          tl.to($(".tg-few"), { opacity: 1, duration: 0.2 }, 3.7);
+          tl.fromTo(hls[0], { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power2.out" }, 4.0);
+
+          Sk.pageOut(tl, page, 5.4, 0.35);
+          window.__timelines["s06-code"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

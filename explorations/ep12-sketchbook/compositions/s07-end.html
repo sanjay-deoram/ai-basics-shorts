@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"pencil","vol":0.2},
+      {"t":0.3,"sfx":"pop","vol":0.16},
+      {"t":1.6,"sfx":"click","vol":0.24},
+      {"t":2.7,"sfx":"pop","vol":0.16},
+      {"t":3.85,"sfx":"click","vol":0.24},
+      {"t":4.85,"sfx":"pop","vol":0.16},
+      {"t":6.2,"sfx":"click","vol":0.24},
+      {"t":6.7,"sfx":"chime","vol":0.22},
+      {"t":6.8,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Recap (58.3–68.0). "So zero-shot means no examples, one-shot means one example, and few-shot means a
+           handful. Follow for more AI basics!"
+           Three rows land as they're said: the ringed count, the name and its meaning, its sticky notes (an empty dashed
+           spot, one note, three notes) and a tick; then the inked "Follow" pill. Holds to the end, no exit.
+           Avatar: end (centred above the rows). -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .mini { position: absolute; width: 92px; height: 86px; box-shadow: 0 5px 10px rgba(42, 39, 36, 0.14); }
+        .s07 .cnt { position: absolute; left: 96px; width: 150px; text-align: center; }
+        .s07 .pill { position: absolute; left: 290px; top: 1352px; width: 500px; height: 108px; display: flex; align-items: center; justify-content: center; font: 700 50px/1 var(--f-hand); color: var(--paper); }
+      </style>
+      <div id="root" data-composition-id="s07-end" data-width="1080" data-height="1920">
+        <div class="sk-scene s07">
+          <div class="s07-page" style="position:absolute;inset:0">
+            <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+            <div class="cnt" style="top:722px"><span class="sk-h2 c-blue n0">0</span></div>
+            <span class="sk-abs sk-h3 c-blue sk-w r0" style="left:272px;top:700px">Zero-shot</span>
+            <span class="sk-abs sk-body c-soft sk-w m0" style="left:272px;top:762px">no examples</span>
+
+            <div class="cnt" style="top:912px"><span class="sk-h2 c-purple n1">1</span></div>
+            <span class="sk-abs sk-h3 c-purple sk-w r1" style="left:272px;top:890px">One-shot</span>
+            <span class="sk-abs sk-body c-soft sk-w m1" style="left:272px;top:952px">one example</span>
+            <div class="mini p1" style="left:730px;top:886px;background:#fff1a1"></div>
+
+            <div class="cnt" style="top:1102px"><span class="sk-h2 c-teal n2" style="font-size:66px">3–5</span></div>
+            <span class="sk-abs sk-h3 c-teal sk-w r2" style="left:272px;top:1080px">Few-shot</span>
+            <span class="sk-abs sk-body c-soft sk-w m2" style="left:272px;top:1142px">a handful of examples</span>
+            <div class="mini p2a" style="left:690px;top:1078px;background:#d9ecff"></div>
+            <div class="mini p2b" style="left:730px;top:1070px;background:#ffd9e1"></div>
+            <div class="mini p2c" style="left:770px;top:1082px;background:#fff1a1"></div>
+
+            <div class="pill">Follow for more ✎</div>
+            <span class="sk-abs sk-kicker sub" style="left:0;width:1080px;text-align:center;top:1476px">AI basics, sketched out</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s07-end"] .s07');
+          const ink = root.querySelector(".sk-ink");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const C = Sk.C;
+
+          const rings = [
+            Sk.ring($(".n0"), { color: C.blue, seed: 501, padX: 30, padY: 2 }),
+            Sk.ring($(".n1"), { color: C.purple, seed: 502, padX: 34, padY: 2 }),
+            Sk.ring($(".n2"), { color: C.teal, seed: 503, padX: 16, padY: 2 }),
+          ];
+          const empty = Sk.shape(ink, "path", [Sk.roundRect(730, 696, 92, 86, 8)], { stroke: C.pencil, strokeWidth: 3, strokeLineDash: [9, 9], seed: 504 });
+          const ticks = [744, 934, 1124].map((y, i) => Sk.shape(ink, "linearPath", [[[880, y], [904, y + 22], [950, y - 32]]], { stroke: C.green, strokeWidth: 7, seed: 510 + i }));
+          const rules = [850, 1040].map((y, i) => Sk.shape(ink, "line", [110, y, 950, y], { stroke: "#dcd5c8", strokeWidth: 2.5, seed: 520 + i }));
+          const pill = Sk.shape(ink, "path", [Sk.roundRect(290, 1352, 500, 108, 54)], { fill: C.ink, fillStyle: "solid", stroke: C.ink, strokeWidth: 3, seed: 530 });
+
+          // row 1 · "So zero-shot means no examples"
+          Sk.pop(tl, $(".n0"), 0.25); Sk.draw(tl, rings[0], 0.3, 0.3);
+          Sk.write(tl, $(".r0"), 0.35, { dur: 0.45 });
+          Sk.write(tl, $(".m0"), 1.25, { dur: 0.5 });
+          Sk.draw(tl, empty, 1.3, 0.35);
+          Sk.draw(tl, ticks[0], 1.6, 0.2);
+          Sk.draw(tl, rules[0], 1.9, 0.3);
+          // row 2 · "one-shot means one example"
+          Sk.pop(tl, $(".n1"), 2.65); Sk.draw(tl, rings[1], 2.7, 0.3);
+          Sk.write(tl, $(".r1"), 2.75, { dur: 0.45 });
+          Sk.write(tl, $(".m1"), 3.5, { dur: 0.5 });
+          Sk.slap(tl, $(".p1"), 3.55, { rot: -5, dy: 200 });
+          Sk.draw(tl, ticks[1], 3.85, 0.2);
+          Sk.draw(tl, rules[1], 4.2, 0.3);
+          // row 3 · "and few-shot means a handful"
+          Sk.pop(tl, $(".n2"), 4.8); Sk.draw(tl, rings[2], 4.85, 0.3);
+          Sk.write(tl, $(".r2"), 4.9, { dur: 0.45 });
+          Sk.write(tl, $(".m2"), 5.6, { dur: 0.6 });
+          Sk.slap(tl, $(".p2a"), 5.6, { rot: -8, dy: 200 });
+          Sk.slap(tl, $(".p2b"), 5.72, { rot: 2, dy: 200 });
+          Sk.slap(tl, $(".p2c"), 5.84, { rot: 8, dy: 200 });
+          Sk.draw(tl, ticks[2], 6.2, 0.2);
+          // "Follow for more AI basics!"
+          Sk.draw(tl, pill, 6.7, 0.3);
+          Sk.pop(tl, $(".pill"), 6.8, { from: 0.7 });
+          Sk.write(tl, $(".sub"), 7.1, { dur: 0.5 });
+
+          window.__timelines["s07-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.7,"sfx":"whoosh-short","vol":0.1},
+      {"t":4.9,"sfx":"whoosh-short","vol":0.1},
+      {"t":6.84,"sfx":"whoosh-short","vol":0.1},
+      {"t":8.2,"sfx":"whoosh","vol":0.1},
+      {"t":8.65,"sfx":"click-soft","vol":0.16},
+      {"t":9.05,"sfx":"click-soft","vol":0.16},
+      {"t":9.45,"sfx":"click-soft","vol":0.16},
+      {"t":10.45,"sfx":"chime","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · few-shot (36.4–47.5). Hard cut to a clay panel: "Few-shot". Example cards fan in as they're named:
+           Low (the one from before), then High (a payment outage), then Medium (an invoice question). The panel
+           lifts off: Claude labels the same ticket three times and gets High every time; "format holds". -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s05-clay { background: var(--clay); }
+        .s05-h { top: 320px; font-size: 104px; line-height: 120px; color: #fff; }
+        .s05-sub { top: 450px; font: 500 40px/52px var(--f-body); color: #fff; letter-spacing: 0; }
+        .s05-ex { position: absolute; top: 600px; width: 256px; height: 420px; background: #fff; border-radius: 26px; box-shadow: 0 18px 40px rgba(60,20,0,0.28); padding: 30px 28px; }
+        .s05-ex .pill { font-size: 34px; height: 64px; line-height: 64px; padding: 0 28px; }
+        .s05-ex .k { font: 500 21px/28px var(--f-mono); color: var(--muted); letter-spacing: 0.08em; margin-top: 34px; }
+        .s05-ex .t { font: 500 31px/42px var(--f-body); color: var(--ink); margin-top: 10px; }
+        .s05-hi { left: 128px; } .s05-me { left: 412px; } .s05-lo { left: 412px; }
+        .s05-lab { top: 360px; font-size: 80px; line-height: 100px; display: flex; justify-content: center; align-items: center; gap: 24px; }
+        .s05-lab img { width: 76px; height: 76px; }
+        .s05-list { left: 110px; top: 520px; width: 860px; padding: 18px 40px; }
+        .s05-run { height: 120px; display: flex; align-items: center; gap: 26px; border-bottom: 2px solid #efeadf; }
+        .s05-run:last-child { border-bottom: 0; }
+        .s05-run .ck { width: 52px; height: 52px; border-radius: 50%; background: var(--low); display: flex; align-items: center; justify-content: center; }
+        .s05-run .ck svg { width: 30px; height: 30px; }
+        .s05-run .k { font: 500 26px/30px var(--f-mono); color: var(--muted); letter-spacing: 0.06em; }
+        .s05-run .pill { margin-left: auto; font-size: 38px; height: 70px; line-height: 70px; padding: 0 34px; border-radius: 35px; }
+        .s05-holds { position: absolute; left: 0; right: 0; top: 1010px; text-align: center; }
+        .s05-holds span { display: inline-block; height: 76px; padding: 0 36px; border-radius: 38px; background: var(--ink); color: #fff; font: 600 34px/76px var(--f-body); }
+      </style>
+      <div id="root" data-composition-id="s05-few" data-width="1080" data-height="1920">
+        <div class="kin s05-lab"><img src="assets/claude-logo.svg" alt=""><span>Labeling…</span></div>
+        <div class="card s05-list">
+          <div class="s05-run"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="k">RUN 1</span><span class="pill high">High</span></div>
+          <div class="s05-run"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="k">RUN 2</span><span class="pill high">High</span></div>
+          <div class="s05-run"><span class="ck"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><span class="k">RUN 3</span><span class="pill high">High</span></div>
+        </div>
+        <div class="s05-holds"><span>format holds</span></div>
+
+        <div class="panel s05-clay">
+          <div class="kin s05-h"><span class="w">Few-shot</span></div>
+          <div class="kin s05-sub"><span class="w">three to five examples, across the whole scale</span></div>
+          <div class="s05-ex s05-lo"><span class="pill low">Low</span><div class="k">EXAMPLE</div><div class="t">My password reset email never arrived.</div></div>
+          <div class="s05-ex s05-hi"><span class="pill high">High</span><div class="k">EXAMPLE</div><div class="t">Payments are down for every customer.</div></div>
+          <div class="s05-ex s05-me"><span class="pill med">Medium</span><div class="k">EXAMPLE</div><div class="t">Can I get a copy of last month's invoice?</div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s05-few"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 36.4).toFixed(3);
+          const tl = gsap.timeline({ paused: true });
+
+          FX.words(tl, q(".s05-h .w"), E(36.55), { dur: 0.4 });
+          FX.words(tl, q(".s05-sub .w"), E(37.3), { dur: 0.4, y: 20 });
+          tl.fromTo(q(".s05-lo"), { opacity: 0, y: 120, rotation: 0 }, { opacity: 1, y: 0, rotation: -2, duration: 0.55, ease: "back.out(1.3)" }, E(38.1));
+          tl.fromTo(q(".s05-hi"), { opacity: 0, x: -420, rotation: -20 }, { opacity: 1, x: 0, rotation: -6, duration: 0.6, ease: "power3.out" }, E(41.3));
+          tl.to(q(".s05-lo"), { x: 284, y: 20, rotation: 6, duration: 0.55, ease: "power3.inOut" }, E(43.15));
+          tl.fromTo(q(".s05-me"), { opacity: 0, y: 160, rotation: 4 }, { opacity: 1, y: -10, rotation: 0, duration: 0.6, ease: "back.out(1.3)" }, E(43.24));
+
+          // the panel lifts off: the same ticket, three runs
+          tl.to(q(".s05-clay"), { yPercent: -100, duration: 0.45, ease: "power3.inOut" }, E(44.6));
+          tl.fromTo(q(".s05-lab"), { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, E(44.85));
+          tl.fromTo(q(".s05-lab img"), { rotation: 0 }, { rotation: 240, duration: 2.6, ease: "power1.out" }, E(44.85));
+          tl.fromTo(q(".s05-list"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, E(44.9));
+          r.querySelectorAll(".s05-run").forEach((row, i) => {
+            const t = E(45.05) + i * 0.4;
+            tl.fromTo(row, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, t);
+            FX.pop(tl, row.querySelector(".ck"), t + 0.1);
+          });
+          tl.fromTo(q(".s05-holds span"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(1.8)" }, E(46.85));
+          FX.out(tl, [q(".s05-lab"), q(".s05-list"), q(".s05-holds")], E(47.25), { dur: 0.22 });
+          window.__timelines["s05-few"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

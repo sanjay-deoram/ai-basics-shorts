@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.4,"sfx":"pop","vol":0.14},
+      {"t":1.7,"sfx":"typing","vol":0.18,"dur":1.3},
+      {"t":2.1,"sfx":"key-press","vol":0.2},
+      {"t":3.3,"sfx":"key-press","vol":0.22},
+      {"t":3.32,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.55,"sfx":"sparkle","vol":0.12,"dur":0.6},
+      {"t":5.05,"sfx":"click-soft","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 1 · Claude shows its work (weak vs better). The rail (rail.html) opens on station 1, BEFORE PR, and parks.
+           Weak (taupe, SAYS): the Claude logo and "Done! Everything works." Better (ink terminal card, SHOWS): npm test,
+           build and lint type with their output; the run bar lands on "48 passed · 0 failed" with a camera punch-in as
+           "shows the output" is said. On "instead of saying it's done" the weak line is struck through. Label: "Show the
+           output, not “done”." Avatar: corner. Voice: "Before the pull request, Claude runs the tests and shows the output
+           instead of saying it's done." (Example output.) -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .cam { position: absolute; inset: 0; }
+        .s03 .weak { position: absolute; left: 90px; top: 352px; width: 750px; padding: 26px 36px; gap: 14px; }
+        .s03 .weak .say { display: flex; align-items: center; gap: 20px; }
+        .s03 .weak img { width: 60px; height: 60px; flex: none; }
+        .s03 .weak .tx { position: relative; font: 400 40px/1.2 var(--f-body); color: var(--graphite); }
+        .s03 .weak .strike { position: absolute; left: -6px; right: -6px; top: 52%; height: 5px; border-radius: 3px; background: var(--ink); transform-origin: 0 50%; }
+        .s03 .code { position: absolute; left: 90px; top: 572px; width: 860px; }
+        .s03 .egg-label { position: absolute; left: 90px; top: 1112px; width: 860px; font-size: 58px; }
+      </style>
+      <div id="root" data-composition-id="s03-shows" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <div class="cam">
+            <div class="egg-card taupe weak">
+              <span class="egg-card-kicker">Says</span>
+              <div class="say"><img src="assets/claude-logo.svg" alt="Claude"><span class="tx">Done! Everything works.<i class="strike"></i></span></div>
+            </div>
+            <div class="egg-code code"></div>
+            <p class="egg-label">Show the output, not “done”.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.75;
+          const root = document.querySelector('[data-composition-id="s03-shows"] .s03');
+          const q = (s) => root.querySelector(s);
+          const card = q(".code");
+          // example output (a terminal transcript; shell lines start with $)
+          Egg.codeCard(card, `
+$ npm test
+  ✓ getItems reads one page
+  ✓ send retries on timeout
+  48 passed · 0 failed
+$ npm run build
+  build ok
+$ npm run lint
+  0 problems`, { lang: "sh", file: "Terminal", tag: "Shows" });
+          const tl = gsap.timeline({ paused: true });
+
+          // "Claude runs the tests…"
+          Egg.fadeUp(tl, q(".weak"), 1.4, { y: 30, dur: 0.58 });
+          Egg.fadeUp(tl, card, 1.55, { y: 40, dur: 0.58 });
+          Egg.codeType(tl, card, 1.7, { cps: 115, lineGap: 0 });
+          Egg.codeRun(tl, card, 0, 2.1, { dur: 0.28 });
+          // "…and shows the output": the run bar lands on the result and the camera punches in on it, and holds
+          Egg.codeRun(tl, card, 3, 3.3, { dur: 0.28 });
+          tl.to(q(".cam"), { scale: 1.06, transformOrigin: "420px 810px", duration: 0.58, ease: Egg.EASE.move }, 3.3);
+          tl.to(q(".cam"), { scale: 1, duration: 0.55, ease: Egg.EASE.move }, 4.3);
+          Egg.codeRun(tl, card, -1, 4.4, { dur: 0.28 });
+          // "…instead of saying it's done."
+          Egg.fadeUp(tl, q(".egg-label"), 4.55, { y: 20 });
+          tl.fromTo(q(".strike"), { scaleX: 0 }, { scaleX: 1, duration: 0.32, ease: Egg.EASE.draw }, 5.05);
+          tl.to(q(".weak .say"), { opacity: 0.55, duration: 0.3, ease: "none" }, 5.1);
+          Egg.fadeOut(tl, q(".cam"), DUR - 0.32, { dur: 0.3 });
+          window.__timelines["s03-shows"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

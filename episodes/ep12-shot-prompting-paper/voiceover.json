@@ -1,0 +1,24 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1.0,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "[excited] Let's look at zero-shot, one-shot, and few-shot prompting. A shot is one example, an input paired with the output you want back. Say you're sorting support tickets into high, medium, or low. Zero-shot sends your instruction and the ticket, and nothing else. The model will probably label a locked account high, but it picks its own format, so one call returns a word, and the next returns a sentence that breaks your parser. One-shot puts one example ahead of the real ticket. You write a user turn with a missing password reset email, then an assistant turn that answers low. Now the replies copy that format, but the model has only seen low, so it has to guess where high begins. Few-shot uses three to five examples that cover the whole scale, so you add a payment outage marked high, and an invoice question marked medium. The labels get more consistent, and the format holds. The cost is a longer prompt, because every request carries those examples again. [excited] So zero-shot is the instruction alone, one-shot adds a single example, and few-shot adds a handful. Start with zero-shot, and add examples when the answers come back inconsistent. Follow for more AI basics!"
+    }
+  ]
+}

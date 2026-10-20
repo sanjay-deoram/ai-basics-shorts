@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- s01 · caption strip under the IDE window (3.6s): kicker, title, one line of detail. The window itself
+           is compositions/ide.html; Sanjay's cam bubble sits to the right (x ≥ 736). -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="cap s01-cap">
+          <div class="k">prompting</div>
+          <div class="t">Zero, one, few shots</div>
+          <div class="d">what changes when you add examples</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const cap = document.querySelector('[data-composition-id="s01-hook"] .cap');
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(cap.children[0], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+          tl.fromTo(cap.children[1], { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: "power3.out" }, 0.28);
+          tl.fromTo(cap.children[2], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.6);
+          tl.to(cap.children, { opacity: 0, y: -14, duration: 0.25, ease: "power2.in", stagger: 0.03 }, 3.30);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"whoosh","vol":0.12},
+      {"t":0.4,"sfx":"thud","vol":0.22},
+      {"t":1.55,"sfx":"draw","vol":0.18},
+      {"t":2.05,"sfx":"blip","vol":0.16},
+      {"t":3.35,"sfx":"pop","vol":0.14},
+      {"t":3.95,"sfx":"draw","vol":0.18},
+      {"t":4.45,"sfx":"blip","vol":0.16},
+      {"t":5.6,"sfx":"pop","vol":0.14},
+      {"t":6.55,"sfx":"thud","vol":0.2},
+      {"t":6.85,"sfx":"chime","vol":0.16,"dur":1.3}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · rule of thumb (61.4–69.6). The blue panel lifts; Sanjay is big at the bottom right (narrator.html).
+           "Start with zero-shot." Then the // rule of thumb card, two steps that draw themselves as they're said:
+           format keeps changing? → add one example (one orange / blue pair); labels inconsistent? → add a few (three
+           pairs). Then the "AI basics" lockup with a blue Follow button, bottom left beside Sanjay. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s07-blue { background: var(--blue); }
+        .s07-hd { top: 320px; }
+        .s07-rl { left: 90px; top: 610px; width: 860px; height: 420px; }
+        .s07-st { position: absolute; left: 30px; right: 30px; height: 150px; display: flex; align-items: center; gap: 18px; }
+        .s07-s1 { top: 70px; } .s07-s2 { top: 240px; }
+        .s07-if { width: 300px; flex: none; }
+        .s07-if .mk { display: block; }
+        .s07-if b { display: block; font: 600 34px/40px var(--f-body); color: var(--ink); }
+        .s07-arw { position: relative; width: 110px; height: 40px; flex: none; }
+        .s07-do { display: flex; flex-direction: column; gap: 12px; }
+        .s07-do .bpill { align-self: flex-start; font-size: 32px; }
+        .s07-pairs { display: flex; gap: 8px; }
+        .s07-pairs span { display: flex; gap: 3px; }
+        .s07-pairs i { display: block; width: 26px; height: 22px; border-radius: 5px; }
+        .s07-div { position: absolute; left: 30px; right: 30px; top: 230px; height: 2px; background: var(--line); }
+        .s07-lock { position: absolute; left: 90px; top: 1110px; width: 400px; }
+        .s07-lock .w { font: 400 112px/112px var(--f-serif); letter-spacing: -0.02em; color: var(--ink); }
+        .s07-lock .bpill { margin-top: 26px; height: 80px; line-height: 80px; padding: 0 40px; border-radius: 40px; font-size: 34px; }
+        .s07-lock .mk { margin-top: 22px; }
+      </style>
+      <div id="root" data-composition-id="s07-end" data-width="1080" data-height="1920">
+        <div class="cam">
+          <div class="hd s07-hd">
+            <span class="ln"><span>Start with</span></span>
+            <span class="ln"><span><em>zero-shot.</em></span></span>
+          </div>
+          <div class="cd s07-rl">
+            <div class="lb">// rule of thumb</div>
+            <div class="s07-st s07-s1">
+              <div class="s07-if"><span class="mk">if the</span><b class="hl">format keeps changing</b></div>
+              <svg class="arw s07-arw" viewBox="0 0 110 40"><path pathLength="1" d="M4 20 H 96"/><path pathLength="1" d="M82 8 L98 20 L82 32"/></svg>
+              <div class="s07-do"><span class="bpill">add one example</span>
+                <div class="s07-pairs"><span><i style="background:var(--user)"></i><i style="background:var(--asst)"></i></span></div></div>
+            </div>
+            <div class="s07-div"></div>
+            <div class="s07-st s07-s2">
+              <div class="s07-if"><span class="mk">if the</span><b class="hl">labels are inconsistent</b></div>
+              <svg class="arw s07-arw" viewBox="0 0 110 40"><path pathLength="1" d="M4 20 H 96"/><path pathLength="1" d="M82 8 L98 20 L82 32"/></svg>
+              <div class="s07-do"><span class="bpill">add a few</span>
+                <div class="s07-pairs"><span><i style="background:var(--user)"></i><i style="background:var(--asst)"></i></span><span><i style="background:var(--user)"></i><i style="background:var(--asst)"></i></span><span><i style="background:var(--user)"></i><i style="background:var(--asst)"></i></span></div></div>
+            </div>
+          </div>
+          <div class="s07-lock">
+            <div class="w">AI basics</div>
+            <span class="bpill">Follow for more</span>
+            <div class="mk">// ep 12 · shot prompting</div>
+          </div>
+        </div>
+        <div class="panel s07-blue"></div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s07-end"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 61.4).toFixed(3);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          tl.set(cam, { x: 0, y: 0, scale: 1 }, 0);
+          tl.fromTo(q(".s07-blue"), { yPercent: 0 }, { yPercent: -100, duration: 0.5, ease: "expo.inOut" }, 0);
+          FX.rise(tl, r.querySelectorAll(".ln > span"), [E(61.7), E(62.05)]);
+          tl.fromTo(q(".s07-rl"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, E(62.5));
+          // step 1
+          tl.fromTo(q(".s07-s1 .s07-if"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, E(62.85));
+          FX.arrow(tl, q(".s07-s1 .s07-arw"), E(62.95), 0.4);
+          FX.pop(tl, q(".s07-s1 .bpill"), E(63.45), { from: 0.4 });
+          FX.pop(tl, q(".s07-s1 .s07-pairs span"), E(63.7), { from: 0.3 });
+          FX.hl(tl, q(".s07-s1 b"), E(64.0));
+          // step 2
+          tl.fromTo(q(".s07-div"), { scaleX: 0, transformOrigin: "0% 50%" }, { scaleX: 1, duration: 0.4, ease: "power2.inOut" }, E(65.1));
+          tl.fromTo(q(".s07-s2 .s07-if"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.35, ease: "power3.out" }, E(65.3));
+          FX.arrow(tl, q(".s07-s2 .s07-arw"), E(65.35), 0.4);
+          FX.pop(tl, q(".s07-s2 .bpill"), E(65.85), { from: 0.4 });
+          FX.pop(tl, r.querySelectorAll(".s07-s2 .s07-pairs span"), E(66.0), { from: 0.3, stagger: 0.1 });
+          FX.hl(tl, q(".s07-s2 b"), E(66.4));
+          // lockup
+          FX.words(tl, q(".s07-lock .w"), E(67.9));
+          FX.pop(tl, q(".s07-lock .bpill"), E(68.2), { from: 0.5 });
+          tl.fromTo(q(".s07-lock .mk"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, E(68.5));
+          tl.to(q(".s07-lock .bpill"), { scale: 0.92, duration: 0.08, yoyo: true, repeat: 1, ease: "none" }, E(68.9));
+          window.__timelines["s07-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

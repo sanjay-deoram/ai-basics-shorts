@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.7,"sfx":"tick","vol":0.2},
+      {"t":0.9,"sfx":"tick","vol":0.2},
+      {"t":1.1,"sfx":"tick","vol":0.2},
+      {"t":1.8,"sfx":"swish","vol":0.12},
+      {"t":1.83,"sfx":"blip","vol":0.12},
+      {"t":2.09,"sfx":"blip","vol":0.12},
+      {"t":2.47,"sfx":"blip","vol":0.12},
+      {"t":2.7,"sfx":"zoom-in","vol":0.16},
+      {"t":3.1,"sfx":"draw","vol":0.2},
+      {"t":3.65,"sfx":"zoom-out","vol":0.14},
+      {"t":3.85,"sfx":"riser","vol":0.14,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · the cost (56.2–61.4), still on blue. "More consistent, but longer." Three runs all come back High.
+           Three request bars: instruction (grey), the examples (orange / blue pairs), the ticket (orange). The camera
+           pushes in on the bars and rings the examples ("sent every time"); then the // prompt size cell counts
+           ~30 → ~90 tokens per call. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s06-bg { background: var(--blue); }
+        .s06-hd { top: 320px; color: #fff; }
+        .s06-hd em { color: #fff; }
+        .s06-runs { left: 90px; top: 600px; width: 860px; height: 150px; border-color: #fff; }
+        .s06-run { position: absolute; top: 58px; width: 252px; height: 70px; border-radius: 12px; background: var(--asst-tint); border-left: 8px solid var(--asst); display: flex; align-items: center; gap: 12px; padding: 0 14px; }
+        .s06-run .mk { font-size: 21px; }
+        .s06-run b { font: 650 36px/44px var(--f-display); letter-spacing: -0.03em; color: var(--asst-ink); }
+        .s06-run svg { margin-left: auto; width: 32px; height: 32px; }
+        .s06-ru1 { left: 22px; } .s06-ru2 { left: 304px; } .s06-ru3 { left: 586px; }
+        .s06-req { position: absolute; left: 90px; width: 860px; height: 64px; display: flex; gap: 6px; }
+        .s06-req i { display: block; height: 64px; border-radius: 10px; font: 600 23px/64px var(--f-body); font-style: normal; text-align: center; }
+        .s06-req .ins { width: 160px; background: #f2f2f2; color: #333; }
+        .s06-req .ex { flex: 1; display: flex; gap: 4px; transform-origin: 0 50%; }
+        .s06-req .ex i { flex: 1; border-radius: 8px; }
+        .s06-req .tk { width: 130px; background: var(--user); color: #fff; }
+        .s06-q1 { top: 800px; } .s06-q2 { top: 878px; } .s06-q3 { top: 956px; }
+        .s06-ring { left: 248px; top: 790px; width: 574px; height: 236px; }
+        .s06-ring rect { stroke: #fff; }
+        .s06-ring .cl { left: 150px; top: -58px; background: #fff; color: var(--blue); }
+        .s06-sz { left: 90px; top: 1080px; width: 480px; height: 400px; border-color: #fff; }
+        .s06-num { position: absolute; left: 30px; top: 80px; font: 600 130px/140px var(--f-display); letter-spacing: -0.05em; color: var(--ink); }
+        .s06-num small { font: 500 34px/40px var(--f-body); letter-spacing: 0; color: var(--grey); margin-left: 10px; }
+        .s06-was { position: absolute; left: 30px; top: 240px; font: 400 25px/34px var(--f-mono); color: var(--grey); }
+        .s06-was s { color: var(--grey); }
+        .s06-pc { position: absolute; left: 30px; top: 300px; font: italic 400 46px/50px var(--f-serif); color: var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s06-cost" data-width="1080" data-height="1920">
+        <div class="panel s06-bg"></div>
+        <div class="cam">
+          <div class="hd s06-hd">
+            <span class="ln"><span>More consistent,</span></span>
+            <span class="ln"><span><em>but longer.</em></span></span>
+          </div>
+          <div class="cd s06-runs">
+            <div class="lb">// replies</div>
+            <div class="s06-run s06-ru1"><span class="mk">run 1</span><b>High</b><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+            <div class="s06-run s06-ru2"><span class="mk">run 2</span><b>High</b><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+            <div class="s06-run s06-ru3"><span class="mk">run 3</span><b>High</b><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></div>
+          </div>
+          <div class="s06-req s06-q1"><i class="ins">instruction</i><span class="ex"><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i></span><i class="tk">ticket</i></div>
+          <div class="s06-req s06-q2"><i class="ins">instruction</i><span class="ex"><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i></span><i class="tk">ticket</i></div>
+          <div class="s06-req s06-q3"><i class="ins">instruction</i><span class="ex"><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i><i style="background:#ff9a5c"></i><i style="background:#8fb0ff"></i></span><i class="tk">ticket</i></div>
+          <div class="co s06-ring" data-layout-allow-overlap=""><svg><rect x="0" y="0" width="100%" height="100%" rx="18" pathLength="1"/></svg><span class="cl">sent every time</span></div>
+          <div class="cd s06-sz">
+            <div class="lb">// prompt size, per call</div>
+            <div class="s06-num"><span class="s06-n">~30</span><small>tokens</small></div>
+            <div class="s06-was">zero-shot was ~30</div>
+            <div class="s06-pc">on every request</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s06-cost"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 56.2).toFixed(3);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          tl.set(cam, { x: 0, y: 0, scale: 1 }, 0);
+          FX.rise(tl, r.querySelectorAll(".ln > span"), [E(56.35), E(57.8)]);
+          tl.fromTo(q(".s06-runs"), { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, E(56.6));
+          [".s06-ru1", ".s06-ru2", ".s06-ru3"].forEach((s, i) => FX.pop(tl, q(s), E(56.85) + i * 0.2, { from: 0.6 }));
+          [[".s06-q1", 58.0], [".s06-q2", 58.26], [".s06-q3", 58.64]].forEach(([s, t]) => {
+            tl.fromTo(q(s), { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, E(t));
+            tl.fromTo(q(s + " .ex"), { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "expo.out" }, E(t) + 0.1);
+          });
+          FX.zoom(tl, cam, { x: 90, y: 790, w: 860, h: 240 }, E(58.9), { W: 1010, dur: 0.5 });
+          FX.callout(tl, q(".s06-ring"), E(59.3));
+          FX.unzoom(tl, cam, E(59.85), { dur: 0.45 });
+          tl.fromTo(q(".s06-sz"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.45, ease: "expo.out" }, E(59.95));
+          const n = q(".s06-n"), box = { v: 30 };
+          tl.fromTo(box, { v: 30 }, { v: 90, duration: 0.9, ease: "power2.out", onUpdate: () => { n.textContent = "~" + Math.round(box.v); } }, E(60.15));
+          tl.fromTo(q(".s06-was"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, E(60.5));
+          FX.words(tl, q(".s06-pc"), E(60.75), { y: 14 });
+          window.__timelines["s06-cost"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:68,&quot;min&quot;:5,&quot;max&quot;:90,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Sketch pad chrome for the whole episode, on top of every scene: the spiral binding along the top edge
+           (under the platform's top bar, decoration only), a pencil progress line at y 186 that draws itself
+           across the episode, and a paper grain over everything (multiply, static). -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .pad { position: absolute; inset: 0; }
+        .pad .grain { position: absolute; inset: 0; width: 1080px; height: 1920px; mix-blend-mode: multiply; opacity: 0.5; }
+        .pad .edge { position: absolute; left: 0; top: 0; width: 1080px; height: 220px; }
+        .pad .bind { position: absolute; left: 0; top: 0; width: 1080px; height: 150px; }
+        .pad .bar { position: absolute; left: 0; top: 160px; width: 1080px; height: 50px; overflow: visible; }
+      </style>
+      <div data-hf-id="hf-t4u5" id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-tjp3" class="pad">
+          <svg data-hf-id="hf-zloz" class="grain" viewBox="0 0 1080 1920" aria-hidden="true">
+            <filter data-hf-id="hf-39sg" id="chrome-grain" x="0" y="0" width="100%" height="100%">
+              <feTurbulence data-hf-id="hf-pxe8" type="fractalNoise" baseFrequency="0.85" numOctaves="3" seed="11" stitchTiles="stitch"/>
+              <feColorMatrix data-hf-id="hf-i3zt" type="matrix" values="0 0 0 0 0.42  0 0 0 0 0.37  0 0 0 0 0.3  0 0 0 -0.9 0.62"/>
+            </filter>
+            <rect data-hf-id="hf-5jg6" width="1080" height="1920" filter="url(#chrome-grain)" opacity="0.2"/>
+          </svg>
+          <svg data-hf-id="hf-jlmk" class="edge" viewBox="0 0 1080 220" aria-hidden="true" data-layout-allow-overflow=""></svg>
+          <svg data-hf-id="hf-5oyc" class="bind" viewBox="0 0 1080 150" aria-hidden="true" data-layout-allow-overflow=""></svg>
+          <svg data-hf-id="hf-pw9d" class="bar" viewBox="0 160 1080 50" aria-hidden="true"></svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .pad');
+          const { duration } = window.__hyperframes.getVariables();
+          const tl = gsap.timeline({ paused: true });
+
+          // the pad's top edge: page content that the camera scrolls up slides under it
+          const edge = root.querySelector(".edge");
+          Sk.shape(edge, "rectangle", [-20, -20, 1120, 236], { fill: "#f6f2e9", fillStyle: "solid", stroke: "none", roughness: 0.4, seed: 3 });
+          Sk.shape(edge, "line", [0, 214, 1080, 213], { stroke: "#cfc8bb", strokeWidth: 2.5, roughness: 0.6, seed: 4, disableMultiStroke: true });
+          // spiral binding: a punched hole and a wire loop every 80 px
+          const bind = root.querySelector(".bind");
+          for (let i = 0; i < 13; i++) {
+            const x = 60 + i * 80;
+            Sk.shape(bind, "ellipse", [x, 104, 26, 22], { fill: "#3b3631", fillStyle: "solid", stroke: "#3b3631", strokeWidth: 1.5, roughness: 0.6, seed: 40 + i });
+            Sk.shape(bind, "path", [`M${x - 7} 104 C ${x - 16} 60, ${x - 10} 18, ${x + 4} -6`], { stroke: "#8c867c", strokeWidth: 7, roughness: 0.4, seed: 60 + i, disableMultiStroke: true });
+            Sk.shape(bind, "path", [`M${x - 5} 100 C ${x - 13} 60, ${x - 8} 20, ${x + 5} -6`], { stroke: "#d9d4ca", strokeWidth: 2.5, roughness: 0.3, seed: 80 + i, disableMultiStroke: true });
+          }
+
+          // pencil progress line: a faint guide, and the drawn line on top of it
+          const bar = root.querySelector(".bar");
+          Sk.shape(bar, "line", [90, 186, 990, 186], { stroke: "#d8d2c6", strokeWidth: 3, roughness: 0.7, seed: 5, disableMultiStroke: true });
+          const line = Sk.shape(bar, "line", [90, 186, 990, 186], { stroke: "#2a2724", strokeWidth: 5, roughness: 0.7, seed: 6, disableMultiStroke: true });
+          const p = line.querySelector("path");
+          p.setAttribute("stroke-dasharray", "1 1.2");
+          p.setAttribute("stroke-dashoffset", "1");
+          tl.to(p, { attr: { "stroke-dashoffset": 0 }, duration: Math.max(0.01, duration), ease: "none" }, 0);
+
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

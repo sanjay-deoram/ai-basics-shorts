@@ -1,0 +1,24 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 0.9,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "[excited] How does the Claude Code team review code, when Claude writes about ninety percent of it? They didn't remove review. But they moved most of the reading to machines. Before the pull request, Claude runs the tests and shows the output, instead of saying it's done. A second agent reviews the diff in a fresh context. On every pull request, agents hunt for bugs in parallel. Other agents vote, and a finding only gets posted if enough of them agree it's real. Every finding needs a fix or a reason. Security gets its own review, and open findings block the merge. Then a classifier decides how many people must approve. A change to docs or button text needs no one, once the checks are green. A normal product change needs one person. The riskiest code needs two people. And a bot's approval never counts as a person's. [excited] So: Claude checks its own work, agents review every pull request, open findings block the merge, and risk sets how many people approve. Follow for more AI basics!"
+    }
+  ]
+}

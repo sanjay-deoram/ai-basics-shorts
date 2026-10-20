@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.05,"sfx":"pop","vol":0.24},
+      {"t":0.78,"sfx":"whoosh","vol":0.2},
+      {"t":1.0,"sfx":"key-press","vol":0.2},
+      {"t":1.35,"sfx":"key-press","vol":0.2},
+      {"t":1.7,"sfx":"key-press","vol":0.2},
+      {"t":2.0,"sfx":"error","vol":0.18,"dur":0.9},
+      {"t":2.45,"sfx":"typing","vol":0.22,"dur":0.45},
+      {"t":3.25,"sfx":"click-soft","vol":0.18},
+      {"t":3.55,"sfx":"click-soft","vol":0.18},
+      {"t":4.2,"sfx":"typing","vol":0.22,"dur":0.7},
+      {"t":4.9,"sfx":"sparkle","vol":0.18,"dur":1.0},
+      {"t":5.4,"sfx":"chime","vol":0.22,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 2 / 5 · Write a spec. Weak: three prompts argue back and forth ("make a login page" · "no, add Google
+           sign-in" · "not like that…") and get the VAGUE stamp. Better: SPEC.md types on (what to build, two musts, and
+           "Done when: all 12 tests pass", highlighted as the voice says "what done looks like") and gets the CLEAR stamp.
+           The spec is an illustrative example. Avatar: corner (doubt on "don't just prompt", smile on Clear); the weak
+           card stays left of x 830. Voiceover: 0.2 "Two: don't just prompt. Write a spec:" 3.2 "what to build, and what
+           done looks like." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .cam { position: absolute; inset: 0; }
+        .s03 .card-bad { position: absolute; left: 90px; top: 300px; width: 700px; padding: 30px 36px; gap: 12px; transform-origin: 50% 0; }
+        .s03 .card-good { position: absolute; left: 90px; top: 660px; width: 860px; padding: 32px 40px; gap: 12px; }
+        .s03 .egg-mono { font-size: 34px; white-space: pre; }
+        .s03 .card-bad .egg-mono { color: var(--graphite); }
+        .s03 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1110px; }
+      </style>
+      <div data-hf-id="hf-qqsj" id="root" data-composition-id="s03-spec" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <p data-hf-id="hf-7eh0" class="egg-num" data-layout-allow-overlap="" data-layout-allow-overflow="">2</p>
+          <span data-hf-id="hf-02zq" class="egg-eyebrow">2 / 5 · Write a spec</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-oe6g" class="egg-card is-bad card-bad">
+              <div data-hf-id="hf-1ytk" class="egg-card-top">
+                <span data-hf-id="hf-wdx7" class="egg-card-kicker">Just prompting</span>
+                <span data-hf-id="hf-1poo" class="egg-stamp bad stamp-bad"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-1gbk" d="M6 6 L18 18 M18 6 L6 18" /></svg>Vague</span>
+              </div>
+              <p data-hf-id="hf-1yjn" class="egg-mono p">&gt; make a login page</p>
+              <p data-hf-id="hf-uju6" class="egg-mono p">&gt; no, add Google sign-in</p>
+              <p data-hf-id="hf-w389" class="egg-mono p">&gt; not like that…</p>
+            </div>
+            <div data-hf-id="hf-fzzs" class="egg-card is-good card-good">
+              <div data-hf-id="hf-lc74" class="egg-card-top">
+                <span data-hf-id="hf-4uic" class="egg-card-kicker">SPEC.md · example</span>
+                <span data-hf-id="hf-xdnr" class="egg-stamp good stamp-good"><svg data-hf-id="hf-1tol" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Clear</span>
+              </div>
+              <p data-hf-id="hf-kdbd" class="egg-mono s1">Build: a login page</p>
+              <p data-hf-id="hf-sgp3" class="egg-mono s2">- Email or Google sign-in</p>
+              <p data-hf-id="hf-adnb" class="egg-mono s3">- Lock after 5 wrong tries</p>
+              <p data-hf-id="hf-yrdb" class="egg-mono s4"><span data-hf-id="hf-oz0v" class="egg-hl">Done when: all 12 tests pass</span></p>
+            </div>
+            <p data-hf-id="hf-casl" class="egg-label">The plan, plus the finish line.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.0;
+          const root = document.querySelector('[data-composition-id="s03-spec"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+
+          // "Two:"
+          Egg.numPunch(tl, q(".egg-num"), 0.05, { hold: 0.35 });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.9, { y: 16 });
+
+          // "don't just prompt": three tries, each a little more annoyed
+          tl.set([q(".stamp-bad"), q(".stamp-good")], { opacity: 0 }, 0);
+          Egg.fadeUp(tl, q(".card-bad"), 0.8, { y: 30 });
+          all(".card-bad .p").forEach((p, i) => {
+            tl.fromTo(p, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, ease: Egg.EASE.enter }, 1.0 + i * 0.35);
+            if (i) Egg.shake(tl, q(".card-bad"), 1.0 + i * 0.35);
+          });
+          Egg.stamp(tl, q(".stamp-bad"), 2.0, q(".card-bad"));
+
+          // "Write a spec: what to build, and what done looks like."
+          tl.to(q(".card-bad"), { opacity: 0.4, scale: 0.97, duration: 0.5, ease: Egg.EASE.move }, 2.4);
+          Egg.fadeUp(tl, q(".card-good"), 2.3, { y: 50 });
+          Egg.typeOn(tl, q(".s1"), 2.45, { cps: 42 });
+          Egg.fadeUp(tl, q(".s2"), 3.25, { y: 14 });
+          Egg.fadeUp(tl, q(".s3"), 3.55, { y: 14 });
+          const typed = Egg.typeOn(tl, q(".s4"), 4.2, { cps: 42 });
+          Egg.highlight(tl, q(".s4 .egg-hl"), typed + 0.05);
+          tl.to(q(".cam"), { scale: 1.04, transformOrigin: "520px 900px", duration: 0.6, ease: Egg.EASE.move }, 4.6);
+          Egg.stamp(tl, q(".stamp-good"), 5.4, q(".card-good"));
+          Egg.fadeUp(tl, q(".egg-label"), 5.6);
+          tl.to(q(".cam"), { scale: 1, duration: 0.6, ease: Egg.EASE.move }, 5.9);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cam")], DUR - 0.35);
+          window.__timelines["s03-spec"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

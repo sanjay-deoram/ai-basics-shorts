@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.6,"sfx":"blip","vol":0.16},
+      {"t":2.0,"sfx":"draw","vol":0.2},
+      {"t":2.7,"sfx":"blip","vol":0.16},
+      {"t":2.55,"sfx":"tick","vol":0.18},
+      {"t":2.85,"sfx":"tick","vol":0.18},
+      {"t":3.15,"sfx":"tick","vol":0.18},
+      {"t":4.1,"sfx":"swish","vol":0.14},
+      {"t":4.5,"sfx":"draw","vol":0.2},
+      {"t":4.75,"sfx":"blip","vol":0.14},
+      {"t":5.7,"sfx":"blip","vol":0.16},
+      {"t":7.1,"sfx":"draw","vol":0.2},
+      {"t":8.2,"sfx":"draw","vol":0.2},
+      {"t":8.65,"sfx":"swish","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · a shot, and why it works (4.9–13.85).
+           A: "A shot is one example." The // shot card: input = a user turn (orange), output = an assistant turn
+              (blue, Claude logo); a ring pairs them: "one shot". The legend cell (bottom left) names the colours.
+           B: "It copies the pattern." The shot shrinks to the top left; an arrow carries its shape down to a new
+              ticket, and the reply comes back in the same shape: rings "your format" and "your labels".
+           Exit: the camera pushes left. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s02-hd { top: 320px; }
+        .s02-cd { left: 90px; top: 600px; width: 860px; height: 400px; transform-origin: 0 0; }
+        .s02-k { position: absolute; left: 30px; font: 400 23px/30px var(--f-mono); color: var(--grey); }
+        .s02-cd .msg { left: 24px; width: 812px; }
+        .s02-u { top: 104px; } .s02-a { top: 264px; }
+        .s02-pair { left: 14px; top: 100px; width: 832px; height: 256px; }
+        .s02-pair .cl { right: 24px; top: -26px; }
+        .s02-lg { left: 90px; top: 1080px; width: 480px; height: 400px; }
+        .s02-lr { position: absolute; left: 30px; right: 24px; display: flex; gap: 18px; align-items: flex-start; }
+        .s02-lr i { flex: none; width: 34px; height: 34px; border-radius: 9px; margin-top: 4px; }
+        .s02-lr b { display: block; font: 600 30px/38px var(--f-body); color: var(--ink); }
+        .s02-lr span { display: block; font: 500 25px/32px var(--f-body); color: var(--grey); }
+        .s02-l1 { top: 84px; } .s02-l2 { top: 186px; } .s02-l3 { top: 288px; }
+        .s02-hd2 { top: 320px; }
+        .s02-new { left: 90px; width: 860px; }
+        .s02-u2 { top: 820px; } .s02-a2 { top: 962px; }
+        .s02-arw { left: 560px; top: 604px; width: 380px; height: 220px; }
+        .s02-nk { position: absolute; left: 640px; top: 700px; font: 400 23px/30px var(--f-mono); color: var(--grey); }
+        .s02-fmt { left: 80px; top: 954px; width: 880px; height: 96px; }
+        .s02-fmt .cl { right: 0; top: -50px; }
+        .s02-lab { left: 284px; top: 960px; width: 120px; height: 84px; }
+        .s02-lab .cl { left: -60px; top: -56px; }
+      </style>
+      <div id="root" data-composition-id="s02-shot" data-width="1080" data-height="1920">
+        <div class="cam">
+          <div class="hd s02-hd s02-hA" data-layout-allow-overlap="">
+            <span class="ln"><span>A shot is</span></span>
+            <span class="ln"><span><em>one example.</em></span></span>
+          </div>
+          <div class="hd s02-hd2 s02-hB" data-layout-allow-overlap="">
+            <span class="ln"><span>It copies</span></span>
+            <span class="ln"><span><em>the pattern.</em></span></span>
+          </div>
+          <div class="cd s02-cd">
+            <div class="lb">// shot</div>
+            <div class="s02-k" style="top:70px">input</div>
+            <div class="msg u s02-u"><span class="who">user</span><span class="t">My password reset email never arrived.</span></div>
+            <div class="s02-k" style="top:230px">output</div>
+            <div class="msg a s02-a"><span class="who"><img src="assets/claude-logo.svg" alt="">assistant</span><span class="t">Low</span></div>
+            <div class="co s02-pair"><svg><rect x="0" y="0" width="100%" height="100%" rx="22" pathLength="1"/></svg><span class="cl">one shot</span></div>
+          </div>
+          <svg class="arw s02-arw" viewBox="0 0 380 220"><path pathLength="1" d="M10 30 C 200 10, 330 60, 300 200"/><path pathLength="1" d="M276 176 L300 204 L322 174"/></svg>
+          <div class="s02-nk">// new ticket</div>
+          <div class="msg u s02-new s02-u2"><span class="who">user</span><span class="t">I'm locked out of my account.</span></div>
+          <div class="msg a s02-new s02-a2"><span class="who"><img src="assets/claude-logo.svg" alt="">assistant</span><span class="t">High</span></div>
+          <div class="co s02-fmt" data-layout-allow-overlap=""><svg><rect x="0" y="0" width="100%" height="100%" rx="22" pathLength="1"/></svg><span class="cl">your format</span></div>
+          <div class="co s02-lab" data-layout-allow-overlap=""><svg><rect x="0" y="0" width="100%" height="100%" rx="18" pathLength="1"/></svg><span class="cl">your labels</span></div>
+
+          <div class="cd s02-lg">
+            <div class="lb">// who's talking</div>
+            <div class="s02-lr s02-l1"><i style="background:var(--sys)"></i><div><b>system</b><span>your instruction</span></div></div>
+            <div class="s02-lr s02-l2"><i style="background:var(--user)"></i><div><b>user turn</b><span>what you send</span></div></div>
+            <div class="s02-lr s02-l3"><i style="background:var(--asst)"></i><div><b>assistant turn</b><span>what the model answers</span></div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s02-shot"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 4.9).toFixed(3);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          tl.set(cam, { x: 0, y: 0, scale: 1 }, 0);
+          const hA = r.querySelectorAll(".s02-hA .ln > span"), hB = r.querySelectorAll(".s02-hB .ln > span");
+
+          // A · one example = a pair of turns
+          FX.rise(tl, hA, [E(4.98), E(5.5)]);
+          tl.fromTo(q(".s02-cd"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out" }, E(5.6));
+          tl.fromTo(q(".s02-u"), { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, E(6.45));
+          FX.callout(tl, q(".s02-pair"), E(6.9), E(8.85));
+          tl.fromTo(q(".s02-a"), { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, E(7.55));
+          tl.fromTo(q(".s02-lg"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, E(7.2));
+          [".s02-l1", ".s02-l2", ".s02-l3"].forEach((s, i) => tl.fromTo(q(s), { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, E(7.45) + i * 0.3));
+
+          // B · it copies the pattern
+          FX.sink(tl, hA, E(8.9), { dur: 0.28 });
+          FX.rise(tl, hB, [E(9.05), E(9.4)]);
+          tl.to(q(".s02-cd"), { scale: 0.55, duration: 0.6, ease: "expo.inOut" }, E(9.0));
+          FX.arrow(tl, q(".s02-arw"), E(9.4), 0.5);
+          tl.fromTo(q(".s02-nk"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, E(9.6));
+          tl.fromTo(q(".s02-u2"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, E(9.65));
+          tl.fromTo(q(".s02-a2"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, E(10.45));
+          FX.pop(tl, q(".s02-a2 .t"), E(10.6), { from: 0.3 });
+          FX.callout(tl, q(".s02-fmt"), E(12.0));
+          FX.callout(tl, q(".s02-lab"), E(13.1));
+
+          // push left into zero-shot
+          tl.to(cam, { x: -1080, duration: 0.42, ease: "power3.in" }, E(13.45));
+          window.__timelines["s02-shot"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

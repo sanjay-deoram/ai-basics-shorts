@@ -1,0 +1,19 @@
+{
+  "assets/vo/s01-a1e7ac1c.mp3": "This pilot approves code from his phone.",
+  "assets/vo/s01-9deaa87a.mp3": "His dev team? All AI agents.",
+  "assets/vo/s01-895cb6e1.mp3": "Five things to know. The last one matters most.",
+  "assets/vo/s02-adb7256e.mp3": "One: AI went from autocomplete to whole features.",
+  "assets/vo/s02-0574b7ab.mp3": "It reads your code, writes it, tests it, and merges.",
+  "assets/vo/s03-5cbfd206.mp3": "Two: don't just prompt. Write a spec:",
+  "assets/vo/s03-20e8bdaf.mp3": "what to build, and what done looks like.",
+  "assets/vo/s04-be9dc713.mp3": "Three: go from coder to conductor.",
+  "assets/vo/s04-a8dcb3fd.mp3": "You make the big calls, and split the work for agents.",
+  "assets/vo/s05-249baa71.mp3": "Four: context.",
+  "assets/vo/s05-ddb38035.mp3": "Your code, tools, skills and MCP servers share one limited window.",
+  "assets/vo/s06-a84ad570.mp3": "And loops: set the goal, then let the agent loop until it's done.",
+  "assets/vo/s07-54f05be6.mp3": "Five, the big one: prompt injection.",
+  "assets/vo/s07-592394d4.mp3": "Hidden text in a pull request can trick an agent into leaking your keys.",
+  "assets/vo/s07-d02c48c0.mp3": "So run agents in a sandbox.",
+  "assets/vo/s08-7f29915b.mp3": "Developers aren't going away. They're becoming conductors.",
+  "assets/vo/s08-1672963f.mp3": "Follow for more AI basics."
+}

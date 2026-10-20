@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.45,"sfx":"typing","vol":0.18,"dur":0.55},
+      {"t":1.25,"sfx":"pop","vol":0.16},
+      {"t":1.3,"sfx":"key-press","vol":0.2},
+      {"t":2.1,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.0,"sfx":"impact-bass-1","vol":0.2,"dur":0.8},
+      {"t":3.15,"sfx":"error","vol":0.12,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · 3 · Security blocks. Opens on s07's last frame (both threads resolved, "Open findings 0"), which clears as
+           the rail moves to 3 SECURITY. The security review flags a second (example) file in the same PR: auth.js, where
+           a new line logs the token; finding "Auth token written to the log" · OPEN. The merge box lists Bug review · 0
+           open and Security review · 1 open; on "block the merge" an ink bar drops across the merge button ("Blocked · 1
+           open finding"), the card shakes and the camera punches in. Everything ends above y 1040 (avatar br). Voice:
+           "Security gets its own review, and open findings block the merge." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .cam { position: absolute; inset: 0; }
+        /* s07's last frame */
+        .s08 .ctr { position: absolute; left: 90px; top: 336px; }
+        .s08 .thr { position: absolute; left: 90px; width: 860px; padding: 20px 30px; gap: 10px; border-radius: 34px; }
+        .s08 .thr .top { display: flex; align-items: center; justify-content: space-between; height: 52px; }
+        .s08 .ctag { display: inline-flex; align-items: center; height: 52px; padding: 0 22px; border: 2px solid var(--ink); border-radius: 9999px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); flex: none; }
+        .s08 .thr p { margin: 0; font: 400 34px/1.3 var(--f-body); color: var(--ink); }
+        .s08 .res { color: var(--ink); background: var(--eggshell); border-color: var(--ink); font-size: 24px; padding: 10px 18px; transform: rotate(-4deg); }
+        .s08 .row { position: absolute; left: 130px; display: flex; align-items: center; gap: 18px; height: 52px; }
+        .s08 .row .egg-card-kicker { width: 120px; color: var(--graphite); }
+        .s08 .commit { display: inline-flex; align-items: center; height: 48px; padding: 0 20px; border: 2px solid var(--btn-border); border-radius: 9999px; font: 400 26px/1 var(--f-mono); color: var(--ink); }
+        .s08 .row p { margin: 0; font: 400 34px/1.3 var(--f-body); color: var(--ink); }
+        .s08 .fix { position: absolute; left: 130px; top: 652px; width: 820px; }
+        /* security */
+        .s08 .sk { position: absolute; left: 90px; top: 342px; }
+        .s08 .auth { position: absolute; left: 90px; top: 388px; width: 860px; }
+        .s08 .flag { position: absolute; width: 34px; height: 40px; fill: none; stroke: #fdfcfc; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s08 .flag .fl { fill: #fdfcfc; }
+        .s08 .find { position: absolute; left: 90px; top: 604px; width: 860px; padding: 20px 30px; flex-direction: row; align-items: center; gap: 22px; border-radius: 34px; }
+        .s08 .find p { flex: 1; margin: 0; font: 400 34px/1.3 var(--f-body); color: var(--ink); }
+        .s08 .merge { position: absolute; left: 90px; top: 730px; width: 860px; padding: 28px 34px; gap: 14px; }
+        .s08 .mr { display: flex; align-items: center; gap: 18px; height: 46px; font: 400 36px/1 var(--f-body); color: var(--ink); }
+        .s08 .mr .st { flex: 1; }
+        .s08 .mr .c { font: 400 28px/1 var(--f-mono); color: var(--smoke); }
+        .s08 .mr .c.on { color: var(--ink); }
+        .s08 .mr .ok { width: 34px; height: 34px; border-radius: 50%; background: var(--ink); display: grid; place-items: center; }
+        .s08 .mr .ok svg { width: 20px; height: 20px; fill: none; stroke: var(--eggshell); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+        .s08 .mr .no { width: 34px; height: 34px; border-radius: 50%; border: 3px solid var(--ink); }
+        .s08 .btn { position: relative; margin-top: 6px; height: 96px; border: 2px solid var(--ink); border-radius: 9999px; display: grid; place-items: center; }
+        .s08 .btn span { grid-area: 1 / 1; font: 500 36px/1 var(--f-body); color: var(--ink); }
+        .s08 .btn .b2 { position: relative; z-index: 1; opacity: 0; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 22px; border: 2px solid var(--ink); border-radius: 9999px; background: var(--eggshell); }
+        .s08 .gate { position: absolute; left: 30px; right: 30px; top: 42px; height: 12px; border-radius: 6px; background: var(--ink); opacity: 0; }
+      </style>
+      <div id="root" data-composition-id="s08-security" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <div class="cam">
+            <div class="prev">
+              <div class="egg-counter ctr">Open findings <b>0</b></div>
+              <div class="egg-card thr" style="top:430px">
+                <div class="top"><span class="ctag">Important</span><span class="egg-stamp res">Resolved · fixed</span></div>
+                <p>Off by one: items[n] is undefined</p>
+              </div>
+              <div class="row" style="top:590px"><span class="egg-card-kicker">Fix</span><span class="commit">fix: stop at n</span></div>
+              <div class="egg-code fix"></div>
+              <div class="egg-card thr" style="top:826px">
+                <div class="top"><span class="ctag">Pre-existing</span><span class="egg-stamp res">Resolved · reason</span></div>
+                <p>getItems() errors aren't caught</p>
+              </div>
+              <div class="row" style="top:984px"><span class="egg-card-kicker">Reason</span><p>Not from this PR. Filed a follow-up.</p></div>
+            </div>
+            <span class="egg-card-kicker sk">Security review · same PR</span>
+            <div class="egg-code auth"></div>
+            <svg class="flag fa" viewBox="0 0 34 40" style="left:893px;top:507px" aria-hidden="true"><path d="M7 37 V4" /><path class="fl" d="M7 5 H28 L23 12.5 L28 20 H7 Z" /></svg>
+            <div class="egg-card find"><span class="ctag">Open</span><p>Auth token written to the log</p><span class="egg-card-kicker">line 9</span></div>
+            <div class="egg-card merge">
+              <div class="mr r1"><span class="ok"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span><span class="st">Bug review</span><span class="c">0 open</span></div>
+              <div class="mr r2"><span class="no"></span><span class="st">Security review</span><span class="c on">1 open</span></div>
+              <div class="btn"><span class="b1">Merge pull request</span><i class="gate"></i><span class="b2">Blocked · 1 open finding</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.2;
+          const root = document.querySelector('[data-composition-id="s08-security"] .s08');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Egg.codeCard(q(".fix"), `
+-for (let i = 0; i <= n; i++) {
++for (let i = 0; i < n; i++) {`, { lang: "js", diff: true, nums: [3, 3] });
+          // s07's last frame: the <= it fixed stays highlighted
+          const le = [...q(".fix").querySelectorAll(".ln")[0].querySelectorAll(".t-p")].find((s) => s.textContent === "<=");
+          gsap.set(le, { backgroundColor: "rgba(255, 138, 200, 1)", color: "#000000", borderRadius: 6 });
+          // example: a second file in the same PR, where a new line logs the token
+          const auth = q(".auth");
+          Egg.codeCard(auth, `
+ const token = await login(user);
++console.log("token:", token);`, { lang: "js", diff: true, nums: [8, 9], file: "auth.js", tag: "Example" });
+          const tl = gsap.timeline({ paused: true });
+          const cam = q(".cam");
+
+          // s07's frame clears as the rail moves to 3 SECURITY
+          Egg.fadeOut(tl, q(".prev"), 0.05, { dur: 0.3 });
+          // "Security gets its own review,"
+          Egg.fadeUp(tl, q(".sk"), 0.3, { y: 12 });
+          Egg.fadeUp(tl, auth, 0.35, { y: 24, dur: 0.5 });
+          Egg.codeType(tl, auth, 0.45, { cps: 115, lineGap: 0 });
+          Egg.codeRun(tl, auth, 1, 1.2, { dur: 0.3 });
+          tl.fromTo(q(".fa"), { y: -24, opacity: 0, scale: 0.6 }, { y: 0, opacity: 1, scale: 1, duration: 0.3, ease: Egg.EASE.pop }, 1.3);
+          Egg.fadeUp(tl, q(".find"), 1.25, { y: 20, dur: 0.5 });
+          Egg.pop(tl, q(".find .ctag"), 1.45);
+          // "…and open findings block the merge."
+          Egg.fadeUp(tl, q(".merge"), 2.1, { y: 30, dur: 0.5 });
+          Egg.fadeUp(tl, [q(".r1"), q(".r2"), q(".btn")], 2.2, { y: 12, stagger: 0.15, dur: 0.45 });
+          tl.fromTo(q(".gate"), { y: -90, opacity: 0, rotation: -4 }, { y: 0, opacity: 1, rotation: -4, duration: 0.35, ease: "back.out(2.4)", immediateRender: false }, 3.0);
+          tl.to(q(".b1"), { color: "#777169", duration: 0.2, ease: "none" }, 3.05);
+          tl.fromTo(q(".b2"), { scale: 1.6, rotation: -4, opacity: 0 }, { scale: 1, rotation: -4, opacity: 1, duration: 0.3, ease: Egg.EASE.stamp, immediateRender: false }, 3.2);
+          tl.to(q(".btn"), { borderColor: "#ebe8e4", duration: 0.2, ease: "none" }, 3.1);
+          Egg.shake(tl, q(".merge"), 3.15);
+          tl.to(cam, { scale: 1.05, transformOrigin: "520px 500px", duration: 0.6, ease: Egg.EASE.move }, 3.0);
+          Egg.fadeOut(tl, cam, DUR - 0.3, { dur: 0.28, y: 0 });
+          window.__timelines["s08-security"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

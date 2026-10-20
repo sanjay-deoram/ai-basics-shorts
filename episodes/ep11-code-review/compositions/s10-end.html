@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.95,"sfx":"sparkle","vol":0.14,"dur":0.7},
+      {"t":1.05,"sfx":"click","vol":0.28},
+      {"t":2.85,"sfx":"click","vol":0.28},
+      {"t":4.95,"sfx":"click","vol":0.28},
+      {"t":7.05,"sfx":"click","vol":0.28},
+      {"t":7.9,"sfx":"chime","vol":0.24,"dur":1.6},
+      {"t":9.6,"sfx":"pop","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s10 · Pull back + end card. On "So:" the rail (rail.html) pulls back to full size mid-frame, every station ticked,
+           the dot runs the whole line, and it fades. Then "That's the review" and four ticks on the voice: Claude checks
+           its own work · Agents review every pull request · Open findings block the merge · Risk sets how many people approve; the follow pill
+           pops on "Follow". The narrator avatar stands centred above (narrator.html "end") and smiles. No sources on
+           screen. No fade-out: the last frame holds. Voice: "So: Claude checks its own work, agents review every pull request,
+           open findings block the merge, and risk sets how many people approve. Follow for more AI basics!" -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s10 .egg-safe { gap: 40px; justify-content: flex-start; padding-top: 460px; }
+        .s10 .egg-checks { gap: 24px; }
+        .s10 .egg-checks li { font-size: 50px; }
+        .s10 .egg-chip.egg-pill-dark { margin-top: 10px; font-size: 30px; padding: 24px 36px; align-self: center; text-transform: none; letter-spacing: 0.01em; font-family: var(--f-body); font-weight: 500; }
+      </style>
+      <div id="root" data-composition-id="s10-end" data-width="1080" data-height="1920">
+        <div class="egg-scene s10">
+          <div class="egg-safe">
+            <h2 class="egg-title">That's the <span class="egg-hl">review</span></h2>
+            <ul class="egg-checks">
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Claude checks its own work</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Agents review every pull request</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Open findings block the merge</li>
+              <li><span class="tick"><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></span>Risk sets how many people approve</li>
+            </ul>
+            <span class="egg-chip egg-pill-dark">Follow for more AI basics</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s10-end"] .s10');
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-title"), 0.85, { y: 24 });
+          Egg.highlight(tl, q(".egg-title .egg-hl"), 1.0);
+          // "Claude checks its own work, agents review every PR, open findings block the merge, and risk sets the approvals."
+          [1.0, 2.8, 4.9, 7.0].forEach((t, i) => {
+            const li = root.querySelectorAll(".egg-checks li")[i];
+            tl.fromTo(li, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.4, ease: Egg.EASE.enter }, t);
+            tl.fromTo(li.querySelector(".tick"), { scale: 0 }, { scale: 1, duration: 0.4, ease: Egg.EASE.pop }, t + 0.05);
+          });
+          // "Follow for more AI basics!"
+          Egg.pop(tl, q(".egg-pill-dark"), 9.6);
+          window.__timelines["s10-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

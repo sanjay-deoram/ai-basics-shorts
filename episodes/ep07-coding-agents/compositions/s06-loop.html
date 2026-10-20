@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"whoosh-short","vol":0.16},
+      {"t":1.05,"sfx":"pop","vol":0.22},
+      {"t":0.35,"sfx":"click-soft","vol":0.18},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.55,"sfx":"click","vol":0.22},
+      {"t":3.2,"sfx":"click","vol":0.22},
+      {"t":3.75,"sfx":"chime","vol":0.24,"dur":1.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 4 / 5 · Loops (still idea 4). "You set the goal: Done when 24/24 tests pass." An ink loop draws with three
+           stops (write, test, fix); an agent laps it twice while "Tests passing" climbs 12 → 19 → 24 of 24, then a DONE
+           stamp lands as the voice says "done". "You set the goal. The agent loops." Numbers are illustrative. Avatar:
+           corner (smile on "done"); the goal card stays left of x 830. Voiceover: 0.2 "And loops: set the goal, then let
+           the agent loop until it's done." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s06 .cam { position: absolute; inset: 0; }
+        .s06 .goal { position: absolute; left: 90px; top: 300px; width: 700px; padding: 28px 36px; gap: 12px; }
+        .s06 .goal .egg-mono { font-size: 34px; white-space: pre; }
+        .s06 .at { position: absolute; width: 0; height: 0; display: flex; align-items: center; justify-content: center; }
+        .s06 .stop { flex: none; font: 400 28px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink); background: var(--eggshell); border: 2px solid var(--ink); border-radius: 9999px; padding: 12px 20px; white-space: nowrap; }
+        .s06 .mid { flex: none; display: flex; flex-direction: column; align-items: center; gap: 10px; }
+        .s06 .num { font: 300 120px/1 var(--f-display); letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+        .s06 .egg-stamp svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+        .s06 .runner { position: absolute; left: 0; top: 0; }
+        .s06 .egg-label { position: absolute; left: 90px; width: 860px; top: 1250px; }
+      </style>
+      <div data-hf-id="hf-5onb" id="root" data-composition-id="s06-loop" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-anh9" class="egg-scene s06">
+          <span data-hf-id="hf-db92" class="egg-eyebrow">4 / 5 · Loops</span>
+          <div data-hf-id="hf-eb3c" class="cam" data-layout-allow-overflow="">
+            <div data-hf-id="hf-i0mn" class="egg-card goal">
+              <span data-hf-id="hf-3okc" class="egg-card-kicker">You set the goal</span>
+              <p data-hf-id="hf-syr0" class="egg-mono">Done when: <span data-hf-id="hf-6m9s" class="egg-hl">24/24 tests pass</span></p>
+            </div>
+            <svg data-hf-id="hf-3tuu" class="egg-svg loop" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path data-hf-id="hf-u0xs" class="ink" data-draw="0" data-dur="0.6" d="M579.9 673.5 A230 230 0 1 1 500.1 673.5" />
+              <path data-hf-id="hf-miha" class="ink" data-draw="1" data-dur="0.2" d="M473.7 696.4 L500.1 673.5 L467.5 661" />
+            </svg>
+            <div data-hf-id="hf-iain" class="at" style="left:540px;top:902px" data-layout-allow-overflow=""><div data-hf-id="hf-wgyu" class="mid">
+              <span data-hf-id="hf-dh63" class="egg-card-kicker">Tests passing</span>
+              <span data-hf-id="hf-xvl2" class="num"><b data-hf-id="hf-n564" class="pass" style="font-weight:300">12</b>/24</span>
+              <span data-hf-id="hf-j9jz" class="egg-stamp good done"><svg data-hf-id="hf-ulu9" viewBox="0 0 24 24"><path data-hf-id="hf-sqa9" d="M5 12.5 L10 17.5 L19 7" /></svg>Done</span>
+            </div></div>
+            <div data-hf-id="hf-q73r" class="at" style="left:540px;top:612px" data-layout-allow-overflow=""><span data-hf-id="hf-o28d" class="stop st0">Write</span></div>
+            <div data-hf-id="hf-xcbh" class="at" style="left:800px;top:1052px" data-layout-allow-overflow=""><span data-hf-id="hf-6eyv" class="stop st1">Test</span></div>
+            <div data-hf-id="hf-wqhr" class="at" style="left:280px;top:1052px" data-layout-allow-overflow=""><span data-hf-id="hf-bc4z" class="stop st2">Fix</span></div>
+            <div data-hf-id="hf-r9q3" class="runner" data-layout-allow-overflow=""><span data-hf-id="hf-2q6x" class="egg-agent" style="--s:76px">&gt;_</span></div>
+            <p data-hf-id="hf-81c3" class="egg-label">You set the goal. The agent loops.</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.8;
+          const root = document.querySelector('[data-composition-id="s06-loop"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const CX = 540, CY = 900, R = 230, HALF = 38;
+
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05, { y: 16 });
+          // "And loops": the loop draws with its stops
+          // "set the goal"
+          Egg.fadeUp(tl, q(".goal"), 0.9, { y: 30 });
+          Egg.highlight(tl, q(".goal .egg-hl"), 1.35);
+
+          Egg.draw(tl, q(".loop"), 0.3, { gap: 0.55 });
+          Egg.pop(tl, all(".stop"), 0.5, { stagger: 0.12 });
+          tl.set(q(".done"), { opacity: 0 }, 0);
+          Egg.fadeUp(tl, q(".mid"), 1.7, { y: 20 });
+
+          // "then let the agent loop": two laps from the top, clockwise; the count rises each time it passes Test
+          const runner = q(".runner");
+          const box = { a: -90 };
+          const place = () => {
+            const r = (box.a * Math.PI) / 180;
+            gsap.set(runner, { x: CX + R * Math.cos(r) - HALF, y: CY + R * Math.sin(r) - HALF });
+          };
+          place();
+          tl.fromTo(runner, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: Egg.EASE.pop }, 1.75);
+          tl.fromTo(box, { a: -90 }, { a: 630, duration: 2.0, ease: "power1.inOut", onUpdate: place }, 2.0);
+          const pass = Egg.meter(tl, q(".pass"), (v) => String(Math.round(v)), 12);
+          pass(19, 2.55, 0.25);
+          pass(24, 3.2, 0.25);
+          [2.55, 3.2].forEach((t) => tl.fromTo(q(".st1"), { scale: 1 }, { scale: 1.15, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, t));
+
+          // "until it's done"
+          Egg.stamp(tl, q(".done"), 3.75, q(".mid"));
+          tl.fromTo(runner, { scale: 1 }, { scale: 1.2, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 4.0);
+          Egg.fadeUp(tl, q(".egg-label"), 4.15);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".cam")], DUR - 0.35);
+          window.__timelines["s06-loop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

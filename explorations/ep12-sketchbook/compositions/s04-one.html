@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pencil","vol":0.2},
+      {"t":0.55,"sfx":"pop","vol":0.14},
+      {"t":1.0,"sfx":"pencil","vol":0.18},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.12},
+      {"t":2.2,"sfx":"pop","vol":0.22},
+      {"t":3.0,"sfx":"pencil","vol":0.2},
+      {"t":3.8,"sfx":"pencil","vol":0.18},
+      {"t":5.35,"sfx":"pencil-short","vol":0.2},
+      {"t":5.85,"sfx":"whoosh-short","vol":0.12},
+      {"t":6.45,"sfx":"pop","vol":0.18},
+      {"t":6.95,"sfx":"pencil-short","vol":0.2},
+      {"t":7.35,"sfx":"whoosh-short","vol":0.12},
+      {"t":7.7,"sfx":"pencil","vol":0.18},
+      {"t":8.3,"sfx":"pop","vol":0.16},
+      {"t":8.75,"sfx":"pencil-short","vol":0.18},
+      {"t":9.6,"sfx":"pop","vol":0.16},
+      {"t":10.5,"sfx":"page","vol":0.26}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · One-shot (27.05–37.95). "With one-shot, you first show it one example, like a missing password reset
+           email, marked low. Now it copies your format, but it has only seen low, so it has to guess what counts as high."
+           The same prompt card; one sticky note (the password example) is stuck into the first spot, written, and its
+           "Low" ringed. The reply comes back "Priority: High": "Priority:" is underlined on the note and on the reply (same
+           format). Then a three-box scale: Low has an example, Medium and High are only question marks, and High
+           wobbles. Avatar: corner until the first zoom. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .box { position: absolute; width: 250px; text-align: center; }
+      </style>
+      <div id="root" data-composition-id="s04-one" data-width="1080" data-height="1920">
+        <div class="sk-scene s04">
+          <div class="sk-cam">
+            <div class="s04-page" style="position:absolute;inset:0">
+              <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+              <span class="sk-abs sk-h1 c-purple sk-w t1" style="left:90px;top:236px">One-shot</span>
+              <span class="sk-abs sk-h2 c-purple b0" style="left:670px;top:262px">1</span>
+              <span class="sk-abs sk-note c-soft t2" style="left:100px;top:384px">one example, then the task</span>
+
+              <span class="sk-abs sk-h2 ai" style="left:470px;top:1114px;width:140px;text-align:center">AI</span>
+              <span class="sk-abs sk-note c-green same" style="left:120px;top:1136px">same format ✓</span>
+              <span class="sk-abs sk-kicker r1k" style="left:318px;top:1252px">reply</span>
+              <span class="sk-abs sk-h3 r1" style="left:340px;top:1316px"><span class="rp">Priority:</span> <span class="c-red">High</span></span>
+
+              <span class="sk-abs sk-kicker sc-k" style="left:110px;top:1510px">what it has seen so far</span>
+              <span class="sk-abs box sk-h3 c-green" style="left:110px;top:1580px">Low</span>
+              <span class="sk-abs box sk-h3 c-orange" style="left:400px;top:1580px">Medium</span>
+              <span class="sk-abs box sk-h3 c-red" style="left:690px;top:1580px">High</span>
+              <span class="sk-abs box sk-small c-soft seen" style="left:110px;top:1728px">1 example</span>
+              <span class="sk-abs box q2" style="left:400px;top:1640px;font:700 110px/1 var(--f-hand);color:var(--soft)">?</span>
+              <span class="sk-abs box q3" style="left:690px;top:1640px;font:700 110px/1 var(--f-hand);color:var(--red)">?</span>
+              <span class="sk-abs sk-note c-red guess" style="left:690px;top:1806px">has to guess!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s04-one"] .s04');
+          const cam = root.querySelector(".sk-cam"), page = root.querySelector(".s04-page"), ink = root.querySelector(".sk-ink");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const C = Sk.C;
+
+          const P = Sk.promptCard(page, ink, { notes: 1, seed: 200 });
+          const N = P.notes[0];
+          const badge = Sk.ring($(".b0"), { color: C.purple, seed: 201, padX: 30, padY: 4 });
+          const arrow = Sk.arrow(ink, [[520, 1056], [505, 1080], [530, 1106]], { strokeWidth: 3.2, seed: 206, head: 22 });
+          const aiBox = Sk.shape(ink, "path", [Sk.roundRect(455, 1110, 170, 112, 26)], { fill: "#efe9ff", fillStyle: "solid", strokeWidth: 3.2, seed: 207 });
+          const spark = Sk.sparkle(ink, 622, 1112, 24, { seed: 208 });
+          const b1 = Sk.bubble(ink, 300, 1290, 480, 116, 520, { seed: 209 });
+          const preRing = Sk.underline(N.el.querySelector(".pre"), { color: C.green, seed: 214, drop: -8 });
+          const repRing = Sk.underline($(".rp"), { color: C.green, seed: 215 });
+          const tick = Sk.shape(ink, "linearPath", [[[808, 1344], [824, 1364], [866, 1314]]], { stroke: C.green, strokeWidth: 6, seed: 216 });
+          const boxes = [110, 400, 690].map((x, i) => Sk.shape(ink, "path", [Sk.roundRect(x, 1560, 250, 230, 18)], { stroke: [C.green, C.orange, C.red][i], strokeWidth: 3.2, strokeLineDash: i ? [12, 10] : undefined, fill: i ? undefined : "#e9f4ec", fillStyle: "solid", seed: 220 + i }));
+          const loTick = Sk.shape(ink, "linearPath", [[[192, 1690], [218, 1714], [276, 1652]]], { stroke: C.green, strokeWidth: 7, seed: 224 });
+
+          // 0–2 · title, then the same prompt as before, written quickly
+          Sk.frame(tl, cam, [84, 226, 820, 430], 0, 0);
+          Sk.write(tl, $(".t1"), 0.1, { dur: 0.5 });
+          Sk.pop(tl, $(".b0"), 0.5); Sk.draw(tl, badge, 0.55, 0.35);
+          Sk.home(tl, cam, 0.9, 0.75);
+          Sk.write(tl, $(".t2"), 1.0, { dur: 0.5 });
+          Sk.draw(tl, P.card, 1.0, 0.45);
+          Sk.write(tl, P.kicker, 1.2, { dur: 0.2 });
+          Sk.write(tl, P.ins, 1.3, { dur: 0.5 });
+          Sk.draw(tl, P.spots, 1.45, 0.35);
+          Sk.write(tl, P.issue[0], 1.5, { dur: 0.45 });
+          Sk.write(tl, P.issue[1], 1.75, { dur: 0.4 });
+          Sk.write(tl, P.issue[2], 2.0, { dur: 0.2 });
+
+          // 2–5.6 · the example note is stuck into the first spot, written, and its answer ringed
+          Sk.frame(tl, cam, [120, 580, 680, 870], 2.0, 0.6);
+          Sk.slap(tl, N.el, 2.15, { rot: -2, dy: 320 });
+          Sk.write(tl, N.text, 3.0, { dur: 1.5 });
+          gsap.set(N.line, { opacity: 0 });
+          tl.to(N.line, { opacity: 1, duration: 0.3 }, 4.85);
+          Sk.draw(tl, N.ring, 5.35, 0.35);
+
+          // 5.85–7.2 · pull back: the reply copies the format ("Priority:" ringed on both)
+          Sk.frame(tl, cam, [90, 590, 950, 1480], 5.85, 0.7);
+          Sk.draw(tl, arrow, 5.95, 0.3);
+          Sk.draw(tl, [aiBox, spark], 6.1, 0.3);
+          Sk.pop(tl, $(".ai"), 6.2);
+          Sk.draw(tl, b1, 6.3, 0.2);
+          Sk.write(tl, $(".r1k"), 6.3, { dur: 0.2 });
+          Sk.pop(tl, $(".r1"), 6.45);
+          Sk.draw(tl, [preRing, repRing], 6.85, 0.35, { together: true });
+          Sk.write(tl, $(".same"), 6.95, { dur: 0.4 });
+          Sk.draw(tl, tick, 7.1, 0.2);
+
+          // 7.35–10.5 · the scale: only Low has an example; High is a guess
+          Sk.frame(tl, cam, [100, 1500, 950, 1860], 7.35, 0.75);
+          Sk.write(tl, $(".sc-k"), 7.7, { dur: 0.4 });
+          Sk.draw(tl, boxes, 7.75, 0.5);
+          Sk.pop(tl, root.querySelectorAll(".box.sk-h3"), 7.9, { stagger: 0.1 });
+          Sk.draw(tl, loTick, 8.3, 0.25);
+          Sk.write(tl, $(".seen"), 8.35, { dur: 0.3 });
+          Sk.pop(tl, [$(".q2"), $(".q3")], 8.75, { stagger: 0.12 });
+          Sk.frame(tl, cam, [670, 1550, 960, 1870], 9.35, 0.6);
+          tl.to($(".q3"), { rotation: 14, duration: 0.12, yoyo: true, repeat: 5, ease: "sine.inOut" }, 9.6);
+          Sk.write(tl, $(".guess"), 9.7, { dur: 0.45 });
+
+          Sk.pageOut(tl, page, 10.5, 0.4);
+          window.__timelines["s04-one"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

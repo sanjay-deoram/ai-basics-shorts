@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pencil","vol":0.2},
+      {"t":0.55,"sfx":"pop","vol":0.14},
+      {"t":1.5,"sfx":"pencil","vol":0.18},
+      {"t":2.0,"sfx":"pencil","vol":0.18},
+      {"t":2.85,"sfx":"pencil-short","vol":0.16},
+      {"t":3.95,"sfx":"whoosh-short","vol":0.12},
+      {"t":6.4,"sfx":"pop","vol":0.14},
+      {"t":7.12,"sfx":"pop","vol":0.14},
+      {"t":7.62,"sfx":"pop","vol":0.14},
+      {"t":8.4,"sfx":"whoosh-short","vol":0.12},
+      {"t":9.5,"sfx":"pencil","vol":0.2},
+      {"t":10.95,"sfx":"pencil","vol":0.2},
+      {"t":12.4,"sfx":"whoosh-short","vol":0.12},
+      {"t":12.8,"sfx":"pencil-short","vol":0.2},
+      {"t":13.85,"sfx":"pop","vol":0.2},
+      {"t":14.6,"sfx":"pencil-short","vol":0.2},
+      {"t":15.75,"sfx":"whoosh-short","vol":0.12},
+      {"t":16.95,"sfx":"pencil-short","vol":0.2},
+      {"t":17.6,"sfx":"whoosh-short","vol":0.12},
+      {"t":17.9,"sfx":"typing","vol":0.16,"dur":1.3},
+      {"t":19.1,"sfx":"pencil-short","vol":0.2},
+      {"t":19.45,"sfx":"page","vol":0.26}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Zero-shot (7.2–27.05). "With zero-shot, you give the AI a task and no examples. Say you ask it to rate a
+           customer issue as high, medium, or low priority, and the issue says, I can't access my account and my report
+           is due today. It will probably say high, but it picks its own format, so one reply might be a single word, and
+           the next might be a whole paragraph."
+           The prompt card (Sk.promptCard) with its three example spots left empty and dashed. The camera frames the
+           instruction (High / Medium / Low turn red / orange / green as they're said), then the issue as it's written,
+           pulls back as the arrow reaches the AI, and visits the two replies: "High" (one word) and a whole paragraph.
+           Every framing fits inside the safe box (Sk.frame). Avatar: corner until the first zoom. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .para { font: 400 36px/1.2 var(--f-body); color: var(--ink); width: 466px; white-space: normal; }
+      </style>
+      <div id="root" data-composition-id="s03-zero" data-width="1080" data-height="1920">
+        <div class="sk-scene s03">
+          <div class="sk-cam">
+            <div class="s03-page" style="position:absolute;inset:0">
+              <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+              <span class="sk-abs sk-h1 c-blue sk-w t1" style="left:90px;top:236px">Zero-shot</span>
+              <span class="sk-abs sk-h2 c-blue b0" style="left:700px;top:262px">0</span>
+              <span class="sk-abs sk-note c-soft t2" style="left:100px;top:384px">no examples, just the task</span>
+              <span class="sk-abs sk-note c-soft none" style="left:0;width:1040px;text-align:center;top:700px">(no examples)</span>
+
+              <span class="sk-abs sk-h2 ai" style="left:470px;top:1114px;width:140px;text-align:center">AI</span>
+              <span class="sk-abs sk-note c-red fmt" style="left:660px;top:1136px">its own format…</span>
+              <span class="sk-abs sk-kicker r1k" style="left:118px;top:1260px">reply 1</span>
+              <span class="sk-abs sk-h2 r1" style="left:126px;top:1318px">High</span>
+              <span class="sk-abs sk-note c-red r1n" style="left:130px;top:1430px">one word</span>
+              <span class="sk-abs sk-kicker r2k" style="left:452px;top:1260px">reply 2</span>
+              <span class="sk-abs para r2" style="left:456px;top:1322px">This sounds urgent! The customer is locked out and has a deadline today, so I'd call it a high priority issue.</span>
+              <span class="sk-abs sk-note c-red r2n" style="left:520px;top:1560px">a whole paragraph!</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s03-zero"] .s03');
+          const cam = root.querySelector(".sk-cam"), page = root.querySelector(".s03-page"), ink = root.querySelector(".sk-ink");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const C = Sk.C;
+
+          const P = Sk.promptCard(page, ink, { notes: 0, seed: 100 });
+          const badge = Sk.ring($(".b0"), { color: C.blue, seed: 101, padX: 26, padY: 4 });
+          const hlIssue = Sk.highlight(ink, 126, 660, 896, { width: 46, seed: 105 });
+          const arrow = Sk.arrow(ink, [[520, 1056], [505, 1080], [530, 1106]], { strokeWidth: 3.2, seed: 106, head: 22 });
+          const aiBox = Sk.shape(ink, "path", [Sk.roundRect(455, 1110, 170, 112, 26)], { fill: "#efe9ff", fillStyle: "solid", strokeWidth: 3.2, seed: 107 });
+          const spark = Sk.sparkle(ink, 622, 1112, 24, { seed: 108 });
+          const q1 = Sk.shape(ink, "path", ["M392 1134 Q392 1106 414 1106 Q436 1106 436 1130 Q436 1148 416 1154 L416 1168 M416 1184 L416 1187"], { stroke: C.red, strokeWidth: 4.5, seed: 109 });
+          const b1 = Sk.bubble(ink, 100, 1300, 300, 116, 330, { seed: 110 });
+          const b2 = Sk.bubble(ink, 432, 1300, 512, 236, 820, { seed: 111 });
+          const u1 = Sk.shape(ink, "line", [126, 1408, 290, 1404], { stroke: C.red, strokeWidth: 4.5, seed: 112 });
+          const u2 = Sk.shape(ink, "curve", [[[450, 1550], [600, 1546], [760, 1552], [930, 1546]]], { stroke: C.red, strokeWidth: 4.5, seed: 113 });
+
+          // 0–3.5 · title, then the prompt card with three empty example spots
+          Sk.frame(tl, cam, [84, 226, 820, 430], 0, 0);
+          Sk.write(tl, $(".t1"), 0.1, { dur: 0.55 });
+          Sk.pop(tl, $(".b0"), 0.55); Sk.draw(tl, badge, 0.6, 0.35);
+          Sk.home(tl, cam, 1.1, 0.8);
+          Sk.write(tl, $(".t2"), 1.3, { dur: 0.5 });
+          Sk.draw(tl, P.card, 1.5, 0.5);
+          Sk.write(tl, P.kicker, 1.8, { dur: 0.25 });
+          Sk.write(tl, P.ins, 2.0, { dur: 0.85 });
+          Sk.draw(tl, P.spots, 2.85, 0.45);
+          Sk.write(tl, $(".none"), 3.05, { dur: 0.4 });
+
+          // 3.95–8.3 · the instruction; the three labels light up as they're said
+          Sk.frame(tl, cam, [120, 520, 730, 610], 3.95, 0.8);
+          [[".p-hi", C.red, 6.4], [".p-md", C.orange, 7.12], [".p-lo", C.green, 7.62]].forEach(([s, col, t]) => {
+            tl.to($(s), { color: col, duration: 0.15 }, t);
+            Sk.punch(tl, $(s), t, 1.22);
+          });
+
+          // 8.4–12.4 · the issue as it's written
+          Sk.frame(tl, cam, [120, 860, 700, 1040], 8.4, 0.8);
+          Sk.draw(tl, hlIssue, 9.4, 0.3);
+          Sk.write(tl, P.issue[0], 9.5, { dur: 1.4 });
+          Sk.write(tl, P.issue[1], 10.95, { dur: 1.2 });
+          Sk.write(tl, P.issue[2], 12.15, { dur: 0.3 });
+
+          // 12.4–15.5 · pull back: the arrow reaches the AI, reply 1 says "High"; then "its own format…"
+          Sk.frame(tl, cam, [90, 860, 950, 1600], 12.4, 0.8);
+          Sk.draw(tl, arrow, 12.8, 0.3);
+          Sk.draw(tl, [aiBox, spark], 13.0, 0.35);
+          Sk.pop(tl, $(".ai"), 13.15);
+          Sk.draw(tl, b1, 13.6, 0.25);
+          Sk.write(tl, $(".r1k"), 13.6, { dur: 0.2 });
+          Sk.pop(tl, $(".r1"), 13.85);
+          Sk.draw(tl, q1, 14.6, 0.3);
+          Sk.write(tl, $(".fmt"), 14.7, { dur: 0.6 });
+
+          // 15.75–17.5 · close on reply 1: one word
+          Sk.frame(tl, cam, [90, 1240, 430, 1490], 15.75, 0.75);
+          Sk.draw(tl, u1, 16.95, 0.2);
+          Sk.write(tl, $(".r1n"), 17.0, { dur: 0.35 });
+
+          // 17.6–19.45 · across to reply 2: a whole paragraph
+          Sk.frame(tl, cam, [420, 1240, 950, 1620], 17.6, 0.6);
+          Sk.draw(tl, b2, 17.75, 0.3);
+          Sk.write(tl, $(".r2k"), 17.75, { dur: 0.2 });
+          tl.fromTo($(".r2"), { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 1.25, ease: "steps(5)" }, 17.9);
+          Sk.draw(tl, u2, 19.05, 0.3);
+          Sk.write(tl, $(".r2n"), 19.1, { dur: 0.3 });
+
+          Sk.pageOut(tl, page, 19.45, 0.4);
+          window.__timelines["s03-zero"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.12,"sfx":"pop","vol":0.2},
+      {"t":0.55,"sfx":"pencil","vol":0.2},
+      {"t":1.05,"sfx":"pencil-short","vol":0.2},
+      {"t":1.45,"sfx":"pencil","vol":0.18},
+      {"t":1.95,"sfx":"whoosh-short","vol":0.12},
+      {"t":2.3,"sfx":"pop","vol":0.16},
+      {"t":2.42,"sfx":"page","vol":0.26}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · What a shot is (4.45–7.2). "A shot is just an example you put in your prompt."
+           A big sticky note slaps onto the page on "shot": an example issue with its answer ("Priority: Low", ringed on
+           "example"). "1 shot = 1 example" is lettered above; a "your prompt" card draws below and the note flies
+           down and sticks to it on "prompt". Avatar: off. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s02-shot" data-width="1080" data-height="1920">
+        <div class="sk-scene s02">
+          <div class="sk-cam">
+            <div class="s02-page" style="position:absolute;inset:0">
+              <svg class="sk-ink" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+              <span class="sk-abs sk-h2 sk-w t1" style="left:90px;top:262px">1 shot <span class="c-soft">=</span> <span class="c-blue">1 example</span></span>
+              <span class="sk-abs sk-note c-soft t2" style="left:96px;top:376px">an example of what you want back</span>
+              <span class="sk-abs sk-kicker card-k" style="left:190px;top:1060px">your prompt</span>
+              <div class="bigwrap" style="position:absolute;left:364px;top:500px;width:252px;height:218px">
+                <div class="sk-sticky big" style="left:0;top:0;background:#fff1a1">
+                  <div class="tape"></div>
+                  <div class="nt">My password reset email hasn't arrived.</div>
+                  <div class="nl"><span class="pre">Priority:</span> <span class="lab c-green">Low</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-shot"] .s02');
+          const cam = root.querySelector(".sk-cam"), page = root.querySelector(".s02-page"), ink = root.querySelector(".sk-ink");
+          const $ = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const C = Sk.C;
+
+          const lr = Sk.ring($(".big .lab"), { color: C.green, seed: 31, padX: 14, padY: 8 });
+          const under = Sk.shape(ink, "line", [372, 344, 640, 340], { stroke: C.blue, strokeWidth: 5, seed: 27 });
+          const card = Sk.shape(ink, "path", [Sk.roundRect(170, 1040, 740, 400, 24)], { fill: C.card, fillStyle: "solid", strokeWidth: 3.2, seed: 26 });
+          const lines = [1110, 1160].map((y, i) => Sk.shape(ink, "line", [200, y, i ? 520 : 700, y], { stroke: "#cfc8bb", strokeWidth: 10, seed: 28 + i }));
+
+          gsap.set($(".bigwrap"), { scale: 1.4, transformOrigin: "0 0" });
+          Sk.slap(tl, $(".big"), 0.1, { rot: -3, dy: 300, dur: 0.45 });
+          Sk.draw(tl, lr, 1.05, 0.35);
+          Sk.write(tl, $(".t1"), 0.55, { dur: 0.6 });
+          Sk.draw(tl, under, 1.15, 0.2);
+          Sk.write(tl, $(".t2"), 1.2, { dur: 0.5 });
+          Sk.draw(tl, card, 1.45, 0.35);
+          Sk.write(tl, $(".card-k"), 1.6, { dur: 0.25 });
+          Sk.draw(tl, lines, 1.7, 0.3);
+          // the note flies down and sticks to the prompt
+          tl.to($(".bigwrap"), { x: -164, y: 640, rotation: 2, scale: 0.9, duration: 0.45, ease: "back.out(1.3)" }, 1.95);
+
+          Sk.pageOut(tl, page, 2.42, 0.33);
+          window.__timelines["s02-shot"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

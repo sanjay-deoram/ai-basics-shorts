@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"swish","vol":0.12},
+      {"t":1.78,"sfx":"tick","vol":0.2},
+      {"t":2.1,"sfx":"tick","vol":0.2},
+      {"t":2.6,"sfx":"tick","vol":0.2},
+      {"t":3.2,"sfx":"swish","vol":0.12},
+      {"t":3.85,"sfx":"typing","vol":0.14,"dur":0.9},
+      {"t":4.9,"sfx":"typing","vol":0.12,"dur":0.4},
+      {"t":6.0,"sfx":"draw","vol":0.2},
+      {"t":6.85,"sfx":"blip","vol":0.14},
+      {"t":7.35,"sfx":"tick","vol":0.18},
+      {"t":7.65,"sfx":"tick","vol":0.18},
+      {"t":7.95,"sfx":"tick","vol":0.18},
+      {"t":10.0,"sfx":"click","vol":0.2},
+      {"t":10.1,"sfx":"swish","vol":0.12},
+      {"t":11.45,"sfx":"blip","vol":0.16},
+      {"t":12.15,"sfx":"pop","vol":0.12},
+      {"t":12.5,"sfx":"zoom-in","vol":0.2},
+      {"t":12.95,"sfx":"typing","vol":0.12,"dur":1.1},
+      {"t":14.72,"sfx":"thud","vol":0.3},
+      {"t":14.75,"sfx":"error","vol":0.1,"dur":0.6},
+      {"t":15.3,"sfx":"zoom-out","vol":0.18},
+      {"t":15.6,"sfx":"whoosh-short","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · zero-shot (13.85–29.75). Pushes in from the right.
+           "Sort every ticket." + High / Medium / Low. Then "Zero-shot, no examples.": the // prompt card types a system
+           row (grey) and a user row (orange); its footer reads examples 0 · ~30 tokens, ringed "cheapest". The bottom-left
+           cell lists what zero-shot is good for (tasks the model already knows: summarizing…). Run is pressed and the
+           cell flips to // replies: call 1 → High, call 2 → a sentence. The camera zooms into the replies; a red ring
+           marks the sentence ("not a label") and a ValueError strip slides up. A blue panel wipes up to end. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .s03-hd { top: 320px; }
+        .s03-lab { position: absolute; left: 90px; top: 600px; display: flex; gap: 20px; }
+        .s03-lab span { height: 92px; padding: 0 40px; border-radius: 46px; border: 2px solid var(--ink); font: 600 44px/88px var(--f-body); color: var(--ink); }
+        .s03-pr { left: 90px; top: 600px; width: 860px; height: 440px; }
+        .s03-pr .msg { left: 24px; width: 812px; }
+        .s03-sys { top: 78px; } .s03-usr { top: 196px; }
+        .s03-ft { position: absolute; left: 30px; right: 30px; top: 330px; height: 80px; display: flex; align-items: center; gap: 16px; }
+        .s03-zero { height: 56px; min-width: 56px; padding: 0 18px; border-radius: 28px; background: var(--blue-tint); color: var(--blue); font: 600 30px/56px var(--f-body); text-align: center; }
+        .s03-run { margin-left: auto; height: 68px; padding: 0 36px; border-radius: 16px; background: var(--ink); color: #fff; font: 600 30px/68px var(--f-body); }
+        .s03-cheap { left: 26px; top: 336px; width: 410px; height: 68px; }
+        .s03-cheap .cl { left: 430px; top: 10px; }
+        .s03-flip { position: absolute; left: 90px; top: 1080px; width: 480px; height: 400px; perspective: 1400px; }
+        .s03-flip .cd { left: 0; top: 0; width: 480px; height: 400px; overflow: hidden; backface-visibility: hidden; }
+        .s03-gf h4 { position: absolute; left: 30px; top: 66px; right: 24px; font: 600 30px/38px var(--f-body); color: var(--ink); }
+        .s03-gr { position: absolute; left: 30px; display: flex; align-items: center; gap: 16px; font: 500 36px/44px var(--f-body); color: var(--ink); }
+        .s03-gr svg { width: 38px; height: 38px; flex: none; }
+        .s03-g1 { top: 150px; } .s03-g2 { top: 226px; } .s03-g3 { top: 302px; }
+        .s03-c { position: absolute; left: 30px; right: 30px; }
+        .s03-c .mk { display: block; }
+        .s03-bub { margin-top: 6px; border-radius: 12px; background: var(--asst-tint); border-left: 8px solid var(--asst); padding: 6px 16px; display: flex; align-items: center; gap: 14px; }
+        .s03-c1 { top: 66px; }
+        .s03-c1 .v { font: 650 46px/56px var(--f-display); letter-spacing: -0.03em; color: var(--asst-ink); }
+        .s03-c1 .tag { height: 40px; padding: 0 14px; border-radius: 20px; background: var(--blue); color: #fff; font: 600 21px/40px var(--f-body); }
+        .s03-c2 { top: 176px; }
+        .s03-c2 .v { font: 500 25px/32px var(--f-body); color: var(--asst-ink); min-height: 96px; }
+        .s03-err { position: absolute; left: 0; right: 0; bottom: 0; height: 56px; background: var(--red); color: #fff; font: 400 23px/56px var(--f-mono); padding-left: 30px; }
+        .s03-bad { left: 28px; top: 202px; width: 424px; height: 112px; }
+        .s03-bad .cl { right: 0; top: -50px; }
+        .s03-blue { background: var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s03-zero" data-width="1080" data-height="1920">
+        <div class="cam">
+          <div class="hd s03-hd s03-hA" data-layout-allow-overlap="">
+            <span class="ln"><span>Sort every</span></span>
+            <span class="ln"><span><em>ticket.</em></span></span>
+          </div>
+          <div class="s03-lab"><span>High</span><span>Medium</span><span>Low</span></div>
+          <div class="hd s03-hd s03-hB" data-layout-allow-overlap="">
+            <span class="ln"><span>Zero-shot,</span></span>
+            <span class="ln"><span><em>no examples.</em></span></span>
+          </div>
+          <div class="cd s03-pr">
+            <div class="lb">// prompt</div>
+            <div class="msg sys s03-sys"><span class="who">system</span><span class="t"></span></div>
+            <div class="msg u s03-usr"><span class="who">user</span><span class="t"></span></div>
+            <div class="s03-ft"><span class="mk">examples</span><span class="s03-zero">0</span><span class="mk">· ~30 tokens</span><span class="s03-run">Run ▸</span></div>
+            <div class="co s03-cheap" data-layout-allow-overlap=""><svg><rect x="0" y="0" width="100%" height="100%" rx="20" pathLength="1"/></svg><span class="cl">cheapest</span></div>
+          </div>
+          <div class="s03-flip" data-layout-allow-overlap="">
+            <div class="cd s03-gf">
+              <div class="lb">// good fit</div>
+              <h4>tasks the model already knows</h4>
+              <div class="s03-gr s03-g1"><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span class="hl">summarizing</span></div>
+              <div class="s03-gr s03-g2"><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>translating</span></div>
+              <div class="s03-gr s03-g3"><svg viewBox="0 0 24 24" fill="none" stroke="#1f5bff" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg><span>rewriting</span></div>
+            </div>
+            <div class="cd s03-rp">
+              <div class="lb">// replies</div>
+              <div class="s03-c s03-c1"><span class="mk">call 1</span><div class="s03-bub"><span class="v">High</span><span class="tag">a word</span></div></div>
+              <div class="s03-c s03-c2"><span class="mk">call 2</span><div class="s03-bub"><span class="v"></span></div></div>
+              <div class="co warn s03-bad" data-layout-allow-overlap=""><svg><rect x="0" y="0" width="100%" height="100%" rx="16" pathLength="1"/></svg><span class="cl">not a label</span></div>
+              <div class="s03-err">ValueError: not a label</div>
+            </div>
+          </div>
+        </div>
+        <div class="panel s03-blue"></div>
+      </div>
+      <script>
+        (() => {
+          const r = document.querySelector('[data-composition-id="s03-zero"]');
+          const q = (s) => r.querySelector(s), E = (t) => +(t - 13.85).toFixed(3);
+          const cam = q(".cam");
+          const tl = gsap.timeline({ paused: true });
+          const hA = r.querySelectorAll(".s03-hA .ln > span"), hB = r.querySelectorAll(".s03-hB .ln > span");
+          const labs = r.querySelectorAll(".s03-lab span");
+          tl.fromTo(cam, { x: 1080, y: 0, scale: 1 }, { x: 0, duration: 0.45, ease: "expo.out" }, 0);
+          tl.set(q(".s03-blue"), { yPercent: 100 }, 0);
+
+          // the task
+          FX.rise(tl, hA, [E(14.3), E(15.0)]);
+          FX.pop(tl, labs[0], E(15.62)); FX.pop(tl, labs[1], E(15.95)); FX.pop(tl, labs[2], E(16.45));
+          FX.sink(tl, hA, E(16.95), { dur: 0.28 });
+          tl.to(labs, { opacity: 0, y: -20, duration: 0.25, ease: "power2.in", stagger: 0.03 }, E(16.95));
+
+          // zero-shot prompt
+          FX.rise(tl, hB, [E(17.05), E(17.5)]);
+          tl.fromTo(q(".s03-pr"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out" }, E(17.1));
+          tl.fromTo(q(".s03-sys"), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, E(17.6));
+          FX.type(tl, q(".s03-sys .t"), "Label the ticket High, Medium, or Low.", E(17.7), 0.9);
+          tl.fromTo(q(".s03-usr"), { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, E(18.7));
+          FX.type(tl, q(".s03-usr .t"), "I'm locked out of my account.", E(18.75), 0.4);
+          FX.pop(tl, q(".s03-zero"), E(19.0), { from: 0.3 });
+          FX.callout(tl, q(".s03-cheap"), E(19.85), E(23.6));
+
+          // good fit
+          tl.fromTo(q(".s03-gf"), { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, E(20.7));
+          [".s03-g1", ".s03-g2", ".s03-g3"].forEach((s, i) => tl.fromTo(q(s), { opacity: 0, x: 24 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, E(21.2) + i * 0.3));
+          FX.hl(tl, q(".s03-g1 .hl"), E(22.7));
+
+          // run → flip to replies
+          tl.to(q(".s03-run"), { scale: 0.9, backgroundColor: "#1f5bff", duration: 0.1, ease: "power2.out" }, E(23.85));
+          tl.to(q(".s03-run"), { scale: 1, duration: 0.25, ease: "back.out(2)" }, E(23.95));
+          tl.to(q(".s03-gf"), { rotationY: 90, duration: 0.3, ease: "power2.in" }, E(23.95));
+          tl.fromTo(q(".s03-rp"), { rotationY: -90 }, { rotationY: 0, duration: 0.35, ease: "power2.out" }, E(24.25));
+          tl.set(q(".s03-gf"), { opacity: 0 }, E(24.26));
+          tl.fromTo(q(".s03-c1"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, E(25.3));
+          FX.pop(tl, q(".s03-c1 .tag"), E(26.0));
+
+          // zoom into the replies
+          FX.zoom(tl, cam, { x: 90, y: 1080, w: 480, h: 400 }, E(26.35), { dur: 0.7 });
+          tl.fromTo(q(".s03-c2"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, E(26.7));
+          FX.type(tl, q(".s03-c2 .v"), "This ticket looks like high priority, since the customer can't log in.", E(26.8), 1.1);
+          FX.callout(tl, q(".s03-bad"), E(28.5));
+          tl.fromTo(q(".s03-err"), { yPercent: 100 }, { yPercent: 0, duration: 0.3, ease: "expo.out" }, E(28.6));
+          tl.to(q(".s03-rp"), { x: -10, duration: 0.05, yoyo: true, repeat: 5, ease: "none" }, E(28.6));
+          tl.to(q(".s03-rp"), { borderColor: "#d92d20", duration: 0.2, ease: "none" }, E(28.6));
+          FX.unzoom(tl, cam, E(29.15), { dur: 0.5 });
+          tl.to(q(".s03-blue"), { yPercent: 0, duration: 0.32, ease: "power3.in" }, E(29.43));
+          window.__timelines["s03-zero"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

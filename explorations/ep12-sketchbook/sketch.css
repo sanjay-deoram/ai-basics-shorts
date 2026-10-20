@@ -1,0 +1,74 @@
+/* Sketchbook: the hand-drawn look for ep12 (zero / one / few-shot). Everything is drawn on one sketch pad:
+   warm paper, pencil-graphite ink, a few marker colours, hand-lettered type. Shapes are drawn with rough.js
+   (assets/rough.js, seeded so every render is identical) and drawn on with Sk.draw (assets/sketch.js).
+   Sizes are canvas pixels on the 1080x1920 frame. */
+
+@font-face { font-family: "Kalam"; src: url("fonts/kalam-700.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Kalam"; src: url("fonts/kalam-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Patrick Hand"; src: url("fonts/patrick-hand-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Caveat"; src: url("fonts/caveat-700.woff2") format("woff2"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --paper: #fbf8f1;
+  --card: #fffdf8;
+  --ink: #2a2724;      /* pencil graphite: text and strokes */
+  --soft: #5b554d;     /* secondary text */
+  --pencil: #a39c90;   /* decoration only (dashed slots, grid), never text */
+  /* priority labels, like a traffic light: High red, Medium orange, Low green */
+  --red: #d2383e;
+  --orange: #c7650a;
+  --green: #22844a;
+  /* the three techniques: zero-shot blue, one-shot purple, few-shot teal */
+  --blue: #2560d0;
+  --purple: #7240c2;
+  --teal: #0b7f86;
+  --hl: #ffd43b;       /* highlighter */
+  --tape: rgba(255, 221, 120, 0.62);
+  --f-hand: "Kalam", "Patrick Hand", cursive;
+  --f-body: "Patrick Hand", "Kalam", cursive;
+  --f-note: "Caveat", "Kalam", cursive;
+  --f-mono: "Geist Mono", monospace;
+}
+
+.sk-scene { position: absolute; inset: 0; overflow: hidden; color: var(--ink); font-family: var(--f-body); -webkit-font-smoothing: antialiased; }
+/* the camera: everything on the page lives inside it; Sk.focus moves and zooms it */
+.sk-cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 0 0; }
+.sk-ink { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+.sk-ink path { stroke-linecap: round; stroke-linejoin: round; }
+.sk-abs { position: absolute; display: block; }
+
+/* type */
+.sk-h1 { font: 700 128px/1 var(--f-hand); letter-spacing: -0.01em; white-space: nowrap; }
+.sk-h2 { font: 700 76px/1.05 var(--f-hand); white-space: nowrap; }
+.sk-h3 { font: 700 52px/1.1 var(--f-hand); white-space: nowrap; }
+.sk-body { font: 400 44px/1.25 var(--f-body); }
+.sk-small { font: 400 36px/1.25 var(--f-body); }
+.sk-note { font: 700 52px/1 var(--f-note); white-space: nowrap; }
+.sk-mono { font: 400 27px/1.5 var(--f-mono); white-space: pre; }
+.sk-kicker { font: 700 40px/1 var(--f-note); color: var(--soft); white-space: nowrap; }
+.c-ink { color: var(--ink); } .c-soft { color: var(--soft); } .c-red { color: var(--red); }
+.c-blue { color: var(--blue); } .c-green { color: var(--green); } .c-orange { color: var(--orange); }
+.c-purple { color: var(--purple); } .c-teal { color: var(--teal); }
+
+/* written lines reveal left to right (Sk.write); a little padding keeps descenders and loops inside the clip */
+.sk-w { padding: 0.08em 0.12em; margin: -0.08em -0.12em; }
+
+/* paper objects (their outlines are drawn into the page's .sk-ink svg) */
+.sk-card { position: absolute; background: var(--card); }
+.sk-polaroid { position: absolute; width: 300px; height: 330px; background: #fff; box-shadow: 0 3px 0 rgba(42, 39, 36, 0.08), 0 10px 22px rgba(42, 39, 36, 0.12); }
+.sk-polaroid .ph { position: absolute; left: 18px; right: 18px; top: 18px; height: 196px; background: #f3efe6; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px 14px; font: 400 38px/1.1 var(--f-body); color: var(--ink); }
+.sk-polaroid .lab { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; font: 700 62px/1 var(--f-note); }
+.sk-polaroid .tape { position: absolute; left: 95px; top: -22px; width: 110px; height: 42px; background: var(--tape); transform: rotate(-4deg); }
+
+/* sticky notes: the examples ("shots") stuck onto the prompt card */
+.sk-sticky { position: absolute; width: 252px; height: 218px; box-shadow: 0 2px 0 rgba(42, 39, 36, 0.06), 0 10px 18px rgba(42, 39, 36, 0.14); }
+.sk-sticky .tape { position: absolute; left: 86px; top: -16px; width: 80px; height: 30px; background: rgba(255, 255, 255, 0.55); box-shadow: 0 0 0 1px rgba(42, 39, 36, 0.05); transform: rotate(-3deg); }
+.sk-sticky .nt { position: absolute; left: 18px; right: 16px; top: 20px; font: 400 32px/1.12 var(--f-body); color: var(--ink); }
+.sk-sticky .nl { position: absolute; left: 18px; right: 12px; bottom: 16px; white-space: nowrap; font: 400 28px/1 var(--f-body); color: var(--soft); }
+.sk-sticky .lab { font: 700 42px/1 var(--f-note); margin-left: 12px; }
+.pw { display: inline-block; }
+
+/* code page: a notebook card, mono text with marker-coloured syntax */
+.sk-code .ln { position: relative; height: 40.5px; white-space: pre; }
+.sk-code .k { color: var(--purple); } .sk-code .s { color: var(--blue); } .sk-code .c { color: #857e73; } .sk-code .n { color: var(--orange); }

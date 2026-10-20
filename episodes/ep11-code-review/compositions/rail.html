@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from this overlay's start = s03's start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"pop","vol":0.16},
+      {"t":0.62,"sfx":"whoosh","vol":0.16},
+      {"t":1.25,"sfx":"whoosh-short","vol":0.12},
+      {"t":9.35,"sfx":"whoosh-short","vol":0.14},
+      {"t":20.9,"sfx":"whoosh-short","vol":0.14},
+      {"t":25.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":41.5,"sfx":"whoosh","vol":0.16},
+      {"t":41.75,"sfx":"click","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Pipeline rail overlay, s03 → s10: four stations (1 BEFORE PR · 2 AI REVIEW · 3 SECURITY · 4 APPROVAL) on a stone
+           line at the top of the safe box (y 228–310, x 90–858, clear of the corner avatar at x ≥ 864). The current
+           station fills ink; past ones keep an ink tick; the iso dot slides to the current one. s03: it opens zoomed in
+           on station 1 mid-frame ("Before the pull request"), pulls back to show all four, then parks at the top. It
+           lights 2 at s05, 3 at s08, 4 at s09. s10: it pulls back to full size mid-frame, every station ticked, the dot
+           runs the whole line, and it fades before the end card. Times are scene-local (T(scene, t)), so retiming the
+           slots in index.html keeps it in sync. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .rl .rig { position: absolute; left: 0; top: 0; width: 1080px; height: 400px; }
+        .rl svg { position: absolute; left: 0; top: 0; width: 1080px; height: 400px; overflow: visible; }
+        .rl .line { stroke: var(--stone); stroke-width: 4; stroke-linecap: round; fill: none; }
+        .rl .st { position: absolute; top: 232px; width: 40px; height: 40px; margin-left: -20px; border-radius: 50%; border: 2px solid var(--stone); background: var(--eggshell); display: grid; place-items: center; }
+        .rl .st .n { grid-area: 1 / 1; font: 400 22px/1 var(--f-mono); color: var(--smoke); }
+        .rl .st svg { grid-area: 1 / 1; position: static; width: 24px; height: 24px; opacity: 0; fill: none; stroke: var(--ink); stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+        .rl .lab { position: absolute; top: 286px; width: 220px; margin-left: -110px; text-align: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--smoke); white-space: nowrap; }
+        .rl .dot { position: absolute; left: -10px; top: -10px; width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--eggshell); background: radial-gradient(circle at 35% 30%, #ffffff 0, #f1e8ff 18%, #9d86ff 55%, #ff7ac0 82%, #ff4704 100%); }
+      </style>
+      <div id="root" data-composition-id="rail" data-width="1080" data-height="1920">
+        <div class="egg-layer rl" data-layout-allow-overflow="">
+          <div class="rig" data-layout-allow-overflow="" data-layout-allow-overlap="">
+            <svg viewBox="0 0 1080 400" aria-hidden="true"><path class="line" d="M182 252 H757" /></svg>
+            <div class="st" style="left:162px"><span class="n">1</span><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></div>
+            <div class="st" style="left:367px"><span class="n">2</span><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></div>
+            <div class="st" style="left:572px"><span class="n">3</span><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></div>
+            <div class="st" style="left:777px"><span class="n">4</span><svg viewBox="0 0 24 24"><path d="M5 12.5 L10 17.5 L19 7" /></svg></div>
+            <span class="lab" style="left:162px">Before PR</span>
+            <span class="lab" style="left:367px">AI review</span>
+            <span class="lab" style="left:572px">Security</span>
+            <span class="lab" style="left:777px">Approval</span>
+            <div class="dot"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="rail"] .rl');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const T0 = Egg.sceneStart("rail");
+          // a scene-local time → this overlay's time (falls back to the episode's slots when previewed alone)
+          const FALLBACK = { "s03-shows": 9.75, "s05-hunt": 19.0, "s08-security": 30.55, "s09-risk": 34.75, "s10-end": 51.2 };
+          const T = (id, t) => (T0 ? Egg.sceneStart(id) - T0 : FALLBACK[id] - 9.75) + t;
+          const tl = gsap.timeline({ paused: true });
+          const rig = q(".rig"), dot = q(".dot"), line = q(".line");
+          const st = all(".st"), lab = all(".lab"), X = [162, 367, 572, 777], Y = 252;
+          const corner = (k) => ({ x: X[k] + 18, y: Y - 18 });
+          // camera poses for the rig (top-left origin): zoomed on station 1, all four mid-frame, parked at the top
+          const BIG = { x: 540 - 1.8 * 162, y: 880 - 1.8 * Y, scale: 1.8 };
+          const MID = { x: 540 - 1.1 * 470, y: 880 - 1.1 * 270, scale: 1.1 };
+          const PARK = { x: 0, y: 0, scale: 1 };
+          gsap.set(rig, { ...BIG, transformOrigin: "0 0" });
+          line.setAttribute("pathLength", "1");
+          gsap.set(line, { strokeDasharray: "1 1.1", strokeDashoffset: 1.02 });
+          gsap.set([...st.slice(1), ...lab.slice(1)], { opacity: 0 });
+          gsap.set(dot, { ...corner(0), scale: 0 });
+
+          const lightOn = (k, at) => {
+            tl.to(st[k], { backgroundColor: "#000000", borderColor: "#000000", duration: 0.2, ease: "none" }, at);
+            tl.to(st[k].querySelector(".n"), { color: "#fdfcfc", duration: 0.2, ease: "none" }, at);
+            tl.fromTo(st[k], { scale: 1 }, { scale: 1.2, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, at);
+            tl.to(lab[k], { color: "#000000", duration: 0.2, ease: "none" }, at);
+          };
+          const done = (k, at) => {
+            tl.to(st[k], { backgroundColor: "#fdfcfc", borderColor: "#000000", duration: 0.2, ease: "none" }, at);
+            tl.to(st[k].querySelector(".n"), { opacity: 0, duration: 0.15, ease: "none" }, at);
+            tl.to(st[k].querySelector("svg"), { opacity: 1, duration: 0.2, ease: "none" }, at + 0.05);
+            tl.to(lab[k], { color: "#777169", duration: 0.2, ease: "none" }, at);
+          };
+          const step = (k, at) => {
+            done(k - 1, at);
+            tl.to(dot, { ...corner(k), duration: 0.6, ease: Egg.EASE.move }, at);
+            lightOn(k, at + 0.45);
+          };
+
+          // s03 "Before the pull request": zoomed in on station 1, then pull back to all four, then park at the top
+          const s3 = (t) => T("s03-shows", t);
+          tl.fromTo(st[0], { scale: 0 }, { scale: 1, duration: 0.45, ease: Egg.EASE.pop, immediateRender: false }, s3(0.05));
+          Egg.fadeUp(tl, lab[0], s3(0.12), { y: 10 });
+          lightOn(0, s3(0.5));
+          tl.to(dot, { scale: 1, duration: 0.3, ease: Egg.EASE.pop }, s3(0.35));
+          tl.to(rig, { ...MID, duration: 0.58, ease: Egg.EASE.move }, s3(0.62));
+          tl.to(line, { strokeDashoffset: 0, duration: 0.55, ease: Egg.EASE.draw }, s3(0.7));
+          Egg.fadeUp(tl, [st[1], lab[1], st[2], lab[2], st[3], lab[3]], s3(0.75), { y: 10, stagger: 0.06, dur: 0.4 });
+          tl.to(rig, { ...PARK, duration: 0.58, ease: Egg.EASE.move }, s3(1.25));
+          // the step changes
+          step(1, T("s05-hunt", 0.1));
+          step(2, T("s08-security", 0.1));
+          step(3, T("s09-risk", 0.1));
+          // s10 "So:": pull back to full size, every station ticked, the dot runs the whole line, then fade
+          const s10 = (t) => T("s10-end", t);
+          tl.to(rig, { ...MID, duration: 0.55, ease: Egg.EASE.move }, s10(0.05));
+          done(3, s10(0.2));
+          tl.set(dot, { ...corner(0) }, s10(0.22));
+          tl.to(dot, { ...corner(3), duration: 0.4, ease: Egg.EASE.move }, s10(0.25));
+          tl.to(rig, { opacity: 0, duration: 0.18, ease: Egg.EASE.exit }, s10(0.66));
+          window.__timelines["rail"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
