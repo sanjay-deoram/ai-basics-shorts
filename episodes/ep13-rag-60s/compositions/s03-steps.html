@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.1,"sfx":"whoosh-short","vol":0.25},
+      {"t":1.3,"sfx":"pop","vol":0.35},
+      {"t":2.5,"sfx":"whoosh-short","vol":0.25},
+      {"t":3.5,"sfx":"pop","vol":0.35},
+      {"t":4.2,"sfx":"whoosh-short","vol":0.25},
+      {"t":5.2,"sfx":"pop","vol":0.35},
+      {"t":5.9,"sfx":"whoosh-short","vol":0.25},
+      {"t":6.9,"sfx":"pop","vol":0.35},
+      {"t":7.9,"sfx":"sparkle","vol":0.3,"dur":1.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- BLOCK · Isometric steps. 2–5 steps, about 1.8s per step plus 3s if the last step repeats.
+           Edit: STEPS (title ≤ 26 chars, sub ≤ 22 chars, repeat on the last step only) and AT (step start
+           times). The dot lands at AT[i] + 1.4 (step 0: AT[0] + 0.9); the audio cues below follow that. -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-safe { gap: 18px; }
+      </style>
+      <div data-hf-id="hf-aqxb" id="root" data-composition-id="s03-steps" data-width="1080" data-height="1920">
+        <div data-hf-id="hf-mhtc" class="egg-scene s03">
+          <svg data-hf-id="hf-tw6w" class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true" />
+          <div data-hf-id="hf-7owf" class="egg-safe">
+            <span data-hf-id="hf-6cvp" class="egg-eyebrow">How it works · 4 steps</span>
+            <h2 data-hf-id="hf-zeyn" class="egg-title">How AI writes its answer</h2>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const STEPS = [
+            { title: "You write a prompt", sub: "Plain words go in" },
+            { title: "It's split into tokens", sub: "Small word pieces" },
+            { title: "It guesses the next token", sub: "The most likely piece" },
+            { title: "It repeats until done", sub: "One token at a time", repeat: true },
+          ];
+          const AT = [0.4, 2.1, 3.8, 5.5];
+
+          const root = document.querySelector('[data-composition-id="s03-steps"] .s03');
+          const svg = root.querySelector(".egg-svg");
+          const layout = Egg.isoBuild(svg, STEPS, { id: "s03" });
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, root.querySelectorAll(".egg-safe > *"), 0.05);
+          const { end } = Egg.isoAnimate(tl, layout, AT);
+          Egg.fadeOut(tl, [svg, root.querySelector(".egg-safe")], Math.max(end, 10.85));
+          window.__timelines["s03-steps"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
