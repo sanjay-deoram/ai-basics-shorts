@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"click-soft","vol":0.16},
+      {"t":0.5,"sfx":"click","vol":0.18},
+      {"t":0.62,"sfx":"click","vol":0.18},
+      {"t":0.74,"sfx":"click","vol":0.18},
+      {"t":1.25,"sfx":"pop","vol":0.26},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.18},
+      {"t":2.7,"sfx":"click-soft","vol":0.2},
+      {"t":3.3,"sfx":"whoosh-short","vol":0.18},
+      {"t":3.9,"sfx":"chime","vol":0.2,"dur":1.3}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · R · Retrieval. A meaning map (illustration): each document is a dot, and dots close together mean
+           similar things. The query drops in as the living dot; a search ring grows around it, leaders draw to the
+           two nearest documents, which light up and come back out as cards under the map ("hands back the documents
+           closest in meaning"). The order of the dots by distance matches the real similarities in STORYBOARD.md
+           (home office gear, then expense receipts, then flights, vacation days, laptops). The two cards stay on
+           screen: s05 opens on them. Avatar: out (the map fills the box). Voiceover: 0.2 "That's retrieval: the
+           database hands back the documents closest in meaning to your query." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s04 .mk { position: absolute; left: 124px; top: 326px; }
+        .s04 .lab { position: absolute; font: 400 28px/1 var(--f-mono); color: var(--graphite); white-space: nowrap; }
+        .s04 .lab.r { transform-origin: 0 50%; }
+        .s04 .qlab { position: absolute; left: 588px; top: 626px; font: 400 28px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s04 .qdot { position: absolute; left: 538px; top: 618px; width: 44px; height: 44px; border-radius: 50%;
+          background: radial-gradient(circle at 35% 35%, #ff7ac0, #0447ff 70%); box-shadow: 0 0 28px rgba(255, 122, 192, 0.55); }
+        .s04 .rk { position: absolute; left: 90px; top: 1036px; }
+        .s04 .res { position: absolute; left: 90px; width: 700px; padding: 20px 30px; border-radius: 24px; }
+        .s04 .res p { margin: 0; font: 400 34px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s04 .foot { position: absolute; left: 90px; width: 860px; top: 1410px; text-align: center; text-wrap: balance; }
+      </style>
+      <div id="root" data-composition-id="s04-retrieve" data-width="1080" data-height="1920">
+        <div class="egg-scene s04">
+          <span class="egg-eyebrow">R · Retrieval</span>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <rect class="ink thin frame" x="90" y="300" width="860" height="700" rx="28" />
+            <g class="dots"></g>
+            <circle class="ring" cx="560" cy="640" r="118" />
+            <path class="ink thin lead l1" d="M560 640 L470 590" />
+            <path class="ink thin lead l2" d="M560 640 L640 720" />
+          </svg>
+          <span class="egg-card-kicker mk">Meaning map · close = similar</span>
+          <div class="labs"></div>
+          <div class="qdot"></div>
+          <span class="qlab">your query</span>
+          <span class="egg-card-kicker rk">Handed back · the 2 closest</span>
+          <div class="egg-card res r1" style="top:1070px"><p><span class="egg-hl">Home office gear: up to $300 a year.</span></p></div>
+          <div class="egg-card res r2" style="top:1170px"><p><span class="egg-hl">Submit expense receipts in 30 days.</span></p></div>
+          <span class="foot egg-foot">Illustration · real embeddings have 384 dimensions, not 2</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.3;
+          // [label, dot x, dot y, label side]; distance from the query (560, 640): 103, 113, 341, 350, 368 px,
+          // the same order as the real similarities (0.403, 0.365, 0.163, 0.149, 0.119)
+          const D = [
+            ["Home office gear", 470, 590, "l"],
+            ["Expense receipts", 640, 720, "b"],
+            ["Flights", 300, 420, "r"],
+            ["Vacation days", 260, 820, "r"],
+            ["Laptops", 820, 900, "l"],
+          ];
+          const root = document.querySelector('[data-composition-id="s04-retrieve"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const NS = "http://www.w3.org/2000/svg";
+          D.forEach(([, x, y]) => { const c = document.createElementNS(NS, "circle"); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 12); c.setAttribute("fill", "#000"); c.setAttribute("class", "dot"); q(".dots").appendChild(c); });
+          const pos = (t, x, y, side) => side === "l" ? `right:${1080 - x + 26}px;top:${y - 14}px` : side === "b" ? `left:${x - 130}px;top:${y + 26}px` : `left:${x + 26}px;top:${y - 14}px`;
+          q(".labs").innerHTML = D.map(([t, x, y, s], i) => `<span class="lab" style="${pos(t, x, y, s)}">${i < 2 ? `<span class="egg-hl">${t}</span>` : t}</span>`).join("");
+          const dots = all(".dot"), labs = all(".lab"), ring = q(".ring"), leads = all(".lead");
+          ring.setAttribute("style", "fill:none;stroke:#000;stroke-width:4;stroke-dasharray:10 12");
+          leads.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set(leads, { strokeDashoffset: 1.02 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "That's retrieval:"
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          tl.fromTo(q(".frame"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 0.1);
+          Egg.fadeUp(tl, q(".mk"), 0.2, { y: 10 });
+          dots.forEach((d, i) => tl.fromTo(d, { scale: 0 }, { scale: 1, svgOrigin: `${D[i][1]} ${D[i][2]}`, duration: 0.4, ease: Egg.EASE.pop }, 0.4 + i * 0.12));
+          Egg.fadeUp(tl, labs, 0.5, { y: 10, stagger: 0.12, dur: 0.4 });
+          // "the database hands back…": the query lands on the map
+          tl.fromTo(q(".qdot"), { opacity: 0, y: -260, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: "back.out(1.6)" }, 1.25);
+          Egg.fadeUp(tl, q(".qlab"), 1.6, { y: 10 });
+          // "…the documents closest in meaning": a search ring grows, leaders draw to the two nearest
+          tl.fromTo(ring, { attr: { r: 0 }, opacity: 0 }, { attr: { r: 118 }, opacity: 1, duration: 0.6, ease: Egg.EASE.move }, 2.0);
+          tl.to(ring, { opacity: 0, duration: 0.3, ease: "none" }, 2.65);   // it found them: clear the way for the labels
+          tl.to(leads, { strokeDashoffset: 0, duration: 0.35, ease: Egg.EASE.draw, stagger: 0.15 }, 2.55);
+          tl.to(dots.slice(0, 2), { scale: 1.5, duration: 0.3, ease: Egg.EASE.pop }, 2.7);
+          labs.slice(0, 2).forEach((l, i) => Egg.highlight(tl, l.querySelector(".egg-hl"), 2.75 + i * 0.15, { dur: 0.35 }));
+          tl.to([...dots.slice(2), ...labs.slice(2)], { opacity: 0.3, duration: 0.3, ease: "none" }, 2.8);
+          // "…to your query": they come back out as cards
+          Egg.fadeUp(tl, q(".rk"), 3.2, { y: 10 });
+          tl.fromTo([q(".r1"), q(".r2")], { opacity: 0, y: -380, scale: 0.4 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: Egg.EASE.move, stagger: 0.18 }, 3.3);
+          [q(".r1"), q(".r2")].forEach((r, i) => Egg.highlight(tl, r.querySelector(".egg-hl"), 3.95 + i * 0.15));
+          Egg.fadeUp(tl, q(".foot"), 3.9, { y: 10 });
+
+          // the two cards stay: s05 opens on them
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".frame"), q(".dots"), ring, ...leads, q(".mk"), q(".labs"), q(".qdot"), q(".qlab"), q(".rk"), q(".foot")], DUR - 0.35);
+          window.__timelines["s04-retrieve"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

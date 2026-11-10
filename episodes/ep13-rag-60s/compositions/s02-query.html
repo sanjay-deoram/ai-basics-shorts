@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.2},
+      {"t":0.45,"sfx":"typing","vol":0.2,"dur":1.0},
+      {"t":1.85,"sfx":"sparkle","vol":0.16,"dur":0.8},
+      {"t":2.75,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.95,"sfx":"click-soft","vol":0.18},
+      {"t":3.15,"sfx":"click-soft","vol":0.18},
+      {"t":3.35,"sfx":"click-soft","vol":0.18},
+      {"t":3.55,"sfx":"click-soft","vol":0.18},
+      {"t":3.75,"sfx":"click-soft","vol":0.18},
+      {"t":3.95,"sfx":"click-soft","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The query. A card types the question ("Can I expense a home office chair?", example) and the word
+           query marks it; then a pile of six documents drops in under it, page on page, slightly askew: the answer
+           is in there somewhere. Avatar: small top right (narrator.html "corner"); the card stays left of x 830.
+           Voiceover: 0.2 "Say you have a question. That's your query." 2.65 "And the answer is buried somewhere in
+           a pile of documents." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .ask { position: absolute; left: 90px; width: 720px; top: 290px; padding: 24px 34px; gap: 10px; border-radius: 30px; }
+        .s02 .ask .egg-mono { font-size: 32px; white-space: nowrap; }
+        .s02 .doc { position: absolute; width: 250px; height: 320px; padding: 26px 24px; gap: 16px; border-radius: 22px; }
+        .s02 .doc i { display: block; height: 10px; border-radius: 5px; background: var(--stone); }
+        .s02 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+      </style>
+      <div id="root" data-composition-id="s02-query" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">Example</span>
+          <div class="egg-card ask">
+            <span class="egg-card-kicker">Your query</span>
+            <p class="egg-mono qt"><span class="egg-hl">Can I expense a home office chair?</span></p>
+          </div>
+          <div class="docs" data-layout-allow-overlap=""></div>
+          <p class="egg-label">The answer is in there somewhere.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.0;
+          // [title, left, top, resting rotation]: a loose pile around x 540, y 900
+          const DOCS = [
+            ["Handbook", 250, 700, -9],
+            ["Travel", 560, 690, 8],
+            ["IT policy", 300, 860, 5],
+            ["Expenses", 420, 760, -3],
+            ["Benefits", 600, 880, -7],
+            ["Onboarding", 430, 900, 4],
+          ];
+          const W = [100, 86, 92, 64, 96, 78, 90];
+          const root = document.querySelector('[data-composition-id="s02-query"] .s02');
+          const q = (s) => root.querySelector(s);
+          q(".docs").innerHTML = DOCS.map(([t, x, y], i) =>
+            `<div class="egg-card doc" style="left:${x}px;top:${y}px" data-layout-allow-overlap=""><span class="egg-card-kicker">${t}</span>${W.map((w, j) => `<i style="width:${(w + i * 7 + j * 13) % 40 + 60}%"></i>`).join("")}</div>`).join("");
+          const docs = [...root.querySelectorAll(".doc")];
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          // "Say you have a question."
+          Egg.fadeUp(tl, q(".ask"), 0.2);
+          Egg.typeOn(tl, q(".qt"), 0.45, { cps: 36 });
+          // "That's your query."
+          Egg.highlight(tl, q(".qt .egg-hl"), 1.85);
+          // "And the answer is buried somewhere in a pile of documents."
+          docs.forEach((d, i) => tl.fromTo(d, { opacity: 0, y: -160, rotation: DOCS[i][3] * 3 }, { opacity: 1, y: 0, rotation: DOCS[i][3], duration: 0.5, ease: Egg.EASE.enter }, 2.75 + i * 0.2));
+          Egg.fadeUp(tl, q(".egg-label"), 4.5);
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".ask"), ...docs, q(".egg-label")], DUR - 0.35);
+          window.__timelines["s02-query"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

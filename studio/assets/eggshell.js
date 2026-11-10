@@ -164,7 +164,7 @@
 
   // Episode start time of a scene (read from its host slot in index.html), for lipsync offsets.
   function sceneStart(id) {
-    const host = document.querySelector(`[data-composition-id="${id}"][data-composition-src]`);
+    const host = document.querySelector("[data-composition-id=\"" + id + "\"][data-composition-src]");
     return host ? +host.getAttribute("data-start") || 0 : 0;
   }
 

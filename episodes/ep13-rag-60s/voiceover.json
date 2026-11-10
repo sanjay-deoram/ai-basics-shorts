@@ -14,5 +14,61 @@
   },
   "speed": 1,
   "volume": 1,
-  "lines": []
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "Here's how rag works, in sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 2.95,
+      "text": "Rag stands for retrieval-augmented generation."
+    },
+    {
+      "scene": "s01",
+      "at": 6.7,
+      "text": "Let's take it one word at a time, by watching it work."
+    },
+    {
+      "scene": "s02",
+      "at": 0.2,
+      "text": "Say you have a question. That's your query."
+    },
+    {
+      "scene": "s02",
+      "at": 2.65,
+      "text": "And the answer is buried somewhere in a pile of documents."
+    },
+    {
+      "scene": "s03",
+      "at": 0.2,
+      "text": "In a rag system, those documents live in a vector database."
+    },
+    {
+      "scene": "s03",
+      "at": 3.8,
+      "text": "It keeps the raw text of each one, plus its embedding: a list of numbers that captures what it means."
+    },
+    {
+      "scene": "s04",
+      "at": 0.2,
+      "text": "That's retrieval: the database hands back the documents closest in meaning to your query."
+    },
+    {
+      "scene": "s05",
+      "at": 0.2,
+      "text": "Next, those documents go to a large language model, like Claude, together with your question."
+    },
+    {
+      "scene": "s05",
+      "at": 5.75,
+      "text": "That's the augmented part: the model now has the context it needs, and the question it has to answer."
+    },
+    {
+      "scene": "s05",
+      "at": 11.35,
+      "text": "And that's generation: it writes a reply grounded in your documents, so it's far less likely to make things up."
+    }
+  ]
 }

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"click-soft","vol":0.18},
+      {"t":0.7,"sfx":"click-soft","vol":0.18},
+      {"t":1.1,"sfx":"click-soft","vol":0.18},
+      {"t":1.6,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.0,"sfx":"whoosh-short","vol":0.14},
+      {"t":2.6,"sfx":"pop","vol":0.22},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.18},
+      {"t":4.5,"sfx":"typing","vol":0.18,"dur":1.0},
+      {"t":5.9,"sfx":"pop","vol":0.18},
+      {"t":6.1,"sfx":"pop","vol":0.18},
+      {"t":6.3,"sfx":"pop","vol":0.18},
+      {"t":7.2,"sfx":"click-soft","vol":0.2},
+      {"t":7.6,"sfx":"sparkle","vol":0.18,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The vector database (whiteboard). A database drum draws itself; the six documents fly in through its
+           lid ("those documents live in a vector database"). One record slides out under it: the raw text of a
+           document ("Home office gear: up to $300 a year.", example), then its embedding as number chips (the
+           first 3 of 384, all-MiniLM-L6-v2, see STORYBOARD.md); a brace closes under the numbers and the label
+           says what they are. Two records peek out behind it: every document gets one. Avatar: small top right
+           (narrator.html "corner"); the documents' row stays left of x 830. Voiceover: 0.2 "In a rag system, those
+           documents live in a vector database." 3.8 "It keeps the raw text of each one, plus its embedding: a list
+           of numbers that captures what it means." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .mini { position: absolute; top: 300px; width: 92px; height: 116px; padding: 16px 14px; gap: 10px; border-radius: 12px; }
+        .s03 .mini i { display: block; height: 7px; border-radius: 4px; background: var(--stone); }
+        .s03 .dbl { position: absolute; left: 90px; width: 900px; top: 806px; text-align: center; font: 300 54px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .rec { position: absolute; left: 90px; width: 860px; top: 930px; padding: 30px 36px; gap: 14px; border-radius: 32px; }
+        .s03 .ghost { position: absolute; left: 90px; width: 860px; top: 930px; height: 262px; border-radius: 32px; }
+        .s03 .rec .txt { margin: 0; font: 400 36px/1.3 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s03 .rec .nums { display: flex; gap: 14px; }
+        .s03 .rec .nums span { font: 400 32px/1 var(--f-mono); color: var(--ink); padding: 14px 18px; border-radius: 14px; background: var(--taupe); }
+        .s03 .rec .nums span.more { background: none; color: var(--graphite); padding: 14px 6px; }
+        .s03 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
+        .s03 .foot { position: absolute; left: 90px; width: 860px; top: 1410px; text-align: center; text-wrap: balance; }
+      </style>
+      <div id="root" data-composition-id="s03-store" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">Inside a RAG system</span>
+          <div class="minis" data-layout-allow-overlap=""></div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="db">
+              <path class="ink thin" data-draw="0" data-dur="0.6" d="M340 500 A200 44 0 0 0 740 500 A200 44 0 0 0 340 500" />
+              <path class="ink thin" data-draw="1" data-dur="0.7" d="M340 500 L340 740 A200 44 0 0 0 740 740 L740 500" />
+              <path class="ink thin" data-draw="2" data-dur="0.5" d="M340 620 A200 44 0 0 0 740 620" />
+            </g>
+          </svg>
+          <span class="dbl">Vector database</span>
+          <div class="egg-card taupe ghost g2"></div>
+          <div class="egg-card taupe ghost g1"></div>
+          <div class="egg-card rec">
+            <span class="egg-card-kicker k1">Raw text</span>
+            <p class="txt">Home office gear: up to $300 a year.</p>
+            <span class="egg-card-kicker k2">Embedding</span>
+            <div class="nums"><span>-0.032</span><span>0.012</span><span>0.053</span><span class="more">… 384 numbers</span></div>
+          </div>
+          <p class="egg-label">Its meaning, as numbers.</p>
+          <span class="foot egg-foot">Example record · numbers: first 3 of 384, from the open model all-MiniLM-L6-v2</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.8;
+          const root = document.querySelector('[data-composition-id="s03-store"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          // six small documents in a row (the pile from s02), left of x 830
+          const X = [110, 230, 350, 470, 590, 710];
+          q(".minis").innerHTML = X.map((x, i) => `<div class="egg-card mini" style="left:${x}px" data-layout-allow-overlap="">${[90, 70, 84, 60, 76].map((w, j) => `<i style="width:${(w + i * 11 + j * 7) % 40 + 55}%"></i>`).join("")}</div>`).join("");
+          const minis = all(".mini");
+          const nums = all(".rec .nums span");
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          // "In a rag system, those documents…"
+          Egg.fadeUp(tl, minis, 0.2, { y: 24, stagger: 0.06, dur: 0.45 });
+          const drawn = Egg.draw(tl, q(".db"), 0.3);
+          // "…live in a vector database": they drop in through the lid
+          minis.forEach((m, i) => tl.to(m, { x: 540 - (X[i] + 46), y: 160, scale: 0.35, opacity: 0, duration: 0.5, ease: "power2.in" }, Math.max(drawn, 1.5) + i * 0.1));
+          tl.fromTo(q(".db"), { scale: 1 }, { scale: 1.04, svgOrigin: "540 620", duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 2.5);
+          Egg.fadeUp(tl, q(".dbl"), 2.6, { y: 14 });
+
+          // "It keeps the raw text of each one…": a record slides out
+          tl.set([q(".k2"), ...nums], { opacity: 0 }, 0);
+          tl.fromTo(q(".rec"), { opacity: 0, y: -120, scale: 0.6 }, { opacity: 1, y: 0, scale: 1, duration: 0.55, ease: Egg.EASE.move }, 4.0);
+          tl.fromTo([q(".g1"), q(".g2")], { opacity: 0, x: 0, y: 0 }, { opacity: 1, x: (i) => 18 + i * 18, y: (i) => -18 - i * 18, duration: 0.45, ease: Egg.EASE.enter, stagger: 0.12 }, 4.9);
+          Egg.typeOn(tl, q(".rec .txt"), 4.5, { cps: 42 });
+          // "…plus its embedding"
+          Egg.fadeUp(tl, q(".k2"), 5.7, { y: 10 });
+          Egg.pop(tl, nums, 5.9, { stagger: 0.2, dur: 0.4 });
+          // "a list of numbers that captures what it means"
+          Egg.fadeUp(tl, q(".egg-label"), 7.4);
+          Egg.fadeUp(tl, q(".foot"), 7.8, { y: 10 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".db"), q(".dbl"), q(".rec"), q(".g1"), q(".g2"), q(".egg-label"), q(".foot")], DUR - 0.35);
+          window.__timelines["s03-store"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

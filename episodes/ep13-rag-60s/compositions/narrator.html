@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8">
     <script type="application/json" class="sfx-cues">[
-      {"t":0.15,"sfx":"whoosh-short","vol":0.26},
-      {"t":3.3,"sfx":"whoosh-short","vol":0.14},
-      {"t":9.9,"sfx":"whoosh-short","vol":0.12},
-      {"t":29.4,"sfx":"whoosh-short","vol":0.16}
+      {"t":0.15,"sfx":"whoosh-short","vol":0.22},
+      {"t":9.2,"sfx":"whoosh-short","vol":0.12},
+      {"t":25.1,"sfx":"whoosh-short","vol":0.1},
+      {"t":30.7,"sfx":"whoosh-short","vol":0.12}
     ]</script>
   </head>
   <body>
@@ -44,7 +44,7 @@
       </div>
       <script>
         (() => {
-          const LEN = 34, W = 540;   // = the episode length (narrator host data-duration)
+          const LEN = 49.6, W = 540;   // = the episode length (narrator host data-duration)
           // top-left of the 540×629 avatar box, scale, lean (deg), face: -1 looks left, 1 looks right
           const PLACES = {
             title: { x: 620, y: 800, s: 1, r: -4, face: -1 },
@@ -57,15 +57,15 @@
           // [episode time, place, how]  how: in / inLeft (slide in from that edge) | out / outLeft (slide off that
           // edge) | glide (move there, turning to face the content)
           const PATH = [
-            [0.15, "title", "in"],       // s01: large peek under the hook
-            [3.3, "tr", "glide"],        // s02: the drawing fills the middle
-            [9.9, "tr", "out"],          // s03 / s04: the steps and the prompt cards fill the whole box
-            [29.4, "end", "in"],         // s05 end card
+            [0.15, "title", "in"],       // s01: large peek under the acronym (content stays above y 800)
+            [9.2, "corner", "glide"],    // s02–s03: content above y 485 stays left of x 830
+            [25.1, "corner", "out"],     // s04: the meaning map fills the box
+            [30.7, "corner", "in"],      // s05: the prompt card stays left of x 830
           ];
           // [expression, from, to] in episode seconds
           const EXPR = [
-            ["doubt", 2.2, 3.1],         // sample: a doubtful look on the hook's question
-            ["smile", 31.0, 999],        // end card
+            ["smile", 3.0, 4.0],         // "Rag stands for…"
+            ["smile", 45.9, 999],        // "…far less likely to make things up." (hard stop, no end card)
           ];
 
           const root = document.querySelector('[data-composition-id="narrator"] .nar');
