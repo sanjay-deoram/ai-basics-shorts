@@ -22,6 +22,8 @@ HyperFrames (HTML + GSAP → MP4).
   - `tools/build-sfx.mjs` — writes each scene's sound cues into `index.html`.
   - `tools/cut-flipbook.py`, `tools/cut-expressions.py` — rebuild `assets/avatar` from the source sheets.
 - `episodes/<slug>/` — one HyperFrames project per episode.
+- `.claude/skills/under-60/SKILL.md` — the *Under 60 seconds* series (`/under-60 <topic>`): script formula, look and
+  production steps, from a topic to a rendered MP4. Worked example: `episodes/ep13-rag-60s`.
 - `explorations/` — design explorations: the original storyboards, `narrator-auditions.html`, and the
   avatar test clips `avatar-peek` (v1), `avatar-peek-v2`, `avatar-peek-v3` (the chosen look).
 
