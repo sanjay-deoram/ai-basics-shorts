@@ -17,17 +17,17 @@
   "lines": [
     {
       "scene": "s01",
-      "at": 0.15,
-      "text": "Here's how to build a Claude skill, in sixty seconds."
+      "at": 0.05,
+      "text": "Here's how to create a Claude skill, in under sixty seconds."
     },
     {
       "scene": "s01",
-      "at": 3.3,
+      "at": 3.55,
       "text": "A skill is a set of instructions Claude picks up on its own, when your request needs it."
     },
     {
       "scene": "s01",
-      "at": 8.5,
+      "at": 8.7,
       "text": "Let's build one, step by step."
     },
     {
