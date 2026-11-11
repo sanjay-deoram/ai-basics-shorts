@@ -4,50 +4,69 @@
     <meta charset="UTF-8">
     <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
     <script type="application/json" class="sfx-cues">[
-      {"t":0.6,"sfx":"whoosh","vol":0.2},
-      {"t":3.0,"sfx":"pop","vol":0.26},
-      {"t":3.8,"sfx":"whoosh-short","vol":0.18},
-      {"t":6.1,"sfx":"click","vol":0.22},
+      {"t":0.5,"sfx":"air","vol":0.16},
+      {"t":1.05,"sfx":"tap","vol":0.18},
+      {"t":1.2,"sfx":"tap","vol":0.16},
+      {"t":3.0,"sfx":"claude","vol":0.22},
+      {"t":3.8,"sfx":"typing","vol":0.2,"dur":0.9},
+      {"t":6.1,"sfx":"pop","vol":0.2},
       {"t":7.8,"sfx":"pop","vol":0.2},
       {"t":9.5,"sfx":"pop","vol":0.2},
-      {"t":9.65,"sfx":"sparkle","vol":0.16,"dur":0.9},
-      {"t":11.5,"sfx":"click","vol":0.22},
-      {"t":11.9,"sfx":"whoosh-short","vol":0.18},
-      {"t":12.8,"sfx":"typing","vol":0.22,"dur":2.0},
-      {"t":14.95,"sfx":"pop","vol":0.2},
-      {"t":15.3,"sfx":"sparkle","vol":0.16,"dur":0.9},
-      {"t":15.3,"sfx":"chime","vol":0.24,"dur":1.8}
+      {"t":9.65,"sfx":"marker","vol":0.14},
+      {"t":11.6,"sfx":"air","vol":0.08},
+      {"t":12.0,"sfx":"tap","vol":0.22},
+      {"t":12.03,"sfx":"send","vol":0.2},
+      {"t":12.2,"sfx":"paper","vol":0.12},
+      {"t":12.6,"sfx":"tick","vol":0.1},
+      {"t":13.4,"sfx":"typing","vol":0.2,"dur":1.85},
+      {"t":14.46,"sfx":"tick","vol":0.18},
+      {"t":15.2,"sfx":"tick","vol":0.18},
+      {"t":15.35,"sfx":"tap","vol":0.16},
+      {"t":15.5,"sfx":"tap","vol":0.14},
+      {"t":15.7,"sfx":"pop","vol":0.2},
+      {"t":16.05,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":16.05,"sfx":"chime","vol":0.24,"dur":1.8}
     ]</script>
   </head>
   <body>
     <template>
-      <!-- s05 · A · Augmented, then G · Generation. Opens on s04's two retrieved cards, which rise into a prompt card
-           ("Sent to the model"); the Claude logo pops on "like Claude" and the query card drops in under the
-           documents ("together with your question"). Augmented: the prompt punches, "Context" and "Question" label
-           its two parts as the voice names them. Generation: the prompt pulses toward Claude, the logo turns and the
-           answer types out with its source (labelled "Example answer"); "Grounded in your docs." Hard stop: no end
-           card, the last frame holds. Avatar: small top right (narrator.html "corner"); the prompt card stays left
-           of x 830. Voiceover: 0.2 "Next, those documents go to a large language model, like Claude, together with
-           your question." 5.75 "That's the augmented part: the model now has the context it needs, and the question
-           it has to answer." 11.35 "And that's generation: it writes a reply grounded in your documents, so it's far
-           less likely to make things up." -->
+      <!-- s05 · A · Augmented, then G · Generation, in Claude's chat UI (assets/claude-chat.css). Opens on s04's two
+           retrieved cards, which fly into a Claude composer and land as attached documents; the spark and "Claude"
+           arrive on "like Claude" and the question types into the composer ("together with your question").
+           Augmented: the composer punches, "Context" and "Question" label its two parts as the voice names them.
+           Generation: a cursor clicks send, the message moves up into the thread (documents and the question bubble,
+           right-aligned like claude.ai), the spark thinks and Claude's reply streams in serif with citation chips,
+           then its two sources, the resting spark and the actions row; "Grounded in your docs." The reply is example
+           text. Hard stop: no end card, the last frame holds. Avatar: small top right (narrator.html "corner");
+           everything above y 485 stays left of x 830. Voiceover: 0.2 "Next, those documents go to a large language
+           model, like Claude, together with your question." 5.75 "That's the augmented part: the model now has the
+           context it needs, and the question it has to answer." 11.35 "And that's generation: it writes a reply
+           grounded in your documents, so it's far less likely to make things up." -->
       <style>
         #root { position: absolute; inset: 0; }
         .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
-        .s05 .bundle { position: absolute; left: 90px; width: 740px; top: 290px; height: 450px; padding: 0; border-radius: 32px; transform-origin: 50% 50%; }
-        .s05 .pk { position: absolute; left: 124px; top: 312px; }
-        .s05 .ck { position: absolute; left: 124px; top: 352px; color: var(--ink); }
-        .s05 .qk { position: absolute; left: 124px; top: 574px; color: var(--ink); }
-        .s05 .res { position: absolute; left: 90px; width: 700px; padding: 20px 30px; border-radius: 24px; }
+        .s05 .res { position: absolute; left: 90px; width: 700px; padding: 20px 30px; border-radius: 24px; transform-origin: 0 0; }
         .s05 .res p { margin: 0; font: 400 34px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
         .s05 .res .egg-hl.on { background-size: 100% 100%; }
-        .s05 .qc { position: absolute; left: 110px; width: 700px; top: 606px; padding: 20px 30px; border-radius: 24px; }
-        .s05 .qc p { margin: 0; font: 400 30px/1.3 var(--f-mono); color: var(--ink); white-space: nowrap; }
-        .s05 .arrow { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
-        .s05 .logo { position: absolute; left: 400px; top: 822px; width: 120px; height: 120px; background: url("assets/claude-logo.svg") center / contain no-repeat; }
-        .s05 .ans { position: absolute; left: 90px; width: 860px; top: 984px; padding: 28px 36px; gap: 14px; border-radius: 32px; }
-        .s05 .ans .txt { margin: 0; font: 400 36px/1.36 var(--f-body); color: var(--ink); text-wrap: balance; }
-        .s05 .src { align-self: flex-start; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--graphite); border: 2px solid var(--btn-border); border-radius: 9999px; padding: 10px 16px; }
+        .s05 .cc-greet { position: absolute; left: 90px; top: 316px; }
+        .s05 .cc-box { position: absolute; left: 90px; top: 520px; width: 860px; height: 476px; transform-origin: 50% 50%; }
+        .s05 .ck { position: absolute; left: 126px; top: 552px; color: var(--ink); }
+        .s05 .tile { position: absolute; top: 590px; width: 330px; height: 172px; }
+        .s05 .t1 { left: 124px; }
+        .s05 .t2 { left: 472px; }
+        .s05 .qk { position: absolute; left: 126px; top: 790px; color: var(--ink); }
+        .s05 .cc-input { position: absolute; left: 126px; top: 826px; }
+        .s05 .b1 { position: absolute; left: 120px; top: 906px; }
+        .s05 .b2 { position: absolute; left: 194px; top: 906px; }
+        .s05 .cc-model { position: absolute; right: 226px; top: 923px; }
+        .s05 .cc-send { position: absolute; left: 864px; top: 904px; }
+        .s05 .cc-cursor { position: absolute; left: 0; top: 0; }
+        .s05 .cc-bubble { position: absolute; right: 250px; top: 488px; }
+        .s05 .think { position: absolute; left: 90px; top: 640px; width: 56px; height: 56px; }
+        .s05 .cc-reply { position: absolute; left: 90px; top: 624px; width: 860px; }
+        .s05 .srcs { position: absolute; left: 90px; top: 900px; display: flex; gap: 16px; }
+        .s05 .acts { position: absolute; left: 84px; top: 996px; display: flex; align-items: center; gap: 14px; }
+        .s05 .acts .cc-spark { width: 52px; height: 52px; margin-right: 12px; }
         .s05 .egg-label { position: absolute; left: 90px; width: 860px; top: 1300px; }
         .s05 .foot { position: absolute; left: 90px; width: 860px; top: 1410px; text-align: center; text-wrap: balance; }
       </style>
@@ -55,22 +74,34 @@
         <div class="egg-scene s05">
           <span class="egg-eyebrow e1">A · Augmented</span>
           <span class="egg-eyebrow e2">G · Generation</span>
-          <div class="egg-card bundle"></div>
-          <span class="egg-card-kicker pk">Prompt · sent to the model</span>
+          <div class="cc-greet"><div class="cc-spark"></div><span>Claude</span></div>
+          <div class="cc-box"></div>
           <span class="egg-card-kicker ck">Context</span>
+          <div class="cc-tile tile t1" data-layout-allow-overlap=""><p>Home office gear: up to $300 a year.</p><span class="cc-badge">TXT</span></div>
+          <div class="cc-tile tile t2" data-layout-allow-overlap=""><p>Submit expense receipts in 30 days.</p><span class="cc-badge">TXT</span></div>
           <span class="egg-card-kicker qk">Question</span>
+          <p class="cc-input qt"><span class="egg-hl">Can I expense a home office chair?</span></p>
+          <div class="cc-btn b1"><svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" /></svg></div>
+          <div class="cc-btn b2"><svg viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" /><circle cx="16" cy="7" r="2" /><circle cx="10" cy="17" r="2" /></svg></div>
+          <span class="cc-model">Opus 5.5<svg viewBox="0 0 24 24"><path d="M6 9l6 6 6-6" /></svg></span>
+          <div class="cc-send"><svg viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6" /></svg></div>
           <div class="egg-card res r1" style="top:1070px" data-layout-allow-overlap=""><p><span class="egg-hl on">Home office gear: up to $300 a year.</span></p></div>
           <div class="egg-card res r2" style="top:1170px" data-layout-allow-overlap=""><p><span class="egg-hl on">Submit expense receipts in 30 days.</span></p></div>
-          <div class="egg-card qc"><p><span class="egg-hl">Can I expense a home office chair?</span></p></div>
-          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
-            <path class="arrow" d="M460 752 L460 806 M444 790 L460 806 L476 790" />
-          </svg>
-          <div class="logo"></div>
-          <div class="egg-card ans">
-            <span class="egg-card-kicker">Example answer</span>
-            <p class="txt">Yes. Home office gear is covered up to <span class="egg-hl">$300 a year</span>. Submit the receipt within 30 days.</p>
-            <span class="src">From 2 of your documents</span>
+          <div class="cc-bubble">Can I expense a home office chair?</div>
+          <div class="cc-spark think"></div>
+          <p class="cc-reply">Yes. Home office gear is covered up to <span class="egg-hl">$300 a year</span>.<span class="cc-cite" data-n="1"></span> Submit the receipt within 30 days.<span class="cc-cite" data-n="2"></span></p>
+          <div class="srcs">
+            <span class="cc-src"><b>1</b>Home office gear</span>
+            <span class="cc-src"><b>2</b>Expense receipts</span>
           </div>
+          <div class="acts">
+            <div class="cc-spark"></div>
+            <span class="cc-act"><svg viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2" /><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3" /></svg></span>
+            <span class="cc-act"><svg viewBox="0 0 24 24"><path d="M7 10v10H4V10zM7 10l4-7a2 2 0 0 1 3 2l-1 4h6a2 2 0 0 1 2 2.3l-1.2 7A2 2 0 0 1 17.8 20H7" /></svg></span>
+            <span class="cc-act"><svg viewBox="0 0 24 24"><path d="M17 14V4h3v10zM17 14l-4 7a2 2 0 0 1-3-2l1-4H5a2 2 0 0 1-2-2.3l1.2-7A2 2 0 0 1 6.2 4H17" /></svg></span>
+            <span class="cc-act"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 0 1 14-5.3L20 9M20 4v5h-5M20 12a8 8 0 0 1-14 5.3L4 15M4 20v-5h5" /></svg></span>
+          </div>
+          <svg class="cc-cursor" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 2l15 10.5-6.6 1.3L9.8 20z" /></svg>
           <p class="egg-label">Grounded in your docs.</p>
           <span class="foot egg-foot">Far less likely to make things up, not never.</span>
         </div>
@@ -80,48 +111,67 @@
           const DUR = 19.0;
           const root = document.querySelector('[data-composition-id="s05-generate"] .s05');
           const q = (s) => root.querySelector(s);
-          const r1 = q(".r1"), r2 = q(".r2"), arrow = q(".arrow");
-          arrow.setAttribute("pathLength", "1");
-          arrow.style.strokeDasharray = "1 1.1";
-          gsap.set(arrow, { strokeDashoffset: 1.02 });
-          gsap.set([q(".e2"), q(".ck"), q(".qk"), q(".src")], { opacity: 0 });
+          const all = (s) => [...root.querySelectorAll(s)];
+          const r1 = q(".r1"), r2 = q(".r2"), t1 = q(".t1"), t2 = q(".t2");
+          const box = [q(".cc-box"), q(".b1"), q(".b2"), q(".cc-model"), q(".cc-send")];
+          gsap.set([q(".e2"), q(".ck"), q(".qk"), q(".cc-bubble"), q(".think"), ...all(".cc-cite"), ...all(".cc-src"), q(".acts"), q(".cc-cursor")], { opacity: 0 });
 
           const tl = gsap.timeline({ paused: true });
-          // "Next, those documents go to a large language model": the two cards rise into the prompt
-          Egg.fadeUp(tl, [q(".bundle"), q(".pk")], 0.5, { y: 24 });
-          tl.to(r1, { x: 20, y: 380 - 1070, duration: 0.7, ease: Egg.EASE.move }, 0.6);
-          tl.to(r2, { x: 20, y: 470 - 1170, duration: 0.7, ease: Egg.EASE.move }, 0.72);
+          // "Next, those documents go to a large language model": a composer opens and the two cards fly into it
+          Egg.fadeUp(tl, box.slice(0, 4), 0.45, { y: 24, stagger: 0.03 });
+          tl.fromTo(q(".cc-send"), { opacity: 0, y: 24 }, { opacity: 0.45, y: 0, duration: 0.55, ease: Egg.EASE.enter }, 0.57);   // dimmed until there is something to send
+          tl.to(r1, { x: 124 - 90, y: 590 - 1070, scale: 330 / 700, opacity: 0, duration: 0.6, ease: Egg.EASE.move }, 0.55);
+          tl.to(r2, { x: 472 - 90, y: 590 - 1170, scale: 330 / 700, opacity: 0, duration: 0.6, ease: Egg.EASE.move }, 0.7);
+          tl.fromTo(t1, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 0.95);
+          tl.fromTo(t2, { opacity: 0, scale: 0.92 }, { opacity: 1, scale: 1, duration: 0.3, ease: "power2.out" }, 1.1);
           // "like Claude"
-          tl.to(arrow, { strokeDashoffset: 0, duration: 0.4, ease: Egg.EASE.draw }, 2.8);
-          tl.fromTo(q(".logo"), { scale: 0, opacity: 0, rotation: -40 }, { scale: 1, opacity: 1, rotation: 0, duration: 0.55, ease: Egg.EASE.pop }, 3.0);
-          // "together with your question"
-          tl.fromTo(q(".qc"), { opacity: 0, y: -140 }, { opacity: 1, y: 0, duration: 0.5, ease: Egg.EASE.move }, 3.8);
+          Egg.pop(tl, q(".cc-greet .cc-spark"), 3.0);
+          tl.fromTo(q(".cc-greet .cc-spark"), { rotation: -90 }, { rotation: 0, duration: 0.8, ease: "power3.out", immediateRender: false }, 3.0);
+          tl.fromTo(q(".cc-greet span"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.45, ease: Egg.EASE.enter }, 3.15);
+          // "together with your question": it types into the composer, send wakes up
+          const typed = Egg.typeOn(tl, q(".qt"), 3.8, { cps: 40 });
+          tl.to(q(".cc-send"), { opacity: 1, duration: 0.15, ease: "none" }, typed);
 
           // "That's the augmented part"
           Egg.fadeUp(tl, q(".e1"), 5.9, { y: 16 });
-          tl.to(q(".bundle"), { scale: 1.03, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1 }, 6.1);
+          tl.to(q(".cc-box"), { scale: 1.025, duration: 0.25, ease: "power2.out", yoyo: true, repeat: 1 }, 6.1);
           // "the context it needs"
           Egg.pop(tl, q(".ck"), 7.8, { dur: 0.4 });
-          tl.to([r1, r2], { scale: 1.03, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.12 }, 7.9);
+          tl.to([t1, t2], { scale: 1.04, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.12 }, 7.9);
           // "and the question it has to answer"
           Egg.pop(tl, q(".qk"), 9.5, { dur: 0.4 });
-          Egg.highlight(tl, q(".qc .egg-hl"), 9.65);
+          Egg.highlight(tl, q(".qt .egg-hl"), 9.65);
 
           // "And that's generation"
           Egg.fadeOut(tl, q(".e1"), 11.4, { dur: 0.25 });
           Egg.fadeUp(tl, q(".e2"), 11.55, { y: 16 });
-          // the prompt goes to Claude: it pulses down the arrow, Claude takes it and turns while it writes
-          tl.to(q(".bundle"), { y: 24, scale: 0.98, duration: 0.25, ease: "power2.in", yoyo: true, repeat: 1 }, 11.9);
-          tl.fromTo(q(".logo"), { scale: 1 }, { scale: 1.18, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1, immediateRender: false }, 12.2);
-          tl.to(q(".logo"), { rotation: 120, duration: 5.4, ease: "power1.inOut" }, 12.4);
+          // a cursor clicks send
+          tl.fromTo(q(".cc-cursor"), { opacity: 0, x: 960, y: 1080 }, { opacity: 1, x: 884, y: 926, duration: 0.4, ease: "power2.out" }, 11.6);
+          tl.to(q(".cc-cursor"), { scale: 0.85, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0 0" }, 12.0);
+          tl.to(q(".cc-send"), { scale: 0.88, duration: 0.08, ease: "power2.out", yoyo: true, repeat: 1 }, 12.0);
+          tl.to(q(".cc-cursor"), { opacity: 0, duration: 0.2, ease: "none" }, 12.25);
+          // the message goes up into the thread: documents above the question bubble, right-aligned
+          tl.to([q(".cc-greet"), q(".ck"), q(".qk"), q(".qt"), ...box], { opacity: 0, y: 40, duration: 0.3, ease: Egg.EASE.exit, stagger: 0.02 }, 12.1);
+          tl.to(t1, { x: 152 - 124, y: 292 - 590, duration: 0.55, ease: Egg.EASE.move }, 12.15);
+          tl.to(t2, { x: 500 - 472, y: 292 - 590, duration: 0.55, ease: Egg.EASE.move }, 12.15);
+          Egg.fadeUp(tl, q(".cc-bubble"), 12.6, { y: 20, dur: 0.35 });
+          // the spark thinks, then the reply streams in under it
+          tl.fromTo(q(".think"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" }, 12.6);
+          tl.to(q(".think"), { rotation: 180, scale: 0.8, duration: 0.4, ease: "power1.inOut", yoyo: true, repeat: 1 }, 12.6);
+          tl.to(q(".think"), { opacity: 0, duration: 0.1, ease: "none" }, 13.4);
           // "it writes a reply grounded in your documents"
-          Egg.fadeUp(tl, q(".ans"), 12.55);
-          Egg.typeOn(tl, q(".ans .txt"), 12.8, { cps: 40 });
-          Egg.pop(tl, q(".src"), 14.95, { dur: 0.45 });
-          Egg.highlight(tl, q(".ans .egg-hl"), 15.3);
-          Egg.fadeUp(tl, q(".egg-label"), 15.3);
+          const reply = q(".cc-reply");
+          Egg.typeOn(tl, reply, 13.4, { cps: 48 });
+          // each citation chip pops right after the sentence it backs
+          const nodes = [...reply.querySelectorAll(".c, .cc-cite")];
+          nodes.forEach((n, i) => { if (n.classList.contains("cc-cite")) Egg.pop(tl, n, 13.4 + nodes.slice(0, i).filter((m) => m.classList.contains("c")).length / 48, { dur: 0.35 }); });
+          Egg.fadeUp(tl, all(".cc-src"), 15.35, { y: 14, stagger: 0.15, dur: 0.4 });
+          Egg.highlight(tl, q(".cc-reply .egg-hl"), 15.5);
+          tl.fromTo(q(".acts"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 15.6);
+          tl.fromTo(q(".acts .cc-spark"), { rotation: 90 }, { rotation: 0, duration: 0.6, ease: "power3.out" }, 15.6);
+          Egg.fadeUp(tl, q(".egg-label"), 15.7);
           // "so it's far less likely to make things up"
-          Egg.fadeUp(tl, q(".foot"), 15.8, { y: 10 });
+          Egg.fadeUp(tl, q(".foot"), 16.0, { y: 10 });
 
           // hard stop: the last frame holds, no exit
           window.__timelines["s05-generate"] = tl;

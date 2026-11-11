@@ -19,6 +19,9 @@ const LENGTH = {
   chime: 2.5, "click-soft": 0.37, click: 0.37, error: 1.62, "impact-bass-1": 2.12, "key-press": 0.4,
   ping: 1.32, pop: 0.72, sparkle: 1.8, typing: 1.5, "whoosh-short": 0.57, whoosh: 0.57,
 };
+// The episode's own palette (tools/make-sfx.mjs) writes its lengths next to the files; those win.
+const own = join(project, "assets/sfx/lengths.json");
+if (existsSync(own)) Object.assign(LENGTH, JSON.parse(readFileSync(own, "utf8")));
 const FIRST_TRACK = 10;
 
 const hosts = [...index.matchAll(/<div[^>]*data-composition-src="([^"]+)"[^>]*>/g)].map((m) => {
