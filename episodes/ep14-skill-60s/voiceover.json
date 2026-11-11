@@ -1,0 +1,74 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "Here's how to build a Claude skill, in sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 3.3,
+      "text": "A skill is a set of instructions Claude picks up on its own, when your request needs it."
+    },
+    {
+      "scene": "s01",
+      "at": 8.5,
+      "text": "Let's build one, step by step."
+    },
+    {
+      "scene": "s02",
+      "at": 0.2,
+      "text": "Say you want Claude to write your pull request descriptions, the same way every time."
+    },
+    {
+      "scene": "s03",
+      "at": 0.2,
+      "text": "Step one: in dot claude slash skills, make a folder named after the skill. P R description."
+    },
+    {
+      "scene": "s04",
+      "at": 0.2,
+      "text": "Step two: inside it, add one file: skill dot M D."
+    },
+    {
+      "scene": "s04",
+      "at": 5.75,
+      "text": "At the top, a name, and a description of when to use it."
+    },
+    {
+      "scene": "s04",
+      "at": 9.2,
+      "text": "Below that, the instructions, in plain English: run git diff, then write three sections. What, why, and changes."
+    },
+    {
+      "scene": "s05",
+      "at": 0.2,
+      "text": "Step three: just ask."
+    },
+    {
+      "scene": "s05",
+      "at": 2.3,
+      "text": "Claude reads only each skill's name and description up front. When your request matches, it loads the full file and follows it."
+    },
+    {
+      "scene": "s05",
+      "at": 10.05,
+      "text": "Same format, every time. Just keep the description specific, or Claude won't know when to use it."
+    }
+  ]
+}

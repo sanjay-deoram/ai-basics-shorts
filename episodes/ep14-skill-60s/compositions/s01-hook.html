@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"air","vol":0.2},
+      {"t":1.3,"sfx":"marker","vol":0.2},
+      {"t":2.0,"sfx":"tap","vol":0.24},
+      {"t":3.45,"sfx":"paper","vol":0.18},
+      {"t":4.3,"sfx":"pen","vol":0.14,"dur":0.6},
+      {"t":5.2,"sfx":"claude","vol":0.2},
+      {"t":6.9,"sfx":"pop","vol":0.18},
+      {"t":7.35,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":7.75,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":8.65,"sfx":"pop","vol":0.2},
+      {"t":9.0,"sfx":"pop","vol":0.2},
+      {"t":9.35,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open (no title card). "Build a Claude skill" lands as the voice says it, "in 60 seconds" pops in.
+           "A skill is a set of instructions": a SKILL.md page drops in and its lines write themselves; the Claude logo
+           lands on it on "Claude". "When your request needs it": a request bubble arrives, a dotted line runs from it
+           to the page and the page lights up on its own. "Step by step": the three steps pop in as chips.
+           Everything stays above y 800: the avatar peeks in large below (narrator.html "title").
+           Voiceover: 0.15 "Here's how to build a Claude skill, in sixty seconds." 3.3 "A skill is a set of instructions
+           Claude picks up on its own, when your request needs it." 8.5 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { position: absolute; left: 90px; top: 236px; width: 860px; }
+        .s01 .hook .w { display: inline-block; }
+        .s01 .egg-chip { position: absolute; left: 90px; top: 492px; color: var(--ink); }
+        .s01 .page { position: absolute; left: 90px; top: 590px; width: 390px; height: 200px; padding: 26px 30px; background: #fff; border: 2px solid var(--stone); border-radius: 24px; box-shadow: var(--shadow); }
+        .s01 .page .top { display: flex; align-items: center; gap: 14px; font: 400 30px/1 var(--f-mono); color: var(--ink); }
+        .s01 .page .cc-spark { width: 44px; height: 44px; }
+        .s01 .page .bar { position: absolute; left: 30px; height: 14px; border-radius: 7px; background: var(--stone); transform-origin: 0 50%; }
+        .s01 .glow { position: absolute; left: 78px; top: 578px; width: 414px; height: 224px; border-radius: 34px; border: 4px solid var(--cc-clay); box-shadow: 0 0 40px rgba(217, 119, 87, 0.45); }
+        .s01 .cc-bubble { position: absolute; left: 560px; top: 618px; }
+        .s01 .steps { position: absolute; left: 90px; top: 640px; display: flex; gap: 16px; }
+        .s01 .steps .egg-chip { position: static; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="egg-scene s01">
+          <h1 class="egg-display hook"><span class="w">Build</span> <span class="w">a</span> <span class="w">Claude</span> <span class="w"><span class="egg-hl">skill</span></span></h1>
+          <span class="egg-chip c60">In 60 seconds</span>
+          <div class="glow"></div>
+          <div class="page">
+            <div class="top"><div class="cc-spark"></div><span>SKILL.md</span></div>
+            <i class="bar" style="top:100px;width:320px"></i>
+            <i class="bar" style="top:130px;width:270px"></i>
+            <i class="bar" style="top:160px;width:300px"></i>
+          </div>
+          <div class="cc-bubble">Write a PR description</div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="link" d="M556 668 C 530 668, 510 690, 484 690" fill="none" stroke="#000" stroke-width="4" stroke-linecap="round" stroke-dasharray="2 12" />
+          </svg>
+          <div class="steps">
+            <span class="egg-chip"><b>1</b> Folder</span>
+            <span class="egg-chip"><b>2</b> SKILL.md</span>
+            <span class="egg-chip"><b>3</b> Ask</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.75;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const spark = q(".page .cc-spark"), link = q(".link");
+          gsap.set([q(".page"), q(".glow"), q(".cc-bubble"), link, ...all(".steps .egg-chip")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Here's how to build a Claude skill"
+          Egg.fadeUp(tl, all(".hook .w"), 0.25, { y: 60, stagger: 0.12, dur: 0.6 });
+          Egg.highlight(tl, q(".hook .egg-hl"), 1.3);
+          // "in sixty seconds"
+          Egg.pop(tl, q(".c60"), 2.0);
+          // "A skill is a set of instructions": the page drops in and its lines write themselves
+          tl.fromTo(q(".page"), { opacity: 0, y: -40, rotation: -3 }, { opacity: 1, y: 0, rotation: 0, duration: 0.5, ease: Egg.EASE.enter }, 3.4);
+          tl.fromTo(all(".page .bar"), { scaleX: 0 }, { scaleX: 1, duration: 0.3, ease: Egg.EASE.draw, stagger: 0.2 }, 4.3);
+          // "Claude": the logo lands on the page
+          Egg.pop(tl, spark, 5.2);
+          tl.fromTo(spark, { rotation: -90 }, { rotation: 0, duration: 0.8, ease: "power3.out", immediateRender: false }, 5.2);
+          // "when your request needs it": a request arrives and the page lights up on its own
+          Egg.fadeUp(tl, q(".cc-bubble"), 6.85, { y: 20, dur: 0.4 });
+          tl.to(link, { opacity: 1, duration: 0.3, ease: "none" }, 7.3);
+          tl.to(q(".glow"), { opacity: 1, duration: 0.35, ease: "power2.out" }, 7.7);
+          tl.to(q(".page"), { scale: 1.04, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1 }, 7.7);
+          tl.to(spark, { rotation: 180, duration: 0.8, ease: "power2.inOut" }, 7.7);
+          // "Let's build one, step by step": the three steps
+          tl.to([q(".page"), q(".glow"), q(".cc-bubble"), link], { opacity: 0, y: -20, duration: 0.3, ease: Egg.EASE.exit }, 8.35);
+          Egg.pop(tl, all(".steps .egg-chip"), 8.65, { stagger: 0.35 });
+
+          Egg.fadeOut(tl, [q(".hook"), q(".c60"), q(".steps")], DUR - 0.35);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
