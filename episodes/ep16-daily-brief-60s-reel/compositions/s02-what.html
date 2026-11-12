@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.15,"sfx":"pop","vol":0.24},
+      {"t":2.25,"sfx":"pop","vol":0.2},
+      {"t":2.4,"sfx":"pen","vol":0.18},
+      {"t":2.75,"sfx":"pop","vol":0.2},
+      {"t":2.9,"sfx":"pen","vol":0.18},
+      {"t":3.45,"sfx":"tick","vol":0.2},
+      {"t":3.6,"sfx":"tick","vol":0.16},
+      {"t":4.5,"sfx":"zoom","vol":0.24},
+      {"t":4.95,"sfx":"pop","vol":0.24},
+      {"t":6.08,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · What it is. Blue: the agent (the Claude logo in a white disc) pops on "agent"; "Reads Slack + GitHub."
+           word by word as two source pills join it with drawn lines; "on a schedule": a `weekdays 7:32` chip; "Posts
+           a brief.": a line runs down to a compact version of the post. Whip out. Badge bottom-left (narrator). -->
+      <style>
+        #s02-root .bg { background-color: #2d4bff; }
+        #s02-root .rl-eye { color: #dfe5ff; }
+        #s02-root .rl-hd { --acc: #ffd84d; color: #ffffff; font-size: 92px; line-height: 96px; }
+        #s02-root .src { position: absolute; top: 640px; height: 100px; padding: 0 28px 0 112px; border-radius: 50px; background: #fff; display: flex; flex-direction: column; justify-content: center; }
+        #s02-root .src .ic { position: absolute; left: 22px; top: 18px; width: 64px; height: 64px; border-radius: 18px; background: #eef1ff; }
+        #s02-root .src .ic b { position: absolute; inset: 0; text-align: center; font: 600 44px/64px var(--f-display); color: #0d0d0c; }
+        #s02-root .src .ic svg { position: absolute; inset: 12px; width: 40px; height: 40px; }
+        #s02-root .src .n { font: 600 34px/1.1 var(--f-display); letter-spacing: -0.02em; color: #0d0d0c; white-space: nowrap; }
+        #s02-root .src .s { font: 400 24px/1.2 var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s02-root .node { position: absolute; left: 455px; top: 800px; width: 170px; height: 170px; border-radius: 50%; background: #fff; box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.45); }
+        #s02-root .node img { position: absolute; left: 40px; top: 40px; width: 90px; height: 90px; }
+        #s02-root .clk { left: 640px; top: 855px; background: #ffd84d; border-color: #ffd84d; }
+        #s02-root .ln2 { fill: none; stroke: #ffffff; stroke-width: 5; stroke-linecap: round; }
+        #s02-root .post { top: 1036px; padding-top: 22px; padding-bottom: 22px; }
+      </style>
+      <div id="s02-root" data-composition-id="s02-what" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// what it is</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Reads </span><span class="w">Slack</span></span>
+              <span class="ln"><span class="w">+ </span><span class="w">GitHub.</span></span>
+              <span class="ln"><span class="w">Posts </span><span class="w">a </span><em class="w">brief.</em></span>
+            </div>
+            <svg class="a-lines" width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0" aria-hidden="true">
+              <path class="ln2 k1" d="M300 742 C 300 790, 470 790, 486 822" />
+              <path class="ln2 k2" d="M780 742 C 780 790, 610 790, 594 822" />
+              <path class="ln2 k3" d="M540 972 V 1032" />
+            </svg>
+            <div class="src slack" style="left:90px;width:420px"><div class="ic"><b>#</b></div><span class="n">Slack</span><span class="s">2 channels</span></div>
+            <div class="src gh" style="left:570px;width:380px"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#0d0d0c" stroke-width="3.4" stroke-linecap="round"><circle cx="11" cy="9" r="4.5" /><circle cx="11" cy="31" r="4.5" /><circle cx="29" cy="31" r="4.5" /><path d="M11 13.5 V26.5 M29 26.5 V18 C29 13 25 11 20 11 H16" /></g></svg></div><span class="n">GitHub</span><span class="s">pull requests</span></div>
+            <div class="node"><img src="assets/claude-logo.svg" alt=""></div>
+            <div class="chip clk"><svg viewBox="0 0 28 28" aria-hidden="true"><circle cx="14" cy="14" r="11" fill="none" stroke="#0d0d0c" stroke-width="3" /><path d="M14 8 V14 L18 17" fill="none" stroke="#0d0d0c" stroke-width="3" stroke-linecap="round" /></svg>weekdays 7:32</div>
+            <div class="rl-msg post">
+              <div class="av"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M7 33 H39" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /><path d="M14 31 A9 9 0 0 1 32 31 Z" fill="#fff" /><path d="M23 8 V14 M10 14.5 L14 18.5 M36 14.5 L32 18.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /></svg></div>
+              <div class="who">Daily brief <span class="app">APP</span> <span class="tm">7:34 AM</span></div>
+              <div class="ttl">Daily brief, Tue Nov 17</div>
+              <div class="it">Acme escalation: <span class="d">login errors since 6:10</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s02-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s02-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const lines = [...root.querySelectorAll(".ln2")];
+          lines.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          const draw = (p, at) => tl.fromTo(p, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.35, ease: "power2.out" }, at);
+          const pop = (el, at) => tl.fromTo(el, { opacity: 0, scale: 0.6, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.42, ease: "back.out(2)" }, at);
+          gsap.set(lines, { strokeDashoffset: 1.02 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "A daily brief agent"
+          pop(q(".node"), 1.15);
+          tl.fromTo(q(".node img"), { rotation: -90 }, { rotation: 0, duration: 0.6, ease: "power3.out" }, 1.15);
+          // "reads your Slack and GitHub"
+          Reel.words(tl, q(".rl-hd"), [1.8, 2.25, 2.55, 2.75, 4.5, 4.72, 4.95]);
+          pop(q(".slack"), 2.25); draw(lines[0], 2.4);
+          pop(q(".gh"), 2.75); draw(lines[1], 2.9);
+          // "on a schedule"
+          pop(q(".clk"), 3.45);
+          tl.to(q(".node"), { scale: 1.1, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, 3.6);
+          // "and posts one short summary"
+          draw(lines[2], 4.55);
+          tl.fromTo(q(".post"), { opacity: 0, y: 60, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "back.out(1.6)" }, 4.95);
+          Reel.whip(tl, cam, blur, 6.1, "out");
+
+          window.__timelines["s02-what"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

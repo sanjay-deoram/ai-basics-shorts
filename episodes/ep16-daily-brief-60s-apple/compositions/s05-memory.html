@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"air","vol":0.14},
+      {"t":1.35,"sfx":"pop","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.16},
+      {"t":2.4,"sfx":"marker","vol":0.14},
+      {"t":3.5,"sfx":"click","vol":0.22},
+      {"t":3.7,"sfx":"tick","vol":0.18},
+      {"t":4.6,"sfx":"marker","vol":0.14},
+      {"t":4.85,"sfx":"tap","vol":0.16},
+      {"t":5.0,"sfx":"typing","vol":0.16,"dur":0.6},
+      {"t":5.65,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":5.95,"sfx":"pop","vol":0.16},
+      {"t":6.2,"sfx":"whoosh-short","vol":0.12},
+      {"t":6.75,"sfx":"chime","vol":0.16,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Memory. Two memory-store cards (the quickstart's two stores, mounted under /mnt/memory/):
+           "preferences" (yours: what to read, length, mentions) and "state" (the agent's: bookmarks.json, ledger.md,
+           runs/). "Your preferences, which it can't edit": the lock closes and a Read-only tag lands. "And bookmarks":
+           bookmarks.json opens (one timestamp per source). "So a late run misses nothing": a timeline from Monday's
+           run to a late Tuesday run; the span read starts at the bookmark, not at "24 hours ago", so the gap is covered.
+           Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.18 "Step three: memory. Your preferences, which it can't edit, and bookmarks, so a late run
+           misses nothing." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .st { position: absolute; top: 316px; width: 420px; height: 356px; padding: 28px 30px; }
+        .s05 .st .hd { display: flex; align-items: center; gap: 14px; height: 50px; }
+        .s05 .st .hd .n { font: 700 38px/1 var(--f-d); letter-spacing: -0.025em; color: var(--ink); }
+        .s05 .st .p { margin: 10px 0 18px; font: 400 22px/1.2 var(--f-m); color: var(--faint); white-space: nowrap; }
+        .s05 .st .r { height: 50px; display: flex; align-items: center; gap: 12px; font: 500 27px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s05 .st .r.f { font: 400 26px/1 var(--f-m); }
+        .s05 .st .r .d { color: var(--mu); }
+        .s05 .st .tg { position: absolute; left: 30px; bottom: 26px; }
+        .s05 .st .fr { position: absolute; inset: 0; border-radius: 32px; border: 3px solid var(--blue); opacity: 0; }
+        .s05 .lock { position: relative; width: 40px; height: 46px; }
+        .s05 .lock .sh { position: absolute; left: 7px; top: 0; width: 26px; height: 26px; border: 5px solid var(--ink); border-bottom: 0; border-radius: 13px 13px 0 0; }
+        .s05 .lock .bd { position: absolute; left: 0; top: 20px; width: 40px; height: 26px; border-radius: 7px; background: var(--ink); }
+        .s05 .ic { width: 40px; height: 40px; border-radius: 10px; background: var(--gray); position: relative; }
+        .s05 .ic::after { content: ""; position: absolute; left: 9px; top: 11px; width: 22px; height: 4px; border-radius: 2px; background: var(--ink); box-shadow: 0 8px 0 var(--ink), 0 16px 0 var(--ink); }
+        .s05 .bm { left: 90px; top: 708px; width: 860px; }
+        .s05 .bm .body { font-size: 28px; line-height: 46px; padding-top: 18px; padding-bottom: 18px; }
+        .s05 .bm .ln { height: 46px; }
+        .s05 .bm .egg-code-bar { top: 18px; height: 46px; }
+        .s05 .bm .ln > .no { font-size: 22px; }
+        .s05 .axis { fill: none; stroke: #c7c7cc; stroke-width: 4; stroke-linecap: round; }
+        .s05 .span { position: absolute; left: 150px; top: 1167px; width: 700px; height: 14px; border-radius: 7px; background: linear-gradient(90deg, #2997ff, #0071e3); transform-origin: 0 50%; }
+        .s05 .mk { position: absolute; width: 22px; height: 22px; margin: -11px 0 0 -11px; border-radius: 50%; background: var(--white); border: 5px solid var(--ink); }
+        .s05 .mk.dash { border-style: dashed; border-color: var(--faint); }
+        .s05 .tl { position: absolute; margin: 0; font: 600 26px/1.15 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s05 .tl .d { display: block; font: 500 24px/1.2 var(--f-t); color: var(--mu); }
+        .s05 .flag { position: absolute; left: 150px; top: 1080px; width: 4px; height: 92px; background: var(--blue); }
+        .s05 .flag::after { content: ""; position: absolute; left: 4px; top: 0; width: 34px; height: 24px; background: var(--blue); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+        .s05 .ok { position: absolute; left: 90px; top: 1232px; }
+      </style>
+      <div id="root" data-composition-id="s05-memory" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">Step 3 · Memory</p>
+
+          <div class="a-card st pref" style="left:90px">
+            <div class="hd"><div class="lock"><div class="sh"></div><div class="bd"></div></div><span class="n">preferences</span></div>
+            <p class="p">yours · preferences.md</p>
+            <div class="r ln1">Read <span class="d">#support, #escalations</span></div>
+            <div class="r ln2">Length <span class="d">8 lines max</span></div>
+            <div class="r ln3">Mentions <span class="d">none</span></div>
+            <span class="a-tag blue tg">Read-only</span>
+            <div class="fr"></div>
+          </div>
+          <div class="a-card st state" style="left:530px">
+            <div class="hd"><div class="ic"></div><span class="n">state</span></div>
+            <p class="p">the agent's own notes</p>
+            <div class="r f bmk"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">bookmarks.json</span><span class="on" data-layout-allow-overlap="">bookmarks.json</span></span></div>
+            <div class="r f">ledger.md</div>
+            <div class="r f">runs/2026-11-16.md</div>
+            <span class="a-tag gray tg">Read-write</span>
+            <div class="fr"></div>
+          </div>
+
+          <div class="a-win a-code bm" data-lh="46" data-layout-allow-overlap="">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl">bookmarks.json</div></div>
+            <div class="body"><div class="egg-code-bar"></div>
+              <div class="ln"><span class="no">1</span><span class="tx"><span class="t-p">{</span></span></div>
+              <div class="ln"><span class="no">2</span><span class="tx">  <span class="t-k">"slack"</span><span class="t-p">:</span>  "2026-11-16T12:33:40Z",</span></div>
+              <div class="ln"><span class="no">3</span><span class="tx">  <span class="t-k">"github"</span><span class="t-p">:</span> "2026-11-16T12:33:41Z"</span></div>
+              <div class="ln"><span class="no">4</span><span class="tx"><span class="t-p">}</span></span></div>
+            </div>
+          </div>
+
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="axis" d="M110 1174 H 930" /></svg>
+          <div class="span"></div>
+          <div class="flag"></div>
+          <div class="mk m1" style="left:152px;top:1174px"></div>
+          <div class="mk dash m2" style="left:600px;top:1174px"></div>
+          <div class="mk m3" style="left:850px;top:1174px"></div>
+          <p class="tl t1" style="left:196px;top:1074px">Bookmark<span class="d">Mon 7:33 AM</span></p>
+          <p class="tl t2" style="left:540px;top:1206px">Tue 7:32<span class="d">scheduled</span></p>
+          <p class="tl t3" style="left:720px;top:1074px">Late run<span class="d">Tue 9:10 AM</span></p>
+          <span class="a-pill a-glass ok">✓ Nothing missed</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.48;
+          const root = document.querySelector('[data-composition-id="s05-memory"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const pref = q(".pref"), state = q(".state"), bm = q(".bm"), axis = q(".axis");
+          const lns = all(".bm .ln");
+          axis.setAttribute("pathLength", "1"); axis.style.strokeDasharray = "1 1.1";
+          gsap.set([pref, state, bm, ...all(".pref .r"), ...all(".tg"), q(".flag"), ...all(".mk"), ...all(".tl"), q(".ok"), axis], { opacity: 0 });
+          gsap.set(q(".span"), { scaleX: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step three: memory"
+          Apple.rise(tl, q(".a-eyebrow"), 0.25, { y: 16 });
+          Apple.rise(tl, [pref, state], 1.35, { y: 40, dur: 0.7, stagger: 0.15 });
+          // "Your preferences"
+          tl.to(q(".pref .fr"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.4);
+          Apple.rise(tl, all(".pref .r"), 2.45, { y: 14, dur: 0.5, stagger: 0.12 });
+          // "which it can't edit": the lock closes, Read-only
+          tl.fromTo(q(".lock .sh"), { y: -10 }, { y: 0, duration: 0.25, ease: "power3.in" }, 3.45);
+          Apple.zoom(tl, q(".pref .tg"), 3.7, { from: 0.85, dur: 0.45 });
+          // "and bookmarks"
+          tl.to(q(".pref .fr"), { opacity: 0, duration: 0.25, ease: "none" }, 4.55);
+          tl.to(q(".state .fr"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 4.6);
+          Apple.zoom(tl, q(".state .tg"), 4.7, { from: 0.85, dur: 0.45 });
+          Apple.tint(tl, q(".bmk .a-tint"), 4.75, { dur: 0.4 });
+          Apple.rise(tl, bm, 4.85, { y: 30, dur: 0.6 });
+          [0, 1, 2, 3].forEach((i) => tl.fromTo(lns[i], { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "none" }, 5.0 + i * 0.12));
+          // "so a late run misses nothing": read from the bookmark, not from 24 hours ago
+          tl.fromTo(axis, { strokeDashoffset: 1.02, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 5.6);
+          Apple.fade(tl, [q(".m1"), q(".flag"), q(".t1")], 5.65, { dur: 0.3 });
+          Apple.fade(tl, [q(".m2"), q(".t2")], 5.8, { dur: 0.3 });
+          Apple.zoom(tl, [q(".m3"), q(".t3")], 5.95, { from: 0.85, dur: 0.4 });
+          tl.to(q(".span"), { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 6.2);
+          Egg.codeRun(tl, bm, [1, 2], 6.2);
+          Apple.zoom(tl, q(".ok"), 6.75, { from: 0.85, dur: 0.5 });
+
+          Apple.out(tl, [q(".a-eyebrow"), pref, state, bm, axis, q(".span"), q(".flag"), ...all(".mk"), ...all(".tl"), q(".ok")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s05-memory"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

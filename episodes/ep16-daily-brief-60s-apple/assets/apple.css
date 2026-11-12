@@ -1,0 +1,86 @@
+/* Apple-style keynote theme for this variant: white and #F5F5F7 surfaces, near-black type, one accent blue used
+   sparingly, huge tight bold headlines, large soft-shadowed cards, macOS-window code panels. A design language
+   only: no logos or trademarks. Fonts are local stand-ins (Inter Tight / Inter for SF Pro, Geist Mono for SF Mono). */
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --white: #ffffff; --gray: #f5f5f7; --line: #e8e8ed; --ink: #1d1d1f; --mu: #6e6e73; --faint: #86868b; --blue: #0071e3;
+  --f-d: "Inter Tight", "Inter", sans-serif; --f-t: "Inter", sans-serif; --f-m: "Geist Mono", monospace;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.04), 0 18px 48px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05), 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.a-scene { position: absolute; inset: 0; overflow: hidden; background: var(--gray); color: var(--ink); font-family: var(--f-t); -webkit-font-smoothing: antialiased; }
+.a-scene.white { background: var(--white); }
+.a-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+
+/* type */
+.a-eyebrow { position: absolute; left: 90px; top: 252px; margin: 0; font: 600 34px/1.2 var(--f-t); letter-spacing: -0.01em; color: var(--mu); white-space: nowrap; }
+.a-h { position: absolute; left: 90px; width: 860px; margin: 0; font: 700 112px/1.02 var(--f-d); letter-spacing: -0.045em; color: var(--ink); }
+.a-h2 { position: absolute; left: 90px; width: 860px; margin: 0; font: 700 92px/1.04 var(--f-d); letter-spacing: -0.04em; color: var(--ink); }
+.a-sub { position: absolute; left: 90px; width: 860px; margin: 0; font: 500 40px/1.25 var(--f-t); letter-spacing: -0.015em; color: var(--mu); }
+
+/* accent tint: a blue copy of the word fades in over it (opacity only) */
+.a-tint { position: relative; display: inline-block; }
+.a-tint > .on { position: absolute; left: 0; top: 0; color: var(--blue); opacity: 0; white-space: nowrap; }
+.a-tint.ink > .on { color: var(--ink); }
+
+/* surfaces */
+.a-card { position: absolute; background: var(--white); border-radius: 32px; box-shadow: var(--shadow); }
+.a-tile { position: absolute; background: var(--gray); border-radius: 32px; }
+.a-glass { background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(0, 0, 0, 0.06); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); }
+.a-pill { display: inline-flex; align-items: center; gap: 12px; height: 64px; padding: 0 30px; border-radius: 999px; font: 600 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-pill.mono { font: 400 28px/1 var(--f-m); letter-spacing: 0; }
+.a-tag { display: inline-flex; align-items: center; height: 44px; padding: 0 20px; border-radius: 999px; font: 600 24px/1 var(--f-t); white-space: nowrap; }
+.a-tag.gray { background: var(--line); color: var(--mu); }
+.a-tag.blue { background: rgba(0, 113, 227, 0.1); color: var(--blue); }
+.a-ring { position: absolute; border-radius: 40px; box-shadow: 0 0 0 4px var(--blue), 0 0 0 12px rgba(0, 113, 227, 0.14); opacity: 0; }
+
+/* macOS-style window: title bar with the three traffic-light dots */
+.a-win { position: absolute; background: var(--white); border-radius: 30px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.a-win .bar { position: relative; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 26px; background: #fbfbfd; border-bottom: 1px solid var(--line); }
+.a-win .bar > i { width: 18px; height: 18px; border-radius: 50%; background: #ff5f57; }
+.a-win .bar > i:nth-of-type(2) { background: #febc2e; }
+.a-win .bar > i:nth-of-type(3) { background: #28c840; }
+.a-win .bar .ttl { position: absolute; left: 0; right: 0; top: 0; height: 64px; display: flex; align-items: center; justify-content: center; gap: 12px; font: 600 26px/1 var(--f-t); color: var(--mu); }
+.a-win.dark { background: #1d1d1f; }
+.a-win.dark .bar { background: #2c2c2e; border-bottom-color: #3a3a3c; }
+.a-win.dark .bar .ttl { color: #a1a1a6; }
+
+/* code (light editor); .egg-code-bar / .ln names kept for Egg.codeRun */
+.a-code .body { position: relative; padding: 24px 0 26px; font: 400 30px/52px var(--f-m); color: var(--ink); }
+.a-code .ln .tx { white-space: pre; }
+.a-code .ln { position: relative; height: 52px; padding-left: 84px; }
+.a-code .ln > .no { position: absolute; left: 0; top: 0; width: 56px; text-align: right; font-size: 24px; color: #b0b0b5; }
+.a-code .egg-code-bar { position: absolute; left: 0; right: 0; top: 24px; height: 52px; background: rgba(0, 113, 227, 0.08); opacity: 0; }
+.a-code .egg-code-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--blue); }
+.a-code .t-k { color: var(--blue); }
+.a-code .t-s { color: var(--ink); }
+.a-code .t-p, .a-code .t-c { color: var(--faint); }
+.a-code .t-kw { color: var(--mu); }
+.a-code .t-fn { color: var(--ink); }
+
+/* the Claude mark, only where Claude itself is shown */
+.cc-spark { background: url("claude-logo.svg") center / contain no-repeat; }
+
+/* avatar: 540×629 cut-outs, mirrored to face left (Egg.mountAvatar) */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }
+
+/* ep16 · the daily brief as a chat-app post (generic: no Slack branding). Shared by s01 and s06. */
+.a-msg { position: absolute; left: 90px; width: 860px; padding: 30px 36px 30px 132px; background: var(--white); border-radius: 32px; box-shadow: var(--shadow-lg); }
+.a-msg .av { position: absolute; left: 34px; top: 32px; width: 74px; height: 74px; border-radius: 20px; background: linear-gradient(180deg, #2997ff, #0071e3); }
+.a-msg .av svg { position: absolute; inset: 14px; width: 46px; height: 46px; }
+.a-msg .who { display: flex; align-items: center; gap: 14px; height: 40px; font: 700 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-msg .who .app { height: 30px; padding: 0 10px; border-radius: 8px; background: var(--line); font: 700 18px/30px var(--f-t); color: #48484a; }
+.a-msg .who .tm { font: 500 26px/1 var(--f-t); color: var(--mu); }
+.a-msg .ttl { margin: 10px 0 12px; font: 700 36px/1.2 var(--f-d); letter-spacing: -0.025em; color: var(--ink); white-space: nowrap; }
+.a-msg .it { position: relative; padding-left: 30px; font: 500 30px/48px var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-msg .it::before { content: ""; position: absolute; left: 4px; top: 20px; width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+.a-msg .it .d { color: var(--mu); }
+.a-msg .foot { margin-top: 10px; padding-top: 14px; border-top: 1px solid var(--line); font: 500 28px/40px var(--f-t); color: var(--mu); white-space: nowrap; }
+.a-msg .foot .dot { display: inline-block; width: 12px; height: 12px; margin-right: 12px; border-radius: 50%; background: #ff9f0a; vertical-align: 2px; }

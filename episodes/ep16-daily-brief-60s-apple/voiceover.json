@@ -1,0 +1,64 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.05,
+      "text": "Here's how to build an agent that briefs you every morning, in under sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 4.6,
+      "text": "A daily brief agent reads your Slack and GitHub on a schedule, and posts one short summary."
+    },
+    {
+      "scene": "s02",
+      "at": 0.18,
+      "text": "Say it's Tuesday: a hundred and forty messages, twenty-five pull requests."
+    },
+    {
+      "scene": "s03",
+      "at": 0.18,
+      "text": "Step one: agent dot M D. A model, its tools, and the steps, in plain English."
+    },
+    {
+      "scene": "s03",
+      "at": 6.56,
+      "text": "The key rule: only what you'd act on today earns a line."
+    },
+    {
+      "scene": "s04",
+      "at": 0.18,
+      "text": "Step two: deployment dot M D. Weekdays at seven thirty-two, with a five dollar cap per run."
+    },
+    {
+      "scene": "s05",
+      "at": 0.18,
+      "text": "Step three: memory. Your preferences, which it can't edit, and bookmarks, so a late run misses nothing."
+    },
+    {
+      "scene": "s06",
+      "at": 0.18,
+      "text": "Then run ant apply. Each morning, a fresh session reads from every bookmark, re-checks each item, and posts the brief."
+    },
+    {
+      "scene": "s06",
+      "at": 7.45,
+      "text": "No server to keep alive. And a source it can't read says unreadable, never a quiet day."
+    }
+  ]
+}

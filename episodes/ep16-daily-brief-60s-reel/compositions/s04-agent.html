@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.2},
+      {"t":0.38,"sfx":"tick","vol":0.16},
+      {"t":0.7,"sfx":"tick","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.24},
+      {"t":1.95,"sfx":"typing","vol":0.2,"dur":0.6},
+      {"t":3.25,"sfx":"typing","vol":0.2,"dur":0.5},
+      {"t":3.95,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":4.8,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":5.7,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":6.53,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 1 · agent.md. Light blue: "Step one: agent.md." The dark editor types the file (trimmed from the
+           quickstart's agents/daily-brief/agent.md) as it's said, each part flashing on its word: the model, the tools
+           (the agent toolset and the GitHub MCP toolset), then the run steps in plain English. Whip out.
+           Badge bottom-left (narrator); the editor ends above y 1240. -->
+      <style>
+        #s04-root .bg { background-color: #dbe8ff; }
+        #s04-root .rl-hd { --acc: #1f6feb; }
+        #s04-root .term { top: 560px; height: 664px; }
+        #s04-root .r.ln { display: flex; }
+        #s04-root .ln .no { width: 56px; flex: none; color: #5f5a53; }
+        #s04-root .ln .hl { position: absolute; left: -16px; right: -16px; top: 0; bottom: 0; border-radius: 8px; background: rgba(31, 111, 235, 0.3); opacity: 0; }
+        #s04-root .ln .tx { position: relative; }
+        #s04-root .t-p { color: var(--term-dim); }
+        #s04-root .t-k { color: #f08a63; }
+        #s04-root .t-n { color: #8fb8ff; }
+      </style>
+      <div id="s04-root" data-composition-id="s04-agent" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// model + tools + steps</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Step </span><span class="w">one:</span></span>
+              <span class="ln"><em class="w">agent.md</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>agents/daily-brief/agent.md</span></div>
+              <div class="tb">
+                <div class="r ln l1"><span class="hl"></span><span class="no">1</span><span class="tx"><span class="t-p">---</span></span></div>
+                <div class="r ln l2"><span class="hl"></span><span class="no">2</span><span class="tx"><span class="t-k">name:</span> Daily brief</span></div>
+                <div class="r ln l3"><span class="hl"></span><span class="no">3</span><span class="tx"><span class="t-k">model:</span> claude-sonnet-5-5</span></div>
+                <div class="r ln l4"><span class="hl"></span><span class="no">4</span><span class="tx"><span class="t-k">tools:</span></span></div>
+                <div class="r ln l5"><span class="hl"></span><span class="no">5</span><span class="tx">  <span class="t-p">-</span> <span class="t-k">type:</span> agent_toolset_20260401</span></div>
+                <div class="r ln l6"><span class="hl"></span><span class="no">6</span><span class="tx">  <span class="t-p">-</span> <span class="t-k">type:</span> mcp_toolset  <span class="t-p"># github</span></span></div>
+                <div class="r ln l7"><span class="hl"></span><span class="no">7</span><span class="tx"><span class="t-p">---</span></span></div>
+                <div class="r ln l8"><span class="hl"></span><span class="no">8</span><span class="tx"><span class="t-n">1.</span> Read the preferences.</span></div>
+                <div class="r ln l9"><span class="hl"></span><span class="no">9</span><span class="tx"><span class="t-n">2.</span> Read the state.</span></div>
+                <div class="r ln l10"><span class="hl"></span><span class="no">10</span><span class="tx"><span class="t-n">3.</span> Read each source from its bookmark.</span></div>
+                <div class="r ln l11"><span class="hl"></span><span class="no">11</span><span class="tx"><span class="t-n">4.</span> Decide. An item earns a line when</span></div>
+                <div class="r ln l12"><span class="hl"></span><span class="no">12</span><span class="tx">   the reader would act on it today.</span></div>
+                <div class="r ln l13"><span class="hl"></span><span class="no">13</span><span class="tx"><span class="t-n">5.</span> Verify. <span class="t-n">6.</span> Write. <span class="t-n">7.</span> Post. <span class="t-n">8.</span> Record.</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s04-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s04-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const type = (n, at, cps) => {
+            tl.fromTo(q(".l" + n + " .no"), { opacity: 0 }, { opacity: 1, duration: 0.05 }, at);
+            Egg.typeOn(tl, q(".l" + n + " .tx"), at, { cps });
+          };
+          const hl = (ns, at) => tl.fromTo(ns.map((n) => q(".l" + n + " .hl")), { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, repeatDelay: 0.55 }, at);
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          tl.fromTo(q(".term"), { opacity: 0, scale: 0.86, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+          // "Step one: agent dot M D"
+          Reel.words(tl, q(".rl-hd"), [0.38, 0.7, 1.5]);
+          type(1, 1.95, 30); type(7, 2.05, 30); type(2, 2.2, 40);
+          // "A model"
+          type(3, 3.25, 50); hl([3], 3.25);
+          // "its tools"
+          type(4, 3.95, 40); type(5, 4.08, 70); type(6, 4.45, 70); hl([4, 5, 6], 3.95);
+          // "and the steps"
+          type(8, 4.8, 70); type(9, 5.08, 70); type(10, 5.3, 80); hl([8, 9, 10], 4.8);
+          // "in plain English"
+          type(11, 5.6, 110); type(12, 5.85, 110); type(13, 6.05, 150);
+          Reel.whip(tl, cam, blur, 6.55, "out");
+
+          window.__timelines["s04-agent"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

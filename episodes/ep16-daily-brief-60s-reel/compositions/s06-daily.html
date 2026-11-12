@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.2},
+      {"t":0.42,"sfx":"tick","vol":0.16},
+      {"t":0.75,"sfx":"tick","vol":0.16},
+      {"t":1.61,"sfx":"pop","vol":0.24},
+      {"t":2.11,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":3.0,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":3.6,"sfx":"pop","vol":0.2},
+      {"t":3.75,"sfx":"click","vol":0.3},
+      {"t":4.3,"sfx":"click","vol":0.3},
+      {"t":4.7,"sfx":"click","vol":0.3},
+      {"t":4.9,"sfx":"typing","vol":0.18,"dur":0.5},
+      {"t":5.3,"sfx":"typing","vol":0.18,"dur":0.4},
+      {"t":5.65,"sfx":"thud","vol":0.36},
+      {"t":6.3,"sfx":"typing","vol":0.16,"dur":0.4},
+      {"t":7.38,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Step 2 · deployment.md. Lavender: "Step two: deployment.md." The dark editor types the file (trimmed
+           from the quickstart's agents/daily-brief/deployment.md): it points at agent.md, then the schedule. Under it
+           the cron "32 7 * * 1-5" is taken apart into minute / hour / any day / any month / Mon–Fri, each field lighting
+           as it's said ("Weekdays", "seven", "thirty-two"); "with a five dollar cap per run": the budget line lights
+           and a $5 CAP / RUN stamp thuds onto the editor. Whip out. Badge bottom-left (narrator). -->
+      <style>
+        #s06-root .bg { background-color: #e9e1ff; }
+        #s06-root .rl-hd { --acc: #7c3aed; }
+        #s06-root .term { top: 540px; height: 524px; }
+        #s06-root .r.ln { display: flex; }
+        #s06-root .ln .no { width: 56px; flex: none; color: #5f5a53; }
+        #s06-root .ln .hl { position: absolute; left: -16px; right: -16px; top: 0; bottom: 0; border-radius: 8px; background: rgba(124, 58, 237, 0.38); opacity: 0; }
+        #s06-root .ln .tx { position: relative; }
+        #s06-root .t-p { color: var(--term-dim); }
+        #s06-root .t-k { color: #f08a63; }
+        #s06-root .t-s { color: #9be3b4; }
+        #s06-root .cb { position: absolute; top: 1096px; width: 160px; height: 104px; border-radius: 20px; background: #fff; border: 2px solid #e6e3de; text-align: center; font: 500 54px/100px var(--f-mono); color: #0d0d0c; }
+        #s06-root .cl { position: absolute; top: 1214px; width: 160px; text-align: center; font: 400 24px/30px var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s06-root .rstamp { left: 555px; top: 892px; color: #7c3aed; background: #fff; }
+      </style>
+      <div id="s06-root" data-composition-id="s06-daily" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// when + how much</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Step </span><span class="w">two:</span></span>
+              <span class="ln"><em class="w">deployment.md</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>agents/daily-brief/deployment.md</span></div>
+              <div class="tb">
+                <div class="r ln l1"><span class="hl"></span><span class="no">1</span><span class="tx"><span class="t-p">---</span></span></div>
+                <div class="r ln l2"><span class="hl"></span><span class="no">2</span><span class="tx"><span class="t-k">agent:</span> ./agent.md</span></div>
+                <div class="r ln l3"><span class="hl"></span><span class="no">3</span><span class="tx"><span class="t-k">schedule:</span></span></div>
+                <div class="r ln l4"><span class="hl"></span><span class="no">4</span><span class="tx">  <span class="t-k">expression:</span> <span class="t-s">"32 7 * * 1-5"</span></span></div>
+                <div class="r ln l5"><span class="hl"></span><span class="no">5</span><span class="tx">  <span class="t-k">timezone:</span> America/New_York</span></div>
+                <div class="r ln l6"><span class="hl"></span><span class="no">6</span><span class="tx"><span class="t-k">budget:</span></span></div>
+                <div class="r ln l7"><span class="hl"></span><span class="no">7</span><span class="tx">  <span class="t-k">max_list_cost:</span></span></div>
+                <div class="r ln l8"><span class="hl"></span><span class="no">8</span><span class="tx">    <span class="t-k">amount:</span> <span class="t-s">"500"</span> <span class="t-p"># cents</span></span></div>
+                <div class="r ln l9"><span class="hl"></span><span class="no">9</span><span class="tx"><span class="t-p">---</span></span></div>
+                <div class="r ln l10"><span class="hl"></span><span class="no">10</span><span class="tx">Write today's brief.</span></div>
+              </div>
+            </div>
+            <div class="rstamp" data-layout-allow-overlap="">$5 cap / run</div>
+            <div class="cb c0" style="left:90px">32</div><div class="cl" style="left:90px">minute</div>
+            <div class="cb c1" style="left:265px">7</div><div class="cl" style="left:265px">hour</div>
+            <div class="cb c2" style="left:440px">*</div><div class="cl" style="left:440px">any day</div>
+            <div class="cb c3" style="left:615px">*</div><div class="cl" style="left:615px">any month</div>
+            <div class="cb c4" style="left:790px">1-5</div><div class="cl" style="left:790px">Mon–Fri</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s06-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s06-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const type = (n, at, cps) => {
+            tl.fromTo(q(".l" + n + " .no"), { opacity: 0 }, { opacity: 1, duration: 0.05 }, at);
+            Egg.typeOn(tl, q(".l" + n + " .tx"), at, { cps });
+          };
+          const hl = (ns, at, hold = 0.6) => tl.fromTo(ns.map((n) => q(".l" + n + " .hl")), { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, repeatDelay: hold }, at);
+          const lit = (i, at) => tl.to(q(".c" + i), { backgroundColor: "#7c3aed", borderColor: "#7c3aed", color: "#ffffff", scale: 1.08, duration: 0.18, ease: "power2.out" }, at)
+            .to(q(".c" + i), { scale: 1, duration: 0.2, ease: "power2.out" }, at + 0.18);
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          tl.fromTo(q(".term"), { opacity: 0, scale: 0.86, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+          // "Step two: deployment dot M D"
+          Reel.words(tl, q(".rl-hd"), [0.42, 0.75, 1.61]);
+          type(1, 2.11, 30); type(9, 2.2, 30); type(2, 2.3, 45);
+          // "Weekdays": the schedule, and the cron taken apart
+          type(3, 3.0, 50); type(4, 3.2, 80); hl([4], 3.6, 1.6);
+          tl.fromTo([...root.querySelectorAll(".cb, .cl")], { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(1.8)", stagger: 0.04 }, 3.45);
+          lit(4, 3.75);
+          // "at seven thirty-two"
+          lit(1, 4.3); lit(0, 4.7);
+          type(5, 4.9, 70);
+          // "with a five dollar cap per run"
+          type(6, 5.3, 60); type(7, 5.38, 80); type(8, 5.5, 80); hl([8], 5.65, 1.0);
+          Egg.stamp(tl, q(".rstamp"), 5.65, q(".term"));
+          // the body: the first message of every run
+          type(10, 6.3, 60);
+          Reel.whip(tl, cam, blur, 7.4, "out");
+
+          window.__timelines["s06-daily"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
