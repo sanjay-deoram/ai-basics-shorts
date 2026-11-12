@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.6,"sfx":"tick","vol":0.18},
+      {"t":0.95,"sfx":"tick","vol":0.18},
+      {"t":1.2,"sfx":"tick","vol":0.18},
+      {"t":1.5,"sfx":"flurry","vol":0.34},
+      {"t":3.45,"sfx":"success","vol":0.2},
+      {"t":4.68,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Reads. Light-blue canvas, "// reads", "It reads your code. Every file."; Read / Search rows land in the
+           terminal, then on "Every file" a wall of file cards (names, code bars, ticks) streams up past the camera
+           with a vertical smear, and the terminal comes back with "Read 42 files". -->
+      <style>
+        #s04-root .bg { background-color: #dbe6ff; }
+        #s04-root .rl-hd { --acc: #1f6feb; }
+        #s04-root .win { position: absolute; left: 0; top: 640px; width: 1080px; height: 880px; overflow: hidden; }
+        #s04-root .wall { position: absolute; left: 90px; top: 0; width: 860px; }
+        #s04-root .fc { position: absolute; width: 274px; height: 168px; border-radius: 22px; background: #fff; box-shadow: 0 10px 24px -12px rgba(0, 0, 0, 0.3); padding: 18px 20px; }
+        #s04-root .fc .n { font: 400 28px/34px var(--f-mono); color: #0d0d0c; white-space: nowrap; }
+        #s04-root .fc i { display: block; height: 12px; border-radius: 6px; margin-top: 14px; }
+        #s04-root .fc .ck { position: absolute; right: 16px; bottom: 16px; width: 40px; height: 40px; border-radius: 50%; background: #1f6feb; }
+        #s04-root .fc .ck::after { content: ""; position: absolute; left: 14px; top: 8px; width: 10px; height: 18px; border: solid #fff; border-width: 0 4px 4px 0; transform: rotate(45deg); }
+      </style>
+      <div id="s04-root" data-composition-id="s04-reads" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// reads</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">It </span><span class="w">reads </span><span class="w">your </span><span class="w">code.</span></span>
+              <span class="ln"><span class="w">Every </span><em class="w">file.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/habit-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/habit-app</span></div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Read</span><span class="arg">(src/App.tsx)</span></div>
+                <div class="r sub">  ⎿ 112 lines</div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Read</span><span class="arg">(src/db.ts)</span></div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Search</span><span class="arg">("habit")</span></div>
+                <div class="r sub">  ⎿ 18 matches in 9 files</div>
+                <div class="r gap"></div>
+                <div class="r"><span class="dot">●</span> <span class="okc">Read 42 files ✓</span></div>
+              </div>
+            </div>
+            <div class="win"><div class="wall"></div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s04-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s04-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.47, 0.6, 0.8, 1.0, 1.65, 1.95]);
+          const r = root.querySelectorAll(".tb .r");
+          Reel.rows(tl, [r[1], r[2], r[3], r[4], r[5]], [0.6, 0.72, 0.95, 1.2, 1.3]);
+
+          // the file wall: 3 columns, every card a file of the project
+          const NAMES = ["App.tsx", "db.ts", "streak.ts", "Habit.tsx", "theme.css", "api.ts", "index.ts", "Day.tsx", "store.ts", "dates.ts", "List.tsx", "auth.ts",
+            "Nav.tsx", "hooks.ts", "types.ts", "Card.tsx", "env.ts", "util.ts", "Stats.tsx", "seed.ts", "routes.ts", "Form.tsx", "log.ts", "dark.css",
+            "test.ts", "Chip.tsx", "cache.ts", "i18n.ts", "Icon.tsx", "sync.ts", "Modal.tsx", "time.ts", "pkg.json", "Grid.tsx", "keys.ts", "main.ts"];
+          const BAR = ["#1f6feb", "#7c3aed", "#e8590c", "#12a150", "#e11d48"];
+          const wall = root.querySelector(".wall");
+          NAMES.forEach((n, i) => {
+            const c = document.createElement("div");
+            c.className = "fc";
+            c.style.left = (i % 3) * 293 + "px";
+            c.style.top = Math.floor(i / 3) * 188 + ((i % 3) === 1 ? 70 : 0) + "px";
+            const w = [62, 84, 46, 70, 90, 54];
+            c.innerHTML = `<div class="n">${n}</div><i style="width:${w[i % 6]}%;background:${BAR[i % 5]}33"></i><i style="width:${w[(i + 2) % 6]}%;background:#0d0d0c18"></i><span class="ck"></span>`;
+            wall.appendChild(c);
+          });
+          const wblur = Reel.blurFor(wall, "s04-wb");
+          const term = root.querySelector(".term");
+          tl.to(term, { opacity: 0, scale: 0.94, duration: 0.25, ease: "power2.in" }, 1.55);
+          const p = { v: 0 };
+          const fly = () => {
+            gsap.set(wall, { y: 1000 - p.v * 3400, rotation: -4 });
+            wblur(Math.sin(Math.PI * p.v) * 26, "y");
+          };
+          fly();
+          tl.fromTo(p, { v: 0 }, { v: 1, duration: 1.9, ease: "power2.inOut", onUpdate: fly }, 1.55);
+          tl.fromTo(wall.querySelectorAll(".ck"), { scale: 0 }, { scale: 1, duration: 0.2, ease: "back.out(3)", stagger: 0.035 }, 1.7);
+          tl.to(term, { opacity: 1, scale: 1, duration: 0.35, ease: "power3.out" }, 3.3);
+          Reel.rows(tl, [r[7]], [3.45]);
+          Reel.whip(tl, cam, blur, 4.7, "out");
+
+          window.__timelines["s04-reads"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

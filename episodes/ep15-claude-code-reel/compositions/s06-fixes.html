@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"error","vol":0.3},
+      {"t":1.6,"sfx":"typing","vol":0.22,"dur":0.5},
+      {"t":2.2,"sfx":"enter","vol":0.24},
+      {"t":2.55,"sfx":"success","vol":0.28},
+      {"t":2.78,"sfx":"thud","vol":0.42},
+      {"t":4.38,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Fixes. Pink canvas, "// fixes", "Broken build? It fixes it."; the test run fails red (the terminal
+           shakes, the build chip reads failing), Claude edits the line, reruns, 24 passing, the chip turns green and a
+           TESTS PASS rubber stamp lands. -->
+      <style>
+        #s06-root .bg { background-color: #ffdbe4; }
+        #s06-root .rl-hd { --acc: #e11d48; }
+        #s06-root .stmp { left: 520px; top: 1110px; color: #12a150; background: rgba(255, 255, 255, 0.92); }
+        #s06-root .st { left: 560px; top: 1365px; }
+        #s06-root .st b { width: 16px; height: 16px; border-radius: 50%; background: #e11d48; }
+        #s06-root .st .ok { position: absolute; inset: -2px; border-radius: 30px; background: #fff; border: 2px solid #12a150; color: #12a150; display: flex; align-items: center; gap: 12px; padding: 0 24px; opacity: 0; }
+        #s06-root .st .ok b { background: #12a150; }
+      </style>
+      <div id="s06-root" data-composition-id="s06-fixes" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// fixes</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Broken </span><span class="w">build?</span></span>
+              <span class="ln"><span class="w">It </span><em class="w">fixes it.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/habit-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/habit-app</span></div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Bash</span><span class="arg">(npm test)</span></div>
+                <div class="r">  <span class="badc">✗ 1 failing</span></div>
+                <div class="r sub">    streak resets at midnight</div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Edit</span><span class="arg">(src/streak.ts)</span></div>
+                <div class="r">  <span class="del">- if (gap > 1) reset()</span></div>
+                <div class="r">  <span class="add">+ if (daysBetween(a, b) > 1) reset()</span></div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Bash</span><span class="arg">(npm test)</span></div>
+                <div class="r">  <span class="okc">✓ 24 passing</span></div>
+              </div>
+            </div>
+            <div class="rstamp stmp">Tests pass</div>
+            <div class="chip st"><b></b>build failing<span class="ok"><b></b>build passing</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s06-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s06-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.47, 0.75, 1.56, 1.72]);
+          const r = root.querySelectorAll(".tb .r");
+          Reel.rows(tl, [r[2], r[3], r[4], r[5], r[6], r[7], r[8]], [0.3, 0.38, 1.6, 1.75, 1.88, 2.2, 2.55]);
+          Egg.shake(tl, root.querySelector(".term"), 0.32);
+          const st = root.querySelector(".st");
+          tl.fromTo(st, { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, 0.35);
+          tl.fromTo(st.querySelector(".ok"), { opacity: 0, scale: 1.2 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.5)" }, 2.55);
+          tl.fromTo(r[8], { scale: 1 }, { scale: 1.06, transformOrigin: "0% 50%", duration: 0.18, yoyo: true, repeat: 1 }, 2.6);
+          Egg.stamp(tl, root.querySelector(".stmp"), 2.75, root.querySelector(".term"));
+          Reel.whip(tl, cam, blur, 4.4, "out");
+
+          window.__timelines["s06-fixes"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

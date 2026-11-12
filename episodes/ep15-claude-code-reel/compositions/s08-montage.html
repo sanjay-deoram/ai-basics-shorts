@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.42,"sfx":"zoom","vol":0.34},
+      {"t":1.0,"sfx":"pen","vol":0.26},
+      {"t":1.22,"sfx":"thud","vol":0.5},
+      {"t":1.3,"sfx":"success","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Montage. Whips in close on the last beat's panel, then the camera pulls back to all six beats side by
+           side; a loose ring is drawn around them and a "Shipped." stamp lands in serif italic. Holds to a hard cut. -->
+      <style>
+        #s08-root .bg { background-color: #f1eee8; }
+        #s08-root .zoom { position: absolute; inset: 0; transform-origin: 0 0; }
+        #s08-root .tile { position: absolute; width: 262px; height: 466px; border-radius: 26px; overflow: hidden; padding: 26px 20px; box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.35); }
+        #s08-root .tile .h { font: 600 34px/36px var(--f-display); letter-spacing: -0.04em; color: #0d0d0c; }
+        #s08-root .tile .h em { display: block; font: italic 400 42px/44px var(--f-serif); letter-spacing: -0.01em; }
+        #s08-root .tile .t { position: absolute; left: 20px; right: 20px; bottom: 26px; height: 236px; border-radius: 16px; background: #171615; padding: 44px 16px 0; }
+        #s08-root .tile .t::before { content: ""; position: absolute; left: 14px; top: 14px; width: 40px; height: 10px; border-radius: 5px; background: #4a4641; }
+        #s08-root .tile .t i { display: block; height: 12px; border-radius: 6px; margin-bottom: 16px; background: #efece633; }
+        #s08-root .tile .t i.c { background: #d97757; width: 36%; }
+        #s08-root .tile .t i.g { background: #3fbf74aa; }
+        #s08-root .tile .t i.r { background: #ff5d5daa; }
+        #s08-root .ring { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+        #s08-root .ring path { fill: none; stroke: #2d4bff; stroke-width: 7; stroke-linecap: round; }
+        #s08-root .stamp { position: absolute; left: 230px; top: 690px; width: 620px; height: 230px; border: 7px solid #2d4bff; border-radius: 30px; background: #fff;
+          display: flex; align-items: center; justify-content: center; font: italic 400 176px/1 var(--f-serif); color: #2d4bff; letter-spacing: -0.02em; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35); }
+      </style>
+      <div id="s08-root" data-composition-id="s08-montage" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="zoom"></div>
+            <svg class="ring" viewBox="0 0 1080 1920"><path d="M560 300 C 860 290, 990 520, 985 810 C 980 1120, 840 1340, 545 1345 C 250 1350, 92 1130, 95 820 C 98 500, 260 300, 600 318"/></svg>
+            <div class="stamp">Shipped.</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const cam = root.querySelector(".rl-cam"), zoom = root.querySelector(".zoom");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s08-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          // the six beats, in order (colour, headline, accent, ink, terminal rows)
+          const T = [
+            ["#2d4bff", "Got an app in your", "head?", "#fff", "#ffd84d", "c n n"],
+            ["#ffe2cc", "Describe it. In plain", "English.", "#0d0d0c", "#d9480f", "c n n n"],
+            ["#dbe6ff", "It reads your code. Every", "file.", "#0d0d0c", "#1f6feb", "c n n n n"],
+            ["#ebe3ff", "Plans. Writes. Runs the", "tests.", "#0d0d0c", "#7c3aed", "c n g r n"],
+            ["#ffdbe4", "Broken build? It", "fixes it.", "#0d0d0c", "#e11d48", "c r n g g"],
+            ["#d5f3e4", "Commits. Opens the", "pull request.", "#0d0d0c", "#0f8a4c", "c n n g"],
+          ];
+          const X0 = 103, Y0 = 330, W = 262, H = 466, G = 24;
+          T.forEach(([bg, h, em, ink, acc, rows], i) => {
+            const d = document.createElement("div");
+            d.className = "tile";
+            d.setAttribute("data-layout-ignore", "");   // miniatures: texture under the stamp
+            Object.assign(d.style, { left: X0 + (i % 3) * (W + G) + "px", top: Y0 + Math.floor(i / 3) * (H + G) + "px", background: bg });
+            d.innerHTML = `<div class="h" style="color:${ink}">${h}<em style="color:${acc}">${em}</em></div><div class="t">${rows.split(" ").map((k, j) => `<i class="${k}" style="width:${[36, 80, 64, 72, 54][j]}%"></i>`).join("")}</div>`;
+            zoom.appendChild(d);
+          });
+          // start close on the last tile (it fills the frame), then pull back to all six
+          const lx = X0 + 2 * (W + G), ly = Y0 + H + G, s = 1080 / W;
+          tl.fromTo(zoom, { scale: s, x: -lx * s, y: -ly * s - (1920 - H * s) / 2 }, { scale: 1, x: 0, y: 0, duration: 0.85, ease: "expo.inOut" }, 0.4);
+          const path = root.querySelector(".ring path");
+          path.setAttribute("pathLength", "1");
+          path.style.strokeDasharray = "1 1.1";
+          tl.fromTo(path, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 1.0);
+          Egg.stamp(tl, root.querySelector(".stamp"), 1.22, zoom);
+
+          window.__timelines["s08-montage"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

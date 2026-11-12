@@ -1,0 +1,22 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": { "id": "0b9d378e633e45028e7b645089780fb6", "name": "Sanjay (better mic)" },
+    "sheldon": { "id": "a23454fce8074ecdac3ff7b0e5471599", "name": "Young Sheldon (Fish Audio community voice)" }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    { "scene": "s01", "at": 0.1, "text": "Got an app in your head?" },
+    { "scene": "s02", "at": 0.45, "text": "With Claude Code, you get a coding partner right in your terminal. In minutes." },
+    { "scene": "s03", "at": 0.45, "text": "Describe it. In plain English." },
+    { "scene": "s04", "at": 0.45, "text": "It reads your code. Every file." },
+    { "scene": "s05", "at": 0.45, "text": "Plans the change. Writes it. Runs the tests." },
+    { "scene": "s06", "at": 0.45, "text": "Broken build? It fixes it." },
+    { "scene": "s07", "at": 0.45, "text": "Then it commits, and opens the pull request." },
+    { "scene": "s08", "at": 1.2, "text": "Shipped." },
+    { "scene": "s09", "at": 0.2, "text": "You describe. Claude builds." }
+  ]
+}

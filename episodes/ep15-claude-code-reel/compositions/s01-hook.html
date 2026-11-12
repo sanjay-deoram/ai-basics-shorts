@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.18},
+      {"t":0.78,"sfx":"pop","vol":0.22},
+      {"t":1.42,"sfx":"bloom","vol":0.32},
+      {"t":1.78,"sfx":"pop","vol":0.2},
+      {"t":1.96,"sfx":"pop","vol":0.2},
+      {"t":2.14,"sfx":"pop","vol":0.2},
+      {"t":3.08,"sfx":"whip","vol":0.34}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. White page, "// got an idea?", "Got an app in your head?" word by word; a blue bloom grows out
+           of the avatar's head and fills the frame, three app-idea cards pop above him; whip-pan out. -->
+      <style>
+        #s01-root .bg { background: #fdfcfc; }
+        #s01-root .bloom { position: absolute; left: 540px; top: 1426px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #2d4bff; }
+        #s01-root .rl-hd { --acc: #2d4bff; top: 300px; font-size: 112px; line-height: 116px; }
+        #s01-root .idea { position: absolute; top: 0; width: 262px; height: 214px; border-radius: 30px; padding: 22px 24px; color: #0d0d0c; }
+        #s01-root .idea .k { font: 400 28px/32px var(--f-mono); opacity: 0.75; }
+        #s01-root .idea .n { position: absolute; left: 24px; bottom: 22px; font: 600 38px/40px var(--f-display); letter-spacing: -0.03em; }
+        #s01-root .idea .g { position: absolute; right: 22px; top: 22px; width: 58px; height: 58px; border-radius: 16px; background: rgba(0, 0, 0, 0.82); }
+        #s01-root .idea .g::after { content: ""; position: absolute; inset: 16px; border-radius: 6px; border: 4px solid #fff; }
+        #s01-root .i2 .g::after { border-radius: 50%; }
+        #s01-root .i3 .g::after { inset: 18px 14px; border-radius: 2px; border-width: 4px 0; }
+      </style>
+      <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="bloom" data-layout-allow-overflow=""></div>
+            <div class="rl-eye">// got an idea?</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Got </span><span class="w">an </span><span class="w">app</span></span>
+              <span class="ln"><span class="w">in </span><span class="w">your </span><em class="w">head?</em></span>
+            </div>
+            <div class="idea i1" style="left: 96px; background: #ff9a4d;"><div class="k">// 01</div><div class="g"></div><div class="n">Habit tracker</div></div>
+            <div class="idea i2" style="left: 404px; background: #ff7ac0;"><div class="k">// 02</div><div class="g"></div><div class="n">Recipe box</div></div>
+            <div class="idea i3" style="left: 688px; background: #5fe0b0;"><div class="k">// 03</div><div class="g"></div><div class="n">Budget app</div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s01-root");
+          const cam = root.querySelector(".rl-cam"), hd = root.querySelector(".rl-hd"), eye = root.querySelector(".rl-eye");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s01-mb");
+
+          Reel.words(tl, hd, [0.1, 0.24, 0.36, 0.5, 0.6, 0.74]);
+          // the idea blooms out of his head and fills the frame
+          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.55, ease: "power2.in" }, 1.42);
+          tl.to(hd, { color: "#ffffff", duration: 0.2 }, 1.7);
+          tl.to(hd.querySelector("em"), { color: "#ffd84d", duration: 0.2 }, 1.7);
+          tl.to(eye, { color: "#dfe5ff", duration: 0.2 }, 1.7);
+          // idea cards land above him
+          const ideas = root.querySelectorAll(".idea"), Y = [668, 616, 690], R = [-6, 3, 7];
+          ideas.forEach((c, i) => tl.fromTo(c, { y: Y[i] + 120, scale: 0.6, rotation: 0, opacity: 0 }, { y: Y[i], scale: 1, rotation: R[i], opacity: 1, duration: 0.5, ease: "back.out(1.8)" }, 1.78 + i * 0.18));
+          ideas.forEach((c, i) => tl.to(c, { y: Y[i] - 14, duration: 0.5, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.3 + i * 0.1));
+          Reel.whip(tl, cam, blur, 3.1, "out");
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

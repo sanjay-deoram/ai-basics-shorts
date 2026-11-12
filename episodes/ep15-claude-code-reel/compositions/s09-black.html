@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.3},
+      {"t":0.3,"sfx":"tick","vol":0.16},
+      {"t":1.43,"sfx":"tick","vol":0.16},
+      {"t":1.75,"sfx":"pop","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · The line. Hard cut to black: "You describe. / Claude builds." word by word (the second line in grey,
+           "builds." in warm italic serif); the halftone avatar is big again at the bottom, nodding along. -->
+      <style>
+        #s09-root .bg { background: #0b0b0b; }
+        #s09-root .rl-hd { --acc: #f08a63; top: 330px; font-size: 128px; line-height: 136px; color: #fdfcfc; }
+        #s09-root .rl-hd .ln + .ln { color: #9b968e; }
+      </style>
+      <div id="s09-root" data-composition-id="s09-black" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-bg bg"></div>
+          <div class="rl-hd">
+            <span class="ln"><span class="w">You </span><span class="w">describe.</span></span>
+            <span class="ln"><span class="w">Claude </span><em class="w">builds.</em></span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s09-root");
+          const tl = gsap.timeline({ paused: true });
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.28, 0.45, 1.43, 1.75]);
+          tl.to({}, { duration: 3.6 }, 0);
+          window.__timelines["s09-black"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

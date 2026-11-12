@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"chime","vol":0.3},
+      {"t":0.55,"sfx":"pop","vol":0.2},
+      {"t":0.9,"sfx":"pop","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s10 · End card. Hard cut to white: the Claude logo spins in, "Claude Code", "Your coding partner, in the
+           terminal.", a dark button and the install line. Hard stop: no exit, the last frame holds. -->
+      <style>
+        #s10-root .bg { background: #fdfcfc; }
+        #s10-root .logo { position: absolute; left: 450px; top: 470px; width: 180px; height: 180px; }
+        #s10-root .name { position: absolute; left: 90px; width: 900px; top: 700px; text-align: center; font: 600 132px/1 var(--f-display); letter-spacing: -0.05em; color: #0d0d0c; }
+        #s10-root .line { position: absolute; left: 90px; width: 900px; top: 880px; text-align: center; font: 500 46px/58px var(--f-body); letter-spacing: -0.02em; color: #44403b; }
+        #s10-root .line em { font: italic 400 58px/58px var(--f-serif); color: #d97757; }
+        #s10-root .btn { position: absolute; left: 340px; top: 1030px; width: 400px; height: 96px; border-radius: 48px; background: #0d0d0c; color: #fff; text-align: center; font: 600 36px/96px var(--f-body); }
+        #s10-root .cmd { position: absolute; left: 90px; width: 900px; top: 1180px; text-align: center; font: 400 28px/36px var(--f-mono); color: #5f5b55; }
+      </style>
+      <div id="s10-root" data-composition-id="s10-end" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-bg bg"></div>
+          <img class="logo" src="assets/claude-logo.svg" alt="Claude">
+          <div class="name">Claude Code</div>
+          <div class="line">Your coding partner, <em>in the terminal.</em></div>
+          <div class="btn">Get started</div>
+          <div class="cmd">npm install -g @anthropic-ai/claude-code</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s10-root");
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(root.querySelector(".logo"), { scale: 0.3, rotation: -140, opacity: 0 }, { scale: 1, rotation: 0, opacity: 1, duration: 0.6, ease: "back.out(1.7)" }, 0.0);
+          tl.fromTo(root.querySelector(".name"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+          tl.fromTo(root.querySelector(".line"), { opacity: 0, y: 30 }, { opacity: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.4);
+          tl.fromTo(root.querySelector(".btn"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2.4)" }, 0.55);
+          tl.fromTo(root.querySelector(".cmd"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.9);
+          tl.to({}, { duration: 3.6 }, 0);
+          window.__timelines["s10-end"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

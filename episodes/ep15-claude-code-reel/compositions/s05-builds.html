@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.5,"sfx":"tick","vol":0.18},
+      {"t":1.8,"sfx":"typing","vol":0.22,"dur":0.6},
+      {"t":1.85,"sfx":"tick","vol":0.22},
+      {"t":2.05,"sfx":"tick","vol":0.22},
+      {"t":2.7,"sfx":"enter","vol":0.26},
+      {"t":2.75,"sfx":"tick","vol":0.22},
+      {"t":4.58,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Builds. Lavender canvas, "// builds", "Plans the change. Writes it. Runs the tests."; the terminal
+           shows a three-item plan, an Edit with a green/red diff, and Bash(npm test) spinning. The plan ticks off
+           as each step is said. -->
+      <style>
+        #s05-root .bg { background-color: #ebe3ff; }
+        #s05-root .rl-hd { --acc: #7c3aed; }
+        #s05-root .term { top: 690px; height: 600px; }
+        #s05-root .bx { position: relative; display: inline-block; width: 64px; }
+        #s05-root .bx .on { position: absolute; left: 0; top: 0; color: var(--ok); opacity: 0; }
+      </style>
+      <div id="s05-root" data-composition-id="s05-builds" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// builds</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Plans </span><span class="w">the </span><span class="w">change.</span></span>
+              <span class="ln"><span class="w">Writes </span><span class="w">it.</span></span>
+              <span class="ln"><span class="w">Runs </span><span class="w">the </span><em class="w">tests.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/habit-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/habit-app</span></div>
+                <div class="r"><span class="dot c">●</span> <span class="tool">Plan</span></div>
+                <div class="r">  <span class="bx">[ ]<span class="on">[✓]</span></span>Streak model</div>
+                <div class="r">  <span class="bx">[ ]<span class="on">[✓]</span></span>Check-in button</div>
+                <div class="r">  <span class="bx">[ ]<span class="on">[✓]</span></span>Tests</div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Edit</span><span class="arg">(src/streak.ts)</span></div>
+                <div class="r">  <span class="add">+ export function streak(days) {</span></div>
+                <div class="r">  <span class="del">- // TODO: streaks</span></div>
+                <div class="r"><span class="dot">●</span> <span class="tool">Bash</span><span class="arg">(npm test)</span></div>
+                <div class="r sub">  <span class="sp">⠋</span> Running 24 tests…</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s05-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s05-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.51, 0.7, 0.85, 1.81, 2.0, 2.67, 2.85, 3.05]);
+          const r = root.querySelectorAll(".tb .r");
+          Reel.rows(tl, [r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9]], [0.5, 0.6, 0.7, 0.8, 1.8, 1.95, 2.05, 2.7, 2.85]);
+          root.querySelectorAll(".bx .on").forEach((on, i) => tl.fromTo(on, { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "back.out(3)" }, [1.85, 2.05, 2.75][i]));
+          Reel.spin(tl, root.querySelector(".sp"), 2.85, 2.1);
+          Reel.whip(tl, cam, blur, 4.6, "out");
+
+          window.__timelines["s05-builds"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

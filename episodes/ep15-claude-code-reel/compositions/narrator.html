@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator · the Sanjay avatar in a black-and-white halftone treatment (the reel's mascot).
+           Halftone: an SVG filter makes him pure greyscale with hard contrast and lifts the alpha of his faded
+           shoulders so he reads as a solid cut-out on colour, and a 9 px dot screen (masked to his own shape)
+           sits over the stipple. Staging: BIG at the bottom of the hook; on the first whip he shrinks into a round
+           BADGE bottom-left (a disc clip + white fill + a ring in each section's colour); BIG again on the black
+           beat; gone on the end card (Claude is shown with the Claude logo only). -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .peek { position: absolute; left: 0; top: 0; width: 540px; height: 629px; }
+        .nar .disc { position: absolute; inset: 0; clip-path: circle(1000px at 270px 300px); }
+        .nar .dbg { position: absolute; inset: 0; background: #fff; opacity: 0; }
+        .nar .lean { position: absolute; inset: 0; transform-origin: 50% 100%; }
+        .nar .who { position: absolute; inset: 0; filter: url(#nar-ht); }
+        .nar .dots { position: absolute; inset: 0; mix-blend-mode: multiply; opacity: 0.55;
+          background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0 1.6px, rgba(0, 0, 0, 0) 2.4px) 0 0 / 9px 9px;
+          -webkit-mask: url(assets/avatar/f1.png) 0 0 / 100% 100%; mask: url(assets/avatar/f1.png) 0 0 / 100% 100%; }
+        .nar .ring { position: absolute; left: 72px; top: 102px; width: 396px; height: 396px; border-radius: 50%; border: 13px solid #2d4bff; opacity: 0;
+          box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18); }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <svg width="0" height="0" style="position:absolute">
+          <filter id="nar-ht" color-interpolation-filters="sRGB">
+            <feColorMatrix type="saturate" values="0"/>
+            <feComponentTransfer>
+              <feFuncR type="linear" slope="1.3" intercept="-0.1"/>
+              <feFuncG type="linear" slope="1.3" intercept="-0.1"/>
+              <feFuncB type="linear" slope="1.3" intercept="-0.1"/>
+              <feFuncA type="table" tableValues="0 0.8 1 1 1 1 1 1 1 1"/>
+            </feComponentTransfer>
+          </filter>
+        </svg>
+        <div class="egg-layer nar" data-layout-allow-overflow="">
+          <div class="peek" data-layout-allow-overflow="">
+            <div class="disc">
+              <div class="dbg"></div>
+              <div class="lean"><div class="who"></div></div>
+            </div>
+            <div class="ring"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 41.8;   // = the episode length (narrator host data-duration)
+          // top-left of the 540×629 avatar box and scale; the face circle is r 190 at (270, 300) in the box
+          const BIG = { x: 135, y: 976, scale: 1.5 };
+          const BADGE = { x: 185 - 270 * 0.447, y: 1395 - 300 * 0.447, scale: 0.447 };   // a 170 px badge centred at (185, 1395)
+          const OPEN = "circle(1000px at 270px 300px)", ROUND = "circle(190px at 270px 300px)";
+          // ring colour per section (episode seconds)
+          const RING = [[3.1, "#2d4bff"], [8.8, "#e8590c"], [12.9, "#1f6feb"], [17.6, "#7c3aed"], [22.2, "#e11d48"], [24.9, "#12a150"], [26.6, "#12a150"], [31.3, "#0d0d0c"]];
+          // [expression, from, to] in episode seconds
+          const EXPR = [["smile", 1.35, 3.0], ["smile", 32.9, 34.5], ["smile", 37.0, 38.2]];
+          // small head moves: [time, lean degrees, duration]
+          const NODS = [[0.75, -7, 0.5], [9.3, 5, 0.4], [22.7, -6, 0.45], [32.5, 6, 0.4], [34.85, -5, 0.45], [36.05, 6, 0.5]];
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const peek = root.querySelector(".peek"), disc = root.querySelector(".disc"), dbg = root.querySelector(".dbg");
+          const lean = root.querySelector(".lean"), ring = root.querySelector(".ring");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const dots = document.createElement("div"); dots.className = "dots";
+          av.querySelector(".av-frames").appendChild(dots);
+          const tl = gsap.timeline({ paused: true });
+
+          gsap.set(peek, { ...BIG, transformOrigin: "0 0" });
+          // hook: rises into place in the first frames
+          tl.fromTo(peek, { y: BIG.y + 60 }, { y: BIG.y, duration: 0.5, ease: "power3.out" }, 0);
+          // first whip: shrink into the badge
+          tl.to(peek, { ...BADGE, duration: 0.5, ease: "power3.inOut" }, 3.0);
+          tl.fromTo(disc, { clipPath: OPEN }, { clipPath: ROUND, duration: 0.5, ease: "power3.inOut" }, 3.0);
+          tl.fromTo(dbg, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
+          tl.fromTo(ring, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 3.4);
+          RING.forEach(([t, c]) => tl.to(ring, { borderColor: c, duration: 0.2 }, t + 0.1));
+          // "Shipped.": a hop
+          tl.to(peek, { y: BADGE.y - 40, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 32.5);
+          // black beat (hard cut): big again
+          tl.set(peek, { ...BIG }, 34.6);
+          tl.set(disc, { clipPath: OPEN }, 34.6);
+          tl.set([dbg, ring], { opacity: 0 }, 34.6);
+          // end card (hard cut): out
+          tl.set(peek, { opacity: 0 }, 38.2);
+
+          NODS.forEach(([t, r, d]) => tl.to(lean, { rotation: r, duration: d / 2, ease: "sine.out", yoyo: true, repeat: 1 }, t));
+          tl.fromTo(av.querySelector(".av-bob"), { y: 0 }, { y: -8, duration: 0.52, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 0.52) - 1) }, 0);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

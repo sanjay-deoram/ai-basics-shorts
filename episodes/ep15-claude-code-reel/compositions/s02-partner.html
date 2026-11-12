@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.32,"sfx":"pop","vol":0.2},
+      {"t":0.7,"sfx":"chime","vol":0.16},
+      {"t":2.9,"sfx":"tick","vol":0.2},
+      {"t":3.95,"sfx":"tick","vol":0.18},
+      {"t":5.68,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The partner. White page: "With Claude Code, you get a coding partner right in your terminal." builds word
+           by word, then a big "In minutes."; the Claude Code terminal draws in (Claude logo, welcome, an empty prompt
+           with a blinking caret).  -->
+      <style>
+        #s02-root .bg { background: #fdfcfc; }
+        #s02-root .small { position: absolute; left: 90px; top: 236px; width: 860px; font: 500 44px/56px var(--f-body); letter-spacing: -0.02em; color: #44403b; }
+        #s02-root .small .w { display: inline-block; white-space: pre; }
+        #s02-root .small b { font-weight: 700; color: #0d0d0c; }
+        #s02-root .rl-hd { --acc: #2d4bff; top: 372px; font-size: 150px; line-height: 150px; }
+        #s02-root .term { top: 650px; height: 610px; }
+        #s02-root .wel { position: relative; display: flex; align-items: center; gap: 26px; height: 150px; padding: 0 26px; border: 2px solid var(--claude); border-radius: 18px; margin-bottom: 26px; white-space: normal; }
+        #s02-root .wel img { width: 84px; height: 84px; }
+        #s02-root .wel .t1 { font: 600 46px/52px var(--f-display); letter-spacing: -0.03em; color: var(--term-text); }
+        #s02-root .wel .t2 { font: 400 28px/36px var(--f-mono); color: var(--term-dim); }
+      </style>
+      <div id="s02-root" data-composition-id="s02-partner" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="small"><span class="w">With </span><b class="w">Claude </b><b class="w">Code, </b><span class="w">you </span><span class="w">get </span><span class="w">a </span><span class="w">coding </span><span class="w">partner </span><span class="w">right </span><span class="w">in </span><span class="w">your </span><span class="w">terminal.</span></div>
+            <div class="rl-hd"><span class="w">In </span><em class="w">minutes.</em></div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/habit-app</span></div>
+              <div class="tb">
+                <div class="r wel"><img src="assets/claude-logo.svg" alt=""><div><div class="t1">Claude Code</div><div class="t2">~/habit-app</div></div></div>
+                <div class="r sub">Hi! What are we building today?</div>
+                <div class="r gap"></div>
+                <div class="r prompt"><b>&gt;</b><span class="caret"></span></div>
+                <div class="r gap"></div>
+                <div class="r sub">? for shortcuts</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s02-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s02-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".small"), [0.45, 0.6, 0.82, 1.65, 1.76, 1.86, 1.94, 2.2, 2.5, 2.64, 2.74, 2.9]);
+          Reel.words(tl, root.querySelector(".rl-hd"), [3.78, 3.93]);
+          const term = root.querySelector(".term");
+          tl.fromTo(term, { opacity: 0, y: 80, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power3.out" }, 0.3);
+          const r = root.querySelectorAll(".tb .r");
+          tl.fromTo(r[0], { opacity: 0, scale: 0.94 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 0.65);
+          tl.fromTo(r[0].querySelector("img"), { rotation: -120, scale: 0.4 }, { rotation: 0, scale: 1, duration: 0.6, ease: "back.out(1.8)" }, 0.65);
+          Reel.rows(tl, [r[1], r[3], r[5]], [1.65, 2.9, 3.1]);
+          const caret = root.querySelector(".caret");
+          for (let t = 3.3; t < 5.9; t += 0.5) tl.set(caret, { opacity: Math.round((t - 3.3) / 0.5) % 2 ? 1 : 0 }, t);
+          Reel.whip(tl, cam, blur, 5.7, "out");
+
+          window.__timelines["s02-partner"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

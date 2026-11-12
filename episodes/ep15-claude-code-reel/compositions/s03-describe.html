@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.52,"sfx":"tick","vol":0.16},
+      {"t":0.62,"sfx":"typing","vol":0.26,"dur":2.0},
+      {"t":1.85,"sfx":"pop","vol":0.18},
+      {"t":2.9,"sfx":"enter","vol":0.32},
+      {"t":3.3,"sfx":"tick","vol":0.2},
+      {"t":4.08,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Describe. Peach canvas, "// describe", "Describe it. In plain English."; the request types into the
+           terminal prompt in plain words, Enter, and Claude answers that it will look around first. -->
+      <style>
+        #s03-root .bg { background-color: #ffe2cc; }
+        #s03-root .rl-hd { --acc: #d9480f; }
+        #s03-root .caret { opacity: 0; }
+      </style>
+      <div id="s03-root" data-composition-id="s03-describe" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// describe</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Describe </span><span class="w">it.</span></span>
+              <span class="ln"><span class="w">In </span><span class="w">plain </span><em class="w">English.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/habit-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/habit-app</span></div>
+                <div class="r prompt"><b>&gt;</b><span class="typed">Build a habit tracker: daily check-ins, streaks, and a dark mode.</span><span class="caret"></span></div>
+                <div class="r gap"></div>
+                <div class="r"><span class="dot c">●</span> On it. Let me read the</div>
+                <div class="r">  project first.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s03-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s03-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.52, 0.8, 1.5, 1.64, 1.85]);
+          Egg.typeOn(tl, root.querySelector(".typed"), 0.62, { cps: 32 });
+          const prompt = root.querySelector(".prompt"), caret = root.querySelector(".caret");
+          // Enter: the box flashes, the caret goes, Claude answers
+          tl.to(prompt, { borderColor: "#d97757", duration: 0.12, yoyo: true, repeat: 1 }, 2.9);
+          const r = root.querySelectorAll(".tb .r");
+          Reel.rows(tl, [r[3], r[4]], [3.25, 3.35]);
+          Reel.whip(tl, cam, blur, 4.1, "out");
+
+          window.__timelines["s03-describe"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
