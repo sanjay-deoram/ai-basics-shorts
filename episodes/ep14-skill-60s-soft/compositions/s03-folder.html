@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"swell","vol":0.08},
+      {"t":0.4,"sfx":"n1","vol":0.18},
+      {"t":1.5,"sfx":"n3","vol":0.16},
+      {"t":2.55,"sfx":"n4","vol":0.16},
+      {"t":3.0,"sfx":"glass","vol":0.1},
+      {"t":3.75,"sfx":"keys","vol":0.14,"dur":1.4},
+      {"t":5.95,"sfx":"keys","vol":0.14,"dur":0.7},
+      {"t":6.05,"sfx":"n6","vol":0.2},
+      {"t":6.3,"sfx":"glass","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder. A light terminal card, then a folder list that fills as the path is said:
+           ~/.claude, then skills (tinted). On "make a folder" the command types in and an empty dashed slot waits in
+           the list; on "P R description" the name is typed and the new folder fills the slot, tinted mint, with
+           "Folder name = skill name" under it. Avatar: small tile, bottom centre.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .lbl { top: 216px; }
+        .s03 .ttl { top: 296px; }
+        .s03 .term { left: 110px; top: 440px; width: 860px; height: 200px; }
+        .s03 .cmd { margin: 0; padding: 38px 34px 0; font-size: 30px; line-height: 50px; }
+        .s03 .tree { left: 110px; top: 680px; width: 860px; height: 430px; }
+        .s03 .row { position: absolute; left: 24px; right: 24px; height: 114px; border-radius: 22px; display: flex; align-items: center; gap: 24px; font: 400 42px/1 var(--f-mono); white-space: nowrap; }
+        .s03 .row svg { width: 60px; height: 50px; flex: none; fill: rgba(17, 18, 20, 0.07); stroke: var(--s-ink); stroke-width: 3; stroke-linejoin: round; }
+        .s03 .row .tint { position: absolute; top: 0; bottom: 0; right: 0; border-radius: 22px; }
+        .s03 .r1 { top: 30px; padding-left: 26px; }
+        .s03 .r2 { top: 158px; padding-left: 96px; }
+        .s03 .r2 .tint { left: 72px; background: rgba(150, 200, 255, 0.34); }
+        .s03 .r3, .s03 .slot { top: 286px; padding-left: 166px; }
+        .s03 .r3 .tint { left: 142px; background: rgba(150, 230, 200, 0.5); }
+        .s03 .r3 svg { fill: rgba(21, 122, 82, 0.16); stroke: var(--s-good); }
+        .s03 .slot { position: absolute; left: 166px; right: 24px; height: 114px; border-radius: 22px; border: 3px dashed rgba(17, 18, 20, 0.22); }
+        .s03 .row span, .s03 .row svg { position: relative; }
+        .s03 .foot { top: 1158px; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="soft s03">
+          <div class="stage">
+            <div class="pill-row lbl"><span class="pill">Step 1</span></div>
+            <h2 class="h ttl">Make a folder</h2>
+            <div class="glass term">
+              <div class="bar"><i></i><i></i><i></i><span class="ttl-t">Terminal</span></div>
+              <p class="code cmd"><span class="t-p">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><span class="t-s b">pr-description</span></p>
+            </div>
+            <div class="glass tree">
+              <div class="row r1"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>~/.claude</span></div>
+              <div class="row r2"><div class="tint"></div><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>skills</span></div>
+              <div class="slot"></div>
+              <div class="row r3"><div class="tint"></div><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>pr-description</span></div>
+            </div>
+            <p class="cap foot">Folder name = skill name</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".r2 .tint"), q(".slot")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Soft.push(tl, q(".stage"), DUR);
+          // "Step one"
+          Soft.rise(tl, q(".lbl"), 0.15, { y: 14, dur: 0.6 });
+          Soft.words(tl, q(".ttl"), 0.3);
+          Soft.rise(tl, q(".term"), 0.6);
+          // "in dot claude slash skills"
+          Soft.rise(tl, q(".tree"), 1.2);
+          Soft.rise(tl, q(".r1"), 1.5, { y: 14, dur: 0.6 });
+          Soft.rise(tl, q(".r2"), 2.55, { y: 14, dur: 0.6 });
+          tl.to(q(".r2 .tint"), { opacity: 1, duration: 0.6, ease: "sine.inOut" }, 3.0);
+          // "make a folder named after the skill": the command types in, an empty slot waits
+          Egg.typeOn(tl, q(".cmd .a"), 3.75, { cps: 20 });
+          tl.to(q(".slot"), { opacity: 1, duration: 0.6, ease: "sine.inOut" }, 3.9);
+          // "P R description": the name, and the new folder fills the slot
+          Egg.typeOn(tl, q(".cmd .b"), 5.95, { cps: 22 });
+          tl.to(q(".slot"), { opacity: 0, duration: 0.4, ease: "sine.inOut" }, 6.05);
+          tl.to(q(".r2 .tint"), { opacity: 0, duration: 0.4, ease: "sine.inOut" }, 6.05);
+          Soft.rise(tl, q(".r3"), 6.05, { y: 0, scale: 0.97, dur: 0.5 });
+          Soft.rise(tl, q(".foot"), 6.25, { y: 14, dur: 0.45 });
+
+          Soft.melt(tl, [q(".lbl"), q(".ttl"), q(".term"), q(".tree"), q(".foot")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"levelup","vol":0.12},
+      {"t":0.5,"sfx":"blip","vol":0.12},
+      {"t":0.84,"sfx":"land","vol":0.14},
+      {"t":2.54,"sfx":"land","vol":0.18},
+      {"t":2.75,"sfx":"powerup","vol":0.1},
+      {"t":3.8,"sfx":"unlock","vol":0.14},
+      {"t":4.5,"sfx":"blip","vol":0.1},
+      {"t":5.45,"sfx":"whoosh","vol":0.12},
+      {"t":5.85,"sfx":"tick","vol":0.12},
+      {"t":6.65,"sfx":"type","vol":0.08,"dur":0.6},
+      {"t":7.5,"sfx":"type","vol":0.08,"dur":1.3},
+      {"t":7.6,"sfx":"select","vol":0.1},
+      {"t":10.2,"sfx":"select","vol":0.1},
+      {"t":12.25,"sfx":"type","vol":0.08,"dur":0.8},
+      {"t":13.4,"sfx":"type","vol":0.08,"dur":0.7},
+      {"t":14.77,"sfx":"coin","vol":0.12},
+      {"t":15.24,"sfx":"coin","vol":0.12},
+      {"t":15.82,"sfx":"coin","vol":0.12},
+      {"t":16.2,"sfx":"levelup","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Level 2 · SKILL.md, as a treasure chest. The folder's path sits in an inventory bar; a chest drops
+           in ("add one file"), opens, and a scroll rises out of it: ITEM GET, SKILL.md ("exactly that name, in
+           capitals"). The scroll unrolls into a parchment editor: the frontmatter fences, the name and the description
+           type in with a blinking arrow on the line being written ("NAME + WHEN TO USE IT"), then the instructions:
+           git diff, then the three sections, and a gem lights up for WHAT, WHY and CHANGES as each is said.
+           Avatar: small top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .path { position: absolute; left: 96px; top: 506px; height: 76px; padding: 0 22px; display: flex; align-items: center; gap: 18px; font: 400 46px/1 var(--a-mono); white-space: nowrap; }
+        .s04 .bigf { position: absolute; left: 400px; top: 880px; }
+        .s04 .chest { position: absolute; left: 372px; top: 850px; }
+        .s04 .roll { position: absolute; left: 456px; top: 900px; }
+        .s04 .get { position: absolute; left: 90px; width: 900px; top: 1170px; text-align: center; font: 400 30px/1 var(--a-head); color: var(--a-cyan); }
+        .s04 .fname { position: absolute; left: 90px; width: 900px; top: 1226px; text-align: center; font: 400 80px/1 var(--a-head); color: var(--a-yellow); text-shadow: 8px 8px 0 var(--a-red); }
+        .s04 .ffoot { position: absolute; left: 90px; width: 900px; top: 1350px; text-align: center; font: 500 38px/1 var(--a-body); color: var(--a-white); }
+        .s04 .ed { position: absolute; left: 96px; top: 620px; width: 848px; height: 668px; transform-origin: 50% 0; }
+        .s04 .ed .top { height: 62px; padding: 0 20px; display: flex; align-items: center; gap: 16px; background: var(--a-brown); color: var(--a-paper); font: 400 28px/1 var(--a-head); }
+        .s04 .ed .body { position: relative; padding: 14px 0 0; }
+        .s04 .ed .band { position: absolute; left: 0; right: 0; top: 14px; height: 58px; background: rgba(255, 210, 63, 0.55); }
+        .s04 .ed .ptr { position: absolute; left: 8px; top: 26px; }
+        .s04 .ed .ln { height: 58px; display: flex; align-items: center; font: 400 52px/1 var(--a-mono); white-space: pre; }
+        .s04 .ed .no { width: 80px; padding-right: 16px; text-align: right; color: #a08a5c; }
+        .s04 .ed .k { color: var(--a-brown); }
+        .s04 .ed .s { color: #3b2f7a; }
+        .s04 .ed .f { color: #1d4ed8; }
+        .s04 .ed .cm { color: #6b6b8a; }
+        .s04 .lbl { position: absolute; left: 90px; width: 860px; top: 1318px; height: 50px; display: flex; align-items: center; justify-content: center; color: var(--a-yellow); white-space: nowrap; }
+        .s04 .l1 { font: 400 34px/1 var(--a-head); }
+        .s04 .l2 { font: 400 28px/1 var(--a-head); }
+        .s04 .inv { position: absolute; left: 96px; top: 1394px; width: 848px; display: flex; gap: 22px; }
+        .s04 .slot { flex: 1; height: 76px; display: flex; align-items: center; justify-content: center; gap: 14px; background: var(--a-black); border: 6px solid var(--a-mid); font: 400 28px/1 var(--a-head); color: var(--a-white); }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="arc-scene s04">
+          <div class="arc-shake">
+            <div class="lv"><span class="px-tag lv-tag">LEVEL 2 · SKILL.MD</span><h2 class="lv-ttl">ADD ONE FILE</h2></div>
+            <div class="px-panel path"><i class="sp" data-sp="folder" data-px="4" data-swap="y:n,o:e"></i><span>~/.claude/skills/pr-description/</span></div>
+            <i class="sp bigf" data-sp="folder" data-px="20" data-swap="y:n,o:e"></i>
+            <i class="sp chest closed" data-sp="chest" data-px="24"></i>
+            <i class="sp chest open" data-sp="chestOpen" data-px="24"></i>
+            <i class="sp roll" data-sp="scroll" data-px="14"></i>
+            <p class="get">ITEM GET!</p>
+            <p class="fname">SKILL.md</p>
+            <p class="ffoot">Exactly that name, in capitals</p>
+            <div class="px-paper ed" data-layout-allow-overlap="">
+              <div class="top"><i class="sp" data-sp="scroll" data-px="3"></i><span>SKILL.md</span></div>
+              <div class="body"><div class="band"></div><i class="sp ptr" data-sp="arrow" data-px="5" data-swap="y:r"></i>
+                <div class="ln"><span class="no">1</span><span class="tx"><span class="cm">---</span></span></div>
+                <div class="ln"><span class="no">2</span><span class="tx"><span class="k">name</span>: <span class="s">pr-description</span></span></div>
+                <div class="ln"><span class="no">3</span><span class="tx"><span class="k">description</span>: <span class="s">Writes PR descriptions.</span></span></div>
+                <div class="ln"><span class="no">4</span><span class="tx"><span class="s">  Use when the user asks for a PR.</span></span></div>
+                <div class="ln"><span class="no">5</span><span class="tx"><span class="cm">---</span></span></div>
+                <div class="ln"><span class="no">6</span><span class="tx">1. Run <span class="f">git diff main...HEAD</span></span></div>
+                <div class="ln"><span class="no">7</span><span class="tx">2. Write three sections:</span></div>
+                <div class="ln"><span class="no">8</span><span class="tx">   <span class="k">## What</span><span class="cm">: one sentence</span></span></div>
+                <div class="ln"><span class="no">9</span><span class="tx">   <span class="k">## Why</span><span class="cm">: brief context</span></span></div>
+                <div class="ln"><span class="no">10</span><span class="tx">   <span class="k">## Changes</span><span class="cm">: bullets</span></span></div>
+              </div>
+            </div>
+            <p class="lbl l1">NAME + WHEN TO USE IT</p>
+            <p class="lbl l2">INSTRUCTIONS, IN PLAIN ENGLISH</p>
+            <div class="inv">
+              <div class="slot"><i class="sp" data-sp="gem" data-px="6"></i><span>WHAT</span></div>
+              <div class="slot"><i class="sp" data-sp="gem" data-px="6" data-swap="c:p"></i><span>WHY</span></div>
+              <div class="slot"><i class="sp" data-sp="gem" data-px="6" data-swap="c:n"></i><span>CHANGES</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8, LH = 58;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Arc.sprites(root);
+          const ed = q(".ed"), lns = all(".ed .ln"), band = q(".ed .band"), ptr = q(".ed .ptr"), slots = all(".slot");
+          const closed = q(".chest.closed"), open = q(".chest.open"), roll = q(".roll");
+          gsap.set([ed, band, ptr, open, ...all(".ed .no"), ...slots], { opacity: 0 });
+          const type = (i, at, cps = 40) => {
+            tl.set(lns[i].querySelector(".no"), { opacity: 1 }, at);
+            return Arc.type(tl, lns[i].querySelector(".tx"), at, cps);
+          };
+          // the arrow and the band jump to line i (-1 hides them); the arrow blinks until `to`
+          const run = (i, at, to) => {
+            if (i < 0) return tl.set([band, ptr], { opacity: 0 }, at);
+            tl.set([band, ptr], { y: i * LH, opacity: 1 }, at);
+            if (to) Arc.blink(tl, ptr, at, to, 0.3);
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step two: inside it"
+          Arc.show(tl, q(".lv-tag"), 0.2);
+          Arc.show(tl, q(".lv-ttl"), 0.35);
+          Arc.show(tl, q(".path"), 0.5);
+          Arc.drop(tl, q(".bigf"), 0.6, { from: -200 });
+          tl.set(q(".bigf"), { opacity: 0 }, 2.3);
+          // "add one file": a chest drops in, opens, and the scroll rises out of it
+          Arc.drop(tl, closed, 2.3, { from: -420 });
+          Arc.shake(tl, q(".arc-shake"), 2.54, 10);
+          tl.set(closed, { opacity: 0 }, 2.75).set(open, { opacity: 1 }, 2.75);
+          gsap.set(roll, { opacity: 0 });
+          tl.set(roll, { opacity: 1 }, 2.8);
+          tl.fromTo(roll, { y: 0 }, { y: -250, duration: 0.5, ease: "steps(8)", immediateRender: false }, 2.8);
+          // "skill dot M D"
+          Arc.show(tl, [q(".get"), q(".fname")], 3.8);
+          Arc.flash(tl, q(".fname"), 4.2, "color", "#f4f1ff", "#ffd23f", 3, "#ffd23f");
+          Arc.show(tl, q(".ffoot"), 4.5);
+
+          // the scroll unrolls into the editor
+          Arc.hide(tl, [open, roll, q(".get"), q(".fname"), q(".ffoot")], 5.35);
+          tl.set(ed, { opacity: 1 }, 5.5);
+          tl.fromTo(ed, { scaleY: 0.1 }, { scaleY: 1, duration: 0.3, ease: "steps(6)", immediateRender: false }, 5.5);
+          // "At the top": the frontmatter fences
+          type(0, 5.85, 30); type(4, 5.95, 30);
+          // "a name"
+          type(1, 6.65, 36);
+          run(1, 6.65, 7.5);
+          // "and a description of when to use it"
+          type(2, 7.5, 40); type(3, 8.15, 48);
+          run(2, 7.5, 8.15);
+          run(3, 8.15, 9.3);
+          Arc.show(tl, q(".l1"), 7.6);
+
+          // "Below that, the instructions, in plain English"
+          run(-1, 9.3);
+          Arc.hide(tl, q(".l1"), 10.0);
+          Arc.show(tl, q(".l2"), 10.2);
+          // "run git diff"
+          type(5, 12.25, 30);
+          run(5, 12.25, 13.4);
+          // "then write three sections": three empty slots
+          type(6, 13.4, 34);
+          run(6, 13.4, 14.77);
+          tl.set(slots, { opacity: 0.3 }, 13.5);
+          // "What, why, and changes": a gem for each
+          [[7, 14.77, 15.24], [8, 15.24, 15.82], [9, 15.82, 16.3]].forEach(([i, t, to], k) => {
+            type(i, t, 60); run(i, t, to);
+            tl.set(slots[k], { opacity: 1, borderColor: "#ffd23f" }, t);
+            tl.set(slots[k], { y: -10 }, t).set(slots[k], { y: 0 }, t + 0.08);
+          });
+          run(-1, 16.3);
+
+          Arc.hide(tl, [q(".lv"), q(".path"), ed, q(".l2"), q(".inv")], DUR - 0.15);
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

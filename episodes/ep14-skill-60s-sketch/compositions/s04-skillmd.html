@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"squeak","vol":0.14},
+      {"t":0.3,"sfx":"write","vol":0.14,"dur":0.6},
+      {"t":0.6,"sfx":"tap","vol":0.16},
+      {"t":0.75,"sfx":"scratch","vol":0.2,"dur":0.5},
+      {"t":1.1,"sfx":"scribble","vol":0.1,"dur":0.5},
+      {"t":1.9,"sfx":"scratch","vol":0.18,"dur":0.35},
+      {"t":2.15,"sfx":"click","vol":0.3},
+      {"t":2.3,"sfx":"slide","vol":0.22},
+      {"t":2.85,"sfx":"thud","vol":0.3},
+      {"t":2.95,"sfx":"click","vol":0.24},
+      {"t":3.8,"sfx":"write","vol":0.14,"dur":0.5},
+      {"t":4.2,"sfx":"squeak","vol":0.18},
+      {"t":4.5,"sfx":"write","vol":0.12,"dur":0.6},
+      {"t":5.4,"sfx":"erase","vol":0.16},
+      {"t":5.55,"sfx":"stick","vol":0.26},
+      {"t":5.85,"sfx":"write","vol":0.12,"dur":0.3},
+      {"t":6.65,"sfx":"write","vol":0.14,"dur":0.6},
+      {"t":7.05,"sfx":"swipe","vol":0.18},
+      {"t":7.5,"sfx":"write","vol":0.14,"dur":0.6},
+      {"t":7.6,"sfx":"scratch","vol":0.16,"dur":0.5},
+      {"t":8.15,"sfx":"write","vol":0.14,"dur":0.9},
+      {"t":8.45,"sfx":"swipe","vol":0.18},
+      {"t":10.2,"sfx":"scratch","vol":0.16,"dur":0.5},
+      {"t":10.3,"sfx":"write","vol":0.12,"dur":0.6},
+      {"t":12.25,"sfx":"write","vol":0.14,"dur":0.8},
+      {"t":13.4,"sfx":"write","vol":0.14,"dur":0.7},
+      {"t":14.77,"sfx":"write","vol":0.12,"dur":0.35},
+      {"t":15.1,"sfx":"tick","vol":0.22},
+      {"t":15.24,"sfx":"write","vol":0.12,"dur":0.35},
+      {"t":15.55,"sfx":"tick","vol":0.22},
+      {"t":15.82,"sfx":"write","vol":0.12,"dur":0.35},
+      {"t":16.15,"sfx":"tick","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md (sketch). A circled "2" and "Add SKILL.md" write on, the folder path in pencil, and
+           an open sketched folder draws in. A page appears and a hand-drawn cursor drags it into the folder; "SKILL.md"
+           writes underneath with a red marker underline and "exactly that name, in CAPS". The board wipes and a big
+           paper card sticks on; its frontmatter is handwritten line by line as it's said (name, then description, the
+           "pr-description" and "Use when…" parts highlighted) and a blue outline boxes it: "name + when to use it". Then
+           the instructions below, boxed in green, "instructions, in plain English": git diff, three sections, and a
+           green tick as What, Why and Changes are said. The skill text follows the Claude Academy lesson.
+           Avatar: corner; content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .num { left: 90px; top: 232px; width: 78px; height: 78px; display: grid; place-items: center; font: 400 52px/1 var(--f-hand); }
+        .s04 .ttl { left: 190px; top: 232px; }
+        .s04 .path { left: 92px; top: 350px; font: 400 30px/1 var(--f-code); color: var(--pencil); white-space: nowrap; }
+        .s04 .pg .sk-logo { position: absolute; left: 70px; top: 110px; width: 100px; height: 100px; }
+        .s04 .fname { left: 90px; width: 860px; top: 1092px; text-align: center; font: 400 76px/1 var(--f-code); }
+        .s04 .ffoot { left: 90px; width: 860px; top: 1200px; text-align: center; color: var(--pencil); }
+        .s04 .md .top { display: flex; align-items: center; gap: 16px; height: 76px; padding: 0 28px; font: 400 34px/1 var(--f-code); }
+        .s04 .md .top .sk-logo { width: 46px; height: 46px; }
+        .s04 .md .ln { position: absolute; left: 34px; margin: 0; font: 400 36px/54px var(--f-hand); white-space: pre; }
+        .s04 .md .k { color: var(--blue); }
+        .s04 .md .p { color: var(--pencil); }
+        .s04 .md .c { color: var(--pencil); }
+        .s04 .md .code { font: 400 31px/1 var(--f-code); color: var(--violet); }
+        .s04 .md .hl { background: linear-gradient(transparent 18%, rgba(255, 212, 59, 0.6) 18%, rgba(255, 212, 59, 0.6) 92%, transparent 92%) no-repeat 0 0 / 0% 100%; }
+        .s04 .lab { left: 90px; top: 1200px; }
+        .s04 .lab.l1 { color: var(--blue); }
+        .s04 .lab.l2 { color: var(--green); }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="sk s04">
+          <div class="sk-abs num">2</div>
+          <h2 class="sk-abs sk-h2 ttl">Add SKILL.md</h2>
+          <p class="sk-abs path">~/.claude/skills/pr-description/</p>
+          <p class="sk-abs fname">SKILL.md</p>
+          <p class="sk-abs sk-label ffoot">exactly that name, in CAPS</p>
+          <p class="sk-abs sk-label lab l1">name + when to use it</p>
+          <p class="sk-abs sk-label lab l2">instructions, in plain English</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const { C } = Sk;
+          Sk.seed(400);
+          const ink = Sk.layer(root, 1080, 1920, true);
+
+          const ring = Sk.shape(ink, "circle", [129, 271, 84], { stroke: C.blue, strokeWidth: 4, roughness: 1.2 });
+          const fold = Sk.folder(ink, 290, 700, 500, 340, { fill: C.yellowF, hachureGap: 13, strokeWidth: 3.5 });
+          const uline = Sk.shape(ink, "line", [330, 1176, 750, 1170], { stroke: C.red, strokeWidth: 5, roughness: 1.5 });
+
+          // the page (dragged in by the cursor) and the folder's front pocket over it
+          const pg = Sk.card(root, 420, 600, 240, 300, "pg");
+          Sk.page(pg.s, 0, 0, 240, 300, { fill: "#ffffff", fillStyle: "solid", strokeWidth: 3.5 });
+          pg.el.insertAdjacentHTML("beforeend", '<div class="sk-logo"></div>');
+          const pocket = Sk.card(root, 284, 860, 512, 186, "pocket");
+          const pocketBg = Sk.shape(pocket.s, "path", ["M6 10 L506 0 L500 180 L6 180 Z"], { fill: "#fff6cc", fillStyle: "solid", strokeWidth: 3.5, roughness: 1.2 });
+          const cur = Sk.cursor(root);
+
+          // the SKILL.md card
+          const LINES = [
+            '<span class="p">---</span>',
+            '<span class="k">name:</span> <span class="hl">pr-description</span>',
+            '<span class="k">description:</span> Writes PR descriptions.',
+            '   <span class="hl">Use when the user asks for a PR.</span>',
+            '<span class="p">---</span>',
+            '1. Run <span class="code">git diff main...HEAD</span>',
+            '2. Write three sections:',
+            '   <span class="k">## What</span><span class="c">: one sentence</span>',
+            '   <span class="k">## Why</span><span class="c">: brief context</span>',
+            '   <span class="k">## Changes</span><span class="c">: bullets</span>',
+          ];
+          const TOP = 92, LH = 54;
+          const md = Sk.card(root, 90, 506, 860, 660, "md");
+          md.el.setAttribute("data-layout-allow-overlap", "");
+          const mdBg = Sk.shape(md.s, "rectangle", [0, 0, 860, 660], { fill: "#fffdf3", fillStyle: "solid", strokeWidth: 3.5, roughness: 1.1 });
+          const mdHead = Sk.shape(md.s, "line", [8, 78, 852, 74], { strokeWidth: 2.5, roughness: 1.4 });
+          md.el.insertAdjacentHTML("beforeend", '<div class="top"><div class="sk-logo"></div><span>SKILL.md</span></div>' +
+            LINES.map((h, i) => `<p class="ln" style="top:${TOP + i * LH}px">${h}</p>`).join(""));
+          const ln = [...md.el.querySelectorAll(".ln")];
+          const boxFront = Sk.shape(md.s, "rectangle", [16, TOP - 6, 828, LH * 5 + 10], { stroke: C.blue, strokeWidth: 4, roughness: 1.6 });
+          const boxBody = Sk.shape(md.s, "rectangle", [16, TOP + LH * 5 + 2, 828, LH * 5 + 8], { stroke: C.green, strokeWidth: 4, roughness: 1.6 });
+          const ticks = [7, 8, 9].map((i) => Sk.tick(md.s, 760, TOP + i * LH + 24));
+
+          gsap.set([pg.el, pocket.el, q(".fname"), q(".ffoot"), md.el, q(".l1"), q(".l2"), cur], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          // "Step two: inside it"
+          Sk.draw(tl, ring, 0.2, 0.35);
+          Sk.write(tl, q(".num"), 0.3, { dur: 0.15 });
+          Sk.write(tl, q(".ttl"), 0.4, { dur: 0.55 });
+          Sk.write(tl, q(".path"), 0.6, { dur: 0.6 });
+          Sk.draw(tl, fold, 0.75, 0.45, { fillDur: 0.5 });
+          // "add one file": a page appears and the cursor drags it into the folder
+          tl.set(pg.el, { opacity: 1 }, 1.9);
+          tl.fromTo(pg.el, { x: 140, y: -170, rotation: 6, scale: 0.9 }, { scale: 1, duration: 0.25, ease: "back.out(2)" }, 1.9);
+          tl.fromTo(cur, { opacity: 0, x: 860, y: 560 }, { opacity: 1, x: 640, y: 470, duration: 0.3, ease: "power2.out" }, 1.85);
+          tl.to(pg.el, { scale: 1.04, duration: 0.1, ease: "power1.out" }, 2.15);
+          tl.to(pg.el, { x: 0, y: 0, rotation: -2, scale: 1, duration: 0.6, ease: "power2.inOut" }, 2.3);
+          tl.to(cur, { x: 500, y: 640, duration: 0.6, ease: "power2.inOut" }, 2.3);
+          tl.to(pg.el, { rotation: 0, duration: 0.2, ease: "back.out(3)" }, 2.9);
+          tl.set(pocket.el, { opacity: 1 }, 2.88);
+          Sk.draw(tl, pocketBg, 2.88, 0.15);
+          tl.to(cur, { x: 620, y: 700, opacity: 0, duration: 0.4, ease: "power1.in" }, 3.1);
+          // "skill dot M D": the name, underlined, exactly that name
+          tl.set(q(".fname"), { opacity: 1 }, 3.8); Sk.write(tl, q(".fname"), 3.8, { dur: 0.45 });
+          Sk.draw(tl, uline, 4.2, 0.35);
+          tl.set(q(".ffoot"), { opacity: 1 }, 4.5); Sk.write(tl, q(".ffoot"), 4.5, { dur: 0.6 });
+
+          // the board wipes; the SKILL.md card sticks on
+          Sk.wipe(tl, [fold, pg.el, pocket.el, q(".fname"), q(".ffoot"), uline], 5.4, 0.3);
+          tl.set(md.el, { opacity: 1 }, 5.55);
+          tl.fromTo(md.el, { y: 40, rotation: -1.5 }, { y: 0, rotation: 0, duration: 0.4, ease: "back.out(1.6)" }, 5.55);
+          Sk.draw(tl, mdBg, 5.55, 0.25);
+          Sk.draw(tl, mdHead, 5.7, 0.2);
+          const w = (i, at, dur) => Sk.write(tl, ln[i], at, { dur });
+          // "At the top": the fences; "a name"; "and a description of when to use it"
+          w(0, 5.85, 0.15); w(4, 5.95, 0.15);
+          w(1, 6.65, 0.55);
+          tl.to(ln[1].querySelector(".hl"), { backgroundSize: "100% 100%", duration: 0.35, ease: "power1.out" }, 7.05);
+          w(2, 7.5, 0.7); w(3, 8.15, 0.75);
+          Sk.draw(tl, boxFront, 7.6, 0.5);
+          tl.set(q(".l1"), { opacity: 1 }, 7.75); Sk.write(tl, q(".l1"), 7.75, { dur: 0.55 });
+          tl.to(ln[3].querySelector(".hl"), { backgroundSize: "100% 100%", duration: 0.45, ease: "power1.out" }, 8.45);
+
+          // "Below that, the instructions, in plain English"
+          tl.to([q(".l1"), boxFront], { opacity: 0, duration: 0.25, ease: "none" }, 10.0);
+          Sk.draw(tl, boxBody, 10.2, 0.5);
+          tl.set(q(".l2"), { opacity: 1 }, 10.3); Sk.write(tl, q(".l2"), 10.3, { dur: 0.6 });
+          // "run git diff", "then write three sections", "What, why, and changes"
+          w(5, 12.25, 0.8);
+          w(6, 13.4, 0.7);
+          [[7, 14.77], [8, 15.24], [9, 15.82]].forEach(([i, t], k) => { w(i, t, 0.35); Sk.draw(tl, ticks[k], t + 0.33, 0.18); });
+
+          Sk.wipe(tl, [...root.children], DUR - 0.3, 0.3);
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

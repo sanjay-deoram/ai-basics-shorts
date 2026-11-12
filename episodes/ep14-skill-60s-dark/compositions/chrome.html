@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:57.15,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head>
+    <meta charset="UTF-8">
+    <!-- the quiet pad under the whole film -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"pad","vol":0.05,"dur":57.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Persistent overlay: a thin accent progress line across the top with a marker where each part starts
+           (the example · 1 folder · 2 SKILL.md · 3 ask). A marker lights as the line passes it. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chr .track { position: absolute; left: 90px; top: 168px; width: 900px; height: 2px; background: rgba(255, 255, 255, 0.1); border-radius: 1px; }
+        .chr .fill { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(124, 140, 255, 0.5), #b9c1ff); border-radius: 1px; transform-origin: 0 50%; box-shadow: 0 0 12px rgba(124, 140, 255, 0.7); }
+        .chr .mk { position: absolute; top: -4px; width: 10px; height: 10px; margin-left: -5px; border-radius: 50%; background: #2a2c33; box-shadow: 0 0 0 3px #08090a; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chr">
+          <div class="track"><div class="fill"></div><i class="mk" data-t="10.9"></i><i class="mk" data-t="15.5"></i><i class="mk" data-t="22.95"></i><i class="mk" data-t="39.75"></i></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .chr');
+          const { duration } = window.__hyperframes.getVariables();
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(root.querySelector(".fill"), { scaleX: 0 }, { scaleX: 1, duration, ease: "none" }, 0);
+          root.querySelectorAll(".mk").forEach((m) => {
+            const t = +m.dataset.t;
+            m.style.left = (t / duration) * 100 + "%";
+            tl.to(m, { backgroundColor: "#b9c1ff", scale: 1.25, duration: 0.3, ease: "power2.out" }, t);
+          });
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

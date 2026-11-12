@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.55,"sfx":"sub","vol":0.22},
+      {"t":1.4,"sfx":"sub","vol":0.18},
+      {"t":2.55,"sfx":"tick","vol":0.22},
+      {"t":3.75,"sfx":"keys","vol":0.16,"dur":1.35},
+      {"t":5.95,"sfx":"keys","vol":0.16,"dur":0.68},
+      {"t":6.68,"sfx":"click","vol":0.22},
+      {"t":6.8,"sfx":"confirm","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder. A workspace: a terminal on top, a file explorer below. The explorer shows the path as
+           it's said: ~/.claude, then skills (selected). Focus pulls to the terminal, which types
+           `mkdir -p ~/.claude/skills/` on "make a folder" and `pr-description` on "P R description"; on enter the
+           focus pulls back and the new folder appears in the tree with a "Created" chip.
+           "Folder name = skill name" closes it. Avatar: small tile top right ("corner").
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .g { left: 40px; top: 520px; }
+        .s03 .term { top: 520px; height: 216px; }
+        .s03 .cmd { position: absolute; left: 32px; top: 112px; }
+        .s03 .cmd .ps { color: var(--ac); }
+        .s03 .cmd .nw { color: var(--ac2); }
+        .s03 .tree { top: 790px; height: 446px; }
+        .s03 .tree .rows { padding: 16px 0; }
+        .s03 .tree .row { height: 116px; }
+        .s03 .cap { position: absolute; left: 90px; top: 1304px; font: 500 52px/1.1 var(--sans); letter-spacing: -0.025em; white-space: nowrap; }
+        .s03 .cap .eq { color: var(--dim); padding: 0 10px; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="dk s03">
+          <div class="stage">
+            <div class="dk-glow g" data-layout-allow-overflow=""></div>
+            <span class="dk-label"><b>01</b> — Folder</span>
+            <h2 class="dk-h">Make a <span class="dk-sheen">folder</span></h2>
+            <div class="dk-panel term">
+              <div class="dk-bar"><i></i><i></i><i></i><span class="nm">terminal</span></div>
+              <p class="dk-mono cmd"><span class="ps">$ </span><span class="dk-type a">mkdir -p ~/.claude/skills/</span><span class="dk-type b nw">pr-description</span></p>
+            </div>
+            <div class="dk-panel tree dk-tree">
+              <div class="dk-bar"><span>EXPLORER</span></div>
+              <div class="rows">
+                <div class="row r1"><svg viewBox="0 0 44 44"><path d="M4 12a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" /></svg><span>~/.claude</span></div>
+                <div class="row r2" style="padding-left:86px"><i class="sel"></i><svg viewBox="0 0 44 44"><path d="M4 12a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" /></svg><span>skills</span></div>
+                <div class="row r3 on" style="padding-left:142px"><i class="sel"></i><svg viewBox="0 0 44 44"><path d="M4 12a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" /></svg><span>pr-description</span><span class="dk-chip">● Created</span></div>
+              </div>
+            </div>
+            <p class="cap">Folder name<span class="eq">=</span><span class="dk-sheen">skill name</span></p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const term = q(".term"), tree = q(".tree");
+          gsap.set([q(".r2"), q(".r3"), q(".r2 .sel"), q(".cap")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Dk.camera(tl, q(".stage"), DUR);
+          // "Step one"
+          Dk.rise(tl, [q(".dk-label"), q(".dk-h")], 0.15, { stagger: 0.08 });
+          Dk.panelIn(tl, term, 0.55);
+          // "in dot claude slash skills"
+          Dk.panelIn(tl, tree, 1.35);
+          tl.fromTo(q(".r2"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: Dk.OUT }, 2.5);
+          tl.to(q(".r2 .sel"), { opacity: 1, duration: 0.3, ease: "none" }, 2.75);
+          // "make a folder named after the skill": focus on the terminal, the command types in
+          Dk.dim(tl, tree, 3.55);
+          Dk.type(tl, q(".cmd .a"), 3.75, { cps: 20, show: 0.6, hold: 0.9 });
+          // "P R description": the name; enter, and the new folder is in the tree
+          Dk.type(tl, q(".cmd .b"), 5.95, { cps: 22, hold: Infinity });
+          Dk.dim(tl, tree, 6.65, false);
+          Dk.dim(tl, term, 6.65, true, { to: 0.5, blur: 1.5 });
+          tl.to(q(".r2 .sel"), { opacity: 0, duration: 0.25, ease: "none" }, 6.65);
+          tl.fromTo(q(".r3"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: Dk.OUT }, 6.7);
+          Dk.rise(tl, q(".cap"), 6.8, { dur: 0.5 });
+          Dk.sheen(tl, q(".cap .dk-sheen"), 6.9, 0.5);
+
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

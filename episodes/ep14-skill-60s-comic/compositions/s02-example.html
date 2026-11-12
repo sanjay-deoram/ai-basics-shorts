@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.18},
+      {"t":0.5,"sfx":"scratch","vol":0.16,"dur":0.5},
+      {"t":1.2,"sfx":"slam","vol":0.26},
+      {"t":1.45,"sfx":"slam","vol":0.24},
+      {"t":1.7,"sfx":"slam","vol":0.24},
+      {"t":2.3,"sfx":"boing","vol":0.18},
+      {"t":3.2,"sfx":"whoosh","vol":0.2},
+      {"t":3.45,"sfx":"scratch","vol":0.22,"dur":0.6},
+      {"t":3.95,"sfx":"stab","vol":0.24},
+      {"t":4.25,"sfx":"page","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. Three pull-request panels slam onto the page crooked, each written a different way
+           ("fixed stuff", a wall of text, loose bullets): MESSY! On "the same way every time" they snap straight and
+           are re-inked, left to right, into the same What / Why / Changes layout; a burst stamps "SAME EVERY TIME!".
+           Avatar: small round panel top right (narrator.html "corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .ex { left: 90px; top: 232px; }
+        .s02 .ttl { position: absolute; left: 90px; top: 306px; }
+        .s02 .ttl span { display: block; }
+        .s02 .pr { left: 90px; width: 860px; height: 286px; }
+        .s02 .pr .cm-cap { left: 20px; top: 18px; box-shadow: none; font-size: 30px; }
+        .s02 .lay { position: absolute; left: 30px; right: 30px; top: 96px; bottom: 16px; }
+        .s02 .messy p { margin: 0; font: 400 30px/1.3 var(--f-letter); color: #6d675b; }
+        .s02 .messy .scrawl { font: 700 54px/1.2 var(--f-letter); }
+        .s02 .neat { background: var(--white); }
+        .s02 .neat .cm-rows { row-gap: 12px; }
+        .s02 .neat .k { font-size: 42px; }
+        .s02 .messyfx { left: 600px; top: 762px; font-size: 96px; }
+        .s02 .same { left: 520px; top: 1270px; width: 440px; height: 230px; font-size: 58px; color: var(--white); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="cm-page s02">
+          <div class="cm-corner bl cm-dots" style="--dot: var(--cyan); --sz: 24px"></div>
+          <div class="cm-corner tl cm-dots" style="--dot: var(--yellow); --sz: 22px; opacity: 0.9"></div>
+          <span class="cm-cap ex">The example</span>
+          <h2 class="cm-title ttl"><span>Pull request</span><span>descriptions</span></h2>
+
+          <div class="cm-panel pr p1" style="top:512px" data-layout-allow-overlap="">
+            <span class="cm-cap white">#412 Password reset expiry</span>
+            <div class="lay messy"><p class="scrawl">fixed stuff</p></div>
+            <div class="lay neat"><div class="cm-rows"><span class="k">WHAT</span><i style="width:80%"></i><span class="k">WHY</span><i style="width:60%"></i><span class="k">CHANGES</span><i style="width:70%"></i></div></div>
+          </div>
+          <div class="cm-panel pr p2" style="top:828px" data-layout-allow-overlap="">
+            <span class="cm-cap white">#413 New invoice page</span>
+            <div class="lay messy"><p>So this PR is about the invoice page which I changed because the old one was confusing and also I moved some stuff around and renamed a few things and…</p></div>
+            <div class="lay neat"><div class="cm-rows"><span class="k">WHAT</span><i style="width:70%"></i><span class="k">WHY</span><i style="width:85%"></i><span class="k">CHANGES</span><i style="width:55%"></i></div></div>
+          </div>
+          <div class="cm-panel pr p3" style="top:1144px" data-layout-allow-overlap="">
+            <span class="cm-cap white">#414 Faster search</span>
+            <div class="lay messy"><p class="scrawl">- search</p><p class="scrawl">- misc</p></div>
+            <div class="lay neat"><div class="cm-rows"><span class="k">WHAT</span><i style="width:65%"></i><span class="k">WHY</span><i style="width:75%"></i><span class="k">CHANGES</span><i style="width:80%"></i></div></div>
+          </div>
+          <span class="cm-sfx messyfx" data-layout-allow-overlap="">MESSY!</span>
+          <div class="cm-burst same" data-n="16" data-inner="0.78" data-fill="var(--red)" data-seed="31" style="width:440px;height:230px" data-layout-allow-overlap="" data-layout-allow-overflow=""><span>Same</span><span>every time!</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cm.mount(root);
+          const cards = all(".pr");
+          gsap.set([q(".messyfx"), q(".same"), q(".ex")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Cm.sticker(tl, q(".ex"), 0.15, { rot: -3, dur: 0.3 });
+          Cm.ink(tl, q(".ttl"), 0.5, 0.5);
+          // "your pull request descriptions": three, each written a different way, slam in crooked
+          const pile = [-5, 4, -3];
+          cards.forEach((c, i) => Cm.slam(tl, c, 1.2 + i * 0.25 - 0.26, { rot: pile[i], tilt: i % 2 ? 10 : -10 }));
+          gsap.set(cards, { backgroundColor: "#e9e2cf" });
+          Cm.sticker(tl, q(".messyfx"), 2.3, { rot: 8 });
+          // "the same way every time": they snap straight and are re-inked into one layout
+          tl.to(q(".messyfx"), { scale: 0, opacity: 0, duration: 0.18, ease: "power2.in" }, 3.15);
+          tl.to(cards, { rotation: 0, backgroundColor: "#fffdf6", duration: 0.45, ease: "elastic.out(1.1, 0.5)", stagger: 0.08 }, 3.25);
+          all(".neat").forEach((n, i) => Cm.ink(tl, n, 3.45 + i * 0.12, 0.4));
+          Cm.sticker(tl, q(".same"), 3.95, { rot: -6 });
+
+          Cm.turn(tl, [q(".ex"), q(".ttl"), ...cards, q(".same")], DUR - 0.32, 0.28);
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

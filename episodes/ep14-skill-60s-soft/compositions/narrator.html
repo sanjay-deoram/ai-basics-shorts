@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":10.55,"sfx":"swell","vol":0.07},
+      {"t":39.45,"sfx":"swell","vol":0.06}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- BLOCK · Narrator. The stippled Sanjay avatar for the whole film, on its own overlay track, framed in a
+           round frosted tile with a hairline ring (Egg.mountAvatar / Egg.avatarTalk in assets/eggshell.js: one mouth
+           beat per syllable from assets/lipsync.js, smile expression).
+           Stops: "big" under the cold open (s01 keeps its content above y 990), "small" at the bottom centre for
+           s02–s04 (their content ends by y 1270), and out for s05, which fills the safe box.
+           Edit PLACES / PATH / EXPR to restage; check each stop with snapshots. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .tile { position: absolute; left: 340px; top: 1040px; width: 400px; height: 400px; border-radius: 50%; overflow: hidden;
+          background: linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.62)); border: 2px solid rgba(255, 255, 255, 0.95);
+          box-shadow: 0 0 0 1.5px rgba(17, 18, 20, 0.1), 0 40px 80px -30px rgba(40, 50, 90, 0.35); }
+        .nar .bob { position: absolute; inset: 0; }
+        /* the 540×629 cut-out, scaled so the head fills the circle and the shoulders run off its lower edge */
+        .nar .who { position: absolute; left: -43px; top: -62px; width: 540px; height: 629px; transform: scale(0.9); transform-origin: 0 0; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="nar" data-layout-allow-overflow="">
+          <div class="tile">
+            <div class="bob"><div class="who"></div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 57.15;   // = the episode length (narrator host data-duration)
+          // offset of the 400px tile from its base (centre 540, 1240) and its scale
+          const PLACES = {
+            big: { x: 0, y: 0, s: 1 },
+            small: { x: 0, y: 160, s: 0.47 },   // 188px circle, centre (540, 1400)
+          };
+          // [episode time, place, how]  how: in (comes into focus) | glide (moves there) | out (dissolves)
+          const PATH = [
+            [0.0, "big", "in"],
+            [10.55, "small", "glide"],
+            [39.45, "small", "out"],
+          ];
+          // [expression, from, to] in episode seconds
+          const EXPR = [
+            ["smile", 0.1, 1.6],       // "Here's how to create a Claude skill"
+            ["smile", 7.25, 8.25],     // "when your request needs it"
+          ];
+
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const tile = root.querySelector(".tile");
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+          PATH.forEach(([t, place, how]) => {
+            const p = PLACES[place];
+            // frame 0 already shows the tile (no slow intro): it only settles from slightly larger
+            if (how === "in") tl.fromTo(tile, { opacity: 1, x: p.x, y: p.y + 16, scale: p.s * 1.04 },
+              { opacity: 1, y: p.y, scale: p.s, duration: 1.2, ease: "power3.out" }, t);
+            else if (how === "out") tl.to(tile, { opacity: 0, scale: p.s * 0.9, filter: "blur(10px)", duration: 0.5, ease: "power2.in" }, t);
+            else tl.to(tile, { x: p.x, y: p.y, scale: p.s, duration: 1.1, ease: "power2.inOut" }, t);
+          });
+          tl.fromTo(root.querySelector(".bob"), { y: 3 }, { y: -3, duration: 1.6, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 1.6) - 1) }, 0);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"zoom","vol":0.34},
+      {"t":0.75,"sfx":"thud","vol":0.5},
+      {"t":0.8,"sfx":"success","vol":0.2},
+      {"t":0.95,"sfx":"pen","vol":0.26},
+      {"t":1.5,"sfx":"pop","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s11 · Montage. Whips in close on the reply (one PR description), pulls back to six of them, every one the
+           same What / Why / Changes shape; a "Same format." stamp lands, a ring is drawn round the grid, then
+           "// every time". Hard cut to black. -->
+      <style>
+        #s11-root .bg { background-color: #f1eee8; }
+        #s11-root .zoom { position: absolute; inset: 0; transform-origin: 0 0; }
+        #s11-root .tile { position: absolute; width: 262px; height: 466px; border-radius: 26px; overflow: hidden; padding: 22px 20px; background: #fff; box-shadow: 0 16px 30px -18px rgba(0, 0, 0, 0.35); }
+        #s11-root .tile .top { position: absolute; left: 0; right: 0; top: 0; height: 14px; }
+        #s11-root .tile .no { font: 400 28px/34px var(--f-mono); color: #a39e95; margin-top: 8px; }
+        #s11-root .tile .nm { font: 600 30px/34px var(--f-display); letter-spacing: -0.03em; color: #0d0d0c; height: 72px; }
+        #s11-root .tile b { display: block; font: 400 28px/32px var(--f-mono); font-weight: 400; margin: 18px 0 10px; }
+        #s11-root .tile i { display: block; height: 11px; border-radius: 6px; background: #0d0d0c1c; margin-bottom: 10px; }
+        #s11-root .ring { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+        #s11-root .ring path { fill: none; stroke: #2d4bff; stroke-width: 7; stroke-linecap: round; }
+        #s11-root .stamp { position: absolute; left: 140px; top: 650px; width: 800px; height: 230px; border: 7px solid #2d4bff; border-radius: 30px; background: #fff;
+          display: flex; align-items: center; justify-content: center; font: italic 400 150px/1 var(--f-serif); color: #2d4bff; letter-spacing: -0.02em; box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35); }
+        #s11-root .sub { position: absolute; left: 140px; top: 910px; width: 800px; text-align: center; font: 400 40px/48px var(--f-mono); color: #0d0d0c; }
+        #s11-root .sub span { display: inline-block; padding: 8px 22px; border-radius: 14px; background: #fff; }
+      </style>
+      <div id="s11-root" data-composition-id="s11-montage" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="zoom"></div>
+            <svg class="ring" viewBox="0 0 1080 1920"><path d="M560 262 C 860 252, 990 482, 985 772 C 980 1082, 840 1290, 545 1295 C 250 1300, 92 1092, 95 782 C 98 462, 260 262, 600 280"/></svg>
+            <div class="stamp">Same format.</div>
+            <div class="sub"><span>// every time</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s11-root");
+          const cam = root.querySelector(".rl-cam"), zoom = root.querySelector(".zoom");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s11-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          // six PR descriptions, one shape: [number, title, beat colour, accent]
+          const T = [
+            ["#418", "Reset link expiry", "#d3f0f7", "#0e7490"],
+            ["#412", "Password reset expiry", "#dbe6ff", "#1f6feb"],
+            ["#413", "New invoice page", "#ffe2cc", "#d9480f"],
+            ["#414", "Faster search", "#ebe3ff", "#7c3aed"],
+            ["#415", "Dark mode", "#ffdbe4", "#e11d48"],
+            ["#416", "CSV export", "#d5f3e4", "#0f8a4c"],
+          ];
+          const X0 = 103, Y0 = 290, W = 262, H = 466, G = 24;
+          T.forEach(([no, nm, bg, acc], i) => {
+            const d = document.createElement("div");
+            d.className = "tile";
+            d.setAttribute("data-layout-ignore", "");   // miniatures: texture under the stamp
+            Object.assign(d.style, { left: X0 + (i % 3) * (W + G) + "px", top: Y0 + Math.floor(i / 3) * (H + G) + "px" });
+            const bars = (a, b) => `<i style="width:${a}%"></i><i style="width:${b}%"></i>`;
+            d.innerHTML = `<div class="top" style="background:${bg}"></div><div class="no">${no}</div><div class="nm">${nm}</div>` +
+              `<b style="color:${acc}">What</b>${bars(90 - i * 4, 60 + i * 5)}<b style="color:${acc}">Why</b>${bars(70 + i * 3, 85 - i * 6)}<b style="color:${acc}">Changes</b>${bars(80, 55 + i * 4)}`;
+            zoom.appendChild(d);
+          });
+          // start close on the first tile (the reply that was just written), pull back to all six
+          const s = 1080 / W;
+          tl.fromTo(zoom, { scale: s, x: -X0 * s, y: -Y0 * s - (1920 - H * s) / 2 }, { scale: 1, x: 0, y: 0, duration: 0.7, ease: "expo.inOut" }, 0.15);
+          Egg.stamp(tl, root.querySelector(".stamp"), 0.75, zoom);
+          const path = root.querySelector(".ring path");
+          path.setAttribute("pathLength", "1");
+          path.style.strokeDasharray = "1 1.1";
+          tl.fromTo(path, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.55, ease: "power2.inOut" }, 0.95);
+          tl.fromTo(root.querySelector(".sub span"), { opacity: 0, y: 20, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2.4)" }, 1.5);
+
+          window.__timelines["s11-montage"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

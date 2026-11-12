@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"sub","vol":0.3},
+      {"t":2.55,"sfx":"tick","vol":0.16},
+      {"t":3.0,"sfx":"swell","vol":0.1},
+      {"t":3.45,"sfx":"sub","vol":0.26},
+      {"t":4.2,"sfx":"keys","vol":0.12,"dur":1.5},
+      {"t":5.45,"sfx":"click","vol":0.16},
+      {"t":7.1,"sfx":"click","vol":0.16},
+      {"t":7.55,"sfx":"tick","vol":0.12},
+      {"t":7.95,"sfx":"tone","vol":0.16},
+      {"t":8.6,"sfx":"sub","vol":0.26},
+      {"t":8.85,"sfx":"tick","vol":0.16},
+      {"t":9.2,"sfx":"tick","vol":0.16},
+      {"t":9.55,"sfx":"tick","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open, three sections cut by inversion.
+           A (white, 0–3.45): frame 0 already reads "Create a Claude skill" over a huge "60" between the labels
+           UNDER and SECONDS; the 60 settles slowly, a hairline draws under it on "sixty seconds".
+           B (black, 3.45–8.6): "A skill is a set of instructions." A SKILL.md card types its template; the Claude
+           mark lands on "Claude" and the headline becomes "Claude picks it up on its own."; a request pill arrives,
+           a hairline joins it to the card and the card switches from idle to loaded.
+           C (white, 8.6–10.9): "step by step": 01 Folder / 02 SKILL.md / 03 Ask, as three ruled rows.
+           Everything stays above y 1290: the narrator pill sits below.
+           Voiceover: 0.05 "Here is how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let us build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .ttl { top: 336px; font-size: 136px; }
+        .s01 .u { position: absolute; left: 92px; top: 676px; }
+        .s01 .sx { position: absolute; right: 130px; top: 676px; }
+        .s01 .n { position: absolute; left: 62px; top: 720px; width: 900px; height: 500px; font: 600 640px/500px var(--f-d); letter-spacing: -0.06em; color: var(--fg); white-space: nowrap; }
+        .s01 .a .m-hair { top: 1262px; }
+
+        .s01 .b .m-h { top: 336px; font-size: 92px; line-height: 1.04; }
+        .s01 .page { top: 606px; height: 404px; }
+        .s01 .page .top { position: absolute; left: 36px; right: 36px; top: 0; height: 92px; display: flex; align-items: center; gap: 18px; border-bottom: 1.5px solid var(--ln); }
+        .s01 .page .top img { display: block; width: 44px; height: 44px; }
+        .s01 .page .top .f { font: 400 30px/1 var(--f-m); color: var(--fg); }
+        .s01 .page .st { position: absolute; right: 0; top: 32px; display: flex; align-items: center; gap: 12px; }
+        .s01 .page .st i { display: block; width: 14px; height: 14px; border-radius: 50%; border: 1.5px solid var(--mu); }
+        .s01 .page .st.on i { border-color: var(--accent); background: var(--accent); }
+        .s01 .page .st.on { color: var(--fg); }
+        .s01 .page .md { position: absolute; left: 36px; top: 116px; }
+        .s01 .page .md p { margin: 0; font: 400 30px/52px var(--f-m); color: var(--fg); white-space: pre; }
+        .s01 .page .md .p { color: var(--mu); }
+        .s01 .link { position: absolute; left: 800px; top: 1012px; width: 2px; height: 104px; background: var(--fg); transform-origin: 50% 100%; }
+        .s01 .req { position: absolute; right: 130px; top: 1118px; height: 92px; padding: 0 40px; font: 500 34px/1 var(--f-t); letter-spacing: -0.01em; text-transform: none; }
+        .s01 .rl { position: absolute; left: 92px; top: 1150px; }
+
+        .s01 .row { position: absolute; left: 90px; width: 860px; height: 300px; }
+        .s01 .row .m-hair { left: 0; top: 0; }
+        .s01 .row .m-mono { position: absolute; left: 2px; top: 44px; }
+        .s01 .row .m-h { left: 0; top: 96px; font-size: 156px; }
+        .s01 .c > .m-hair { top: 1240px; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="m-scene s01">
+          <div class="m-sec a">
+            <h1 class="m-h ttl"><span class="m-line"><span>Create a</span></span><span class="m-line"><span>Claude skill</span></span></h1>
+            <span class="m-mono u">Under</span>
+            <span class="m-mono sx">Seconds</span>
+            <div class="n">60</div>
+            <div class="m-hair"></div>
+          </div>
+
+          <div class="m-sec m-dark b">
+            <h2 class="m-h h1"><span class="m-line"><span>A skill is a set</span></span><span class="m-line"><span>of instructions.</span></span></h2>
+            <h2 class="m-h h2"><span class="m-line"><span>Claude picks it up</span></span><span class="m-line"><span>on its own.</span></span></h2>
+            <div class="m-card page">
+              <div class="top"><img src="assets/claude-logo.svg" alt=""><span class="f">SKILL.md</span>
+                <span class="m-mono st off"><i></i>Idle</span><span class="m-mono st on"><i></i>Loaded</span></div>
+              <div class="md">
+                <p><span class="p">---</span></p>
+                <p><span class="p">name:</span> <span class="m-acc">pr-description</span></p>
+                <p><span class="p">description:</span> Use when…</p>
+                <p><span class="p">---</span></p>
+                <p>1. Run git diff…</p>
+              </div>
+            </div>
+            <div class="link"></div>
+            <span class="m-mono rl">Your request</span>
+            <span class="m-pill req">Write a PR description</span>
+          </div>
+
+          <div class="m-sec c">
+            <div class="row" style="top:340px"><div class="m-hair"></div><span class="m-mono">01</span><div class="m-h"><span class="m-line"><span>Folder</span></span></div></div>
+            <div class="row" style="top:640px"><div class="m-hair"></div><span class="m-mono">02</span><div class="m-h"><span class="m-line"><span>SKILL.md</span></span></div></div>
+            <div class="row" style="top:940px"><div class="m-hair"></div><span class="m-mono">03</span><div class="m-h"><span class="m-line"><span>Ask</span></span></div></div>
+            <div class="m-hair"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const B = q(".b"), C = q(".c"), page = q(".page"), logo = q(".page img");
+          gsap.set([B, C, q(".st.on"), q(".rl"), logo], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // A · frame 0: everything is already there; the 60 settles, slowly
+          tl.fromTo(q(".n"), { scale: 1.05 }, { scale: 1, duration: 1.6, ease: "expo.out", transformOrigin: "0% 100%" }, 0);
+          // "in under sixty seconds"
+          Mono.draw(tl, q(".a .m-hair"), 2.55, { dur: 0.7 });
+          Mono.conceal(tl, q(".ttl"), 3.05);
+          tl.to([q(".u"), q(".sx"), q(".n"), q(".a .m-hair")], { opacity: 0, duration: 0.25, ease: "power2.in" }, 3.18);
+
+          // B · "A skill is a set of instructions"
+          tl.set(B, { opacity: 1 }, 3.45);
+          Mono.reveal(tl, q(".h1"), 3.5);
+          Mono.fade(tl, page, 3.7, { y: 36 });
+          all(".page .md p").reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 50 }) + 0.05, 4.2);
+          // "Claude picks up on its own": the mark lands, the headline changes
+          tl.fromTo(logo, { opacity: 0, scale: 0.6, rotation: -90 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.9, ease: "expo.out", immediateRender: false }, 5.45);
+          Mono.conceal(tl, q(".h1"), 5.2);
+          Mono.reveal(tl, q(".h2"), 5.5);
+          // "when your request needs it": a request arrives, the card loads itself
+          tl.to(q(".rl"), { opacity: 1, duration: 0.3, ease: "none" }, 7.05);
+          Mono.fade(tl, q(".req"), 7.1, { y: 24, dur: 0.6 });
+          tl.fromTo(q(".link"), { scaleY: 0 }, { scaleY: 1, duration: 0.4, ease: "power3.inOut" }, 7.55);
+          tl.set(q(".st.off"), { opacity: 0 }, 7.95);
+          tl.set(q(".st.on"), { opacity: 1 }, 7.95);
+          tl.to(page, { borderColor: "#f7f7f5", duration: 0.3, ease: "power2.out" }, 7.95);
+          tl.to(logo, { rotation: 90, duration: 0.9, ease: "expo.out" }, 7.95);
+          Mono.out(tl, [q(".h2"), page, q(".link"), q(".req"), q(".rl")], 8.35);
+
+          // C · "step by step"
+          tl.set(C, { opacity: 1 }, 8.6);
+          all(".row").forEach((r, i) => {
+            const t = 8.85 + i * 0.35;
+            Mono.draw(tl, r.querySelector(".m-hair"), t - 0.2);
+            tl.fromTo(r.querySelector(".m-mono"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, t);
+            Mono.reveal(tl, r, t);
+          });
+          Mono.draw(tl, q(".c > .m-hair"), 9.5);
+          Mono.conceal(tl, all(".row"), 10.5);
+          tl.to(all(".c .m-mono"), { opacity: 0, duration: 0.2, ease: "none" }, 10.6);
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

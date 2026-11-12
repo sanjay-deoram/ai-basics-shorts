@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"tick","vol":0.18},
+      {"t":1.2,"sfx":"typing","vol":0.22,"dur":0.5},
+      {"t":2.03,"sfx":"typing","vol":0.22,"dur":1.3},
+      {"t":2.9,"sfx":"pop","vol":0.2},
+      {"t":3.53,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Step 2 · the frontmatter. Pink: the file is now the dark editor window. "At the top": the two ---
+           fences; "a name": name: pr-description; "and a description of when to use it": the description types in.
+           Headline "A name, and when to use it." -->
+      <style>
+        #s07-root .bg { background-color: #ffdbe4; }
+        #s07-root .rl-hd { --acc: #e11d48; }
+        #s07-root .term { top: 620px; height: 560px; }
+        #s07-root .r.ln { display: flex; }
+        #s07-root .ln .no { width: 56px; flex: none; color: #5f5a53; }
+        #s07-root .ln .hl { position: absolute; left: -16px; right: -16px; top: 0; bottom: 0; border-radius: 8px; background: rgba(225, 29, 72, 0.22); opacity: 0; }
+        #s07-root .ln .tx { position: relative; }
+        #s07-root .t-p { color: var(--term-dim); }
+        #s07-root .t-k { color: #f08a63; }
+        #s07-root .t-s { color: #9be3b4; }
+      </style>
+      <div id="s07-root" data-composition-id="s07-front" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// at the top</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">A </span><span class="w">name, </span><span class="w">and</span></span>
+              <span class="ln"><em class="w">when to use it.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>SKILL.md</span></div>
+              <div class="tb">
+                <div class="r ln l1"><span class="hl"></span><span class="no">1</span><span class="tx"><span class="t-p">---</span></span></div>
+                <div class="r ln l2"><span class="hl"></span><span class="no">2</span><span class="tx"><span class="t-k">name:</span> <span class="t-s">pr-description</span></span></div>
+                <div class="r ln l3"><span class="hl"></span><span class="no">3</span><span class="tx"><span class="t-k">description:</span> <span class="t-s">Writes PR descriptions.</span></span></div>
+                <div class="r ln l4"><span class="hl"></span><span class="no">4</span><span class="tx"><span class="t-s">  Use when the user asks for a PR.</span></span></div>
+                <div class="r ln l5"><span class="hl"></span><span class="no">5</span><span class="tx"><span class="t-p">---</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s07-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s07-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, q(".rl-hd"), [1.2, 1.35, 2.03, 2.9]);
+          tl.fromTo(q(".term"), { opacity: 0, scale: 0.86, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.15);
+          const nos = root.querySelectorAll(".ln .no");
+          tl.fromTo(nos, { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.04 }, 0.3);
+          const hl = (sel, at) => tl.fromTo(root.querySelectorAll(sel), { opacity: 0 }, { opacity: 1, duration: 0.2, yoyo: true, repeat: 1, repeatDelay: 0.6 }, at);
+          // "At the top": the frontmatter fences
+          Egg.typeOn(tl, q(".l1 .tx"), 0.4, { cps: 30 });
+          Egg.typeOn(tl, q(".l5 .tx"), 0.5, { cps: 30 });
+          // "a name"
+          Egg.typeOn(tl, q(".l2 .tx"), 1.2, { cps: 40 });
+          hl(".l2 .hl", 1.2);
+          // "and a description of when to use it"
+          Egg.typeOn(tl, q(".l3 .tx"), 2.03, { cps: 50 });
+          Egg.typeOn(tl, q(".l4 .tx"), 2.8, { cps: 60 });
+          hl(".l3 .hl, .l4 .hl", 2.1);
+          Reel.whip(tl, cam, blur, 3.55, "out");
+
+          window.__timelines["s07-front"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

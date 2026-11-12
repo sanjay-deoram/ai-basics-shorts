@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- the warm pad bed runs under the whole film, very quiet -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"pad","vol":0.05,"dur":57.1},
+      {"t":39.4,"sfx":"click","vol":0.08}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Narrator. The Sanjay avatar (greyscale stipple) in a round tile inside an off-white pill, with a live voice
+           waveform: bars driven by the voiceover loudness (assets/lipsync.js), scrolling away from him. The mouth is
+           lip-synced by Egg.avatarTalk. The pill sits in the bottom-left of the safe box (y 1332–1500) for s01–s04,
+           where every scene keeps its content above y 1290; it leaves before s05, which uses the full box.
+           It carries its own surface, so it reads on both the white and the black sections. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
+        .nar .pill { position: absolute; left: 90px; top: 1332px; width: 404px; height: 168px; border-radius: 84px; background: #f7f7f5; border: 1.5px solid rgba(10, 10, 10, 0.16); }
+        .nar .face { position: absolute; left: 11px; top: 11px; width: 144px; height: 144px; border-radius: 50%; overflow: hidden; background: #e9e9e5; }
+        .nar .who { position: absolute; left: -22px; top: -16px; width: 186px; height: 217px; }
+        .nar .wave { position: absolute; left: 188px; top: 44px; width: 176px; height: 80px; display: flex; align-items: center; justify-content: space-between; }
+        .nar .wave i { display: block; width: 6px; height: 80px; border-radius: 3px; background: #0a0a0a; }
+      </style>
+      <div id="root" data-composition-id="narrator" data-width="1080" data-height="1920">
+        <div class="nar">
+          <div class="pill">
+            <div class="face"><div class="who"></div></div>
+            <div class="wave"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 57.15, OUT = 39.4;   // episode length; when the pill leaves (before s05)
+          const EXPR = [
+            ["smile", 0.1, 1.6],     // "Here's how to create a Claude skill"
+            ["smile", 7.25, 8.25],   // "when your request needs it"
+          ];
+          const root = document.querySelector('[data-composition-id="narrator"] .nar');
+          const pill = root.querySelector(".pill"), bars = [...root.querySelectorAll(".wave i")];
+          const av = Egg.mountAvatar(root.querySelector(".who"));
+          const tl = gsap.timeline({ paused: true });
+
+          // frame 0: already in place. Leaves downward before s05.
+          tl.to(pill, { y: 40, autoAlpha: 0, duration: 0.35, ease: "power3.in" }, OUT);
+          Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
+
+          // voice waveform: bar k shows the loudness k × 45 ms ago
+          const L = window.EggLipsync, box = { t: 0 };
+          const lvl = (f) => {
+            if (!L || f < 0) return 0;
+            const i = Math.floor(f), k = f - i, v = (j) => (j < L.data.length ? (L.data.charCodeAt(j) - 48) / 9 : 0);
+            return v(i) * (1 - k) + v(i + 1) * k;
+          };
+          const wave = () => bars.forEach((b, k) => { b.style.transform = "scaleY(" + (0.08 + 0.92 * lvl((box.t - k * 0.045) * (L ? L.fps : 30))).toFixed(3) + ")"; });
+          wave();
+          tl.fromTo(box, { t: 0 }, { t: LEN, duration: LEN, ease: "none", onUpdate: wave }, 0);
+
+          window.__timelines["narrator"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

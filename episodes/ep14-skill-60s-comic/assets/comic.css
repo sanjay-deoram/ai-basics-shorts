@@ -1,0 +1,95 @@
+/* Pop-art comic theme for the ep14 "comic" variant. Sizes are canvas pixels on the 1080x1920 frame.
+   Ink outlines, flat primaries on cream paper, Ben-Day dots, panels, caption boxes, bubbles, bursts.
+   Motion helpers live in comic.js (Cm.*). Fonts are local (OFL: Bangers, Comic Neue). */
+
+@font-face { font-family: "Bangers"; src: url("fonts/Bangers-Regular.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Comic Neue"; src: url("fonts/ComicNeue-Regular.ttf") format("truetype"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Comic Neue"; src: url("fonts/ComicNeue-Bold.ttf") format("truetype"); font-weight: 700; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --ink: #141210;
+  --paper: #fbf1d6;
+  --white: #fffdf6;
+  --yellow: #ffd21f;
+  --red: #e8312a;
+  --cyan: #1fb4e6;
+  --grey: #b9b2a3;
+  --clay: #d97757;
+  --f-comic: "Bangers", sans-serif;
+  --f-letter: "Comic Neue", sans-serif;
+  --f-mono: "Geist Mono", monospace;
+}
+
+/* ---------- page ---------- */
+.cm-page { position: absolute; inset: 0; overflow: hidden; background: var(--paper); color: var(--ink); font-family: var(--f-letter); }
+.cm-layer { position: absolute; inset: 0; }
+.cm-svg { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+/* Ben-Day dots: set --dot (colour) and --sz (pitch) */
+.cm-dots { background-image: radial-gradient(circle, var(--dot, var(--red)) 0 34%, transparent 37%); background-size: var(--sz, 16px) var(--sz, 16px); }
+/* page corners: dots that thin out towards the middle */
+.cm-corner { position: absolute; width: 760px; height: 760px; opacity: 0.5; }
+.cm-corner.tl { left: -120px; top: -60px; -webkit-mask-image: radial-gradient(circle at 0 0, #000 0, transparent 70%); mask-image: radial-gradient(circle at 0 0, #000 0, transparent 70%); }
+.cm-corner.br { right: -120px; bottom: -60px; -webkit-mask-image: radial-gradient(circle at 100% 100%, #000 0, transparent 70%); mask-image: radial-gradient(circle at 100% 100%, #000 0, transparent 70%); }
+.cm-corner.bl { left: -120px; bottom: -60px; -webkit-mask-image: radial-gradient(circle at 0 100%, #000 0, transparent 70%); mask-image: radial-gradient(circle at 0 100%, #000 0, transparent 70%); }
+/* radial speed lines */
+.cm-rays { position: absolute; border-radius: 50%; background: repeating-conic-gradient(var(--yellow) 0 5deg, #ffe772 5deg 10deg); }
+
+/* ---------- panels ---------- */
+.cm-panel { position: absolute; background: var(--white); border: 8px solid var(--ink); box-shadow: 12px 12px 0 var(--ink); }
+.cm-panel.dark { background: #1c1a17; color: #f4efe2; }
+.cm-panel.yel { background: var(--yellow); }
+.cm-panel.cyan { background: var(--cyan); }
+.cm-cap { position: absolute; padding: 10px 20px 8px; background: var(--yellow); border: 6px solid var(--ink); box-shadow: 6px 6px 0 var(--ink); font: 700 32px/1.15 var(--f-letter); text-transform: uppercase; letter-spacing: 0.02em; color: var(--ink); white-space: nowrap; }
+.cm-cap.white { background: var(--white); }
+.cm-cap.red { background: var(--red); color: var(--white); }
+
+/* ---------- lettering ---------- */
+.cm-big { font: 400 120px/0.95 var(--f-comic); letter-spacing: 0.02em; color: var(--yellow); -webkit-text-stroke: 5px var(--ink); paint-order: stroke fill; text-shadow: 7px 7px 0 var(--ink), -5px 3px 0 var(--cyan), 12px 10px 0 var(--red); margin: 0; }
+.cm-big.white { color: var(--white); }
+.cm-big.red { color: var(--red); text-shadow: 7px 7px 0 var(--ink), -5px 3px 0 var(--cyan), 12px 10px 0 var(--yellow); }
+.cm-title { font: 400 84px/1 var(--f-comic); letter-spacing: 0.03em; color: var(--ink); text-shadow: 5px 4px 0 var(--cyan), -4px -2px 0 rgba(232, 49, 42, 0.85); margin: 0; white-space: nowrap; }
+.cm-mono { font: 400 30px/1.4 var(--f-mono); margin: 0; white-space: pre; }
+.cm-mark { background-image: linear-gradient(transparent 8%, var(--yellow) 8%, var(--yellow) 92%, transparent 92%); background-repeat: no-repeat; background-size: 0% 100%; }
+
+/* ---------- bursts and stickers (shape injected by Cm.mount) ---------- */
+.cm-burst { position: absolute; display: flex; align-items: center; justify-content: center; flex-direction: column; text-align: center; font: 400 64px/0.95 var(--f-comic); letter-spacing: 0.03em; color: var(--ink); }
+.cm-burst > svg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: visible; }
+.cm-burst > span, .cm-burst > b { position: relative; display: block; font-weight: 400; }
+.cm-sfx { position: absolute; font: 400 76px/1 var(--f-comic); letter-spacing: 0.04em; color: var(--red); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; text-shadow: 5px 5px 0 var(--ink); white-space: nowrap; }
+.cm-sfx.yel { color: var(--yellow); }
+.cm-sfx.cyan { color: var(--cyan); }
+.cm-sfx.white { color: var(--white); }
+
+/* ---------- speech bubbles ---------- */
+.cm-bubble { position: absolute; padding: 22px 30px; background: var(--white); border: 7px solid var(--ink); border-radius: 46px; box-shadow: 8px 8px 0 var(--ink); font: 700 34px/1.2 var(--f-letter); color: var(--ink); }
+.cm-bubble::before, .cm-bubble::after { content: ""; position: absolute; width: 0; height: 0; border-style: solid; }
+/* tail pointing up, near the left (t-ul) or right (t-ur); or down (t-dl / t-dr) */
+.cm-bubble.t-ul::before, .cm-bubble.t-ur::before { top: -52px; border-width: 0 26px 52px 26px; border-color: transparent transparent var(--ink) transparent; }
+.cm-bubble.t-ul::after, .cm-bubble.t-ur::after { top: -34px; border-width: 0 17px 36px 17px; border-color: transparent transparent var(--white) transparent; }
+.cm-bubble.t-ul::before { left: 70px; } .cm-bubble.t-ul::after { left: 79px; }
+.cm-bubble.t-ur::before { right: 70px; } .cm-bubble.t-ur::after { right: 79px; }
+.cm-bubble.t-dl::before, .cm-bubble.t-dr::before { bottom: -52px; border-width: 52px 26px 0 26px; border-color: var(--ink) transparent transparent transparent; }
+.cm-bubble.t-dl::after, .cm-bubble.t-dr::after { bottom: -34px; border-width: 36px 17px 0 17px; border-color: var(--white) transparent transparent transparent; }
+.cm-bubble.t-dl::before { left: 70px; } .cm-bubble.t-dl::after { left: 79px; }
+.cm-bubble.t-dr::before { right: 70px; } .cm-bubble.t-dr::after { right: 79px; }
+
+/* ---------- Claude mark ---------- */
+.cm-claude { background: var(--white) url("claude-logo.svg") center / 74% no-repeat; border: 6px solid var(--ink); border-radius: 50%; box-shadow: 5px 5px 0 var(--ink); }
+
+/* ---------- inked folder / WHAT-WHY-CHANGES rows ---------- */
+.cm-rows { display: grid; grid-template-columns: auto 1fr; column-gap: 22px; row-gap: 14px; align-items: center; }
+.cm-rows .k { font: 400 40px/1 var(--f-comic); letter-spacing: 0.04em; color: var(--red); }
+.cm-rows i { display: block; height: 20px; background: var(--ink); border-radius: 3px; }
+
+/* ---------- chrome ---------- */
+.cm-progress { position: absolute; left: 90px; right: 130px; top: 180px; height: 18px; border: 5px solid var(--ink); background: var(--white); box-shadow: 4px 4px 0 var(--ink); overflow: hidden; }
+.cm-progress i { display: block; width: 100%; height: 100%; background: var(--red); transform-origin: 0 50%; }
+.cm-grain { position: absolute; inset: 0; opacity: 0.08; mix-blend-mode: multiply; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35  0 0 0 0 0.28  0 0 0 0 0.15  0 0 0 0.9 0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E"); }
+
+/* ---------- avatar (Egg.mountAvatar): 540x629 cut-outs, mirrored to face left ---------- */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }
+.cm-logo { background: url("claude-logo.svg") center / contain no-repeat; }

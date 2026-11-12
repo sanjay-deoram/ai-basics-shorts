@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"squeak","vol":0.14},
+      {"t":0.4,"sfx":"write","vol":0.14,"dur":0.6},
+      {"t":0.65,"sfx":"scratch","vol":0.16,"dur":0.5},
+      {"t":1.5,"sfx":"scratch","vol":0.2,"dur":0.45},
+      {"t":2.2,"sfx":"scratch","vol":0.16,"dur":0.3},
+      {"t":2.5,"sfx":"scratch","vol":0.2,"dur":0.45},
+      {"t":3.0,"sfx":"swipe","vol":0.22},
+      {"t":3.75,"sfx":"keys","vol":0.2,"dur":1.3},
+      {"t":4.4,"sfx":"tap","vol":0.14},
+      {"t":5.95,"sfx":"keys","vol":0.2,"dur":0.7},
+      {"t":6.3,"sfx":"scratch","vol":0.16,"dur":0.3},
+      {"t":6.6,"sfx":"scribble","vol":0.14,"dur":0.6},
+      {"t":6.8,"sfx":"swipe","vol":0.18},
+      {"t":6.85,"sfx":"write","vol":0.12,"dur":0.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder (sketch). A circled "1" and "Make a folder" write on; a sketched terminal draws in
+           at the bottom. The path draws as a little diagram of hand-drawn folders joined by arrows: ~/.claude/, then
+           skills/ (highlighter swipe), then an empty dashed folder waiting. The terminal types
+           `mkdir -p ~/.claude/skills/` on "make a folder" and `pr-description` on "P R description"; the dashed folder
+           becomes a green, hachure-filled pr-description/ and "folder name = skill name" writes on underneath.
+           Avatar: corner; content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .num { left: 90px; top: 232px; width: 78px; height: 78px; display: grid; place-items: center; font: 400 52px/1 var(--f-hand); }
+        .s03 .ttl { left: 190px; top: 232px; }
+        .s03 .fl { position: absolute; display: flex; align-items: center; font: 400 46px/1 var(--f-hand); white-space: nowrap; }
+        .s03 .fl.new { color: var(--green); }
+        .s03 .term .bar { height: 54px; }
+        .s03 .cmd { position: absolute; left: 28px; top: 92px; margin: 0; font: 400 30px/1.3 var(--f-code); color: #f1efe8; white-space: pre; }
+        .s03 .cmd .pr { color: #a5a29a; }
+        .s03 .cmd .b { color: var(--green-f); }
+        .s03 .lab { left: 90px; width: 860px; top: 1386px; text-align: center; color: var(--green); }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="sk s03">
+          <div class="sk-abs num">1</div>
+          <h2 class="sk-abs sk-h2 ttl">Make a folder</h2>
+          <div class="fl f1" style="left:150px;top:470px;height:120px">~/.claude/</div>
+          <div class="fl f2" style="left:310px;top:690px;height:120px">skills/</div>
+          <div class="fl f3 new" style="left:470px;top:910px;height:120px">pr-description/</div>
+          <p class="sk-abs sk-label lab">folder name = skill name</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const { C } = Sk;
+          Sk.seed(300);
+          const ink = Sk.layer(root, 1080, 1920, true);
+
+          const ring = Sk.shape(ink, "circle", [129, 271, 84], { stroke: C.blue, strokeWidth: 4, roughness: 1.2 });
+          // the folder diagram: ~/.claude/ → skills/ → (waiting) pr-description/
+          const fA = Sk.folder(ink, 110, 448, 360, 150, { fill: "#ece9df", hachureGap: 12, strokeWidth: 3.5 });
+          const fB = Sk.folder(ink, 270, 668, 330, 150, { fill: C.blueF, hachureGap: 12, strokeWidth: 3.5 });
+          const fWait = Sk.folder(ink, 430, 888, 500, 150, { stroke: "#9b978d", strokeWidth: 3, strokeLineDash: [14, 12], roughness: 0.9 });
+          const fC = Sk.folder(ink, 430, 888, 500, 150, { fill: C.greenF, hachureGap: 10, fillWeight: 2.5, stroke: C.green, strokeWidth: 4 });
+          const aAB = Sk.arrow(ink, [[180, 610], [190, 720], [258, 750]], { head: 22 });
+          const aBC = Sk.arrow(ink, [[340, 830], [350, 940], [418, 970]], { head: 22 });
+          const hl = Sk.mark(ink, 304, 768, 470, { h: 36 });
+          const hl2 = Sk.mark(ink, 464, 988, 820, { h: 36, stroke: C.greenF, opacity: 0.8 });
+
+          // the terminal, sketched: a dark rough box with three dots
+          const term = Sk.card(root, 90, 1130, 860, 210, "term");
+          const tBox = Sk.shape(term.s, "rectangle", [0, 0, 860, 210], { fill: "#2b2a27", fillStyle: "solid", strokeWidth: 3, roughness: 1.2 });
+          const tBar = Sk.shape(term.s, "line", [6, 58, 854, 56], { stroke: "#77746c", strokeWidth: 2.5, roughness: 1.3 });
+          const tDots = [0, 1, 2].map((i) => Sk.shape(term.s, "circle", [34 + i * 32, 29, 18], { stroke: "#a5a29a", strokeWidth: 2.5, roughness: 0.8 }));
+          term.el.insertAdjacentHTML("beforeend", '<p class="cmd"><span class="pr">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><span class="b">pr-description</span></p>');
+
+          gsap.set([q(".f1"), q(".f2"), q(".f3"), fWait], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          // "Step one"
+          Sk.draw(tl, ring, 0.2, 0.35);
+          Sk.write(tl, q(".num"), 0.3, { dur: 0.15 });
+          Sk.write(tl, q(".ttl"), 0.4, { dur: 0.6 });
+          Sk.draw(tl, tBox, 0.65, 0.4);
+          Sk.draw(tl, tBar, 0.9, 0.25);
+          tDots.forEach((d, i) => Sk.draw(tl, d, 0.95 + i * 0.06, 0.15));
+          tl.fromTo(term.el.querySelector(".pr"), { opacity: 0 }, { opacity: 1, duration: 0.15 }, 1.1);
+          // "in dot claude slash skills": the folders draw on, joined by arrows
+          Sk.draw(tl, fA, 1.5, 0.4, { fillDur: 0.4 });
+          tl.set(q(".f1"), { opacity: 1 }, 1.6); Sk.write(tl, q(".f1"), 1.6, { dur: 0.4 });
+          Sk.draw(tl, aAB, 2.2, 0.3, { seq: true });
+          Sk.draw(tl, fB, 2.5, 0.4, { fillDur: 0.4 });
+          tl.set(q(".f2"), { opacity: 1 }, 2.6); Sk.write(tl, q(".f2"), 2.6, { dur: 0.3 });
+          Sk.draw(tl, hl, 3.0, 0.3, { ease: "power1.out" });
+          // "make a folder named after the skill": the command types in, an empty folder waits
+          Egg.typeOn(tl, term.el.querySelector(".cmd .a"), 3.75, { cps: 20 });
+          tl.to(fWait, { opacity: 1, duration: 0.3, ease: "power1.out" }, 4.4);
+          // "P R description": the name, and the folder fills in
+          Egg.typeOn(tl, term.el.querySelector(".cmd .b"), 5.95, { cps: 22 });
+          Sk.draw(tl, aBC, 6.3, 0.3, { seq: true });
+          tl.to(fWait, { opacity: 0, duration: 0.2, ease: "none" }, 6.6);
+          Sk.draw(tl, fC, 6.6, 0.3, { fillDur: 0.5 });
+          tl.set(q(".f3"), { opacity: 1 }, 6.65); Sk.write(tl, q(".f3"), 6.65, { dur: 0.35 });
+          Sk.draw(tl, hl2, 6.8, 0.3, { ease: "power1.out" });
+          Sk.write(tl, q(".lab"), 6.85, { dur: 0.45 });
+
+          Sk.wipe(tl, [...root.children], DUR - 0.3, 0.3);
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

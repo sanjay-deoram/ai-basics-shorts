@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"swell","vol":0.08},
+      {"t":1.0,"sfx":"n1","vol":0.18},
+      {"t":1.25,"sfx":"glass","vol":0.1},
+      {"t":1.5,"sfx":"glass","vol":0.1},
+      {"t":1.75,"sfx":"glass","vol":0.1},
+      {"t":3.2,"sfx":"swell","vol":0.1},
+      {"t":3.75,"sfx":"n4","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. Three pull request descriptions arrive slightly out of line, each written a different
+           way ("fixed stuff", a wall of text, loose bullets). On "the same way every time" they settle into one
+           column and all take the same shape: What · Why · Changes. Avatar: small tile, bottom centre.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .lbl { top: 216px; }
+        .s02 .ttl { top: 300px; font-size: 72px; }
+        .s02 .pr { left: 110px; width: 860px; height: 232px; padding: 28px 36px; }
+        .s02 .pr .top { display: flex; align-items: baseline; gap: 18px; }
+        .s02 .pr .no { font: 400 28px/1 var(--f-mono); color: var(--s-faint); }
+        .s02 .pr .nm { font: 500 34px/1.1 var(--f-display); letter-spacing: -0.01em; white-space: nowrap; }
+        .s02 .lay { position: absolute; left: 36px; right: 36px; top: 88px; }
+        .s02 .messy p { margin: 0; font: 400 30px/1.35 var(--f-body); color: var(--s-grey); }
+        .s02 .neat { display: grid; grid-template-columns: 170px 1fr; row-gap: 12px; align-items: center; }
+        .s02 .neat .k { font: 400 28px/30px var(--f-mono); }
+        .s02 .neat i { display: block; height: 12px; border-radius: 6px; background: rgba(17, 18, 20, 0.1); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="soft s02">
+          <div class="stage">
+            <div class="pill-row lbl"><span class="pill">The example</span></div>
+            <h2 class="h ttl">Pull request descriptions</h2>
+            <div class="glass pr" style="top:450px">
+              <div class="top"><span class="no">#412</span><span class="nm">Password reset expiry</span></div>
+              <div class="lay messy"><p>fixed stuff</p></div>
+              <div class="lay neat"><span class="k t-k">What</span><i style="width:80%"></i><span class="k t-h">Why</span><i style="width:60%"></i><span class="k t-s">Changes</span><i style="width:70%"></i></div>
+            </div>
+            <div class="glass pr" style="top:712px">
+              <div class="top"><span class="no">#413</span><span class="nm">New invoice page</span></div>
+              <div class="lay messy"><p>So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p></div>
+              <div class="lay neat"><span class="k t-k">What</span><i style="width:70%"></i><span class="k t-h">Why</span><i style="width:85%"></i><span class="k t-s">Changes</span><i style="width:55%"></i></div>
+            </div>
+            <div class="glass pr" style="top:974px">
+              <div class="top"><span class="no">#414</span><span class="nm">Faster search</span></div>
+              <div class="lay messy"><p>- search</p><p>- misc</p></div>
+              <div class="lay neat"><span class="k t-k">What</span><i style="width:65%"></i><span class="k t-h">Why</span><i style="width:75%"></i><span class="k t-s">Changes</span><i style="width:80%"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cards = all(".pr");
+          gsap.set(all(".neat"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Soft.push(tl, q(".stage"), DUR);
+          Soft.rise(tl, q(".lbl"), 0.2, { y: 14, dur: 0.6 });
+          // "to write your pull request descriptions": three, each a little out of line
+          Soft.words(tl, q(".ttl"), 0.9);
+          const off = [{ x: -28, r: -1.6 }, { x: 28, r: 1.2 }, { x: -14, r: -0.8 }];
+          cards.forEach((c, i) => tl.fromTo(c, { opacity: 0, x: off[i].x, y: 40, rotation: off[i].r, scale: 0.97, filter: "blur(12px)" },
+            { opacity: 1, y: 0, scale: 1, filter: "blur(0px)", duration: 0.8, ease: Soft.OUT }, 1.2 + i * 0.25));
+          // "the same way every time": they settle into one column and take the same shape
+          tl.to(cards, { x: 0, rotation: 0, duration: 0.8, ease: Soft.INOUT, stagger: 0.06 }, 3.2);
+          tl.to(all(".messy"), { opacity: 0, filter: "blur(8px)", duration: 0.3, ease: "sine.in" }, 3.35);
+          tl.fromTo(all(".neat"), { filter: "blur(8px)" }, { opacity: 1, filter: "blur(0px)", duration: 0.45, ease: "sine.out", stagger: 0.1 }, 3.65);
+
+          Soft.melt(tl, [q(".lbl"), q(".ttl"), ...cards], DUR - 0.24, { dur: 0.24 });
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

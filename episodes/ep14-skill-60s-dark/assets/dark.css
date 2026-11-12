@@ -1,0 +1,78 @@
+/* Dark variant theme: a developer-tool product film. Near-black paper, glassy panels, one accent.
+   Motion helpers live in dark.js (Dk.*). Fonts are local; renders never hit the network. */
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --bg: #08090a;
+  --panel: #111214;
+  --line: rgba(255, 255, 255, 0.09);
+  --tx: #f7f8f8;
+  --mut: #9096a0;
+  --dim: #6a6f79;
+  --ac: #7c8cff;
+  --ac2: #b9c1ff;
+  --sans: "Inter Tight", sans-serif;
+  --body: "Inter", sans-serif;
+  --mono: "Geist Mono", monospace;
+}
+
+/* the paper behind every scene (index.html root) */
+.dk-bg { position: absolute; inset: 0; background: var(--bg); }
+.dk-bg::before {
+  content: ""; position: absolute; inset: 0;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.13) 1.5px, transparent 2px);
+  background-size: 45px 45px; background-position: 22px 22px;
+  -webkit-mask-image: radial-gradient(ellipse 62% 48% at 50% 44%, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+  mask-image: radial-gradient(ellipse 62% 48% at 50% 44%, #000 0%, rgba(0, 0, 0, 0.35) 55%, transparent 100%);
+}
+.dk-bg::after { content: ""; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 60% at 50% 100%, rgba(124, 140, 255, 0.07), transparent 70%); }
+
+.dk { position: absolute; inset: 0; overflow: hidden; color: var(--tx); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+.dk .stage { position: absolute; inset: 0; transform-origin: 50% 45%; will-change: transform; }
+.dk p, .dk h1, .dk h2 { margin: 0; }
+
+.dk-glow { position: absolute; width: 1000px; height: 1000px; border-radius: 50%; background: radial-gradient(circle, rgba(124, 140, 255, 0.26) 0%, rgba(124, 140, 255, 0.09) 38%, rgba(124, 140, 255, 0) 68%); pointer-events: none; }
+
+/* type */
+.dk-label { position: absolute; left: 90px; top: 236px; font: 400 28px/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--mut); white-space: nowrap; }
+.dk-label b { font-weight: 400; color: var(--ac); }
+.dk-h { position: absolute; left: 90px; top: 296px; font: 600 88px/1.02 var(--sans); letter-spacing: -0.035em; color: var(--tx); white-space: nowrap; }
+.dk-h .l { display: block; }
+.dk-sheen { background-image: linear-gradient(100deg, #f7f8f8 0%, #f7f8f8 46%, #b9c1ff 68%, #7c8cff 100%); background-size: 230% 100%; background-position: 0% 0; -webkit-background-clip: text; background-clip: text; color: transparent; -webkit-text-fill-color: transparent; }
+
+/* panels */
+.dk-panel { position: absolute; left: 90px; width: 860px; background: linear-gradient(180deg, #15161a 0%, #101114 100%); border: 1px solid var(--line); border-radius: 24px; box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.09), 0 40px 90px rgba(0, 0, 0, 0.65), 0 0 70px rgba(124, 140, 255, 0.05); overflow: hidden; }
+.dk-bar { height: 64px; display: flex; align-items: center; gap: 10px; padding: 0 26px; border-bottom: 1px solid var(--line); font: 400 28px/1 var(--mono); color: var(--mut); white-space: nowrap; }
+.dk-bar i { width: 12px; height: 12px; border-radius: 50%; background: rgba(255, 255, 255, 0.16); }
+.dk-bar .nm { margin-left: 12px; }
+.dk-bar .r { margin-left: auto; }
+.dk-ring { position: absolute; inset: 0; border-radius: 24px; border: 1.5px solid var(--ac); box-shadow: 0 0 44px rgba(124, 140, 255, 0.4), inset 0 0 30px rgba(124, 140, 255, 0.1); pointer-events: none; }
+.dk-claude { background: url("claude-logo.svg") center / contain no-repeat; width: 32px; height: 32px; flex: none; }
+
+.dk-chip { display: inline-flex; align-items: center; gap: 10px; height: 48px; padding: 0 18px; border-radius: 24px; border: 1px solid rgba(124, 140, 255, 0.4); background: rgba(124, 140, 255, 0.12); color: var(--ac2); font: 400 28px/1 var(--mono); white-space: nowrap; }
+.dk-chip.mut { border-color: rgba(255, 255, 255, 0.14); background: rgba(255, 255, 255, 0.05); color: var(--mut); }
+
+.dk-mono { font: 400 30px/1.3 var(--mono); color: var(--tx); white-space: pre; }
+.dk-type { position: relative; display: inline-block; white-space: pre; }
+.dk-caret { position: absolute; left: 0; top: 50%; width: 0.6em; height: 1.18em; margin-top: -0.59em; background: var(--ac); border-radius: 2px; }
+.dk-scan { position: absolute; left: 0; right: 0; top: 0; height: 2px; background: linear-gradient(90deg, rgba(124, 140, 255, 0), #b9c1ff 20%, #b9c1ff 80%, rgba(124, 140, 255, 0)); box-shadow: 0 0 22px 4px rgba(124, 140, 255, 0.55); pointer-events: none; }
+
+.dk-cursor { position: absolute; left: 0; top: 0; width: 44px; height: 44px; pointer-events: none; }
+.dk-cursor svg { position: absolute; inset: 0; width: 44px; height: 44px; filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6)); }
+.dk-cursor .rip { position: absolute; left: -22px; top: -22px; width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--ac2); }
+
+/* file tree */
+.dk-tree .row { position: relative; display: flex; align-items: center; gap: 20px; height: 104px; padding: 0 30px; font: 400 40px/1 var(--mono); color: var(--tx); white-space: nowrap; }
+.dk-tree .row svg { width: 44px; height: 44px; flex: none; fill: none; stroke: var(--mut); stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.dk-tree .row .sel { position: absolute; left: 12px; right: 12px; top: 8px; bottom: 8px; border-radius: 14px; background: rgba(124, 140, 255, 0.13); border: 1px solid rgba(124, 140, 255, 0.35); }
+.dk-tree .row > span, .dk-tree .row > svg { position: relative; }
+.dk-tree .row.on svg { stroke: var(--ac2); }
+.dk-tree .row .dk-chip { margin-left: auto; }
+
+/* narrator: avatar cut-outs (540×629, mirrored to face left) in a round tile */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }

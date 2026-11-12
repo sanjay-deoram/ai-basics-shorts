@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"tick","vol":0.16},
+      {"t":0.65,"sfx":"pop","vol":0.2},
+      {"t":1.51,"sfx":"pop","vol":0.22},
+      {"t":1.68,"sfx":"pop","vol":0.22},
+      {"t":1.85,"sfx":"pop","vol":0.22},
+      {"t":2.28,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step by step. White: "Let's build one." and the three steps pop in as tiles on "step by step"
+           (01 Folder · 02 SKILL.md · 03 Ask), the map for the rest of the reel. -->
+      <style>
+        #s03-root .bg { background: #fdfcfc; }
+        #s03-root .rl-hd { --acc: #2d4bff; }
+        #s03-root .tile { position: absolute; top: 0; width: 262px; height: 300px; border-radius: 30px; padding: 24px; color: #0d0d0c; }
+        #s03-root .tile .k { font: 400 30px/34px var(--f-mono); opacity: 0.7; }
+        #s03-root .tile .n { position: absolute; left: 24px; bottom: 26px; font: 600 40px/44px var(--f-display); letter-spacing: -0.03em; }
+        #s03-root .tile .g { position: absolute; right: 22px; top: 22px; width: 64px; height: 64px; border-radius: 18px; background: rgba(0, 0, 0, 0.85); }
+        #s03-root .tile .g::after { content: ""; position: absolute; inset: 18px 14px; border-radius: 4px; border: 4px solid #fff; }
+        #s03-root .t2 .g::after { inset: 14px 18px; border-radius: 2px; }
+        #s03-root .t3 .g::after { inset: 16px; border-radius: 50%; }
+      </style>
+      <div id="s03-root" data-composition-id="s03-steps" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// step by step</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Let's</span></span>
+              <span class="ln"><em class="w">build one.</em></span>
+            </div>
+            <div class="tile t1" style="left: 90px; background: #dbe6ff;"><div class="k">// 01</div><div class="g"></div><div class="n">Folder</div></div>
+            <div class="tile t2" style="left: 389px; background: #ebe3ff;"><div class="k">// 02</div><div class="g"></div><div class="n">SKILL.md</div></div>
+            <div class="tile t3" style="left: 688px; background: #fff1c2;"><div class="k">// 03</div><div class="g"></div><div class="n">Ask</div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s03-root");
+          const cam = root.querySelector(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s03-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, root.querySelector(".rl-hd"), [0.4, 0.65]);
+          // "step by step": one tile per word
+          const tiles = root.querySelectorAll(".tile"), Y = [660, 640, 670], R = [-4, 2, 5];
+          tiles.forEach((c, i) => tl.fromTo(c, { y: Y[i] + 120, scale: 0.6, rotation: 0, opacity: 0 }, { y: Y[i], scale: 1, rotation: R[i], opacity: 1, duration: 0.45, ease: "back.out(1.8)" }, 1.51 + i * 0.17));
+          Reel.whip(tl, cam, blur, 2.3, "out");
+
+          window.__timelines["s03-steps"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

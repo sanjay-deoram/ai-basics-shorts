@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"tap","vol":0.16},
+      {"t":0.95,"sfx":"write","vol":0.14,"dur":0.7},
+      {"t":1.2,"sfx":"stick","vol":0.28},
+      {"t":1.45,"sfx":"stick","vol":0.24},
+      {"t":1.7,"sfx":"stick","vol":0.24},
+      {"t":3.25,"sfx":"slide","vol":0.2},
+      {"t":3.45,"sfx":"erase","vol":0.12},
+      {"t":3.7,"sfx":"scribble","vol":0.12,"dur":0.6},
+      {"t":4.0,"sfx":"tick","vol":0.22},
+      {"t":4.15,"sfx":"tick","vol":0.22},
+      {"t":4.3,"sfx":"tick","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example (sketch). Three pull request descriptions stick on as pastel sticky notes in a messy,
+           tilted pile, each written a different way in pencil ("fixed stuff", a wall of text, loose bullets). On
+           "the same way every time" they slide straight into a column, the old text rubs out and each gets the same
+           What / Why / Changes rows (scribbled lines) and a green tick. Avatar: corner; content above y 485 stays
+           left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .eb { left: 90px; top: 236px; }
+        .s02 .ttl { left: 90px; top: 290px; }
+        .s02 .ttl span { display: block; }
+        .s02 .pr .hd { display: flex; align-items: baseline; gap: 16px; padding: 20px 30px 0; }
+        .s02 .pr .no { font: 400 28px/1 var(--f-code); color: var(--pencil); }
+        .s02 .pr .nm { font: 400 38px/1 var(--f-hand); white-space: nowrap; }
+        .s02 .lay { position: absolute; left: 30px; right: 30px; top: 84px; }
+        .s02 .messy p { margin: 0; font: 400 32px/1.3 var(--f-hand); color: var(--pencil); }
+        .s02 .neat p { position: absolute; left: 0; margin: 0; font: 400 32px/1 var(--f-hand); color: var(--blue); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="sk s02">
+          <p class="sk-abs sk-eyebrow eb">the example</p>
+          <h2 class="sk-abs sk-h2 ttl"><span>Pull request</span><span>descriptions</span></h2>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const { C } = Sk;
+          Sk.seed(200);
+          const W = 860, H = 250;
+          const PRS = [
+            { no: "#412", nm: "Password reset expiry", messy: "<p>fixed stuff</p>", fill: C.yellowF, edge: "#e0b400", y: 520 },
+            { no: "#413", nm: "New invoice page", messy: "<p>So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p>", fill: C.redF, edge: "#e8a0a0", y: 800 },
+            { no: "#414", nm: "Faster search", messy: "<p>- search</p><p>- misc</p>", fill: C.blueF, edge: "#86b8e0", y: 1080 },
+          ];
+          const ROWS = [["What", 0], ["Why", 50], ["Changes", 100]];
+          const cards = PRS.map((p, i) => {
+            const c = Sk.card(root, 90, p.y, W, H, "pr");
+            c.el.setAttribute("data-layout-allow-overlap", "");
+            Sk.shape(c.s, "rectangle", [0, 0, W, H], { fill: p.fill, fillStyle: "solid", stroke: p.edge, strokeWidth: 2.5, roughness: 1.3 });
+            c.el.insertAdjacentHTML("beforeend", `<div class="hd"><span class="no">${p.no}</span><span class="nm">${p.nm}</span></div>
+              <div class="lay messy">${p.messy}</div><div class="lay neat">${ROWS.map(([k, y]) => `<p style="top:${y + 6}px">${k}</p>`).join("")}</div>`);
+            const lines = ROWS.map(([k, y], j) => Sk.shape(c.s, "line", [200, 84 + y + 24, 200 + [520, 440, 480][(i + j) % 3], 84 + y + 22], { stroke: C.pencil, strokeWidth: 3, roughness: 2.2, bowing: 2, disableMultiStroke: true }));
+            const ok = Sk.tick(c.s, W - 90, 46);
+            return { el: c.el, lines, ok, labels: [...c.el.querySelectorAll(".neat p")], messy: c.el.querySelector(".messy") };
+          });
+
+          const tl = gsap.timeline({ paused: true });
+          gsap.set(cards.map((c) => c.el), { opacity: 0 });
+          tl.fromTo(q(".eb"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 0.2);
+          // "to write your pull request descriptions": the title writes on, three notes stick on in a messy pile
+          q(".ttl").querySelectorAll("span").forEach((sp, i) => Sk.write(tl, sp, 0.95 + i * 0.32, { dur: 0.32 }));
+          const pile = [{ x: 30, y: 210, r: -5 }, { x: -20, y: -50, r: 4 }, { x: 40, y: -330, r: -2.5 }];
+          cards.forEach((c, i) => Sk.land(tl, c.el, 1.2 + i * 0.25, { y: pile[i].y, r: pile[i].r, from: 60 }));
+          cards.forEach((c, i) => tl.set(c.el, { x: pile[i].x }, 1.2 + i * 0.25));
+          // "the same way every time": they slide straight into a column and take the same shape
+          tl.to(cards.map((c) => c.el), { x: 0, y: 0, rotation: 0, duration: 0.55, ease: "power2.inOut", stagger: 0.07 }, 3.25);
+          tl.to(cards.map((c) => c.messy), { opacity: 0, duration: 0.25, ease: "none" }, 3.45);
+          cards.forEach((c, i) => {
+            const t = 3.7 + i * 0.12;
+            Sk.write(tl, c.labels, t, { dur: 0.22 });
+            c.lines.forEach((l, j) => Sk.draw(tl, l, t + 0.05 + j * 0.08, 0.3));
+            Sk.draw(tl, c.ok, 4.0 + i * 0.15, 0.18, { seq: false });
+          });
+
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.15,"sfx":"tick","vol":0.16},
+      {"t":2.6,"sfx":"pop","vol":0.2},
+      {"t":3.26,"sfx":"typing","vol":0.22,"dur":0.6},
+      {"t":4.37,"sfx":"typing","vol":0.22,"dur":0.6},
+      {"t":5.77,"sfx":"pop","vol":0.22},
+      {"t":6.24,"sfx":"pop","vol":0.22},
+      {"t":6.82,"sfx":"pop","vol":0.22},
+      {"t":7.1,"sfx":"success","vol":0.18},
+      {"t":7.53,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Step 2 · the instructions. Mint: same editor, the frontmatter dims; "Below that, the instructions, in
+           plain English": run git diff, then write three sections, and What / Why / Changes type in as they're said. -->
+      <style>
+        #s08-root .bg { background-color: #d5f3e4; }
+        #s08-root .rl-hd { --acc: #0f8a4c; }
+        #s08-root .term { top: 620px; height: 560px; }
+        #s08-root .r.ln { display: flex; }
+        #s08-root .ln .no { width: 56px; flex: none; color: #5f5a53; }
+        #s08-root .ln .hl { position: absolute; left: -16px; right: -16px; top: 0; bottom: 0; border-radius: 8px; background: rgba(63, 191, 116, 0.24); opacity: 0; }
+        #s08-root .ln .tx { position: relative; }
+        #s08-root .t-p { color: var(--term-dim); }
+        #s08-root .t-k { color: #f08a63; }
+        #s08-root .t-s { color: #9be3b4; }
+        #s08-root .t-n { color: #ffd84d; }
+        #s08-root .t-f { color: #8ab4ff; }
+        #s08-root .t-h { color: #f08a63; }
+        #s08-root .t-c { color: var(--term-dim); }
+      </style>
+      <div id="s08-root" data-composition-id="s08-body" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// below that</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">The </span><span class="w">instructions.</span></span>
+              <span class="ln"><span class="w">In </span><span class="w">plain </span><em class="w">English.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>SKILL.md</span></div>
+              <div class="tb">
+                <div class="fm">
+                  <div class="r ln"><span class="no">1</span><span class="tx"><span class="t-p">---</span></span></div>
+                  <div class="r ln"><span class="no">2</span><span class="tx"><span class="t-k">name:</span> <span class="t-s">pr-description</span></span></div>
+                  <div class="r ln"><span class="no">3</span><span class="tx"><span class="t-k">description:</span> <span class="t-s">Writes PR descriptions.</span></span></div>
+                  <div class="r ln"><span class="no">4</span><span class="tx"><span class="t-s">  Use when the user asks for a PR.</span></span></div>
+                  <div class="r ln"><span class="no">5</span><span class="tx"><span class="t-p">---</span></span></div>
+                </div>
+                <div class="r ln l6"><span class="hl"></span><span class="no">6</span><span class="tx"><span class="t-n">1.</span> Run <span class="t-f">git diff main...HEAD</span></span></div>
+                <div class="r ln l7"><span class="hl"></span><span class="no">7</span><span class="tx"><span class="t-n">2.</span> Write three sections:</span></div>
+                <div class="r ln l8"><span class="hl"></span><span class="no">8</span><span class="tx">   <span class="t-h">## What</span><span class="t-c">: one sentence</span></span></div>
+                <div class="r ln l9"><span class="hl"></span><span class="no">9</span><span class="tx">   <span class="t-h">## Why</span><span class="t-c">: brief context</span></span></div>
+                <div class="r ln l10"><span class="hl"></span><span class="no">10</span><span class="tx">   <span class="t-h">## Changes</span><span class="t-c">: bullets</span></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s08-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, q(".rl-hd"), [1.15, 1.35, 2.1, 2.35, 2.6]);
+          // the frontmatter is done: it dims, and the line numbers for the body appear
+          tl.to(q(".fm"), { opacity: 0.4, duration: 0.4, ease: "none" }, 0.8);
+          tl.fromTo(root.querySelectorAll(".l6 .no, .l7 .no, .l8 .no, .l9 .no, .l10 .no"), { opacity: 0 }, { opacity: 1, duration: 0.2, stagger: 0.05 }, 1.0);
+          const line = (n, at, cps) => {
+            Egg.typeOn(tl, q(`.l${n} .tx`), at, { cps });
+            tl.fromTo(q(`.l${n} .hl`), { opacity: 0 }, { opacity: 1, duration: 0.15, yoyo: true, repeat: 1, repeatDelay: 0.5 }, at);
+          };
+          // "run git diff"
+          line(6, 3.26, 45);
+          // "then write three sections"
+          line(7, 4.37, 40);
+          // "What, why, and changes"
+          line(8, 5.77, 70);
+          line(9, 6.24, 70);
+          line(10, 6.82, 70);
+          tl.to(q(".term"), { scale: 1.02, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1 }, 7.1);
+          Reel.whip(tl, cam, blur, 7.55, "out");
+
+          window.__timelines["s08-body"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

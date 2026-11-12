@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:34,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay for the whole episode (papercut): a paper measuring strip at the top of the safe area
+           with a red string pulled along it by a pushpin (the progress bar), and a sheet of paper grain over the whole
+           frame that shifts on threes, so even still frames feel hand-shot. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chr .rule { position: absolute; left: 90px; top: 172px; width: 860px; height: 22px; }
+        .chr .rule::before { background-image: repeating-linear-gradient(90deg, rgba(43, 33, 24, 0.55) 0 2px, transparent 2px 43px), var(--grain); background-size: 100% 9px, 300px 300px; background-repeat: no-repeat, repeat; }
+        .chr .fill { position: absolute; left: 0; top: 7px; width: 860px; height: 8px; border-radius: 4px; background: var(--string); transform-origin: 0 50%; }
+        .chr .pin { left: 72px; top: 165px; }
+        .chr .grain { position: absolute; left: -150px; top: -150px; width: 1380px; height: 2220px; background-image: var(--grain); opacity: 0.5; mix-blend-mode: multiply; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chr" data-layout-allow-overflow="">
+          <div class="pc flat rule"><div class="fill"></div></div>
+          <div class="pin"></div>
+          <div class="grain" data-layout-allow-overflow=""></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .chr');
+          const { duration } = window.__hyperframes.getVariables();
+          Cut.dress(root, 77);
+          const tl = gsap.timeline({ paused: true });
+          // the string and its pin advance twice a second
+          const n = Math.round(duration * 2);
+          tl.fromTo(root.querySelector(".fill"), { scaleX: 0 }, { scaleX: 1, duration, ease: `steps(${n})` }, 0);
+          tl.fromTo(root.querySelector(".pin"), { x: 0 }, { x: 860, duration, ease: `steps(${n})` }, 0);
+          // the grain moves on threes
+          const r = Cut.rng(5), grain = root.querySelector(".grain");
+          for (let t = 0.25; t < duration; t += 0.25) tl.set(grain, { x: Math.round((r() - 0.5) * 280), y: Math.round((r() - 0.5) * 280) }, t);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.5,"sfx":"sub","vol":0.22},
+      {"t":2.3,"sfx":"click","vol":0.2},
+      {"t":3.8,"sfx":"sub","vol":0.16},
+      {"t":5.3,"sfx":"click","vol":0.24},
+      {"t":5.4,"sfx":"riser","vol":0.09},
+      {"t":5.55,"sfx":"sub","vol":0.22},
+      {"t":5.85,"sfx":"key","vol":0.2},
+      {"t":6.65,"sfx":"keys","vol":0.16,"dur":0.55},
+      {"t":7.5,"sfx":"keys","vol":0.16,"dur":1.35},
+      {"t":9.3,"sfx":"tick","vol":0.2},
+      {"t":12.25,"sfx":"keys","vol":0.16,"dur":0.9},
+      {"t":13.4,"sfx":"keys","vol":0.16,"dur":0.75},
+      {"t":14.77,"sfx":"keys","vol":0.16,"dur":0.36},
+      {"t":15.24,"sfx":"keys","vol":0.16,"dur":0.36},
+      {"t":15.82,"sfx":"keys","vol":0.16,"dur":0.36},
+      {"t":16.3,"sfx":"confirm","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md. The explorer shows the new folder; on "add one file" a file row appears inside it,
+           selected, and its name is called out large: SKILL.md ("Exactly this name, in capitals"). A cursor moves
+           to the file and clicks: the explorer gives way to an editor panel (line numbers, restrained syntax
+           colours). The frontmatter fences, the name and the description type in with a block caret and a moving
+           line highlight ("Name + when to use it"); then focus pulls to the body and the instructions type as
+           they're said: git diff, then What / Why / Changes ("Instructions, in plain English").
+           The skill text follows the Claude Academy lesson. Avatar: small tile top right ("corner").
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .g { left: 40px; top: 420px; }
+        .s04 .tree { top: 520px; height: 408px; }
+        .s04 .tree .rows { padding: 16px 0; }
+        .s04 .call { position: absolute; left: 90px; top: 1010px; font: 400 124px/1 var(--mono); letter-spacing: -0.04em; white-space: nowrap; }
+        .s04 .foot { position: absolute; left: 96px; top: 1176px; font: 400 30px/1 var(--mono); color: var(--mut); white-space: nowrap; }
+        .s04 .ed { top: 520px; height: 708px; }
+        .s04 .ed .body { position: relative; padding: 22px 0; }
+        .s04 .ed .cur { position: absolute; left: 0; right: 0; top: 22px; height: 60px; background: rgba(124, 140, 255, 0.09); border-left: 3px solid var(--ac); }
+        .s04 .ed .ln { position: relative; display: flex; align-items: center; height: 60px; font: 400 30px/1 var(--mono); color: var(--tx); }
+        .s04 .ed .no { width: 66px; margin-right: 26px; text-align: right; color: var(--dim); }
+        .s04 .ed .k { color: var(--ac2); }
+        .s04 .ed .cm { color: var(--mut); }
+        .s04 .ed .p { color: var(--dim); }
+        .s04 .ed .n { color: var(--mut); }
+        .s04 .note { position: absolute; left: 90px; top: 1284px; width: 860px; }
+        .s04 .note .t { font: 400 28px/1 var(--mono); letter-spacing: 0.12em; color: var(--ac); }
+        .s04 .note .d { margin-top: 20px; font: 500 50px/1.1 var(--sans); letter-spacing: -0.025em; white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="dk s04">
+          <div class="stage">
+            <div class="dk-glow g" data-layout-allow-overflow=""></div>
+            <span class="dk-label"><b>02</b> — SKILL.md</span>
+            <h2 class="dk-h">Add one <span class="dk-sheen">file</span></h2>
+
+            <div class="dk-panel tree dk-tree">
+              <div class="dk-bar"><span>EXPLORER</span></div>
+              <div class="rows">
+                <div class="row"><svg viewBox="0 0 44 44"><path d="M4 12a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" /></svg><span>~/.claude/skills</span></div>
+                <div class="row r2" style="padding-left:86px"><i class="sel"></i><svg viewBox="0 0 44 44"><path d="M4 12a4 4 0 0 1 4-4h9l4 5h15a4 4 0 0 1 4 4v15a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4z" /></svg><span>pr-description</span></div>
+                <div class="row r3 on" style="padding-left:142px"><i class="sel"></i><svg viewBox="0 0 44 44"><path d="M11 4h15l10 10v23a3 3 0 0 1-3 3H11a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z M26 4v10h10" /></svg><span>SKILL.md</span></div>
+              </div>
+            </div>
+            <p class="call dk-sheen">SKILL.md</p>
+            <p class="foot">Exactly this name, in capitals</p>
+            <div class="ptr"></div>
+
+            <div class="dk-panel ed" data-layout-allow-overlap="">
+              <div class="dk-bar"><i></i><i></i><i></i><span class="nm">SKILL.md</span><span class="r">pr-description</span></div>
+              <div class="body">
+                <div class="cur"></div>
+                <div class="ln"><span class="no">1</span><span class="dk-type"><span class="p">---</span></span></div>
+                <div class="ln"><span class="no">2</span><span class="dk-type"><span class="k">name</span><span class="p">:</span> pr-description</span></div>
+                <div class="ln"><span class="no">3</span><span class="dk-type"><span class="k">description</span><span class="p">:</span> Writes PR descriptions.</span></div>
+                <div class="ln"><span class="no">4</span><span class="dk-type">  Use when the user asks for a PR.</span></div>
+                <div class="ln"><span class="no">5</span><span class="dk-type"><span class="p">---</span></span></div>
+                <div class="ln"><span class="no">6</span><span class="dk-type"><span class="n">1.</span> Run <span class="k">git diff main...HEAD</span></span></div>
+                <div class="ln"><span class="no">7</span><span class="dk-type"><span class="n">2.</span> Write three sections:</span></div>
+                <div class="ln"><span class="no">8</span><span class="dk-type">   <span class="k">## What</span><span class="cm">: one sentence</span></span></div>
+                <div class="ln"><span class="no">9</span><span class="dk-type">   <span class="k">## Why</span><span class="cm">: brief context</span></span></div>
+                <div class="ln"><span class="no">10</span><span class="dk-type">   <span class="k">## Changes</span><span class="cm">: bullets</span></span></div>
+              </div>
+            </div>
+            <div class="note n1"><p class="t">FRONTMATTER</p><p class="d">Name + when to use it</p></div>
+            <div class="note n2" data-layout-allow-overlap=""><p class="t">BODY</p><p class="d">Instructions, in plain English</p></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8, LH = 60;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tree = q(".tree"), ed = q(".ed"), lns = all(".ed .ln"), cur = q(".ed .cur"), ptr = Dk.cursor(q(".ptr"));
+          gsap.set([q(".r2 .sel"), q(".r3"), q(".call"), q(".foot"), ed, cur, q(".n1"), q(".n2"), ...all(".ed .no")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          const type = (i, at, cps, o = {}) => {
+            tl.set(lns[i].querySelector(".no"), { opacity: 1 }, o.show ?? at);
+            if (o.follow !== false) tl.to(cur, { y: i * LH, duration: 0.25, ease: Dk.OUT }, o.show ?? at);
+            return Dk.type(tl, lns[i].querySelector(".dk-type"), at, { cps, hold: 0.15, ...o });
+          };
+          Dk.camera(tl, q(".stage"), DUR);
+          // "Step two: inside it"
+          Dk.rise(tl, [q(".dk-label"), q(".dk-h")], 0.15, { stagger: 0.08 });
+          Dk.panelIn(tl, tree, 0.5);
+          tl.to(q(".r2 .sel"), { opacity: 1, duration: 0.3, ease: "none" }, 1.25);
+          // "add one file": it appears inside the folder
+          tl.to(q(".r2 .sel"), { opacity: 0, duration: 0.25, ease: "none" }, 2.3);
+          tl.fromTo(q(".r3"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.6, ease: Dk.OUT }, 2.3);
+          // "skill dot M D"
+          Dk.rise(tl, q(".call"), 3.75, { y: 30 });
+          Dk.sheen(tl, q(".call"), 3.95, 0.7);
+          Dk.rise(tl, q(".foot"), 4.45, { y: 10, dur: 0.5 });
+          // the cursor clicks the file and it opens in the editor
+          tl.fromTo(ptr, { x: 780, y: 1330, opacity: 0 }, { x: 420, y: 870, opacity: 1, duration: 0.75, ease: "power3.inOut" }, 4.5);
+          Dk.click(tl, ptr, 5.3);
+          tl.to([tree, q(".call"), q(".foot"), ptr], { opacity: 0, scale: 0.96, duration: 0.3, ease: "power2.in" }, 5.4);
+          Dk.panelIn(tl, ed, 5.5, { dur: 0.8 });
+          // "At the top": the frontmatter fences
+          tl.to(cur, { opacity: 1, duration: 0.2, ease: "none" }, 5.85);
+          type(0, 5.85, 30); type(4, 5.95, 30, { follow: false });
+          // "a name"
+          type(1, 6.65, 36);
+          // "and a description of when to use it"
+          type(2, 7.5, 40, { hold: 0 }); type(3, 8.15, 48, { hold: 0.4 });
+          Dk.rise(tl, q(".n1"), 7.6, { dur: 0.5 });
+
+          // "Below that, the instructions, in plain English": focus pulls to the body
+          tl.to(lns.slice(0, 5), { opacity: 0.38, duration: 0.5, ease: "power2.out" }, 9.3);
+          tl.to(q(".n1"), { opacity: 0, duration: 0.25, ease: "none" }, 9.95);
+          Dk.rise(tl, q(".n2"), 10.2, { dur: 0.5 });
+          // "run git diff"
+          type(5, 12.25, 30, { show: 9.3, hold: 0.25 });
+          // "then write three sections"
+          type(6, 13.4, 34, { hold: 0.5 });
+          // "What, why, and changes"
+          type(7, 14.77, 60); type(8, 15.24, 60); type(9, 15.82, 60);
+          tl.to(lns.slice(0, 5), { opacity: 1, duration: 0.4, ease: "power2.out" }, 16.3);
+          tl.to(cur, { opacity: 0, duration: 0.3, ease: "none" }, 16.3);
+
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

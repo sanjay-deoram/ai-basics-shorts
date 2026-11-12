@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.46,"sfx":"tick","vol":0.16},
+      {"t":0.79,"sfx":"pop","vol":0.2},
+      {"t":1.6,"sfx":"pop","vol":0.2},
+      {"t":3.17,"sfx":"thud","vol":0.36},
+      {"t":3.95,"sfx":"key","vol":0.3},
+      {"t":4.15,"sfx":"key","vol":0.3},
+      {"t":4.63,"sfx":"key","vol":0.3},
+      {"t":4.97,"sfx":"key","vol":0.3},
+      {"t":5.25,"sfx":"tick","vol":0.18},
+      {"t":5.63,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Step 2 · the file. Lavender: "Step two: add one file."; the folder path chip ("inside it"), one blank
+           file drops in ("add one file") and its name stamps on letter group by letter group as it's spelled
+           ("skill dot M D" → SKILL.md); "exactly that name, in capitals". -->
+      <style>
+        #s06-root .bg { background-color: #ebe3ff; }
+        #s06-root .rl-hd { --acc: #7c3aed; }
+        #s06-root .path { position: absolute; left: 90px; top: 620px; height: 72px; padding: 0 28px; border-radius: 36px; background: #fff; display: flex; align-items: center; gap: 14px;
+          font: 400 30px/1 var(--f-mono); color: #0d0d0c; white-space: nowrap; box-shadow: 0 10px 24px -14px rgba(0, 0, 0, 0.3); }
+        #s06-root .path svg { width: 40px; height: 34px; }
+        #s06-root .path svg path { fill: #7c3aed; }
+        #s06-root .file { position: absolute; left: 290px; top: 740px; width: 500px; height: 440px; }
+        #s06-root .file .pg { position: absolute; inset: 0; background: #fff; border-radius: 28px; clip-path: polygon(0 0, 78% 0, 100% 18%, 100% 100%, 0 100%); box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35); }
+        #s06-root .file .ear { position: absolute; left: 390px; top: 0; width: 110px; height: 80px; background: #d6c9f5; clip-path: polygon(0 0, 100% 100%, 0 100%); border-bottom-left-radius: 14px; }
+        #s06-root .file .nm { position: absolute; left: 0; right: 0; top: 120px; text-align: center; font: 600 96px/1 var(--f-display); letter-spacing: -0.04em; color: #0d0d0c; white-space: nowrap; }
+        #s06-root .file .nm span { display: inline-block; }
+        #s06-root .file .bars { position: absolute; left: 50px; right: 50px; top: 270px; }
+        #s06-root .file .bars i { display: block; height: 14px; border-radius: 7px; background: #0d0d0c14; margin-bottom: 22px; }
+        #s06-root .note { position: absolute; left: 290px; top: 1214px; font: 400 30px/36px var(--f-mono); color: #44403b; }
+      </style>
+      <div id="s06-root" data-composition-id="s06-file" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// step 2 · SKILL.md</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Step </span><span class="w">two:</span></span>
+              <span class="ln"><span class="w">add </span><span class="w">one </span><em class="w">file.</em></span>
+            </div>
+            <div class="path"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg>~/.claude/skills/pr-description/</div>
+            <div class="file">
+              <div class="pg"></div><div class="ear"></div>
+              <div class="nm"><span class="n1">SKILL</span><span class="n2">.</span><span class="n3">m</span><span class="n4">d</span></div>
+              <div class="bars"><i style="width:60%"></i><i style="width:85%"></i><i style="width:72%"></i><i style="width:50%"></i></div>
+            </div>
+            <div class="note">// exactly that name, in capitals</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s06-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s06-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          // "Step two: inside it, add one file"
+          Reel.words(tl, q(".rl-hd"), [0.46, 0.79, 2.54, 2.8, 3.17]);
+          tl.fromTo(q(".path"), { opacity: 0, x: -40 }, { opacity: 1, x: 0, duration: 0.35, ease: "back.out(2)" }, 1.6);
+          // the file drops into the folder
+          tl.fromTo(q(".file"), { opacity: 0, y: -160, rotation: -8 }, { opacity: 1, y: 0, rotation: 0, duration: 0.45, ease: "back.out(1.4)" }, 2.95);
+          // "skill dot M D": the name, as it's spelled
+          [[".n1", 3.95], [".n2", 4.15], [".n3", 4.63], [".n4", 4.97]].forEach(([s, t]) =>
+            tl.fromTo(q(s), { opacity: 0, y: 30, scale: 1.4 }, { opacity: 1, y: 0, scale: 1, duration: 0.3, ease: "back.out(2.4)" }, t));
+          tl.fromTo(q(".bars"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
+          tl.fromTo(q(".note"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 5.25);
+          Reel.whip(tl, cam, blur, 5.65, "out");
+
+          window.__timelines["s06-file"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

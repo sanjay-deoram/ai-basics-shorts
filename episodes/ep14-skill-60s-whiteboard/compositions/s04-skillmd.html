@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.18,"sfx":"cap","vol":0.26},
+      {"t":0.2,"sfx":"write","vol":0.3,"dur":0.3},
+      {"t":0.5,"sfx":"write","vol":0.26,"dur":1.0},
+      {"t":1.7,"sfx":"scribble","vol":0.3,"dur":0.5},
+      {"t":2.3,"sfx":"scribble","vol":0.3,"dur":0.45},
+      {"t":2.85,"sfx":"shuffle","vol":0.26},
+      {"t":3.3,"sfx":"pop","vol":0.2},
+      {"t":3.8,"sfx":"write","vol":0.34,"dur":0.4},
+      {"t":4.2,"sfx":"squeak","vol":0.28},
+      {"t":4.5,"sfx":"write","vol":0.26,"dur":0.7},
+      {"t":5.25,"sfx":"erase","vol":0.32,"dur":0.45},
+      {"t":5.72,"sfx":"scribble","vol":0.3,"dur":0.25},
+      {"t":5.97,"sfx":"squeak","vol":0.2},
+      {"t":6.65,"sfx":"write","vol":0.3,"dur":0.55},
+      {"t":7.5,"sfx":"write","vol":0.3,"dur":1.15},
+      {"t":8.7,"sfx":"squeak","vol":0.24},
+      {"t":8.87,"sfx":"write","vol":0.24,"dur":0.38},
+      {"t":9.3,"sfx":"scribble","vol":0.24,"dur":0.25},
+      {"t":10.2,"sfx":"write","vol":0.28,"dur":0.8},
+      {"t":12.25,"sfx":"write","vol":0.3,"dur":0.65},
+      {"t":13.4,"sfx":"write","vol":0.3,"dur":0.6},
+      {"t":14.77,"sfx":"write","vol":0.3,"dur":0.38},
+      {"t":15.24,"sfx":"write","vol":0.3,"dur":0.4},
+      {"t":15.82,"sfx":"write","vol":0.3,"dur":0.43},
+      {"t":16.3,"sfx":"tick","vol":0.3}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md, on the whiteboard. "Step 2" and the path. The hand draws an open folder and a
+           page, the page drops into the folder; "SKILL.md" is written big and double-underlined in red, with the note
+           "exactly that name, in CAPITALS". The eraser clears it and the hand draws one big page: the frontmatter
+           fences, name and description written as they're said, a red bracket note "name + when to use it" in the
+           margin; a divider, "instructions, in plain English" in blue at the foot, then git diff and the three
+           sections What / Why / Changes, each written as it's said, and a green check. The skill text follows the
+           Claude Academy lesson. Avatar: small top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="wb-scene s04">
+          <svg class="wb-ink" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="all">
+              <text class="red st" x="90" y="282" font-size="60">Step 2</text>
+              <text class="grey path" x="90" y="384" font-size="50">~/.claude/skills/pr-description/</text>
+
+              <g class="g1">
+                <path class="s folder" d="M120 610 a14 14 0 0 1 14 -14 h80 l24 26 h190 a14 14 0 0 1 14 14 v200 a14 14 0 0 1 -14 14 h-294 a14 14 0 0 1 -14 -14 z" />
+                <g class="doc">
+                  <path class="s paper dp" d="M560 520 H700 L760 580 V800 H560 Z M700 520 V580 H760" />
+                  <path class="s thin grey dl" d="M590 620 H690 M590 664 H730 M590 708 H700 M590 752 H660" />
+                </g>
+                <text class="big" x="250" y="1010" font-size="128">SKILL.md</text>
+                <path class="s red uu" d="M252 1036 C 400 1028, 560 1040, 712 1030 M272 1060 C 420 1054, 560 1064, 690 1058" />
+                <text class="grey nt" x="170" y="1146" font-size="52">exactly that name, in CAPITALS</text>
+              </g>
+
+              <g class="g2">
+                <path class="s page" d="M90 520 H870 L950 600 V1330 H90 Z M870 520 V600 H950" />
+                <text class="grey ln f0" x="140" y="604" font-size="42">---</text>
+                <text class="ln l1" x="140" y="664" font-size="42"><tspan class="blue">name:</tspan> pr-description</text>
+                <text class="ln l2" x="140" y="724" font-size="42"><tspan class="blue">description:</tspan> Writes PR descriptions.</text>
+                <text class="ln l3" x="140" y="784" font-size="42">   Use when the user asks for a PR.</text>
+                <text class="grey ln f4" x="140" y="844" font-size="42">---</text>
+                <path class="s red br1" d="M772 628 C 790 630, 790 640, 790 670 V 690 C 790 705, 800 708, 808 710 C 800 712, 790 715, 790 730 V 760 C 790 785, 788 792, 772 794" />
+                <text class="red n1" x="818" y="672" font-size="40">name +</text>
+                <text class="red n1" x="818" y="716" font-size="40">when to</text>
+                <text class="red n1" x="818" y="760" font-size="40">use it</text>
+                <path class="s grey div" d="M120 878 c 60 -8, 120 8, 180 0 s 120 8, 180 0 s 120 8, 180 0 s 120 8, 180 0 s 80 8, 120 0" />
+                <text class="ln l5" x="140" y="944" font-size="42"><tspan class="blue">1.</tspan> Run git diff main...HEAD</text>
+                <text class="ln l6" x="140" y="1004" font-size="42"><tspan class="blue">2.</tspan> Write three sections:</text>
+                <text class="ln l7" x="190" y="1064" font-size="42"><tspan class="blue">## What</tspan><tspan class="grey">: one sentence</tspan></text>
+                <text class="ln l8" x="190" y="1124" font-size="42"><tspan class="blue">## Why</tspan><tspan class="grey">: brief context</tspan></text>
+                <text class="ln l9" x="190" y="1184" font-size="42"><tspan class="blue">## Changes</tspan><tspan class="grey">: bullets</tspan></text>
+                <path class="s green fat ck" d="M640 1110 L672 1146 L736 1068" />
+                <text class="blue ip" x="140" y="1280" font-size="50">instructions, in plain English</text>
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          WB.build(root, () => {
+            const B = WB.board(root, tl);
+            B.prep(".s"); B.hideText("text");
+            // "Step two: inside it"
+            B.write(".st", 0.2, 0.3);
+            B.write(".path", 0.5, 1.0);
+            B.draw(".folder", 1.7, 0.5);
+            // "add one file": a page, dropped into the folder
+            tl.fromTo(q(".dp"), { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.25, ease: "none" }, 2.3);
+            B.draw(all(".doc .s"), 2.3, 0.45);
+            B.rest(600, 1500, 2.8, 0.4);
+            tl.fromTo(q(".doc"), { x: 0, y: 0, scale: 1, rotation: 0, svgOrigin: "660 660" }, { x: -380, y: 60, scale: 0.62, rotation: -8, svgOrigin: "660 660", duration: 0.5, ease: "power2.inOut" }, 2.85);
+            tl.to(q(".folder"), { scale: 1.05, svgOrigin: "281 710", duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 3.3);
+            // "skill dot M D", exactly that name
+            B.write(".big", 3.8, 0.4);
+            B.draw(".uu", 4.2, 0.22);
+            B.write(".nt", 4.5, 0.7);
+            B.away(5.0);
+            B.erase(q(".g1"), { x: 70, y: 500, w: 920, h: 700 }, 5.25, 0.45);
+            // "At the top": the page and its frontmatter fences
+            B.draw(".page", 5.72, 0.25);
+            B.write([q(".f0"), q(".f4")], 5.97, 0.25);
+            // "a name"
+            B.write(".l1", 6.65, 0.55);
+            // "and a description of when to use it"
+            B.write([q(".l2"), q(".l3")], 7.5, 1.15);
+            B.draw(".br1", 8.7, 0.15);
+            B.write(all(".n1"), 8.87, 0.38);
+            // "Below that, the instructions, in plain English"
+            B.draw(".div", 9.3, 0.25);
+            B.write(".ip", 10.2, 0.8);
+            B.rest(560, 1560, 11.1, 0.5);
+            // "run git diff, then write three sections. What, why, and changes."
+            B.write(".l5", 12.25, 0.65);
+            B.write(".l6", 13.4, 0.6);
+            B.write(".l7", 14.77, 0.38);
+            B.write(".l8", 15.24, 0.4);
+            B.write(".l9", 15.82, 0.43);
+            B.draw(".ck", 16.3, 0.14);
+            B.away(16.45, { dur: 0.3 });
+            tl.to(q(".all"), { opacity: 0, duration: 0.12, ease: "none" }, 16.66);
+            window.__timelines["s04-skillmd"] = tl;
+          });
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.47,"sfx":"tick","vol":0.16},
+      {"t":0.83,"sfx":"pop","vol":0.2},
+      {"t":1.6,"sfx":"typing","vol":0.24,"dur":1.5},
+      {"t":2.0,"sfx":"pop","vol":0.18},
+      {"t":2.75,"sfx":"pop","vol":0.2},
+      {"t":3.96,"sfx":"tick","vol":0.16},
+      {"t":4.45,"sfx":"pop","vol":0.2},
+      {"t":5.15,"sfx":"tick","vol":0.16},
+      {"t":6.18,"sfx":"typing","vol":0.24,"dur":0.8},
+      {"t":7.0,"sfx":"enter","vol":0.3},
+      {"t":7.05,"sfx":"success","vol":0.22},
+      {"t":7.43,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 1 · Folder. Light blue: "Step one: make a folder."; a shell types
+           `mkdir -p ~/.claude/skills/` as the path is said, the folder tree builds (~/.claude/ → skills/), a dashed
+           empty folder waits on "a folder named after the skill", then `pr-description` types into both the command
+           and the folder on "P R description"; Enter, the folder fills green. -->
+      <style>
+        #s05-root .bg { background-color: #dbe6ff; }
+        #s05-root .rl-hd { --acc: #1f6feb; }
+        #s05-root .term { top: 600px; height: 230px; }
+        #s05-root .cmd { white-space: pre; font: 400 28px/40px var(--f-mono); color: var(--term-text); }
+        #s05-root .cmd .pr { color: var(--ok); }
+        #s05-root .cmd .d { color: #ffd84d; }
+        #s05-root .cmd .ok { color: var(--term-dim); }
+        #s05-root .row { position: absolute; display: flex; align-items: center; gap: 20px; height: 84px; font: 400 40px/1 var(--f-mono); color: #0d0d0c; white-space: nowrap; }
+        #s05-root .row svg { width: 64px; height: 54px; }
+        #s05-root .row svg path { fill: #1f6feb; }
+        #s05-root .row .box { position: relative; display: flex; align-items: center; height: 76px; padding: 0 22px; border-radius: 18px; background: #fff; }
+        #s05-root .r3 .box { border: 4px dashed #1f6feb; background: rgba(255, 255, 255, 0.5); min-width: 420px; }
+        #s05-root .r3 .fill { position: absolute; inset: -4px; border-radius: 18px; background: #12a150; opacity: 0; }
+        #s05-root .r3 .nm { position: relative; }
+        #s05-root .r3 svg path { fill: none; stroke: #1f6feb; stroke-width: 4; stroke-dasharray: 8 6; }
+        #s05-root .el { position: absolute; width: 40px; height: 64px; border-left: 4px solid #0d0d0c55; border-bottom: 4px solid #0d0d0c55; border-bottom-left-radius: 10px; }
+        #s05-root .note { position: absolute; left: 360px; top: 1210px; font: 400 30px/36px var(--f-mono); color: #44403b; }
+      </style>
+      <div id="s05-root" data-composition-id="s05-folder" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// step 1 · folder</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Step </span><span class="w">one:</span></span>
+              <span class="ln"><span class="w">make </span><span class="w">a </span><em class="w">folder.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>zsh · ~</span></div>
+              <div class="tb">
+                <div class="cmd"><span class="pr">$ </span><span class="a">mkdir -p </span><span class="b">~/.claude/</span><span class="c">skills/</span><span class="d">pr-description</span></div>
+                <div class="cmd ok">  created ✓</div>
+              </div>
+            </div>
+            <div class="el e1" style="left: 130px; top: 970px;"></div>
+            <div class="el e2" style="left: 220px; top: 1080px;"></div>
+            <div class="row r1" style="left: 90px; top: 890px;"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="box">~/.claude/</span></div>
+            <div class="row r2" style="left: 180px; top: 1000px;"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="box">skills/</span></div>
+            <div class="row r3" style="left: 270px; top: 1110px;"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z"/></svg><span class="box"><span class="fill"></span><span class="nm">pr-description/</span></span></div>
+            <div class="note">// folder name = skill name</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s05-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s05-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          // "Step one: … make a folder"
+          Reel.words(tl, q(".rl-hd"), [0.47, 0.83, 3.96, 4.32, 4.45]);
+          tl.fromTo(q(".term"), { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.45, ease: "power3.out" }, 0.3);
+          tl.set(q(".cmd .pr"), { opacity: 0 }, 0);
+          tl.set(q(".cmd .pr"), { opacity: 1 }, 0.75);
+          // "in dot claude slash skills"
+          Egg.typeOn(tl, q(".cmd .a"), 1.6, { cps: 40 });
+          Egg.typeOn(tl, q(".cmd .b"), 1.95, { cps: 24 });
+          Egg.typeOn(tl, q(".cmd .c"), 2.69, { cps: 18 });
+          const rows = [q(".r1"), q(".r2"), q(".r3")], els = [q(".e1"), q(".e2")];
+          tl.fromTo(rows[0], { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, 2.0);
+          tl.fromTo(els[0], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 2.6);
+          tl.fromTo(rows[1], { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, 2.75);
+          // "a folder named after the skill": an empty, dashed folder waits
+          tl.fromTo(els[1], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.3);
+          tl.fromTo(rows[2], { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "back.out(2)" }, 4.45);
+          tl.fromTo(q(".note"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 5.15);
+          // "P R description": the name types into the command and the folder at once
+          Egg.typeOn(tl, q(".cmd .d"), 6.18, { cps: 18 });
+          Egg.typeOn(tl, q(".r3 .nm"), 6.18, { cps: 18 });
+          // Enter: the folder exists
+          tl.to(q(".term"), { scale: 1.02, duration: 0.1, ease: "power2.out", yoyo: true, repeat: 1 }, 7.0);
+          Reel.rows(tl, [q(".cmd.ok")], [7.02]);
+          tl.to(q(".r3 .fill"), { opacity: 1, duration: 0.15 }, 7.0);
+          tl.to(q(".r3 .nm"), { color: "#ffffff", duration: 0.15 }, 7.0);
+          tl.fromTo(q(".r3 .box"), { scale: 1 }, { scale: 1.08, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out" }, 7.0);
+          Reel.whip(tl, cam, blur, 7.45, "out");
+
+          window.__timelines["s05-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

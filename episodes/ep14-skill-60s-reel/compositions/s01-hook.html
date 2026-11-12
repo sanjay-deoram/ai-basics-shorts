@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.3},
+      {"t":0.6,"sfx":"tick","vol":0.16},
+      {"t":1.15,"sfx":"tick","vol":0.16},
+      {"t":1.45,"sfx":"pop","vol":0.22},
+      {"t":2.2,"sfx":"tick","vol":0.18},
+      {"t":2.5,"sfx":"thud","vol":0.34},
+      {"t":2.85,"sfx":"pop","vol":0.22},
+      {"t":2.95,"sfx":"bloom","vol":0.3},
+      {"t":3.38,"sfx":"whip","vol":0.34}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. Frame 0 already reads a huge "60"; "Create a Claude skill." builds word by word, "under" and
+           "seconds." land beside the 60, which pulses on "sixty"; a blue bloom grows out of the 60 and fills the frame
+           (the next beat is blue), whip-pan out. Avatar BIG at the bottom (narrator). -->
+      <style>
+        #s01-root .bg { background: #fdfcfc; }
+        #s01-root .bloom { position: absolute; left: 330px; top: 770px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #2d4bff; }
+        #s01-root .rl-hd { --acc: #2d4bff; top: 284px; font-size: 104px; line-height: 108px; }
+        #s01-root .sixty { position: absolute; left: 70px; top: 540px; width: 560px; height: 440px; font: 600 480px/440px var(--f-display); letter-spacing: -0.07em; color: #0d0d0c; transform-origin: 40% 60%; }
+        #s01-root .under { position: absolute; left: 640px; top: 630px; font: 400 36px/40px var(--f-mono); color: #5f5b55; }
+        #s01-root .secs { position: absolute; left: 630px; top: 680px; font: italic 400 96px/100px var(--f-serif); color: #2d4bff; letter-spacing: -0.02em; }
+      </style>
+      <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="bloom" data-layout-allow-overflow=""></div>
+            <div class="rl-eye">// claude skills</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Create </span><span class="w">a </span><span class="w">Claude</span></span>
+              <span class="ln"><em class="w">skill.</em></span>
+            </div>
+            <div class="sixty">60</div>
+            <div class="under">under</div>
+            <div class="secs">seconds.</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s01-root");
+          const cam = root.querySelector(".rl-cam"), hd = root.querySelector(".rl-hd"), eye = root.querySelector(".rl-eye");
+          const n60 = root.querySelector(".sixty"), under = root.querySelector(".under"), secs = root.querySelector(".secs");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s01-mb");
+
+          // frame 0: the 60 is already there and settles with a thump
+          tl.fromTo(n60, { scale: 1.12 }, { scale: 1, duration: 0.35, ease: Egg.EASE.stamp }, 0);
+          // "create a Claude skill"
+          Reel.words(tl, hd, [0.6, 1.02, 1.15, 1.45]);
+          // "in under sixty seconds"
+          tl.fromTo(under, { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.25, ease: "power3.out" }, 2.2);
+          tl.to(n60, { scale: 1.08, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1 }, 2.5);
+          tl.fromTo(secs, { opacity: 0, y: 36, scale: 1.25, rotation: -6 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.42, ease: "back.out(2.2)", transformOrigin: "0% 80%" }, 2.85);
+          // the 60 blooms blue and fills the frame (the next beat is blue)
+          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.45, ease: "power2.in" }, 2.95);
+          tl.to([hd, n60], { color: "#ffffff", duration: 0.15 }, 3.15);
+          tl.to([hd.querySelector("em"), secs], { color: "#ffd84d", duration: 0.15 }, 3.15);
+          tl.to([eye, under], { color: "#dfe5ff", duration: 0.15 }, 3.15);
+          Reel.whip(tl, cam, blur, 3.4, "out");
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.6,"sfx":"tick","vol":0.18},
+      {"t":0.78,"sfx":"tick","vol":0.18},
+      {"t":0.96,"sfx":"tick","vol":0.18},
+      {"t":1.9,"sfx":"pop","vol":0.18},
+      {"t":2.3,"sfx":"pop","vol":0.2},
+      {"t":4.1,"sfx":"enter","vol":0.3},
+      {"t":4.8,"sfx":"chime","vol":0.2},
+      {"t":5.6,"sfx":"pop","vol":0.22},
+      {"t":7.1,"sfx":"typing","vol":0.22,"dur":0.5},
+      {"t":7.6,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s10 · Step 3 · the match. Teal: "Reads only name + description." Claude Code lists the skills it knows by
+           name and description only; on "when your request matches" the request is sent and pr-description lights up;
+           on "it loads the full file" the list gives way to the transcript: Skill(pr-description), Loaded SKILL.md,
+           Bash(git diff main...HEAD), then the What / Why / Changes reply. -->
+      <style>
+        #s10-root .bg { background-color: #d3f0f7; }
+        #s10-root .rl-hd { --acc: #0e7490; font-size: 88px; line-height: 94px; }
+        #s10-root .term { top: 560px; height: 720px; }
+        #s10-root .layer { position: relative; }
+        #s10-root .lst { position: absolute; left: 0; right: 0; top: 182px; }
+        #s10-root .sk { position: relative; height: auto; border: 2px solid var(--term-line); border-radius: 16px; padding: 12px 20px; margin-bottom: 14px; white-space: normal; }
+        #s10-root .sk .nm { display: block; font: 400 30px/38px var(--f-mono); color: var(--term-text); }
+        #s10-root .sk .ds { display: block; font: 400 28px/36px var(--f-mono); color: var(--term-dim); }
+        #s10-root .tx { position: absolute; left: 0; right: 0; top: 182px; }
+        #s10-root .tx .h { color: #f08a63; }
+      </style>
+      <div id="s10-root" data-composition-id="s10-match" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// up front</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Reads </span><span class="w">only</span></span>
+              <span class="ln"><span class="w">name </span><span class="w">+ </span><em class="w">description.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/my-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/my-app</span></div>
+                <div class="r prompt"><b>&gt;</b>write a PR description for my changes</div>
+                <div class="lst">
+                  <div class="r sub cap">// skills: name + description</div>
+                  <div class="r sk s1"><span class="nm">commit-message</span><span class="ds">Writes commit messages in our style.</span></div>
+                  <div class="r sk s2"><span class="nm">pr-description</span><span class="ds">Writes PR descriptions. Use when the user asks for a PR.</span></div>
+                  <div class="r sk s3"><span class="nm">code-review</span><span class="ds">Reviews a diff for bugs before merging.</span></div>
+                </div>
+                <div class="tx">
+                  <div class="r"><span class="dot c">●</span> <span class="tool">Skill</span><span class="arg">(pr-description)</span></div>
+                  <div class="r sub">  ⎿ Loaded SKILL.md</div>
+                  <div class="r"><span class="dot">●</span> <span class="tool">Bash</span><span class="arg">(git diff main...HEAD)</span></div>
+                  <div class="r sub">  ⎿ 4 files changed, +42 -7</div>
+                  <div class="r"><span class="dot c">●</span> <span class="h">What</span></div>
+                  <div class="r">  Reset links now expire after 30 min.</div>
+                  <div class="r">  <span class="h">Why</span></div>
+                  <div class="r">  Old links worked forever: a risk.</div>
+                  <div class="r">  <span class="h">Changes</span></div>
+                  <div class="r">  • auth/reset.ts: check expiresAt</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s10-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s10-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          // "Claude reads only each skill's name and description up front"
+          Reel.words(tl, q(".rl-hd"), [0.6, 0.99, 1.9, 2.15, 2.3]);
+          const s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3");
+          Reel.rows(tl, [q(".cap"), s1, s2, s3], [0.5, 0.6, 0.78, 0.96], { x: -20 });
+          tl.to(root.querySelectorAll(".sk .nm"), { color: "#f08a63", duration: 0.2, stagger: 0.08 }, 1.9);
+          tl.to(root.querySelectorAll(".sk .ds"), { color: "#efece6", duration: 0.25, stagger: 0.08 }, 2.3);
+          // "When your request matches": sent, and pr-description lights up
+          tl.to(q(".prompt"), { borderColor: "#d97757", duration: 0.12, yoyo: true, repeat: 1 }, 4.1);
+          tl.to(s2, { borderColor: "#d97757", backgroundColor: "rgba(217, 119, 87, 0.16)", scale: 1.03, duration: 0.25, ease: "power2.out" }, 4.8);
+          tl.to([s1, s3], { opacity: 0.3, duration: 0.3, ease: "none" }, 4.8);
+          // "it loads the full file and follows it": the transcript
+          tl.to(q(".lst"), { opacity: 0, y: -24, duration: 0.25, ease: "power2.in" }, 5.4);
+          const tx = root.querySelectorAll(".tx .r");
+          Reel.rows(tl, tx, [5.6, 6.5, 7.1, 7.18, 7.26, 7.31, 7.36, 7.41, 7.46, 7.51]);
+          Reel.whip(tl, cam, blur, 7.62, "out");
+
+          window.__timelines["s10-match"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

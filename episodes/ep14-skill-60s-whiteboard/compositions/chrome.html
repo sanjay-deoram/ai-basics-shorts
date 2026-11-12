@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:34,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent whiteboard overlay for the whole episode: the gloss sheen across the board, the aluminium frame
+           at the canvas edge, the marker tray at the bottom (below the safe box) and a red marker progress line drawn
+           along the top of the safe area over the episode. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .wb-chrome .sheen { position: absolute; inset: 0; background:
+          linear-gradient(118deg, rgba(255,255,255,0) 18%, rgba(255,255,255,0.32) 30%, rgba(255,255,255,0) 40%),
+          linear-gradient(118deg, rgba(255,255,255,0) 52%, rgba(255,255,255,0.2) 57%, rgba(255,255,255,0) 63%),
+          radial-gradient(ellipse at 50% 45%, rgba(0,0,0,0) 60%, rgba(60,70,80,0.07) 100%); }
+        .wb-chrome .frame { position: absolute; inset: 0; border: 16px solid #c9ced4; box-shadow: inset 0 0 0 2px #9aa1a9, inset 0 3px 10px rgba(0,0,0,0.12); }
+        .wb-chrome .frame::before { content: ""; position: absolute; inset: -16px; border: 3px solid #eef1f4; border-right-color: #a5acb4; border-bottom-color: #a5acb4; }
+        .wb-chrome .tray { position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(#d9dde2, #aeb4bb); border-top: 2px solid #8d949c; }
+        .wb-chrome .tray svg { position: absolute; left: 180px; top: 10px; width: 520px; height: 40px; }
+        .wb-chrome .prog { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="wb-chrome">
+          <div class="sheen"></div>
+          <svg class="prog" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="pl" d="M92 190 C 300 186, 520 194, 720 189 S 940 188, 988 191" fill="none" stroke="#d42a2f" stroke-width="7" stroke-linecap="round" opacity="0.85" />
+          </svg>
+          <div class="tray">
+            <svg viewBox="0 0 520 40" aria-hidden="true">
+              <g stroke="#2b2b2b" stroke-width="2.5"><rect x="0" y="10" width="140" height="22" rx="8" fill="#fbfbfb" /><rect x="0" y="10" width="44" height="22" rx="8" fill="#1d2126" />
+              <rect x="180" y="10" width="140" height="22" rx="8" fill="#fbfbfb" /><rect x="180" y="10" width="44" height="22" rx="8" fill="#d42a2f" />
+              <rect x="360" y="10" width="140" height="22" rx="8" fill="#fbfbfb" /><rect x="360" y="10" width="44" height="22" rx="8" fill="#1f5ed4" /></g>
+            </svg>
+          </div>
+          <div class="frame"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .wb-chrome');
+          const { duration } = window.__hyperframes.getVariables();
+          const pl = root.querySelector(".pl"), L = pl.getTotalLength();
+          gsap.set(pl, { strokeDasharray: `${L + 2} ${L + 20}`, strokeDashoffset: L + 3 });
+          const tl = gsap.timeline({ paused: true });
+          tl.to(pl, { strokeDashoffset: 0, duration, ease: "none" }, 0);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"cap","vol":0.32},
+      {"t":0.02,"sfx":"write","vol":0.34,"dur":1.05},
+      {"t":1.25,"sfx":"squeak","vol":0.26},
+      {"t":1.5,"sfx":"write","vol":0.28,"dur":0.2},
+      {"t":1.72,"sfx":"scribble","vol":0.4,"dur":0.6},
+      {"t":2.32,"sfx":"thump","vol":0.34},
+      {"t":2.35,"sfx":"scribble","vol":0.3,"dur":0.45},
+      {"t":2.6,"sfx":"clock","vol":0.3},
+      {"t":3.3,"sfx":"erase","vol":0.34,"dur":0.5},
+      {"t":3.65,"sfx":"scribble","vol":0.3,"dur":0.45},
+      {"t":4.15,"sfx":"write","vol":0.3,"dur":1.25},
+      {"t":5.45,"sfx":"claude","vol":0.2},
+      {"t":5.47,"sfx":"scribble","vol":0.16,"dur":0.5},
+      {"t":7.1,"sfx":"scribble","vol":0.28,"dur":0.25},
+      {"t":7.35,"sfx":"write","vol":0.3,"dur":0.45},
+      {"t":7.82,"sfx":"squeak","vol":0.24},
+      {"t":7.95,"sfx":"ding","vol":0.26},
+      {"t":8.5,"sfx":"erase","vol":0.3,"dur":0.35},
+      {"t":8.85,"sfx":"pop","vol":0.2},
+      {"t":8.86,"sfx":"scribble","vol":0.24,"dur":0.33},
+      {"t":9.2,"sfx":"pop","vol":0.2},
+      {"t":9.21,"sfx":"scribble","vol":0.24,"dur":0.33},
+      {"t":9.55,"sfx":"pop","vol":0.2},
+      {"t":9.56,"sfx":"scribble","vol":0.24,"dur":0.33},
+      {"t":10.45,"sfx":"erase","vol":0.3,"dur":0.4}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open on the whiteboard. Frame 0: the hand is already writing "Create a Claude skill". It
+           underlines "skill" in red, writes "under" and scribbles a huge red "60s" with a stopwatch doodle whose
+           needle sweeps on "sixty"; the eraser wipes them. "A skill is a set of instructions": the hand draws a page
+           and writes the SKILL.md template (---, name, description, ---, 1. Run git diff…), the Claude mark is drawn
+           on it on "Claude". "When your request needs it": a speech bubble "Write a PR description", an arrow to the
+           page, and the page lights up (green rays). "Step by step": erased, then 1 Folder · 2 SKILL.md · 3 Ask with
+           doodle icons. Everything stays above y 800 (the avatar peeks in large below, narrator.html "title"); the
+           hand leaves to the lower left so it never crosses him.
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="wb-scene s01">
+          <svg class="wb-ink" viewBox="0 0 1080 1920" aria-hidden="true">
+            <text class="title" x="90" y="345" font-size="98">Create a Claude <tspan class="blue">skill</tspan></text>
+            <path class="s red ul" d="M712 372 C 740 364, 770 380, 800 370 S 850 362, 880 372" />
+
+            <g class="g60">
+              <text class="under grey" x="104" y="452" font-size="52">under</text>
+              <text class="sixty red" x="86" y="700" font-size="300">60s</text>
+              <circle class="s watch fat" cx="760" cy="500" r="88" />
+              <path class="s watch" d="M760 412 V 392 M738 386 H782 M822 436 L838 420" />
+              <path class="s watch thin" d="M760 422 V434 M838 500 H826 M760 578 V566 M682 500 H694" />
+              <g class="needle"><path class="s red needle-l" d="M760 500 L760 436" /></g>
+            </g>
+
+            <g class="gdoc">
+              <path class="s page" d="M90 440 H410 L470 500 V790 H90 Z M410 440 V500 H470" />
+              <text class="blue hd" x="120" y="497" font-size="44">SKILL.md</text>
+              <text class="grey md" x="122" y="552" font-size="36">---</text>
+              <text class="md" x="122" y="598" font-size="36"><tspan class="blue">name:</tspan> pr-description</text>
+              <text class="md" x="122" y="644" font-size="36"><tspan class="blue">description:</tspan> Use when…</text>
+              <text class="grey md" x="122" y="690" font-size="36">---</text>
+              <text class="md" x="122" y="740" font-size="36">1. Run git diff…</text>
+              <path class="s bubble" d="M600 600 C 560 600, 540 580, 540 548 V 488 C 540 458, 562 440, 592 440 H 900 C 930 440, 950 460, 950 490 V 552 C 950 582, 930 600, 900 600 H 660 L 560 660 Z" />
+              <text class="bt" x="584" y="510" font-size="48">Write a PR</text>
+              <text class="bt" x="584" y="566" font-size="48">description</text>
+              <path class="s arrow" d="M548 652 C 530 640, 505 636, 482 640 M500 624 L480 640 L500 656" />
+              <path class="s green rays" d="M70 420 L50 400 M280 420 V392 M490 440 L512 420 M494 615 H522 M490 800 L512 822 M70 800 L50 822 M72 615 H44" />
+            </g>
+
+            <g class="gsteps">
+              <path class="s ico" d="M100 468 a6 6 0 0 1 6 -6 h20 l8 9 h30 a6 6 0 0 1 6 6 v36 a6 6 0 0 1 -6 6 h-58 a6 6 0 0 1 -6 -6 z" />
+              <text class="st" x="200" y="512" font-size="60"><tspan class="red">1</tspan>  Folder</text>
+              <path class="s ico" d="M108 566 h38 l18 18 v52 h-56 z M146 566 v18 h18" />
+              <text class="st" x="200" y="622" font-size="60"><tspan class="red">2</tspan>  SKILL.md</text>
+              <path class="s ico" d="M100 688 c0 -14 10 -22 24 -22 h28 c14 0 24 8 24 22 v8 c0 14 -10 22 -24 22 h-20 l-22 16 l4 -16 c-8 -2 -14 -10 -14 -22 z" />
+              <text class="st" x="200" y="732" font-size="60"><tspan class="red">3</tspan>  Ask</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          WB.build(root, () => {
+            const B = WB.board(root, tl);
+            const LEFT = { x: -260, y: 1250 };   // the hand leaves to the lower left, away from the avatar
+            B.prep(".s"); B.hideText("text");
+            // "Here's how to create a Claude skill": frame 0 already shows "Create a" being written
+            B.write(".title", 0, 1.05, { from: 0.32 });
+            B.draw(".ul", 1.25, 0.25);
+            // "in under sixty seconds"
+            B.write(".under", 1.5, 0.2);
+            B.write(".sixty", 1.72, 0.58);
+            B.draw(all(".watch"), 2.32, 0.45);
+            B.draw(".needle-l", 2.55, 0.12, { hand: false });
+            tl.fromTo(q(".needle"), { rotation: 0, svgOrigin: "760 500" }, { rotation: 360, svgOrigin: "760 500", duration: 0.8, ease: "power2.inOut" }, 2.65);
+            tl.to(q(".sixty"), { scale: 1.06, svgOrigin: "250 600", duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1 }, 2.6);
+            B.away(2.85, LEFT);
+            B.erase(q(".g60"), { x: 70, y: 390, w: 920, h: 370 }, 3.3, 0.45);
+            // "A skill is a set of instructions": a page, and the template written on it
+            B.draw(".page", 3.65, 0.45);
+            B.write(".hd", 4.15, 0.25);
+            B.write(all(".md"), 4.45, 0.95);
+            // "Claude": the Claude mark is drawn on the page
+            B.claude(386, 478, 54, 5.45, 0.5, { parent: q(".gdoc") });
+            B.rest(330, 700, 6.0, 0.5);
+            // "when your request needs it": the request, an arrow, and the page lights up on its own
+            B.draw(".bubble", 7.1, 0.25);
+            B.write(all(".bt"), 7.35, 0.45);
+            B.draw(".arrow", 7.82, 0.13);
+            B.draw(".rays", 7.95, 0.3, { hand: false });
+            tl.to(q(".page"), { scale: 1.04, svgOrigin: "280 615", duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1 }, 7.95);
+            B.away(7.96, LEFT);
+            B.erase(q(".gdoc"), { x: 70, y: 400, w: 920, h: 440 }, 8.5, 0.35);
+            // "Let's build one, step by step"
+            const icos = all(".ico"), sts = all(".st");
+            [8.85, 9.2, 9.55].forEach((t, i) => { B.draw(icos[i], t, 0.14); B.write(sts[i], t + 0.15, 0.18); });
+            B.away(9.9, LEFT);
+            B.erase([q(".title"), q(".ul"), q(".gsteps")], { x: 70, y: 230, w: 920, h: 560 }, 10.45, 0.4);
+            window.__timelines["s01-hook"] = tl;
+          });
+        })();
+      </script>
+    </template>
+  </body>
+</html>

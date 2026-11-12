@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"flap","vol":0.3},
+      {"t":1.25,"sfx":"swipe","vol":0.24},
+      {"t":2.55,"sfx":"squeak","vol":0.2},
+      {"t":3.4,"sfx":"slide","vol":0.16},
+      {"t":3.6,"sfx":"stick","vol":0.3},
+      {"t":3.75,"sfx":"scratch","vol":0.2,"dur":0.5},
+      {"t":4.15,"sfx":"scribble","vol":0.12,"dur":0.45},
+      {"t":4.55,"sfx":"keys","vol":0.16,"dur":1.4},
+      {"t":5.45,"sfx":"claude","vol":0.22},
+      {"t":7.1,"sfx":"stick","vol":0.26},
+      {"t":7.55,"sfx":"scratch","vol":0.2,"dur":0.4},
+      {"t":7.95,"sfx":"scratch","vol":0.18,"dur":0.5},
+      {"t":8.05,"sfx":"match","vol":0.16},
+      {"t":8.55,"sfx":"erase","vol":0.18},
+      {"t":8.85,"sfx":"scratch","vol":0.18,"dur":0.35},
+      {"t":9.2,"sfx":"scratch","vol":0.18,"dur":0.35},
+      {"t":9.55,"sfx":"scratch","vol":0.18,"dur":0.35},
+      {"t":10.0,"sfx":"tick","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open (sketch). Frame 0 already reads "Create a Claude skill" in hand lettering and a huge
+           hand-drawn "60 · under · seconds" that lands with a flap. "skill" gets a highlighter swipe; on "sixty" a
+           marker loop circles the 60, which then shrinks into a yellow sticky note "under 60 sec". "A skill is a set
+           of instructions": a sketched SKILL.md card draws on, its header scribbles in blue, its template types in;
+           the Claude logo lands on "Claude". "When your request needs it": a speech bubble "Write a PR description"
+           sticks on, a hand-drawn arrow runs to the card and a green outline circles it. "Step by step": three sketched
+           boxes 1 Folder → 2 SKILL.md → 3 Ask draw on. Everything stays above y 800: the avatar peeks in below.
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { left: 90px; top: 226px; font-size: 96px; }
+        .s01 .note { left: 610px; top: 312px; width: 330px; height: 128px; display: flex; align-items: center; justify-content: center; }
+        .s01 .note span { font: 400 44px/1 var(--f-hand); white-space: nowrap; }
+        .s01 .big { position: absolute; left: 90px; top: 470px; width: 860px; height: 320px; transform-origin: 20% 50%; }
+        .s01 .big .n { position: absolute; left: 10px; top: -10px; font: 400 300px/1 var(--f-hand); color: var(--ink); }
+        .s01 .big .u { position: absolute; left: 470px; top: 60px; font: 400 48px/1 var(--f-hand); color: var(--pencil); }
+        .s01 .big .sec { position: absolute; left: 466px; top: 120px; font: 400 116px/1 var(--f-hand); color: var(--blue); }
+        .s01 .card .top { display: flex; align-items: center; gap: 14px; height: 66px; padding: 0 22px; font: 400 32px/1 var(--f-code); }
+        .s01 .card .sk-logo { width: 46px; height: 46px; }
+        .s01 .card .md { padding: 12px 26px 0; }
+        .s01 .card .md p { margin: 0; font: 400 28px/40px var(--f-code); white-space: pre; }
+        .s01 .card .md .p { color: var(--pencil); }
+        .s01 .card .md .k { color: var(--blue); }
+        .s01 .bub { display: flex; align-items: center; justify-content: center; text-align: center; padding: 0 26px 26px; }
+        .s01 .bub p { margin: 0; font: 400 40px/1.15 var(--f-hand); }
+        .s01 .step { display: flex; align-items: center; gap: 14px; padding-left: 16px; }
+        .s01 .step b { display: grid; place-items: center; width: 56px; height: 56px; flex: none; font: 400 38px/1 var(--f-hand); }
+        .s01 .step span { font: 400 36px/1 var(--f-hand); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="sk s01">
+          <h1 class="sk-abs sk-h1 hook"><span style="display:block">Create a Claude</span><span style="display:block">skill</span></h1>
+          <div class="big"><span class="n">60</span><span class="u">under</span><span class="sec">seconds</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const { C } = Sk;
+          Sk.seed(100);
+          const ink = Sk.layer(root, 1080, 1920, true);   // under the text
+
+          // marks on the board
+          const hl = Sk.mark(ink, 84, 400, 300, { h: 40 });
+          const ring = Sk.loop(ink, 268, 618, 225, 165, { stroke: C.red, strokeWidth: 6 });
+          const uline = Sk.shape(ink, "line", [470, 760, 905, 752], { stroke: C.blue, strokeWidth: 4, roughness: 1.6 });
+
+          // the sticky note the 60 shrinks into
+          const note = Sk.card(root, 610, 312, 330, 128, "note");
+          Sk.shape(note.s, "rectangle", [0, 0, 330, 128], { fill: C.yellowF, fillStyle: "solid", stroke: "#e0b400", strokeWidth: 2, roughness: 1.4 });
+          note.el.insertAdjacentHTML("beforeend", "<span>under 60 sec</span>");
+
+          // the SKILL.md card
+          const card = Sk.card(root, 90, 470, 470, 324, "card");
+          const cardBg = Sk.shape(card.s, "rectangle", [0, 0, 470, 324], { fill: "#ffffff", fillStyle: "solid", strokeWidth: 3.5 });
+          const cardHead = Sk.shape(card.s, "rectangle", [6, 6, 458, 60], { fill: C.blueF, hachureGap: 9, stroke: "none", fillWeight: 2.5 });
+          card.el.insertAdjacentHTML("beforeend", `<div class="top"><div class="sk-logo"></div><span>SKILL.md</span></div>
+            <div class="md"><p><span class="p">---</span></p><p><span class="k">name</span>: pr-description</p><p><span class="k">description</span>: Use when…</p><p><span class="p">---</span></p><p>1. Run git diff…</p></div>`);
+          const logo = card.el.querySelector(".sk-logo"), mdLines = [...card.el.querySelectorAll(".md p")];
+
+          // the request bubble, the arrow to the card, the green "picked up" outline
+          const bub = Sk.card(root, 630, 470, 310, 170, "bub");
+          Sk.shape(bub.s, "path", ["M14 6 L296 4 L304 120 L120 124 L70 166 L78 124 L10 126 Z"], { fill: C.violetF, hachureGap: 10, strokeWidth: 3 });
+          bub.el.insertAdjacentHTML("beforeend", "<p>Write a PR description</p>");
+          const arr = Sk.arrow(ink, [[700, 650], [660, 710], [578, 720]], { stroke: C.ink });
+          const halo = Sk.shape(ink, "rectangle", [74, 452, 504, 360], { stroke: C.green, strokeWidth: 5, roughness: 1.8 });
+
+          // the three steps
+          const steps = [["1", "Folder", 90, 250, C.blueF], ["2", "SKILL.md", 400, 260, C.yellowF], ["3", "Ask", 720, 230, C.greenF]].map(([n, label, x, w, fill]) => {
+            const c = Sk.card(root, x, 520, w, 120, "step");
+            const box = Sk.shape(c.s, "rectangle", [0, 0, w, 120], { fill, hachureGap: 11, strokeWidth: 3 });
+            const dot = Sk.shape(c.s, "circle", [44, 60, 60], { strokeWidth: 3, roughness: 0.9 });
+            c.el.insertAdjacentHTML("beforeend", `<b>${n}</b><span>${label}</span>`);
+            return { el: c.el, box, dot, txt: [...c.el.querySelectorAll("b, span")] };
+          });
+          const links = [Sk.arrow(ink, [[346, 582], [394, 580]], { head: 18, strokeWidth: 3 }), Sk.arrow(ink, [[666, 580], [714, 582]], { head: 18, strokeWidth: 3 })];
+
+          const later = [note.el, card.el, bub.el, ...steps.map((s) => s.el)];
+          gsap.set(later, { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // frame 0: the title is already there; the big 60 lands with a flap
+          tl.fromTo(q(".big"), { scale: 1.08, rotation: -1.5 }, { scale: 1, rotation: 0, duration: 0.35, ease: "back.out(2.5)" }, 0);
+          tl.fromTo(q(".hook"), { y: -16 }, { y: 0, duration: 0.35, ease: "back.out(2.5)" }, 0);
+          // "create a Claude skill": a highlighter swipe under "skill"
+          Sk.draw(tl, hl, 1.25, 0.35, { ease: "power1.out" });
+          // "in under sixty seconds": a marker loop round the 60 and a blue underline
+          Sk.draw(tl, ring, 2.55, 0.55, { ease: "power1.inOut" });
+          Sk.draw(tl, uline, 2.9, 0.3);
+          // the 60 shrinks into the sticky note
+          tl.to([q(".big"), ring, uline], { scale: 0.25, x: 520, y: -260, opacity: 0, duration: 0.4, ease: "power2.in", transformOrigin: "50% 50%" }, 3.35);
+          Sk.land(tl, note.el, 3.6, { r: 4, from: 40, dur: 0.35 });
+          // "A skill is a set of instructions": the card draws on and its template types in
+          tl.set(card.el, { opacity: 1 }, 3.75);
+          Sk.draw(tl, cardBg, 3.75, 0.5);
+          Sk.draw(tl, cardHead, 4.1, 0.1, { fillDur: 0.45 });
+          tl.fromTo(card.el.querySelector(".top span"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 4.3);
+          mdLines.reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 60 }) + 0.04, 4.55);
+          // "Claude": the logo lands on the card
+          tl.fromTo(logo, { scale: 0, rotation: -120 }, { scale: 1, rotation: 0, duration: 0.6, ease: "back.out(2)" }, 5.45);
+          // "when your request needs it": a request sticks on, an arrow runs to the card, the card is picked
+          Sk.land(tl, bub.el, 7.1, { r: -2, from: 40, dur: 0.4 });
+          Sk.draw(tl, arr, 7.55, 0.4, { seq: true });
+          Sk.draw(tl, halo, 7.95, 0.45);
+          tl.to(card.el, { rotation: -1.5, scale: 1.03, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 7.95);
+          tl.to(logo, { rotation: 180, duration: 0.8, ease: "power2.inOut" }, 7.95);
+          // "Let's build one, step by step": wipe, then three steps draw on
+          Sk.wipe(tl, [card.el, bub.el, arr, halo], 8.55, 0.3);
+          steps.forEach((s, i) => {
+            const t = 8.85 + i * 0.35;
+            tl.set(s.el, { opacity: 1 }, t);
+            Sk.draw(tl, s.box, t, 0.3, { fillDur: 0.3 });
+            Sk.draw(tl, s.dot, t + 0.1, 0.25);
+            Sk.write(tl, s.txt, t + 0.15, { dur: 0.3 });
+            if (i) Sk.draw(tl, links[i - 1], t - 0.12, 0.2, { seq: true });
+          });
+
+          Sk.wipe(tl, [q(".hook"), hl, note.el, ...steps.map((s) => s.el), ...links], DUR - 0.35, 0.3);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

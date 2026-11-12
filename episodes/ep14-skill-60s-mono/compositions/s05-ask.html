@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"sub","vol":0.26},
+      {"t":0.9,"sfx":"keys","vol":0.14,"dur":1.35},
+      {"t":2.5,"sfx":"tick","vol":0.14},
+      {"t":2.65,"sfx":"tick","vol":0.14},
+      {"t":2.8,"sfx":"tick","vol":0.14},
+      {"t":6.1,"sfx":"click","vol":0.18},
+      {"t":6.8,"sfx":"tone","vol":0.16},
+      {"t":7.5,"sfx":"swell","vol":0.1},
+      {"t":7.7,"sfx":"tick","vol":0.14},
+      {"t":8.6,"sfx":"tick","vol":0.14},
+      {"t":9.0,"sfx":"keys","vol":0.07,"dur":0.9},
+      {"t":10.1,"sfx":"click","vol":0.12},
+      {"t":12.0,"sfx":"sub","vol":0.28},
+      {"t":12.25,"sfx":"click","vol":0.14},
+      {"t":13.0,"sfx":"click","vol":0.14},
+      {"t":13.4,"sfx":"tone","vol":0.18},
+      {"t":14.1,"sfx":"tick","vol":0.14},
+      {"t":14.9,"sfx":"tick","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the one rule. The narrator pill is out: the scene uses the whole safe box.
+           A (white, 0–12): "Just ask." A black Claude Code window (the Claude mark, a transcript, an input): the request
+           types into the input. Below, the skill list shows only names and descriptions ("Up front"). On "matches"
+           the request is sent and pr-description inverts while the others dim; on "loads the full file" it moves up
+           and its instructions open beneath it, and the transcript shows Skill(pr-description), then Bash(git diff…)
+           and the What / Why / Changes reply (example text). The list leaves and "Same format, every time." lands.
+           B (black, 12–17.4): "Keep it specific." A weak description (Vague) and a better one (Specific, the "Use
+           when…" clause underlined); the weak one is struck and dims on "won't know when to use it". The three
+           steps close the film. Hard stop: no exit, the last frame holds.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .ttl { top: 336px; }
+        .s05 .win { top: 520px; height: 500px; background: #0a0a0a; border-color: #0a0a0a; color: #f7f7f5; overflow: hidden; }
+        .s05 .win .top { position: absolute; left: 40px; right: 40px; top: 0; height: 78px; display: flex; align-items: center; gap: 16px; border-bottom: 1.5px solid rgba(247, 247, 245, 0.2); }
+        .s05 .win .top img { display: block; width: 36px; height: 36px; }
+        .s05 .win .top .f { font: 400 28px/1 var(--f-m); }
+        .s05 .win .top .m-mono { margin-left: auto; color: #a3a3a0; text-transform: none; }
+        .s05 .win .area { position: absolute; left: 40px; right: 40px; top: 92px; height: 322px; overflow: hidden; }
+        .s05 .win .row { height: 46px; font: 400 28px/46px var(--f-m); white-space: pre; }
+        .s05 .win .row.m { color: #a3a3a0; }
+        .s05 .win .row b { font-weight: 400; }
+        .s05 .win .dot { display: inline-block; width: 14px; height: 14px; margin-right: 14px; border-radius: 50%; background: #f7f7f5; }
+        .s05 .win .dot.c { background: var(--accent); }
+        .s05 .win .input { position: absolute; left: 40px; right: 40px; bottom: 0; height: 78px; border-top: 1.5px solid rgba(247, 247, 245, 0.2); font: 400 28px/78px var(--f-m); white-space: pre; }
+        .s05 .win .input .p { color: #a3a3a0; }
+
+        .s05 .kick { position: absolute; left: 92px; top: 1068px; }
+        .s05 .hit { position: absolute; left: 62px; top: 1236px; width: 956px; height: 116px; border-radius: 28px; background: #0a0a0a; }
+        .s05 .sk { position: absolute; left: 90px; width: 860px; height: 116px; border-top: 1.5px solid var(--ln); color: var(--fg); }
+        .s05 .sk .nm { position: absolute; left: 0; top: 20px; font: 400 32px/40px var(--f-m); white-space: nowrap; }
+        .s05 .sk .ds { position: absolute; left: 0; top: 64px; font: 400 28px/36px var(--f-t); letter-spacing: -0.005em; white-space: nowrap; }
+        .s05 .body { position: absolute; left: 62px; top: 1244px; width: 956px; height: 188px; border-radius: 28px; background: #0a0a0a; color: #f7f7f5; padding: 28px; }
+        .s05 .body p { margin: 0; font: 400 28px/44px var(--f-m); white-space: pre; }
+        .s05 .pay { top: 1096px; line-height: 1.04; }
+
+        .s05 .b .m-h { top: 336px; line-height: 1.04; }
+        .s05 .ex { height: 250px; }
+        .s05 .ex .hd { position: absolute; left: 40px; right: 40px; top: 32px; height: 56px; display: flex; align-items: center; justify-content: space-between; }
+        .s05 .ex .code { position: absolute; left: 40px; right: 40px; top: 124px; margin: 0; font: 400 32px/50px var(--f-m); }
+        .s05 .ex .code .p { color: var(--mu); }
+        .s05 .weak .m-pill { background: transparent; color: var(--fg); border: 1.5px solid var(--ln); }
+        .s05 .ex .code .l { display: block; }
+        .s05 .ex .code .w { position: relative; display: inline-block; }
+        .s05 .weak .strike { position: absolute; left: -6px; right: -6px; top: 25px; height: 2px; background: #f7f7f5; }
+        .s05 .good { height: 300px; background: #f7f7f5; border-color: #f7f7f5; color: #0a0a0a; --fg: #0a0a0a; --bg: #f7f7f5; --mu: #6b6b68; }
+        .s05 .good .ul { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; background: var(--accent); }
+        .s05 .rec { position: absolute; left: 90px; top: 1372px; display: flex; gap: 16px; }
+        .s05 .rec .m-pill { background: transparent; color: var(--fg); border: 1.5px solid var(--ln); height: 64px; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="m-scene s05">
+          <div class="m-sec a">
+            <h2 class="m-h ttl"><span class="m-line"><span>Just ask.</span></span></h2>
+            <div class="m-card win">
+              <div class="top"><img src="assets/claude-logo.svg" alt=""><span class="f">Claude Code</span><span class="m-mono">~/my-app</span></div>
+              <div class="area"><div class="tx">
+                <div class="row m r1">&gt; write a PR description for my changes</div>
+                <div class="row r2"><span class="dot c"></span><b>Skill</b>(<span class="m-acc">pr-description</span>)</div>
+                <div class="row m r3">  └ Loaded SKILL.md</div>
+                <div class="row r4"><span class="dot"></span><b>Bash</b>(git diff main...HEAD)</div>
+                <div class="row m r5">  └ 4 files changed, +42 -7</div>
+                <div class="row r6"><span class="dot"></span>What</div>
+                <div class="row m r7">  Reset links now expire after 30 min.</div>
+                <div class="row r8">  Why</div>
+                <div class="row m r9">  Old links worked forever: a risk.</div>
+                <div class="row r10">  Changes</div>
+                <div class="row m r11">  • auth/reset.ts: check expiresAt</div>
+                <div class="row m r12">  • emails/reset.html: show the limit</div>
+              </div></div>
+              <div class="input"><span class="p">&gt; </span><span class="it">write a PR description for my changes</span></div>
+            </div>
+
+            <span class="m-mono kick k1">Up front / name + description only</span>
+            <span class="m-mono kick k2">Matched / full file loaded</span>
+            <div class="hit"></div>
+            <div class="sk s1" style="top:1120px"><span class="nm">commit-message</span><span class="ds">Writes commit messages in our style.</span></div>
+            <div class="sk s2" style="top:1236px"><span class="nm">pr-description</span><span class="ds">Writes PR descriptions. Use when the user asks for a PR.</span></div>
+            <div class="sk s3" style="top:1352px"><span class="nm">code-review</span><span class="ds">Reviews a diff for bugs before merging.</span></div>
+            <div class="body"><p>1. Run git diff main...HEAD</p><p>2. Write three sections:</p><p>   ## What   ## Why   ## Changes</p></div>
+            <div class="m-h pay"><span class="m-line"><span>Same format,</span></span><span class="m-line"><span>every time.</span></span></div>
+          </div>
+
+          <div class="m-sec m-dark b">
+            <h2 class="m-h"><span class="m-line"><span>Keep it</span></span><span class="m-line"><span>specific.</span></span></h2>
+            <div class="m-card ex weak" style="top:650px">
+              <div class="hd"><span class="m-mono">Weak description</span><span class="m-pill">Vague</span></div>
+              <p class="code"><span class="p">description:</span> <span class="w">Helps with PRs.<i class="strike"></i></span></p>
+            </div>
+            <div class="m-card ex good" style="top:930px">
+              <div class="hd"><span class="m-mono">Better description</span><span class="m-pill">Specific</span></div>
+              <p class="code"><span class="l"><span class="p">description:</span> Writes PR descriptions.</span><span class="l"><span class="w">Use when the user asks for a PR.<i class="ul"></i></span></span></p>
+            </div>
+            <div class="rec"><span class="m-pill">1 Folder</span><span class="m-pill">2 SKILL.md</span><span class="m-pill">3 Ask</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tx = q(".tx"), s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3"), hit = q(".hit"), body = q(".body"), B = q(".b");
+          const VISIBLE = 7, LH = 46;
+          gsap.set([...all(".win .row"), q(".k2"), hit, body, B], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a transcript row appears; the transcript scrolls once it is full
+          const show = (n, at) => {
+            tl.to(q(".r" + n), { opacity: 1, duration: 0.12, ease: "none" }, at);
+            if (n > VISIBLE) tl.to(tx, { y: -(n - VISIBLE) * LH, duration: 0.3, ease: "power3.out" }, at);
+          };
+
+          // A · "Step three: just ask."
+          Mono.reveal(tl, q(".ttl"), 0.25);
+          Mono.fade(tl, q(".win"), 0.4, { y: 40 });
+          Egg.typeOn(tl, q(".input .it"), 0.9, { cps: 28 });
+          // "Claude reads only each skill's name and description up front"
+          tl.fromTo(q(".k1"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 2.4);
+          Mono.fade(tl, [s1, s2, s3], 2.5, { y: 24, stagger: 0.15, to: 0.45 });
+          tl.to([s1, s2, s3], { opacity: 1, duration: 0.4, ease: "power2.out", stagger: 0.12 }, 4.0);
+          // "When your request matches": it is sent, and pr-description inverts
+          tl.to(q(".input .it"), { opacity: 0, duration: 0.12, ease: "none" }, 6.1);
+          show(1, 6.15);
+          tl.to(hit, { opacity: 1, duration: 0.3, ease: "power2.out" }, 6.8);
+          tl.to(s2, { color: "#f7f7f5", borderColor: "rgba(247,247,245,0)", duration: 0.3, ease: "power2.out" }, 6.8);
+          tl.to(q(".s2 .nm"), { color: "#d97757", duration: 0.3, ease: "power2.out" }, 6.8);
+          tl.to(s3, { borderColor: "rgba(10,10,10,0)", duration: 0.3, ease: "none" }, 6.8);
+          tl.to([s1, s3], { opacity: 0.3, duration: 0.3, ease: "none" }, 6.8);
+          // "it loads the full file": it moves up, its instructions open beneath
+          tl.to([s1, s3], { opacity: 0, duration: 0.25, ease: "none" }, 7.45);
+          tl.set(q(".k1"), { opacity: 0 }, 7.6);
+          tl.fromTo(q(".k2"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 7.6);
+          tl.to([s2, hit], { y: -116, duration: 0.7, ease: "expo.inOut" }, 7.5);
+          tl.fromTo(body, { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 7.95);
+          show(2, 7.7);
+          show(3, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(4, 8.6);
+          show(5, 8.8);
+          [6, 7, 8, 9, 10, 11, 12].forEach((n, i) => show(n, 9.0 + i * 0.12));
+
+          // "Same format, every time."
+          Mono.out(tl, [s2, hit, body, q(".k2")], 9.8);
+          tl.set(q(".pay"), { autoAlpha: 0 }, 0);
+          tl.set(q(".pay"), { autoAlpha: 1 }, 10.1);
+          Mono.reveal(tl, q(".pay"), 10.1);
+          Mono.conceal(tl, [q(".ttl"), q(".pay")], 11.6);
+          Mono.out(tl, q(".win"), 11.72);
+
+          // B · "Just keep the description specific"
+          tl.set(B, { opacity: 1 }, 12.0);
+          Mono.reveal(tl, q(".b .m-h"), 12.05);
+          Mono.fade(tl, q(".weak"), 12.25, { y: 36 });
+          Mono.fade(tl, q(".good"), 13.0, { y: 36 });
+          Mono.draw(tl, q(".ul"), 13.4, { dur: 0.7 });
+          // "or Claude won't know when to use it"
+          Mono.draw(tl, q(".strike"), 14.1, { dur: 0.5 });
+          tl.to(q(".weak"), { opacity: 0.4, duration: 0.5, ease: "power2.out" }, 14.4);
+          Mono.fade(tl, all(".rec .m-pill"), 14.9, { y: 16, stagger: 0.1, dur: 0.6 });
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

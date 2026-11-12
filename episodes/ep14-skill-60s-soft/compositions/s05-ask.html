@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"swell","vol":0.08},
+      {"t":0.4,"sfx":"n1","vol":0.18},
+      {"t":0.9,"sfx":"keys","vol":0.14,"dur":1.4},
+      {"t":2.55,"sfx":"glass","vol":0.1},
+      {"t":2.7,"sfx":"glass","vol":0.1},
+      {"t":2.85,"sfx":"glass","vol":0.1},
+      {"t":4.0,"sfx":"n3","vol":0.14},
+      {"t":4.5,"sfx":"n4","vol":0.14},
+      {"t":6.1,"sfx":"key","vol":0.16},
+      {"t":6.8,"sfx":"n6","vol":0.2},
+      {"t":7.55,"sfx":"swell","vol":0.1},
+      {"t":7.7,"sfx":"glass","vol":0.1},
+      {"t":8.9,"sfx":"glass","vol":0.1},
+      {"t":9.6,"sfx":"keys","vol":0.08,"dur":1.4},
+      {"t":10.1,"sfx":"n4","vol":0.18},
+      {"t":12.1,"sfx":"n1","vol":0.16},
+      {"t":13.0,"sfx":"n3","vol":0.16},
+      {"t":13.35,"sfx":"confirm","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff. A light Claude Code window (title bar with the Claude logo, a transcript,
+           an input). The request types into the input. Below, the skill list shows only names and descriptions
+           ("up front"). On "matches" the request is sent and pr-description lights up, the others fade; on "loads the
+           full file" its row opens to the instructions while the transcript shows Skill(pr-description).
+           "Follows it": Bash(git diff…) then the What / Why / Changes reply (example text). Payoff: "Same format,
+           every time." then a vague description against a specific one. The last frame holds; no exit.
+           The avatar is out: the scene fills the safe box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .lbl { top: 216px; }
+        .s05 .ttl { top: 296px; }
+        .s05 .win { left: 110px; top: 430px; width: 860px; height: 620px; overflow: hidden; }
+        .s05 .win .bar .logo { width: 32px; height: 32px; }
+        .s05 .win .bar .ttl-t { color: var(--s-ink); }
+        .s05 .area { position: absolute; left: 28px; right: 28px; top: 86px; height: 420px; overflow: hidden; }
+        .s05 .tx { position: absolute; left: 0; right: 0; top: 0; }
+        .s05 .row { height: 42px; font: 400 28px/42px var(--f-mono); color: var(--s-ink); white-space: pre; }
+        .s05 .row.m { color: var(--s-grey); }
+        .s05 .row.u { background: rgba(17, 18, 20, 0.06); border-radius: 10px; padding-left: 12px; }
+        .s05 .row .a { color: var(--s-grey); }
+        .s05 .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #2fa36b; margin: 0 14px 0 4px; vertical-align: 1px; }
+        .s05 .dot.w { background: #d97757; }
+        .s05 .el { display: inline-block; width: 16px; height: 18px; border-left: 2px solid rgba(17, 18, 20, 0.3); border-bottom: 2px solid rgba(17, 18, 20, 0.3); margin: 0 14px 0 14px; vertical-align: 10px; }
+        .s05 .input { position: absolute; left: 28px; right: 28px; top: 520px; height: 76px; border: 1.5px solid rgba(17, 18, 20, 0.14); border-radius: 20px; background: rgba(255, 255, 255, 0.8); padding: 0 24px; display: flex; align-items: center; font: 400 28px/1 var(--f-mono); color: var(--s-ink); white-space: pre; }
+        .s05 .input .p { color: var(--s-faint); }
+        .s05 .kick { top: 1078px; }
+        .s05 .sk { left: 110px; width: 860px; height: 108px; padding: 20px 32px; border-radius: 28px; overflow: hidden; }
+        .s05 .sk .nm { display: block; font: 400 30px/34px var(--f-mono); }
+        .s05 .sk .ds { display: block; margin-top: 4px; font: 400 28px/32px var(--f-body); color: var(--s-grey); white-space: nowrap; }
+        .s05 .sk .body { margin: 16px 0 0; padding-top: 16px; border-top: 1.5px solid var(--s-line); }
+        .s05 .sk .body p { margin: 0; line-height: 46px; }
+        .s05 .glowr { position: absolute; left: 104px; top: 1244px; width: 872px; height: 120px; border-radius: 34px; border: 3px solid #5cc79b; box-shadow: 0 0 50px rgba(92, 199, 155, 0.5); }
+        .s05 .pay { top: 1090px; font-size: 48px; letter-spacing: -0.025em; }
+        .s05 .ex { left: 110px; width: 860px; padding: 26px 34px; }
+        .s05 .ex .top { display: flex; align-items: center; justify-content: space-between; height: 48px; font: 500 30px/1 var(--f-body); color: var(--s-grey); }
+        .s05 .ex .tag { height: 48px; padding: 0 20px; border-radius: 24px; display: flex; align-items: center; font: 500 28px/1 var(--f-body); }
+        .s05 .weak .tag { background: #fbe4de; color: var(--s-bad); }
+        .s05 .good .tag { background: #d9f2e6; color: var(--s-good); }
+        .s05 .ex .code { margin: 10px 0 0; line-height: 40px; }
+        .s05 .ex .code p { margin: 0; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="soft s05">
+          <div class="stage">
+            <div class="pill-row lbl"><span class="pill">Step 3</span></div>
+            <h2 class="h ttl">Just ask</h2>
+            <div class="glass win">
+              <div class="bar"><div class="logo"></div><span class="ttl-t">Claude Code</span><span class="r">~/my-app</span></div>
+              <div class="area">
+                <div class="tx">
+                  <div class="row u r4">&gt; write a PR description for my changes</div>
+                  <div class="row r5"> </div>
+                  <div class="row r6"><span class="dot"></span>Skill<span class="a">(pr-description)</span></div>
+                  <div class="row m r7"><span class="el"></span>Loaded SKILL.md</div>
+                  <div class="row r8"><span class="dot"></span>Bash<span class="a">(git diff main...HEAD)</span></div>
+                  <div class="row m r9"><span class="el"></span>4 files changed, +42 -7</div>
+                  <div class="row r10"><span class="dot w"></span><span class="t-h">What</span></div>
+                  <div class="row r11">  Reset links now expire after 30 min.</div>
+                  <div class="row r12">  <span class="t-h">Why</span></div>
+                  <div class="row r13">  Old links worked forever: a risk.</div>
+                  <div class="row r14">  <span class="t-h">Changes</span></div>
+                  <div class="row r15">  • auth/reset.ts: check expiresAt</div>
+                  <div class="row r16">  • emails/reset.html: show the limit</div>
+                </div>
+              </div>
+              <div class="input"><span class="p">&gt; </span><span class="it">write a PR description for my changes</span></div>
+            </div>
+
+            <p class="note kick k1">Up front: name + description only</p>
+            <p class="note kick k2">Matched: full file loaded</p>
+            <div class="glowr"></div>
+            <div class="glass sk s1" style="top:1130px"><span class="nm">commit-message</span><span class="ds">Writes commit messages in our style.</span></div>
+            <div class="glass sk s2" style="top:1250px"><span class="nm">pr-description</span><span class="ds">Writes PR descriptions. Use when the user asks for a PR.</span>
+              <div class="body code"><p><span class="t-p">1.</span> Run <span class="t-fn">git diff main...HEAD</span></p><p><span class="t-p">2.</span> Write three sections:</p><p>   <span class="t-h">## What · ## Why · ## Changes</span></p></div>
+            </div>
+            <div class="glass sk s3" style="top:1370px"><span class="nm">code-review</span><span class="ds">Reviews a diff for bugs before merging.</span></div>
+
+            <p class="cap pay">Same format, every time.</p>
+            <div class="glass ex weak" style="top:1178px">
+              <div class="top"><span>Weak description</span><span class="tag">Vague</span></div>
+              <div class="code"><p><span class="t-k">description</span><span class="t-p">:</span> <span class="t-s">Helps with PRs.</span></p></div>
+            </div>
+            <div class="glass ex good" style="top:1332px">
+              <div class="top"><span>Better description</span><span class="tag">Specific</span></div>
+              <div class="code"><p><span class="t-k">description</span><span class="t-p">:</span> <span class="t-s">Writes PR descriptions.</span></p><p><span class="t-s">  Use when the user asks for a PR.</span></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 17.4;
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tx = q(".tx"), s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3"), glow = q(".glowr");
+          const VISIBLE = 10, LH = 42, FIRST = 4;   // rows that fit the transcript area; rows are r4…r16
+          const rows = (n) => q(".r" + n);
+          gsap.set([...all(".tx .row"), q(".k2"), glow, q(".s2 .body")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a transcript row appears; the transcript scrolls once it's full
+          const show = (n, at) => {
+            tl.to(rows(n), { opacity: 1, duration: 0.25, ease: "sine.out" }, at);
+            const over = n - FIRST + 1 - VISIBLE;
+            if (over > 0) tl.to(tx, { y: -over * LH, duration: 0.3, ease: Soft.INOUT }, at);
+          };
+
+          Soft.push(tl, q(".stage"), DUR);
+          // "Step three: just ask."
+          Soft.rise(tl, q(".lbl"), 0.15, { y: 14, dur: 0.6 });
+          Soft.words(tl, q(".ttl"), 0.3);
+          Soft.rise(tl, q(".win"), 0.4);
+          Egg.typeOn(tl, q(".input .it"), 0.9, { cps: 28 });
+          // "Claude reads only each skill's name and description up front"
+          Soft.rise(tl, [q(".k1"), s1, s2, s3], 2.5, { y: 20, stagger: 0.15, dur: 0.7 });
+          tl.fromTo(all(".sk .nm"), { color: "#8a8f98" }, { color: "#111214", duration: 0.5, ease: "sine.inOut", stagger: 0.08 }, 4.0);
+          tl.fromTo(all(".sk .ds"), { color: "#9aa0a8" }, { color: "#585c64", duration: 0.5, ease: "sine.inOut", stagger: 0.08 }, 4.5);
+          // "When your request matches": it's sent, and pr-description lights up
+          tl.to(q(".input .it"), { opacity: 0, duration: 0.2, ease: "none" }, 6.1);
+          show(4, 6.2);
+          tl.to(glow, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 6.8);
+          tl.to([s1, s3], { opacity: 0.4, duration: 0.5, ease: "sine.inOut" }, 6.8);
+          // "it loads the full file": its row glides up and opens to the instructions
+          tl.to([s1, s3, q(".k1"), glow], { opacity: 0, filter: "blur(8px)", duration: 0.4, ease: "sine.in" }, 7.45);
+          Soft.rise(tl, q(".k2"), 7.75, { y: 10, dur: 0.5 });
+          tl.to(s2, { y: -120, height: 348, duration: 0.8, ease: Soft.INOUT }, 7.6);
+          tl.to(q(".s2 .body"), { opacity: 1, duration: 0.5, ease: "sine.out" }, 8.05);
+          show(6, 7.7);
+          show(7, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(8, 8.9);
+          show(9, 9.2);
+          [10, 11, 12, 13, 14, 15, 16].forEach((n, i) => show(n, 9.6 + i * 0.2));
+
+          // "Same format, every time."
+          Soft.melt(tl, [s2, q(".k2")], 9.75, { dur: 0.35, scale: 1 });
+          Soft.words(tl, q(".pay"), 10.1, { stagger: 0.12 });
+          // "Just keep the description specific": a vague one, then a specific one
+          Soft.rise(tl, q(".weak"), 12.1, { y: 20, dur: 0.7 });
+          Soft.rise(tl, q(".good"), 13.0, { y: 20, dur: 0.7 });
+          // "or Claude won't know when to use it": the vague one recedes
+          tl.to(q(".weak"), { opacity: 0.45, duration: 0.7, ease: "sine.inOut" }, 14.2);
+
+          // the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

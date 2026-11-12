@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"sub","vol":0.26},
+      {"t":1.5,"sfx":"tick","vol":0.16},
+      {"t":2.55,"sfx":"tick","vol":0.16},
+      {"t":3.75,"sfx":"keys","vol":0.14,"dur":1.35},
+      {"t":5.95,"sfx":"keys","vol":0.14,"dur":0.68},
+      {"t":6.6,"sfx":"tone","vol":0.16},
+      {"t":6.85,"sfx":"click","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder (white). "Make a folder." A ruled file tree builds the path as it is said: ~/.claude,
+           then skills, then an empty slot (<skill-name>). A black terminal card types `mkdir -p ~/.claude/skills/` on
+           "make a folder" and `pr-description` on "P R description"; the slot becomes the new folder (inverted row,
+           NEW pill) and "Folder name = skill name" confirms it. Content stays above y 1290 (narrator pill below).
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .ttl { top: 336px; }
+        .s03 .tree { top: 540px; height: 344px; overflow: hidden; }
+        .s03 .tree .row { position: absolute; left: 0; right: 0; height: 104px; display: flex; align-items: center; gap: 22px; font: 400 36px/1 var(--f-m); color: var(--fg); }
+        .s03 .tree .row svg { display: block; width: 46px; height: 40px; fill: none; stroke: currentColor; stroke-width: 3; stroke-linejoin: round; }
+        .s03 .tree .sep { position: absolute; left: 36px; right: 36px; height: 1.5px; background: var(--ln); }
+        .s03 .tree .slot { color: var(--mu); }
+        .s03 .tree .slot svg { stroke-dasharray: 5 6; }
+        .s03 .tree .new { background: #0a0a0a; color: #f7f7f5; }
+        .s03 .tree .new .m-pill { position: absolute; right: 36px; top: 24px; background: #f7f7f5; color: #0a0a0a; }
+        .s03 .term { top: 924px; height: 196px; background: #0a0a0a; border-color: #0a0a0a; color: #f7f7f5; }
+        .s03 .term .m-mono { position: absolute; left: 40px; top: 36px; color: #a3a3a0; }
+        .s03 .term .cmd { position: absolute; left: 40px; top: 104px; margin: 0; font: 400 30px/44px var(--f-m); white-space: pre; }
+        .s03 .term .cmd .pr { color: #a3a3a0; }
+        .s03 .cap { top: 1176px; font-size: 68px; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="m-scene s03">
+          <h2 class="m-h ttl"><span class="m-line"><span>Make a folder.</span></span></h2>
+          <div class="m-card tree">
+            <div class="row r1" style="top:16px;padding-left:36px"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>~/.claude</span></div>
+            <div class="sep s1" style="top:120px"></div>
+            <div class="row r2" style="top:120px;padding-left:100px"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>skills</span></div>
+            <div class="sep s2" style="top:224px"></div>
+            <div class="row slot" style="top:224px;padding-left:164px"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span>&lt;skill-name&gt;</span></div>
+            <div class="row new" style="top:224px;height:120px;padding-left:164px;padding-bottom:16px"><svg viewBox="0 0 64 54"><path d="M3 8a5 5 0 0 1 5-5h16l6 7h26a5 5 0 0 1 5 5v31a5 5 0 0 1-5 5H8a5 5 0 0 1-5-5z" /></svg><span class="m-acc">pr-description</span><span class="m-pill">New</span></div>
+          </div>
+          <div class="m-card term">
+            <span class="m-mono">Terminal</span>
+            <p class="cmd"><span class="pr">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><span class="b m-acc">pr-description</span></p>
+          </div>
+          <div class="m-h cap"><span class="m-line"><span>Folder name = skill name</span></span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const row = (el, at) => tl.fromTo(el, { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.7, ease: "expo.out" }, at);
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step one"
+          Mono.reveal(tl, q(".ttl"), 0.3);
+          Mono.fade(tl, q(".tree"), 0.55, { y: 36 });
+          Mono.fade(tl, q(".term"), 0.7, { y: 36 });
+          // "in dot claude slash skills"
+          row(q(".r1"), 1.5);
+          tl.fromTo(q(".s1"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 2.5);
+          row(q(".r2"), 2.55);
+          // "make a folder named after the skill": an empty slot, and the command types in
+          tl.fromTo(q(".s2"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 3.7);
+          row(q(".slot"), 3.75);
+          Egg.typeOn(tl, q(".cmd .a"), 3.75, { cps: 20 });
+          // "P R description": the name; the slot becomes the new folder
+          Egg.typeOn(tl, q(".cmd .b"), 5.95, { cps: 22 });
+          tl.to(q(".slot"), { opacity: 0, duration: 0.15, ease: "none" }, 6.55);
+          tl.fromTo(q(".new"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 6.6);
+          tl.fromTo(q(".new .m-pill"), { opacity: 0, x: 16 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 6.75);
+          Mono.reveal(tl, q(".cap"), 6.8, { dur: 0.6 });
+
+          Mono.out(tl, [q(".tree"), q(".term")], DUR - 0.25, { dur: 0.22 });
+          Mono.conceal(tl, [q(".ttl"), q(".cap")], DUR - 0.32, { dur: 0.3 });
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

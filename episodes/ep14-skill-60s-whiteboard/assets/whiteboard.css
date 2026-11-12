@@ -1,0 +1,36 @@
+/* Whiteboard variant: marker-on-whiteboard look. A flat board colour under the ink (so eraser wipes vanish into
+   it), a gloss sheen and the aluminium frame on top (chrome.html), black dry-erase marker with red / blue / green
+   accents, Caveat handwriting. Motion: WB.* in whiteboard.js (drawing hand, stroke draw-on, writing, eraser). */
+@font-face { font-family: "Caveat"; src: url("fonts/Caveat-var.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+
+:root {
+  --board: #fafaf7;
+  --mk: #1d2126;
+  --mk-red: #d42a2f;
+  --mk-blue: #1f5ed4;
+  --mk-green: #17914a;
+  --mk-grey: #6f757c;
+  --f-hand: "Caveat", cursive;
+}
+
+.wb-scene { position: absolute; inset: 0; overflow: hidden; background: var(--board); }
+.wb-ink { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; overflow: visible; }
+.wb-ink text { font-family: var(--f-hand); font-weight: 700; fill: var(--mk); }
+.wb-ink .s { fill: none; stroke: var(--mk); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+.wb-ink .thin { stroke-width: 4; }
+.wb-ink .fat { stroke-width: 9; }
+.wb-ink .s.red { stroke: var(--mk-red); }
+.wb-ink .s.blue { stroke: var(--mk-blue); }
+.wb-ink .s.green { stroke: var(--mk-green); }
+.wb-ink .s.grey { stroke: var(--mk-grey); }
+.wb-ink text.red { fill: var(--mk-red); }
+.wb-ink text.blue { fill: var(--mk-blue); }
+.wb-ink text.green { fill: var(--mk-green); }
+.wb-ink text.grey { fill: var(--mk-grey); }
+.wb-ink .paper { fill: #ffffff; }
+
+.wb-wipe { position: absolute; background: var(--board); }
+.wb-hand, .wb-eraser { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+.wb-hand svg { position: absolute; left: -34px; top: -25.5px; width: 340px; height: 391px; overflow: visible; }
+.wb-eraser svg { position: absolute; left: -130px; top: -60px; width: 260px; height: 120px; overflow: visible; }
+.wb-ink tspan.red { fill: var(--mk-red); } .wb-ink tspan.blue { fill: var(--mk-blue); } .wb-ink tspan.green { fill: var(--mk-green); } .wb-ink tspan.grey { fill: var(--mk-grey); }

@@ -1,0 +1,14 @@
+{
+  "assets/vo/s01-33d035f7.mp3": "Here's how to build a Claude skill, in sixty seconds.",
+  "assets/vo/s01-60876b00.mp3": "A skill is a set of instructions Claude picks up on its own, when your request needs it.",
+  "assets/vo/s01-e6fc5d94.mp3": "Let's build one, step by step.",
+  "assets/vo/s02-94fb09f3.mp3": "Say you want Claude to write your pull request descriptions, the same way every time.",
+  "assets/vo/s03-326239e7.mp3": "Step one: in dot claude slash skills, make a folder named after the skill. P R description.",
+  "assets/vo/s04-432ad044.mp3": "Step two: inside it, add one file: skill dot M D.",
+  "assets/vo/s04-6028eefd.mp3": "At the top, a name, and a description of when to use it.",
+  "assets/vo/s04-cfa1e5cf.mp3": "Below that, the instructions, in plain English: run git diff, then write three sections. What, why, and changes.",
+  "assets/vo/s05-bafe0a12.mp3": "Step three: just ask.",
+  "assets/vo/s05-7abd32da.mp3": "Claude reads only each skill's name and description up front. When your request matches, it loads the full file and follows it.",
+  "assets/vo/s05-be282514.mp3": "Same format, every time. Just keep the description specific, or Claude won't know when to use it.",
+  "assets/vo/s01-0715339f.mp3": "Here's how to create a Claude skill, in under sixty seconds."
+}

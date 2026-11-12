@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"sub","vol":0.26},
+      {"t":1.3,"sfx":"click","vol":0.14},
+      {"t":1.55,"sfx":"click","vol":0.12},
+      {"t":1.8,"sfx":"click","vol":0.12},
+      {"t":2.9,"sfx":"swell","vol":0.12},
+      {"t":3.5,"sfx":"tick","vol":0.16},
+      {"t":3.66,"sfx":"tick","vol":0.16},
+      {"t":3.82,"sfx":"tick","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example (black). "Pull request descriptions." Three PR cards arrive, each written a different
+           way ("fixed stuff", a wall of text, loose bullets): 3 PRs, 3 formats. On "the same way every time" each
+           body is replaced by the same three ruled rows, What / Why / Changes, and the counter reads 1 format.
+           Content stays above y 1290 (narrator pill below).
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .ttl { top: 336px; font-size: 92px; line-height: 1.04; }
+        .s02 .cnt { position: absolute; left: 92px; top: 566px; height: 36px; display: flex; gap: 0; }
+        .s02 .cnt .sw { position: relative; display: inline-block; width: 160px; height: 30px; }
+        .s02 .cnt .sw span { position: absolute; left: 0; top: 0; color: var(--fg); }
+        .s02 .pr { height: 210px; }
+        .s02 .pr .hd { position: absolute; left: 36px; right: 36px; top: 28px; display: flex; align-items: baseline; gap: 20px; }
+        .s02 .pr .no { font: 400 28px/36px var(--f-m); color: var(--mu); }
+        .s02 .pr .nm { font: 500 32px/36px var(--f-t); letter-spacing: -0.015em; color: var(--fg); }
+        .s02 .pr .lay { position: absolute; left: 36px; right: 36px; top: 84px; height: 108px; overflow: hidden; }
+        .s02 .pr .messy p { margin: 0; font: 400 30px/40px var(--f-t); color: var(--mu); }
+        .s02 .pr .neat .r { display: flex; align-items: center; height: 36px; }
+        .s02 .pr .neat .k { width: 150px; font: 400 28px/36px var(--f-m); letter-spacing: 0.06em; color: var(--fg); }
+        .s02 .pr .neat i { display: block; height: 2px; background: var(--fg); opacity: 0.45; transform-origin: 0 50%; }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="m-scene m-dark s02">
+          <h2 class="m-h ttl"><span class="m-line"><span>Pull request</span></span><span class="m-line"><span>descriptions.</span></span></h2>
+          <div class="cnt m-mono"><span>3 PRs /&nbsp;</span><span class="sw"><span class="c3">3 formats</span><span class="c1">1 format</span></span></div>
+          <div class="m-card pr" style="top:620px">
+            <div class="hd"><span class="no">#412</span><span class="nm">Password reset expiry</span></div>
+            <div class="lay messy"><p>fixed stuff</p></div>
+            <div class="lay neat"><div class="r"><span class="k">WHAT</span><i style="width:520px"></i></div><div class="r"><span class="k">WHY</span><i style="width:400px"></i></div><div class="r"><span class="k">CHANGES</span><i style="width:460px"></i></div></div>
+          </div>
+          <div class="m-card pr" style="top:850px">
+            <div class="hd"><span class="no">#413</span><span class="nm">New invoice page</span></div>
+            <div class="lay messy"><p>So basically I redid the invoice page because the old one was confusing and also…</p></div>
+            <div class="lay neat"><div class="r"><span class="k">WHAT</span><i style="width:440px"></i></div><div class="r"><span class="k">WHY</span><i style="width:560px"></i></div><div class="r"><span class="k">CHANGES</span><i style="width:360px"></i></div></div>
+          </div>
+          <div class="m-card pr" style="top:1080px">
+            <div class="hd"><span class="no">#414</span><span class="nm">Faster search</span></div>
+            <div class="lay messy"><p>- search</p><p>- misc</p></div>
+            <div class="lay neat"><div class="r"><span class="k">WHAT</span><i style="width:420px"></i></div><div class="r"><span class="k">WHY</span><i style="width:500px"></i></div><div class="r"><span class="k">CHANGES</span><i style="width:540px"></i></div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          gsap.set(q(".c1"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Mono.reveal(tl, q(".ttl"), 0.3);
+          // "your pull request descriptions": three, each written a different way
+          Mono.fade(tl, all(".pr"), 1.3, { y: 40, stagger: 0.25 });
+          tl.fromTo(q(".cnt"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 1.9);
+          // "the same way every time": every body takes the same shape
+          tl.to(all(".messy"), { opacity: 0, duration: 0.2, ease: "power2.in" }, 3.2);
+          all(".neat").forEach((n, i) => {
+            const t = 3.5 + i * 0.16;
+            tl.fromTo(n.querySelectorAll(".k"), { opacity: 0 }, { opacity: 1, duration: 0.25, ease: "none", stagger: 0.05 }, t);
+            Mono.draw(tl, n.querySelectorAll("i"), t, { dur: 0.7, stagger: 0.05 });
+          });
+          tl.set(q(".c3"), { opacity: 0 }, 3.5);
+          tl.fromTo(q(".c1"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" }, 3.5);
+
+          Mono.conceal(tl, q(".ttl"), DUR - 0.4);
+          Mono.out(tl, [q(".cnt"), ...all(".pr")], DUR - 0.3);
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

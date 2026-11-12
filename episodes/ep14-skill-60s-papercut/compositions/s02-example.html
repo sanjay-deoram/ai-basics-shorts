@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"tape","vol":0.12},
+      {"t":1.0,"sfx":"snip","vol":0.14},
+      {"t":1.2,"sfx":"rustle","vol":0.18},
+      {"t":1.45,"sfx":"flip","vol":0.16},
+      {"t":1.7,"sfx":"rustle","vol":0.16},
+      {"t":3.25,"sfx":"flip","vol":0.2},
+      {"t":3.37,"sfx":"flip","vol":0.18},
+      {"t":3.49,"sfx":"flip","vol":0.18},
+      {"t":3.8,"sfx":"pin","vol":0.2},
+      {"t":3.82,"sfx":"xylo-1","vol":0.14},
+      {"t":3.95,"sfx":"pin","vol":0.2},
+      {"t":3.97,"sfx":"xylo-2","vol":0.14},
+      {"t":4.1,"sfx":"pin","vol":0.2},
+      {"t":4.12,"sfx":"xylo-3","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example (papercut). Three pull request descriptions are tossed onto the table in a crooked pile,
+           each on different paper and written a different way: a notebook scrap ("fixed stuff"), a yellow sticky with
+           a wall of text, a pale card with loose bullets. On "the same way every time" each is turned over, lines up in
+           a column and shows the same three paper strips: What · Why · Changes; a pushpin goes into each.
+           Avatar: photo top right (narrator.html "corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .ttl { position: absolute; left: 90px; top: 300px; width: 700px; font-size: 76px; }
+        .s02 .pr { left: 90px; width: 860px; height: 290px; }
+        .s02 .pr .lay { position: absolute; inset: 0; padding: 22px 34px; }
+        .s02 .pr .messy { clip-path: var(--cut); background-color: var(--bg, #fffaf0); background-image: var(--grain); }
+        .s02 .pr .hd { display: flex; gap: 16px; align-items: baseline; font: 600 34px/1.3 var(--f-cut); color: var(--navy); }
+        .s02 .pr .hd b { font: 700 30px/1.3 var(--f-type); color: var(--tomato); }
+        .s02 .pr .messy p { margin-top: 14px; font: 400 32px/1.3 var(--f-type); color: var(--ink); }
+        .s02 .pr .big { font-size: 46px; }
+        .s02 .pr .row { display: flex; align-items: center; gap: 22px; margin-top: 12px; height: 54px; }
+        .s02 .pr .sec { width: 200px; text-align: center; }
+        .s02 .pr .row i { display: block; height: 16px; border-radius: 8px; background: rgba(31, 45, 82, 0.28); }
+        .s02 .pr .pin { left: 412px; top: -14px; }
+        .s02 .sec.a { background: var(--tomato); color: var(--cream); }
+        .s02 .sec.b { background: var(--mustard); color: var(--navy); }
+        .s02 .sec.c { background: var(--teal); color: var(--cream); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="pc-scene s02">
+          <span class="pc pc-tag tag" data-r="-2">The example</span>
+          <h2 class="ttl cut-letters"><span class="t1">Pull request</span> <span class="t2">descriptions</span></h2>
+          <div class="pc white pr p1" style="top:520px" data-layout-allow-overlap="">
+            <div class="lay neat"><div class="hd"><b>#412</b>Password reset expiry</div>
+              <div class="row"><span class="sec a">What</span><i style="width:480px"></i></div><div class="row"><span class="sec b">Why</span><i style="width:360px"></i></div><div class="row"><span class="sec c">Changes</span><i style="width:430px"></i></div></div>
+            <div class="lay messy"><div class="hd"><b>#412</b>Password reset expiry</div><p class="big">fixed stuff</p></div>
+            <div class="pin"></div>
+          </div>
+          <div class="pc white pr p2" style="top:850px" data-layout-allow-overlap="">
+            <div class="lay neat"><div class="hd"><b>#413</b>New invoice page</div>
+              <div class="row"><span class="sec a">What</span><i style="width:420px"></i></div><div class="row"><span class="sec b">Why</span><i style="width:500px"></i></div><div class="row"><span class="sec c">Changes</span><i style="width:330px"></i></div></div>
+            <div class="lay messy" style="--bg:#f3b930"><div class="hd"><b>#413</b>New invoice page</div><p>So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p></div>
+            <div class="pin blue"></div>
+          </div>
+          <div class="pc white pr p3" style="top:1180px" data-layout-allow-overlap="">
+            <div class="lay neat"><div class="hd"><b>#414</b>Faster search</div>
+              <div class="row"><span class="sec a">What</span><i style="width:390px"></i></div><div class="row"><span class="sec b">Why</span><i style="width:450px"></i></div><div class="row"><span class="sec c">Changes</span><i style="width:480px"></i></div></div>
+            <div class="lay messy" style="--bg:#bfe0d6"><div class="hd"><b>#414</b>Faster search</div><p class="big">- search</p><p class="big">- misc</p></div>
+            <div class="pin yel"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6, F = Cut.F;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cut.dress(root, 202);
+          const cards = all(".pr");
+          gsap.set(all(".neat"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Cut.drop(tl, q(".tag"), 0.2, { from: "left", dur: 0.25 });
+          // "to write your pull request descriptions": three, each written a different way, tossed into a pile
+          Cut.drop(tl, [q(".t1"), q(".t2")], 1.0, { dist: 60, dur: 0.25, stagger: 0.17, spin: 0 });
+          const pile = [{ x: -30, y: 40, r: -7, from: "left" }, { x: 60, y: -50, r: 6, from: "right" }, { x: -10, y: -130, r: -4, from: "bottom" }];
+          cards.forEach((c, i) => {
+            c.dataset.r = pile[i].r;
+            gsap.set(c, { scale: 0.88 });
+            Cut.drop(tl, c, 1.2 + i * 0.25, { x: pile[i].x, y: pile[i].y, from: pile[i].from, dist: 500, dur: 0.33, spin: -9 });
+          });
+          // "the same way every time": each is turned over, lines up and shows the same three strips
+          cards.forEach((c, i) => {
+            const t = 3.25 + i * 0.12;
+            tl.to(c, { scaleX: 0.04, scaleY: 0.94, x: pile[i].x / 2, y: pile[i].y / 2, rotation: pile[i].r / 2, duration: 3 * F, ease: Cut.ease(3 * F, "power1.in") }, t);
+            tl.set(c.querySelector(".messy"), { opacity: 0 }, t + 3 * F);
+            tl.set(c.querySelector(".neat"), { opacity: 1 }, t + 3 * F);
+            tl.to(c, { scaleX: 1, scaleY: 1, x: 0, y: 0, rotation: 0, duration: 3 * F, ease: Cut.ease(3 * F, "power1.out") }, t + 3 * F);
+            Cut.pop(tl, c.querySelector(".pin"), 3.8 + i * 0.15);
+          });
+          Cut.boil(tl, root, 0, DUR, 2);
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

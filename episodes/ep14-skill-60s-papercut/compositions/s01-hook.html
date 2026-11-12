@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.26},
+      {"t":0.04,"sfx":"snips","vol":0.14},
+      {"t":1.25,"sfx":"xylo-2","vol":0.14},
+      {"t":2.55,"sfx":"wood","vol":0.2},
+      {"t":2.6,"sfx":"xylo-3","vol":0.16},
+      {"t":3.4,"sfx":"slide","vol":0.16},
+      {"t":3.6,"sfx":"tape","vol":0.14},
+      {"t":3.7,"sfx":"rustle","vol":0.18},
+      {"t":4.2,"sfx":"typewriter","vol":0.16,"dur":1.5},
+      {"t":5.45,"sfx":"claude","vol":0.2},
+      {"t":7.1,"sfx":"flip","vol":0.18},
+      {"t":7.45,"sfx":"pin","vol":0.2},
+      {"t":7.6,"sfx":"string","vol":0.2},
+      {"t":8.0,"sfx":"xylo-4","vol":0.18},
+      {"t":8.55,"sfx":"slide","vol":0.14},
+      {"t":8.85,"sfx":"thud","vol":0.16},
+      {"t":8.9,"sfx":"xylo-1","vol":0.14},
+      {"t":9.2,"sfx":"thud","vol":0.16},
+      {"t":9.25,"sfx":"xylo-2","vol":0.14},
+      {"t":9.55,"sfx":"thud","vol":0.16},
+      {"t":9.6,"sfx":"xylo-3","vol":0.14},
+      {"t":10.55,"sfx":"rustle","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open (papercut; nothing waits): frame 0 already reads "Create a Claude skill" in cut-out letters on
+           paper strips, with a huge cut-out "60" ("under … seconds") that lands with a thud and wobbles on twos; a
+           paper stopwatch ticks in the lower left for the whole scene. On "sixty" the 60 jumps; then it is pulled away
+           and an "Under 60 seconds" strip is taped under the title. "A skill is a set of instructions": a SKILL.md
+           sheet drops in and its template is typed on (frontmatter, first instruction); the Claude logo lands on it on
+           "Claude". "When your request needs it": a request note is pinned up, a red string is pulled from it to the
+           sheet and a paper burst pops behind the sheet. "Step by step": three numbered cards drop in.
+           Teaching content stays above y 800: the avatar photo sits below right (narrator.html "title").
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { position: absolute; left: 90px; top: 236px; width: 860px; font-size: 104px; line-height: 1.12; }
+        .s01 .hook .row { display: flex; gap: 20px; margin-bottom: 14px; }
+        .s01 .hook .pc { position: relative; padding: 0 26px; }
+        .s01 .hook .pc.red .cl, .s01 .hook .pc.red { color: var(--cream); }
+        .s01 .c60 { left: 90px; top: 496px; }
+        .s01 .big { position: absolute; left: 90px; top: 500px; width: 860px; height: 290px; transform-origin: 20% 50%; }
+        .s01 .big .n { position: absolute; left: 6px; top: -22px; display: flex; font: 700 330px/1 var(--f-cut); filter: var(--shadow); }
+        .s01 .big .d { position: relative; display: block; color: var(--tomato); }
+        .s01 .big .d::before { content: attr(data-d); position: absolute; left: 0; top: 0; z-index: -1; color: var(--cream); -webkit-text-stroke: 30px var(--cream); }
+        .s01 .big .u { left: 452px; top: 34px; padding: 6px 22px; font: 600 40px/1.2 var(--f-cut); letter-spacing: 0.1em; }
+        .s01 .big .sec { left: 440px; top: 126px; padding: 0 22px; font-size: 78px; line-height: 1.2; }
+        .s01 .watch { position: absolute; left: 110px; top: 880px; width: 360px; height: 400px; }
+        .s01 .watch .btn { left: 150px; top: 0; width: 60px; height: 56px; }
+        .s01 .watch .dial { left: 0; top: 40px; width: 360px; height: 360px; border-radius: 50%; }
+        .s01 .watch .dial::before { border-radius: 50%; clip-path: none; }
+        .s01 .watch .face { position: absolute; inset: 30px; border-radius: 50%; background: repeating-conic-gradient(var(--navy) 0 1.6deg, transparent 1.6deg 30deg), var(--cream); background-image: repeating-conic-gradient(from -0.8deg, var(--navy) 0 1.6deg, rgba(0, 0, 0, 0) 1.6deg 30deg); }
+        .s01 .watch .mid { position: absolute; inset: 62px; border-radius: 50%; background-color: var(--cream); background-image: var(--grain); }
+        .s01 .watch .hand { position: absolute; left: 172px; top: 84px; width: 16px; height: 150px; border-radius: 8px; background: var(--tomato); transform-origin: 50% 136px; box-shadow: 2px 4px 3px rgba(52, 28, 6, 0.4); }
+        .s01 .watch .hub { left: 162px; top: 202px; }
+        .s01 .burst { position: absolute; left: 24px; top: 552px; width: 610px; height: 322px; background-color: var(--mustard); background-image: var(--grain); }
+        .s01 .page { left: 90px; top: 574px; width: 470px; height: 262px; padding: 16px 26px; }
+        .s01 .page .top { display: flex; align-items: center; gap: 14px; height: 50px; font: 600 32px/1 var(--f-cut); color: var(--navy); }
+        .s01 .page .top img { width: 44px; height: 44px; }
+        .s01 .page .md p { font: 400 28px/38px var(--f-type); white-space: pre; }
+        .s01 .page .md b { color: var(--tomato); }
+        .s01 .page .pin { right: 14px; top: -12px; }
+        .s01 .req { left: 616px; top: 590px; width: 330px; height: 150px; padding: 34px 26px 0; font: 600 36px/1.2 var(--f-cut); color: var(--navy); }
+        .s01 .req .pin { left: 20px; top: -14px; }
+        .s01 .steps .pc { top: 584px; width: 270px; height: 200px; padding: 10px 22px; }
+        .s01 .steps .pc b { display: block; font: 700 100px/1.05 var(--f-cut); }
+        .s01 .steps .pc span { display: block; font: 600 42px/1.1 var(--f-cut); }
+        .s01 .steps .pin { left: 117px; top: -14px; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="pc-scene s01">
+          <div class="watch">
+            <div class="pc red btn"></div>
+            <div class="pc navy dial"><div class="face"></div><div class="mid"></div><div class="hand"></div><div class="pin yel hub"></div></div>
+          </div>
+          <h1 class="hook cut-letters">
+            <div class="row"><span class="pc white w1" data-r="-2">Create a</span></div>
+            <div class="row"><span class="pc red w2" data-r="1.5">Claude</span><span class="pc yel w3" data-r="-3">skill</span></div>
+          </h1>
+          <span class="pc teal pc-strip c60" data-r="-1.5">Under 60 seconds</span>
+          <div class="big">
+            <div class="n"><span class="d d6" data-d="6">6</span><span class="d d0" data-d="0">0</span></div>
+            <span class="pc teal u" data-r="-4">UNDER</span>
+            <span class="pc yel sec cut-letters" data-r="2">seconds</span>
+          </div>
+          <div class="burst" data-layout-allow-overlap=""></div>
+          <div class="pc white page">
+            <div class="top"><img src="assets/claude-logo.svg" alt=""><span>SKILL.md</span></div>
+            <div class="md">
+              <p>---</p>
+              <p><b>name</b>: pr-description</p>
+              <p><b>description</b>: Use when…</p>
+              <p>---</p>
+              <p>1. Run git diff…</p>
+            </div>
+            <div class="pin blue"></div>
+          </div>
+          <div class="pc req" data-torn="bottom" data-r="3">Write a PR description<div class="pin"></div></div>
+          <svg class="pc-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="string" d="M650 598 C 640 560, 590 540, 548 584" />
+          </svg>
+          <div class="steps">
+            <div class="pc red" style="left:90px" data-r="-3"><b>1</b><span>Folder</span><div class="pin yel"></div></div>
+            <div class="pc yel" style="left:385px" data-r="2"><b>2</b><span>SKILL.md</span><div class="pin"></div></div>
+            <div class="pc teal" style="left:680px" data-r="-2"><b>3</b><span>Ask</span><div class="pin yel"></div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9, F = Cut.F;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const r = Cut.dress(root, 101);
+          // a paper burst: a 16-point star
+          q(".burst").style.clipPath = "polygon(" + Array.from({ length: 32 }, (_, i) => {
+            const a = (i / 32) * Math.PI * 2, k = i % 2 ? 0.74 + r() * 0.06 : 1;
+            return `${(50 + Math.cos(a) * 50 * k).toFixed(1)}% ${(50 + Math.sin(a) * 50 * k).toFixed(1)}%`;
+          }).join(",") + ")";
+          const logo = q(".page .top img"), big = q(".big"), page = q(".page"), req = q(".req"), str = q(".string");
+          gsap.set([q(".burst"), logo, str], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // frame 0: the title and the 60 are already there; the 60 lands with a thud
+          tl.fromTo(big, { scale: 1.14 }, { scale: 1, duration: 3 * F, ease: Cut.ease(3 * F, "power2.in") }, 0);
+          tl.fromTo(q(".hook"), { y: -16 }, { y: 0, duration: 3 * F, ease: Cut.ease(3 * F, "power2.out") }, 0);
+          // the cut-out digits never sit quite still
+          for (let t = 0.5, i = 0; t < 3.3; t += 3 * F, i++) {
+            tl.set(q(".d6"), { rotation: (r() - 0.5) * 5, y: (r() - 0.5) * 6 }, t);
+            tl.set(q(".d0"), { rotation: (r() - 0.5) * 5, y: (r() - 0.5) * 6 }, t + F);
+          }
+          // the stopwatch ticks all scene long
+          tl.fromTo(q(".hand"), { rotation: 0 }, { rotation: 360, duration: DUR - 0.4, ease: "steps(60)" }, 0);
+          // "create a Claude skill"
+          Cut.jit(tl, q(".w3"), 1.25, 5, 5);
+          tl.set(q(".w3"), { scale: 1.12 }, 1.25);
+          tl.set(q(".w3"), { scale: 1 }, 1.25 + 3 * F);
+          // "in under sixty seconds": the 60 jumps, then it is pulled away and the strip takes its place
+          tl.set(q(".big .n"), { scale: 1.1, y: -14, transformOrigin: "50% 60%" }, 2.55);
+          tl.set(q(".big .n"), { scale: 0.97, y: 4 }, 2.55 + 2 * F);
+          tl.set(q(".big .n"), { scale: 1, y: 0 }, 2.55 + 3 * F);
+          Cut.jit(tl, q(".big .sec"), 2.6, 4, 4);
+          Cut.move(tl, big, 3.4, { scale: 0.22, y: -110, rotation: -8 }, 0.33, "power2.in");
+          tl.set(big, { opacity: 0 }, 3.4 + 0.33);
+          Cut.drop(tl, q(".c60"), 3.55, { from: "left", dist: 120, dur: 0.25 });
+          // "A skill is a set of instructions": the sheet drops in and is typed on
+          Cut.drop(tl, page, 3.65, { dist: 260, spin: -8 });
+          all(".page .md p").reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 55 }) + 0.05, 4.2);
+          // "Claude": the logo lands on the sheet
+          tl.set(logo, { opacity: 1, scale: 1.6, rotation: -60 }, 5.45);
+          tl.to(logo, { scale: 1, rotation: 0, duration: 0.33, ease: Cut.ease(0.33, "power2.out") }, 5.45);
+          // "when your request needs it": a request is pinned up, string runs to the sheet, the sheet lights up
+          Cut.drop(tl, req, 7.1, { from: "right", dist: 200, dur: 0.33 });
+          Cut.pop(tl, [q(".req .pin"), q(".page .pin")], 7.45, { stagger: 2 * F });
+          tl.set(str, { opacity: 1 }, 7.6);
+          Cut.string(tl, str, 7.6, 0.33);
+          tl.set(q(".burst"), { opacity: 1, scale: 0.7 }, 7.95);
+          tl.set(q(".burst"), { scale: 1.08, rotation: 6 }, 7.95 + 2 * F);
+          tl.set(q(".burst"), { scale: 1, rotation: 0 }, 7.95 + 4 * F);
+          tl.set(q(".burst"), { rotation: 5 }, 7.95 + 6 * F);
+          Cut.jit(tl, page, 7.95, 3, 5);
+          tl.to(logo, { rotation: 180, duration: 0.5, ease: Cut.ease(0.5, "none") }, 7.95);
+          // "Let's build one, step by step": the three steps
+          tl.set([str, q(".burst")], { opacity: 0 }, 8.55);
+          Cut.out(tl, page, 8.55, { to: "left", dist: 700 });
+          Cut.out(tl, req, 8.55, { to: "right", dist: 600 });
+          Cut.drop(tl, all(".steps .pc"), 8.85, { stagger: 0.35, dist: 240, dur: 0.33 });
+
+          Cut.out(tl, [q(".w1"), q(".w2"), q(".w3"), q(".c60"), ...all(".steps .pc")], DUR - 0.35, { to: "left", dist: 1100, dur: 0.33, stagger: 0.02 });
+          Cut.out(tl, q(".watch"), DUR - 0.35, { to: "bottom", dist: 1200, dur: 0.33 });
+          Cut.boil(tl, root, 0, DUR, 1);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"write","vol":0.3,"dur":0.4},
+      {"t":0.62,"sfx":"write","vol":0.32,"dur":0.55},
+      {"t":1.2,"sfx":"scribble","vol":0.3,"dur":0.24},
+      {"t":1.45,"sfx":"scribble","vol":0.3,"dur":0.24},
+      {"t":1.7,"sfx":"scribble","vol":0.3,"dur":0.24},
+      {"t":1.95,"sfx":"write","vol":0.3,"dur":1.2},
+      {"t":3.25,"sfx":"shuffle","vol":0.3},
+      {"t":3.75,"sfx":"tick","vol":0.3},
+      {"t":3.9,"sfx":"tick","vol":0.3},
+      {"t":4.05,"sfx":"tick","vol":0.3}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example, on the whiteboard. The hand writes "The example" and "PR descriptions", then sketches
+           three papers in a messy pile, each written a different way ("fixed stuff", a rambling wall of words, loose
+           bullets). On "the same way every time" the papers straighten into a tidy column, the mess clears, every
+           paper reads What / Why / Changes and the hand ticks each one with a green check.
+           Avatar: small top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="wb-scene s02">
+          <svg class="wb-ink" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="all">
+              <text class="red ey" x="90" y="272" font-size="50">The example</text>
+              <text class="ttl" x="90" y="386" font-size="90">PR descriptions</text>
+
+              <g transform="translate(160 520)">
+                <g class="pg">
+                  <path class="s paper" d="M2 4 C 250 0, 520 6, 758 2 L 760 248 C 520 252, 250 246, 0 250 Z" />
+                  <text class="grey no" x="630" y="58" font-size="38">#412</text>
+                  <g class="messy"><text class="mx" x="44" y="150" font-size="60">fixed stuff</text></g>
+                </g>
+              </g>
+              <g transform="translate(160 810)">
+                <g class="pg">
+                  <path class="s paper" d="M2 4 C 250 0, 520 6, 758 2 L 760 248 C 520 252, 250 246, 0 250 Z" />
+                  <text class="grey no" x="630" y="58" font-size="38">#413</text>
+                  <g class="messy">
+                    <text class="mx" x="40" y="104" font-size="36">So this PR is about the invoice page which</text>
+                    <text class="mx" x="40" y="150" font-size="36">I changed because the old one was confus…</text>
+                    <path class="s thin grey mxs" d="M40 196 c 30 -12, 60 12, 90 0 s 60 12, 90 0 s 60 12, 90 0 s 60 12, 90 0 s 60 12, 90 0" />
+                  </g>
+                </g>
+              </g>
+              <g transform="translate(160 1100)">
+                <g class="pg">
+                  <path class="s paper" d="M2 4 C 250 0, 520 6, 758 2 L 760 248 C 520 252, 250 246, 0 250 Z" />
+                  <text class="grey no" x="630" y="58" font-size="38">#414</text>
+                  <g class="messy">
+                    <text class="mx" x="50" y="110" font-size="50">- search</text>
+                    <text class="mx" x="50" y="180" font-size="50">- misc</text>
+                  </g>
+                </g>
+              </g>
+
+              <g transform="translate(160 520)" class="tidy">
+                <text class="blue td" x="44" y="88" font-size="44">What</text><path class="s thin grey tl" d="M200 78 c 40 -8, 80 8, 120 0 s 80 8, 120 0 s 80 8, 100 0" />
+                <text class="blue td" x="44" y="152" font-size="44">Why</text><path class="s thin grey tl" d="M200 142 c 40 -8, 80 8, 120 0 s 80 8, 100 0" />
+                <text class="blue td" x="44" y="216" font-size="44">Changes</text><path class="s thin grey tl" d="M200 206 c 40 -8, 80 8, 120 0 s 80 8, 120 0" />
+                <path class="s green fat ck" d="M640 132 L668 162 L724 92" />
+              </g>
+              <g transform="translate(160 810)" class="tidy">
+                <text class="blue td" x="44" y="88" font-size="44">What</text><path class="s thin grey tl" d="M200 78 c 40 -8, 80 8, 120 0 s 80 8, 100 0" />
+                <text class="blue td" x="44" y="152" font-size="44">Why</text><path class="s thin grey tl" d="M200 142 c 40 -8, 80 8, 120 0 s 80 8, 120 0 s 80 8, 80 0" />
+                <text class="blue td" x="44" y="216" font-size="44">Changes</text><path class="s thin grey tl" d="M200 206 c 40 -8, 80 8, 120 0" />
+                <path class="s green fat ck" d="M640 132 L668 162 L724 92" />
+              </g>
+              <g transform="translate(160 1100)" class="tidy">
+                <text class="blue td" x="44" y="88" font-size="44">What</text><path class="s thin grey tl" d="M200 78 c 40 -8, 80 8, 120 0 s 80 8, 120 0" />
+                <text class="blue td" x="44" y="152" font-size="44">Why</text><path class="s thin grey tl" d="M200 142 c 40 -8, 80 8, 100 0" />
+                <text class="blue td" x="44" y="216" font-size="44">Changes</text><path class="s thin grey tl" d="M200 206 c 40 -8, 80 8, 120 0 s 80 8, 120 0 s 80 8, 60 0" />
+                <path class="s green fat ck" d="M640 132 L668 162 L724 92" />
+              </g>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          WB.build(root, () => {
+            const pgs = all(".pg"), papers = all(".paper");
+            // the messy pile (set before the hand samples the strokes, so it follows the tilted papers)
+            const PILE = [{ x: -30, y: 50, r: -6 }, { x: 40, y: -40, r: 5 }, { x: -20, y: -130, r: -4 }];
+            pgs.forEach((g, i) => gsap.set(g, { x: PILE[i].x, y: PILE[i].y, rotation: PILE[i].r, svgOrigin: "380 125" }));
+            const B = WB.board(root, tl);
+            B.prep(".s"); B.hideText("text");
+            // "Say you want Claude to write your pull request descriptions"
+            B.write(".ey", 0.2, 0.4);
+            B.write(".ttl", 0.62, 0.55);
+            // three papers, each written a different way
+            papers.forEach((p, i) => {
+              const t = 1.2 + i * 0.25;
+              tl.fromTo(p, { fillOpacity: 0 }, { fillOpacity: 1, duration: 0.24, ease: "none" }, t);
+              B.draw(p, t, 0.24);
+              B.write(pgs[i].querySelector(".no"), t + 0.02, 0.15, { hand: false });
+            });
+            const mx = all(".mx");
+            B.write(mx[0], 1.95, 0.3);
+            B.write([mx[1], mx[2]], 2.25, 0.5);
+            B.draw(".mxs", 2.75, 0.1);
+            B.write([mx[3], mx[4]], 2.85, 0.3);
+            B.rest(420, 1560, 3.15, 0.35);
+            // "the same way every time": the papers straighten, the mess clears, every paper takes one shape
+            tl.to(pgs, { x: 0, y: 0, rotation: 0, svgOrigin: "380 125", duration: 0.55, ease: "power3.inOut", stagger: 0.06 }, 3.25);
+            tl.to(all(".messy"), { opacity: 0, duration: 0.18, ease: "none" }, 3.4);
+            const tidy = all(".tidy");
+            tidy.forEach((g, i) => {
+              B.write(g.querySelectorAll(".td"), 3.5 + i * 0.08, 0.3, { hand: false });
+              B.draw(g.querySelectorAll(".tl"), 3.6 + i * 0.08, 0.3, { hand: false });
+            });
+            [3.75, 3.9, 4.05].forEach((t, i) => B.draw(tidy[i].querySelector(".ck"), t, 0.12));
+            B.away(4.18);
+            tl.to(q(".all"), { opacity: 0, duration: 0.15, ease: "none" }, 4.45);
+            window.__timelines["s02-example"] = tl;
+          });
+        })();
+      </script>
+    </template>
+  </body>
+</html>

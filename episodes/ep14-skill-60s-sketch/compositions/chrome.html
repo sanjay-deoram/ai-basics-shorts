@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:34,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay for the whole episode (sketch variant): a faint pencil track at the top of the safe area
+           and an ink stroke drawing along it as the episode plays. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chrome-sk { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chrome-sk"></div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="chrome"] .chrome-sk');
+          const { duration } = window.__hyperframes.getVariables();
+          Sk.seed(900);
+          const s = Sk.layer(root);
+          Sk.shape(s, "line", [90, 188, 990, 186], { stroke: "#d2cec3", strokeWidth: 4, roughness: 1.2, bowing: 0.6 });
+          const bar = Sk.shape(s, "line", [90, 187, 990, 187], { stroke: Sk.C.ink, strokeWidth: 5, roughness: 1.0, bowing: 0.6, disableMultiStroke: true });
+          const tl = gsap.timeline({ paused: true });
+          // the ink line grows from the left (a scale, not a dash: a 57 s dash draw drifts on this one long path)
+          tl.fromTo(bar, { scaleX: 0 }, { scaleX: 1, duration: Math.max(0.01, duration), ease: "none", transformOrigin: "0% 50%" }, 0);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

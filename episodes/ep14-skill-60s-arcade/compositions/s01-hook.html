@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"start","vol":0.2},
+      {"t":1.25,"sfx":"select","vol":0.12},
+      {"t":2.55,"sfx":"coin","vol":0.14},
+      {"t":3.4,"sfx":"powerup","vol":0.1},
+      {"t":3.7,"sfx":"land","vol":0.16},
+      {"t":4.2,"sfx":"type","vol":0.08,"dur":1.5},
+      {"t":5.45,"sfx":"claude","vol":0.2},
+      {"t":7.1,"sfx":"type","vol":0.08,"dur":0.6},
+      {"t":7.55,"sfx":"meter","vol":0.1},
+      {"t":7.95,"sfx":"unlock","vol":0.12},
+      {"t":8.85,"sfx":"blip","vol":0.14},
+      {"t":9.2,"sfx":"blip","vol":0.14},
+      {"t":9.55,"sfx":"select","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open as an arcade title screen (nothing waits): frame 0 already reads "CREATE A CLAUDE SKILL"
+           and a huge block-pixel "60" (UNDER … SECONDS) that slams in with a screen shake; PRESS START blinks. On
+           "sixty" the 60 flashes; then it shrinks up into the HUD's TIME counter. "A skill is a set of instructions":
+           a parchment scroll, SKILL.md, drops in and its template types itself; the Claude logo lands on it on
+           "Claude". "When your request needs it": a request box types "Write a PR description", pixel dots run from
+           it to the scroll and the scroll lights up with a "!". "Step by step": the quest log lists the three levels.
+           Everything stays above y 800: the avatar's portrait sits below (narrator.html "title").
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { position: absolute; left: 90px; top: 300px; font: 400 62px/1 var(--a-head); color: var(--a-white); text-shadow: 8px 8px 0 var(--a-violet); }
+        .s01 .hook span { display: block; white-space: nowrap; }
+        .s01 .hook .l2 { margin-top: 22px; }
+        .s01 .hook b { font-weight: 400; color: var(--a-yellow); }
+        .s01 .big { position: absolute; left: 90px; top: 500px; width: 860px; height: 280px; transform-origin: 20% 0; }
+        .s01 .big .sp { position: absolute; top: 0; filter: drop-shadow(12px 12px 0 #ff4d6d); }
+        .s01 .big .u { position: absolute; left: 500px; top: 34px; font: 400 44px/1 var(--a-head); color: var(--a-cyan); }
+        .s01 .big .sec { position: absolute; left: 500px; top: 104px; font: 400 44px/1 var(--a-head); color: var(--a-white); text-shadow: 6px 6px 0 var(--a-violet); }
+        .s01 .big .ps { position: absolute; left: 500px; top: 206px; font: 400 28px/1 var(--a-head); color: var(--a-yellow); white-space: nowrap; }
+        .s01 .scr { position: absolute; left: 96px; top: 506px; width: 440px; height: 278px; padding: 16px 22px; }
+        .s01 .scr .top { display: flex; align-items: center; justify-content: space-between; height: 44px; font: 400 28px/1 var(--a-head); }
+        .s01 .scr .cc-spark { width: 44px; height: 44px; }
+        .s01 .scr .md { margin-top: 8px; }
+        .s01 .scr .md p { font: 400 40px/40px var(--a-mono); white-space: pre; }
+        .s01 .scr .md .k { color: var(--a-brown); }
+        .s01 .glow { position: absolute; left: 78px; top: 488px; width: 476px; height: 314px; border: 8px solid var(--a-yellow); }
+        .s01 .bang { position: absolute; left: 556px; top: 456px; font: 400 56px/1 var(--a-head); color: var(--a-yellow); text-shadow: 6px 6px 0 var(--a-red); }
+        .s01 .req { position: absolute; left: 626px; top: 506px; width: 318px; height: 190px; padding: 18px 20px; }
+        .s01 .req .who { display: block; font: 400 28px/1 var(--a-head); color: var(--a-cyan); }
+        .s01 .req p { margin-top: 16px; font: 500 38px/1.15 var(--a-body); }
+        .s01 .dots i { position: absolute; top: 596px; width: 12px; height: 12px; background: var(--a-yellow); }
+        .s01 .ql { position: absolute; left: 96px; top: 506px; width: 848px; height: 278px; padding: 20px 28px; }
+        .s01 .ql .h { font: 400 28px/1 var(--a-head); color: var(--a-yellow); }
+        .s01 .ql .row { display: flex; align-items: center; gap: 22px; height: 62px; margin-top: 6px; font: 400 34px/1 var(--a-head); white-space: nowrap; }
+        .s01 .ql .row em { font-style: normal; color: var(--a-cyan); }
+        .s01 .ql .row .box { margin-left: auto; width: 36px; height: 36px; border: 6px solid var(--a-white); }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="arc-scene s01">
+          <div class="arc-shake">
+            <h1 class="hook"><span>CREATE A</span><span class="l2">CLAUDE <b>SKILL</b></span></h1>
+            <div class="big">
+              <i class="sp" data-sp="d6" data-px="40" style="left:0"></i>
+              <i class="sp" data-sp="d0" data-px="40" style="left:240px"></i>
+              <span class="u">UNDER</span><span class="sec">SECONDS</span><span class="ps">PRESS START</span>
+            </div>
+            <div class="glow"></div>
+            <span class="bang">!</span>
+            <div class="px-paper scr">
+              <div class="top"><span>SKILL.md</span><div class="cc-spark"></div></div>
+              <div class="md">
+                <p>---</p>
+                <p><span class="k">name</span>: pr-description</p>
+                <p><span class="k">description</span>: Use when…</p>
+                <p>---</p>
+                <p>1. Run git diff…</p>
+              </div>
+            </div>
+            <div class="px-panel req"><span class="who">YOU</span><p>Write a PR description</p></div>
+            <div class="dots"><i style="left:602px"></i><i style="left:584px"></i><i style="left:566px"></i><i style="left:548px"></i></div>
+            <div class="px-panel ql">
+              <p class="h">QUEST LOG</p>
+              <div class="row"><i class="sp" data-sp="folder" data-px="4"></i><span><em>LV1</em> FOLDER</span><i class="box"></i></div>
+              <div class="row"><i class="sp" data-sp="scroll" data-px="4"></i><span><em>LV2</em> SKILL.MD</span><i class="box"></i></div>
+              <div class="row"><i class="sp" data-sp="bubble" data-px="4"></i><span><em>LV3</em> ASK</span><i class="box"></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Arc.sprites(root);
+          const big = q(".big"), scr = q(".scr"), spark = q(".scr .cc-spark"), skill = q(".hook b"), digits = all(".big .sp");
+          gsap.set([q(".glow"), q(".bang")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // frame 0: the title is already there; the 60 slams in two steps and the screen shakes
+          tl.fromTo(big, { scale: 1.12 }, { scale: 1, duration: 0.12, ease: "steps(2)" }, 0);
+          Arc.shake(tl, q(".arc-shake"), 0.12, 16);
+          Arc.blink(tl, q(".ps"), 0.9, 3.3, 0.8);
+          // "create a Claude skill"
+          Arc.flash(tl, skill, 1.25, "color", "#f4f1ff", "#ffd23f", 3, "#ffd23f");
+          // "in under sixty seconds": the 60 flashes, then shrinks up into the HUD counter
+          Arc.flash(tl, digits, 2.55, "opacity", 0.25, 1, 3, 1);
+          tl.to(big, { scale: 1.08, duration: 0.14, ease: "steps(2)", yoyo: true, repeat: 1 }, 2.55);
+          tl.to(big, { scale: 0.12, x: 60, y: -278, duration: 0.3, ease: "steps(5)" }, 3.35);
+          tl.set(big, { opacity: 0 }, 3.65);
+          // "A skill is a set of instructions": the scroll drops in and writes itself
+          Arc.drop(tl, scr, 3.7, { from: -240 });
+          Arc.shake(tl, q(".arc-shake"), 3.94, 8);
+          all(".scr .md p").reduce((t, p) => Arc.type(tl, p, t, 55) + 0.05, 4.2);
+          // "Claude": the logo lands on the scroll
+          Arc.drop(tl, spark, 5.45, { from: -80, dur: 0.16 });
+          tl.fromTo(spark, { rotation: -90 }, { rotation: 0, duration: 0.4, ease: "steps(4)", immediateRender: false }, 5.45);
+          // "when your request needs it": a request arrives and the scroll lights up on its own
+          Arc.show(tl, q(".req"), 7.05);
+          Arc.type(tl, q(".req p"), 7.1, 50);
+          Arc.show(tl, all(".dots i"), 7.55, { stagger: 0.08 });
+          Arc.show(tl, [q(".glow"), q(".bang")], 7.95);
+          Arc.blink(tl, q(".glow"), 8.1, 8.5, 0.2);
+          tl.to(spark, { rotation: 180, duration: 0.5, ease: "steps(6)" }, 7.95);
+          // "Let's build one, step by step": the quest log
+          Arc.hide(tl, [scr, q(".glow"), q(".bang"), q(".req"), ...all(".dots i")], 8.5);
+          Arc.show(tl, q(".ql"), 8.7);
+          Arc.show(tl, all(".ql .row"), 8.85, { stagger: 0.35 });
+
+          Arc.hide(tl, [q(".hook"), q(".ql")], DUR - 0.2);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

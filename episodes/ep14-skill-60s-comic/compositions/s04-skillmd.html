@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"stab","vol":0.22},
+      {"t":0.5,"sfx":"pop","vol":0.2},
+      {"t":2.3,"sfx":"whoosh","vol":0.18},
+      {"t":2.56,"sfx":"slam","vol":0.26},
+      {"t":2.75,"sfx":"claude","vol":0.14},
+      {"t":3.8,"sfx":"boing","vol":0.2},
+      {"t":4.1,"sfx":"pop","vol":0.16},
+      {"t":5.35,"sfx":"page","vol":0.18},
+      {"t":5.76,"sfx":"slam","vol":0.28},
+      {"t":5.85,"sfx":"scratch","vol":0.2,"dur":0.5},
+      {"t":6.65,"sfx":"scratch","vol":0.22,"dur":0.6},
+      {"t":7.5,"sfx":"scratch","vol":0.22,"dur":1.4},
+      {"t":7.6,"sfx":"pop","vol":0.2},
+      {"t":7.75,"sfx":"whoosh","vol":0.12},
+      {"t":10.2,"sfx":"pop","vol":0.2},
+      {"t":10.35,"sfx":"whoosh","vol":0.12},
+      {"t":12.25,"sfx":"scratch","vol":0.22,"dur":0.9},
+      {"t":13.4,"sfx":"scratch","vol":0.22,"dur":0.8},
+      {"t":14.77,"sfx":"slam","vol":0.26},
+      {"t":15.24,"sfx":"slam","vol":0.26},
+      {"t":15.82,"sfx":"slam","vol":0.28},
+      {"t":16.47,"sfx":"page","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md. A "STEP 2" burst and the folder path in a caption box; one file sheet drops into
+           the frame (PLOP!) with the Claude mark on it, and its name is lettered huge: SKILL.md ("Exactly that name,
+           in capitals"). Page turn: the sheet becomes one big panel that is lettered line by line with a Ben-Day
+           marker band on the lines being said: the frontmatter fences, the name, the description (callout box +
+           inked arrow: "Name + when to use it"), then the instructions (brace + callout: "Instructions, in plain
+           English"), and What / Why / Changes land as three small panels under the page as they are said.
+           The skill text follows the Claude Academy lesson.
+           Avatar: small round panel top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .step { left: 78px; top: 222px; width: 240px; height: 240px; font-size: 54px; color: var(--white); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; }
+        .s04 .step b { font-size: 110px; line-height: 0.85; }
+        .s04 .ttl { position: absolute; left: 336px; top: 300px; font-size: 80px; }
+        .s04 .path { left: 90px; top: 512px; text-transform: none; font: 400 30px/1.3 var(--f-mono); letter-spacing: 0; }
+        .s04 .file { position: absolute; left: 360px; top: 640px; width: 330px; height: 410px; }
+        .s04 .file svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+        .s04 .file .logo { position: absolute; left: 105px; top: 160px; width: 120px; height: 120px; }
+        .s04 .plop { left: 700px; top: 700px; }
+        .s04 .fname { position: absolute; left: 90px; top: 1100px; width: 860px; text-align: center; margin: 0; font: 400 132px/1 var(--f-mono); letter-spacing: -0.03em; color: var(--ink); text-shadow: 6px 5px 0 var(--cyan), -5px -3px 0 var(--red); }
+        .s04 .ffoot { left: 222px; top: 1270px; text-transform: none; }
+        .s04 .page { left: 90px; top: 512px; width: 860px; height: 744px; }
+        .s04 .page .tab { left: -16px; top: -32px; text-transform: none; font: 400 30px/1.3 var(--f-mono); letter-spacing: 0; }
+        .s04 .page .band { position: absolute; left: 14px; top: 72px; width: 816px; height: 64px; background-color: var(--yellow); --dot: #f39a12; --sz: 12px; }
+        .s04 .page .lns { position: absolute; left: 36px; top: 72px; }
+        .s04 .page .ln { height: 64px; font: 400 32px/64px var(--f-mono); white-space: pre; color: var(--ink); }
+        .s04 .page .k { color: var(--red); }
+        .s04 .page .p { color: var(--grey); }
+        .s04 .page .c { }
+        .s04 .page .fn { color: #0b78a1; }
+        .s04 .arrows path { fill: none; stroke: var(--ink); stroke-width: 8; stroke-linecap: round; stroke-linejoin: round; }
+        .s04 .call { left: 420px; top: 1300px; width: 530px; height: 170px; display: flex; flex-direction: column; align-items: center; justify-content: center; font: 400 58px/1.05 var(--f-comic); letter-spacing: 0.03em; }
+        .s04 .call span { display: block; }
+        .s04 .scr { left: 84px; top: 1340px; font-size: 64px; }
+        .s04 .sec { top: 1300px; width: 272px; height: 172px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; }
+        .s04 .sec b { font: 400 64px/1 var(--f-comic); letter-spacing: 0.03em; color: var(--red); -webkit-text-stroke: 2px var(--ink); paint-order: stroke fill; }
+        .s04 .sec span { font: 700 30px/1.1 var(--f-letter); }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="cm-page s04">
+          <div class="cm-corner tl cm-dots" style="--dot: var(--yellow); --sz: 22px; opacity: 0.9"></div>
+          <div class="cm-corner bl cm-dots" style="--dot: var(--cyan); --sz: 24px"></div>
+          <div class="cm-burst step" data-n="14" data-inner="0.76" data-fill="var(--red)" data-seed="51" style="width:240px;height:240px"><span>Step</span><b>2</b></div>
+          <h2 class="cm-title ttl">Add one file</h2>
+
+          <span class="cm-cap path">~/.claude/skills/pr-description/</span>
+          <div class="file">
+            <svg viewBox="0 0 330 410" aria-hidden="true"><path d="M22 22 H 250 L 330 102 V 410 H 22 Z" fill="#141210" /><path d="M8 8 H 236 L 316 88 V 396 H 8 Z" fill="#fffdf6" stroke="#141210" stroke-width="8" stroke-linejoin="round" /><path d="M236 8 V 88 H 316" fill="#ffd21f" stroke="#141210" stroke-width="8" stroke-linejoin="round" /></svg>
+            <div class="logo cm-logo"></div>
+          </div>
+          <span class="cm-sfx cyan plop">PLOP!</span>
+          <p class="fname">SKILL.md</p>
+          <span class="cm-cap ffoot">Exactly that name, in capitals</span>
+
+          <div class="cm-panel page" data-layout-allow-overlap="">
+            <div class="band cm-dots"></div>
+            <span class="cm-cap white tab">SKILL.md</span>
+            <div class="lns">
+              <div class="ln"><span class="p">---</span></div>
+              <div class="ln"><span class="k">name</span>: pr-description</div>
+              <div class="ln"><span class="k">description</span>: Writes PR descriptions.</div>
+              <div class="ln">  Use when the user asks for a PR.</div>
+              <div class="ln"><span class="p">---</span></div>
+              <div class="ln">1. Run <span class="fn">git diff main...HEAD</span></div>
+              <div class="ln">2. Write three sections:</div>
+              <div class="ln">   <span class="k">## What</span>: one sentence</div>
+              <div class="ln">   <span class="k">## Why</span>: brief context</div>
+              <div class="ln">   <span class="k">## Changes</span>: bullets</div>
+            </div>
+          </div>
+          <svg class="cm-svg arrows" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="a1"><path class="sh" d="M800 1296 C 930 1150, 940 900, 850 790" /><path class="hd" d="M896 800 L 846 786 L 862 838" /></g>
+            <g class="a2"><path class="sh" d="M700 906 q 34 0 34 34 v 96 q 0 34 34 34 q -34 0 -34 34 v 96 q 0 34 -34 34" /><path class="sh2" d="M790 1296 C 830 1200, 830 1110, 784 1072" /></g>
+          </svg>
+          <div class="cm-panel yel call c1" data-layout-allow-overlap=""><span>Name +</span><span>when to use it</span></div>
+          <div class="cm-panel cyan call c2" data-layout-allow-overlap=""><span>Instructions,</span><span>in plain English</span></div>
+          <span class="cm-sfx scr" data-layout-allow-overlap="">SCRITCH!</span>
+          <div class="cm-panel sec x1" style="left:90px" data-layout-allow-overlap=""><b>What</b><span>one sentence</span></div>
+          <div class="cm-panel yel sec x2" style="left:384px" data-layout-allow-overlap=""><b>Why</b><span>brief context</span></div>
+          <div class="cm-panel sec x3" style="left:678px" data-layout-allow-overlap=""><b>Changes</b><span>bullets</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8, LH = 64;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cm.mount(root);
+          const page = q(".page"), lns = all(".page .ln"), band = q(".band");
+          const tl = gsap.timeline({ paused: true });
+          const type = (i, at, cps = 40) => Egg.typeOn(tl, lns[i], at, { cps });
+          // the marker band sits behind lines a..b (0-based)
+          const mark = (a, b, at) => tl.to(band, { y: a * LH, height: (b - a + 1) * LH, opacity: 1, duration: 0.25, ease: "power2.inOut" }, at);
+          gsap.set([q(".path"), q(".plop"), q(".fname"), q(".ffoot"), q(".file"), page, band, q(".c1"), q(".c2"), q(".scr"), q(".a1 .hd"), ...all(".sec")], { opacity: 0 });
+
+          // "Step two: inside it"
+          Cm.sticker(tl, q(".step"), 0.15, { rot: -8 });
+          Cm.ink(tl, q(".ttl"), 0.35, 0.4);
+          Cm.sticker(tl, q(".path"), 0.5, { rot: -2, dur: 0.32 });
+          // "add one file": it drops into the frame
+          tl.fromTo(q(".file"), { opacity: 0, y: -520, rotation: -14 }, { opacity: 1, y: 0, rotation: -4, duration: 0.26, ease: "power3.in" }, 2.3);
+          tl.fromTo(q(".file"), { scaleY: 0.9, scaleX: 1.08 }, { scaleY: 1, scaleX: 1, duration: 0.35, ease: "elastic.out(1.2, 0.4)", immediateRender: false, transformOrigin: "50% 100%" }, 2.56);
+          Cm.sticker(tl, q(".plop"), 2.6, { rot: 10 });
+          // "skill dot M D"
+          Cm.sticker(tl, q(".fname"), 3.8, { rot: -3 });
+          Cm.sticker(tl, q(".ffoot"), 4.1, { rot: 2, dur: 0.3 });
+
+          // page turn: the sheet becomes the big panel
+          tl.to([q(".path"), q(".file"), q(".plop"), q(".fname"), q(".ffoot")], { x: -1200, skewX: 8, duration: 0.3, ease: "power3.in", stagger: 0.02 }, 5.3);
+          Cm.slam(tl, page, 5.5, { tilt: 5 });
+          // "At the top": the frontmatter fences
+          type(0, 5.85, 30); type(4, 5.95, 30);
+          // "a name"
+          mark(1, 1, 6.6);
+          type(1, 6.65, 36);
+          // "and a description of when to use it"
+          mark(1, 3, 7.45);
+          type(2, 7.5, 40); type(3, 8.15, 48);
+          Cm.sticker(tl, q(".c1"), 7.6, { rot: -3 });
+          Cm.draw(tl, q(".a1 .sh"), 7.75, 0.4);
+          tl.to(q(".a1 .hd"), { opacity: 1, duration: 0.01 }, 8.13);
+          Cm.sticker(tl, q(".scr"), 6.7, { rot: -8 });
+
+          // "Below that, the instructions, in plain English"
+          mark(5, 9, 9.3);
+          tl.to([q(".c1"), q(".a1")], { opacity: 0, duration: 0.2, ease: "none" }, 10.0);
+          Cm.sticker(tl, q(".c2"), 10.2, { rot: 3 });
+          Cm.draw(tl, q(".a2 .sh"), 10.3, 0.35);
+          Cm.draw(tl, q(".a2 .sh2"), 10.45, 0.3);
+          // "run git diff"
+          mark(5, 5, 12.2);
+          type(5, 12.25, 30);
+          // "then write three sections"
+          mark(6, 6, 13.35);
+          type(6, 13.4, 34);
+          // "What, why, and changes": typed, and each lands as its own little panel
+          tl.to([q(".c2"), q(".scr"), q(".a2 .sh2")], { opacity: 0, scale: 0.6, duration: 0.2, ease: "power2.in" }, 14.45);
+          [[7, 14.77, ".x1", -3], [8, 15.24, ".x2", 2], [9, 15.82, ".x3", -2]].forEach(([i, t, s, rot]) => {
+            mark(i, i, t - 0.05); type(i, t, 60);
+            Cm.slam(tl, q(s), t - 0.24, { rot, tilt: rot * 3, dur: 0.24 });
+          });
+          mark(5, 9, 16.2);
+
+          Cm.turn(tl, [q(".step"), q(".ttl"), page, q(".arrows"), ...all(".sec")], DUR - 0.33, 0.28);
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

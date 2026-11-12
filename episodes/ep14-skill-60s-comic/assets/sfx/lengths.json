@@ -1,0 +1,16 @@
+{
+  "thump": 1.8,
+  "slam": 0.5,
+  "whoosh": 0.49,
+  "pop": 0.16,
+  "boing": 0.85,
+  "stab": 0.85,
+  "scratch": 3,
+  "type": 3.15,
+  "page": 0.7,
+  "zap": 0.65,
+  "wah": 1.25,
+  "hit": 2,
+  "tick": 0.06,
+  "claude": 2.5
+}

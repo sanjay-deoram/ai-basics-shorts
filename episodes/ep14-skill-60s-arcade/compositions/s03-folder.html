@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"levelup","vol":0.12},
+      {"t":1.5,"sfx":"land","vol":0.16},
+      {"t":2.3,"sfx":"jump","vol":0.12},
+      {"t":2.55,"sfx":"land","vol":0.14},
+      {"t":3.0,"sfx":"select","vol":0.12},
+      {"t":3.75,"sfx":"type","vol":0.08,"dur":1.4},
+      {"t":5.95,"sfx":"type","vol":0.08,"dur":0.7},
+      {"t":6.6,"sfx":"unlock","vol":0.14},
+      {"t":6.62,"sfx":"jump","vol":0.1},
+      {"t":6.9,"sfx":"coin","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Level 1 · Folder, as a platform level. The path is a staircase of pixel folders: ~/.claude/ lands
+           with a little cyan sprite on top, which jumps down to skills/ as it's said. A terminal box types
+           `mkdir -p ~/.claude/skills/` on "make a folder" and `pr-description` on "P R description"; the new
+           folder (green) appears as the third step, the sprite jumps onto it, a star pops, and "FOLDER NAME = SKILL
+           NAME" confirms it. Avatar: small top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .term { position: absolute; left: 96px; top: 516px; width: 848px; height: 176px; background: var(--a-black); }
+        .s03 .term .bar { position: absolute; left: 24px; top: 14px; font: 400 28px/1 var(--a-head); color: var(--a-grey); }
+        .s03 .cmd { position: absolute; left: 24px; top: 76px; font: 400 46px/1 var(--a-mono); color: var(--a-white); white-space: pre; }
+        .s03 .cmd .pr { color: var(--a-green); }
+        .s03 .cmd .b { color: var(--a-yellow); }
+        .s03 .cmd .cur { color: var(--a-green); }
+        .s03 .row { position: absolute; display: flex; align-items: center; gap: 26px; font: 400 76px/1 var(--a-mono); white-space: nowrap; }
+        .s03 .row b { font-weight: 400; }
+        .s03 .r3 { color: var(--a-green); }
+        .s03 .stair i { position: absolute; width: 12px; height: 12px; background: var(--a-violet); }
+        .s03 .hero { position: absolute; left: 106px; top: 716px; }
+        .s03 .star { position: absolute; left: 520px; top: 1052px; }
+        .s03 .lbl { position: absolute; left: 96px; top: 1330px; width: 848px; height: 104px; display: flex; align-items: center; justify-content: center; font: 400 32px/1 var(--a-head); color: var(--a-yellow); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="arc-scene s03">
+          <div class="lv"><span class="px-tag lv-tag">LEVEL 1 · FOLDER</span><h2 class="lv-ttl">MAKE A FOLDER</h2></div>
+          <div class="px-panel term">
+            <span class="bar">TERMINAL</span>
+            <p class="cmd"><span class="pr">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><span class="b">pr-description</span><span class="cur"></span></p>
+          </div>
+          <div class="stair s1"><i style="left:140px;top:900px"></i><i style="left:140px;top:930px"></i><i style="left:140px;top:960px"></i><i style="left:170px;top:960px"></i><i style="left:200px;top:960px"></i></div>
+          <div class="stair s2"><i style="left:260px;top:1060px"></i><i style="left:260px;top:1090px"></i><i style="left:260px;top:1120px"></i><i style="left:290px;top:1120px"></i><i style="left:320px;top:1120px"></i></div>
+          <div class="row r1" style="left:90px;top:800px"><i class="sp" data-sp="folder" data-px="8"></i><span>~/.claude/</span></div>
+          <div class="row r2" style="left:220px;top:960px"><i class="sp" data-sp="folder" data-px="8"></i><span><b>skills/</b></span></div>
+          <div class="row r3" style="left:340px;top:1120px"><i class="sp" data-sp="folder" data-px="8" data-swap="y:n,o:e"></i><span>pr-description/</span></div>
+          <i class="sp hero" data-sp="hero" data-px="8"></i>
+          <i class="sp star" data-sp="star" data-px="6"></i>
+          <div class="px-panel lbl">FOLDER NAME = SKILL NAME</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Arc.sprites(root);
+          const hero = q(".hero"), cur = q(".cur");
+          // one jump: sideways in steps while going up, then down onto the next folder
+          const jump = (at, x, y) => {
+            tl.to(hero, { x, duration: 0.24, ease: "steps(6)" }, at);
+            tl.to(hero, { y: "-=70", duration: 0.1, ease: "steps(2)" }, at);
+            tl.to(hero, { y, duration: 0.14, ease: "steps(3)" }, at + 0.1);
+          };
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step one"
+          Arc.show(tl, q(".lv-tag"), 0.2);
+          Arc.show(tl, q(".lv-ttl"), 0.35);
+          Arc.show(tl, q(".term"), 0.6);
+          Arc.blink(tl, cur, 0.7, 7.2, 0.5);
+          // "in dot claude slash skills": the staircase, and the sprite hops down it
+          Arc.drop(tl, q(".r1"), 1.5);
+          Arc.drop(tl, hero, 1.5, { from: -220 });
+          Arc.show(tl, all(".s1 i"), 2.1, { stagger: 0.04 });
+          Arc.show(tl, q(".r2"), 2.4);
+          jump(2.3, 130, 160);
+          Arc.flash(tl, q(".r2 b"), 3.0, "color", "#ffd23f", "#f4f1ff", 3, "#ffd23f");
+          // "make a folder named after the skill": the command types in
+          Arc.type(tl, q(".cmd .a"), 3.75, 20);
+          // "P R description": the name, and the new folder becomes the next step
+          Arc.type(tl, q(".cmd .b"), 5.95, 22);
+          Arc.show(tl, all(".s2 i"), 6.3, { stagger: 0.04 });
+          Arc.show(tl, q(".r3"), 6.6);
+          jump(6.62, 250, 320);
+          Arc.show(tl, q(".star"), 6.9);
+          Arc.blink(tl, q(".star"), 7.0, 7.3, 0.16);
+          Arc.show(tl, q(".lbl"), 6.8);
+
+          Arc.hide(tl, [q(".lv"), q(".term"), ...all(".stair i"), ...all(".row"), hero, q(".star"), q(".lbl")], DUR - 0.15);
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

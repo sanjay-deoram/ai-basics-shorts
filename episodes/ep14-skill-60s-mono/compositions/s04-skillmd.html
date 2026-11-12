@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"sub","vol":0.26},
+      {"t":0.55,"sfx":"tick","vol":0.14},
+      {"t":2.3,"sfx":"click","vol":0.16},
+      {"t":3.8,"sfx":"tick","vol":0.16},
+      {"t":5.2,"sfx":"swell","vol":0.12},
+      {"t":5.85,"sfx":"key","vol":0.14},
+      {"t":6.65,"sfx":"keys","vol":0.14,"dur":0.5},
+      {"t":7.5,"sfx":"keys","vol":0.14,"dur":1.35},
+      {"t":7.6,"sfx":"tick","vol":0.14},
+      {"t":10.2,"sfx":"tick","vol":0.14},
+      {"t":12.25,"sfx":"keys","vol":0.14,"dur":0.75},
+      {"t":13.4,"sfx":"keys","vol":0.14,"dur":0.7},
+      {"t":14.77,"sfx":"key","vol":0.16},
+      {"t":15.24,"sfx":"key","vol":0.16},
+      {"t":15.82,"sfx":"key","vol":0.16},
+      {"t":16.3,"sfx":"tone","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md (black).
+           A (0–5.4): "Add one file." under the folder path; a hairline elbow and a "1 file" pill, then the name
+           SKILL.md in huge type and "Exactly that name, in capitals".
+           B (5.5–16.8): the file opens as an editor card. The frontmatter fences, then name and description type in
+           with a focus band on the active line (legend 01: Name + when to use it). On "Below that" the frontmatter
+           dims; git diff, "Write three sections" and What / Why / Changes type as they are said (legend 02:
+           Instructions, in plain English). The skill text follows the Claude Academy lesson.
+           Content stays above y 1290 (narrator pill below).
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .ttl { top: 336px; }
+        .s04 .path { position: absolute; left: 90px; top: 548px; width: 860px; height: 84px; border-top: 1.5px solid var(--ln); border-bottom: 1.5px solid var(--ln); display: flex; align-items: center; font: 400 30px/1 var(--f-m); color: var(--fg); white-space: pre; }
+        .s04 .elbow { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; fill: none; stroke: #f7f7f5; stroke-width: 2; }
+        .s04 .one { position: absolute; left: 196px; top: 716px; }
+        .s04 .fname { top: 830px; font-size: 196px; }
+        .s04 .foot { position: absolute; left: 92px; top: 1076px; }
+
+        .s04 .ed { top: 340px; height: 736px; overflow: hidden; }
+        .s04 .ed .top { position: absolute; left: 36px; right: 36px; top: 0; height: 88px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid var(--ln); }
+        .s04 .ed .top .f { font: 400 30px/1 var(--f-m); color: var(--fg); }
+        .s04 .ed .body { position: absolute; left: 0; right: 0; top: 112px; height: 600px; }
+        .s04 .ed .band { position: absolute; left: 0; right: 0; top: 0; height: 60px; background: #f7f7f5; opacity: 0; }
+        .s04 .ed .ln { position: relative; height: 60px; display: flex; align-items: center; padding-left: 36px; font: 400 30px/1 var(--f-m); color: var(--fg); white-space: pre; }
+        .s04 .ed .no { width: 62px; font-size: 28px; color: #7d7d7a; }
+        .s04 .ed .p { color: var(--mu); }
+        .s04 .leg { position: absolute; left: 90px; width: 860px; height: 88px; border-top: 1.5px solid var(--ln); display: flex; align-items: center; gap: 36px; }
+        .s04 .leg .t { font: 500 36px/1 var(--f-t); letter-spacing: -0.02em; color: var(--fg); }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="m-scene m-dark s04">
+          <div class="pa">
+            <h2 class="m-h ttl"><span class="m-line"><span>Add one file.</span></span></h2>
+            <div class="path"><span>~/.claude/skills/</span><span class="m-acc">pr-description</span><span>/</span></div>
+            <svg class="elbow" viewBox="0 0 1080 1920" aria-hidden="true"><path d="M124 634 V 744 H 180" /></svg>
+            <span class="m-pill one">1 file</span>
+            <div class="m-h fname"><span class="m-line"><span>SKILL.md</span></span></div>
+            <span class="m-mono foot">Exactly that name, in capitals</span>
+          </div>
+
+          <div class="m-card ed">
+            <div class="top"><span class="f">SKILL.md</span><span class="m-mono">Markdown</span></div>
+            <div class="body"><div class="band"></div>
+              <div class="ln"><span class="no">1</span><span class="tx"><span class="p">---</span></span></div>
+              <div class="ln"><span class="no">2</span><span class="tx"><span class="p">name:</span> <span class="m-acc">pr-description</span></span></div>
+              <div class="ln"><span class="no">3</span><span class="tx"><span class="p">description:</span> Writes PR descriptions.</span></div>
+              <div class="ln"><span class="no">4</span><span class="tx">  Use when the user asks for a PR.</span></div>
+              <div class="ln"><span class="no">5</span><span class="tx"><span class="p">---</span></span></div>
+              <div class="ln"><span class="no">6</span><span class="tx"><span class="p">1.</span> Run git diff main...HEAD</span></div>
+              <div class="ln"><span class="no">7</span><span class="tx"><span class="p">2.</span> Write three sections:</span></div>
+              <div class="ln"><span class="no">8</span><span class="tx">   ## What<span class="p">: one sentence</span></span></div>
+              <div class="ln"><span class="no">9</span><span class="tx">   ## Why<span class="p">: brief context</span></span></div>
+              <div class="ln"><span class="no">10</span><span class="tx">   ## Changes<span class="p">: bullets</span></span></div>
+            </div>
+          </div>
+          <div class="leg l1" style="top:1112px"><span class="m-mono">01</span><span class="t">Name + when to use it</span></div>
+          <div class="leg l2" style="top:1200px"><span class="m-mono">02</span><span class="t">Instructions, in plain English</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const ed = q(".ed"), lns = all(".ed .ln"), band = q(".band"), elbow = q(".elbow path");
+          elbow.setAttribute("pathLength", "1"); elbow.style.strokeDasharray = "1 1.1";
+          gsap.set(elbow, { strokeDashoffset: 1.02 });
+          gsap.set(all(".ed .no"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a line types in; the focus band glides to it
+          const type = (i, at, cps = 40, focus = true) => {
+            tl.set(lns[i].querySelector(".no"), { opacity: 1 }, at);
+            if (focus) tl.to(band, { y: i * 60, opacity: 0.1, duration: 0.35, ease: "expo.out" }, at - 0.05);
+            return Egg.typeOn(tl, lns[i].querySelector(".tx"), at, { cps });
+          };
+
+          // A · "Step two: inside it"
+          Mono.reveal(tl, q(".ttl"), 0.3);
+          Mono.fade(tl, q(".path"), 0.55, { y: 20 });
+          // "add one file"
+          tl.to(elbow, { strokeDashoffset: 0, duration: 0.6, ease: "power3.inOut" }, 2.2);
+          tl.fromTo(q(".one"), { opacity: 0, x: -16 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 2.55);
+          // "skill dot M D"
+          Mono.reveal(tl, q(".fname"), 3.8);
+          tl.fromTo(q(".foot"), { opacity: 0 }, { opacity: 1, duration: 0.4, ease: "none" }, 4.5);
+          Mono.conceal(tl, [q(".ttl"), q(".fname")], 5.1);
+          Mono.out(tl, [q(".path"), q(".elbow"), q(".one"), q(".foot")], 5.15);
+
+          tl.set(q(".pa"), { autoAlpha: 0 }, 5.45);
+          // B · the file opens as an editor
+          Mono.fade(tl, ed, 5.5, { y: 48 });
+          // "At the top": the fences
+          type(0, 5.85, 30, false); type(4, 5.95, 30, false);
+          // "a name"
+          type(1, 6.65, 36);
+          // "and a description of when to use it"
+          type(2, 7.5, 40);
+          tl.to(band, { scaleY: 2, transformOrigin: "50% 0%", duration: 0.35, ease: "expo.out" }, 8.1);
+          type(3, 8.15, 48, false);
+          Mono.fade(tl, q(".l1"), 7.6, { y: 20, dur: 0.6 });
+
+          // "Below that, the instructions, in plain English"
+          tl.to(band, { opacity: 0, duration: 0.25, ease: "none" }, 9.3);
+          tl.set(band, { scaleY: 1 }, 9.6);
+          tl.to(lns.slice(0, 5), { opacity: 0.38, duration: 0.4, ease: "power2.out" }, 9.3);
+          tl.to(q(".l1"), { opacity: 0.38, duration: 0.3, ease: "none" }, 10.0);
+          Mono.fade(tl, q(".l2"), 10.2, { y: 20, dur: 0.6 });
+          // "run git diff"
+          type(5, 12.25, 30);
+          // "then write three sections"
+          type(6, 13.4, 34);
+          // "What, why, and changes"
+          [[7, 14.77], [8, 15.24], [9, 15.82]].forEach(([i, t]) => type(i, t, 60));
+          tl.to(band, { opacity: 0, duration: 0.3, ease: "none" }, 16.3);
+          tl.to([...lns.slice(0, 5), q(".l1")], { opacity: 1, duration: 0.3, ease: "none" }, 16.3);
+
+          Mono.out(tl, [ed, q(".l1"), q(".l2")], DUR - 0.25, { dur: 0.22 });
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

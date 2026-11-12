@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thump","vol":0.3},
+      {"t":1.25,"sfx":"pop","vol":0.2},
+      {"t":2.55,"sfx":"stab","vol":0.22},
+      {"t":3.35,"sfx":"whoosh","vol":0.2},
+      {"t":3.6,"sfx":"boing","vol":0.16},
+      {"t":3.68,"sfx":"slam","vol":0.26},
+      {"t":4.2,"sfx":"scratch","vol":0.2,"dur":1.5},
+      {"t":5.45,"sfx":"claude","vol":0.2},
+      {"t":6.85,"sfx":"whoosh","vol":0.18},
+      {"t":7.1,"sfx":"slam","vol":0.26},
+      {"t":7.55,"sfx":"zap","vol":0.2},
+      {"t":7.95,"sfx":"stab","vol":0.2},
+      {"t":8.5,"sfx":"page","vol":0.18},
+      {"t":8.85,"sfx":"slam","vol":0.26},
+      {"t":9.2,"sfx":"slam","vol":0.26},
+      {"t":9.55,"sfx":"slam","vol":0.28},
+      {"t":10.5,"sfx":"page","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Splash page (no title card, nothing waits). Frame 0 already reads "CREATE A CLAUDE SKILL" over
+           spinning speed lines and a giant red starburst "UNDER 60 SECONDS!" that slams down with a thump. On
+           "sixty" the 60 punches; then the burst shrinks away and a small "60 SEC" badge pops top right.
+           "A skill is a set of instructions": panel 1 slams in and a SKILL.md sheet is lettered line by line; the
+           Claude mark pops onto its corner on "Claude". "When your request needs it": panel 2 slams in with the
+           request in a speech bubble, a bolt jumps across the gutter, panel 1 flashes: ZAP! "Step by step": three
+           numbered panels slam in one after another. Page turn out.
+           Everything stays above y 800: the avatar peeks in large below (narrator.html "title").
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .cm-rays { left: -960px; top: -880px; width: 3000px; height: 3000px; }
+        .s01 .hook { position: absolute; left: 90px; top: 232px; width: 700px; font-size: 104px; }
+        .s01 .hook span { display: block; width: max-content; transform-origin: 0 60%; }
+        .s01 .b60 { left: 20px; top: 420px; width: 940px; height: 400px; flex-direction: row; gap: 26px; }
+        .s01 .b60 .n { font: 400 290px/0.9 var(--f-comic); color: var(--yellow); -webkit-text-stroke: 8px var(--ink); paint-order: stroke fill; text-shadow: 10px 10px 0 var(--ink), -7px 4px 0 var(--cyan); }
+        .s01 .b60 .r { display: flex; flex-direction: column; align-items: flex-start; }
+        .s01 .b60 .u { font: 400 64px/1 var(--f-comic); color: var(--white); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; }
+        .s01 .b60 .sec { font: 400 92px/1 var(--f-comic); color: var(--white); -webkit-text-stroke: 4px var(--ink); paint-order: stroke fill; text-shadow: 6px 6px 0 var(--ink); }
+        .s01 .c60 { left: 756px; top: 226px; width: 200px; height: 200px; font-size: 30px; }
+        .s01 .c60 b { font-size: 92px; line-height: 0.85; color: var(--red); }
+        .s01 .p1 { left: 90px; top: 478px; width: 490px; height: 310px; }
+        .s01 .p1 .cm-cap { left: -16px; top: -30px; }
+        .s01 .p1 .md { position: absolute; left: 26px; top: 66px; }
+        .s01 .p1 .md p { font: 400 28px/40px var(--f-mono); margin: 0; white-space: pre; }
+        .s01 .p1 .md .k { color: var(--red); }
+        .s01 .p1 .md .p { color: var(--grey); }
+        .s01 .p1 .cm-claude { position: absolute; right: -34px; top: -40px; width: 96px; height: 96px; }
+        .s01 .p1 .flash { position: absolute; inset: 0; background: var(--yellow); mix-blend-mode: multiply; }
+        .s01 .p2 { left: 640px; top: 500px; width: 310px; height: 260px; }
+        .s01 .p2 .bg { position: absolute; inset: 0; --dot: #0e86b3; --sz: 18px; opacity: 0.5; }
+        .s01 .p2 .cm-cap { left: -16px; top: -30px; }
+        .s01 .p2 .cm-bubble { left: 22px; top: 62px; width: 250px; padding: 16px 20px; font-size: 32px; }
+        .s01 .bolt { left: 556px; top: 580px; width: 110px; height: 90px; }
+        .s01 .zap { left: 330px; top: 716px; }
+        .s01 .st { top: 500px; width: 272px; height: 240px; display: flex; align-items: flex-end; justify-content: center; padding-bottom: 34px; }
+        .s01 .st .lab { font: 400 72px/1 var(--f-comic); letter-spacing: 0.03em; }
+        .s01 .st .lab.mono { font: 400 44px/1.5 var(--f-mono); letter-spacing: 0; }
+        .s01 .st .cm-burst { left: -26px; top: -40px; width: 150px; height: 150px; font-size: 84px; color: var(--white); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="cm-page s01">
+          <div class="cm-rays" data-layout-allow-overflow=""></div>
+          <div class="cm-corner bl cm-dots" style="--dot: var(--red); --sz: 26px"></div>
+          <div class="cm-corner tl cm-dots" style="--dot: var(--cyan); --sz: 20px"></div>
+
+          <div class="cm-burst b60" data-n="18" data-inner="0.8" data-fill="var(--red)" data-seed="11" style="width:940px;height:400px" data-layout-allow-overflow="" data-layout-allow-overlap="">
+            <span class="n">60</span>
+            <span class="r"><span class="u">UNDER</span><span class="sec">SECONDS!</span></span>
+          </div>
+          <h1 class="cm-big hook" data-layout-allow-overlap=""><span class="l1">Create a</span><span class="l2">Claude skill</span></h1>
+          <div class="cm-burst c60" data-n="12" data-inner="0.78" data-seed="5" style="width:200px;height:200px"><span>UNDER</span><b>60</b><span>SEC</span></div>
+
+          <div class="cm-panel p1" data-layout-allow-overlap="">
+            <div class="flash"></div>
+            <span class="cm-cap">A skill = instructions</span>
+            <div class="md">
+              <p><span class="p">---</span></p>
+              <p><span class="k">name</span>: pr-description</p>
+              <p><span class="k">description</span>: Use when…</p>
+              <p><span class="p">---</span></p>
+              <p>1. Run git diff…</p>
+            </div>
+            <div class="cm-claude" data-layout-allow-overflow=""></div>
+          </div>
+          <div class="cm-panel cyan p2" data-layout-allow-overlap="">
+            <div class="bg cm-dots"></div>
+            <span class="cm-cap red">Your request</span>
+            <div class="cm-bubble t-dl">Write a PR description</div>
+          </div>
+          <svg class="bolt" style="position:absolute" viewBox="0 0 110 90" aria-hidden="true" data-layout-allow-overlap=""><polygon points="108,8 52,34 70,44 4,82 46,50 30,40" fill="#ffd21f" stroke="#141210" stroke-width="6" stroke-linejoin="round" /></svg>
+          <span class="cm-sfx yel zap" data-layout-allow-overlap="">ZAP!</span>
+
+          <div class="cm-panel yel st st1" style="left:90px"><div class="cm-burst" data-n="10" data-fill="var(--red)" data-seed="21" style="width:150px;height:150px" data-layout-allow-overflow=""><span>1</span></div><span class="lab">Folder</span></div>
+          <div class="cm-panel cyan st st2" style="left:384px"><div class="cm-burst" data-n="10" data-fill="var(--red)" data-seed="22" style="width:150px;height:150px" data-layout-allow-overflow=""><span>2</span></div><span class="lab mono">SKILL.md</span></div>
+          <div class="cm-panel st st3" style="left:678px"><div class="cm-burst" data-n="10" data-fill="var(--red)" data-seed="23" style="width:150px;height:150px" data-layout-allow-overflow=""><span>3</span></div><span class="lab">Ask!</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cm.mount(root);
+          const rays = q(".cm-rays"), b60 = q(".b60"), p1 = q(".p1"), p2 = q(".p2"), logo = q(".p1 .cm-claude");
+          gsap.set([q(".c60"), p1, p2, q(".bolt"), q(".zap"), q(".p1 .flash"), logo, ...all(".st")], { opacity: 0 });
+          gsap.set(b60, { rotation: -4 });
+
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(rays, { rotation: 0 }, { rotation: 40, duration: DUR, ease: "none" }, 0);
+          // frame 0: title and burst are already there; they slam down with a thump
+          tl.fromTo(b60, { scale: 1.16 }, { scale: 1, duration: 0.3, ease: "back.out(3)" }, 0);
+          tl.fromTo(q(".hook"), { y: -22 }, { y: 0, duration: 0.3, ease: "back.out(3)" }, 0);
+          // "create a Claude skill"
+          Cm.punch(tl, q(".hook .l2"), 1.25, 1.1);
+          // "in under sixty seconds": the 60 punches, then the burst shrinks into the badge
+          Cm.punch(tl, q(".b60 .n"), 2.55, 1.16);
+          tl.to(b60, { rotation: 4, duration: 0.12, ease: "power2.out", yoyo: true, repeat: 1 }, 2.55);
+          tl.to(b60, { scale: 0.2, x: 330, y: -300, rotation: 30, opacity: 0, duration: 0.36, ease: "power3.in" }, 3.3);
+          tl.to(rays, { opacity: 0.28, duration: 0.5, ease: "none" }, 3.3);
+          Cm.sticker(tl, q(".c60"), 3.6, { rot: 8 });
+          // "A skill is a set of instructions": panel 1 slams in, the sheet is lettered
+          Cm.slam(tl, p1, 3.42, { tilt: -8 });
+          all(".p1 .md p").reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 50 }) + 0.05, 4.2);
+          // "Claude": the mark lands on the panel corner
+          Cm.sticker(tl, logo, 5.45, { rot: 0 });
+          // "when your request needs it": the request panel, the bolt across the gutter, the flash
+          Cm.slam(tl, p2, 6.85, { tilt: 8, rot: 2 });
+          tl.fromTo(q(".bolt"), { opacity: 0, scale: 0.2, x: 50 }, { opacity: 1, scale: 1, x: 0, duration: 0.22, ease: "back.out(3)" }, 7.55);
+          tl.fromTo(q(".p1 .flash"), { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "none" }, 7.95);
+          Cm.punch(tl, p1, 7.95, 1.05);
+          Cm.sticker(tl, q(".zap"), 7.95, { rot: -10 });
+          // "Let's build one, step by step": page turn, then the three steps slam in
+          tl.to([p1, p2, q(".bolt"), q(".zap")], { y: 90, rotation: "+=6", opacity: 0, duration: 0.28, ease: "power2.in", stagger: 0.03 }, 8.45);
+          [[".st1", -3], [".st2", 2], [".st3", -2]].forEach(([s, rot], i) => Cm.slam(tl, q(s), 8.85 + i * 0.35 - 0.26, { rot, tilt: i % 2 ? 9 : -9 }));
+
+          Cm.turn(tl, [q(".hook"), q(".c60"), ...all(".st")], DUR - 0.4);
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

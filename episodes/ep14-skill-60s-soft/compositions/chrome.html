@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay for the whole film: a thin, soft progress line at the top, one segment per scene. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chr { position: absolute; left: 330px; top: 172px; width: 420px; height: 5px; display: flex; gap: 8px; }
+        .chr span { position: relative; height: 5px; border-radius: 3px; background: rgba(17, 18, 20, 0.1); overflow: hidden; }
+        .chr i { position: absolute; inset: 0; border-radius: 3px; background: rgba(17, 18, 20, 0.5); transform-origin: 0 50%; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chr"></div>
+      </div>
+      <script>
+        (() => {
+          const SCENES = [10.9, 4.6, 7.45, 16.8, 17.4];   // = the slot lengths in index.html
+          const bar = document.querySelector('[data-composition-id="chrome"] .chr');
+          const tl = gsap.timeline({ paused: true });
+          let t = 0;
+          SCENES.forEach((d) => {
+            const seg = document.createElement("span"), fill = document.createElement("i");
+            seg.style.flex = `${d} 0 0`;
+            seg.appendChild(fill);
+            bar.appendChild(seg);
+            tl.fromTo(fill, { scaleX: 0 }, { scaleX: 1, duration: d, ease: "none" }, t);
+            t += d;
+          });
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.51,"sfx":"tick","vol":0.16},
+      {"t":0.6,"sfx":"typing","vol":0.24,"dur":1.2},
+      {"t":1.87,"sfx":"pop","vol":0.22},
+      {"t":2.28,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s09 · Step 3 · Ask. Yellow: "Step three: just ask."; the editor becomes Claude Code (logo header) and the
+           request types into the prompt: "write a PR description for my changes". -->
+      <style>
+        #s09-root .bg { background-color: #fff1c2; }
+        #s09-root .rl-hd { --acc: #c2410c; }
+        #s09-root .term { top: 620px; height: 560px; }
+        #s09-root .caret { opacity: 0; }
+      </style>
+      <div id="s09-root" data-composition-id="s09-ask" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// step 3 · ask</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Step </span><span class="w">three:</span></span>
+              <span class="ln"><span class="w">just </span><em class="w">ask.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>claude · ~/my-app</span></div>
+              <div class="tb">
+                <div class="r hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Claude Code</span><span class="t2">~/my-app</span></div>
+                <div class="r sub">What are we working on?</div>
+                <div class="r gap"></div>
+                <div class="r prompt"><b>&gt;</b><span class="typed">write a PR description for my changes</span><span class="caret"></span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s09-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s09-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          Reel.words(tl, q(".rl-hd"), [0.51, 0.85, 1.53, 1.87]);
+          const hdr = q(".hdr img");
+          tl.fromTo(hdr, { rotation: -120, scale: 0.4 }, { rotation: 0, scale: 1, duration: 0.5, ease: "back.out(1.8)" }, 0.3);
+          Egg.typeOn(tl, q(".typed"), 0.6, { cps: 32 });
+          const caret = q(".caret");
+          for (let t = 1.8; t < 2.3; t += 0.25) tl.set(caret, { opacity: Math.round((t - 1.8) / 0.25) % 2 ? 0 : 1 }, t);
+          Reel.whip(tl, cam, blur, 2.3, "out");
+
+          window.__timelines["s09-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.3},
+      {"t":0.26,"sfx":"tick","vol":0.16},
+      {"t":0.65,"sfx":"tick","vol":0.16},
+      {"t":1.2,"sfx":"pop","vol":0.24},
+      {"t":1.3,"sfx":"pop","vol":0.18},
+      {"t":1.45,"sfx":"error","vol":0.22},
+      {"t":1.7,"sfx":"pop","vol":0.18},
+      {"t":1.9,"sfx":"thud","vol":0.36},
+      {"t":2.6,"sfx":"error","vol":0.16},
+      {"t":3.84,"sfx":"thud","vol":0.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s12 · The tip. Hard cut to black: "Keep the description specific." word by word; a weak description
+           ("Helps with PRs.", stamped VAGUE) and the better one ("Writes PR descriptions. Use when the user asks for
+           a PR.", stamped SPECIFIC); on "or Claude won't know when to use it" the vague one shakes and fades; the
+           specific one punches on the music hit and the frame holds to the hard stop. Avatar BIG below the cards. -->
+      <style>
+        #s12-root .bg { background: #0b0b0b; }
+        #s12-root .rl-eye { color: #9b968e; }
+        #s12-root .rl-hd { --acc: #f08a63; color: #fdfcfc; }
+        #s12-root .card { position: absolute; left: 90px; width: 860px; border-radius: 26px; background: #1c1b19; border: 2px solid #3a3733; padding: 22px 30px; }
+        #s12-root .card .k { font: 400 28px/34px var(--f-mono); color: #a39e95; }
+        #s12-root .card .v { margin-top: 10px; font: 500 38px/46px var(--f-display); letter-spacing: -0.02em; color: #fdfcfc; }
+        #s12-root .weak { top: 650px; height: 160px; }
+        #s12-root .good { top: 850px; height: 214px; }
+        #s12-root .good .v { width: 760px; }
+        #s12-root .rstamp { right: 26px; top: -28px; font-size: 32px; padding: 8px 20px; border-width: 5px; background: #1c1b19; }
+        #s12-root .weak .rstamp { color: #ff5d5d; }
+        #s12-root .good .rstamp { color: #3fbf74; }
+      </style>
+      <div id="s12-root" data-composition-id="s12-black" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-bg bg"></div>
+          <div class="rl-eye">// one tip</div>
+          <div class="rl-hd">
+            <span class="ln"><span class="w">Keep </span><span class="w">the</span></span>
+            <span class="ln"><span class="w">description</span></span>
+            <span class="ln"><em class="w">specific.</em></span>
+          </div>
+          <div class="card weak"><div class="k">description:</div><div class="v">Helps with PRs.</div><div class="rstamp">Vague</div></div>
+          <div class="card good"><div class="k">description:</div><div class="v">Writes PR descriptions. Use when the user asks for a PR.</div><div class="rstamp">Specific</div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s12-root");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const weak = q(".weak"), good = q(".good");
+          // "Just keep the description specific"
+          Reel.words(tl, q(".rl-hd"), [0.26, 0.5, 0.65, 1.2]);
+          tl.fromTo(weak, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 1.3);
+          Egg.stamp(tl, q(".weak .rstamp"), 1.45);
+          tl.fromTo(good, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 1.7);
+          Egg.stamp(tl, q(".good .rstamp"), 1.9);
+          // "or Claude won't know when to use it"
+          Egg.shake(tl, weak, 2.6);
+          tl.to(weak, { opacity: 0.4, duration: 0.4, ease: "none" }, 3.0);
+          // the music hit: the specific one punches, then the frame holds to the hard stop
+          tl.to(good, { scale: 1.05, borderColor: "#3fbf74", duration: 0.12, ease: "power2.out" }, 3.84);
+          tl.to(good, { scale: 1, duration: 0.3, ease: "power2.out" }, 3.96);
+          tl.to(q(".rl-hd em"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, 3.84);
+          tl.to({}, { duration: 5.55 }, 0);
+          window.__timelines["s12-black"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

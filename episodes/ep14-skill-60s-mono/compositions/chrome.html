@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:57.15,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay: a hairline progress line at the top of the safe box, the section marker (left) and a
+           running timecode (right) that counts up to 0:57: the "under 60 seconds" promise, kept on screen.
+           SECTIONS is also the inversion schedule: the overlay switches ink as each black or white section cuts in. -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chr { position: absolute; inset: 0; color: #0a0a0a; }
+        .chr .rail { position: absolute; left: 90px; top: 220px; width: 860px; height: 2px; }
+        .chr .rail b { position: absolute; inset: 0; background: currentColor; opacity: 0.2; }
+        .chr .rail i { position: absolute; inset: 0; background: currentColor; transform-origin: 0 50%; }
+        .chr .lab { position: absolute; left: 90px; top: 244px; width: 700px; height: 36px; overflow: hidden; }
+        .chr .lab span { position: absolute; left: 0; top: 4px; display: block; font: 400 28px/1 var(--f-m); letter-spacing: 0.06em; text-transform: uppercase; white-space: nowrap; color: currentColor; }
+        .chr .orb { position: absolute; left: -260px; top: 1470px; width: 1600px; height: 900px; border-radius: 50%; background: radial-gradient(closest-side, currentColor 0%, transparent 100%); opacity: 0.07; }
+        .chr .wv { position: absolute; left: 0; top: 1580px; width: 1080px; height: 200px; fill: none; stroke: currentColor; stroke-width: 1.5; }
+        .chr .wv path { opacity: 0.35; }
+        .chr .tc { position: absolute; right: 130px; top: 248px; font: 400 28px/1 var(--f-m); letter-spacing: 0.06em; color: currentColor; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chr">
+          <div class="orb"></div>
+          <svg class="wv" viewBox="0 1580 1080 200" aria-hidden="true"><path class="w1" /><path class="w2" /></svg>
+          <div class="rail"><b></b><i></i></div>
+          <div class="lab"></div>
+          <span class="tc">0:00</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          // [episode time, label, dark?]
+          const SECTIONS = [
+            [0, "Under 60 seconds", 0],
+            [3.45, "What a skill is", 1],
+            [8.6, "Three steps", 0],
+            [10.9, "The example", 1],
+            [15.5, "Step 1 / Folder", 0],
+            [22.95, "Step 2 / SKILL.md", 1],
+            [39.75, "Step 3 / Ask", 0],
+            [51.75, "One rule", 1],
+          ];
+          const chr = document.querySelector('[data-composition-id="chrome"] .chr');
+          const lab = chr.querySelector(".lab"), tc = chr.querySelector(".tc");
+          const { duration } = window.__hyperframes.getVariables();
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(chr.querySelector(".orb"), { xPercent: -6 }, { xPercent: 6, duration, ease: "sine.inOut" }, 0);
+          tl.fromTo(chr.querySelector(".rail i"), { scaleX: 0 }, { scaleX: 1, duration, ease: "none" }, 0);
+          const spans = SECTIONS.map(([, text]) => { const s = document.createElement("span"); s.textContent = text; lab.appendChild(s); return s; });
+          SECTIONS.forEach(([t, , dark], i) => {
+            if (i) {
+              tl.set(chr, { color: dark ? "#f7f7f5" : "#0a0a0a" }, t);
+              tl.set(spans[i - 1], { opacity: 0 }, t);
+              tl.fromTo(spans[i], { yPercent: 130 }, { yPercent: 0, duration: 0.7, ease: "expo.out" }, t);
+            }
+          });
+          // decoration: a soft orb and a voice-driven waveform line in the lower third (below the safe box)
+          const L = window.EggLipsync, w1 = chr.querySelector(".w1"), w2 = chr.querySelector(".w2");
+          const lvl = (t) => { if (!L) return 0; const i = Math.floor(t * L.fps); return i >= 0 && i < L.data.length ? (L.data.charCodeAt(i) - 48) / 9 : 0; };
+          const wave = (t, ph, amp, y0) => {
+            let d = "";
+            for (let x = 90; x <= 990; x += 10) {
+              const u = (x - 540) / 450, env = Math.exp(-u * u * 3);
+              d += (x === 90 ? "M" : "L") + x + " " + (y0 + Math.sin(x * 0.018 + t * ph) * amp * env).toFixed(1);
+            }
+            return d;
+          };
+          const box = { t: 0 };
+          const show = () => {
+            const a = 14 + 46 * lvl(box.t);
+            w1.setAttribute("d", wave(box.t, 1.6, a, 1680));
+            w2.setAttribute("d", wave(box.t + 2, -1.1, a * 0.6, 1680)); tc.textContent = "0:" + String(Math.min(59, Math.floor(box.t + 1e-6))).padStart(2, "0"); };
+          show();
+          tl.fromTo(box, { t: 0 }, { t: duration, duration, ease: "none", onUpdate: show }, 0);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

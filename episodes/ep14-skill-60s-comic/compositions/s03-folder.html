@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"stab","vol":0.22},
+      {"t":0.4,"sfx":"whoosh","vol":0.16},
+      {"t":0.66,"sfx":"slam","vol":0.26},
+      {"t":0.9,"sfx":"slam","vol":0.26},
+      {"t":1.5,"sfx":"pop","vol":0.22},
+      {"t":2.25,"sfx":"scratch","vol":0.16,"dur":0.35},
+      {"t":2.55,"sfx":"pop","vol":0.22},
+      {"t":3.0,"sfx":"scratch","vol":0.16,"dur":0.4},
+      {"t":3.75,"sfx":"type","vol":0.22,"dur":1.4},
+      {"t":3.95,"sfx":"boing","vol":0.14},
+      {"t":5.95,"sfx":"type","vol":0.22,"dur":0.7},
+      {"t":6.3,"sfx":"scratch","vol":0.16,"dur":0.3},
+      {"t":6.6,"sfx":"pop","vol":0.24},
+      {"t":6.62,"sfx":"stab","vol":0.2},
+      {"t":6.85,"sfx":"slam","vol":0.22},
+      {"t":7.12,"sfx":"page","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder. A "STEP 1" burst and two panels: the terminal on top, the folder tree below. The
+           camera pushes to the tree while the path is said (the terminal goes under halftone shade): ~/.claude/ then
+           skills/ pop in, joined by inked lines. It cuts to the terminal on "make a folder": the command is typed
+           (TYPE TYPE). On "P R description" the name is typed, the new folder pops into the tree with a "NEW!" burst,
+           and the caption "Folder name = skill name" slams onto the panel.
+           Avatar: small round panel top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .step { left: 78px; top: 222px; width: 240px; height: 240px; font-size: 54px; color: var(--white); -webkit-text-stroke: 3px var(--ink); paint-order: stroke fill; }
+        .s03 .step b { font-size: 110px; line-height: 0.85; }
+        .s03 .ttl { position: absolute; left: 336px; top: 300px; font-size: 80px; }
+        .s03 .cam { position: absolute; inset: 0; transform-origin: 540px 500px; }
+        .s03 .shade { position: absolute; inset: 0; --dot: var(--ink); --sz: 12px; background-color: rgba(20, 18, 16, 0.35); }
+        .s03 .term { left: 90px; top: 512px; width: 860px; height: 236px; }
+        .s03 .term .cm-cap { left: -16px; top: -30px; }
+        .s03 .cmd { position: absolute; left: 34px; top: 100px; font-size: 29px; color: #f4efe2; }
+        .s03 .cmd .pr { color: #9a968f; }
+        .s03 .cmd .nw { color: var(--yellow); }
+        .s03 .typefx { left: 620px; top: 690px; font-size: 68px; }
+        .s03 .tree { left: 90px; top: 812px; width: 860px; height: 630px; }
+        .s03 .tree .cm-cap { left: -16px; top: -30px; }
+        .s03 .tree .bg { position: absolute; right: 0; bottom: 0; width: 520px; height: 420px; --dot: var(--cyan); --sz: 20px; opacity: 0.55; -webkit-mask-image: radial-gradient(circle at 100% 100%, #000 0, transparent 72%); mask-image: radial-gradient(circle at 100% 100%, #000 0, transparent 72%); }
+        .s03 .row { position: absolute; display: flex; align-items: center; gap: 22px; font: 400 52px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
+        .s03 .row svg { width: 78px; height: 64px; flex: none; fill: var(--yellow); stroke: var(--ink); stroke-width: 5; stroke-linejoin: round; overflow: visible; }
+        .s03 .row.new svg { fill: var(--red); }
+        .s03 .tree .ln { position: absolute; left: 0; top: 0; width: 844px; height: 614px; overflow: visible; }
+        .s03 .tree .ln path { fill: none; stroke: var(--ink); stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; }
+        .s03 .newb { left: 648px; top: 150px; width: 180px; height: 150px; font-size: 52px; }
+        .s03 .rule { left: 40px; top: 450px; width: 764px; height: 120px; display: flex; align-items: center; justify-content: center; font: 400 60px/1 var(--f-comic); letter-spacing: 0.03em; box-shadow: 8px 8px 0 var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="cm-page s03">
+          <div class="cm-corner tl cm-dots" style="--dot: var(--yellow); --sz: 22px; opacity: 0.9"></div>
+          <div class="cm-corner br cm-dots" style="--dot: var(--red); --sz: 24px"></div>
+          <div class="cm-burst step" data-n="14" data-inner="0.76" data-fill="var(--red)" data-seed="41" style="width:240px;height:240px"><span>Step</span><b>1</b></div>
+          <h2 class="cm-title ttl">Make a folder</h2>
+          <div class="cam">
+            <div class="cm-panel dark term">
+              <span class="cm-cap">Meanwhile, in the terminal…</span>
+              <p class="cm-mono cmd"><span class="pr">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><span class="nw b">pr-description</span></p>
+              <div class="shade cm-dots"></div>
+            </div>
+            <span class="cm-sfx cyan typefx" data-layout-allow-overlap="">TYPE TYPE</span>
+            <div class="cm-panel tree">
+              <div class="bg cm-dots"></div>
+              <span class="cm-cap white">Your skills live here</span>
+              <svg class="ln" viewBox="0 0 844 614" aria-hidden="true">
+                <path class="ln1" d="M78 150 V 232 H 126" />
+                <path class="ln2" d="M168 270 V 352 H 216" />
+              </svg>
+              <div class="row r1" style="left:40px;top:76px"><svg viewBox="0 0 78 64"><path d="M4 10a6 6 0 0 1 6-6h20l8 9h30a6 6 0 0 1 6 6v35a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z" /></svg><span>~/.claude/</span></div>
+              <div class="row r2" style="left:130px;top:196px"><svg viewBox="0 0 78 64"><path d="M4 10a6 6 0 0 1 6-6h20l8 9h30a6 6 0 0 1 6 6v35a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z" /></svg><span class="cm-mark">skills/</span></div>
+              <div class="row r3 new" style="left:220px;top:316px"><svg viewBox="0 0 78 64"><path d="M4 10a6 6 0 0 1 6-6h20l8 9h30a6 6 0 0 1 6 6v35a6 6 0 0 1-6 6H10a6 6 0 0 1-6-6z" /></svg><span class="cm-mark">pr-description/</span></div>
+              <div class="cm-burst newb" data-n="12" data-inner="0.74" data-seed="43" style="width:180px;height:150px" data-layout-allow-overlap=""><span>New!</span></div>
+              <div class="cm-panel yel rule">Folder name = skill name</div>
+              <div class="shade cm-dots"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cm.mount(root);
+          const cam = q(".cam"), term = q(".term"), tree = q(".tree"), sT = q(".term .shade"), sF = q(".tree .shade");
+          gsap.set([sT, sF, q(".typefx"), q(".newb"), q(".rule"), ...all(".row")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          const pop = (el, at) => tl.fromTo(el, { opacity: 0, scale: 0.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.6)", transformOrigin: "0 50%" }, at);
+          // "Step one"
+          Cm.sticker(tl, q(".step"), 0.15, { rot: -8 });
+          Cm.ink(tl, q(".ttl"), 0.35, 0.4);
+          Cm.slam(tl, term, 0.4, { tilt: -6 });
+          Cm.slam(tl, tree, 0.64, { tilt: 6 });
+          // "in dot claude slash skills": push to the tree
+          tl.to(sT, { opacity: 0.75, duration: 0.25, ease: "none" }, 1.25);
+          tl.to(cam, { scale: 1.045, duration: 0.5, ease: "power2.inOut" }, 1.25);
+          pop(q(".r1"), 1.5);
+          Cm.draw(tl, q(".ln1"), 2.25, 0.3);
+          pop(q(".r2"), 2.55);
+          Cm.mark(tl, q(".r2 .cm-mark"), 3.0);
+          // "make a folder named after the skill": cut to the terminal, the command is typed
+          tl.to(sT, { opacity: 0, duration: 0.2, ease: "none" }, 3.5);
+          tl.to(sF, { opacity: 0.6, duration: 0.25, ease: "none" }, 3.5);
+          tl.to(cam, { scale: 1, duration: 0.4, ease: "power2.inOut" }, 3.5);
+          Egg.typeOn(tl, q(".cmd .a"), 3.75, { cps: 20 });
+          Cm.sticker(tl, q(".typefx"), 3.95, { rot: 6 });
+          // "P R description": the name, and the new folder pops into the tree
+          tl.to(sF, { opacity: 0, duration: 0.2, ease: "none" }, 5.85);
+          Egg.typeOn(tl, q(".cmd .b"), 5.95, { cps: 22 });
+          Cm.draw(tl, q(".ln2"), 6.3, 0.3);
+          pop(q(".r3"), 6.6);
+          Cm.sticker(tl, q(".newb"), 6.62, { rot: 10 });
+          Cm.mark(tl, q(".r3 .cm-mark"), 6.75, 0.3);
+          Cm.slam(tl, q(".rule"), 6.6, { rot: -2, tilt: -6, dur: 0.25 });
+
+          Cm.turn(tl, [q(".step"), q(".ttl"), term, q(".typefx"), tree], DUR - 0.32, 0.28);
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

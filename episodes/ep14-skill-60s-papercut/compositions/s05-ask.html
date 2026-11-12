@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"tape","vol":0.12},
+      {"t":0.3,"sfx":"thud","vol":0.2},
+      {"t":0.9,"sfx":"typewriter","vol":0.16,"dur":1.4},
+      {"t":2.5,"sfx":"slide","vol":0.14},
+      {"t":2.62,"sfx":"pin","vol":0.16},
+      {"t":2.74,"sfx":"pin","vol":0.16},
+      {"t":2.86,"sfx":"pin","vol":0.16},
+      {"t":4.0,"sfx":"tape","vol":0.12},
+      {"t":4.5,"sfx":"tape","vol":0.12},
+      {"t":6.1,"sfx":"clack","vol":0.2},
+      {"t":6.3,"sfx":"string","vol":0.22},
+      {"t":6.8,"sfx":"xylo-4","vol":0.16},
+      {"t":7.5,"sfx":"slide","vol":0.16},
+      {"t":7.75,"sfx":"fold","vol":0.2},
+      {"t":7.95,"sfx":"fold","vol":0.16},
+      {"t":8.9,"sfx":"clack","vol":0.18},
+      {"t":9.6,"sfx":"typewriter","vol":0.14,"dur":1.4},
+      {"t":9.85,"sfx":"rustle","vol":0.14},
+      {"t":10.1,"sfx":"snips","vol":0.14},
+      {"t":10.35,"sfx":"thud","vol":0.14},
+      {"t":10.62,"sfx":"pin","vol":0.16},
+      {"t":10.79,"sfx":"pin","vol":0.16},
+      {"t":10.96,"sfx":"pin","vol":0.16},
+      {"t":11.8,"sfx":"rustle","vol":0.12},
+      {"t":12.1,"sfx":"slide","vol":0.16},
+      {"t":12.6,"sfx":"stamp","vol":0.26},
+      {"t":13.0,"sfx":"slide","vol":0.16},
+      {"t":13.3,"sfx":"stamp","vol":0.26},
+      {"t":13.45,"sfx":"xylo-3","vol":0.16},
+      {"t":14.1,"sfx":"knock","vol":0.16},
+      {"t":15.4,"sfx":"uke","vol":0.24,"dur":1.7}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff (papercut). Claude Code is a navy paper window pinned to the table: a
+           cream header strip with the Claude logo, a clay pixel mascot cut from squares, and a torn cream note as the
+           input, where the request is typed. "Up front": three skill index cards are pinned below, showing only a name
+           and a description (each gets a strip of mustard tape as it is said). "When your request matches": the request
+           is sent (it pops up into the transcript), a red string is pulled from the input note to pr-description, the
+           other two cards are knocked crooked and slide off; "loads the full file": the card unfolds a second panel
+           with the instructions while the transcript shows Skill(pr-description); "follows it": Bash(git diff…) and the
+           What / Why / Changes reply are typed into the window. Payoff: "Same format, every time." in cut-out letters,
+           then a weak description stamped VAGUE and a better one stamped SPECIFIC; a paper star is stuck on it with a
+           ukulele + woodblock flourish. Hard stop: the last frame holds. The avatar is out: the scene fills the box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .win { left: 90px; top: 300px; width: 860px; height: 650px; --paper: var(--navy); }
+        .s05 .win .bar { position: absolute; left: 16px; top: 14px; right: 16px; height: 58px; display: flex; align-items: center; gap: 14px; padding: 0 20px; background: var(--cream); background-image: var(--grain); font: 600 32px/1 var(--f-cut); color: var(--navy); }
+        .s05 .win .bar img { width: 40px; height: 40px; }
+        .s05 .win .bar i { width: 20px; height: 20px; border-radius: 50%; background: var(--tomato); }
+        .s05 .win .bar i + i { background: var(--mustard); }
+        .s05 .win .bar i + i + i { background: var(--teal); margin-right: 8px; }
+        .s05 .area { position: absolute; left: 30px; right: 26px; top: 88px; height: 428px; overflow: hidden; }
+        .s05 .tx { position: absolute; left: 0; right: 0; top: 0; }
+        .s05 .row { height: 42px; font: 400 28px/42px var(--f-type); color: var(--cream); white-space: pre; }
+        .s05 .row.m { color: #b7bfd6; }
+        .s05 .row b { font-weight: 700; color: #fff; }
+        .s05 .row .h { font-weight: 700; color: var(--mustard); }
+        .s05 .row.u { color: var(--navy); }
+        .s05 .row.u::before { content: ""; position: absolute; left: -8px; right: 120px; height: 42px; background: var(--cream); background-image: var(--grain); z-index: -1; transform: rotate(-0.6deg); }
+        .s05 .row.u { position: relative; isolation: isolate; }
+        .s05 .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #6fd08a; margin: 0 14px 0 4px; vertical-align: 1px; }
+        .s05 .dot.w { background: var(--cream); }
+        .s05 .el { display: inline-block; width: 16px; height: 18px; border-left: 2px solid #8f98b3; border-bottom: 2px solid #8f98b3; margin: 0 14px; vertical-align: 10px; }
+        .s05 .banner { position: relative; height: 126px; padding-left: 132px; }
+        .s05 .banner svg { position: absolute; left: 8px; top: 22px; width: 100px; height: 80px; filter: drop-shadow(2px 4px 2px rgba(0, 0, 0, 0.35)); }
+        .s05 .banner .row { color: #b7bfd6; }
+        .s05 .banner .row:first-of-type { color: #fff; font-weight: 700; }
+        .s05 .input { left: 30px; top: 540px; width: 800px; height: 80px; padding: 0 24px; display: flex; align-items: center; font: 400 28px/1 var(--f-type); color: var(--ink); white-space: pre; }
+        .s05 .input .p { color: var(--tomato); font-weight: 700; }
+        .s05 .input .pin { left: 380px; top: 56px; }
+        .s05 .kick { left: 90px; top: 982px; padding: 6px 22px; font-size: 30px; }
+        .s05 .sk { left: 90px; width: 860px; height: 112px; padding: 14px 26px 0 70px; }
+        .s05 .sk .pin { left: 20px; top: 20px; }
+        .s05 .sk .nm { display: block; font: 700 30px/40px var(--f-type); color: var(--tomato); }
+        .s05 .sk .ds { display: block; margin-top: 4px; font: 500 28px/38px var(--f-cut); color: var(--navy); white-space: nowrap; }
+        .s05 .sk .hl .mark { bottom: 0; height: 40%; }
+        .s05 .sk .body { position: absolute; left: 0; top: 112px; width: 860px; height: 250px; padding: 30px 26px 0 70px; }
+        .s05 .sk .body p { font: 400 28px/50px var(--f-type); color: var(--ink); white-space: pre; }
+        .s05 .sk .body b { color: var(--tomato); }
+        .s05 .sk .body .sec { padding: 0 12px; font-size: 28px; line-height: 40px; }
+        .s05 .sec.a { background: var(--tomato); color: var(--cream); }
+        .s05 .sec.b { background: var(--mustard); color: var(--navy); }
+        .s05 .sec.c { background: var(--teal); color: var(--cream); }
+        .s05 .pay { position: absolute; left: 90px; top: 990px; width: 860px; font-size: 70px; }
+        .s05 .ex { left: 90px; width: 860px; padding: 20px 30px 24px; }
+        .s05 .ex .kk { font: 600 32px/60px var(--f-cut); }
+        .s05 .mini { top: 1110px; width: 270px; height: 330px; padding: 46px 22px 0; }
+        .s05 .mini .pin { left: 117px; top: 8px; }
+        .s05 .mini .hd { font: 700 28px/1.2 var(--f-type); color: var(--tomato); }
+        .s05 .mini .sec { display: block; margin-top: 14px; font-size: 28px; }
+        .s05 .mini i { display: block; height: 12px; margin-top: 10px; border-radius: 6px; background: rgba(31, 45, 82, 0.25); }
+        .s05 .ex .pc-type { margin-top: 8px; font-size: 28px; line-height: 40px; white-space: normal; }
+        .s05 .weak { top: 1110px; }
+        .s05 .weak .kk { color: var(--tomato); }
+        .s05 .good { top: 1270px; }
+        .s05 .good .kk { color: var(--teal); }
+        .s05 .ex .ink { right: 30px; top: 14px; font-size: 38px; }
+        .s05 .weak .ink { color: var(--tomato); }
+        .s05 .good .ink { color: var(--teal); }
+        .s05 .stamper { right: 60px; top: -150px; }
+        .s05 .star { position: absolute; left: 830px; top: 1370px; width: 110px; height: 110px; background-color: var(--mustard); background-image: var(--grain); filter: var(--shadow); }
+        .s05 .str { opacity: 0; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="pc-scene s05">
+          <span class="pc pc-tag tag" data-r="-2">Step 3 · Ask</span>
+          <div class="pc win" data-r="-0.8">
+            <div class="bar"><i></i><i></i><i></i><img src="assets/claude-logo.svg" alt=""><span>Claude Code</span></div>
+            <div class="area">
+              <div class="tx">
+                <div class="banner">
+                  <svg viewBox="0 0 10 8" aria-hidden="true"><g fill="#d97757"><rect x="1" y="0" width="8" height="5" /><rect x="0" y="2" width="10" height="1.4" /><rect x="1.6" y="5" width="1" height="2.4" /><rect x="3.4" y="5" width="1" height="2.4" /><rect x="5.6" y="5" width="1" height="2.4" /><rect x="7.4" y="5" width="1" height="2.4" /></g><g fill="#1f2d52"><rect x="2.6" y="1.2" width="1" height="1.4" /><rect x="6.4" y="1.2" width="1" height="1.4" /></g></svg>
+                  <div class="row">Claude Code v2.1.19</div>
+                  <div class="row">Opus 5.5 · Claude Max</div>
+                  <div class="row">~/my-app</div>
+                </div>
+                <div class="row"> </div>
+                <div class="row u r4">&gt; write a PR description for my changes</div>
+                <div class="row r5"><span class="dot"></span><b>Skill</b>(pr-description)</div>
+                <div class="row m r6"><span class="el"></span>Loaded SKILL.md</div>
+                <div class="row r7"><span class="dot"></span><b>Bash</b>(git diff main...HEAD)</div>
+                <div class="row m r8"><span class="el"></span>4 files changed, +42 -7</div>
+                <div class="row r9"><span class="dot w"></span><span class="h">What</span></div>
+                <div class="row r10">  Reset links now expire after 30 min.</div>
+                <div class="row r11">  <span class="h">Why</span></div>
+                <div class="row r12">  Old links worked forever: a risk.</div>
+                <div class="row r13">  <span class="h">Changes</span></div>
+                <div class="row r14">  • auth/reset.ts: check expiresAt</div>
+                <div class="row r15">  • emails/reset.html: show the limit</div>
+              </div>
+            </div>
+            <div class="pc input" data-torn="right" data-r="0.6"><span class="p">&gt; </span><span class="it">write a PR description for my changes</span><div class="pin yel"></div></div>
+          </div>
+
+          <span class="pc yel pc-strip kick k1" data-r="-1.5">Up front: name + description only</span>
+          <span class="pc teal pc-strip kick k2" data-r="-1.5">Matched: full file loaded</span>
+          <div class="pc white sk s1" style="top:1050px" data-r="0.8"><span class="nm"><span class="hl">commit-message<i class="mark"></i></span></span><span class="ds"><span class="hl">Writes commit messages in our style.<i class="mark"></i></span></span><div class="pin blue"></div></div>
+          <div class="pc white sk s2" style="top:1180px" data-r="-0.6" data-layout-allow-overlap="">
+            <div class="pc pale flat body"><p><b>1.</b> Run git diff main...HEAD</p><p><b>2.</b> Write three sections:</p><p>   <span class="sec a">What</span> <span class="sec b">Why</span> <span class="sec c">Changes</span></p></div>
+            <span class="nm"><span class="hl">pr-description<i class="mark"></i></span></span><span class="ds"><span class="hl">Writes PR descriptions. Use when the user asks for a PR.<i class="mark"></i></span></span><div class="pin"></div>
+          </div>
+          <div class="pc white sk s3" style="top:1310px" data-r="1"><span class="nm"><span class="hl">code-review<i class="mark"></i></span></span><span class="ds"><span class="hl">Reviews a diff for bugs before merging.<i class="mark"></i></span></span><div class="pin yel"></div></div>
+          <svg class="pc-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="string str" d="M488 908 C 470 990, 170 1010, 128 1196" />
+          </svg>
+
+          <h2 class="pay cut-letters">Same format, every time.</h2>
+          <div class="pc white mini m1" style="left:90px" data-r="-2"><div class="pin"></div><p class="hd">#412</p><span class="sec a">What</span><i style="width:180px"></i><span class="sec b">Why</span><i style="width:140px"></i><span class="sec c">Changes</span><i style="width:200px"></i></div>
+          <div class="pc white mini m2" style="left:385px" data-r="1.5"><div class="pin blue"></div><p class="hd">#413</p><span class="sec a">What</span><i style="width:150px"></i><span class="sec b">Why</span><i style="width:200px"></i><span class="sec c">Changes</span><i style="width:120px"></i></div>
+          <div class="pc white mini m3" style="left:680px" data-r="-1"><div class="pin yel"></div><p class="hd">#414</p><span class="sec a">What</span><i style="width:200px"></i><span class="sec b">Why</span><i style="width:160px"></i><span class="sec c">Changes</span><i style="width:170px"></i></div>
+          <div class="pc white ruled ex weak" data-r="-1.2" data-layout-allow-overlap="">
+            <p class="kk">Weak description</p>
+            <p class="pc-type">description: Helps with PRs.</p>
+            <span class="ink" data-r="-8">Vague</span>
+            <div class="stamper s-a"><i></i><b></b></div>
+          </div>
+          <div class="pc white ruled ex good" data-r="0.8" data-layout-allow-overlap="">
+            <p class="kk">Better description</p>
+            <p class="pc-type">description: Writes PR descriptions. <span class="hl">Use when the user asks for a PR.<i class="mark"></i></span></p>
+            <span class="ink" data-r="6">Specific</span>
+            <div class="stamper s-b"><i></i><b></b></div>
+          </div>
+          <div class="star" data-layout-allow-overlap=""></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const F = Cut.F;
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cut.dress(root, 505);
+          // a five-point paper star
+          q(".star").style.clipPath = "polygon(" + Array.from({ length: 10 }, (_, i) => {
+            const a = -Math.PI / 2 + (i / 10) * Math.PI * 2, k = i % 2 ? 0.45 : 1;
+            return `${(50 + Math.cos(a) * 50 * k).toFixed(1)}% ${(50 + Math.sin(a) * 50 * k).toFixed(1)}%`;
+          }).join(",") + ")";
+          const tx = q(".tx"), s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3"), body = q(".s2 .body"), str = q(".str");
+          const VISIBLE = 10, LH = 42;   // rows that fit the transcript area; banner = rows 0–2, blank = row 3
+          const rows = (n) => q(".r" + n);
+          const marks = all(".sk .mark");
+          gsap.set([...Array.from({ length: 12 }, (_, i) => rows(i + 4)), q(".k1"), q(".k2"), s1, s2, s3, q(".pay"), q(".weak"), q(".good"), q(".star")], { opacity: 0 });
+          gsap.set(marks, { scaleX: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a transcript row is stuck on; the transcript jumps up once it's full
+          const show = (n, at) => {
+            tl.set(rows(n), { opacity: 1 }, at);
+            if (n + 1 > VISIBLE) tl.to(tx, { y: -(n + 1 - VISIBLE) * LH, duration: 2 * F, ease: Cut.ease(2 * F) }, at);
+          };
+
+          // "Step three: just ask."
+          Cut.drop(tl, q(".tag"), 0.2, { from: "left", dur: 0.25 });
+          Cut.drop(tl, q(".win"), 0.3, { from: "top", dist: 500, dur: 0.33, spin: 4 });
+          Egg.typeOn(tl, q(".input .it"), 0.9, { cps: 28 });
+          // "Claude reads only each skill's name and description up front": three index cards, pinned
+          Cut.drop(tl, q(".k1"), 2.4, { from: "left", dist: 300, dur: 0.25 });
+          Cut.drop(tl, [s1, s2, s3], 2.5, { from: "bottom", dist: 700, dur: 0.33, stagger: 0.12 });
+          Cut.pop(tl, all(".sk > .pin"), 2.62, { stagger: 0.12 });
+          // "name" then "description": a strip of tape under each
+          [0, 2, 4].forEach((i, k) => Cut.mark(tl, marks[i], 4.0 + k * 0.08, 0.25));
+          [1, 3, 5].forEach((i, k) => Cut.mark(tl, marks[i], 4.5 + k * 0.08, 0.33));
+          // "When your request matches": the note is sent, a string runs to pr-description, the others are knocked aside
+          tl.set(q(".input .it"), { opacity: 0 }, 6.1);
+          show(4, 6.2);
+          tl.set(str, { opacity: 1 }, 6.3);
+          Cut.string(tl, str, 6.3, 0.42);
+          tl.set(s2, { scale: 1.04 }, 6.8);
+          tl.set(s2, { scale: 1 }, 6.8 + 2 * F);
+          Cut.jit(tl, s2, 6.8, 2, 4);
+          Cut.move(tl, s1, 6.8, { x: -40, rotation: -5 }, 3 * F, "power2.out");
+          Cut.move(tl, s3, 6.8, { x: 40, rotation: 5 }, 3 * F, "power2.out");
+          // "it loads the full file": the others leave, the card moves up and unfolds its instructions
+          tl.set(str, { opacity: 0 }, 7.5);
+          Cut.out(tl, s1, 7.5, { to: "left", dist: 1100, dur: 0.25 });
+          Cut.out(tl, s3, 7.5, { to: "right", dist: 1100, dur: 0.25 });
+          Cut.out(tl, q(".k1"), 7.5, { to: "left", dist: 1000, dur: 0.25 });
+          Cut.drop(tl, q(".k2"), 7.7, { from: "left", dist: 300, dur: 0.25 });
+          Cut.move(tl, s2, 7.6, { y: -130 }, 0.25, "power2.out");
+          Cut.unfold(tl, body, 7.85, { dur: 0.25 });
+          show(5, 7.7);
+          show(6, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(7, 8.9);
+          show(8, 9.2);
+          [9, 10, 11, 12, 13, 14, 15].forEach((n, i) => show(n, 9.6 + i * 0.2));
+
+          // "Same format, every time."
+          Cut.out(tl, [s2, q(".k2")], 9.85, { to: "bottom", dist: 900, dur: 0.25 });
+          Cut.drop(tl, q(".pay"), 10.1, { dist: 120, dur: 0.25, spin: 0 });
+          // three PR descriptions, all the same shape, pinned up in a row
+          Cut.drop(tl, all(".mini"), 10.35, { dist: 400, dur: 0.25, stagger: 0.17 });
+          Cut.pop(tl, all(".mini .pin"), 10.6, { stagger: 0.17 });
+          Cut.out(tl, all(".mini"), 11.8, { to: "bottom", dist: 1000, dur: 0.25, stagger: 0.05 });
+          // "Just keep the description specific": a weak card stamped VAGUE, a better one stamped SPECIFIC
+          Cut.drop(tl, q(".weak"), 12.1, { from: "left", dist: 900, dur: 0.33 });
+          Cut.stamp(tl, q(".s-a"), q(".weak .ink"), 12.45);
+          Cut.drop(tl, q(".good"), 13.0, { from: "right", dist: 900, dur: 0.25 });
+          Cut.stamp(tl, q(".s-b"), q(".good .ink"), 13.15);
+          Cut.mark(tl, q(".good .mark"), 13.45, 0.42);
+          // "or Claude won't know when to use it"
+          Cut.jit(tl, q(".weak"), 14.1, 3, 5);
+          tl.set(q(".weak"), { opacity: 0.55 }, 14.6);
+          // the flourish: a paper star is stuck on the good card
+          tl.set(q(".star"), { opacity: 1, scale: 1.6, rotation: -30 }, 15.4);
+          tl.set(q(".star"), { scale: 0.9, rotation: 8 }, 15.4 + 2 * F);
+          tl.set(q(".star"), { scale: 1, rotation: 12 }, 15.4 + 3 * F);
+          Cut.jit(tl, q(".good"), 15.4 + 3 * F, 1.5, 3);
+
+          // hard stop: the last frame holds, no exit
+          Cut.boil(tl, root, 0, 15.9, 5);
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

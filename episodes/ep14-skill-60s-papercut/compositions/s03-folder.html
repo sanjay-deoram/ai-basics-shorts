@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"tape","vol":0.12},
+      {"t":0.35,"sfx":"snip","vol":0.12},
+      {"t":0.6,"sfx":"rustle","vol":0.16},
+      {"t":1.5,"sfx":"thud","vol":0.2},
+      {"t":2.25,"sfx":"string","vol":0.18},
+      {"t":2.55,"sfx":"slide","vol":0.18},
+      {"t":3.0,"sfx":"pin","vol":0.2},
+      {"t":3.75,"sfx":"typewriter","vol":0.16,"dur":1.3},
+      {"t":3.9,"sfx":"snips","vol":0.18},
+      {"t":4.65,"sfx":"thud","vol":0.2},
+      {"t":5.95,"sfx":"typewriter","vol":0.16,"dur":0.65},
+      {"t":6.3,"sfx":"string","vol":0.18},
+      {"t":6.6,"sfx":"tape","vol":0.2},
+      {"t":6.7,"sfx":"xylo-3","vol":0.16},
+      {"t":6.85,"sfx":"slide","vol":0.14},
+      {"t":7.15,"sfx":"rustle","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder (papercut). Paper folders are laid out as the path is said: a navy ~/.claude/ folder
+           lands, a string is pulled from it and a mustard skills/ folder slides out from under it (pinned). On "make
+           a folder" the command is typed on an index card (`mkdir -p ~/.claude/skills/`) while scissors snip across the
+           table and a blank tomato folder drops in; on "P R description" the name is typed, a second string is pulled
+           and a "pr-description/" label is taped onto the new folder. A strip confirms "Folder name = skill name".
+           Avatar: photo top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .ttl { position: absolute; left: 90px; top: 300px; width: 720px; }
+        .s03 .ttl > span { display: inline-block; }
+        .s03 .folder { width: 540px; height: 214px; }
+        .s03 .folder .lbl { position: absolute; left: 34px; top: 92px; font: 600 54px/1.2 var(--f-cut); white-space: nowrap; }
+        .s03 .f1 { left: 90px; top: 450px; }
+        .s03 .f2 { left: 200px; top: 704px; }
+        .s03 .f2 .pin { right: 26px; top: 70px; }
+        .s03 .f3 { left: 310px; top: 958px; width: 600px; height: 226px; }
+        .s03 .f3 .name { left: 30px; top: 90px; padding: 8px 22px; font: 700 42px/1.3 var(--f-type); color: var(--ink); white-space: nowrap; }
+        .s03 .f3 .tape { left: 350px; top: 72px; width: 120px; }
+        .s03 .snip { position: absolute; left: 240px; top: 880px; width: 190px; height: 130px; filter: var(--shadow); }
+        .s03 .snip svg { position: absolute; inset: 0; width: 190px; height: 130px; overflow: visible; }
+        .s03 .cmd { left: 90px; top: 1232px; width: 860px; height: 156px; padding: 12px 30px; }
+        .s03 .cmd .k { font: 600 30px/46px var(--f-cut); letter-spacing: 0.08em; color: var(--tomato); }
+        .s03 .cmd .pc-type { margin-top: 14px; font-size: 30px; line-height: 49px; }
+        .s03 .cmd .pc-type b { color: var(--tomato); }
+        .s03 .lab { left: 90px; top: 1420px; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="pc-scene s03">
+          <span class="pc pc-tag tag" data-r="-2">Step 1 · Folder</span>
+          <h2 class="ttl cut-letters"><span class="t1">Make a</span> <span class="t2">folder</span></h2>
+          <div class="pc white ruled cmd" data-r="-1">
+            <div class="k">TERMINAL</div>
+            <p class="pc-type"><span class="pr">$ </span><span class="a">mkdir -p ~/.claude/skills/</span><b class="b">pr-description</b></p>
+          </div>
+          <svg class="pc-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="string st1" d="M134 640 C 128 740, 132 800, 214 806" />
+            <path class="string st2" d="M244 894 C 238 990, 244 1056, 326 1064" />
+          </svg>
+          <div class="pc yel folder f2" data-r="1.5"><span class="lbl">skills/</span><div class="pin"></div></div>
+          <div class="pc navy folder f1" data-r="-2"><span class="lbl">~/.claude/</span></div>
+          <div class="pc red folder f3" data-r="-1.5">
+            <span class="pc white flat name" data-r="2">pr-description/</span>
+            <div class="tape yel" data-r="-24"></div>
+          </div>
+          <div class="snip">
+            <svg viewBox="0 0 190 130" aria-hidden="true">
+              <g class="bl1"><path d="M70 65 L186 50 L186 62 Z" fill="#cfd4da" /><circle cx="34" cy="92" r="24" fill="none" stroke="#e0503a" stroke-width="13" /><path d="M52 78 L74 62" stroke="#e0503a" stroke-width="13" stroke-linecap="round" /></g>
+              <g class="bl2"><path d="M70 65 L186 80 L186 68 Z" fill="#e3e7ec" /><circle cx="34" cy="38" r="24" fill="none" stroke="#e0503a" stroke-width="13" /><path d="M52 52 L74 68" stroke="#e0503a" stroke-width="13" stroke-linecap="round" /></g>
+              <circle cx="72" cy="65" r="6" fill="#2b2118" />
+            </svg>
+          </div>
+          <span class="pc teal pc-strip lab" data-r="-1.5">Folder name = skill name</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.45, F = Cut.F;
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cut.dress(root, 303);
+          const snip = q(".snip"), b1 = q(".bl1"), b2 = q(".bl2");
+          gsap.set(all(".string"), { opacity: 0 });
+          gsap.set([b1, b2], { svgOrigin: "72 65" });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step one"
+          Cut.drop(tl, q(".tag"), 0.2, { from: "left", dur: 0.25 });
+          Cut.drop(tl, [q(".t1"), q(".t2")], 0.35, { dist: 60, dur: 0.25, stagger: 0.12, spin: 0 });
+          Cut.drop(tl, q(".cmd"), 0.6, { from: "bottom", dist: 600, dur: 0.33 });
+          // "in dot claude slash skills"
+          Cut.drop(tl, q(".f1"), 1.5, { dist: 400, dur: 0.33 });
+          tl.set(q(".st1"), { opacity: 1 }, 2.25);
+          Cut.string(tl, q(".st1"), 2.25, 0.33);
+          Cut.drop(tl, q(".f2"), 2.55, { dist: 200, dur: 0.33, spin: -6 });
+          Cut.pop(tl, q(".f2 .pin"), 3.0);
+          Cut.jit(tl, q(".f2"), 3.0, 2, 4);
+          // "make a folder named after the skill": the command is typed while scissors cut a new folder
+          Egg.typeOn(tl, q(".cmd .a"), 3.75, { cps: 20 });
+          gsap.set(snip, { opacity: 0 });
+          tl.set(snip, { opacity: 1 }, 3.85);
+          tl.fromTo(snip, { x: -330 }, { x: 560, duration: 0.75, ease: Cut.ease(0.75, "none") }, 3.85);
+          for (let i = 0; i < 9; i++) {
+            tl.set(b1, { rotation: i % 2 ? -3 : 14 }, 3.85 + i * F);
+            tl.set(b2, { rotation: i % 2 ? 3 : -14 }, 3.85 + i * F);
+          }
+          tl.set(snip, { opacity: 0 }, 4.6);
+          gsap.set([q(".f3 .name"), q(".f3 .tape")], { opacity: 0 });
+          Cut.drop(tl, q(".f3"), 4.65, { from: "right", dist: 600, dur: 0.33 });
+          // "P R description": the name is typed, the string is pulled, and the label is taped on
+          Egg.typeOn(tl, q(".cmd .b"), 5.95, { cps: 22 });
+          tl.set(q(".st2"), { opacity: 1 }, 6.3);
+          Cut.string(tl, q(".st2"), 6.3, 0.25);
+          tl.set(q(".f3 .name"), { opacity: 1, scale: 1.3 }, 6.6);
+          tl.set(q(".f3 .name"), { scale: 0.96 }, 6.6 + F);
+          tl.set(q(".f3 .name"), { scale: 1 }, 6.6 + 2 * F);
+          tl.set(q(".f3 .tape"), { opacity: 1 }, 6.6 + 2 * F);
+          Cut.jit(tl, q(".f3"), 6.6 + 2 * F, 2, 3);
+          Cut.drop(tl, q(".lab"), 6.85, { from: "left", dist: 300, dur: 0.25 });
+
+          Cut.out(tl, [q(".tag"), q(".t1"), q(".t2"), q(".f1"), q(".f2"), q(".f3"), q(".cmd"), q(".lab")], DUR - 0.3, { to: "left", dist: 1100, dur: 0.25, stagger: 0.01 });
+          tl.set(all(".string"), { opacity: 0 }, DUR - 0.3);
+          Cut.boil(tl, root, 0, DUR, 3);
+          window.__timelines["s03-folder"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

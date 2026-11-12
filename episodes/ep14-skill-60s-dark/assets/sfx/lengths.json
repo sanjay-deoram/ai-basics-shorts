@@ -1,0 +1,13 @@
+{
+  "sub": 1.4,
+  "key": 0.08,
+  "keys": 3.12,
+  "click": 0.07,
+  "tick": 0.05,
+  "stream": 3.2,
+  "riser": 1.35,
+  "scan": 0.9,
+  "confirm": 2.3,
+  "vague": 1.2,
+  "pad": 58
+}

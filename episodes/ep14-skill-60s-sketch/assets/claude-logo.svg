@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" aria-label="Claude">
+  <!-- Claude mark (drawn for the shorts: 12 rounded rays in Claude terracotta #D97757). Replace with the official
+       Claude logo SVG at this path if you have it; scenes only reference assets/claude-logo.svg. -->
+  <g stroke="#D97757" stroke-width="9.5" stroke-linecap="round"><line x1="50.00" y1="44.00" x2="50.00" y2="4.92"/><line x1="52.91" y1="44.75" x2="67.39" y2="18.62"/><line x1="55.25" y1="47.09" x2="87.01" y2="29.48"/><line x1="56.00" y1="49.79" x2="82.18" y2="48.88"/><line x1="55.14" y1="53.09" x2="87.85" y2="72.74"/><line x1="53.09" y1="55.14" x2="68.95" y2="81.54"/><line x1="50.21" y1="56.00" x2="51.51" y2="93.21"/><line x1="46.91" y1="55.14" x2="32.47" y2="79.18"/><line x1="44.91" y1="53.18" x2="10.99" y2="74.38"/><line x1="44.00" y1="49.90" x2="12.29" y2="49.34"/><line x1="44.75" y1="47.09" x2="13.79" y2="29.93"/><line x1="47.09" y1="44.75" x2="33.94" y2="21.03"/></g>
+  <circle cx="50" cy="50" r="9" fill="#D97757"/>
+</svg>

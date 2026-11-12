@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"tape","vol":0.12},
+      {"t":0.5,"sfx":"slide","vol":0.14},
+      {"t":0.8,"sfx":"thud","vol":0.2},
+      {"t":2.0,"sfx":"flip","vol":0.18},
+      {"t":2.3,"sfx":"rustle","vol":0.2},
+      {"t":2.9,"sfx":"thud","vol":0.14},
+      {"t":3.8,"sfx":"snips","vol":0.16},
+      {"t":4.25,"sfx":"xylo-2","vol":0.16},
+      {"t":4.5,"sfx":"tape","vol":0.16},
+      {"t":5.4,"sfx":"slide","vol":0.16},
+      {"t":5.6,"sfx":"fold","vol":0.2},
+      {"t":5.8,"sfx":"fold","vol":0.18},
+      {"t":6.0,"sfx":"fold","vol":0.18},
+      {"t":6.65,"sfx":"typewriter","vol":0.16,"dur":0.6},
+      {"t":7.5,"sfx":"typewriter","vol":0.16,"dur":1.4},
+      {"t":7.6,"sfx":"tape","vol":0.14},
+      {"t":9.3,"sfx":"wood","vol":0.16},
+      {"t":10.2,"sfx":"tape","vol":0.14},
+      {"t":12.25,"sfx":"typewriter","vol":0.16,"dur":0.9},
+      {"t":13.4,"sfx":"typewriter","vol":0.16,"dur":0.7},
+      {"t":14.77,"sfx":"pin","vol":0.18},
+      {"t":14.79,"sfx":"xylo-1","vol":0.16},
+      {"t":15.24,"sfx":"pin","vol":0.18},
+      {"t":15.26,"sfx":"xylo-2","vol":0.16},
+      {"t":15.82,"sfx":"pin","vol":0.18},
+      {"t":15.84,"sfx":"xylo-3","vol":0.16},
+      {"t":16.5,"sfx":"rustle","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md (papercut). The path strip, then the tomato pr-description folder lands. On "add one
+           file" its front flap drops open, a cream sheet slides in and the flap closes; cut-out letters spell SKILL.md
+           on the sheet one by one ("Exactly that name, in capitals" on a taped note). The folder is pulled away and
+           the sheet unfolds, panel by panel, into the whole file: a pale top panel for the frontmatter (the fences, the
+           name and the description are typed, "Name + when to use it" is taped on), a panel for the instructions
+           ("Instructions, in plain English": run git diff, write three sections) and a panel where the What / Why /
+           Changes strips are stuck on as they are said. A paper arrow hops to the line being typed.
+           The skill text follows the Claude Academy lesson. Avatar: photo top right ("corner"); content above y 485
+           stays left of x 830.
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .path { left: 90px; top: 306px; padding: 8px 22px; font-size: 28px; }
+        .s04 .fb { left: 170px; top: 720px; width: 660px; height: 520px; }
+        .s04 .sh { left: 300px; top: 500px; width: 420px; height: 560px; }
+        .s04 .sh .nm { position: absolute; left: 0; top: 96px; width: 420px; text-align: center; font-size: 76px; }
+        .s04 .sh .nm .mark { left: 34px; right: 34px; bottom: 6px; height: 30%; }
+        .s04 .flap { left: 158px; top: 850px; width: 684px; height: 400px; --paper: #e9644e; }
+        .s04 .flap .name { left: 132px; top: 150px; padding: 8px 24px; font: 700 42px/1.3 var(--f-type); color: var(--ink); white-space: nowrap; }
+        .s04 .note { left: 190px; top: 1300px; width: 640px; padding: 26px 30px 34px; font: 600 38px/1.2 var(--f-cut); text-align: center; }
+        .s04 .note .tape { left: 245px; top: -20px; }
+        .s04 .fn { left: 110px; top: 440px; }
+        .s04 .pn { left: 90px; width: 860px; padding: 24px 40px 0 88px; }
+        .s04 .p1 { top: 495px; height: 310px; }
+        .s04 .p2 { top: 805px; height: 270px; padding-top: 104px; }
+        .s04 .p3 { top: 1075px; height: 405px; padding-top: 34px; }
+        .s04 .pn .ln { height: 52px; font: 400 30px/52px var(--f-type); white-space: pre; color: var(--ink); }
+        .s04 .pn .ln b { color: var(--tomato); }
+        .s04 .p2 .ln { height: 58px; line-height: 58px; font-size: 32px; }
+        .s04 .p3 .ln { height: 108px; display: flex; align-items: center; gap: 18px; font-size: 32px; }
+        .s04 .p3 .sec { width: 270px; font-size: 40px; padding: 8px 20px; }
+        .s04 .sec.a { background: var(--tomato); color: var(--cream); }
+        .s04 .sec.b { background: var(--mustard); color: var(--navy); }
+        .s04 .sec.c { background: var(--teal); color: var(--cream); }
+        .s04 .l1 { left: 536px; top: 510px; }
+        .s04 .l2 { left: 400px; top: 822px; }
+        .s04 .arrow { position: absolute; left: 112px; top: 0; width: 40px; height: 40px; background: var(--tomato); clip-path: polygon(0 12%, 100% 50%, 0 88%); }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="pc-scene s04">
+          <span class="pc pc-tag tag" data-r="-2">Step 2 · SKILL.md</span>
+          <span class="pc white pc-type path" data-r="1">~/.claude/skills/pr-description/</span>
+
+          <div class="pc red folder fb" data-r="-1"></div>
+          <div class="pc white sh" data-r="2" data-layout-allow-overlap="">
+            <div class="nm cut-letters"><span class="hl">SKILL.md<i class="mark"></i></span></div>
+          </div>
+          <div class="pc flap" data-r="-1" data-layout-allow-overlap=""><span class="pc white flat name" data-r="-2">pr-description/</span></div>
+          <div class="pc yel note" data-torn="bottom" data-r="-2">Exactly that name, in capitals<div class="tape red" data-r="3"></div></div>
+
+          <span class="pc navy pc-strip fn" data-r="-2">SKILL.md</span>
+          <div class="pc pale pn p1" data-layout-allow-overlap="">
+            <div class="ln">---</div>
+            <div class="ln"><b>name</b>: pr-description</div>
+            <div class="ln"><b>description</b>: Writes PR descriptions.</div>
+            <div class="ln">  Use when the user asks for a PR.</div>
+            <div class="ln">---</div>
+          </div>
+          <div class="pc white pn p2" data-layout-allow-overlap="">
+            <div class="ln"><b>1.</b> Run git diff main...HEAD</div>
+            <div class="ln"><b>2.</b> Write three sections:</div>
+          </div>
+          <div class="pc white pn p3" data-layout-allow-overlap="">
+            <div class="ln"><span class="sec a">## What</span><span class="tx">: one sentence</span></div>
+            <div class="ln"><span class="sec b">## Why</span><span class="tx">: brief context</span></div>
+            <div class="ln"><span class="sec c">## Changes</span><span class="tx">: bullets</span></div>
+          </div>
+          <div class="arrow"></div>
+          <span class="pc teal pc-strip l1" data-r="2">Name + when to use it</span>
+          <span class="pc navy pc-strip l2" data-r="-1.5">Instructions, in plain English</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8, F = Cut.F;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Cut.dress(root, 404);
+          const fb = q(".fb"), sh = q(".sh"), flap = q(".flap"), arrow = q(".arrow");
+          const l1 = all(".p1 .ln"), l2 = all(".p2 .ln"), l3 = all(".p3 .ln");
+          const glyphs = all(".sh .cl");
+          gsap.set([arrow, ...glyphs, ...all(".p3 .sec")], { opacity: 0 });
+          const type = (el, at, cps = 40) => Egg.typeOn(tl, el, at, { cps });
+          const point = (y, at) => { tl.set(arrow, { opacity: 1, y: y - 20, x: -14 }, at); tl.set(arrow, { x: 0 }, at + F); };
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step two: inside it"
+          Cut.drop(tl, q(".tag"), 0.2, { from: "left", dur: 0.25 });
+          Cut.drop(tl, q(".path"), 0.5, { from: "left", dist: 300, dur: 0.25 });
+          Cut.drop(tl, [fb, flap], 0.8, { from: "bottom", dist: 900, dur: 0.33, spin: 4 });
+          // "add one file": the flap drops open, a sheet slides in, the flap closes
+          Cut.move(tl, flap, 2.0, { y: 90, rotation: 2 }, 0.25, "power2.out");
+          Cut.drop(tl, sh, 2.3, { dist: 800, dur: 0.42, spin: -10 });
+          Cut.move(tl, flap, 2.85, { y: 0, rotation: -1 }, 0.17, "power2.in");
+          Cut.jit(tl, fb, 3.02, 1.5, 3);
+          // "skill dot M D": the name, one cut-out letter at a time
+          glyphs.forEach((g, i) => {
+            const t = 3.8 + i * 0.07, y0 = +gsap.getProperty(g, "y");
+            tl.set(g, { opacity: 1, y: y0 - 46 }, t);
+            tl.set(g, { y: y0 }, t + F);
+          });
+          Cut.mark(tl, q(".sh .mark"), 4.25, 0.25);
+          Cut.drop(tl, q(".note"), 4.5, { from: "bottom", dist: 500, dur: 0.33 });
+
+          // the folder is pulled away and the sheet unfolds into the whole file
+          Cut.out(tl, [fb, flap, q(".note")], 5.4, { to: "bottom", dist: 1300, dur: 0.25 });
+          Cut.move(tl, sh, 5.4, { x: -80, y: -10, rotation: 0, scaleX: 1.6, scaleY: 0.56, transformOrigin: "50% 0%" }, 0.17, "power1.in");
+          tl.set(sh, { opacity: 0 }, 5.58);
+          Cut.drop(tl, q(".fn"), 5.58, { from: "left", dist: 200, dur: 0.17 });
+          Cut.unfold(tl, q(".p1"), 5.58, { dur: 0.17 });
+          Cut.unfold(tl, q(".p2"), 5.8, { dur: 0.17 });
+          Cut.unfold(tl, q(".p3"), 6.0, { dur: 0.17 });
+          // "At the top": the frontmatter fences
+          type(l1[0], 6.2, 30); type(l1[4], 6.3, 30);
+          // "a name"
+          point(597, 6.65); type(l1[1], 6.65, 36);
+          // "and a description of when to use it"
+          point(649, 7.5); type(l1[2], 7.5, 40);
+          point(701, 8.15); type(l1[3], 8.15, 48);
+          Cut.drop(tl, q(".l1"), 7.6, { from: "right", dist: 300, dur: 0.25 });
+
+          // "Below that, the instructions, in plain English"
+          point(935, 9.3);
+          Cut.jit(tl, q(".p2"), 9.3, 0.8, 3);
+          Cut.drop(tl, q(".l2"), 10.2, { from: "right", dist: 400, dur: 0.25 });
+          // "run git diff"
+          type(l2[0], 12.25, 30);
+          // "then write three sections"
+          point(993, 13.4); type(l2[1], 13.4, 34);
+          // "What, why, and changes": each strip is stuck on as it is said
+          [[0, 14.77], [1, 15.24], [2, 15.82]].forEach(([i, t]) => {
+            point(1163 + i * 108, t);
+            Cut.pop(tl, l3[i].querySelector(".sec"), t);
+            type(l3[i].querySelector(".tx"), t + 0.1, 60);
+          });
+          tl.set(arrow, { opacity: 0 }, 16.3);
+
+          Cut.out(tl, [q(".tag"), q(".path"), q(".fn"), q(".p1"), q(".l1"), q(".p2"), q(".l2"), q(".p3")], DUR - 0.3, { to: "left", dist: 1100, dur: 0.25, stagger: 0.01 });
+          Cut.boil(tl, root, 0, DUR, 4);
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

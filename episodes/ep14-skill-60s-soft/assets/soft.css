@@ -1,0 +1,47 @@
+/* "Soft" variant theme: calm editorial type on drifting pastel colour fields, frosted white cards.
+   Loaded after eggshell.css (which brings the local fonts, the --f-* stacks and the avatar cut-out rules). */
+:root {
+  --s-ink: #111214;
+  --s-grey: #585c64;
+  --s-faint: #6f747d;
+  --s-line: rgba(17, 18, 20, 0.08);
+  --s-key: #6a4fd6;      /* lilac */
+  --s-str: #0e7a66;      /* mint-teal */
+  --s-fn: #2a66d9;       /* sky */
+  --s-head: #b9502b;     /* peach-terracotta */
+  --s-good: #157a52;
+  --s-bad: #a8432f;
+}
+
+.soft { position: absolute; inset: 0; color: var(--s-ink); font-family: var(--f-body); -webkit-font-smoothing: antialiased; }
+.soft .stage { position: absolute; inset: 0; transform-origin: 540px 860px; }
+
+/* type */
+.soft .h { position: absolute; left: 90px; width: 900px; margin: 0; text-align: center; font: 500 84px/1.08 var(--f-display); letter-spacing: -0.035em; color: var(--s-ink); white-space: nowrap; }
+.soft .sw { display: inline-block; }
+.soft .cap { position: absolute; left: 90px; width: 900px; margin: 0; text-align: center; font: 500 38px/1.2 var(--f-display); letter-spacing: -0.015em; color: var(--s-ink); }
+.soft .note { position: absolute; left: 90px; width: 900px; margin: 0; text-align: center; font: 400 30px/1.2 var(--f-body); color: var(--s-grey); }
+.soft .mono { font-family: var(--f-mono); font-weight: 400; }
+
+/* pill label, centred on the frame: wrap it in .pill-row */
+.soft .pill-row { position: absolute; left: 90px; width: 900px; display: flex; justify-content: center; }
+.soft .pill { display: inline-flex; align-items: center; height: 58px; padding: 0 26px; border-radius: 29px; font: 500 28px/1 var(--f-body); letter-spacing: 0.01em; color: var(--s-grey); background: rgba(255, 255, 255, 0.66); border: 1.5px solid rgba(255, 255, 255, 0.95); box-shadow: 0 0 0 1px var(--s-line), 0 10px 30px -12px rgba(40, 50, 90, 0.2); white-space: nowrap; }
+
+/* frosted card: the fields behind are already a heavy blur, so a translucent white fill reads as frosted glass
+   without backdrop-filter (cheaper and identical in every frame) */
+.soft .glass { position: absolute; background: linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(255, 255, 255, 0.68)); border: 1.5px solid rgba(255, 255, 255, 0.95); border-radius: 32px; box-shadow: 0 0 0 1px var(--s-line), 0 40px 80px -30px rgba(40, 50, 90, 0.28), 0 8px 24px -12px rgba(40, 50, 90, 0.12); }
+.soft .bar { height: 68px; display: flex; align-items: center; gap: 12px; padding: 0 28px; border-bottom: 1.5px solid var(--s-line); font: 500 28px/1 var(--f-body); color: var(--s-grey); }
+.soft .bar i { width: 14px; height: 14px; border-radius: 50%; background: rgba(17, 18, 20, 0.12); }
+.soft .bar .ttl { margin-left: 10px; }
+.soft .bar .r { margin-left: auto; font: 400 28px/1 var(--f-mono); color: var(--s-faint); }
+.soft .logo { background: url("claude-logo.svg") center / contain no-repeat; flex: none; }
+
+/* code */
+.soft .code { font: 400 28px/50px var(--f-mono); color: var(--s-ink); }
+.soft p.code, .soft .code p, .soft .code .tx { white-space: pre; }
+.soft .t-p { color: var(--s-faint); }
+.soft .t-k { color: var(--s-key); }
+.soft .t-s { color: var(--s-str); }
+.soft .t-fn { color: var(--s-fn); }
+.soft .t-h { color: var(--s-head); }
+.soft .t-c { color: var(--s-grey); }

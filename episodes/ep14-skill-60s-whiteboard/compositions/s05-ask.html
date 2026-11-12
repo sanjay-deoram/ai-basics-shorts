@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.18,"sfx":"cap","vol":0.26},
+      {"t":0.2,"sfx":"write","vol":0.3,"dur":0.65},
+      {"t":0.85,"sfx":"scribble","vol":0.26,"dur":0.2},
+      {"t":1.07,"sfx":"write","vol":0.3,"dur":1.13},
+      {"t":2.3,"sfx":"claude","vol":0.2},
+      {"t":2.32,"sfx":"scribble","vol":0.16,"dur":0.33},
+      {"t":2.67,"sfx":"write","vol":0.28,"dur":0.78},
+      {"t":3.5,"sfx":"scribble","vol":0.28,"dur":0.45},
+      {"t":4.0,"sfx":"write","vol":0.3,"dur":0.45},
+      {"t":4.5,"sfx":"write","vol":0.26,"dur":0.9},
+      {"t":6.15,"sfx":"squeak","vol":0.26},
+      {"t":6.45,"sfx":"scribble","vol":0.26,"dur":0.3},
+      {"t":6.8,"sfx":"scribble","vol":0.3,"dur":0.35},
+      {"t":6.85,"sfx":"ding","vol":0.22},
+      {"t":7.5,"sfx":"swish","vol":0.16},
+      {"t":7.6,"sfx":"scribble","vol":0.28,"dur":0.35},
+      {"t":7.97,"sfx":"write","vol":0.26,"dur":0.2},
+      {"t":8.2,"sfx":"write","vol":0.3,"dur":1.1},
+      {"t":9.35,"sfx":"tick","vol":0.3},
+      {"t":9.55,"sfx":"tick","vol":0.3},
+      {"t":9.8,"sfx":"erase","vol":0.34,"dur":0.45},
+      {"t":10.3,"sfx":"write","vol":0.32,"dur":0.7},
+      {"t":11.05,"sfx":"scribble","vol":0.26,"dur":0.7},
+      {"t":11.1,"sfx":"pop","vol":0.16},
+      {"t":11.33,"sfx":"pop","vol":0.16},
+      {"t":11.56,"sfx":"pop","vol":0.16},
+      {"t":12.1,"sfx":"scribble","vol":0.26,"dur":0.15},
+      {"t":12.25,"sfx":"write","vol":0.3,"dur":0.35},
+      {"t":12.62,"sfx":"nope","vol":0.26},
+      {"t":13.0,"sfx":"scribble","vol":0.26,"dur":0.15},
+      {"t":13.15,"sfx":"write","vol":0.3,"dur":0.6},
+      {"t":13.78,"sfx":"tick","vol":0.32},
+      {"t":13.8,"sfx":"ding","vol":0.24},
+      {"t":13.95,"sfx":"squeak","vol":0.24},
+      {"t":14.1,"sfx":"shuffle","vol":0.18},
+      {"t":14.6,"sfx":"scribble","vol":0.18,"dur":0.3},
+      {"t":14.92,"sfx":"squeak","vol":0.2},
+      {"t":15.2,"sfx":"cap","vol":0.28}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff, on the whiteboard. "Step 3 · Just ask"; a doodled prompt box where the
+           hand writes "> write a PR description for my changes". The Claude mark is drawn with "reads names +
+           descriptions only", and three doodled skill cards get their names, then their descriptions. On "matches"
+           "PR description" is underlined green, an arrow runs to the pr-description card and a green loop circles it;
+           the other cards fade, a page opens below with the full file (git diff, What · Why · Changes) and the hand
+           ticks both steps as Claude "follows it". The eraser clears the board: "Same format, every time." with
+           three identical pages, then a weak description (red X, "vague") vs a specific one (green check and
+           underline, "specific"); the weak card shakes and fades, and a small Claude mark with a red "?" sits by it.
+           The hand caps the marker and leaves; the last frame holds. The avatar is out: the scene fills the box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="wb-scene s05">
+          <svg class="wb-ink" viewBox="0 0 1080 1920" aria-hidden="true">
+            <text class="red st" x="90" y="282" font-size="60">Step 3</text>
+            <text class="st2" x="290" y="282" font-size="72">Just ask</text>
+
+            <g class="ga" data-layout-allow-overlap="">
+              <path class="s box" d="M112 330 H928 Q950 330 950 352 V478 Q950 500 928 500 H112 Q90 500 90 478 V352 Q90 330 112 330 Z" />
+              <text class="req" x="120" y="434" font-size="48"><tspan class="grey">&gt;</tspan> write a PR description for my changes</text>
+              <path class="s green fat rul" d="M0 0" />
+              <g class="gclaude"></g>
+              <text class="rd" x="208" y="608" font-size="48">reads names + descriptions only</text>
+
+              <g class="c1">
+                <path class="s card" d="M110 670 H930 Q950 670 950 690 V780 Q950 800 930 800 H110 Q90 800 90 780 V690 Q90 670 110 670 Z" />
+                <text class="nm" x="120" y="722" font-size="46">commit-message</text>
+                <text class="grey ds" x="120" y="776" font-size="36">Writes commit messages in our style.</text>
+              </g>
+              <g class="c2">
+                <path class="s card" d="M110 830 H930 Q950 830 950 850 V940 Q950 960 930 960 H110 Q90 960 90 940 V850 Q90 830 110 830 Z" />
+                <text class="nm" x="120" y="882" font-size="46">pr-description</text>
+                <text class="grey ds" x="120" y="936" font-size="36">Writes PR descriptions. Use when the user asks for a PR.</text>
+              </g>
+              <g class="c3">
+                <path class="s card" d="M110 990 H930 Q950 990 950 1010 V1100 Q950 1120 930 1120 H110 Q90 1120 90 1100 V1010 Q90 990 110 990 Z" />
+                <text class="nm" x="120" y="1042" font-size="46">code-review</text>
+                <text class="grey ds" x="120" y="1096" font-size="36">Reviews a diff for bugs before merging.</text>
+              </g>
+              <path class="s green arrow" d="M870 512 C 905 600, 912 720, 900 822 M880 802 L900 826 L920 804" />
+              <ellipse class="s green fat loop" cx="520" cy="895" rx="452" ry="96" />
+
+              <path class="s full" d="M90 1000 H880 L950 1070 V1340 H90 Z M880 1000 V1070 H950" />
+              <text class="blue fh" x="120" y="1056" font-size="44">SKILL.md · full file</text>
+              <text class="fl" x="200" y="1160" font-size="44"><tspan class="blue">1.</tspan> Run git diff main...HEAD</text>
+              <text class="fl" x="200" y="1250" font-size="44"><tspan class="blue">2.</tspan> Write: What · Why · Changes</text>
+              <path class="s green fat fck" d="M108 1140 L124 1158 L152 1120" />
+              <path class="s green fat fck" d="M108 1230 L124 1248 L152 1210" />
+            </g>
+
+            <g class="gb" data-layout-allow-overlap="">
+              <text class="same" x="90" y="440" font-size="72">Same format, every time.</text>
+              <g class="mini"><path class="s mp" d="M150 490 H290 L320 520 V690 H150 Z" /><path class="s thin blue ml" d="M172 540 H260 M172 590 H280 M172 640 H240" /></g>
+              <g class="mini"><path class="s mp" d="M450 490 H590 L620 520 V690 H450 Z" /><path class="s thin blue ml" d="M472 540 H560 M472 590 H580 M472 640 H540" /></g>
+              <g class="mini"><path class="s mp" d="M750 490 H890 L920 520 V690 H750 Z" /><path class="s thin blue ml" d="M772 540 H860 M772 590 H880 M772 640 H840" /></g>
+
+              <g class="weak">
+                <path class="s wc" d="M110 760 H930 Q950 760 950 780 V950 Q950 970 930 970 H110 Q90 970 90 950 V780 Q90 760 110 760 Z" />
+                <text class="wt" x="120" y="858" font-size="50"><tspan class="grey">description:</tspan> Helps with PRs.</text>
+                <path class="s red fat wx" d="M830 800 L912 900 M912 800 L830 900" />
+                <text class="red wv" x="120" y="938" font-size="46">vague</text>
+              </g>
+              <g class="gq"></g>
+              <text class="red q" x="370" y="946" font-size="64">?</text>
+
+              <path class="s gc" d="M110 1010 H930 Q950 1010 950 1030 V1270 Q950 1290 930 1290 H110 Q90 1290 90 1270 V1030 Q90 1010 110 1010 Z" />
+              <text class="gt" x="120" y="1090" font-size="50"><tspan class="grey">description:</tspan> Writes PR descriptions.</text>
+              <text class="gt" x="120" y="1160" font-size="50">Use when the user asks for a PR.</text>
+              <path class="s green fat gu" d="M120 1180 C 300 1172, 500 1186, 720 1176" />
+              <path class="s green fat gk" d="M836 1222 L866 1256 L926 1184" />
+              <text class="green gs" x="120" y="1250" font-size="46">specific</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          WB.build(root, () => {
+            // the green underline sits exactly under "PR description" in the request
+            const req = q(".req"), a = req.getStartPositionOfChar(10), b = req.getEndPositionOfChar(23);
+            q(".rul").setAttribute("d", `M${a.x} 452 C ${a.x + 90} 446, ${b.x - 90} 458, ${b.x} 450`);
+            const B = WB.board(root, tl);
+            B.prep(".s"); B.hideText("text");
+            // "Step three: just ask."
+            B.write(".st", 0.2, 0.25);
+            B.write(".st2", 0.47, 0.38);
+            B.draw(".box", 0.85, 0.2);
+            B.write(".req", 1.07, 1.13);
+            // "Claude reads only each skill's name and description up front"
+            B.claude(150, 590, 84, 2.3, 0.35, { parent: q(".gclaude") });
+            B.write(".rd", 2.67, 0.78);
+            B.draw(all(".card"), 3.5, 0.45);
+            B.write(all(".nm"), 4.0, 0.45);
+            B.write(all(".ds"), 4.5, 0.9);
+            B.rest(560, 1560, 5.5, 0.4);
+            // "When your request matches": PR description ↔ the pr-description card
+            B.draw(".rul", 6.15, 0.25);
+            B.draw(".arrow", 6.45, 0.3);
+            B.draw(".loop", 6.8, 0.35);
+            tl.to([q(".c1"), q(".c3")], { opacity: 0.3, duration: 0.25, ease: "none" }, 6.85);
+            // "it loads the full file and follows it"
+            tl.to([q(".c1"), q(".c3"), q(".arrow")], { opacity: 0, duration: 0.2, ease: "none" }, 7.5);
+            B.draw(".full", 7.6, 0.35);
+            B.write(".fh", 7.97, 0.2);
+            B.write(all(".fl"), 8.2, 1.1);
+            const ck = all(".fck");
+            B.draw(ck[0], 9.35, 0.12);
+            B.draw(ck[1], 9.55, 0.12);
+            B.away(9.7);
+            B.erase(q(".ga"), { x: 70, y: 320, w: 940, h: 1040 }, 9.8, 0.45);
+            // "Same format, every time."
+            B.write(".same", 10.3, 0.7);
+            all(".mini").forEach((m, i) => B.draw(m.querySelectorAll(".s"), 11.05 + i * 0.23, 0.22));
+            // "Just keep the description specific": a weak one…
+            B.draw(".wc", 12.1, 0.15);
+            B.write(".wt", 12.25, 0.35);
+            B.draw(".wx", 12.62, 0.2);
+            B.write(".wv", 12.85, 0.14, { hand: false });
+            // …and a specific one
+            B.draw(".gc", 13.0, 0.15);
+            B.write(all(".gt"), 13.15, 0.6);
+            B.draw(".gk", 13.78, 0.15);
+            B.draw(".gu", 13.95, 0.15);
+            B.write(".gs", 13.98, 0.14, { hand: false });
+            // "or Claude won't know when to use it"
+            tl.to(q(".weak"), { x: -14, duration: 0.06, ease: "power1.inOut", yoyo: true, repeat: 5 }, 14.1);
+            tl.to(q(".weak"), { opacity: 0.45, duration: 0.3, ease: "none" }, 14.5);
+            B.claude(310, 926, 52, 14.6, 0.3, { parent: q(".gq") });
+            B.write(".q", 14.92, 0.12);
+            B.away(15.2, { x: 1250, y: 1700, dur: 0.5 });
+            // hard stop: the last frame holds
+            window.__timelines["s05-ask"] = tl;
+          });
+        })();
+      </script>
+    </template>
+  </body>
+</html>

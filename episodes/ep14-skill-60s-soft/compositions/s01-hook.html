@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"low","vol":0.3},
+      {"t":0.02,"sfx":"swell","vol":0.1},
+      {"t":1.25,"sfx":"glass","vol":0.12},
+      {"t":2.6,"sfx":"n4","vol":0.2},
+      {"t":3.35,"sfx":"swell","vol":0.1},
+      {"t":3.7,"sfx":"n1","vol":0.2},
+      {"t":4.2,"sfx":"keys","vol":0.14,"dur":1.4},
+      {"t":5.45,"sfx":"n3","vol":0.2},
+      {"t":7.1,"sfx":"n5","vol":0.18},
+      {"t":7.95,"sfx":"n6","vol":0.2},
+      {"t":8.5,"sfx":"swell","vol":0.08},
+      {"t":8.85,"sfx":"n1","vol":0.18},
+      {"t":9.2,"sfx":"n3","vol":0.18},
+      {"t":9.55,"sfx":"n4","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open (nothing waits): frame 0 already reads "Create a Claude skill · in under · 60 · seconds",
+           centred, the 60 huge. On "sixty" the 60 breathes; then it dissolves into the "Under 60 seconds" pill.
+           "A skill is a set of instructions": a frosted SKILL.md card glides into focus and its template types in; the
+           Claude logo arrives on "Claude". "When your request needs it": the card eases down, a request arrives above
+           it and the card lights up on its own. "Step by step": the three steps, one under the other.
+           Everything stays above y 990: the avatar tile sits below (narrator.html "big").
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { top: 296px; }
+        .s01 .hook .u { position: relative; display: inline-block; }
+        .s01 .hook .u i { position: absolute; left: 0; right: 0; bottom: -8px; height: 8px; border-radius: 4px; background: linear-gradient(90deg, #ffb58f, #c4a8ff); transform-origin: 0 50%; }
+        .s01 .sub { top: 414px; font-size: 44px; color: var(--s-grey); }
+        .s01 .big { position: absolute; left: 90px; width: 900px; top: 452px; height: 440px; margin: 0; text-align: center; font: 500 540px/440px var(--f-display); letter-spacing: -0.06em; color: var(--s-ink); }
+        .s01 .secs { top: 912px; font-size: 44px; color: var(--s-grey); }
+        .s01 .p60 { top: 216px; }
+        .s01 .page { left: 170px; top: 560px; width: 740px; height: 350px; }
+        .s01 .page .logo { width: 34px; height: 34px; }
+        .s01 .page .bar { font: 400 28px/1 var(--f-mono); color: var(--s-ink); }
+        .s01 .page .code { padding: 22px 34px 0; line-height: 46px; }
+        .s01 .page .code p { margin: 0; }
+        .s01 .ring { position: absolute; left: 164px; top: 554px; width: 752px; height: 362px; border-radius: 38px; border: 3px solid #f0a283; box-shadow: 0 0 60px rgba(240, 162, 131, 0.55); }
+        .s01 .ask { position: absolute; right: 170px; top: 452px; height: 76px; padding: 0 32px; display: flex; align-items: center; border-radius: 38px; background: var(--s-ink); color: #fff; font: 500 32px/1 var(--f-body); white-space: nowrap; box-shadow: 0 20px 40px -18px rgba(17, 18, 20, 0.5); }
+        .s01 .step { left: 250px; width: 580px; height: 108px; border-radius: 54px; display: flex; align-items: center; gap: 26px; padding: 0 22px; font: 500 44px/1 var(--f-display); letter-spacing: -0.02em; }
+        .s01 .step b { width: 66px; height: 66px; border-radius: 50%; display: flex; align-items: center; justify-content: center; background: var(--s-ink); color: #fff; font: 500 30px/1 var(--f-body); }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="soft s01">
+          <div class="stage">
+            <div class="pill-row p60"><span class="pill">Under 60 seconds</span></div>
+            <h1 class="h hook">Create a <span class="u">Claude skill<i></i></span></h1>
+            <p class="cap sub">in under</p>
+            <p class="big">60</p>
+            <p class="cap secs">seconds</p>
+
+            <div class="ring"></div>
+            <div class="glass page">
+              <div class="bar"><div class="logo"></div><span>SKILL.md</span></div>
+              <div class="code">
+                <p><span class="t-p">---</span></p>
+                <p><span class="t-k">name</span><span class="t-p">:</span> <span class="t-s">pr-description</span></p>
+                <p><span class="t-k">description</span><span class="t-p">:</span> <span class="t-s">Use when…</span></p>
+                <p><span class="t-p">---</span></p>
+                <p>1. Run <span class="t-fn">git diff</span>…</p>
+              </div>
+            </div>
+            <div class="ask">Write a PR description</div>
+
+            <div class="glass step" style="top:470px"><b>1</b>Folder</div>
+            <div class="glass step" style="top:602px"><b>2</b>SKILL.md</div>
+            <div class="glass step" style="top:734px"><b>3</b>Ask</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const page = q(".page"), logo = q(".page .logo"), ring = q(".ring"), ask = q(".ask");
+          const intro = [q(".sub"), q(".big"), q(".secs")];
+          gsap.set([ring, logo], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Soft.push(tl, q(".stage"), DUR);
+          // frame 0: the title and the 60 are already there, settling
+          tl.fromTo(q(".big"), { scale: 1.06 }, { scale: 1, duration: 1.4, ease: "power3.out" }, 0);
+          // "create a Claude skill"
+          tl.fromTo(q(".hook .u i"), { scaleX: 0 }, { scaleX: 1, duration: 0.8, ease: Soft.INOUT }, 1.2);
+          // "in under sixty seconds": the 60 breathes, then dissolves into the pill
+          tl.to(q(".big"), { scale: 1.05, duration: 0.45, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.55);
+          Soft.melt(tl, intro, 3.35, { scale: 0.8, y: -50, dur: 0.5 });
+          Soft.rise(tl, q(".p60"), 3.55, { y: 14, dur: 0.7 });
+          // "A skill is a set of instructions": the card comes into focus and its lines write themselves
+          tl.fromTo(page, { opacity: 0, y: -40, scale: 0.96, filter: "blur(12px)" }, { opacity: 1, y: -70, scale: 1, filter: "blur(0px)", duration: 0.8, ease: Soft.OUT }, 3.65);
+          all(".page .code p").reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 55 }) + 0.05, 4.2);
+          // "Claude": the logo arrives on the card
+          tl.fromTo(logo, { opacity: 0, scale: 0.6, rotation: -60 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.9, ease: Soft.OUT }, 5.45);
+          // "when your request needs it": the card eases down, a request arrives and the card lights up on its own
+          tl.to(page, { y: 0, duration: 0.8, ease: Soft.INOUT }, 6.7);
+          Soft.rise(tl, ask, 7.1, { y: 20, dur: 0.6 });
+          tl.to(ring, { opacity: 1, duration: 0.5, ease: "sine.inOut" }, 7.95);
+          tl.to(logo, { rotation: 180, duration: 1.0, ease: Soft.INOUT }, 7.95);
+          // "Let's build one, step by step": the three steps
+          Soft.melt(tl, [page, ring, ask], 8.45, { dur: 0.4 });
+          Soft.rise(tl, all(".step"), 8.85, { stagger: 0.35, dur: 0.7 });
+
+          Soft.melt(tl, [q(".hook"), q(".p60"), ...all(".step")], DUR - 0.45, { dur: 0.4 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

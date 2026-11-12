@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":1.0,"sfx":"sub","vol":0.2},
+      {"t":1.25,"sfx":"sub","vol":0.16},
+      {"t":1.5,"sfx":"sub","vol":0.14},
+      {"t":3.2,"sfx":"scan","vol":0.14},
+      {"t":3.6,"sfx":"tick","vol":0.2},
+      {"t":3.75,"sfx":"tick","vol":0.2},
+      {"t":3.9,"sfx":"tick","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. Three pull requests slide in as panels on a tilted plane, each description written a
+           different way ("fixed stuff", a wall of text, loose bullets). On "the same way every time" an accent line
+           scans down each panel and its body resolves into the same structure: What · Why · Changes.
+           Avatar: small tile top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .g { left: 40px; top: 560px; }
+        .s02 .pr { height: 268px; }
+        .s02 .pr .top { display: flex; align-items: center; gap: 18px; height: 84px; padding: 0 32px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+        .s02 .pr .no { font: 400 28px/1 var(--mono); color: var(--mut); }
+        .s02 .pr .nm { font: 500 34px/1 var(--body); color: var(--tx); letter-spacing: -0.01em; }
+        .s02 .pr .dk-chip { margin-left: auto; height: 42px; }
+        .s02 .lay { position: absolute; left: 32px; right: 32px; top: 108px; height: 138px; }
+        .s02 .messy p { font: 400 30px/1.4 var(--body); color: var(--mut); }
+        .s02 .neat { display: grid; grid-template-columns: 180px 1fr; grid-auto-rows: 46px; align-items: center; }
+        .s02 .neat .k { font: 400 28px/1 var(--mono); letter-spacing: 0.1em; color: var(--ac2); }
+        .s02 .neat i { display: block; height: 12px; border-radius: 6px; background: rgba(255, 255, 255, 0.14); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="dk s02">
+          <div class="stage">
+            <div class="dk-glow g" data-layout-allow-overflow=""></div>
+            <span class="dk-label">The example</span>
+            <h2 class="dk-h"><span class="l">Pull request</span><span class="l dk-sheen">descriptions</span></h2>
+            <div class="dk-panel pr" style="top:548px">
+              <div class="top"><span class="no">#412</span><span class="nm">Password reset expiry</span><span class="dk-chip">✓ Same format</span></div>
+              <div class="lay messy"><p>fixed stuff</p></div>
+              <div class="lay neat"><span class="k">WHAT</span><i style="width:80%"></i><span class="k">WHY</span><i style="width:58%"></i><span class="k">CHANGES</span><i style="width:70%"></i></div>
+              <div class="dk-scan"></div>
+            </div>
+            <div class="dk-panel pr" style="top:848px">
+              <div class="top"><span class="no">#413</span><span class="nm">New invoice page</span><span class="dk-chip">✓ Same format</span></div>
+              <div class="lay messy"><p>So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p></div>
+              <div class="lay neat"><span class="k">WHAT</span><i style="width:68%"></i><span class="k">WHY</span><i style="width:86%"></i><span class="k">CHANGES</span><i style="width:54%"></i></div>
+              <div class="dk-scan"></div>
+            </div>
+            <div class="dk-panel pr" style="top:1148px">
+              <div class="top"><span class="no">#414</span><span class="nm">Faster search</span><span class="dk-chip">✓ Same format</span></div>
+              <div class="lay messy"><p>- search</p><p>- misc</p></div>
+              <div class="lay neat"><span class="k">WHAT</span><i style="width:64%"></i><span class="k">WHY</span><i style="width:76%"></i><span class="k">CHANGES</span><i style="width:82%"></i></div>
+              <div class="dk-scan"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.6;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cards = all(".pr");
+          gsap.set([...all(".neat"), ...all(".dk-scan"), ...all(".pr .dk-chip")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Dk.camera(tl, q(".stage"), DUR);
+          Dk.rise(tl, [q(".dk-label"), q(".dk-h")], 0.15, { stagger: 0.08 });
+          // "to write your pull request descriptions": three, each written a different way
+          Dk.panelIn(tl, cards, 1.0, { stagger: 0.25, dur: 0.85 });
+          // "the same way every time": a scan, and each takes the same shape
+          Dk.sheen(tl, q(".dk-h .dk-sheen"), 3.2);
+          cards.forEach((c, i) => {
+            const t = 3.2 + i * 0.15;
+            Dk.scan(tl, c.querySelector(".dk-scan"), t, 266, 0.6);
+            tl.to(c.querySelector(".messy"), { opacity: 0, duration: 0.2, ease: "none" }, t + 0.2);
+            tl.to(c.querySelector(".neat"), { opacity: 1, duration: 0.3, ease: "none" }, t + 0.35);
+            Dk.rise(tl, c.querySelector(".dk-chip"), t + 0.4, { y: 6, dur: 0.4 });
+          });
+
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Backdrop for the whole episode, under every scene: a night sky with three layers of square stars
+           falling at different speeds (parallax, in hard 4 px steps) and a two-layer pixel skyline scrolling along
+           the bottom, below the safe box. Seeded, so every render draws the same sky. -->
+      <style>
+        #root { position: absolute; inset: 0; overflow: hidden; background: #0d0b26; }
+        .bd .band { position: absolute; left: 0; width: 1080px; }
+        .bd .lay { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+        .bd .lay i { position: absolute; display: block; }
+        .bd .sky { position: absolute; left: 0; bottom: 0; height: 400px; }
+        .bd .sky i { position: absolute; bottom: 0; display: block; }
+        .bd .sky b { position: absolute; display: block; width: 8px; height: 8px; background: #ffd23f; }
+      </style>
+      <div id="root" data-composition-id="backdrop" data-width="1080" data-height="1920">
+        <div class="bd" data-layout-allow-overflow="">
+          <div class="band" style="top:1240px;height:680px;background:#120f33"></div>
+          <div class="band" style="top:1440px;height:480px;background:#181342"></div>
+          <div class="lay far" data-layout-allow-overflow=""></div>
+          <div class="lay mid" data-layout-allow-overflow=""></div>
+          <div class="lay near" data-layout-allow-overflow=""></div>
+          <div class="sky back" data-layout-allow-overflow=""></div>
+          <div class="sky front" data-layout-allow-overflow=""></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 57.15;
+          const root = document.querySelector('[data-composition-id="backdrop"] .bd');
+          let seed = 1984;
+          const rnd = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+          const grid = (v, g) => Math.round(v / g) * g;
+          const tl = gsap.timeline({ paused: true });
+
+          // stars: [layer, count, size, colours, fall in px over the episode]
+          [["far", 110, 4, ["#3b2f7a", "#6a4fd8"], 116], ["mid", 60, 6, ["#9aa0c8", "#f4f1ff"], 456], ["near", 26, 8, ["#3fe0ff", "#ffd23f", "#f4f1ff"], 1140]].forEach(([name, n, s, cols, fall]) => {
+            const lay = root.querySelector("." + name);
+            let html = "";
+            for (let i = 0; i < n; i++) html += `<i style="left:${grid(rnd() * 1072, 4)}px;top:${grid(rnd() * (1920 + fall) - fall, 4)}px;width:${s}px;height:${s}px;background:${cols[Math.floor(rnd() * cols.length)]}"></i>`;
+            lay.innerHTML = html;
+            tl.fromTo(lay, { y: 0 }, { y: fall, duration: LEN, ease: `steps(${fall / 4})` }, 0);
+          });
+
+          // skyline: columns of buildings, the front ones with lit windows
+          [["back", "#241d5c", 60, 140, 330, 228, false], ["front", "#07071a", 84, 80, 230, 456, true]].forEach(([name, col, w, lo, hi, run, lit]) => {
+            const sky = root.querySelector("." + name);
+            let html = "", x = 0;
+            while (x < 1080 + run) {
+              const bw = grid(w + rnd() * w * 0.6, 12), bh = grid(lo + rnd() * (hi - lo), 12);
+              html += `<i style="left:${x}px;width:${bw}px;height:${bh}px;background:${col}">`;
+              if (lit) for (let k = 0; k < 5; k++) html += `<b style="left:${grid(12 + rnd() * (bw - 32), 12)}px;top:${grid(12 + rnd() * (bh - 32), 12)}px"></b>`;
+              html += "</i>";
+              x += bw;
+            }
+            sky.style.width = x + "px";
+            sky.innerHTML = html;
+            tl.fromTo(sky, { x: 0 }, { x: -run, duration: LEN, ease: `steps(${run / 4})` }, 0);
+          });
+
+          window.__timelines["backdrop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

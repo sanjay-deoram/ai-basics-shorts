@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.18,"sfx":"cap","vol":0.26},
+      {"t":0.2,"sfx":"write","vol":0.3,"dur":0.3},
+      {"t":0.5,"sfx":"squeak","vol":0.2},
+      {"t":0.65,"sfx":"write","vol":0.32,"dur":0.7},
+      {"t":1.5,"sfx":"scribble","vol":0.3,"dur":0.3},
+      {"t":1.82,"sfx":"write","vol":0.28,"dur":0.38},
+      {"t":2.25,"sfx":"squeak","vol":0.24},
+      {"t":2.55,"sfx":"scribble","vol":0.3,"dur":0.25},
+      {"t":2.8,"sfx":"write","vol":0.28,"dur":0.25},
+      {"t":3.1,"sfx":"squeak","vol":0.24},
+      {"t":3.35,"sfx":"scribble","vol":0.28,"dur":0.37},
+      {"t":3.75,"sfx":"write","vol":0.3,"dur":1.55},
+      {"t":5.95,"sfx":"write","vol":0.3,"dur":0.45},
+      {"t":6.42,"sfx":"squeak","vol":0.22},
+      {"t":6.6,"sfx":"pop","vol":0.22},
+      {"t":6.6,"sfx":"scribble","vol":0.28,"dur":0.22},
+      {"t":6.82,"sfx":"write","vol":0.28,"dur":0.3},
+      {"t":7.0,"sfx":"ding","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Step 1 · Folder, on the whiteboard. "Step 1" (red, underlined) and "Make a folder". A doodled
+           folder tree is drawn branch by branch as it's said: ~/.claude/, a branch, skills/ (underlined blue). A
+           doodled terminal box; the hand writes `$ mkdir -p ~/.claude/skills/` on "make a folder", then
+           `pr-description` in green on "P R description"; a last branch and the new green folder pr-description/
+           appear, with "= skill name". Avatar: small top right ("corner"); content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Step one: in dot claude slash skills, make a folder named after the skill. P R description." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+      </style>
+      <div id="root" data-composition-id="s03-folder" data-width="1080" data-height="1920">
+        <div class="wb-scene s03">
+          <svg class="wb-ink" viewBox="0 0 1080 1920" aria-hidden="true">
+            <g class="all">
+              <text class="red st" x="90" y="282" font-size="60">Step 1</text>
+              <path class="s red ul" d="M90 304 C 140 298, 200 306, 252 300" />
+              <text class="ttl" x="90" y="400" font-size="92">Make a folder</text>
+
+              <path class="s f1" d="M100 575 a10 10 0 0 1 10 -10 h34 l14 15 h52 a10 10 0 0 1 10 10 v60 a10 10 0 0 1 -10 10 h-100 a10 10 0 0 1 -10 -10 z" />
+              <text class="l1" x="250" y="634" font-size="66">~/.claude/</text>
+              <path class="s b1" d="M160 668 V 775 H 238" />
+              <g transform="translate(150 170)"><path class="s f2" d="M100 575 a10 10 0 0 1 10 -10 h34 l14 15 h52 a10 10 0 0 1 10 10 v60 a10 10 0 0 1 -10 10 h-100 a10 10 0 0 1 -10 -10 z" /></g>
+              <text class="blue l2" x="400" y="804" font-size="66">skills/</text>
+              <path class="s blue u2" d="M398 826 C 450 820, 510 830, 566 822" />
+              <path class="s b2" d="M310 838 V 945 H 388" />
+              <g transform="translate(300 340)"><path class="s green f3" d="M100 575 a10 10 0 0 1 10 -10 h34 l14 15 h52 a10 10 0 0 1 10 10 v60 a10 10 0 0 1 -10 10 h-100 a10 10 0 0 1 -10 -10 z" /></g>
+              <text class="green l3" x="550" y="974" font-size="66">pr-description/</text>
+              <text class="red l4" x="560" y="1040" font-size="48">= the skill name</text>
+
+              <path class="s term" d="M112 1090 H928 Q950 1090 950 1112 V1308 Q950 1330 928 1330 H112 Q90 1330 90 1308 V1112 Q90 1090 112 1090 Z M90 1150 H950" />
+              <path class="s thin term" d="M118 1120 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0 M150 1120 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0 M182 1120 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0" />
+              <text class="cmd" x="118" y="1258" font-size="46"><tspan class="grey">$</tspan> mkdir -p ~/.claude/skills/</text>
+              <text class="green cmd2" x="0" y="1258" font-size="46">pr-description</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s03-folder"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          WB.build(root, () => {
+            const c1 = q(".cmd").getBBox();
+            q(".cmd2").setAttribute("x", c1.x + c1.width + 2);
+            const B = WB.board(root, tl);
+            B.prep(".s"); B.hideText("text");
+            // "Step one"
+            B.write(".st", 0.2, 0.3);
+            B.draw(".ul", 0.5, 0.12);
+            B.write(".ttl", 0.65, 0.7);
+            // "in dot claude slash skills"
+            B.draw(".f1", 1.5, 0.3);
+            B.write(".l1", 1.82, 0.38);
+            B.draw(".b1", 2.25, 0.25);
+            B.draw(".f2", 2.55, 0.25);
+            B.write(".l2", 2.8, 0.25);
+            B.draw(".u2", 3.1, 0.18);
+            // "make a folder named after the skill": the command
+            B.draw(all(".term"), 3.35, 0.37);
+            B.write(".cmd", 3.75, 1.55);
+            B.rest(560, 1500, 5.4, 0.4);
+            // "P R description": the name, and the new folder appears in the tree
+            B.write(".cmd2", 5.95, 0.45);
+            B.draw(".b2", 6.42, 0.16);
+            B.draw(".f3", 6.6, 0.22);
+            B.write(".l3", 6.82, 0.3);
+            B.write(".l4", 7.0, 0.22, { hand: false });
+            B.away(7.12);
+            tl.to(q(".all"), { opacity: 0, duration: 0.15, ease: "none" }, 7.28);
+            window.__timelines["s03-folder"] = tl;
+          });
+        })();
+      </script>
+    </template>
+  </body>
+</html>

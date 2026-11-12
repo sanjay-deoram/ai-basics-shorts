@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"sub","vol":0.24},
+      {"t":0.9,"sfx":"keys","vol":0.16,"dur":1.35},
+      {"t":2.5,"sfx":"sub","vol":0.18},
+      {"t":4.0,"sfx":"tick","vol":0.2},
+      {"t":4.5,"sfx":"tick","vol":0.2},
+      {"t":6.1,"sfx":"click","vol":0.24},
+      {"t":6.3,"sfx":"scan","vol":0.14},
+      {"t":6.8,"sfx":"confirm","vol":0.2},
+      {"t":7.55,"sfx":"riser","vol":0.08},
+      {"t":7.95,"sfx":"scan","vol":0.14},
+      {"t":8.9,"sfx":"tick","vol":0.2},
+      {"t":9.6,"sfx":"stream","vol":0.13,"dur":1.4},
+      {"t":10.1,"sfx":"sub","vol":0.2},
+      {"t":12.1,"sfx":"click","vol":0.18},
+      {"t":12.6,"sfx":"vague","vol":0.22},
+      {"t":13.0,"sfx":"click","vol":0.18},
+      {"t":13.3,"sfx":"confirm","vol":0.24}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff. A Claude Code panel (marked with the Claude logo) and, below it, the
+           skill list. The request types into the input with a block caret. The list shows only names and
+           descriptions ("up front"). On "matches" the request is sent, a thin beam runs from the panel down the
+           list's rail to pr-description, which takes the accent ring and a "Matched" chip while the others dim.
+           On "loads the full file" the others leave, the skill opens to its instructions, an accent line scans
+           them ("Loaded"), and the transcript shows Skill(pr-description), Bash(git diff…), then the
+           What / Why / Changes reply (example text). Payoff: "Same format, every time." then a dim card tagged
+           Vague against a glowing card tagged Specific. Hard stop: no exit, the last frame holds.
+           The avatar is out: the workspace fills the safe box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .g { left: 40px; top: 300px; }
+        .s05 .dk-h { top: 290px; font-size: 80px; }
+        .s05 .cc { top: 420px; height: 560px; }
+        .s05 .cc .dk-bar .nm { color: var(--tx); }
+        .s05 .area { position: absolute; left: 28px; right: 28px; top: 80px; height: 352px; overflow: hidden; }
+        .s05 .tx { position: absolute; left: 0; right: 0; top: 0; }
+        .s05 .row { height: 44px; font: 400 28px/44px var(--mono); color: var(--tx); white-space: pre; }
+        .s05 .row.m { color: var(--mut); }
+        .s05 .row .h { color: var(--ac2); }
+        .s05 .row.u { background: rgba(255, 255, 255, 0.06); border-radius: 8px; padding-left: 10px; margin: 0 -10px; }
+        .s05 .row.u .ps { color: var(--ac); }
+        .s05 .dot { display: inline-block; width: 12px; height: 12px; border-radius: 50%; background: var(--ac); margin: 0 16px 0 2px; vertical-align: 2px; }
+        .s05 .dot.w { background: var(--tx); }
+        .s05 .el { display: inline-block; width: 16px; height: 16px; border-left: 2px solid var(--dim); border-bottom: 2px solid var(--dim); margin: 0 14px 0 8px; vertical-align: 10px; }
+        .s05 .input { position: absolute; left: 20px; right: 20px; top: 452px; height: 84px; display: flex; align-items: center; padding: 0 22px; border: 1px solid rgba(255, 255, 255, 0.16); border-radius: 14px; background: rgba(255, 255, 255, 0.03); font: 400 28px/1 var(--mono); color: var(--tx); white-space: pre; }
+        .s05 .input .ps { color: var(--ac); }
+
+        .s05 .sk { top: 1010px; height: 488px; }
+        .s05 .sk .dk-bar .sw { position: relative; margin-left: auto; width: 330px; height: 28px; }
+        .s05 .sk .dk-bar .sw span { position: absolute; right: 0; top: 0; }
+        .s05 .it { position: absolute; left: 0; right: 0; height: 136px; }
+        .s05 .it .sel { position: absolute; left: 12px; right: 12px; top: 6px; bottom: 6px; border-radius: 16px; background: rgba(124, 140, 255, 0.1); border: 1.5px solid var(--ac); box-shadow: 0 0 36px rgba(124, 140, 255, 0.35); }
+        .s05 .it .nd { position: absolute; left: 29px; top: 61px; width: 14px; height: 14px; border-radius: 50%; border: 2px solid var(--dim); background: #111214; }
+        .s05 .it .nm { position: absolute; left: 76px; top: 28px; font: 400 30px/1 var(--mono); color: var(--tx); white-space: nowrap; }
+        .s05 .it .ds { position: absolute; left: 76px; top: 80px; font: 400 28px/1 var(--body); color: var(--mut); white-space: nowrap; }
+        .s05 .it .dk-chip { position: absolute; right: 30px; top: 20px; height: 42px; }
+        .s05 .fb { position: absolute; left: 12px; right: 12px; top: 214px; height: 190px; }
+        .s05 .fb .ls { position: absolute; left: 64px; right: 16px; top: 0; padding-top: 18px; border-top: 1px solid var(--line); }
+        .s05 .fb p { font: 400 28px/52px var(--mono); color: var(--tx); white-space: pre; }
+        .s05 .fb .k { color: var(--ac2); }
+        .s05 .beam { position: absolute; left: 125px; top: 980px; width: 2px; height: 306px; background: linear-gradient(180deg, rgba(124, 140, 255, 0.3), #b9c1ff); box-shadow: 0 0 14px rgba(124, 140, 255, 0.8); transform-origin: 50% 0; }
+
+        .s05 .pay { position: absolute; left: 90px; top: 1014px; font: 600 66px/1 var(--sans); letter-spacing: -0.03em; white-space: nowrap; }
+        .s05 .ex { padding: 24px 30px; }
+        .s05 .ex .top { display: flex; align-items: center; justify-content: space-between; height: 44px; font: 400 28px/1 var(--mono); letter-spacing: 0.12em; color: var(--mut); }
+        .s05 .ex .top .dk-chip { height: 44px; letter-spacing: 0; }
+        .s05 .ex p { margin-top: 18px; font: 400 28px/44px var(--mono); white-space: nowrap; }
+        .s05 .ex p .l { display: block; }
+        .s05 .ex .k { color: var(--mut); }
+        .s05 .weak { top: 1120px; height: 154px; }
+        .s05 .weak p { color: var(--mut); }
+        .s05 .good { top: 1296px; height: 200px; overflow: visible; }
+        .s05 .good .hl { color: var(--ac2); }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="dk s05">
+          <div class="stage">
+            <div class="dk-glow g" data-layout-allow-overflow=""></div>
+            <span class="dk-label"><b>03</b> — Ask</span>
+            <h2 class="dk-h">Just <span class="dk-sheen">ask</span></h2>
+
+            <div class="dk-panel cc">
+              <div class="dk-bar"><i></i><i></i><i></i><div class="dk-claude" style="margin-left:12px"></div><span class="nm" style="margin-left:4px">Claude Code</span><span class="r">~/my-app</span></div>
+              <div class="area">
+                <div class="tx">
+                  <div class="row m r0"><span class="dot"></span>Read 3 skills: name + description</div>
+                  <div class="row u r1"><span class="ps">&gt; </span>write a PR description for my changes</div>
+                  <div class="row r2"><span class="dot"></span>Skill(pr-description)</div>
+                  <div class="row m r3"><span class="el"></span>Loaded SKILL.md</div>
+                  <div class="row r4"><span class="dot"></span>Bash(git diff main...HEAD)</div>
+                  <div class="row m r5"><span class="el"></span>4 files changed, +42 -7</div>
+                  <div class="row r6"><span class="dot w"></span><span class="h">What</span></div>
+                  <div class="row r7">  Reset links now expire after 30 min.</div>
+                  <div class="row r8">  <span class="h">Why</span></div>
+                  <div class="row r9">  Old links worked forever: a risk.</div>
+                  <div class="row r10">  <span class="h">Changes</span></div>
+                  <div class="row r11">  • auth/reset.ts: check expiresAt</div>
+                  <div class="row r12">  • emails/reset.html: show the limit</div>
+                </div>
+              </div>
+              <div class="input"><span class="ps">&gt; </span><span class="dk-type typed">write a PR description for my changes</span></div>
+            </div>
+
+            <div class="dk-panel sk">
+              <div class="dk-bar"><span>SKILLS</span><span class="sw"><span class="h1">name + description</span><span class="h2">full file</span></span></div>
+              <div class="it i1" style="top:72px"><i class="nd"></i><span class="nm">commit-message</span><span class="ds">Writes commit messages in our style.</span></div>
+              <div class="it i2" style="top:208px"><i class="sel"></i><i class="nd"></i><span class="nm">pr-description</span><span class="ds">Writes PR descriptions. Use when the user asks for a PR.</span><span class="dk-chip c1">✓ Matched</span><span class="dk-chip c2">● Loaded</span></div>
+              <div class="it i3" style="top:344px"><i class="nd"></i><span class="nm">code-review</span><span class="ds">Reviews a diff for bugs before merging.</span></div>
+              <div class="fb"><div class="ls"><p><span class="k">1.</span> Run git diff main...HEAD</p><p><span class="k">2.</span> Write three sections:</p><p>   <span class="k">## What · ## Why · ## Changes</span></p></div><div class="dk-scan"></div></div>
+            </div>
+            <div class="beam"></div>
+
+            <p class="pay">Same format, <span class="dk-sheen">every time.</span></p>
+            <div class="dk-panel ex weak">
+              <div class="top"><span>DESCRIPTION</span><span class="dk-chip mut">Vague</span></div>
+              <p><span class="k">description:</span> Helps with PRs.</p>
+            </div>
+            <div class="dk-panel ex good">
+              <div class="top"><span>DESCRIPTION</span><span class="dk-chip">✓ Specific</span></div>
+              <p><span class="l"><span class="k">description:</span> Writes PR descriptions.</span><span class="l hl">  Use when the user asks for a PR.</span></p>
+              <div class="dk-ring"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 17.4, VISIBLE = 8, LH = 44;
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tx = q(".tx"), cc = q(".cc"), sk = q(".sk"), i1 = q(".i1"), i2 = q(".i2"), i3 = q(".i3"), beam = q(".beam");
+          const row = (n) => q(".r" + n);
+          gsap.set([...all(".row"), sk, q(".i2 .sel"), q(".c1"), q(".c2"), q(".h2"), q(".fb"), q(".fb .dk-scan"), beam,
+            q(".pay"), q(".weak"), q(".good"), q(".good .dk-ring"), ...all(".ex .dk-chip")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a transcript row appears; the transcript scrolls once it's full
+          const show = (n, at) => {
+            tl.to(row(n), { opacity: 1, duration: 0.12, ease: "none" }, at);
+            if (n + 1 > VISIBLE) tl.to(tx, { y: -(n + 1 - VISIBLE) * LH, duration: 0.2, ease: "power2.out" }, at);
+          };
+          Dk.camera(tl, q(".stage"), DUR, { out: false, to: 1.025 });
+
+          // "Step three: just ask."
+          Dk.rise(tl, [q(".dk-label"), q(".dk-h")], 0.15, { stagger: 0.08 });
+          Dk.panelIn(tl, cc, 0.3);
+          Dk.type(tl, q(".typed"), 0.9, { cps: 28, show: 0.4, hold: 6.1 - (0.9 + 37 / 28) });
+          // "Claude reads only each skill's name and description up front"
+          Dk.panelIn(tl, sk, 2.5);
+          show(0, 2.9);
+          tl.fromTo(all(".it .nm"), { color: "#f7f8f8" }, { color: "#b9c1ff", duration: 0.3, ease: "power2.out", stagger: 0.08 }, 4.0);
+          tl.to(all(".it .nm"), { color: "#f7f8f8", duration: 0.5, ease: "none" }, 5.3);
+          tl.fromTo(all(".it .ds"), { color: "#9096a0" }, { color: "#f7f8f8", duration: 0.3, ease: "power2.out", stagger: 0.08 }, 4.5);
+          tl.to(all(".it .ds"), { color: "#9096a0", duration: 0.5, ease: "none" }, 5.5);
+          // "When your request matches": it's sent, a beam runs down the rail to pr-description
+          tl.to(q(".typed"), { opacity: 0, duration: 0.12, ease: "none" }, 6.1);
+          show(1, 6.15);
+          tl.fromTo(beam, { scaleY: 0, opacity: 1 }, { scaleY: 1, duration: 0.5, ease: "power2.inOut" }, 6.3);
+          tl.to(q(".i2 .sel"), { opacity: 1, duration: 0.35, ease: "power2.out" }, 6.8);
+          tl.to(q(".i2 .nd"), { backgroundColor: "#b9c1ff", borderColor: "#b9c1ff", duration: 0.2, ease: "none" }, 6.8);
+          Dk.rise(tl, q(".c1"), 6.85, { y: 6, dur: 0.4 });
+          Dk.dim(tl, [i1, i3], 6.8, true, { to: 0.32, blur: 1.5 });
+          // "it loads the full file": the others leave, the skill opens and is read
+          tl.to([i1, i3, beam], { opacity: 0, duration: 0.25, ease: "none" }, 7.45);
+          tl.to(i2, { y: -136, duration: 0.6, ease: "expo.inOut" }, 7.55);
+          tl.to([q(".h1"), q(".c1")], { opacity: 0, duration: 0.2, ease: "none" }, 7.6);
+          tl.to([q(".h2"), q(".c2")], { opacity: 1, duration: 0.3, ease: "none" }, 7.85);
+          tl.fromTo(q(".fb"), { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, ease: Dk.OUT }, 7.85);
+          Dk.scan(tl, q(".fb .dk-scan"), 7.95, 186, 0.75);
+          show(2, 7.7);
+          show(3, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(4, 8.9);
+          show(5, 9.2);
+          [6, 7, 8, 9, 10, 11, 12].forEach((n, i) => show(n, 9.6 + i * 0.2));
+
+          // "Same format, every time."
+          tl.to(sk, { opacity: 0, y: -16, duration: 0.3, ease: "power2.in" }, 9.8);
+          Dk.rise(tl, q(".pay"), 10.1);
+          Dk.sheen(tl, q(".pay .dk-sheen"), 10.75, 0.7);
+          // "Just keep the description specific": a vague one, then a specific one
+          Dk.dim(tl, cc, 11.9, true, { to: 0.55, blur: 1 });
+          Dk.panelIn(tl, q(".weak"), 12.1, { y: 40, rx: 10, dur: 0.7 });
+          Dk.rise(tl, q(".weak .dk-chip"), 12.6, { y: 6, dur: 0.4 });
+          Dk.panelIn(tl, q(".good"), 13.0, { y: 40, rx: 10, dur: 0.7 });
+          Dk.rise(tl, q(".good .dk-chip"), 13.3, { y: 6, dur: 0.4 });
+          tl.to(q(".good .dk-ring"), { opacity: 1, duration: 0.5, ease: "power2.out" }, 13.3);
+          // "or Claude won't know when to use it"
+          Dk.dim(tl, q(".weak"), 14.1, true, { to: 0.42, blur: 1.5 });
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

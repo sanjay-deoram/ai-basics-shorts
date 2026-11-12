@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"levelup","vol":0.12},
+      {"t":0.9,"sfx":"type","vol":0.08,"dur":1.4},
+      {"t":2.5,"sfx":"blip","vol":0.12},
+      {"t":2.65,"sfx":"blip","vol":0.12},
+      {"t":2.8,"sfx":"blip","vol":0.12},
+      {"t":4.0,"sfx":"select","vol":0.1},
+      {"t":4.5,"sfx":"select","vol":0.1},
+      {"t":6.1,"sfx":"select","vol":0.14},
+      {"t":6.5,"sfx":"meter","vol":0.12},
+      {"t":6.85,"sfx":"coin","vol":0.14},
+      {"t":7.6,"sfx":"whoosh","vol":0.1},
+      {"t":7.7,"sfx":"tick","vol":0.12},
+      {"t":7.95,"sfx":"powerup","vol":0.1},
+      {"t":8.9,"sfx":"tick","vol":0.12},
+      {"t":9.6,"sfx":"type","vol":0.07,"dur":1.4},
+      {"t":10.1,"sfx":"hit","vol":0.14},
+      {"t":10.5,"sfx":"unlock","vol":0.14},
+      {"t":12.1,"sfx":"blip","vol":0.12},
+      {"t":12.6,"sfx":"error","vol":0.14},
+      {"t":13.0,"sfx":"blip","vol":0.12},
+      {"t":13.3,"sfx":"victory","vol":0.2},
+      {"t":15.3,"sfx":"coin","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Level 3 · Ask + payoff, as a skill-select menu. The request types into a YOU dialogue box. Claude's
+           skill list (Claude logo) shows three rows, each a name and a description only; the names, then the
+           descriptions, flash as they're said. On "matches" the request is sent, a match meter fills on every row and
+           only pr-description fills up: it's selected, the others drop out, and its row opens to the full file
+           (FULL FILE LOADED). A log box runs Skill(pr-description), Bash(git diff…), then the What / Why / Changes
+           reply (example text). Payoff: a trophy, NEW SKILL UNLOCKED: pr-description, SAME FORMAT EVERY TIME. Then
+           the weak description "Helps with PRs." (✗ VAGUE) against the better "Writes PR descriptions. Use when the
+           user asks for a PR." (✓ SPECIFIC); the weak one shakes and dims, the title flips to GAME CLEAR.
+           Hard stop, the last frame holds. Avatar: out.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just
+           keep the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .lv .lv-ttl.clear { position: absolute; left: 0; top: 68px; margin: 0; color: var(--a-yellow); text-shadow: 6px 6px 0 var(--a-red); }
+        .s05 .dlg { position: absolute; left: 96px; top: 492px; width: 848px; height: 118px; padding: 14px 22px; background: var(--a-black); }
+        .s05 .dlg .who { display: block; font: 400 28px/1 var(--a-head); color: var(--a-cyan); }
+        .s05 .dlg p { margin-top: 8px; font: 400 46px/1 var(--a-mono); white-space: pre; }
+        .s05 .dlg .p { color: var(--a-green); }
+        .s05 .dlg .cur { color: var(--a-green); }
+        .s05 .mh { position: absolute; left: 96px; top: 644px; width: 848px; height: 44px; display: flex; align-items: center; gap: 16px; font: 400 28px/1 var(--a-head); white-space: nowrap; }
+        .s05 .mh .cc-spark { width: 44px; height: 44px; }
+        .s05 .mh .mt { margin-left: auto; color: var(--a-green); }
+        .s05 .sk { position: absolute; left: 96px; width: 848px; height: 172px; }
+        .s05 .sk .ic { position: absolute; left: 22px; top: 32px; }
+        .s05 .sk .nm { position: absolute; left: 142px; top: 12px; font: 400 56px/1 var(--a-mono); color: var(--a-yellow); white-space: nowrap; }
+        .s05 .sk .ds { position: absolute; left: 142px; top: 74px; width: 680px; font: 500 32px/1.15 var(--a-body); color: var(--a-white); }
+        .s05 .sk .mm { position: absolute; right: 22px; top: 26px; width: 212px; height: 32px; border: 4px solid var(--a-white); background: var(--a-black); }
+        .s05 .sk .mm i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--a-red); }
+        .s05 .s2 .mm i { background: var(--a-green); }
+        .s05 .sk .mm b { position: absolute; inset: 0; background: repeating-linear-gradient(to right, rgba(7, 7, 26, 0) 0 21px, #07071a 21px 25.5px); }
+        .s05 .sk .sel { position: absolute; left: -58px; top: 60px; }
+        .s05 .sk .body { position: absolute; left: 22px; right: 22px; top: 172px; padding-top: 14px; border-top: 6px solid var(--a-mid); }
+        .s05 .sk .body p { font: 400 42px/46px var(--a-mono); color: var(--a-white); white-space: pre; }
+        .s05 .kick { position: absolute; left: 90px; width: 860px; text-align: center; font: 400 28px/1 var(--a-head); white-space: nowrap; }
+        .s05 .k1 { top: 1296px; color: var(--a-cyan); }
+        .s05 .k2 { top: 1070px; color: var(--a-green); }
+        .s05 .log { position: absolute; left: 96px; top: 1126px; width: 848px; height: 358px; background: var(--a-black); }
+        .s05 .log .cc-spark { position: absolute; right: 16px; top: 14px; width: 44px; height: 44px; }
+        .s05 .log .g { position: absolute; left: 22px; top: 6px; }
+        .s05 .log p { font: 400 46px/48px var(--a-mono); white-space: pre; color: var(--a-white); }
+        .s05 .log .t { color: var(--a-clay); }
+        .s05 .log .m { color: var(--a-grey); }
+        .s05 .log .h { color: var(--a-yellow); }
+        .s05 .un { position: absolute; left: 90px; width: 860px; top: 664px; text-align: center; font: 400 50px/1 var(--a-mono); color: var(--a-cyan); white-space: nowrap; }
+        .s05 .trophy { position: absolute; left: 100px; top: 762px; }
+        .s05 .pay { position: absolute; left: 266px; top: 762px; font: 400 56px/1 var(--a-head); color: var(--a-white); text-shadow: 8px 8px 0 var(--a-violet); }
+        .s05 .pay span { display: block; white-space: nowrap; }
+        .s05 .pay .l2 { margin-top: 22px; color: var(--a-yellow); }
+        .s05 .st { position: absolute; }
+        .s05 .ex { position: absolute; left: 96px; width: 848px; padding: 18px 24px; }
+        .s05 .ex .top { display: flex; align-items: center; justify-content: space-between; height: 52px; font: 400 28px/1 var(--a-head); }
+        .s05 .ex .stamp { display: flex; align-items: center; gap: 12px; padding: 8px 12px 6px; border: 6px solid; font: 400 28px/1 var(--a-head); }
+        .s05 .weak .top span { color: var(--a-grey); }
+        .s05 .weak .stamp { color: var(--a-red); }
+        .s05 .good .stamp { color: var(--a-green); }
+        .s05 .ex p { margin-top: 14px; font: 400 46px/50px var(--a-mono); white-space: pre; }
+        .s05 .ex p b { font-weight: 400; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="arc-scene s05">
+          <div class="arc-shake">
+            <div class="lv"><span class="px-tag lv-tag">LEVEL 3 · ASK</span><h2 class="lv-ttl ask">JUST ASK</h2><h2 class="lv-ttl clear">GAME CLEAR</h2></div>
+            <div class="px-panel dlg"><span class="who">YOU</span><p><span class="p">&gt; </span><span class="it">write a <span class="hl">PR description</span> for my changes</span><span class="cur"></span></p></div>
+
+            <div class="mh"><div class="cc-spark"></div><span>CLAUDE'S SKILL LIST</span><span class="mt">MATCH</span></div>
+            <div class="px-panel sk s1" style="top:706px"><i class="sp ic" data-sp="scroll" data-px="8"></i><span class="nm">commit-message</span><span class="ds">Writes commit messages in our style.</span><div class="mm"><i></i><b></b></div></div>
+            <div class="px-panel sk s2" style="top:896px" data-layout-allow-overlap=""><i class="sp ic" data-sp="scroll" data-px="8"></i><span class="nm">pr-description</span><span class="ds">Writes PR descriptions. Use when the user asks for a PR.</span><div class="mm"><i></i><b></b></div><i class="sp sel" data-sp="arrow" data-px="6"></i>
+              <div class="body"><p>1. Run git diff main...HEAD</p><p>2. Write three sections:</p><p>   ## What · ## Why · ## Changes</p></div>
+            </div>
+            <div class="px-panel sk s3" style="top:1086px"><i class="sp ic" data-sp="scroll" data-px="8"></i><span class="nm">code-review</span><span class="ds">Reviews a diff for bugs before merging.</span><div class="mm"><i></i><b></b></div></div>
+            <p class="kick k1">NAME + DESCRIPTION ONLY</p>
+            <p class="kick k2">MATCHED: FULL FILE LOADED</p>
+
+            <div class="px-panel log" data-layout-allow-overlap="">
+              <div class="cc-spark"></div>
+              <div class="g g1">
+                <p class="r5"><span class="t">&gt; Skill</span>(pr-description)</p>
+                <p class="m r6">  Loaded SKILL.md</p>
+                <p class="r7"><span class="t">&gt; Bash</span>(git diff main...HEAD)</p>
+                <p class="m r8">  4 files changed, +42 -7</p>
+              </div>
+              <div class="g g2">
+                <p class="h">What</p>
+                <p>  Reset links now expire after 30 min.</p>
+                <p class="h">Why</p>
+                <p>  Old links worked forever: a risk.</p>
+                <p class="h">Changes</p>
+                <p>  - auth/reset.ts: check expiresAt</p>
+                <p>  - emails/reset.html: show the limit</p>
+              </div>
+            </div>
+
+            <p class="un">NEW SKILL UNLOCKED: pr-description</p>
+            <i class="sp trophy" data-sp="trophy" data-px="12"></i>
+            <p class="pay"><span>SAME FORMAT</span><span class="l2">EVERY TIME</span></p>
+            <i class="sp st" data-sp="star" data-px="6" style="left:886px;top:740px"></i>
+            <i class="sp st" data-sp="star" data-px="4" style="left:900px;top:860px"></i>
+            <i class="sp st" data-sp="star" data-px="4" style="left:820px;top:300px"></i>
+            <div class="px-panel ex weak" style="top:1000px" data-layout-allow-overlap="">
+              <div class="top"><span>WEAK</span><span class="stamp"><i class="sp" data-sp="cross" data-px="5"></i>VAGUE</span></div>
+              <p>description: Helps with PRs.</p>
+            </div>
+            <div class="px-panel ex good" style="top:1212px" data-layout-allow-overlap="">
+              <div class="top"><span>BETTER</span><span class="stamp"><i class="sp" data-sp="check" data-px="5"></i>SPECIFIC</span></div>
+              <p>description: Writes PR descriptions.</p>
+              <p><b>  Use when the user asks for a PR.</b></p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Arc.sprites(root);
+          const s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3"), dlg = q(".dlg"), log = q(".log"), shake = q(".arc-shake");
+          const out = all(".g2 p"), stars = all(".st");
+          gsap.set([q(".clear"), q(".mt"), ...all(".mm"), q(".sel"), q(".s2 .body"), q(".k2"), ...all(".g1 p"), ...out, ...all(".stamp"), ...stars], { opacity: 0 });
+          gsap.set(all(".mm i"), { width: "0%" });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step three: just ask."
+          Arc.show(tl, q(".lv-tag"), 0.2);
+          Arc.show(tl, q(".ask"), 0.3);
+          Arc.show(tl, dlg, 0.35);
+          Arc.type(tl, q(".dlg .it"), 0.9, 28);
+          Arc.blink(tl, q(".dlg .cur"), 0.5, 6.1, 0.5);
+          // "Claude reads only each skill's name and description up front"
+          Arc.show(tl, q(".mh"), 2.4);
+          Arc.show(tl, [s1, s2, s3], 2.5, { stagger: 0.15 });
+          Arc.show(tl, q(".k1"), 3.0);
+          Arc.flash(tl, all(".sk .nm"), 4.0, "color", "#f4f1ff", "#ffd23f", 3, "#ffd23f");
+          Arc.flash(tl, all(".sk .ds"), 4.5, "color", "#3fe0ff", "#f4f1ff", 3, "#f4f1ff");
+          // "When your request matches": it's sent, the match meters fill, and pr-description is selected
+          tl.set(q(".dlg .cur"), { opacity: 0 }, 6.1);
+          Arc.flash(tl, dlg, 6.1, "borderColor", "#ffd23f", "#f4f1ff", 2, "#f4f1ff");
+          tl.set(q(".dlg .hl"), { color: "#ffd23f" }, 6.5);
+          tl.set([q(".mt"), ...all(".mm")], { opacity: 1 }, 6.5);
+          [[s1, 12.5], [s2, 100], [s3, 25]].forEach(([s, pct]) => tl.to(s.querySelector(".mm i"), { width: pct + "%", duration: 0.32, ease: "steps(8)" }, 6.5));
+          tl.set(s2, { borderColor: "#ffd23f" }, 6.85);
+          tl.set(q(".sel"), { opacity: 1 }, 6.85);
+          Arc.blink(tl, q(".sel"), 6.85, 7.5, 0.2);
+          tl.set([s1, s3], { opacity: 0.35 }, 6.85);
+          // "it loads the full file": its row moves up and opens to the instructions
+          Arc.hide(tl, [s1, s3, q(".k1"), q(".mt")], 7.45);
+          tl.set(q(".sel"), { opacity: 0 }, 7.55);
+          tl.to(s2, { y: -190, duration: 0.2, ease: "steps(4)" }, 7.6);
+          tl.to(s2, { height: 340, duration: 0.15, ease: "steps(3)" }, 7.8);
+          tl.set(q(".s2 .body"), { opacity: 1 }, 7.95);
+          Arc.show(tl, q(".k2"), 7.95);
+          Arc.show(tl, log, 7.65);
+          tl.set(q(".r5"), { opacity: 1 }, 7.7);
+          tl.set(q(".r6"), { opacity: 1 }, 8.0);
+          // "and follows it": git diff, then the three sections
+          tl.set(q(".r7"), { opacity: 1 }, 8.9);
+          tl.set(q(".r8"), { opacity: 1 }, 9.2);
+          tl.set(all(".g1 p"), { opacity: 0 }, 9.55);
+          out.forEach((p, i) => tl.set(p, { opacity: 1 }, 9.6 + i * 0.2));
+
+          // "Same format, every time."
+          Arc.hide(tl, [s2, q(".k2"), q(".mh")], 9.85);
+          Arc.drop(tl, q(".trophy"), 10.1, { from: -200 });
+          Arc.show(tl, q(".pay"), 10.1);
+          Arc.shake(tl, shake, 10.34, 10);
+          Arc.show(tl, q(".un"), 10.5);
+          Arc.blink(tl, q(".un"), 10.7, 11.5, 0.2);
+          // "Just keep the description specific": a vague one, then a specific one
+          Arc.hide(tl, log, 11.95);
+          Arc.show(tl, q(".weak"), 12.1);
+          tl.set(q(".weak .stamp"), { opacity: 1 }, 12.6);
+          Arc.shake(tl, q(".weak"), 12.6, 8);
+          Arc.show(tl, q(".good"), 13.0);
+          tl.set(q(".good .stamp"), { opacity: 1 }, 13.3);
+          tl.set(q(".good"), { borderColor: "#5df58a" }, 13.3);
+          Arc.flash(tl, q(".good p b"), 13.4, "color", "#f4f1ff", "#5df58a", 3, "#5df58a");
+          // "or Claude won't know when to use it"
+          Arc.shake(tl, q(".weak"), 14.1, 14);
+          tl.set(q(".weak"), { opacity: 0.45 }, 14.6);
+          // game clear
+          tl.set(q(".ask"), { opacity: 0 }, 15.3);
+          Arc.show(tl, q(".clear"), 15.3);
+          stars.forEach((s, i) => { tl.set(s, { opacity: 1 }, 15.3 + i * 0.1); Arc.blink(tl, s, 15.4 + i * 0.1, 16.9, 0.4); });
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

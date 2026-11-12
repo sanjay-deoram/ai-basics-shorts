@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"squeak","vol":0.14},
+      {"t":0.3,"sfx":"write","vol":0.14,"dur":0.45},
+      {"t":0.4,"sfx":"scratch","vol":0.2,"dur":0.5},
+      {"t":0.9,"sfx":"keys","vol":0.2,"dur":1.4},
+      {"t":2.5,"sfx":"stick","vol":0.24},
+      {"t":2.65,"sfx":"stick","vol":0.22},
+      {"t":2.8,"sfx":"stick","vol":0.22},
+      {"t":3.1,"sfx":"write","vol":0.1,"dur":0.6},
+      {"t":4.0,"sfx":"swipe","vol":0.18},
+      {"t":4.5,"sfx":"swipe","vol":0.16},
+      {"t":6.1,"sfx":"click","vol":0.32},
+      {"t":6.55,"sfx":"scratch","vol":0.2,"dur":0.35},
+      {"t":6.8,"sfx":"match","vol":0.2},
+      {"t":7.0,"sfx":"write","vol":0.1,"dur":0.3},
+      {"t":7.6,"sfx":"scratch","vol":0.18,"dur":0.45},
+      {"t":7.7,"sfx":"tick","vol":0.2},
+      {"t":7.85,"sfx":"scribble","vol":0.1,"dur":0.5},
+      {"t":8.0,"sfx":"tick","vol":0.18},
+      {"t":8.9,"sfx":"tick","vol":0.2},
+      {"t":9.2,"sfx":"tick","vol":0.18},
+      {"t":9.6,"sfx":"keys","vol":0.12,"dur":0.7},
+      {"t":9.85,"sfx":"erase","vol":0.16},
+      {"t":10.1,"sfx":"write","vol":0.16,"dur":0.7},
+      {"t":10.75,"sfx":"squeak","vol":0.14},
+      {"t":12.1,"sfx":"stick","vol":0.24},
+      {"t":12.6,"sfx":"bonk","vol":0.2},
+      {"t":13.0,"sfx":"stick","vol":0.24},
+      {"t":13.3,"sfx":"tick","vol":0.22},
+      {"t":13.35,"sfx":"done","vol":0.22},
+      {"t":13.45,"sfx":"swipe","vol":0.18},
+      {"t":14.1,"sfx":"tap","vol":0.16},
+      {"t":14.22,"sfx":"tap","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff (sketch). A circled "3" and "Just ask"; a sketched Claude Code window
+           (rough outline, Claude logo in the title bar, an input box with a send button) and the request types in.
+           Three skill sticky notes stick on below, showing only a name and a description ("up front"; both get a
+           highlighter swipe). On "matches" the hand-drawn cursor clicks send, the request lands in the transcript, an
+           arrow runs from the window to pr-description ("match!") and a green outline circles it; on "loads the full
+           file" the note opens into the full SKILL.md card while the transcript shows Skill(pr-description), then
+           Bash(git diff…) and the What / Why / Changes reply (example text). Payoff: "Same format, every time." then a
+           weak description (red, "vague") vs a specific one (green, "specific", the "Use when…" part highlighted).
+           Hard stop: no exit, the last frame holds. The avatar steps out: the scene fills the safe box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .num { left: 90px; top: 232px; width: 78px; height: 78px; display: grid; place-items: center; font: 400 52px/1 var(--f-hand); }
+        .s05 .ttl { left: 190px; top: 232px; }
+        .s05 .win .bar { display: flex; align-items: center; gap: 14px; height: 64px; padding: 0 24px; font: 400 30px/1 var(--f-code); }
+        .s05 .win .bar .sk-logo { width: 40px; height: 40px; }
+        .s05 .row { position: absolute; left: 22px; height: 42px; font: 400 28px/42px var(--f-code); white-space: pre; }
+        .s05 .row.m { color: var(--pencil); }
+        .s05 .row b { font-weight: 400; color: var(--violet); }
+        .s05 .row .h { color: var(--blue); }
+        .s05 .row .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: var(--green); margin: 0 12px 0 4px; vertical-align: 1px; }
+        .s05 .input { position: absolute; left: 22px; top: 434px; width: 816px; height: 70px; display: flex; align-items: center; padding: 0 20px; font: 400 28px/1 var(--f-code); white-space: pre; }
+        .s05 .input .p { color: var(--pencil); }
+        .s05 .hl { background: linear-gradient(transparent 14%, rgba(255, 212, 59, 0.65) 14%, rgba(255, 212, 59, 0.65) 90%, transparent 90%) no-repeat 0 0 / 0% 100%; -webkit-box-decoration-break: clone; box-decoration-break: clone; }
+        .s05 .sn { padding: 18px 16px; }
+        .s05 .sn .nm { display: block; font: 400 28px/1.2 var(--f-code); white-space: nowrap; }
+        .s05 .sn .ds { display: block; margin-top: 14px; font: 400 30px/1.3 var(--f-hand); color: var(--ink); }
+        .s05 .kick { left: 90px; top: 1250px; color: var(--pencil); }
+        .s05 .kick2 { left: 90px; top: 1314px; color: var(--green); }
+        .s05 .mt { left: 560px; top: 872px; color: var(--red); font-size: 44px; }
+        .s05 .full { padding: 20px 30px; }
+        .s05 .full .nm { font: 400 32px/1 var(--f-code); color: var(--green); }
+        .s05 .full p { margin: 0; font: 400 34px/52px var(--f-hand); white-space: pre; }
+        .s05 .full p:first-of-type { margin-top: 16px; }
+        .s05 .full .code { font: 400 30px/1 var(--f-code); color: var(--violet); }
+        .s05 .pay { left: 90px; top: 900px; font-size: 62px; }
+        .s05 .ex { padding: 22px 30px; }
+        .s05 .ex .kk { display: block; font: 400 36px/1 var(--f-hand); }
+        .s05 .ex .tx { display: block; margin-top: 18px; font: 400 30px/1.45 var(--f-code); }
+        .s05 .ex.weak .kk { color: var(--red); }
+        .s05 .ex.good .kk { color: var(--green); }
+        .s05 .stamp { position: absolute; right: 30px; top: 18px; font: 400 40px/1 var(--f-hand); }
+        .s05 .weak .stamp { color: var(--red); }
+        .s05 .good .stamp { color: var(--green); }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="sk s05">
+          <div class="sk-abs num">3</div>
+          <h2 class="sk-abs sk-h2 ttl">Just ask</h2>
+          <p class="sk-abs sk-label kick">up front: name + description only</p>
+          <p class="sk-abs sk-label kick2">matched: full file loaded</p>
+          <p class="sk-abs sk-label mt">match!</p>
+          <p class="sk-abs sk-h1 pay">Same format, every time.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const { C } = Sk;
+          Sk.seed(500);
+          const ink = Sk.layer(root, 1080, 1920, true);
+          const ring = Sk.shape(ink, "circle", [129, 271, 84], { stroke: C.blue, strokeWidth: 4, roughness: 1.2 });
+
+          // the Claude Code window, sketched
+          const win = Sk.card(root, 90, 336, 860, 524, "win");
+          const winBg = Sk.shape(win.s, "rectangle", [0, 0, 860, 524], { fill: "#ffffff", fillStyle: "solid", strokeWidth: 3.5, roughness: 1.1 });
+          const winBar = Sk.shape(win.s, "line", [6, 66, 854, 63], { strokeWidth: 2.5, roughness: 1.3 });
+          const inBox = Sk.shape(win.s, "rectangle", [20, 432, 820, 74], { strokeWidth: 3, roughness: 1.2, stroke: C.pencil });
+          const sendBtn = Sk.shape(win.s, "circle", [800, 469, 50], { fill: C.violetF, hachureGap: 7, strokeWidth: 3, roughness: 1 });
+          const sendArr = Sk.arrow(win.s, [[786, 470], [812, 470]], { head: 12, strokeWidth: 3 });
+          const userBg = Sk.shape(win.s, "rectangle", [16, 82, 826, 42], { fill: "#e9e6dc", fillStyle: "solid", stroke: "none", roughness: 1.2 });
+          const ROWS = [
+            '&gt; write a <span class="hl">PR description</span> for my changes',
+            '<span class="dot"></span><b>Skill</b>(pr-description)',
+            '   └ Loaded SKILL.md',
+            '<span class="dot"></span><b>Bash</b>(git diff main...HEAD)',
+            '   └ 4 files changed, +42 -7',
+            '<span class="dot"></span><span class="h">What:</span> Reset links expire after 30 min.',
+            '  <span class="h">Why:</span> Old links worked forever: a risk.',
+            '  <span class="h">Changes:</span> auth/reset.ts, emails/reset.html',
+          ];
+          win.el.insertAdjacentHTML("beforeend", '<div class="bar"><div class="sk-logo"></div><span>Claude Code</span></div>' +
+            ROWS.map((h, i) => `<div class="row${i === 2 || i === 4 ? " m" : ""}" style="top:${82 + i * 42}px">${h}</div>`).join("") +
+            '<div class="input"><span class="p">&gt; </span><span class="it">write a PR description for my changes</span></div>');
+          const rows = [...win.el.querySelectorAll(".row")];
+          const cur = Sk.cursor(root);
+
+          // the skill notes: name + description only
+          const SK = [
+            ["commit-message", "Writes commit messages in our style.", C.yellowF, "#e0b400"],
+            ["pr-description", "Writes PR descriptions. Use when the user asks for a PR.", C.blueF, "#86b8e0"],
+            ["code-review", "Reviews a diff for bugs before merging.", C.redF, "#e8a0a0"],
+          ];
+          const notes = SK.map(([nm, ds, fill, edge], i) => {
+            const c = Sk.card(root, 90 + i * 295, 950, 270, 280, "sn");
+            Sk.shape(c.s, "rectangle", [0, 0, 270, 280], { fill, fillStyle: "solid", stroke: edge, strokeWidth: 2.5, roughness: 1.3 });
+            c.el.insertAdjacentHTML("beforeend", `<span class="nm"><span class="hl">${nm}</span></span><span class="ds"><span class="hl">${ds}</span></span>`);
+            return c.el;
+          });
+          const arr = Sk.arrow(ink, [[520, 866], [508, 900], [524, 940]], { stroke: C.red, head: 20 });
+          const pick = Sk.shape(ink, "rectangle", [372, 936, 296, 308], { stroke: C.green, strokeWidth: 5, roughness: 1.8 });
+
+          // the full SKILL.md, once loaded
+          const full = Sk.card(root, 90, 950, 860, 290, "full");
+          const fullBg = Sk.shape(full.s, "rectangle", [0, 0, 860, 290], { fill: C.greenF, hachureGap: 14, fillWeight: 2, stroke: C.green, strokeWidth: 3.5 });
+          full.el.insertAdjacentHTML("beforeend", '<span class="nm">pr-description / SKILL.md</span><p>1. Run <span class="code">git diff main...HEAD</span></p><p>2. Write three sections:</p><p>   What · Why · Changes</p>');
+
+          // the payoff
+          const payLine = Sk.shape(ink, "curve", [[[96, 1000], [300, 1010], [560, 996], [880, 1006]]], { stroke: C.blue, strokeWidth: 5, roughness: 1.2 });
+          const weak = Sk.card(root, 90, 1040, 860, 170, "ex weak");
+          const weakBg = Sk.shape(weak.s, "rectangle", [0, 0, 860, 170], { fill: C.redF, hachureGap: 14, stroke: C.red, strokeWidth: 3 });
+          weak.el.insertAdjacentHTML("beforeend", '<span class="kk">weak</span><span class="tx">description: Helps with PRs.</span><span class="stamp">vague</span>');
+          const weakX = Sk.cross(weak.s, 660, 22, 30);
+          const good = Sk.card(root, 90, 1240, 860, 230, "ex good");
+          const goodBg = Sk.shape(good.s, "rectangle", [0, 0, 860, 230], { fill: C.greenF, hachureGap: 14, stroke: C.green, strokeWidth: 3 });
+          good.el.insertAdjacentHTML("beforeend", '<span class="kk">better</span><span class="tx"><span style="display:block">description: Writes PR descriptions.</span><span class="hl">Use when the user asks for a PR.</span></span><span class="stamp">specific</span>');
+          const goodTick = Sk.tick(good.s, 600, 38);
+
+          gsap.set([win.el, ...notes, full.el, weak.el, good.el, cur, q(".kick"), q(".kick2"), q(".mt"), q(".pay"), ...rows,
+            weak.el.querySelector(".stamp"), good.el.querySelector(".stamp")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          // "Step three: just ask."
+          Sk.draw(tl, ring, 0.2, 0.35);
+          Sk.write(tl, q(".num"), 0.3, { dur: 0.15 });
+          Sk.write(tl, q(".ttl"), 0.35, { dur: 0.4 });
+          tl.set(win.el, { opacity: 1 }, 0.4);
+          Sk.draw(tl, winBg, 0.4, 0.45);
+          Sk.draw(tl, winBar, 0.6, 0.2);
+          Sk.draw(tl, inBox, 0.65, 0.25);
+          Sk.draw(tl, sendBtn, 0.75, 0.2, { fillDur: 0.25 });
+          Sk.draw(tl, sendArr, 0.8, 0.2, { seq: true });
+          tl.fromTo(win.el.querySelector(".bar"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.6);
+          Egg.typeOn(tl, win.el.querySelector(".input .it"), 0.9, { cps: 28 });
+          // "Claude reads only each skill's name and description up front"
+          notes.forEach((n, i) => Sk.land(tl, n, 2.5 + i * 0.15, { r: [-2, 1.5, -1][i], from: 40 }));
+          tl.set(q(".kick"), { opacity: 1 }, 3.1); Sk.write(tl, q(".kick"), 3.1, { dur: 0.6 });
+          tl.to(notes.map((n) => n.querySelector(".nm .hl")), { backgroundSize: "100% 100%", duration: 0.4, ease: "power1.out", stagger: 0.08 }, 4.0);
+          tl.to(notes.map((n) => n.querySelector(".ds .hl")), { backgroundSize: "100% 100%", duration: 0.5, ease: "power1.out", stagger: 0.08 }, 4.5);
+          // "When your request matches": the cursor clicks send, an arrow runs to pr-description
+          tl.fromTo(cur, { opacity: 0, x: 960, y: 900 }, { opacity: 1, x: 890, y: 818, duration: 0.5, ease: "power2.out" }, 5.5);
+          tl.to(cur, { scale: 0.85, duration: 0.08, yoyo: true, repeat: 1, ease: "power1.inOut" }, 6.05);
+          tl.to(win.el.querySelector(".input .it"), { opacity: 0, duration: 0.12, ease: "none" }, 6.1);
+          tl.set(userBg, { opacity: 0 }, 0);
+          tl.to(userBg, { opacity: 1, duration: 0.15 }, 6.2);
+          tl.to(rows[0], { opacity: 1, duration: 0.15 }, 6.2);
+          tl.to(rows[0].querySelector(".hl"), { backgroundSize: "100% 100%", duration: 0.35, ease: "power1.out" }, 6.45);
+          tl.to(cur, { opacity: 0, x: 960, y: 880, duration: 0.35, ease: "power1.in" }, 6.4);
+          Sk.draw(tl, arr, 6.55, 0.35, { seq: true });
+          Sk.draw(tl, pick, 6.8, 0.4);
+          tl.to(notes[1], { scale: 1.04, duration: 0.25, ease: "back.out(2)" }, 6.8);
+          tl.to([notes[0], notes[2]], { opacity: 0.35, duration: 0.3, ease: "none" }, 6.8);
+          tl.set(q(".mt"), { opacity: 1 }, 7.0); Sk.write(tl, q(".mt"), 7.0, { dur: 0.3 });
+          // "it loads the full file": the note opens into the full SKILL.md
+          Sk.wipe(tl, [notes[0], notes[2], q(".kick"), arr, pick, q(".mt")], 7.5, 0.25);
+          tl.to(notes[1], { opacity: 0, scale: 1.6, duration: 0.35, ease: "power2.in" }, 7.6);
+          tl.set(full.el, { opacity: 1 }, 7.6);
+          Sk.draw(tl, fullBg, 7.6, 0.4, { fillDur: 0.5 });
+          tl.fromTo(full.el.querySelectorAll(".nm, p"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, stagger: 0.1, ease: "power2.out" }, 7.9);
+          tl.set(q(".kick2"), { opacity: 1 }, 7.75); Sk.write(tl, q(".kick2"), 7.75, { dur: 0.5 });
+          const show = (i, at) => tl.to(rows[i], { opacity: 1, duration: 0.12, ease: "none" }, at);
+          show(1, 7.7); show(2, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(3, 8.9); show(4, 9.2);
+          [5, 6, 7].forEach((i, k) => show(i, 9.6 + k * 0.25));
+
+          // "Same format, every time."
+          Sk.wipe(tl, [full.el, q(".kick2")], 9.85, 0.3);
+          tl.set(q(".pay"), { opacity: 1 }, 10.1); Sk.write(tl, q(".pay"), 10.1, { dur: 0.7 });
+          Sk.draw(tl, payLine, 10.75, 0.4);
+          // "Just keep the description specific": a vague one, then a specific one
+          Sk.land(tl, weak.el, 12.1, { r: -1, from: 40 });
+          Sk.draw(tl, weakBg, 12.1, 0.3, { fillDur: 0.4 });
+          tl.fromTo(weak.el.querySelector(".stamp"), { opacity: 0, scale: 1.6, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.3, ease: "back.out(3)" }, 12.6);
+          Sk.draw(tl, weakX, 12.65, 0.2, { seq: true });
+          Sk.land(tl, good.el, 13.0, { r: 0.8, from: 40 });
+          Sk.draw(tl, goodBg, 13.0, 0.3, { fillDur: 0.4 });
+          tl.fromTo(good.el.querySelector(".stamp"), { opacity: 0, scale: 1.6, rotation: -14 }, { opacity: 1, scale: 1, rotation: -6, duration: 0.3, ease: "back.out(3)", immediateRender: false }, 13.3);
+          Sk.draw(tl, goodTick, 13.3, 0.2);
+          tl.to(good.el.querySelector(".hl"), { backgroundSize: "100% 100%", duration: 0.6, ease: "power1.out" }, 13.45);
+          // "or Claude won't know when to use it"
+          tl.to(weak.el, { x: -10, duration: 0.06, yoyo: true, repeat: 5, ease: "sine.inOut" }, 14.1);
+          tl.to(weak.el, { opacity: 0.45, duration: 0.4, ease: "none" }, 14.6);
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

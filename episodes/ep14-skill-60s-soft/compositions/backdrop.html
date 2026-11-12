@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- The pad bed: one long, very quiet warm chord under the whole film. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0,"sfx":"pad","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- Backdrop for the whole film, under every scene: large soft colour fields on near-white that drift slowly,
+           one hue pair per section, cross-dissolving at each scene change, with a faint film grain on top.
+           The blobs are radial gradients (already soft, so no blur filter is needed). Edit FIELDS to recolour. -->
+      <style>
+        #root { position: absolute; inset: 0; overflow: hidden; background: #faf9f7; }
+        .bd .field { position: absolute; inset: 0; }
+        .bd .blob { position: absolute; border-radius: 50%; }
+        .bd .grain { position: absolute; inset: 0; width: 1080px; height: 1920px; opacity: 0.5; }
+      </style>
+      <div id="root" data-composition-id="backdrop" data-width="1080" data-height="1920">
+        <div class="bd" data-layout-allow-overflow="">
+          <div class="fields" data-layout-allow-overflow=""></div>
+          <svg class="grain" viewBox="0 0 1080 1920" aria-hidden="true">
+            <filter id="bd-grain" x="0" y="0" width="100%" height="100%">
+              <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="2" seed="7" />
+              <feColorMatrix values="0 0 0 0 0.1  0 0 0 0 0.1  0 0 0 0 0.12  0 0 0 0.55 -0.18" />
+            </filter>
+            <rect width="1080" height="1920" filter="url(#bd-grain)" />
+          </svg>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const LEN = 57.15;
+          const PEACH = "255,190,150", SKY = "150,200,255", LILAC = "200,175,255", MINT = "150,230,200";
+          // [from, [colour, centre x, centre y, diameter, drift x, drift y] …]: one field per scene
+          const FIELDS = [
+            [0, [[PEACH, 160, 420, 1500, 140, 120], [SKY, 980, 1300, 1500, -160, -100], [LILAC, 300, 1800, 900, 80, -80]]],
+            [10.9, [[LILAC, 900, 380, 1500, -150, 110], [PEACH, 140, 1350, 1500, 150, -120]]],
+            [15.5, [[SKY, 180, 380, 1500, 150, 120], [MINT, 960, 1380, 1500, -140, -110]]],
+            [22.95, [[LILAC, 200, 1400, 1500, 140, -120], [SKY, 920, 360, 1500, -150, 120], [PEACH, 1000, 1750, 800, -60, -60]]],
+            [39.75, [[MINT, 900, 420, 1500, -150, 120], [PEACH, 160, 1380, 1600, 150, -110]]],
+          ];
+          const host = document.querySelector('[data-composition-id="backdrop"] .fields');
+          const tl = gsap.timeline({ paused: true });
+          FIELDS.forEach(([from, blobs], i) => {
+            const f = document.createElement("div");
+            f.className = "field";
+            f.setAttribute("data-layout-allow-overflow", "");
+            blobs.forEach(([c, x, y, d, dx, dy], k) => {
+              const b = document.createElement("div");
+              b.className = "blob";
+              b.setAttribute("data-layout-allow-overflow", "");
+              b.style.cssText = `left:${x - d / 2}px;top:${y - d / 2}px;width:${d}px;height:${d}px;background:radial-gradient(closest-side, rgba(${c},0.9), rgba(${c},0.45) 45%, rgba(${c},0) 100%)`;
+              f.appendChild(b);
+              const half = 6 + k * 1.5;   // each blob drifts at its own pace
+              tl.fromTo(b, { x: 0, y: 0, scale: 1 }, { x: dx, y: dy, scale: 1.14, duration: half, ease: "sine.inOut", yoyo: true, repeat: Math.ceil(LEN / half) }, 0);
+            });
+            host.appendChild(f);
+            if (i) { gsap.set(f, { opacity: 0 }); tl.to(f, { opacity: 1, duration: 1.4, ease: "sine.inOut" }, from - 0.7); }
+            const next = FIELDS[i + 1];
+            if (next) tl.to(f, { opacity: 0, duration: 1.4, ease: "sine.inOut" }, next[0] - 0.7);
+          });
+          window.__timelines["backdrop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
