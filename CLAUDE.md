@@ -44,3 +44,7 @@ HyperFrames (HTML + GSAP → MP4).
   `%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.2-full_build\bin`
   to PATH.
 - Feedback refers to scenes by slot and time, e.g. `s03 @ 4.2s · slower dot`.
+- GitHub: this repo belongs to the **personal** account `sanjay-deoram`, not the work account. Keep the remote as
+  `https://sanjay-deoram@github.com/sanjay-deoram/ai-basics-shorts.git` (lowercase name, so git uses the saved login
+  with no browser sign-in). Run `gh` through `sh studio/tools/gh-personal.sh ...` (personal login; pages open in Edge),
+  never bare `gh`, which is signed in to the work account.
