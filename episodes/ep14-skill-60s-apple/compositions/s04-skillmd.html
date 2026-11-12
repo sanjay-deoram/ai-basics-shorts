@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"tap","vol":0.18},
+      {"t":2.35,"sfx":"paper","vol":0.2},
+      {"t":3.8,"sfx":"pop","vol":0.2},
+      {"t":4.2,"sfx":"marker","vol":0.16},
+      {"t":5.45,"sfx":"whoosh-short","vol":0.16},
+      {"t":5.85,"sfx":"key","vol":0.16},
+      {"t":6.65,"sfx":"typing","vol":0.2,"dur":0.6},
+      {"t":7.5,"sfx":"typing","vol":0.2,"dur":1.3},
+      {"t":7.6,"sfx":"pop","vol":0.16},
+      {"t":10.2,"sfx":"pop","vol":0.16},
+      {"t":12.25,"sfx":"typing","vol":0.2,"dur":0.8},
+      {"t":13.4,"sfx":"typing","vol":0.2,"dur":0.7},
+      {"t":14.77,"sfx":"tick","vol":0.2},
+      {"t":15.24,"sfx":"tick","vol":0.2},
+      {"t":15.82,"sfx":"tick","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Step 2 · SKILL.md. A frosted path pill, then one white document (soft shadow, folded corner, the
+           Claude mark) settles in and is named SKILL.md in a huge headline ("Exactly that name, in capitals"). It
+           opens into a light macOS-style editor window: the frontmatter fences, the name and the description type in
+           with the blue run bar on each ("Name + when to use it."), then the instructions below: git diff, then the
+           three sections What / Why / Changes, each typed as it's said. The skill text follows the Claude Academy
+           lesson. Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.2 "Step two: inside it, add one file: skill dot M D." 5.75 "At the top, a name, and a description
+           of when to use it." 9.2 "Below that, the instructions, in plain English: run git diff, then write three
+           sections. What, why, and changes." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .path { position: absolute; left: 90px; top: 316px; }
+        .s04 .file { position: absolute; left: 400px; top: 470px; width: 280px; height: 360px; filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.1)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.05)); }
+        .s04 .file svg { width: 100%; height: 100%; }
+        .s04 .file .cc-spark { position: absolute; left: 95px; top: 150px; width: 90px; height: 90px; }
+        .s04 .fname { position: absolute; left: 90px; width: 860px; top: 880px; margin: 0; text-align: center; font: 700 112px/1.05 var(--f-d); letter-spacing: -0.045em; color: var(--ink); }
+        .s04 .ffoot { position: absolute; left: 90px; width: 860px; top: 1018px; margin: 0; text-align: center; font: 500 40px/1.2 var(--f-t); letter-spacing: -0.015em; color: var(--mu); }
+        .s04 .card { left: 90px; top: 420px; width: 860px; }
+        .s04 .lab { position: absolute; left: 90px; top: 1110px; margin: 0; font: 600 52px/1.15 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s04-skillmd" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">Step 2 · SKILL.md</p>
+          <span class="a-pill a-glass mono path">~/.claude/skills/pr-description/</span>
+          <div class="file">
+            <svg viewBox="0 0 280 360"><path d="M28 2 H 196 L 278 84 V 332 A 26 26 0 0 1 252 358 H 28 A 26 26 0 0 1 2 332 V 28 A 26 26 0 0 1 28 2 Z" fill="#fff" /><path d="M196 2 V 62 A 22 22 0 0 0 218 84 H 278 Z" fill="#e8e8ed" /></svg>
+            <div class="cc-spark"></div>
+          </div>
+          <p class="fname"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">SKILL.md</span><span class="on" data-layout-allow-overlap="">SKILL.md</span></span></p>
+          <p class="ffoot">Exactly that name, in capitals</p>
+          <div class="a-win a-code card" data-lh="52" data-layout-allow-overlap="">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl">SKILL.md</div></div>
+            <div class="body"><div class="egg-code-bar"></div>
+              <div class="ln"><span class="no">1</span><span class="tx"><span class="t-p">---</span></span></div>
+              <div class="ln"><span class="no">2</span><span class="tx"><span class="t-k">name</span><span class="t-p">:</span> <span class="t-s">pr-description</span></span></div>
+              <div class="ln"><span class="no">3</span><span class="tx"><span class="t-k">description</span><span class="t-p">:</span> <span class="t-s">Writes PR descriptions.</span></span></div>
+              <div class="ln"><span class="no">4</span><span class="tx"><span class="t-s">  Use when the user asks for a PR.</span></span></div>
+              <div class="ln"><span class="no">5</span><span class="tx"><span class="t-p">---</span></span></div>
+              <div class="ln"><span class="no">6</span><span class="tx"><span class="t-kw">1.</span> Run <span class="t-fn">git diff main...HEAD</span></span></div>
+              <div class="ln"><span class="no">7</span><span class="tx"><span class="t-kw">2.</span> Write three sections:</span></div>
+              <div class="ln"><span class="no">8</span><span class="tx">   <span class="t-k">## What</span><span class="t-c">: one sentence</span></span></div>
+              <div class="ln"><span class="no">9</span><span class="tx">   <span class="t-k">## Why</span><span class="t-c">: brief context</span></span></div>
+              <div class="ln"><span class="no">10</span><span class="tx">   <span class="t-k">## Changes</span><span class="t-c">: bullets</span></span></div>
+            </div>
+          </div>
+          <p class="lab l1">Name + when to use it.</p>
+          <p class="lab l2">Instructions, in plain English.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 16.8;
+          const root = document.querySelector('[data-composition-id="s04-skillmd"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const card = q(".card"), lns = all(".card .ln");
+          const type = (i, at, cps = 40) => {
+            tl.fromTo(lns[i].querySelector(".no"), { opacity: 0 }, { opacity: 1, duration: 0.001 }, at);
+            return Egg.typeOn(tl, lns[i].querySelector(".tx"), at, { cps });
+          };
+          gsap.set([card, q(".l1"), q(".l2"), q(".ffoot"), q(".file .cc-spark")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Step two: inside it"
+          Apple.rise(tl, q(".a-eyebrow"), 0.2, { y: 16 });
+          Apple.rise(tl, q(".path"), 0.5, { y: 20, dur: 0.7 });
+          // "add one file": it settles in
+          Apple.rise(tl, q(".file"), 2.3, { y: 60, dur: 0.9 });
+          tl.fromTo(q(".file .cc-spark"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 2.75);
+          // "skill dot M D"
+          Apple.rise(tl, q(".fname"), 3.8, { y: 30, dur: 0.8 });
+          Apple.tint(tl, q(".fname .a-tint"), 4.2);
+          Apple.rise(tl, q(".ffoot"), 4.5, { y: 14, dur: 0.7 });
+
+          // the file opens into the editor
+          Apple.out(tl, [q(".file"), q(".fname"), q(".ffoot")], 5.4, { scale: 0.96, dur: 0.3 });
+          Apple.zoom(tl, card, 5.5, { from: 0.96, dur: 0.8 });
+          // "At the top": the frontmatter fences
+          type(0, 5.85, 30); type(4, 5.95, 30);
+          // "a name"
+          type(1, 6.65, 36);
+          Egg.codeRun(tl, card, 1, 6.7);
+          // "and a description of when to use it"
+          type(2, 7.5, 40); type(3, 8.15, 48);
+          Egg.codeRun(tl, card, [2, 3], 7.6);
+          Apple.rise(tl, q(".l1"), 7.6, { y: 20, dur: 0.6 });
+
+          // "Below that, the instructions, in plain English"
+          Egg.codeRun(tl, card, -1, 9.3);
+          tl.to(q(".l1"), { opacity: 0, duration: 0.25, ease: "none" }, 10.0);
+          Apple.rise(tl, q(".l2"), 10.2, { y: 20, dur: 0.6 });
+          // "run git diff"
+          type(5, 12.25, 30);
+          Egg.codeRun(tl, card, 5, 12.3);
+          // "then write three sections"
+          type(6, 13.4, 34);
+          Egg.codeRun(tl, card, 6, 13.45);
+          // "What, why, and changes"
+          [[7, 14.77], [8, 15.24], [9, 15.82]].forEach(([i, t]) => { type(i, t, 60); Egg.codeRun(tl, card, i, t); });
+          Egg.codeRun(tl, card, -1, 16.3);
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".path"), card, q(".l2")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s04-skillmd"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

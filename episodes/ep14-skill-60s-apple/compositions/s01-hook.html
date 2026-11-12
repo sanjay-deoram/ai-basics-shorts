@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"impact-bass-1","vol":0.22},
+      {"t":0.02,"sfx":"air","vol":0.2},
+      {"t":1.25,"sfx":"marker","vol":0.2},
+      {"t":2.55,"sfx":"tick","vol":0.22},
+      {"t":2.7,"sfx":"pop","vol":0.18},
+      {"t":3.45,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.7,"sfx":"paper","vol":0.18},
+      {"t":4.2,"sfx":"typing","vol":0.18,"dur":1.4},
+      {"t":5.45,"sfx":"claude","vol":0.2},
+      {"t":7.15,"sfx":"pop","vol":0.18},
+      {"t":7.6,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":8.0,"sfx":"sparkle","vol":0.16,"dur":0.9},
+      {"t":8.85,"sfx":"pop","vol":0.2},
+      {"t":9.2,"sfx":"pop","vol":0.2},
+      {"t":9.55,"sfx":"pop","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open, keynote style. Frame 0 already reads "Create a Claude skill" in a huge tight headline and a
+           giant gradient "60" (Under … seconds) that settles in. "Skill" turns accent blue; on "sixty" the 60 breathes,
+           then gives way to a frosted "Under 60 seconds" pill. "A skill is a set of instructions": a SKILL.md window
+           (macOS title bar) rises and its template types in; the Claude mark lands in its title bar on "Claude".
+           "When your request needs it": a blue message bubble arrives, a dotted line joins it to the window and the
+           window takes a blue focus ring. "Step by step": three gray feature tiles, 1 Folder · 2 SKILL.md · 3 Ask.
+           Everything stays above y 1000: the narrator tile sits large and centred below (narrator.html "hero").
+           Voiceover: 0.05 "Here's how to create a Claude skill, in under sixty seconds." 3.55 "A skill is a set of
+           instructions Claude picks up on its own, when your request needs it." 8.7 "Let's build one, step by step." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .hook { top: 250px; }
+        .s01 .hook .l { display: block; white-space: nowrap; }
+        .s01 .c60 { position: absolute; left: 90px; top: 526px; }
+        .s01 .big { position: absolute; left: 90px; top: 520px; width: 860px; height: 380px; transform-origin: 0 50%; }
+        .s01 .big .u { position: absolute; left: 4px; top: 0; font: 600 40px/1 var(--f-t); letter-spacing: -0.01em; color: var(--mu); }
+        .s01 .big .n { position: absolute; left: -10px; top: 40px; font: 800 330px/0.9 var(--f-d); letter-spacing: -0.06em; background: linear-gradient(180deg, #2997ff 0%, #0071e3 100%); -webkit-background-clip: text; background-clip: text; color: transparent; transform-origin: 30% 60%; }
+        .s01 .big .sec { position: absolute; left: 432px; top: 214px; font: 700 100px/1 var(--f-d); letter-spacing: -0.045em; color: var(--ink); }
+        .s01 .page { left: 90px; top: 620px; width: 540px; height: 330px; }
+        .s01 .page .bar .cc-spark { width: 32px; height: 32px; }
+        .s01 .page .md { padding: 22px 30px 0; }
+        .s01 .page .md p { margin: 0; font: 400 28px/44px var(--f-m); color: var(--ink); white-space: pre; }
+        .s01 .page .md .p { color: var(--faint); }
+        .s01 .page .md .k { color: var(--blue); }
+        .s01 .ring { left: 90px; top: 620px; width: 540px; height: 330px; border-radius: 30px; }
+        .s01 .bubble { position: absolute; left: 680px; top: 650px; width: 270px; padding: 22px 28px; border-radius: 32px; background: var(--blue); font: 500 32px/1.25 var(--f-t); letter-spacing: -0.01em; color: #fff; }
+        .s01 .link { fill: none; stroke: #86868b; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1 11; }
+        .s01 .step { top: 620px; width: 270px; height: 240px; padding: 30px 30px; }
+        .s01 .step b { display: block; font: 700 110px/1 var(--f-d); letter-spacing: -0.05em; color: var(--blue); }
+        .s01 .step span { display: block; margin-top: 30px; font: 600 38px/1 var(--f-t); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="a-scene white s01">
+          <h1 class="a-h hook"><span class="l w1">Create a</span><span class="l w2">Claude <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">skill</span><span class="on" data-layout-allow-overlap="">skill</span></span></span></h1>
+          <span class="a-pill a-glass c60">Under 60 seconds</span>
+          <div class="big"><span class="u">Under</span><span class="n">60</span><span class="sec">seconds</span></div>
+          <div class="a-ring ring"></div>
+          <div class="a-win page">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl"><div class="cc-spark"></div><span>SKILL.md</span></div></div>
+            <div class="md">
+              <p><span class="p">---</span></p>
+              <p><span class="k">name</span>: pr-description</p>
+              <p><span class="k">description</span>: Use when…</p>
+              <p><span class="p">---</span></p>
+              <p>1. Run git diff…</p>
+            </div>
+          </div>
+          <div class="bubble">Write a PR description</div>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="link" d="M672 704 C 654 704, 652 744, 638 744" />
+          </svg>
+          <div class="a-tile step" style="left:90px"><b>1</b><span>Folder</span></div>
+          <div class="a-tile step" style="left:385px"><b>2</b><span>SKILL.md</span></div>
+          <div class="a-tile step" style="left:680px"><b>3</b><span>Ask</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.9;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const spark = q(".page .cc-spark"), link = q(".link"), page = q(".page");
+          gsap.set([page, q(".ring"), q(".bubble"), link, q(".c60"), ...all(".step")], { opacity: 0 });
+          gsap.set(spark, { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // frame 0: the title is already there; the big 60 settles in, calmly
+          tl.fromTo(q(".big"), { scale: 1.04 }, { scale: 1, duration: 1.2, ease: "expo.out" }, 0);
+          tl.fromTo(q(".hook"), { y: 14 }, { y: 0, duration: 1.0, ease: "expo.out" }, 0);
+          // "create a Claude skill": the word takes the accent
+          Apple.tint(tl, q(".hook .a-tint"), 1.25, { dur: 0.6 });
+          // "in under sixty seconds": the 60 breathes, then gives way to the pill
+          tl.to(q(".big .n"), { scale: 1.04, duration: 0.4, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.55);
+          tl.to(q(".big"), { opacity: 0, scale: 0.94, y: -20, duration: 0.4, ease: "power2.in" }, 3.4);
+          Apple.rise(tl, q(".c60"), 3.55, { y: 20, dur: 0.7 });
+          // "A skill is a set of instructions": the SKILL.md window rises and its template types in
+          Apple.rise(tl, page, 3.65, { y: 50, dur: 0.9 });
+          all(".page .md p").reduce((t, p) => Egg.typeOn(tl, p, t, { cps: 55 }) + 0.05, 4.2);
+          // "Claude": the mark lands in the title bar
+          tl.fromTo(spark, { opacity: 0, scale: 0.6, rotation: -60 }, { opacity: 1, scale: 1, rotation: 0, duration: 0.8, ease: "expo.out" }, 5.45);
+          // "when your request needs it": a message arrives and the window takes focus
+          Apple.rise(tl, q(".bubble"), 6.8, { y: 24, dur: 0.5 });
+          tl.to(link, { opacity: 1, duration: 0.3, ease: "none" }, 7.55);
+          tl.to(q(".ring"), { opacity: 1, duration: 0.45, ease: "power2.out" }, 7.95);
+          tl.to(page, { scale: 1.02, duration: 0.35, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.95);
+          tl.to(spark, { rotation: 120, duration: 1.0, ease: "power2.inOut" }, 7.95);
+          // "Let's build one, step by step": the three steps
+          Apple.out(tl, [page, q(".ring"), q(".bubble"), link], 8.55, { y: -20, dur: 0.3 });
+          Apple.rise(tl, all(".step"), 8.85, { y: 40, dur: 0.7, stagger: 0.35 });
+
+          Apple.out(tl, [q(".hook"), q(".c60"), ...all(".step")], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

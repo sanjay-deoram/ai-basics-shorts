@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"air","vol":0.14},
+      {"t":1.2,"sfx":"paper","vol":0.16},
+      {"t":1.45,"sfx":"paper","vol":0.14},
+      {"t":1.7,"sfx":"paper","vol":0.14},
+      {"t":3.25,"sfx":"whoosh-short","vol":0.18},
+      {"t":3.75,"sfx":"tick","vol":0.18},
+      {"t":3.9,"sfx":"tick","vol":0.18},
+      {"t":4.05,"sfx":"tick","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. Three white pull-request cards (soft shadows on light gray) settle into a loose, tilted
+           stack, each written a different way ("fixed stuff", a wall of text, loose bullets). On "the same way every
+           time" they glide into a clean column and all take the same shape: What · Why · Changes.
+           Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .ttl { top: 310px; }
+        .s02 .pr { left: 90px; width: 860px; height: 220px; padding: 30px 36px; }
+        .s02 .pr .top { display: flex; align-items: center; gap: 18px; }
+        .s02 .pr .no { font: 400 26px/1 var(--f-m); color: var(--faint); }
+        .s02 .pr .nm { font: 600 34px/1.1 var(--f-t); letter-spacing: -0.015em; color: var(--ink); white-space: nowrap; }
+        .s02 .lay { position: absolute; left: 36px; right: 36px; top: 88px; bottom: 26px; }
+        .s02 .messy p { margin: 0; font: 400 30px/1.35 var(--f-t); color: var(--mu); }
+        .s02 .neat { display: grid; grid-template-columns: 170px 1fr; row-gap: 12px; align-items: center; }
+        .s02 .neat .k { font: 600 24px/1 var(--f-t); letter-spacing: 0.02em; color: var(--blue); }
+        .s02 .neat i { display: block; height: 12px; border-radius: 6px; background: var(--line); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 ttl">Pull request descriptions.</h2>
+          <div class="a-card pr p1" style="top:540px" data-layout-allow-overlap="">
+            <div class="top"><span class="no" data-layout-allow-overlap="">#412</span><span class="nm" data-layout-allow-overlap="">Password reset expiry</span></div>
+            <div class="lay messy"><p data-layout-allow-overlap="">fixed stuff</p></div>
+            <div class="lay neat"><span class="k">WHAT</span><i style="width:80%"></i><span class="k">WHY</span><i style="width:60%"></i><span class="k">CHANGES</span><i style="width:70%"></i></div>
+          </div>
+          <div class="a-card pr p2" style="top:790px" data-layout-allow-overlap="">
+            <div class="top"><span class="no" data-layout-allow-overlap="">#413</span><span class="nm" data-layout-allow-overlap="">New invoice page</span></div>
+            <div class="lay messy"><p data-layout-allow-overlap="">So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p></div>
+            <div class="lay neat"><span class="k">WHAT</span><i style="width:70%"></i><span class="k">WHY</span><i style="width:85%"></i><span class="k">CHANGES</span><i style="width:55%"></i></div>
+          </div>
+          <div class="a-card pr p3" style="top:1040px" data-layout-allow-overlap="">
+            <div class="top"><span class="no" data-layout-allow-overlap="">#414</span><span class="nm" data-layout-allow-overlap="">Faster search</span></div>
+            <div class="lay messy"><p data-layout-allow-overlap="">- search</p><p data-layout-allow-overlap="">- misc</p></div>
+            <div class="lay neat"><span class="k">WHAT</span><i style="width:65%"></i><span class="k">WHY</span><i style="width:75%"></i><span class="k">CHANGES</span><i style="width:80%"></i></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cards = all(".pr");
+          gsap.set(all(".neat"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.2, { y: 16 });
+          // "to write your pull request descriptions": three, each written a different way, settle into a loose stack
+          Apple.rise(tl, q(".ttl"), 1.0, { y: 30 });
+          const pile = [{ x: 18, y: 34, r: -3 }, { x: -18, y: 14, r: 2.5 }, { x: 16, y: -14, r: -2 }];   // at 0.94 scale: stays inside x 90–950
+          cards.forEach((c, i) => tl.fromTo(c, { opacity: 0, x: pile[i].x, y: pile[i].y + 60, rotation: pile[i].r, scale: 0.9 },
+            { opacity: 1, x: pile[i].x, y: pile[i].y, rotation: pile[i].r, scale: 0.94, duration: 0.8, ease: "expo.out" }, 1.2 + i * 0.25));
+          // "the same way every time": they glide into a column and take the same shape
+          tl.to(cards, { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.8, ease: "power3.inOut", stagger: 0.08 }, 3.25);
+          tl.to(all(".messy"), { opacity: 0, duration: 0.2, ease: "none" }, 3.45);
+          tl.to(all(".neat"), { opacity: 1, duration: 0.35, ease: "power1.out", stagger: 0.15 }, 3.7);
+
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,58 @@
+# Episode 14 · Create a Claude skill in under 60 seconds (57.15 s, avatar narrator)
+
+*Under 60 seconds* series (see `.claude/skills/under-60/SKILL.md`). Source: Claude Academy, *Introduction to Agent
+Skills · Creating your first skill*
+(https://academy.claude.com/courses/introduction-to-agent-skills/creating-your-first-skill). The worked example is the
+lesson's own: a personal `pr-description` skill in Claude Code.
+
+## Style · APPLE variant
+
+Apple keynote / product-page design language (a style only: no Apple logo or trademarks). White (#FFFFFF) for the
+s01 cold open, light gray (#F5F5F7) for s02–s05; near-black #1D1D1F text, secondary #6E6E73, one accent blue #0071E3
+used sparingly ("skill", the "60", the request bubble, focus rings, YAML keys). Huge bold tight-tracked Inter Tight
+headlines (stand-in for SF Pro), large white cards (radius 28–32, very soft shadows), frosted pills, macOS-style windows
+with traffic-light dots for SKILL.md, the terminal and Claude Code (light theme), Geist Mono for code. Calm motion only:
+expo/power ease-out rises, fades and gentle scales, no bounce or wiggle; accent words tint blue by an opacity
+crossfade. Theme: assets/apple.css + assets/apple.js (Apple.rise / zoom / fade / out / tint) plus Egg.typeOn /
+Egg.codeRun / Egg.mountAvatar / Egg.avatarTalk. Chrome: slim rounded progress track at y 220. Narrator: the Sanjay
+avatar in a round video-call tile (white rim, soft shadow, blue speaking ring driven by the voice loudness): large and
+centred under s01 (y 1060–1440), small at the bottom right of the safe box for s02–s04 (x 776–936, y 1326–1486), out
+for s05. Sound, voice and every slot are unchanged from ep14-skill-60s.
+
+## Script (~146 words, approved 2026-11-11)
+
+| Beat | Line |
+|---|---|
+| Cold open | Here's how to create a Claude skill, in under sixty seconds. |
+| Name it | A skill is a set of instructions Claude picks up on its own, when your request needs it. Let's build one, step by step. |
+| Set up the example | Say you want Claude to write your pull request descriptions, the same way every time. |
+| Step 1 · Folder | Step one: in dot claude slash skills, make a folder named after the skill. P R description. |
+| Step 2 · SKILL.md | Step two: inside it, add one file: skill dot M D. At the top, a name, and a description of when to use it. |
+| Step 2 · Instructions | Below that, the instructions, in plain English: run git diff, then write three sections. What, why, and changes. |
+| Step 3 · Ask | Step three: just ask. Claude reads only each skill's name and description up front. When your request matches, it loads the full file and follows it. |
+| Payoff | Same format, every time. Just keep the description specific, or Claude won't know when to use it. |
+
+## Scenes (57.0 s)
+
+| Slot | Time | Scene | What you see |
+|---|---|---|---|
+| s01 | 0–10.9 | Cold open + what a skill is | Frame 0 already reads "Create a Claude skill" and a huge "60 · under · seconds" that settles with a thump; the 60 pulses on "sixty" and shrinks into the "Under 60 seconds" chip. A SKILL.md page drops in and its template types in (---, name: pr-description, description: Use when…, ---, 1. Run git diff…), the Claude logo lands on "Claude"; a "Write a PR description" request arrives, a dotted line joins it to the page and the page lights up. "Step by step": chips 1 Folder · 2 SKILL.md · 3 Ask. Avatar: large peek, bottom right. |
+| s02 | 10.75–15.35 | The example | Three PR descriptions land in a messy pile ("fixed stuff", a wall of text, loose bullets), then straighten into a column with the same What / Why / Changes shape. Avatar: corner. |
+| s03 | 15.35–22.8 | Step 1 · Folder | A file tree draws ~/.claude/ → skills/; a terminal types `mkdir -p ~/.claude/skills/pr-description`; the new folder pops in · "Folder name = skill name". Avatar: corner. |
+| s04 | 22.8–39.6 | Step 2 · SKILL.md | Path chip; one file drops in, named SKILL.md ("Exactly that name, in capitals"). It opens into an editor card: frontmatter, name and description typed with the run bar ("Name + when to use it"), then git diff and What / Why / Changes typed as they're said ("Instructions, in plain English"). Avatar: corner. |
+| s05 | 39.6–57.0 | Step 3 · Ask + payoff (Claude Code UI) | Claude Code window (compact banner with the pixel mascot, input box); the request types in. The skill list shows names + descriptions only; on "matches" the request is sent and pr-description lights up; its card opens to the full file while the transcript shows Skill(pr-description), Bash(git diff…), then the What / Why / Changes reply (example text). "Same format, every time." Weak "Helps with PRs." (Vague) vs better "Writes PR descriptions. Use when the user asks for a PR." (Specific). Hard stop, last frame holds ~1.8 s. Avatar: out. |
+
+Sound: ep13's palette (copied, with tools/make-sfx.mjs). Voiceover as placed: see voiceover.json (s01 0.05 / 3.55 / 8.7,
+s02 0.2, s03 0.2, s04 0.2 / 5.75 / 9.2, s05 0.2 / 2.3 / 10.05).
+
+## Facts used (from the lesson)
+
+- A skill is a directory with a `SKILL.md`; frontmatter between `---` lines holds `name` and `description`;
+  everything after the second `---` is the instructions Claude follows once the skill is active.
+- Personal skills live in `~/.claude/skills/<name>/` (project skills in the repo's `.claude/skills/`); the directory
+  name matches the skill name.
+- Progressive disclosure: at startup Claude loads only each skill's name and description; a request is matched to
+  descriptions by meaning, and only then does Claude read the full SKILL.md.
+- The lesson's example: `pr-description`, body runs `git diff main...HEAD` and writes What (one sentence), Why
+  (brief context), Changes (bullets).
+- Claude Code watches the skills directories, so a new skill is available without a restart.

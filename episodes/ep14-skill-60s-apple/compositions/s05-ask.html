@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"air","vol":0.14},
+      {"t":0.9,"sfx":"typing","vol":0.2,"dur":1.4},
+      {"t":2.5,"sfx":"paper","vol":0.12},
+      {"t":2.65,"sfx":"paper","vol":0.12},
+      {"t":2.8,"sfx":"paper","vol":0.12},
+      {"t":4.0,"sfx":"marker","vol":0.14},
+      {"t":4.5,"sfx":"marker","vol":0.12},
+      {"t":6.1,"sfx":"key","vol":0.2},
+      {"t":6.12,"sfx":"send","vol":0.2},
+      {"t":6.8,"sfx":"ping","vol":0.16},
+      {"t":7.6,"sfx":"whoosh-short","vol":0.14},
+      {"t":7.7,"sfx":"tick","vol":0.16},
+      {"t":8.9,"sfx":"tick","vol":0.16},
+      {"t":9.6,"sfx":"stream","vol":0.16,"dur":1.4},
+      {"t":10.1,"sfx":"pop","vol":0.2},
+      {"t":12.1,"sfx":"tap","vol":0.18},
+      {"t":12.6,"sfx":"error","vol":0.14},
+      {"t":13.0,"sfx":"tap","vol":0.18},
+      {"t":13.3,"sfx":"chime","vol":0.24,"dur":1.8},
+      {"t":13.4,"sfx":"sparkle","vol":0.14,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Step 3 · Ask, then the payoff, in Claude Code shown in a light macOS-style terminal window (the
+           compact welcome banner with the pixel mascot, the input box). The request types into the input. Below,
+           Claude's skill list as white cards shows only names and descriptions ("up front"). On "matches" the request
+           is sent and pr-description takes a blue focus ring, the others fade; on "loads the full file" it opens to the
+           instructions while the transcript shows Skill(pr-description). "Follows it": Bash(git diff…) then the
+           What / Why / Changes reply (example text). Payoff: "Same format, every time." then a vague description vs a
+           specific one. Hard stop: no exit, the last frame holds. The narrator is out: the scene fills the safe box.
+           Voiceover: 0.2 "Step three: just ask." 2.3 "Claude reads only each skill's name and description up front.
+           When your request matches, it loads the full file and follows it." 10.05 "Same format, every time. Just keep
+           the description specific, or Claude won't know when to use it." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .win { left: 90px; top: 316px; width: 860px; height: 644px; }
+        .s05 .win .bar .cc-spark { width: 30px; height: 30px; }
+        .s05 .area { position: absolute; left: 26px; right: 26px; top: 80px; height: 462px; overflow: hidden; }
+        .s05 .tx { position: absolute; left: 0; right: 0; top: 0; }
+        .s05 .row { height: 42px; font: 400 27px/42px var(--f-m); color: var(--ink); white-space: pre; }
+        .s05 .row.m { color: var(--mu); }
+        .s05 .row b { font-weight: 400; color: var(--ink); }
+        .s05 .row .h { color: var(--blue); }
+        .s05 .row.u { background: var(--gray); border-radius: 10px; padding-left: 10px; }
+        .s05 .dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; background: #28c840; margin: 0 14px 0 4px; vertical-align: 1px; }
+        .s05 .dot.w { background: var(--ink); }
+        .s05 .el { display: inline-block; width: 16px; height: 18px; border-left: 2px solid #c7c7cc; border-bottom: 2px solid #c7c7cc; margin: 0 14px 0 14px; vertical-align: 10px; }
+        .s05 .banner { position: relative; height: 126px; padding-left: 132px; }
+        .s05 .banner svg { position: absolute; left: 8px; top: 22px; width: 100px; height: 80px; }
+        .s05 .banner .row { color: var(--mu); }
+        .s05 .banner .row:first-of-type { color: var(--ink); }
+        .s05 .input { position: absolute; left: 26px; right: 26px; top: 556px; height: 66px; border: 2px solid var(--line); border-radius: 18px; padding: 0 22px; display: flex; align-items: center; font: 400 27px/1 var(--f-m); color: var(--ink); white-space: pre; }
+        .s05 .input .p { color: var(--faint); }
+        .s05 .kick { position: absolute; left: 90px; top: 990px; margin: 0; font: 600 30px/1.2 var(--f-t); letter-spacing: -0.01em; color: var(--mu); white-space: nowrap; }
+        .s05 .sk { left: 90px; width: 860px; height: 116px; padding: 20px 30px; border-radius: 28px; overflow: hidden; }
+        .s05 .sk .nm { display: block; font: 400 30px/1 var(--f-m); color: var(--ink); }
+        .s05 .sk .ds { display: block; margin-top: 12px; font: 500 28px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s05 .sk .body { margin: 22px 0 0; padding-top: 18px; border-top: 1px solid var(--line); }
+        .s05 .sk .body p { margin: 0; font: 400 27px/1.6 var(--f-m); color: var(--ink); white-space: pre; }
+        .s05 .sk .fr { position: absolute; inset: 0; border-radius: 28px; border: 3px solid var(--blue); opacity: 0; }
+        .s05 .pay { position: absolute; left: 90px; top: 1016px; margin: 0; font: 700 66px/1.05 var(--f-d); letter-spacing: -0.04em; color: var(--ink); white-space: nowrap; }
+        .s05 .ex { left: 90px; width: 860px; padding: 26px 32px; }
+        .s05 .ex .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .s05 .ex .top span:first-child { font: 600 28px/1 var(--f-t); letter-spacing: -0.01em; color: var(--mu); }
+        .s05 .ex p { margin: 0; font: 400 28px/1.45 var(--f-m); color: var(--ink); white-space: pre; }
+      </style>
+      <div id="root" data-composition-id="s05-ask" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">Step 3 · Ask</p>
+          <div class="a-win win">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl"><div class="cc-spark"></div><span>Claude Code</span></div></div>
+            <div class="area">
+              <div class="tx" data-layout-allow-overflow="">
+                <div class="banner">
+                  <svg viewBox="0 0 10 8" aria-hidden="true"><g fill="#d97757"><rect x="1" y="0" width="8" height="5" /><rect x="0" y="2" width="10" height="1.4" /><rect x="1.6" y="5" width="1" height="2.4" /><rect x="3.4" y="5" width="1" height="2.4" /><rect x="5.6" y="5" width="1" height="2.4" /><rect x="7.4" y="5" width="1" height="2.4" /></g><g fill="#1d1d1f"><rect x="2.6" y="1.2" width="1" height="1.4" /><rect x="6.4" y="1.2" width="1" height="1.4" /></g></svg>
+                  <div class="row">Claude Code v2.1.19</div>
+                  <div class="row">Opus 5.5 · Claude Max</div>
+                  <div class="row">~/my-app</div>
+                </div>
+                <div class="row"> </div>
+                <div class="row u r4">&gt; write a <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">PR description</span><span class="on" data-layout-allow-overlap="">PR description</span></span> for my changes</div>
+                <div class="row r5"><span class="dot"></span><b>Skill</b>(pr-description)</div>
+                <div class="row m r6"><span class="el"></span>Loaded SKILL.md</div>
+                <div class="row r7"><span class="dot"></span><b>Bash</b>(git diff main...HEAD)</div>
+                <div class="row m r8"><span class="el"></span>4 files changed, +42 -7</div>
+                <div class="row r9"><span class="dot w"></span><span class="h">What</span></div>
+                <div class="row r10">  Reset links now expire after 30 min.</div>
+                <div class="row r11">  <span class="h">Why</span></div>
+                <div class="row r12">  Old links worked forever: a risk.</div>
+                <div class="row r13">  <span class="h">Changes</span></div>
+                <div class="row r14">  • auth/reset.ts: check expiresAt</div>
+                <div class="row r15">  • emails/reset.html: show the limit</div>
+              </div>
+            </div>
+            <div class="input"><span class="p">&gt; </span><span class="it">write a PR description for my changes</span></div>
+          </div>
+
+          <p class="kick k1">Up front: name + description only</p>
+          <p class="kick k2">Matched: full file loaded</p>
+          <div class="a-card sk s1" style="top:1040px"><span class="nm a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">commit-message</span><span class="on" data-layout-allow-overlap="">commit-message</span></span><span class="ds a-tint ink" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Writes commit messages in our style.</span><span class="on" data-layout-allow-overlap="">Writes commit messages in our style.</span></span></div>
+          <div class="a-card sk s2" style="top:1170px"><span class="nm a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">pr-description</span><span class="on" data-layout-allow-overlap="">pr-description</span></span><span class="ds a-tint ink" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Writes PR descriptions. Use when the user asks for a PR.</span><span class="on" data-layout-allow-overlap="">Writes PR descriptions. Use when the user asks for a PR.</span></span><div class="fr"></div></div>
+          <div class="a-card sk s3" style="top:1300px"><span class="nm a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">code-review</span><span class="on" data-layout-allow-overlap="">code-review</span></span><span class="ds a-tint ink" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Reviews a diff for bugs before merging.</span><span class="on" data-layout-allow-overlap="">Reviews a diff for bugs before merging.</span></span></div>
+          <div class="a-card sk full" style="top:1040px;height:390px" data-layout-allow-overlap=""><span class="nm" style="color:var(--blue)">pr-description</span><span class="ds" style="color:var(--ink)">Writes PR descriptions. Use when the user asks for a PR.</span>
+            <div class="body"><p>1. Run git diff main...HEAD</p><p>2. Write three sections:</p><p>   ## What · ## Why · ## Changes</p></div>
+            <div class="fr" style="opacity:1"></div>
+          </div>
+
+          <p class="pay">Same format, every time.</p>
+          <div class="a-card ex weak" style="top:1124px">
+            <div class="top"><span>Weak description</span><span class="a-tag gray">Vague</span></div>
+            <p>description: Helps with PRs.</p>
+          </div>
+          <div class="a-card ex good" style="top:1292px">
+            <div class="top"><span>Better description</span><span class="a-tag blue">Specific</span></div>
+            <p>description: Writes PR descriptions.</p>
+            <p>  <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Use when the user asks for a PR.</span><span class="on" data-layout-allow-overlap="">Use when the user asks for a PR.</span></span></p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s05-ask"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tx = q(".tx"), s1 = q(".s1"), s2 = q(".s2"), s3 = q(".s3"), full = q(".full");
+          const VISIBLE = 11, LH = 42;   // rows that fit the transcript area; banner = rows 0–2, blank = row 3
+          const rows = (n) => q(".r" + n);
+          gsap.set([...Array.from({ length: 12 }, (_, i) => rows(i + 4)), q(".k1"), q(".k2"), s1, s2, s3, full,
+            q(".pay"), q(".weak"), q(".good"), ...all(".a-tag")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // a transcript row appears; the transcript scrolls once it's full
+          const show = (n, at) => {
+            tl.to(rows(n), { opacity: 1, duration: 0.15, ease: "none" }, at);
+            if (n + 1 > VISIBLE) tl.to(tx, { y: -(n + 1 - VISIBLE) * LH, duration: 0.3, ease: "power2.out" }, at);
+          };
+
+          // "Step three: just ask."
+          Apple.rise(tl, q(".a-eyebrow"), 0.2, { y: 16 });
+          Apple.rise(tl, q(".win"), 0.3, { y: 40 });
+          Egg.typeOn(tl, q(".input .it"), 0.9, { cps: 28 });
+          // "Claude reads only each skill's name and description up front"
+          Apple.rise(tl, [q(".k1"), s1, s2, s3], 2.5, { y: 30, stagger: 0.15 });
+          Apple.tint(tl, all(".sk .nm.a-tint"), 4.0, { dur: 0.4, stagger: 0.08 });
+          Apple.tint(tl, all(".sk .ds.a-tint"), 4.5, { dur: 0.5, stagger: 0.08 });
+          // "When your request matches": it's sent, and pr-description takes focus
+          tl.to(q(".input .it"), { opacity: 0, duration: 0.12, ease: "none" }, 6.1);
+          show(4, 6.2);
+          Apple.tint(tl, q(".r4 .a-tint"), 6.5, { dur: 0.4 });
+          tl.to(q(".s2 .fr"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 6.8);
+          tl.to(s2, { scale: 1.02, duration: 0.3, ease: "power2.out" }, 6.8);
+          tl.to([s1, s3], { opacity: 0.35, duration: 0.3, ease: "none" }, 6.8);
+          // "it loads the full file": it opens to the instructions
+          tl.to([s1, s3], { opacity: 0, duration: 0.25, ease: "none" }, 7.5);
+          tl.to(q(".k1"), { opacity: 0, duration: 0.2, ease: "none" }, 7.5);
+          tl.to(q(".k2"), { opacity: 1, duration: 0.25, ease: "none" }, 7.7);
+          tl.to(s2, { y: -130, scale: 1, duration: 0.5, ease: "power3.inOut" }, 7.6);
+          tl.to(s2, { opacity: 0, duration: 0.2, ease: "none" }, 7.95);
+          tl.fromTo(full, { opacity: 0, scale: 0.98 }, { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" }, 7.9);
+          show(5, 7.7);
+          show(6, 8.0);
+          // "and follows it": git diff, then the three sections
+          show(7, 8.9);
+          show(8, 9.2);
+          [9, 10, 11, 12, 13, 14, 15].forEach((n, i) => show(n, 9.6 + i * 0.2));
+
+          // "Same format, every time."
+          Apple.out(tl, [full, q(".k2")], 9.85, { y: -20, dur: 0.3 });
+          Apple.rise(tl, q(".pay"), 10.1, { y: 30 });
+          // "Just keep the description specific": a vague one, then a specific one
+          Apple.rise(tl, q(".weak"), 12.1, { y: 30, dur: 0.7 });
+          Apple.zoom(tl, q(".weak .a-tag"), 12.6, { from: 0.85, dur: 0.5 });
+          Apple.rise(tl, q(".good"), 13.0, { y: 30, dur: 0.7 });
+          Apple.zoom(tl, q(".good .a-tag"), 13.3, { from: 0.85, dur: 0.5 });
+          Apple.tint(tl, q(".good .a-tint"), 13.4, { dur: 0.6 });
+          // "or Claude won't know when to use it": the vague one recedes
+          tl.to(q(".weak"), { scale: 0.98, opacity: 0.45, duration: 0.6, ease: "power2.inOut" }, 14.3);
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s05-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
