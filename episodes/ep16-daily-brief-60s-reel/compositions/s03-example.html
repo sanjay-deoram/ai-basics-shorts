@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.45,"sfx":"tick","vol":0.16},
+      {"t":0.75,"sfx":"pop","vol":0.22},
+      {"t":1.65,"sfx":"flurry","vol":0.24,"dur":1.0},
+      {"t":2.55,"sfx":"thud","vol":0.24},
+      {"t":3.3,"sfx":"flurry","vol":0.2,"dur":0.7},
+      {"t":3.9,"sfx":"thud","vol":0.24},
+      {"t":4.48,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The example. Peach: "It's Tuesday." Two giant counters run as they're said, 140 Slack messages and
+           25 pull requests (the README's busy-day test), while the overnight messages and PRs rain down into a messy
+           pile. Whip out. Badge bottom-left (narrator); the pile stays above y 1260. -->
+      <style>
+        #s03-root .bg { background-color: #ffe3d3; }
+        #s03-root .rl-hd { --acc: #e8590c; }
+        #s03-root .num { position: absolute; top: 430px; font: 600 250px/1 var(--f-display); letter-spacing: -0.07em; color: #0d0d0c; }
+        #s03-root .lab { position: absolute; top: 700px; font: 400 30px/36px var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s03-root .pc { position: absolute; height: 56px; padding: 0 20px; border-radius: 14px; background: #fff; border: 2px solid #e6e3de; display: flex; align-items: center; gap: 10px;
+          font: 400 24px/1 var(--f-mono); color: #0d0d0c; white-space: nowrap; box-shadow: 0 10px 20px -12px rgba(0, 0, 0, 0.3); }
+        #s03-root .pc b { font-weight: 400; color: #e8590c; }
+        #s03-root .pc.pr b { color: #2d4bff; }
+      </style>
+      <div id="s03-root" data-composition-id="s03-example" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// say it's 7:32</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">It's </span><em class="w">Tuesday.</em></span>
+            </div>
+            <div class="num n1" style="left:76px">0</div>
+            <div class="num n2" style="left:600px">0</div>
+            <div class="lab l1" style="left:90px">// slack messages</div>
+            <div class="lab l2" style="left:610px">// pull requests</div>
+            <div class="pile" data-layout-allow-overlap="">
+              <div class="pc m" style="left:150px;top:960px" data-r="-5"><b>#</b>slow exports?</div>
+              <div class="pc m" style="left:560px;top:980px" data-r="2"><b>#</b>lunch is in</div>
+              <div class="pc m" style="left:330px;top:1010px" data-r="-3"><b>#</b>deploy freeze Fri?</div>
+              <div class="pc m" style="left:110px;top:1060px" data-r="2"><b>#</b>thanks all!</div>
+              <div class="pc m" style="left:500px;top:1090px" data-r="-6"><b>#</b>refund #1182?</div>
+              <div class="pc m" style="left:200px;top:1130px" data-r="5"><b>#</b>+1 slow exports</div>
+              <div class="pc m" style="left:90px;top:1190px" data-r="-4"><b>#</b>Acme can't log in</div>
+              <div class="pc pr" style="left:640px;top:1150px" data-r="-2"><b>PR</b>#482 rate-limit</div>
+              <div class="pc pr" style="left:420px;top:1200px" data-r="3"><b>PR</b>#479 eslint</div>
+              <div class="pc pr" style="left:620px;top:1060px" data-r="4"><b>PR</b>#480 typo</div>
+              <div class="pc pr" style="left:400px;top:940px" data-r="6"><b>PR</b>#483 draft</div>
+              <div class="pc pr" style="left:660px;top:930px" data-r="-2"><b>PR</b>#481 axios</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s03-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s03-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const drop = (els, at, gap) => [...els].forEach((el, i) =>
+            tl.fromTo(el, { opacity: 0, y: -140, rotation: 0 }, { opacity: 1, y: 0, rotation: +el.dataset.r, duration: 0.35, ease: "back.out(1.6)" }, at + i * gap));
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "Say it's Tuesday"
+          Reel.words(tl, q(".rl-hd"), [0.45, 0.75]);
+          // "a hundred and forty messages"
+          tl.fromTo([q(".n1"), q(".l1")], { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 1.55);
+          Egg.count(tl, q(".n1"), 0, 140, 1.6, { dur: 0.95 });
+          drop(root.querySelectorAll(".pc.m"), 1.65, 0.12);
+          tl.to(q(".n1"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "20% 70%" }, 2.55);
+          // "twenty-five pull requests"
+          tl.fromTo([q(".n2"), q(".l2")], { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.25);
+          Egg.count(tl, q(".n2"), 0, 25, 3.3, { dur: 0.6 });
+          drop(root.querySelectorAll(".pc.pr"), 3.3, 0.1);
+          tl.to(q(".n2"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "20% 70%" }, 3.9);
+          Reel.whip(tl, cam, blur, 4.5, "out");
+
+          window.__timelines["s03-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

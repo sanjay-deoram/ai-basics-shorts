@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.75,"sfx":"marker","vol":0.14},
+      {"t":1.35,"sfx":"pop","vol":0.16},
+      {"t":1.5,"sfx":"stream","vol":0.14,"dur":1.1},
+      {"t":2.95,"sfx":"pop","vol":0.16},
+      {"t":3.1,"sfx":"stream","vol":0.12,"dur":0.8},
+      {"t":3.9,"sfx":"tick","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. "Say it's Tuesday": the headline "Tuesday, 7:32 AM." with Tuesday tinted. Two keynote
+           stat tiles count up as they're said: 140 Slack messages, 25 pull requests (the README's busy-day test).
+           Behind them a column of overnight messages and PRs scrolls past; it dims as "Which ones need you today?"
+           lands. Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.18 "Say it's Tuesday: a hundred and forty messages, twenty-five pull requests." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .stat { position: absolute; top: 470px; width: 420px; height: 330px; padding: 36px 40px; }
+        .s02 .stat .n { display: block; font: 800 190px/0.9 var(--f-d); letter-spacing: -0.06em; background: linear-gradient(180deg, #2997ff 0%, #0071e3 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+        .s02 .stat .l { display: block; margin-top: 34px; font: 600 38px/1.1 var(--f-t); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s02 .stat .s { display: block; margin-top: 8px; font: 500 28px/1.1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s02 .feed { position: absolute; left: 90px; top: 840px; width: 640px; height: 440px; overflow: hidden; border-radius: 28px; }
+        .s02 .list { position: absolute; left: 0; right: 0; top: 0; }
+        .s02 .row { display: flex; align-items: center; gap: 16px; height: 62px; margin-bottom: 12px; padding: 0 22px; border-radius: 18px; background: var(--white); font: 500 26px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s02 .row b { font: 400 24px/1 var(--f-m); color: var(--ink); }
+        .s02 .ask { position: absolute; left: 90px; top: 1010px; width: 640px; justify-content: center; font-size: 34px; height: 84px; background: rgba(255, 255, 255, 0.96); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 hd"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Tuesday,</span><span class="on" data-layout-allow-overlap="">Tuesday,</span></span> 7:32 AM.</h2>
+          <div class="a-card stat st1" style="left:90px"><span class="n">0</span><span class="l">Slack messages</span><span class="s">since yesterday's brief</span></div>
+          <div class="a-card stat st2" style="left:530px"><span class="n">0</span><span class="l">pull requests</span><span class="s">open or updated</span></div>
+          <div class="feed">
+            <div class="list" data-layout-allow-overflow="">
+              <div class="row"><b>#support</b>Anyone else seeing slow exports?</div>
+              <div class="row"><b>PR #479</b>Bump eslint to 9.12</div>
+              <div class="row"><b>#escalations</b>Acme can't log in since 6:10</div>
+              <div class="row"><b>#support</b>Refund #1182: approve?</div>
+              <div class="row"><b>PR #482</b>Rate-limit the reset API</div>
+              <div class="row"><b>#support</b>thanks all!</div>
+              <div class="row"><b>PR #480</b>Fix typo in README</div>
+              <div class="row"><b>#escalations</b>Deploy freeze Friday?</div>
+              <div class="row"><b>#support</b>lunch order is in</div>
+              <div class="row"><b>PR #483</b>Draft: new onboarding copy</div>
+              <div class="row"><b>#support</b>+1 on slow exports</div>
+              <div class="row"><b>PR #481</b>dependabot: bump axios</div>
+            </div>
+          </div>
+          <span class="a-pill a-glass ask">Which ones need you today?</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.55;
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const rows = all(".row");
+          gsap.set([q(".ask"), ...rows], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Say it's Tuesday"
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 30 });
+          Apple.tint(tl, q(".hd .a-tint"), 0.75, { dur: 0.5 });
+          // "a hundred and forty messages"
+          Apple.rise(tl, q(".st1"), 1.25, { y: 40, dur: 0.7 });
+          Egg.count(tl, q(".st1 .n"), 0, 140, 1.35, { dur: 1.2 });
+          // the overnight feed scrolls past while the counters run
+          rows.forEach((r, i) => tl.fromTo(r, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 1.45 + i * 0.16));
+          tl.fromTo(q(".list"), { y: 0 }, { y: -(12 - 6) * 74, duration: 1.9, ease: "power1.inOut" }, 1.9);
+          // "twenty-five pull requests"
+          Apple.rise(tl, q(".st2"), 2.85, { y: 40, dur: 0.7 });
+          Egg.count(tl, q(".st2 .n"), 0, 25, 2.95, { dur: 0.9 });
+          // which ones need you?
+          tl.to(q(".feed"), { opacity: 0.35, duration: 0.4, ease: "none" }, 3.8);
+          Apple.zoom(tl, q(".ask"), 3.9, { from: 0.9, dur: 0.6 });
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd"), q(".st1"), q(".st2"), q(".feed"), q(".ask")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

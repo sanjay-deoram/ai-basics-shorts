@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.42,"sfx":"tick","vol":0.16},
+      {"t":0.65,"sfx":"tick","vol":0.16},
+      {"t":0.95,"sfx":"typing","vol":0.2,"dur":0.6},
+      {"t":1.62,"sfx":"enter","vol":0.3},
+      {"t":1.75,"sfx":"tick","vol":0.16},
+      {"t":1.87,"sfx":"tick","vol":0.16},
+      {"t":1.99,"sfx":"tick","vol":0.16},
+      {"t":2.1,"sfx":"pop","vol":0.22},
+      {"t":2.85,"sfx":"pop","vol":0.18},
+      {"t":3.75,"sfx":"click","vol":0.3},
+      {"t":4.05,"sfx":"click","vol":0.3},
+      {"t":4.45,"sfx":"error","vol":0.2},
+      {"t":5.2,"sfx":"click","vol":0.3},
+      {"t":6.45,"sfx":"enter","vol":0.3},
+      {"t":6.7,"sfx":"pop","vol":0.26},
+      {"t":6.75,"sfx":"success","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Ship it. Yellow: "Then run ant apply." The dark terminal types `ant apply deployment.md vault.yaml`
+           and the six resources tick in (agent, environment, two memory stores, vault, deployment; the rows are an
+           illustration, not the CLI's exact output). "Each morning, a fresh session": a session row for Tue 7:32 AM;
+           "reads from every bookmark": #support and #escalations read, GitHub unreadable; "re-checks each item":
+           3 still open, 1 dropped; "and posts the brief": chat.postMessage, "ok": true, and the post from the hook
+           lands over the terminal. Hard cut to black (no whip). Badge bottom-left (narrator). -->
+      <style>
+        #s08-root .bg { background-color: #fff1a8; }
+        #s08-root .rl-hd { --acc: #c2410c; }
+        #s08-root .term { top: 540px; height: 664px; }
+        #s08-root .tb .p { color: var(--term-dim); }
+        #s08-root .tb .okc { color: var(--ok); }
+        #s08-root .tb .badc { color: var(--bad); }
+        #s08-root .tb .k { color: var(--term-dim); }
+        #s08-root .tb .hd2 { color: var(--term-text); }
+        #s08-root .tb .fr { color: #ffd84d; }
+        #s08-root .post { top: 606px; }
+        #s08-root .post .chip { position: absolute; right: 30px; top: 26px; height: 48px; padding: 0 18px; border-color: #3fbf74; color: #12a150; font-size: 24px; }
+      </style>
+      <div id="s08-root" data-composition-id="s08-apply" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// ship it</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Then </span><span class="w">run</span></span>
+              <span class="ln"><em class="w">ant apply.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>~/daily-brief/agents/daily-brief</span></div>
+              <div class="tb">
+                <div class="r r0"><span class="p">$ </span><span class="cmd">ant apply deployment.md vault.yaml</span></div>
+                <div class="r ra"><span class="okc">✓</span> agent          <span class="k">Daily brief</span></div>
+                <div class="r ra"><span class="okc">✓</span> environment    <span class="k">daily-brief</span></div>
+                <div class="r ra"><span class="okc">✓</span> memory_store   <span class="k">preferences</span></div>
+                <div class="r ra"><span class="okc">✓</span> memory_store   <span class="k">state</span></div>
+                <div class="r ra"><span class="okc">✓</span> vault          <span class="k">quickstart-daily-brief</span></div>
+                <div class="r ra"><span class="okc">✓</span> deployment     <span class="k">Daily brief</span></div>
+                <div class="r gap"></div>
+                <div class="r rb s0"><span class="dot c">●</span> <span class="hd2">Tue 7:32 AM</span> <span class="k">·</span> <span class="fr">fresh session</span></div>
+                <div class="r rb s1"><span class="sub">  ⎿ </span>#support      <span class="k">from bookmark</span>  <span class="okc">✓</span></div>
+                <div class="r rb s2"><span class="sub">  ⎿ </span>#escalations  <span class="k">from bookmark</span>  <span class="okc">✓</span></div>
+                <div class="r rb s3"><span class="sub">  ⎿ </span>github        <span class="badc">unreadable</span>     <span class="badc">✕</span></div>
+                <div class="r rb s4"><span class="dot">●</span> Re-check: <span class="k">3 still open, 1 dropped</span></div>
+                <div class="r rb s5"><span class="dot">●</span> chat.postMessage <span class="k">→</span> <span class="okc">"ok": true</span></div>
+              </div>
+            </div>
+            <div class="rl-msg post" data-layout-allow-overlap="">
+              <div class="av"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M7 33 H39" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /><path d="M14 31 A9 9 0 0 1 32 31 Z" fill="#fff" /><path d="M23 8 V14 M10 14.5 L14 18.5 M36 14.5 L32 18.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /></svg></div>
+              <div class="who">Daily brief <span class="app">APP</span> <span class="tm">7:34 AM</span></div>
+              <div class="ttl">Daily brief, Tue Nov 17</div>
+              <div class="it">Acme escalation: <span class="d">login errors since 6:10</span></div>
+              <div class="it">Refund #1182 <span class="d">waits on your yes · day 2</span></div>
+              <div class="it">Deploy freeze Friday: <span class="d">confirm by noon</span></div>
+              <div class="chip">✓ posted</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s08-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          gsap.set([...all(".ra"), ...all(".rb")], { opacity: 0 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          tl.fromTo(q(".term"), { opacity: 0, scale: 0.86, y: 40 }, { opacity: 1, scale: 1, y: 0, duration: 0.4, ease: "power3.out" }, 0.2);
+          // "Then run ant apply"
+          Reel.words(tl, q(".rl-hd"), [0.42, 0.65, 0.95]);
+          Egg.typeOn(tl, q(".cmd"), 0.95, { cps: 55 });
+          Reel.rows(tl, all(".ra"), [1.7, 1.76, 1.82, 1.88, 1.94, 2.0]);
+          // "Each morning, a fresh session"
+          Reel.rows(tl, [q(".s0")], [2.1]);
+          tl.fromTo(q(".s0 .fr"), { color: "#efece6" }, { color: "#ffd84d", duration: 0.2 }, 2.85);
+          // "reads from every bookmark"
+          Reel.rows(tl, [q(".s1"), q(".s2"), q(".s3")], [3.75, 4.05, 4.45]);
+          // "re-checks each item"
+          Reel.rows(tl, [q(".s4")], [5.2]);
+          // "and posts the brief"
+          Reel.rows(tl, [q(".s5")], [6.45]);
+          tl.fromTo(q(".post"), { opacity: 0, y: 80, scale: 0.88, rotation: -2 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.45, ease: "back.out(1.6)" }, 6.7);
+          tl.fromTo(q(".post .chip"), { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: Egg.EASE.stamp }, 6.95);
+          // hard cut to black at the end of the slot (s09)
+          window.__timelines["s08-apply"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

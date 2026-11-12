@@ -1,0 +1,52 @@
+/* Claude chat UI (claude.ai, light theme), drawn at 1080-frame scale for scenes that show a conversation
+   with Claude: the greeting with the spark, the composer (attachments, text, + / tools / model / send), the
+   user's message bubble and Claude's reply (serif, citation chips, sources, resting spark and actions).
+   Used by s02 and s05. The terracotta stays on the spark and the send button, as in the real app. */
+@font-face { font-family: "Source Serif 4"; src: url("fonts/SourceSerif4-var.woff2") format("woff2"); font-weight: 300 600; font-display: block; }
+
+:root {
+  --cc-text: #141413;
+  --cc-text-2: #3d3d3a;
+  --cc-muted: #6b6a64;
+  --cc-line: #e3e0d8;
+  --cc-cream: #faf9f5;
+  --cc-bubble: #f0eee6;
+  --cc-clay: #d97757;
+  --cc-serif: "Source Serif 4", Georgia, serif;
+}
+
+.cc-spark { background: url("claude-logo.svg") center / contain no-repeat; }
+
+.cc-greet { display: flex; align-items: center; gap: 24px; }
+.cc-greet .cc-spark { width: 80px; height: 80px; flex: none; }
+.cc-greet span { font: 300 66px/1 var(--cc-serif); letter-spacing: -0.015em; color: var(--cc-text); white-space: nowrap; }
+
+.cc-box { background: #fff; border: 2px solid var(--cc-line); border-radius: 36px; box-shadow: 0 8px 36px rgba(20, 20, 19, 0.06); }
+.cc-input { font: 400 34px/1.3 var(--f-body); color: var(--cc-text); white-space: nowrap; margin: 0; }
+.cc-input.ph { color: #8f8d86; }
+.cc-caret { display: inline-block; width: 3px; height: 40px; margin-left: 2px; vertical-align: -6px; background: var(--cc-text); }
+
+.cc-btn { width: 60px; height: 60px; border: 2px solid var(--cc-line); border-radius: 18px; display: flex; align-items: center; justify-content: center; }
+.cc-btn svg, .cc-act svg { width: 30px; height: 30px; fill: none; stroke: var(--cc-muted); stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+.cc-model { font: 400 28px/1 var(--f-body); color: var(--cc-muted); white-space: nowrap; display: flex; align-items: center; gap: 8px; }
+.cc-model svg { width: 22px; height: 22px; fill: none; stroke: var(--cc-muted); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.cc-send { width: 64px; height: 64px; border-radius: 18px; background: var(--cc-clay); display: flex; align-items: center; justify-content: center; }
+.cc-send svg { width: 30px; height: 30px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+
+/* an attached document: preview of its text and a type badge */
+.cc-tile { background: var(--cc-cream); border: 2px solid var(--cc-line); border-radius: 20px; padding: 18px 22px; display: flex; flex-direction: column; justify-content: space-between; }
+.cc-tile p { margin: 0; font: 400 26px/1.32 var(--f-body); color: var(--cc-text-2); }
+.cc-tile .nm { font-weight: 500; color: var(--cc-text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cc-badge { align-self: flex-start; font: 400 24px/1 var(--f-mono); letter-spacing: 0.06em; color: var(--cc-muted); background: #fff; border: 2px solid var(--cc-line); border-radius: 10px; padding: 6px 10px; }
+
+.cc-bubble { background: var(--cc-bubble); border-radius: 28px; padding: 22px 30px; font: 400 34px/1.3 var(--f-body); color: var(--cc-text); white-space: nowrap; }
+
+.cc-reply { margin: 0; font: 400 42px/1.48 var(--cc-serif); color: var(--cc-text); }
+.cc-cite { display: inline-block; min-width: 40px; padding: 0 10px; margin-left: 6px; border-radius: 10px; background: var(--cc-bubble); font: 500 24px/40px var(--f-body); color: var(--cc-text-2); text-align: center; vertical-align: 4px; }
+.cc-cite::after { content: attr(data-n); }
+.cc-src { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px; border: 2px solid var(--cc-line); border-radius: 9999px; background: #fff; font: 400 26px/1 var(--f-body); color: var(--cc-text-2); white-space: nowrap; }
+.cc-src b { font: 500 22px/1 var(--f-body); color: var(--cc-muted); background: var(--cc-bubble); border-radius: 8px; padding: 6px 9px; }
+.cc-act { width: 44px; height: 44px; display: flex; align-items: center; justify-content: center; }
+
+.cc-cursor { width: 46px; height: 46px; }
+.cc-cursor path { fill: #141413; stroke: #fff; stroke-width: 2.5; stroke-linejoin: round; }

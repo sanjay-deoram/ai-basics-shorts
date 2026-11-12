@@ -1,0 +1,74 @@
+/* "Claude" variant theme: the Claude / Anthropic product look (claude.ai, Claude Code). Loaded after eggshell.css and
+   claude-chat.css; it re-points the Eggshell tokens and restyles the shared components, so scenes keep their markup.
+   Warm off-white paper, warm near-black ink, hairline borders, modest radii, almost no shadow, an editorial serif for
+   headlines (Source Serif 4, local), Inter for body, Geist Mono for code. Clay is the one bright color. */
+
+:root {
+  --eggshell: #faf9f5;     /* page */
+  --taupe: #f0eee6;        /* panels */
+  --stone: #e8e6dc;        /* hairlines */
+  --btn-border: #e8e6dc;
+  --ink: #141413;
+  --graphite: #3d3d3a;
+  --smoke: #6b6a64;        /* lightest text */
+  --ash: #b0aea5;          /* decoration only */
+  --card: #ffffff;
+  --clay: #d97757;
+  --clay-ink: #b5552f;     /* clay dark enough for text */
+  --clay-tint: rgba(217, 119, 87, 0.14);
+  --olive: #788c5d;
+  --olive-ink: #56663f;
+  --olive-tint: rgba(120, 140, 93, 0.16);
+  --sky: #6a9bcc;
+  --good: var(--olive-ink);
+  --good-tint: var(--olive-tint);
+  --bad: var(--clay-ink);
+  --bad-tint: var(--clay-tint);
+  --cc-clay: #d97757;
+  --cc-line: #e8e6dc;
+  --f-display: "Source Serif 4", Georgia, serif;
+  --shadow: 0 1px 2px rgba(20, 20, 19, 0.04);
+}
+
+/* ---------- type ---------- */
+.egg-display { font: 400 112px/1.04 var(--f-display); letter-spacing: -0.025em; }
+.egg-title { font: 400 84px/1.08 var(--f-display); letter-spacing: -0.02em; }
+.egg-label { font: 400 60px/1.2 var(--f-display); letter-spacing: -0.015em; }
+.egg-eyebrow { display: inline-flex; align-items: center; gap: 16px; font: 500 30px/1.3 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--graphite); }
+.egg-eyebrow::before { content: ""; width: 14px; height: 14px; border-radius: 4px; background: var(--clay); flex: none; }
+.egg-foot { font: 400 26px/1.3 var(--f-body); letter-spacing: 0; color: var(--smoke); }
+
+/* ---------- components ---------- */
+.egg-chip { font: 500 30px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--graphite); background: var(--card); border: 2px solid var(--stone); border-radius: 14px; padding: 16px 24px; }
+.egg-chip b { font: 500 30px/1 var(--f-mono); color: var(--clay-ink); }
+
+.egg-card { background: var(--card); border: 2px solid var(--stone); border-radius: 16px; box-shadow: var(--shadow); }
+.egg-card.taupe { background: var(--taupe); }
+.egg-card.is-bad, .egg-card.is-good { border-color: var(--stone); }
+.egg-card.is-good { background: var(--card); border-color: rgba(120, 140, 93, 0.55); }
+.egg-card.is-bad { background: var(--taupe); }
+.egg-card-kicker { font: 500 26px/1 var(--f-body); letter-spacing: 0; text-transform: none; color: var(--smoke); }
+
+.egg-stamp { font: 500 26px/1 var(--f-body); letter-spacing: 0; text-transform: none; border: 0; border-radius: 9999px; padding: 10px 18px; }
+
+/* highlighter: a soft clay wash */
+.egg-hl { background-image: linear-gradient(transparent 60%, rgba(217, 119, 87, 0.26) 60%, rgba(217, 119, 87, 0.26) 92%, transparent 92%); }
+
+.egg-progress { top: 190px; height: 4px; border-radius: 2px; background: var(--stone); }
+.egg-progress i { background: var(--clay); }
+
+/* ---------- code card: a light editor, like an artifact in claude.ai ---------- */
+.egg-code { background: var(--card); border: 2px solid var(--stone); border-radius: 16px; padding: 0 0 22px; box-shadow: var(--shadow); color: var(--ink); }
+.egg-code-top { padding: 20px 28px; margin-bottom: 18px; background: var(--taupe); border-bottom: 2px solid var(--stone); font: 500 26px/1 var(--f-mono); letter-spacing: 0; text-transform: none; color: var(--graphite); }
+.egg-code-top i { width: 12px; height: 12px; background: #d6d3c9; }
+.egg-code-body .ln > .no { color: #8d8b83; }
+.egg-code-bar { background: var(--clay-tint); }
+.egg-code-bar::before { width: 5px; background: var(--clay); }
+.egg-code .t-k { color: var(--clay-ink); }
+.egg-code .t-s { color: var(--olive-ink); }
+.egg-code .t-kw { color: #3f6f9e; }
+.egg-code .t-fn { color: var(--ink); }
+.egg-code .t-p { color: #8d8b83; }
+.egg-code .t-c { color: var(--smoke); }
+
+.cc-bubble { background: var(--taupe); border-radius: 16px; }

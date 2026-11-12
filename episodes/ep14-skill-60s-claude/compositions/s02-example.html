@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"air","vol":0.14},
+      {"t":1.2,"sfx":"paper","vol":0.16},
+      {"t":1.45,"sfx":"paper","vol":0.14},
+      {"t":1.7,"sfx":"paper","vol":0.14},
+      {"t":3.25,"sfx":"whoosh-short","vol":0.18},
+      {"t":3.75,"sfx":"tick","vol":0.18},
+      {"t":3.9,"sfx":"tick","vol":0.18},
+      {"t":4.05,"sfx":"tick","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. Three pull request descriptions land in a messy pile, each written a different way
+           ("fixed stuff", a wall of text, loose bullets). On "the same way every time" they straighten into a column
+           and all take the same shape: What · Why · Changes. Avatar: small top right (narrator.html "corner");
+           content above y 485 stays left of x 830.
+           Voiceover: 0.2 "Say you want Claude to write your pull request descriptions, the same way every time." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s02 .ttl { position: absolute; left: 90px; top: 300px; width: 720px; }
+        .s02 .pr { position: absolute; left: 90px; width: 860px; height: 250px; padding: 26px 34px; border-radius: 16px; gap: 12px; }
+        .s02 .pr .egg-card-top { gap: 16px; justify-content: flex-start; }
+        .s02 .pr .no { font: 400 28px/1 var(--f-mono); color: var(--smoke); }
+        .s02 .pr .nm { font: 500 32px/1.1 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s02 .lay { position: absolute; left: 34px; right: 34px; top: 86px; bottom: 22px; }
+        .s02 .messy p { margin: 0; font: 400 30px/1.35 var(--f-body); color: var(--smoke); }
+        .s02 .neat { display: grid; grid-template-columns: 170px 1fr; row-gap: 14px; align-items: center; }
+        .s02 .neat .k { font: 500 28px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--clay-ink); }
+        .s02 .neat i { display: block; height: 12px; border-radius: 6px; background: var(--taupe); box-shadow: inset 0 0 0 2px var(--stone); }
+      </style>
+      <div id="root" data-composition-id="s02-example" data-width="1080" data-height="1920">
+        <div class="egg-scene s02">
+          <span class="egg-eyebrow">The example</span>
+          <h2 class="egg-title ttl">Pull request descriptions</h2>
+          <div class="egg-card pr p1" style="top:540px" data-layout-allow-overlap="">
+            <div class="egg-card-top" data-layout-allow-overlap=""><span class="no" data-layout-allow-overlap="">#412</span><span class="nm" data-layout-allow-overlap="">Password reset expiry</span></div>
+            <div class="lay messy" data-layout-allow-overlap=""><p data-layout-allow-overlap="">fixed stuff</p></div>
+            <div class="lay neat" data-layout-allow-overlap=""><span class="k">WHAT</span><i style="width:80%"></i><span class="k">WHY</span><i style="width:60%"></i><span class="k">CHANGES</span><i style="width:70%"></i></div>
+          </div>
+          <div class="egg-card pr p2" style="top:820px" data-layout-allow-overlap="">
+            <div class="egg-card-top" data-layout-allow-overlap=""><span class="no" data-layout-allow-overlap="">#413</span><span class="nm" data-layout-allow-overlap="">New invoice page</span></div>
+            <div class="lay messy" data-layout-allow-overlap=""><p data-layout-allow-overlap="">So this PR is about the invoice page which I changed because the old one was confusing and also I moved some…</p></div>
+            <div class="lay neat" data-layout-allow-overlap=""><span class="k">WHAT</span><i style="width:70%"></i><span class="k">WHY</span><i style="width:85%"></i><span class="k">CHANGES</span><i style="width:55%"></i></div>
+          </div>
+          <div class="egg-card pr p3" style="top:1100px" data-layout-allow-overlap="">
+            <div class="egg-card-top" data-layout-allow-overlap=""><span class="no" data-layout-allow-overlap="">#414</span><span class="nm" data-layout-allow-overlap="">Faster search</span></div>
+            <div class="lay messy" data-layout-allow-overlap=""><p data-layout-allow-overlap="">- search</p><p data-layout-allow-overlap="">- misc</p></div>
+            <div class="lay neat" data-layout-allow-overlap=""><span class="k">WHAT</span><i style="width:65%"></i><span class="k">WHY</span><i style="width:75%"></i><span class="k">CHANGES</span><i style="width:80%"></i></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s02-example"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cards = all(".pr");
+          gsap.set(all(".neat"), { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.2, { y: 16 });
+          // "to write your pull request descriptions": three, each written a different way, land in a pile
+          Egg.fadeUp(tl, q(".ttl"), 1.0, { y: 30 });
+          const pile = [{ x: 8, y: 60, r: -2.5 }, { x: -8, y: -80, r: 2 }, { x: 10, y: -220, r: -1.5 }];
+          cards.forEach((c, i) => tl.fromTo(c, { opacity: 0, x: pile[i].x, y: pile[i].y - 60, rotation: pile[i].r * 2, scale: 0.94 },
+            { opacity: 1, x: pile[i].x, y: pile[i].y, rotation: pile[i].r, scale: 0.94, duration: 0.45, ease: Egg.EASE.enter }, 1.2 + i * 0.25));
+          // "the same way every time": they straighten into a column and take the same shape
+          tl.to(cards, { x: 0, y: 0, rotation: 0, scale: 1, duration: 0.6, ease: Egg.EASE.move, stagger: 0.08 }, 3.25);
+          tl.to(all(".messy"), { opacity: 0, duration: 0.2, ease: "none" }, 3.45);
+          tl.to(all(".neat"), { opacity: 1, duration: 0.25, ease: "none", stagger: 0.15 }, 3.7);
+
+          window.__timelines["s02-example"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

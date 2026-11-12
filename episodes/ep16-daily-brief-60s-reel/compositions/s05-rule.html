@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"pop","vol":0.2},
+      {"t":1.37,"sfx":"tick","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.2},
+      {"t":1.8,"sfx":"thud","vol":0.3},
+      {"t":1.85,"sfx":"error","vol":0.16},
+      {"t":2.45,"sfx":"pop","vol":0.22},
+      {"t":2.95,"sfx":"thud","vol":0.34},
+      {"t":3.0,"sfx":"success","vol":0.18},
+      {"t":3.68,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · The key rule. Pink: step 4 of agent.md as a dark quote, then "Only what you'd act on today." word by
+           word. The tip, weak vs better (agent.md's own example: "A count ("12 open reviews") is not an item"): the
+           count is stamped A COUNT, the blocked PR is stamped ACT TODAY on "earns a line", and the count shakes and
+           fades. Whip out. Badge bottom-left (narrator). -->
+      <style>
+        #s05-root .bg { background-color: #ffdbe4; }
+        #s05-root .rl-hd { --acc: #e11d48; }
+        #s05-root .quote { position: absolute; left: 90px; top: 528px; width: 860px; padding: 18px 28px; border-radius: 22px; background: var(--term); font: 400 26px/38px var(--f-mono); color: var(--term-text); white-space: pre; }
+        #s05-root .quote b { font-weight: 400; color: #8fb8ff; }
+        #s05-root .weak { top: 730px; }
+        #s05-root .good { top: 910px; }
+        #s05-root .wc .v { font-size: 36px; }
+        #s05-root .weak .rstamp { color: #e11d48; }
+        #s05-root .good .rstamp { color: #12a150; }
+      </style>
+      <div id="s05-root" data-composition-id="s05-rule" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// the key rule</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Only </span><span class="w">what </span><span class="w">you'd</span></span>
+              <span class="ln"><span class="w">act </span><span class="w">on </span><em class="w">today.</em></span>
+            </div>
+            <div class="quote"><b>4.</b> Decide. An item earns a line when
+   the reader would act on it today.</div>
+            <div class="wc weak"><div class="k">// weak</div><div class="v">12 open reviews</div><div class="rstamp">A count</div></div>
+            <div class="wc good"><div class="k">// better</div><div class="v">PR #482 is blocked on your review · day 2</div><div class="rstamp">Act today</div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s05-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s05-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const weak = q(".weak"), good = q(".good");
+
+          // "The key rule"
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          tl.fromTo(q(".quote"), { opacity: 0, y: 30, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 0.3);
+          // "only what you'd act on today"
+          Reel.words(tl, q(".rl-hd"), [1.37, 1.55, 1.75, 1.95, 2.2, 2.45]);
+          tl.fromTo(weak, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 1.5);
+          Egg.stamp(tl, q(".weak .rstamp"), 1.8);
+          tl.fromTo(good, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 2.45);
+          // "earns a line"
+          Egg.stamp(tl, q(".good .rstamp"), 2.95, good);
+          Egg.shake(tl, weak, 3.15);
+          tl.to(weak, { opacity: 0.4, duration: 0.3, ease: "none" }, 3.3);
+          Reel.whip(tl, cam, blur, 3.7, "out");
+
+          window.__timelines["s05-rule"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

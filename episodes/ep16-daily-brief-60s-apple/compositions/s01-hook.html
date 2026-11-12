@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"impact-bass-1","vol":0.2},
+      {"t":0.02,"sfx":"air","vol":0.18},
+      {"t":0.15,"sfx":"paper","vol":0.16},
+      {"t":1.7,"sfx":"marker","vol":0.16},
+      {"t":3.05,"sfx":"pop","vol":0.18},
+      {"t":3.55,"sfx":"tick","vol":0.2},
+      {"t":4.5,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.9,"sfx":"pop","vol":0.18},
+      {"t":5.1,"sfx":"claude","vol":0.18},
+      {"t":6.35,"sfx":"tap","vol":0.18},
+      {"t":6.95,"sfx":"tap","vol":0.18},
+      {"t":7.75,"sfx":"tick","vol":0.2},
+      {"t":8.8,"sfx":"send","vol":0.16},
+      {"t":9.15,"sfx":"pop","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open, keynote style. Frame 0 already reads "Build a daily brief agent", and the thing we're
+           building rises under it: the brief as a chat post ("Daily brief, Tue Nov 17", three items). "Daily brief"
+           tints blue on "briefs you every morning"; "in under sixty seconds" brings the frosted "Under 60 seconds" pill.
+           "A daily brief agent": the post gives way to a flow. The agent (Claude mark) in the middle; "reads your Slack
+           and GitHub": two source cards join it; "on a schedule": a "Weekdays · 7:32 AM" pill; "and posts one short
+           summary": a line runs out to a small brief. Everything stays above y 1000: the narrator tile sits large and
+           centred below (narrator.html "hero").
+           Voiceover: 0.05 "Here's how to build an agent that briefs you every morning, in under sixty seconds."
+           4.6 "A daily brief agent reads your Slack and GitHub on a schedule, and posts one short summary." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s01 .c60 { position: absolute; left: 90px; top: 244px; }
+        .s01 .hook { top: 330px; }
+        .s01 .hook .l { display: block; white-space: nowrap; }
+        .s01 .post { top: 600px; }
+        .s01 .node { position: absolute; left: 430px; top: 700px; width: 220px; height: 220px; }
+        .s01 .node .cc-spark { position: absolute; left: 62px; top: 34px; width: 96px; height: 96px; }
+        .s01 .node span { position: absolute; left: 0; right: 0; top: 152px; text-align: center; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s01 .src { position: absolute; left: 90px; width: 270px; height: 130px; padding: 24px 24px 0 108px; }
+        .s01 .src .ic { position: absolute; left: 24px; top: 27px; width: 66px; height: 66px; border-radius: 18px; background: var(--gray); }
+        .s01 .src .ic b { position: absolute; inset: 0; text-align: center; font: 700 44px/66px var(--f-d); color: var(--ink); }
+        .s01 .src .ic svg { position: absolute; inset: 13px; width: 40px; height: 40px; }
+        .s01 .src .n { display: block; font: 700 32px/1.1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s01 .src .s { display: block; margin-top: 8px; font: 500 22px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s01 .clock { position: absolute; left: 380px; top: 612px; width: 320px; justify-content: center; }
+        .s01 .mini { position: absolute; left: 720px; top: 676px; width: 230px; height: 270px; padding: 26px 24px; }
+        .s01 .mini .hd { display: flex; align-items: center; gap: 10px; font: 700 22px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s01 .mini .hd i { width: 34px; height: 34px; border-radius: 10px; background: linear-gradient(180deg, #2997ff, #0071e3); }
+        .s01 .mini .t { margin: 22px 0 18px; height: 18px; width: 150px; border-radius: 9px; background: var(--ink); }
+        .s01 .mini .b { height: 14px; margin-bottom: 18px; border-radius: 7px; background: #d2d2d7; }
+        .s01 .link { fill: none; stroke: #c7c7cc; stroke-width: 4; stroke-linecap: round; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="a-scene white s01">
+          <span class="a-pill a-glass c60">Under 60 seconds</span>
+          <h1 class="a-h hook"><span class="l">Build a <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">daily</span><span class="on" data-layout-allow-overlap="">daily</span></span></span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">brief</span><span class="on" data-layout-allow-overlap="">brief</span></span> agent</span></h1>
+
+          <div class="a-msg post">
+            <div class="av"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M7 33 H39" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /><path d="M14 31 A9 9 0 0 1 32 31 Z" fill="#fff" /><path d="M23 8 V14 M10 14.5 L14 18.5 M36 14.5 L32 18.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /></svg></div>
+            <div class="who">Daily brief <span class="app">APP</span> <span class="tm a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">7:34 AM</span><span class="on" data-layout-allow-overlap="">7:34 AM</span></span></div>
+            <div class="ttl">Daily brief, Tue Nov 17</div>
+            <div class="it">Acme escalation: <span class="d">login errors since 6:10</span></div>
+            <div class="it">Refund #1182 <span class="d">waits on your yes · day 2</span></div>
+            <div class="it">Deploy freeze Friday: <span class="d">confirm by noon</span></div>
+          </div>
+
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="link k1" d="M364 715 C 400 715, 396 790, 428 790" />
+            <path class="link k2" d="M364 905 C 400 905, 396 830, 428 830" />
+            <path class="link k3" d="M654 810 H 716" />
+          </svg>
+          <div class="a-card src slack" style="top:650px"><div class="ic"><b>#</b></div><span class="n">Slack</span><span class="s">2 channels</span></div>
+          <div class="a-card src gh" style="top:840px"><div class="ic"><svg viewBox="0 0 40 40" aria-hidden="true"><g fill="none" stroke="#1d1d1f" stroke-width="3.4" stroke-linecap="round"><circle cx="11" cy="9" r="4.5" /><circle cx="11" cy="31" r="4.5" /><circle cx="29" cy="31" r="4.5" /><path d="M11 13.5 V26.5 M29 26.5 V18 C29 13 25 11 20 11 H16" /></g></svg></div><span class="n">GitHub</span><span class="s">pull requests</span></div>
+          <div class="a-card node"><div class="cc-spark"></div><span>Agent</span></div>
+          <span class="a-pill a-glass clock"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Weekdays · 7:32 AM</span><span class="on" data-layout-allow-overlap="">Weekdays · 7:32 AM</span></span></span>
+          <div class="a-card mini"><div class="hd"><i></i>Daily brief</div><div class="t"></div><div class="b" style="width:180px"></div><div class="b" style="width:146px"></div><div class="b" style="width:164px"></div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.6;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const post = q(".post"), node = q(".node"), slack = q(".slack"), gh = q(".gh"), clock = q(".clock"), mini = q(".mini");
+          const links = all(".link");
+          links.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set([q(".c60"), node, slack, gh, clock, mini, ...links], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          const draw = (p, at) => tl.fromTo(p, { strokeDashoffset: 1.02, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, at);
+
+          // frame 0: the title is already there; the brief we're building rises under it
+          tl.fromTo(q(".hook"), { y: 14 }, { y: 0, duration: 1.0, ease: "expo.out" }, 0);
+          Apple.rise(tl, post, 0.1, { y: 50, dur: 0.9 });
+          // "an agent that briefs you every morning"
+          Apple.tint(tl, all(".hook .a-tint"), 1.7, { dur: 0.6, stagger: 0.12 });
+          Apple.tint(tl, q(".post .tm"), 2.3, { dur: 0.5 });
+          // "in under sixty seconds"
+          Apple.rise(tl, q(".c60"), 3.05, { y: 16, dur: 0.6 });
+          tl.to(q(".c60"), { scale: 1.05, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.55);
+
+          // "A daily brief agent": the post gives way to the flow, the agent first
+          Apple.out(tl, post, 4.5, { scale: 0.96, dur: 0.35 });
+          Apple.zoom(tl, node, 4.9, { from: 0.9, dur: 0.7 });
+          tl.fromTo(q(".node .cc-spark"), { scale: 0.6, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.8, ease: "expo.out" }, 5.1);
+          // "reads your Slack and GitHub"
+          Apple.rise(tl, slack, 6.35, { y: 24, dur: 0.6 });
+          draw(links[0], 6.6);
+          Apple.rise(tl, gh, 6.95, { y: 24, dur: 0.6 });
+          draw(links[1], 7.2);
+          // "on a schedule"
+          Apple.zoom(tl, clock, 7.75, { from: 0.9, dur: 0.6 });
+          Apple.tint(tl, q(".clock .a-tint"), 8.0, { dur: 0.5 });
+          tl.to(node, { scale: 1.03, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.8);
+          // "and posts one short summary"
+          draw(links[2], 8.8);
+          Apple.zoom(tl, mini, 9.15, { from: 0.9, dur: 0.6 });
+          Apple.fade(tl, all(".mini .t, .mini .b"), 9.3, { dur: 0.01 });
+          tl.fromTo(all(".mini .t, .mini .b"), { scaleX: 0, transformOrigin: "0 50%" }, { scaleX: 1, duration: 0.4, ease: "expo.out", stagger: 0.12 }, 9.3);
+
+          Apple.out(tl, [q(".hook"), q(".c60"), node, slack, gh, clock, mini, ...links], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

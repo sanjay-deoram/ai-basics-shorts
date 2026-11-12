@@ -1,0 +1,14 @@
+{
+  "assets/vo/s01-74cbcc13.mp3": "Here's how to build an agent that briefs you every morning, in under sixty seconds.",
+  "assets/vo/s01-40af906c.mp3": "A daily brief agent reads your Slack and GitHub on a schedule, and posts one short summary.",
+  "assets/vo/s01-e6fc5d94.mp3": "Let's build one, step by step.",
+  "assets/vo/s02-7f6bf6ce.mp3": "Say it's Tuesday: a hundred and forty Slack messages and twenty-five pull requests since yesterday.",
+  "assets/vo/s03-a105df64.mp3": "Step one: agent dot M D. A model, its tools, and the steps, in plain English.",
+  "assets/vo/s03-43bd2288.mp3": "The key rule: only what you'd act on today earns a line.",
+  "assets/vo/s04-d3e8e546.mp3": "Step two: deployment dot M D. Weekdays at seven thirty-two, with a five dollar cap per run.",
+  "assets/vo/s05-12e45642.mp3": "Step three: memory. Your preferences, which it can read but never edit. And bookmarks, so a late run picks up where the last one stopped.",
+  "assets/vo/s06-7fb9f90a.mp3": "Then run ant apply. Each morning, a fresh session reads from every bookmark, re-checks each item, and posts the brief.",
+  "assets/vo/s06-a88867ed.mp3": "No server to keep alive. And a source it can't read says unreadable, never a quiet day.",
+  "assets/vo/s02-ea4468e9.mp3": "Say it's Tuesday: a hundred and forty messages, twenty-five pull requests.",
+  "assets/vo/s05-a05fc948.mp3": "Step three: memory. Your preferences, which it can't edit, and bookmarks, so a late run misses nothing."
+}

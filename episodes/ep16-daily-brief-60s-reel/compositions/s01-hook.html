@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.28},
+      {"t":0.45,"sfx":"tick","vol":0.16},
+      {"t":0.8,"sfx":"tick","vol":0.16},
+      {"t":1.15,"sfx":"pop","vol":0.22},
+      {"t":2.3,"sfx":"tick","vol":0.18},
+      {"t":3.5,"sfx":"thud","vol":0.36},
+      {"t":3.95,"sfx":"bloom","vol":0.3},
+      {"t":4.33,"sfx":"whip","vol":0.34}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. Frame 0 already shows what we're building: the brief as a chat post ("Daily brief, Tue Nov 17",
+           three items) under `// managed agents`. "Build a daily brief agent." builds word by word with "brief" as the
+           italic accent; "every morning": the post's 7:34 AM lights; "in under sixty seconds": an UNDER 60 SEC stamp
+           thuds onto the post; a blue bloom grows out of the post's app tile and fills the frame (the next beat is
+           blue), whip-pan out. Avatar BIG at the bottom (narrator). -->
+      <style>
+        #s01-root .bg { background: #fdfcfc; }
+        #s01-root .bloom { position: absolute; left: 159px; top: 647px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #2d4bff; }
+        #s01-root .rl-hd { --acc: #2d4bff; font-size: 108px; line-height: 110px; }
+        #s01-root .post { top: 580px; }
+        #s01-root .post .tm { padding: 4px 8px; margin: -4px -8px; border-radius: 8px; }
+        #s01-root .rstamp { left: 640px; top: 548px; color: #e11d48; background: #fdfcfc; }
+      </style>
+      <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="rl-msg post">
+              <div class="av"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M7 33 H39" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /><path d="M14 31 A9 9 0 0 1 32 31 Z" fill="#fff" /><path d="M23 8 V14 M10 14.5 L14 18.5 M36 14.5 L32 18.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /></svg></div>
+              <div class="who">Daily brief <span class="app">APP</span> <span class="tm">7:34 AM</span></div>
+              <div class="ttl">Daily brief, Tue Nov 17</div>
+              <div class="it">Acme escalation: <span class="d">login errors since 6:10</span></div>
+              <div class="it">Refund #1182 <span class="d">waits on your yes · day 2</span></div>
+              <div class="it">Deploy freeze Friday: <span class="d">confirm by noon</span></div>
+            </div>
+            <div class="rstamp" data-layout-allow-overlap="">Under 60 sec</div>
+            <div class="bloom" data-layout-allow-overflow=""></div>
+            <div class="rl-eye">// managed agents</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Build </span><span class="w">a </span><span class="w">daily</span></span>
+              <span class="ln"><em class="w">brief</em><span class="w"> agent.</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s01-root");
+          const cam = root.querySelector(".rl-cam"), hd = root.querySelector(".rl-hd"), eye = root.querySelector(".rl-eye");
+          const post = root.querySelector(".post");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s01-mb");
+
+          // frame 0: the post is already there and settles with a thump
+          tl.fromTo(post, { scale: 1.06, y: 20 }, { scale: 1, y: 0, duration: 0.35, ease: Egg.EASE.stamp }, 0);
+          // "Here's how to build an agent"
+          Reel.words(tl, hd, [0.45, 0.62, 0.8, 0.98, 1.15]);
+          // "that briefs you every morning"
+          tl.to(hd.querySelector("em"), { scale: 1.08, duration: 0.15, yoyo: true, repeat: 1, ease: "power2.out", transformOrigin: "0% 80%" }, 1.95);
+          tl.to(post.querySelector(".tm"), { backgroundColor: "#ffd84d", color: "#0d0d0c", duration: 0.2 }, 2.3);
+          // "in under sixty seconds"
+          Egg.stamp(tl, root.querySelector(".rstamp"), 3.5, post);
+          // the post blooms blue and fills the frame (the next beat is blue)
+          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.95);
+          tl.to(hd, { color: "#ffffff", duration: 0.12 }, 4.12);
+          tl.to(hd.querySelector("em"), { color: "#ffd84d", duration: 0.12 }, 4.12);
+          tl.to(eye, { color: "#dfe5ff", duration: 0.12 }, 4.12);
+          Reel.whip(tl, cam, blur, 4.35, "out");
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
