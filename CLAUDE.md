@@ -20,10 +20,13 @@ HyperFrames (HTML + GSAP → MP4).
     gitignored `fish.env` at the repo root).
   - `tools/lipsync.mjs` — loudness per frame and one mouth beat per syllable for the avatar.
   - `tools/build-sfx.mjs` — writes each scene's sound cues into `index.html`.
+  - `tools/compare-variants.mjs` — snapshots style variants at the same times into one grid (`renders/compare/`).
   - `tools/cut-flipbook.py`, `tools/cut-expressions.py` — rebuild `assets/avatar` from the source sheets.
 - `episodes/<slug>/` — one HyperFrames project per episode.
 - `.claude/skills/under-60/SKILL.md` — the *Under 60 seconds* series (`/under-60 <topic>`): script formula, look and
   production steps, from a topic to a rendered MP4. Worked example: `episodes/ep13-rag-60s`.
+- `.claude/skills/style-variants/SKILL.md` — one episode in several looks (`/style-variants <episode> <styles>`):
+  compare by snapshot grid, render only the styles the user keeps. Worked example: `episodes/ep14-skill-60s-*`.
 - `explorations/` — design explorations: the original storyboards, `narrator-auditions.html`, and the
   avatar test clips `avatar-peek` (v1), `avatar-peek-v2`, `avatar-peek-v3` (the chosen look).
 
@@ -41,3 +44,7 @@ HyperFrames (HTML + GSAP → MP4).
   `%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.2-full_build\bin`
   to PATH.
 - Feedback refers to scenes by slot and time, e.g. `s03 @ 4.2s · slower dot`.
+- GitHub: this repo belongs to the **personal** account `sanjay-deoram`, not the work account. Keep the remote as
+  `https://sanjay-deoram@github.com/sanjay-deoram/ai-basics-shorts.git` (lowercase name, so git uses the saved login
+  with no browser sign-in). Run `gh` through `sh studio/tools/gh-personal.sh ...` (personal login; pages open in Edge),
+  never bare `gh`, which is signed in to the work account.
