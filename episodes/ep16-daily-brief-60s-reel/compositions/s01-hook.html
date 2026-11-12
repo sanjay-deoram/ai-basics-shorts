@@ -9,8 +9,8 @@
       {"t":1.15,"sfx":"pop","vol":0.22},
       {"t":2.3,"sfx":"tick","vol":0.18},
       {"t":3.5,"sfx":"thud","vol":0.36},
-      {"t":3.95,"sfx":"bloom","vol":0.3},
-      {"t":4.33,"sfx":"whip","vol":0.34}
+      {"t":3.9,"sfx":"bloom","vol":0.3},
+      {"t":4.28,"sfx":"whip","vol":0.34}
     ]</script>
   </head>
   <body>
@@ -68,11 +68,11 @@
           // "in under sixty seconds"
           Egg.stamp(tl, root.querySelector(".rstamp"), 3.5, post);
           // the post blooms blue and fills the frame (the next beat is blue)
-          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.95);
-          tl.to(hd, { color: "#ffffff", duration: 0.12 }, 4.12);
-          tl.to(hd.querySelector("em"), { color: "#ffd84d", duration: 0.12 }, 4.12);
-          tl.to(eye, { color: "#dfe5ff", duration: 0.12 }, 4.12);
-          Reel.whip(tl, cam, blur, 4.35, "out");
+          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.9);
+          tl.to(hd, { color: "#ffffff", duration: 0.12 }, 4.07);
+          tl.to(hd.querySelector("em"), { color: "#ffd84d", duration: 0.12 }, 4.07);
+          tl.to(eye, { color: "#dfe5ff", duration: 0.12 }, 4.07);
+          Reel.whip(tl, cam, blur, 4.3, "out");
 
           window.__timelines["s01-hook"] = tl;
         })();

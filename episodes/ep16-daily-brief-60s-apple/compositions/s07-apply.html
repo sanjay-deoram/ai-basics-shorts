@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"air","vol":0.14},
+      {"t":0.4,"sfx":"typing","vol":0.18,"dur":0.9},
+      {"t":1.35,"sfx":"key","vol":0.2},
+      {"t":1.45,"sfx":"tick","vol":0.14},
+      {"t":1.65,"sfx":"tick","vol":0.14},
+      {"t":1.95,"sfx":"whoosh-short","vol":0.12},
+      {"t":2.05,"sfx":"pop","vol":0.14},
+      {"t":2.35,"sfx":"pop","vol":0.14},
+      {"t":3.3,"sfx":"send","vol":0.2},
+      {"t":3.75,"sfx":"ping","vol":0.16},
+      {"t":4.5,"sfx":"tick","vol":0.18},
+      {"t":4.95,"sfx":"error","vol":0.12},
+      {"t":6.0,"sfx":"typing","vol":0.16,"dur":0.7},
+      {"t":6.5,"sfx":"marker","vol":0.14},
+      {"t":6.6,"sfx":"pop","vol":0.18},
+      {"t":7.25,"sfx":"tap","vol":0.16},
+      {"t":8.4,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":8.95,"sfx":"chime","vol":0.22,"dur":1.4},
+      {"t":9.05,"sfx":"sparkle","vol":0.12,"dur":0.9}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Ship it, then the payoff. A light terminal types `ant apply deployment.md vault.yaml` and the six
+           resources tick in (agent, environment, two memory stores, vault, deployment; the rows are an illustration,
+           not the CLI's exact output). "Every weekday morning": Mon–Fri at 7:32; "the brief arrives": the post from
+           s01 lands, Posted. "If a source can't be read": this run's sources, Slack read, GitHub couldn't be read;
+           "the brief says so": the post's last line types "GitHub: couldn't be read this run." (ring, "Says so");
+           "instead of looking like a quiet day": the version without that line, "Nothing new today.", struck through.
+           Hard stop: no exit, the last frame holds ~1.5 s. Narrator: small tile bottom right.
+           Voiceover: 0.18 "Then run ant apply, and every weekday morning, the brief arrives." 4.37 "If a source can't
+           be read, the brief says so, instead of looking like a quiet day." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .term { left: 90px; top: 316px; width: 860px; }
+        .s07 .term .tb { padding: 20px 30px; }
+        .s07 .term .row { height: 44px; font: 400 27px/44px var(--f-m); color: var(--ink); white-space: pre; }
+        .s07 .term .row .p { color: var(--faint); }
+        .s07 .term .row .ok { color: #248a3d; }
+        .s07 .term .row .k { color: var(--mu); }
+        .s07 .day { position: absolute; top: 316px; width: 156px; height: 104px; padding-top: 16px; text-align: center; }
+        .s07 .day b { display: block; font: 700 32px/1.1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s07 .day span { display: block; margin-top: 6px; font: 500 26px/1.1 var(--f-t); color: var(--blue); }
+        .s07 .src { position: absolute; top: 316px; height: 84px; padding: 0 28px; display: flex; align-items: center; gap: 14px; font: 600 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s07 .src .g { color: #248a3d; }
+        .s07 .src .r { color: #c93400; }
+        .s07 .post { top: 450px; }
+        .s07 .post .ok { margin-left: 4px; }
+        .s07 .post .ft b { font-weight: 600; color: #c93400; }
+        .s07 .ring { position: absolute; left: 206px; width: 724px; height: 60px; top: 0; border-radius: 18px; box-shadow: 0 0 0 4px var(--blue), 0 0 0 12px rgba(0, 113, 227, 0.14); opacity: 0; }
+        .s07 .says { position: absolute; left: 790px; }
+        .s07 .weak { position: absolute; left: 90px; top: 900px; width: 860px; padding: 26px 32px; }
+        .s07 .weak .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+        .s07 .weak .top > span:first-child { font: 600 28px/1 var(--f-t); color: var(--mu); }
+        .s07 .weak p { position: relative; display: inline-block; margin: 0; font: 500 36px/1.3 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s07 .weak .st { position: absolute; left: -6px; right: -6px; top: 25px; height: 4px; border-radius: 2px; background: var(--ink); transform-origin: 0 50%; }
+      </style>
+      <div id="root" data-composition-id="s07-apply" data-width="1080" data-height="1920">
+        <div class="a-scene s07">
+          <p class="a-eyebrow">Ship it</p>
+          <div class="a-win term">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl">Terminal · agents/daily-brief</div></div>
+            <div class="tb">
+              <div class="row r0"><span class="p">$ </span><span class="cmd">ant apply deployment.md vault.yaml</span></div>
+              <div class="row r1"><span class="ok">✓</span> agent         <span class="k">Daily brief</span></div>
+              <div class="row r1"><span class="ok">✓</span> environment   <span class="k">daily-brief</span></div>
+              <div class="row r1"><span class="ok">✓</span> memory store  <span class="k">preferences</span></div>
+              <div class="row r1"><span class="ok">✓</span> memory store  <span class="k">state</span></div>
+              <div class="row r1"><span class="ok">✓</span> vault         <span class="k">quickstart-daily-brief</span></div>
+              <div class="row r1"><span class="ok">✓</span> deployment    <span class="k">Daily brief</span></div>
+            </div>
+          </div>
+
+          <div class="a-card day" style="left:90px"><b>Mon</b><span>7:32</span></div>
+          <div class="a-card day" style="left:266px"><b>Tue</b><span>7:32</span></div>
+          <div class="a-card day" style="left:442px"><b>Wed</b><span>7:32</span></div>
+          <div class="a-card day" style="left:618px"><b>Thu</b><span>7:32</span></div>
+          <div class="a-card day" style="left:794px"><b>Fri</b><span>7:32</span></div>
+
+          <div class="a-card src s1" style="left:90px">Slack <span class="g">✓ read</span></div>
+          <div class="a-card src s2" style="left:350px">GitHub <span class="r">✕ couldn't be read</span></div>
+
+          <div class="a-msg post">
+            <div class="av"><svg viewBox="0 0 46 46" aria-hidden="true"><path d="M7 33 H39" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /><path d="M14 31 A9 9 0 0 1 32 31 Z" fill="#fff" /><path d="M23 8 V14 M10 14.5 L14 18.5 M36 14.5 L32 18.5" stroke="#fff" stroke-width="3.6" stroke-linecap="round" /></svg></div>
+            <div class="who">Daily brief <span class="app">APP</span> <span class="tm">7:34 AM</span> <span class="a-tag blue ok">✓ Posted</span></div>
+            <div class="ttl">Daily brief, Tue Nov 17</div>
+            <div class="it">Acme escalation: <span class="d">login errors since 6:10</span></div>
+            <div class="it">Refund #1182 <span class="d">waits on your yes · day 2</span></div>
+            <div class="it">Deploy freeze Friday: <span class="d">confirm by noon</span></div>
+            <div class="foot"><span class="dot"></span><span class="ft"><b>GitHub:</b> couldn't be read this run.</span></div>
+          </div>
+          <div class="ring" data-layout-allow-overlap=""></div>
+          <span class="a-tag blue says">Says so</span>
+
+          <div class="a-card weak">
+            <div class="top"><span>Without that line</span><span class="a-tag gray">Looks like a quiet day</span></div>
+            <p>Nothing new today.<i class="st"></i></p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s07-apply"] .s07');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const term = q(".term"), post = q(".post"), foot = q(".post .foot"), ring = q(".ring"), says = q(".says");
+          // the ring and tag sit on the post's last line (measured once, layout only)
+          const fy = post.offsetTop + foot.offsetTop + 2;
+          gsap.set(ring, { top: fy });
+          gsap.set(says, { top: fy + 8 });
+          gsap.set([...all(".r1"), ...all(".day"), ...all(".src"), post, q(".post .ok"), foot, ring, says, q(".weak")], { opacity: 0 });
+          gsap.set(q(".weak .st"), { scaleX: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Then run ant apply": the six resources
+          Apple.rise(tl, q(".a-eyebrow"), 0.2, { y: 16 });
+          Apple.rise(tl, term, 0.25, { y: 30, dur: 0.7 });
+          Egg.typeOn(tl, q(".cmd"), 0.4, { cps: 40 });
+          tl.to(all(".r1"), { opacity: 1, duration: 0.12, ease: "none", stagger: 0.07 }, 1.4);
+          // "and every weekday morning"
+          Apple.out(tl, term, 1.9, { y: -20, dur: 0.3 });
+          Apple.rise(tl, all(".day"), 2.0, { y: 24, dur: 0.5, stagger: 0.08 });
+          // "the brief arrives"
+          Apple.zoom(tl, post, 3.3, { from: 0.94, dur: 0.8 });
+          Apple.zoom(tl, q(".post .ok"), 3.75, { from: 0.8, dur: 0.45 });
+
+          // "If a source can't be read": this run's sources
+          Apple.out(tl, all(".day"), 4.3, { y: -16, dur: 0.25 });
+          Apple.rise(tl, q(".s1"), 4.5, { y: 20, dur: 0.5 });
+          Apple.rise(tl, q(".s2"), 4.9, { y: 20, dur: 0.5 });
+          // "the brief says so"
+          Apple.fade(tl, foot, 5.95, { dur: 0.01 });
+          Apple.fade(tl, q(".foot .dot"), 5.95, { dur: 0.25 });
+          Egg.typeOn(tl, q(".ft"), 6.0, { cps: 48 });
+          tl.to(ring, { opacity: 1, duration: 0.4, ease: "power2.out" }, 6.5);
+          Apple.zoom(tl, says, 6.6, { from: 0.8, dur: 0.45 });
+          // "instead of looking like a quiet day": the version without that line
+          Apple.rise(tl, q(".weak"), 7.25, { y: 30, dur: 0.6 });
+          tl.to(q(".weak .st"), { scaleX: 1, duration: 0.35, ease: "power2.out" }, 8.4);
+          tl.to(q(".weak"), { opacity: 0.6, duration: 0.5, ease: "none" }, 8.7);
+
+          // hard stop: the last frame holds, no exit
+          window.__timelines["s07-apply"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

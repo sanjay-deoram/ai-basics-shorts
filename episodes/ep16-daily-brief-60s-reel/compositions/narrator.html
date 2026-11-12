@@ -49,17 +49,17 @@
       </div>
       <script>
         (() => {
-          const LEN = 55.15;   // = the episode length (narrator host data-duration)
+          const LEN = 59.82;   // = the episode length (narrator host data-duration)
           // top-left of the 540×629 avatar box and scale; the face circle is r 190 at (270, 300) in the box
           const BIG = { x: 135, y: 976, scale: 1.5 }, LOW = { x: 135, y: 1130, scale: 1.5 };   // LOW: the black beat, under the cards
           const BADGE = { x: 185 - 270 * 0.447, y: 1395 - 300 * 0.447, scale: 0.447 };   // a 170 px badge centred at (185, 1395)
           const OPEN = "circle(1000px at 270px 300px)", ROUND = "circle(190px at 270px 300px)";
           // ring colour per section (episode seconds)
-          const RING = [[4.35, "#ffd84d"], [10.45, "#e8590c"], [14.95, "#1f6feb"], [21.5, "#e11d48"], [25.2, "#7c3aed"], [32.6, "#12a150"], [40.0, "#c2410c"]];
+          const RING = [[4.3, "#ffd84d"], [10.3, "#e8590c"], [14.8, "#1f6feb"], [21.2, "#e11d48"], [25.5, "#7c3aed"], [32.75, "#12a150"], [42.3, "#0e7490"], [49.22, "#c2410c"]];
           // [expression, from, to] in episode seconds
-          const EXPR = [["smile", 1.7, 2.8], ["smile", 9.3, 10.3], ["doubt", 49.98, 51.0], ["smile", 53.3, 55.15]];
+          const EXPR = [["smile", 1.7, 2.8], ["smile", 9.2, 10.2], ["doubt", 53.8, 54.9], ["smile", 58.35, 59.82]];
           // small head moves: [time, lean degrees, duration]
-          const NODS = [[0.5, -7, 0.5], [5.5, 5, 0.4], [11.2, -5, 0.4], [15.4, 5, 0.4], [22.9, -6, 0.45], [25.65, 5, 0.4], [33.0, -5, 0.4], [40.45, 6, 0.4], [47.7, -6, 0.45], [51.2, 5, 0.45], [52.2, -6, 0.5]];
+          const NODS = [[0.5, -7, 0.5], [5.45, 5, 0.4], [11.1, -5, 0.4], [15.2, 5, 0.4], [22.9, -6, 0.45], [25.9, 5, 0.4], [33.15, -5, 0.4], [46.3, 5, 0.4], [49.6, 6, 0.4], [53.8, -6, 0.45], [55.8, 5, 0.45], [58.0, -6, 0.5]];
 
           const root = document.querySelector('[data-composition-id="narrator"] .nar');
           const peek = root.querySelector(".peek"), disc = root.querySelector(".disc"), dbg = root.querySelector(".dbg");
@@ -73,15 +73,15 @@
           // hook: rises into place in the first frames
           tl.fromTo(peek, { y: BIG.y + 60 }, { y: BIG.y, duration: 0.5, ease: "power3.out" }, 0);
           // first whip: shrink into the badge
-          tl.to(peek, { ...BADGE, duration: 0.5, ease: "power3.inOut" }, 4.25);
-          tl.fromTo(disc, { clipPath: OPEN }, { clipPath: ROUND, duration: 0.5, ease: "power3.inOut" }, 4.25);
-          tl.fromTo(dbg, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.55);
-          tl.fromTo(ring, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 4.65);
+          tl.to(peek, { ...BADGE, duration: 0.5, ease: "power3.inOut" }, 4.2);
+          tl.fromTo(disc, { clipPath: OPEN }, { clipPath: ROUND, duration: 0.5, ease: "power3.inOut" }, 4.2);
+          tl.fromTo(dbg, { opacity: 0 }, { opacity: 1, duration: 0.3 }, 4.5);
+          tl.fromTo(ring, { opacity: 0 }, { opacity: 1, duration: 0.25 }, 4.6);
           RING.forEach(([t, c]) => tl.to(ring, { borderColor: c, duration: 0.2 }, t + 0.1));
           // black beat (hard cut): big again, rising into place under the cards; stays to the hard stop
-          tl.set(disc, { clipPath: OPEN }, 47.4);
-          tl.set([dbg, ring], { opacity: 0 }, 47.4);
-          tl.fromTo(peek, { ...LOW, y: LOW.y + 80 }, { y: LOW.y, duration: 0.45, ease: "power3.out", immediateRender: false }, 47.4);
+          tl.set(disc, { clipPath: OPEN }, 53.6);
+          tl.set([dbg, ring], { opacity: 0 }, 53.6);
+          tl.fromTo(peek, { ...LOW, y: LOW.y + 80 }, { y: LOW.y, duration: 0.45, ease: "power3.out", immediateRender: false }, 53.6);
 
           NODS.forEach(([t, r, d]) => tl.to(lean, { rotation: r, duration: d / 2, ease: "sine.out", yoyo: true, repeat: 1 }, t));
           tl.fromTo(av.querySelector(".av-bob"), { y: 0 }, { y: -8, duration: 0.52, ease: "sine.inOut", yoyo: true, repeat: Math.max(0, Math.floor(LEN / 0.52) - 1) }, 0);

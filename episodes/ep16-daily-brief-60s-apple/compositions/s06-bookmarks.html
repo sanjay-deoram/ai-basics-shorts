@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"air","vol":0.14},
+      {"t":0.3,"sfx":"tap","vol":0.16},
+      {"t":1.4,"sfx":"marker","vol":0.16},
+      {"t":2.4,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":2.5,"sfx":"pop","vol":0.16},
+      {"t":3.3,"sfx":"pop","vol":0.18},
+      {"t":3.65,"sfx":"whoosh-short","vol":0.1},
+      {"t":4.1,"sfx":"error","vol":0.1},
+      {"t":4.3,"sfx":"whoosh-short","vol":0.12},
+      {"t":5.9,"sfx":"chime","vol":0.18,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Step 3 · Bookmarks: what "a late run misses nothing" means. bookmarks.json opens: one timestamp per
+           source, where Monday's run stopped reading (12:33 UTC = 7:33 AM New York). A timeline (not to scale): the
+           bookmark, Tuesday's scheduled 7:32, and a late run at 9:10. Weak vs better: reading "the last 24 hours" from a
+           late run starts at Mon 9:10 and misses Mon 7:33–9:10; reading from the bookmark covers it all, "Nothing
+           slips through". Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.18 "A bookmark marks where it stopped reading. So even if a run is late, it starts right
+           there, and nothing slips through." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .card { left: 90px; top: 316px; width: 860px; }
+        .s06 .card .body { font-size: 28px; line-height: 46px; padding-top: 18px; padding-bottom: 18px; }
+        .s06 .card .ln { height: 46px; }
+        .s06 .card .egg-code-bar { top: 18px; height: 46px; }
+        .s06 .card .ln > .no { font-size: 22px; }
+        .s06 .cap { position: absolute; left: 90px; top: 626px; margin: 0; font: 500 32px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s06 .cap b { font-weight: 700; color: var(--ink); }
+        .s06 .axis { fill: none; stroke: #c7c7cc; stroke-width: 4; stroke-linecap: round; }
+        .s06 .flag { position: absolute; left: 150px; top: 726px; width: 4px; height: 80px; background: var(--blue); }
+        .s06 .flag::after { content: ""; position: absolute; left: 4px; top: 0; width: 34px; height: 24px; background: var(--blue); clip-path: polygon(0 0, 100% 50%, 0 100%); }
+        .s06 .mk { position: absolute; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--white); border: 5px solid var(--ink); }
+        .s06 .mk.dash { border-style: dashed; border-color: var(--faint); }
+        .s06 .tl { position: absolute; margin: 0; font: 600 28px/1.15 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s06 .tl span { display: block; font: 500 26px/1.2 var(--f-t); color: var(--mu); }
+        .s06 .row { position: absolute; left: 90px; margin: 0; font: 600 30px/1.2 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s06 .row span { color: var(--mu); font-weight: 500; }
+        .s06 .sp { position: absolute; height: 22px; border-radius: 11px; transform-origin: 0 50%; }
+        .s06 .sp.gray { left: 300px; top: 970px; width: 580px; background: #c7c7cc; }
+        .s06 .sp.gap { left: 152px; top: 970px; width: 144px; background: repeating-linear-gradient(135deg, #ff3b30 0 10px, rgba(255, 59, 48, 0.35) 10px 20px); }
+        .s06 .sp.blue { left: 152px; top: 1120px; width: 728px; background: linear-gradient(90deg, #2997ff, #0071e3); }
+        .s06 .miss { position: absolute; left: 152px; top: 1000px; margin: 0; font: 700 26px/1.2 var(--f-t); color: #d70015; white-space: nowrap; }
+        .s06 .ok { position: absolute; left: 90px; top: 1184px; }
+      </style>
+      <div id="root" data-composition-id="s06-bookmarks" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">Step 3 · Bookmarks</p>
+          <div class="a-win a-code card" data-lh="46" data-layout-allow-overlap="">
+            <div class="bar"><i></i><i></i><i></i><div class="ttl">state/bookmarks.json</div></div>
+            <div class="body"><div class="egg-code-bar"></div>
+              <div class="ln"><span class="no">1</span><span class="tx"><span class="t-p">{</span></span></div>
+              <div class="ln"><span class="no">2</span><span class="tx">  <span class="t-k">"slack"</span><span class="t-p">:</span>  "2026-11-16T12:33:40Z",</span></div>
+              <div class="ln"><span class="no">3</span><span class="tx">  <span class="t-k">"github"</span><span class="t-p">:</span> "2026-11-16T12:33:41Z"</span></div>
+              <div class="ln"><span class="no">4</span><span class="tx"><span class="t-p">}</span></span></div>
+            </div>
+          </div>
+          <p class="cap">= <b>Monday 7:33 AM</b>, where the last run stopped reading</p>
+
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="axis" d="M110 806 H 940" /></svg>
+          <div class="flag"></div>
+          <div class="mk m1" style="left:152px;top:806px"></div>
+          <div class="mk dash m2" style="left:700px;top:806px"></div>
+          <div class="mk m3" style="left:880px;top:806px"></div>
+          <p class="tl t1" style="left:200px;top:726px">Bookmark<span>Mon 7:33 AM</span></p>
+          <p class="tl t2" style="left:600px;top:832px">Tue 7:32<span>scheduled</span></p>
+          <p class="tl t3" style="left:760px;top:726px">Late run<span>Tue 9:10 AM</span></p>
+
+          <p class="row r1" style="top:918px">Without a bookmark <span>· reads the last 24 hours</span></p>
+          <div class="sp gap"></div>
+          <div class="sp gray"></div>
+          <p class="miss">missed</p>
+          <p class="row r2" style="top:1068px">With a bookmark <span>· reads from where it stopped</span></p>
+          <div class="sp blue"></div>
+          <span class="a-pill a-glass ok">✓ Nothing slips through</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.91;
+          const root = document.querySelector('[data-composition-id="s06-bookmarks"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const card = q(".card"), lns = all(".card .ln"), axis = q(".axis");
+          axis.setAttribute("pathLength", "1"); axis.style.strokeDasharray = "1 1.1";
+          gsap.set([...lns, q(".cap"), axis, q(".flag"), ...all(".mk"), ...all(".tl"), q(".r1"), q(".r2"), q(".miss"), q(".ok")], { opacity: 0 });
+          gsap.set([q(".sp.gray"), q(".sp.gap"), q(".sp.blue")], { scaleX: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "A bookmark marks where it stopped reading"
+          Apple.rise(tl, q(".a-eyebrow"), 0.18, { y: 16 });
+          Apple.rise(tl, card, 0.25, { y: 30, dur: 0.7 });
+          lns.forEach((l, i) => tl.to(l, { opacity: 1, duration: 0.15, ease: "none" }, 0.45 + i * 0.1));
+          Egg.codeRun(tl, card, [1, 2], 1.4);
+          Apple.rise(tl, q(".cap"), 1.5, { y: 14, dur: 0.6 });
+          // the timeline: the bookmark, Tuesday's scheduled run
+          tl.fromTo(axis, { strokeDashoffset: 1.02, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, duration: 0.5, ease: "power2.inOut" }, 2.4);
+          Apple.fade(tl, [q(".flag"), q(".m1"), q(".t1")], 2.5, { dur: 0.3 });
+          Apple.fade(tl, [q(".m2"), q(".t2")], 2.9, { dur: 0.3 });
+          // "So even if a run is late"
+          Apple.zoom(tl, [q(".m3"), q(".t3")], 3.3, { from: 0.85, dur: 0.45 });
+          // without a bookmark: 24 hours back from 9:10 leaves a gap
+          Apple.fade(tl, q(".r1"), 3.6, { dur: 0.3 });
+          tl.to(q(".sp.gray"), { scaleX: 1, duration: 0.45, ease: "power2.inOut" }, 3.65);
+          tl.to(q(".sp.gap"), { scaleX: 1, duration: 0.3, ease: "power2.out" }, 4.1);
+          Apple.fade(tl, q(".miss"), 4.15, { dur: 0.3 });
+          // "it starts right there": with the bookmark, from Monday 7:33 on
+          Apple.fade(tl, q(".r2"), 4.3, { dur: 0.3 });
+          tl.to(q(".sp.blue"), { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 4.35);
+          // "and nothing slips through"
+          Apple.zoom(tl, q(".ok"), 5.9, { from: 0.85, dur: 0.5 });
+          tl.to([q(".r1"), q(".sp.gray")], { opacity: 0.45, duration: 0.4, ease: "none" }, 6.0);
+
+          Apple.out(tl, [q(".a-eyebrow"), card, q(".cap"), axis, q(".flag"), ...all(".mk"), ...all(".tl"), q(".r1"), q(".r2"), ...all(".sp"), q(".miss"), q(".ok")], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s06-bookmarks"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

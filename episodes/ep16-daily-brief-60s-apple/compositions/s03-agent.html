@@ -13,12 +13,13 @@
       {"t":4.6,"sfx":"typing","vol":0.18,"dur":0.8},
       {"t":5.5,"sfx":"typing","vol":0.18,"dur":0.9},
       {"t":6.6,"sfx":"tick","vol":0.2},
-      {"t":7.7,"sfx":"pop","vol":0.16},
-      {"t":7.95,"sfx":"tap","vol":0.16},
-      {"t":8.35,"sfx":"error","vol":0.1},
-      {"t":8.8,"sfx":"tap","vol":0.16},
-      {"t":9.15,"sfx":"chime","vol":0.18,"dur":1.2},
-      {"t":9.3,"sfx":"sparkle","vol":0.12,"dur":0.9}
+      {"t":7.65,"sfx":"pop","vol":0.16},
+      {"t":7.8,"sfx":"tap","vol":0.16},
+      {"t":8.15,"sfx":"tap","vol":0.14},
+      {"t":8.5,"sfx":"tap","vol":0.14},
+      {"t":8.85,"sfx":"tap","vol":0.16},
+      {"t":9.7,"sfx":"chime","vol":0.18,"dur":1.0},
+      {"t":9.8,"sfx":"sparkle","vol":0.12,"dur":0.9}
     ]</script>
   </head>
   <body>
@@ -26,11 +27,12 @@
       <!-- s03 · Step 1 · Agent. A light editor window, agent.md (trimmed from the quickstart's
            agents/daily-brief/agent.md): the frontmatter types as it's said (name, model, tools: the agent toolset and
            the GitHub MCP toolset), then the run steps in plain English. "The key rule": the run bar settles on step 4,
-           "An item earns a line when the reader would act on it today." Then the tip, weak vs better (agent.md's own
-           example: "A count ("12 open reviews") is not an item"). Narrator: small tile bottom right (x > 750, y > 1300
+           "An item earns a line when the reader would act on it today." Then the rule in plain English, "Needs you
+           today? It goes in.", sorting four of Tuesday's items: an outage and a waiting review go in, a lunch note and
+           a count of open PRs (agent.md's own example: a count is not an item) are skipped. Narrator: small tile bottom right (x > 750, y > 1300
            stays empty).
            Voiceover: 0.18 "Step one: agent dot M D. A model, its tools, and the steps, in plain English."
-           6.56 "The key rule: only what you'd act on today earns a line." -->
+           6.52 "The key rule: only put something in the brief if you need to act on it today." -->
       <style>
         #root { position: absolute; inset: 0; }
         .s03 .card { left: 90px; top: 316px; width: 860px; }
@@ -38,13 +40,11 @@
         .s03 .card .ln { height: 46px; }
         .s03 .card .egg-code-bar { top: 22px; height: 46px; }
         .s03 .card .ln > .no { font-size: 22px; }
-        .s03 .lab { position: absolute; left: 90px; top: 1046px; margin: 0; font: 700 46px/1.1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
-        .s03 .ex { position: absolute; top: 1114px; width: 420px; height: 164px; padding: 24px 28px; }
-        .s03 .ex .top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-        .s03 .ex .top > span:first-child { font: 600 26px/1 var(--f-t); color: var(--mu); }
-        .s03 .ex p { margin: 0; font: 500 30px/1.3 var(--f-t); letter-spacing: -0.01em; color: var(--ink); }
-        .s03 .ex p.m { font: 400 30px/1.3 var(--f-m); }
-        .s03 .ex .fr { position: absolute; inset: 0; border-radius: 32px; border: 3px solid var(--blue); opacity: 0; }
+        .s03 .lab { position: absolute; left: 90px; top: 1036px; margin: 0; font: 700 46px/1.1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s03 .it { position: absolute; width: 420px; height: 90px; padding: 10px 22px; }
+        .s03 .it p { margin: 0 0 6px; font: 500 28px/34px var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s03 .it .a-tag { height: 36px; font-size: 22px; padding: 0 14px; }
+        .s03 .it .fr { position: absolute; inset: 0; border-radius: 32px; border: 3px solid var(--blue); opacity: 0; }
       </style>
       <div id="root" data-composition-id="s03-agent" data-width="1080" data-height="1920">
         <div class="a-scene s03">
@@ -67,21 +67,16 @@
               <div class="ln"><span class="no">13</span><span class="tx"><span class="t-kw">5.</span> Verify. <span class="t-kw">6.</span> Write. <span class="t-kw">7.</span> Post. <span class="t-kw">8.</span> Record.</span></div>
             </div>
           </div>
-          <p class="lab">Only what you'd act on today.</p>
-          <div class="a-card ex weak" style="left:90px">
-            <div class="top"><span>Weak</span><span class="a-tag gray">A count</span></div>
-            <p class="m">12 open reviews</p>
-          </div>
-          <div class="a-card ex good" style="left:530px">
-            <div class="top"><span>Better</span><span class="a-tag blue">Act today</span></div>
-            <p>PR #482 is blocked on your review · day 2</p>
-            <div class="fr"></div>
-          </div>
+          <p class="lab">Needs you today? It goes in.</p>
+          <div class="a-card it in" style="left:90px;top:1094px"><p>Acme can't log in</p><span class="a-tag blue">✓ Goes in</span><div class="fr"></div></div>
+          <div class="a-card it out" style="left:530px;top:1094px"><p>Lunch order is in</p><span class="a-tag gray">Skip</span></div>
+          <div class="a-card it out" style="left:90px;top:1196px"><p>12 pull requests open</p><span class="a-tag gray">Skip · just a count</span></div>
+          <div class="a-card it in" style="left:530px;top:1196px"><p>PR #482 needs your review</p><span class="a-tag blue">✓ Goes in</span><div class="fr"></div></div>
         </div>
       </div>
       <script>
         (() => {
-          const DUR = 10.23;
+          const DUR = 10.69;
           const root = document.querySelector('[data-composition-id="s03-agent"] .s03');
           const q = (s) => root.querySelector(s);
           const all = (s) => [...root.querySelectorAll(s)];
@@ -91,7 +86,7 @@
             tl.fromTo(lns[i].querySelector(".no"), { opacity: 0 }, { opacity: 1, duration: 0.001 }, at);
             return Egg.typeOn(tl, lns[i].querySelector(".tx"), at, { cps });
           };
-          gsap.set([q(".lab"), q(".weak"), q(".good"), ...all(".a-tag")], { opacity: 0 });
+          gsap.set([q(".lab"), ...all(".it")], { opacity: 0 });
 
           // "Step one: agent dot M D"
           Apple.rise(tl, q(".a-eyebrow"), 0.2, { y: 16 });
@@ -113,16 +108,14 @@
 
           // "The key rule": step 4
           Egg.codeRun(tl, card, [10, 11], 6.6, { dim: 0.3 });
-          // "only what you'd act on today earns a line": weak vs better
-          Apple.rise(tl, q(".lab"), 7.7, { y: 20, dur: 0.6 });
-          Apple.rise(tl, q(".weak"), 7.95, { y: 30, dur: 0.6 });
-          Apple.zoom(tl, q(".weak .a-tag"), 8.35, { from: 0.85, dur: 0.4 });
-          Apple.rise(tl, q(".good"), 8.8, { y: 30, dur: 0.6 });
-          Apple.zoom(tl, q(".good .a-tag"), 9.15, { from: 0.85, dur: 0.4 });
-          tl.to(q(".good .fr"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 9.3);
-          tl.to(q(".weak"), { opacity: 0.45, scale: 0.98, duration: 0.5, ease: "power2.inOut" }, 9.4);
+          // "only put something in the brief": Tuesday's items, sorted one by one
+          Apple.rise(tl, q(".lab"), 7.65, { y: 20, dur: 0.6 });
+          Apple.rise(tl, all(".it"), 7.8, { y: 30, dur: 0.5, stagger: 0.35 });
+          // "if you need to act on it today": the two that need you light up, the rest fade
+          tl.to(all(".it.in .fr"), { opacity: 1, duration: 0.3, ease: "power2.out" }, 9.7);
+          tl.to(all(".it.out"), { opacity: 0.45, duration: 0.4, ease: "none" }, 9.9);
 
-          Apple.out(tl, [q(".a-eyebrow"), card, q(".lab"), q(".weak"), q(".good")], DUR - 0.3, { dur: 0.3 });
+          Apple.out(tl, [q(".a-eyebrow"), card, q(".lab"), ...all(".it")], DUR - 0.3, { dur: 0.3 });
           window.__timelines["s03-agent"] = tl;
         })();
       </script>

@@ -1,4 +1,4 @@
-# Episode 16 · Build a daily brief agent in under 60 seconds (55.15 s, avatar narrator)
+# Episode 16 · Build a daily brief agent in under 60 seconds (59.82 s, avatar narrator)
 
 *Under 60 seconds* series (see `.claude/skills/under-60/SKILL.md`). Sources: Anthropic, *Building effective agent
 automations* (https://claude.dev/blog/building-effective-agent-automations/, Oct 8 2026) and the quickstart it walks
@@ -12,35 +12,42 @@ Same look as `ep14-skill-60s-apple`: white s01, #F5F5F7 after; near-black type, 
 Inter Tight headlines; large white cards with soft shadows; macOS-style editor windows (agent.md, deployment.md,
 bookmarks.json, Terminal); calm expo/power ease-outs, no bounce. Theme: `assets/apple.css` (+ the shared `.a-msg`
 brief post added for this episode) and `assets/apple.js`. Narrator: the Sanjay avatar in the round video-call tile,
-large under s01, small bottom right for s02–s05, out for s06. Sound: the ep14 apple palette.
+large under s01, small bottom right from s02 to the end. Sound: the ep14 apple palette.
 
-## Script (142 words)
+## Script (167 words, revised 2026-11-12)
 
 | Beat | Line |
 |---|---|
 | Cold open | Here's how to build an agent that briefs you every morning, in under sixty seconds. |
 | Name it | A daily brief agent reads your Slack and GitHub on a schedule, and posts one short summary. |
 | Set up the example | Say it's Tuesday: a hundred and forty messages, twenty-five pull requests. |
-| Step 1 · Agent | Step one: agent dot M D. A model, its tools, and the steps, in plain English. The key rule: only what you'd act on today earns a line. |
+| Step 1 · Agent | Step one: agent dot M D. A model, its tools, and the steps, in plain English. The key rule: only put something in the brief if you need to act on it today. |
 | Step 2 · Daily | Step two: deployment dot M D. Weekdays at seven thirty-two, with a five dollar cap per run. |
-| Step 3 · Memory | Step three: memory. Your preferences, which it can't edit, and bookmarks, so a late run misses nothing. |
-| Ship it | Then run ant apply. Each morning, a fresh session reads from every bookmark, re-checks each item, and posts the brief. |
-| Payoff | No server to keep alive. And a source it can't read says unreadable, never a quiet day. |
+| Step 3 · Memory | Step three: memory: two folders kept between runs. Your preferences, which it can read but never change. And its own notes, like a bookmark for each source. |
+| Step 3 · Bookmarks | A bookmark marks where it stopped reading. So even if a run is late, it starts right there, and nothing slips through. |
+| Ship it | Then run ant apply, and every weekday morning, the brief arrives. |
+| Payoff | If a source can't be read, the brief says so, instead of looking like a quiet day. |
 
-The first draft (159 words) read 55 s of voice; "Let's build one, step by step." was cut and two lines shortened to land at 50.2 s.
+Revised after the first cut (user feedback): the rule ("only what you'd act on today earns a line") was too vague, now
+plain English with four of Tuesday's items sorted into the brief or skipped; memory wasn't explained (files? a
+database?), now "two folders kept between runs" with what is in each and who can write it; "a late run misses nothing"
+was too quick and unexplained, now its own scene (bookmark vs "the last 24 hours" on a timeline); "never a quiet day"
+came out of nowhere, now it follows the brief arriving, with the failed source shown first. "No server to keep alive."
+was cut.
 
-## Scenes (55.15 s)
+## Scenes (59.82 s)
 
 | Slot | Time | Scene | What you see |
 |---|---|---|---|
-| s01 | 0–10.6 | Cold open + what it is | Frame 0: "Build a daily brief agent" and the post we're building (Daily brief, Tue Nov 17, three items). "Daily brief" tints on "briefs you"; "Under 60 seconds" pill. Then a flow: Agent (Claude logo) ← Slack + GitHub cards, "Weekdays · 7:32 AM" pill on "schedule", a line out to a small brief on "posts". Avatar large below. |
-| s02 | 10.6–15.15 | The example | "Tuesday, 7:32 AM." Stat tiles count to 140 Slack messages and 25 pull requests while an overnight feed scrolls; "Which ones need you today?" Avatar corner. |
-| s03 | 15.15–25.38 | Step 1 · Agent | agent.md types as said (name, model, tools, then the 8 run steps); "The key rule": run bar on step 4. Tip: weak "12 open reviews" (A count) vs better "PR #482 is blocked on your review · day 2" (Act today). Avatar corner. |
-| s04 | 25.38–32.7 | Step 2 · Daily | deployment.md: agent, schedule (cron "32 7 * * 1-5", America/New_York), budget (amount "500" cents). Week strip fills Mon–Fri, "7:32 AM", "$5.00 cap per run · a run that hits it pauses". Avatar corner. |
-| s05 | 32.7–40.18 | Step 3 · Memory | Two stores: preferences (lock, Read-only) and state (bookmarks.json, ledger.md, runs/). bookmarks.json opens; a timeline from Monday's bookmark to a late Tuesday 9:10 run, read span from the bookmark, "Nothing missed". Avatar corner. |
-| s06 | 40.18–55.15 | Ship it + payoff | Terminal: `ant apply deployment.md vault.yaml`, six resources tick in. Session card Tue Nov 17 7:32 AM, "Fresh session": #support / #escalations read, GitHub unreadable; re-check: three still open, one resolved and dropped. The post lands, Posted. "No server to keep alive." The post's last line types "GitHub: unreadable this run." (ring, "Says so"); weak "Nothing new today." struck through. Hard stop, ~1.9 s hold. Avatar out. |
+| s01 | 0–10.47 | Cold open + what it is | Frame 0: "Build a daily brief agent" and the post we're building (Daily brief, Tue Nov 17, three items). "Daily brief" tints on "briefs you"; "Under 60 seconds" pill. Then a flow: Agent (Claude logo) ← Slack + GitHub cards, "Weekdays · 7:32 AM" pill on "schedule", a line out to a small brief on "posts". Avatar large below. |
+| s02 | 10.47–14.95 | The example | "Tuesday, 7:32 AM." Stat tiles count to 140 Slack messages and 25 pull requests while an overnight feed scrolls; "Which ones need you today?" Avatar in the corner from here to the end. |
+| s03 | 14.95–25.64 | Step 1 · Agent + the rule | agent.md types as said (name, model, tools, then the 8 run steps); "The key rule": run bar on step 4. "Needs you today? It goes in.": four of Tuesday's items land sorted: Acme can't log in ✓ Goes in, Lunch order is in · Skip, 12 pull requests open · Skip (just a count), PR #482 needs your review ✓ Goes in; on "today" the two in-items ring and the skips fade. |
+| s04 | 25.64–32.92 | Step 2 · Daily | deployment.md: agent, schedule (cron "32 7 * * 1-5", America/New_York), budget (amount "500" cents). Week strip fills Mon–Fri, "7:32 AM", "$5.00 cap per run · a run that hits it pauses". |
+| s05 | 32.92–42.47 | Step 3 · Memory | "Two folders, kept between runs." preferences/ (yours: preferences.md with what to read, 8 lines at most, mention no one; the lock closes, "Agent: read only") and state/ (the agent's notes: bookmarks.json where it stopped reading, ledger.md what it already told you, runs/ a log of every run; "Agent: read + write"). "Each run opens both at /mnt/memory/". bookmarks.json lights on "bookmark". |
+| s06 | 42.47–49.38 | Step 3 · Bookmarks | state/bookmarks.json (one timestamp per source) = Monday 7:33 AM. Timeline (not to scale): bookmark, Tue 7:32 scheduled, late run Tue 9:10. Without a bookmark (reads the last 24 hours): grey bar from Mon 9:10 and a red hatched gap, "missed"; with a bookmark: blue bar from Mon 7:33, "✓ Nothing slips through". |
+| s07 | 49.38–59.82 | Ship it + payoff | Terminal: `ant apply deployment.md vault.yaml`, six resources tick in. "Every weekday morning": Mon–Fri 7:32 cards; "the brief arrives": the post lands, Posted. "If a source can't be read": Slack ✓ read, GitHub ✕ couldn't be read; the post's last line types "GitHub: couldn't be read this run." (ring, "Says so"); "without that line": "Nothing new today." (Looks like a quiet day), struck through. Hard stop, ~1.5 s hold. |
 
-Voiceover as placed: see `voiceover.json` (s01 0.05 / 4.6, s02 0.18, s03 0.18 / 6.56, s04 0.18, s05 0.18, s06 0.18 / 7.45).
+Voiceover as placed: see `voiceover.json` (s01 0.05 / 4.55, s02 0.18, s03 0.18 / 6.52, s04 0.18, s05 0.18, s06 0.18, s07 0.18 / 4.37).
 
 ## Facts used (from the article and the repo)
 

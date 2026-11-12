@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <script type="application/json" class="sfx-cues">[
       {"t":0.05,"sfx":"air","vol":0.12},
-      {"t":10.45,"sfx":"air","vol":0.1},
-      {"t":39.9,"sfx":"air","vol":0.08}
+      {"t":10.3,"sfx":"air","vol":0.1}
     ]</script>
   </head>
   <body>
@@ -13,8 +12,7 @@
       <!-- Narrator. The Sanjay avatar in a round video-call tile: white rim, soft shadow, light gray backdrop, and a
            blue "speaking" ring whose strength follows the voice loudness (assets/lipsync.js). The mouth is lip-synced
            by Egg.avatarTalk. Stops: large and centred under the s01 cold open (s01 keeps its content above y 1000),
-           then small in the bottom-right of the safe box for s02–s05 (those scenes keep x > 750, y > 1300 empty),
-           out before s06, which uses the whole box. -->
+           then small in the bottom-right of the safe box from s02 to the end (every scene keeps x > 750, y > 1300 empty). -->
       <style>
         #root { position: absolute; inset: 0; pointer-events: none; overflow: hidden; }
         .nar .tile { position: absolute; left: 0; top: 0; width: 380px; height: 380px; transform-origin: 0 0; }
@@ -32,15 +30,17 @@
       </div>
       <script>
         (() => {
-          const LEN = 55.15, D = 380;   // episode length; tile diameter at full size
+          const LEN = 59.82, D = 380;   // episode length; tile diameter at full size
           // top-left of the tile and its scale
           const PLACES = {
             hero: { x: 350, y: 1060, s: 1 },               // s01: centred below the cold open
-            corner: { x: 776, y: 1326, s: 160 / D },       // s02–s05: bottom right of the safe box
+            corner: { x: 776, y: 1326, s: 160 / D },       // s02 to the end: bottom right of the safe box
           };
           const EXPR = [
             ["smile", 1.7, 2.8],     // "an agent that briefs you every morning"
-            ["smile", 9.3, 10.3],    // "and posts one short summary"
+            ["smile", 9.2, 10.2],    // "and posts one short summary"
+            ["doubt", 53.8, 54.9],   // "If a source can't be read"
+            ["smile", 58.35, 59.82], // after "a quiet day", to the hard stop
           ];
           const root = document.querySelector('[data-composition-id="narrator"] .nar');
           const tile = root.querySelector(".tile"), ring = root.querySelector(".ring");
@@ -50,10 +50,8 @@
           // frame 0: already in place; settles from slightly smaller
           tl.fromTo(tile, { x: PLACES.hero.x, y: PLACES.hero.y + 30, scale: 0.96, opacity: 0 },
             { x: PLACES.hero.x, y: PLACES.hero.y, scale: 1, opacity: 1, duration: 0.7, ease: "expo.out" }, 0);
-          // 10.45: glides down into the corner (s02 starts at 10.6)
-          tl.to(tile, { x: PLACES.corner.x, y: PLACES.corner.y, scale: PLACES.corner.s, duration: 0.9, ease: "power3.inOut" }, 10.45);
-          // 39.9: leaves before s06 (40.18)
-          tl.to(tile, { opacity: 0, scale: PLACES.corner.s * 0.9, duration: 0.35, ease: "power2.in" }, 39.9);
+          // 10.3: glides down into the corner (s02 starts at 10.47) and stays there to the end
+          tl.to(tile, { x: PLACES.corner.x, y: PLACES.corner.y, scale: PLACES.corner.s, duration: 0.9, ease: "power3.inOut" }, 10.3);
           Egg.avatarTalk(tl, av, 0, 0, LEN, { expr: EXPR });
 
           // speaking ring: opacity and a hair of scale follow the voice loudness

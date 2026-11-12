@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.2,"sfx":"pop","vol":0.2},
+      {"t":0.5,"sfx":"tick","vol":0.16},
+      {"t":1.55,"sfx":"click","vol":0.28},
+      {"t":2.3,"sfx":"pen","vol":0.22},
+      {"t":2.4,"sfx":"pop","vol":0.18},
+      {"t":3.3,"sfx":"pop","vol":0.22},
+      {"t":3.6,"sfx":"zoom","vol":0.16},
+      {"t":4.15,"sfx":"thud","vol":0.3},
+      {"t":4.2,"sfx":"error","vol":0.16},
+      {"t":4.4,"sfx":"zoom","vol":0.2},
+      {"t":6.1,"sfx":"thud","vol":0.36},
+      {"t":6.15,"sfx":"success","vol":0.18},
+      {"t":6.9,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Bookmarks: what "a late run misses nothing" means. Teal: "Starts where it stopped." bookmarks.json:
+           one timestamp per source, where Monday's run stopped reading (12:33 UTC = 7:33 AM New York). A timeline
+           (not to scale): the bookmark, Tuesday's scheduled 7:32, a late run at 9:10. Weak vs better: "the last 24
+           hours" from the late run starts at Mon 9:10 and leaves a hatched gap, stamped MISSED; "from the bookmark"
+           covers it all, NOTHING MISSED. Whip out. Badge bottom-left (narrator). -->
+      <style>
+        #s08-root .bg { background-color: #d3f0f7; }
+        #s08-root .rl-hd { --acc: #0e7490; }
+        #s08-root .term { top: 520px; height: 216px; }
+        #s08-root .t-k { color: #f08a63; }
+        #s08-root .t-s { color: #9be3b4; }
+        #s08-root .t-p { color: var(--term-dim); }
+        #s08-root .hlr { position: absolute; left: -16px; right: -16px; top: 0; height: 80px; border-radius: 8px; background: rgba(14, 116, 144, 0.45); opacity: 0; }
+        #s08-root .cap { position: absolute; left: 90px; top: 754px; font: 400 26px/32px var(--f-mono); color: #0b4f61; white-space: nowrap; }
+        #s08-root .axis { fill: none; stroke: #0d0d0c; stroke-width: 5; stroke-linecap: round; }
+        #s08-root .flag { position: absolute; left: 148px; top: 830px; width: 5px; height: 76px; background: #0d0d0c; }
+        #s08-root .flag::after { content: ""; position: absolute; left: 5px; top: 0; width: 38px; height: 26px; background: #0e7490; clip-path: polygon(0 0, 100% 50%, 0 100%); }
+        #s08-root .dot { position: absolute; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: #fff; border: 6px solid #0d0d0c; }
+        #s08-root .dot.dash { border-style: dashed; border-color: #5f5b55; }
+        #s08-root .tl { position: absolute; font: 400 24px/30px var(--f-mono); color: #0d0d0c; white-space: nowrap; }
+        #s08-root .tl span { color: #3b5a63; }
+        #s08-root .lab { position: absolute; left: 90px; font: 400 26px/32px var(--f-mono); color: #0d0d0c; white-space: nowrap; }
+        #s08-root .sp { position: absolute; height: 26px; border-radius: 13px; transform-origin: 0 50%; }
+        #s08-root .sp.gray { left: 300px; top: 1036px; width: 580px; background: #8aa5ad; }
+        #s08-root .sp.gap { left: 152px; top: 1036px; width: 144px; background: repeating-linear-gradient(135deg, #e11d48 0 10px, rgba(225, 29, 72, 0.3) 10px 20px); }
+        #s08-root .sp.good { left: 152px; top: 1176px; width: 728px; background: #12a150; }
+        #s08-root .miss { left: 110px; top: 1074px; color: #e11d48; background: #d3f0f7; font-size: 26px; padding: 2px 12px; border-width: 4px; }
+        #s08-root .ok { left: 470px; top: 1214px; color: #12a150; background: #d3f0f7; font-size: 28px; padding: 4px 16px; border-width: 5px; }
+      </style>
+      <div id="s08-root" data-composition-id="s08-bookmark" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// one bookmark per source</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Starts </span><span class="w">where </span><span class="w">it</span></span>
+              <span class="ln"><em class="w">stopped.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>state/bookmarks.json</span></div>
+              <div class="tb">
+                <div class="hlr"></div>
+                <div class="r c1">"<span class="t-k">slack</span>":  <span class="t-s">"2026-11-16T12:33:40Z"</span>,</div>
+                <div class="r c2">"<span class="t-k">github</span>": <span class="t-s">"2026-11-16T12:33:41Z"</span></div>
+              </div>
+            </div>
+            <div class="cap">// = Mon 7:33 AM: where Monday's run stopped</div>
+            <svg width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0" aria-hidden="true"><path class="axis" d="M110 906 H 930" /></svg>
+            <div class="flag"></div>
+            <div class="dot d1" style="left:150px;top:906px"></div>
+            <div class="dot dash d2" style="left:700px;top:906px"></div>
+            <div class="dot d3" style="left:880px;top:906px"></div>
+            <div class="tl t1" style="left:206px;top:830px">bookmark <span>Mon 7:33</span></div>
+            <div class="tl t2" style="left:640px;top:930px">Tue 7:32 <span>sched.</span></div>
+            <div class="tl t3" style="left:640px;top:830px">late run <span>Tue 9:10</span></div>
+            <div class="lab l1" style="top:992px">// without a bookmark: last 24 hours</div>
+            <div class="sp gap"></div>
+            <div class="sp gray"></div>
+            <div class="rstamp miss" data-layout-allow-overlap="">Missed</div>
+            <div class="lab l2" style="top:1132px">// with a bookmark: from where it stopped</div>
+            <div class="sp good"></div>
+            <div class="rstamp ok" data-layout-allow-overlap="">Nothing missed</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s08-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const axis = q(".axis");
+          axis.setAttribute("pathLength", "1"); axis.style.strokeDasharray = "1 1.1";
+          const fade = (els, at) => tl.fromTo(els, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "back.out(2)" }, at);
+          gsap.set([q(".sp.gray"), q(".sp.gap"), q(".sp.good")], { scaleX: 0 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          // "A bookmark marks where it stopped reading"
+          tl.fromTo(q(".term"), { opacity: 0, scale: 0.88, y: 30 }, { opacity: 1, scale: 1, y: 0, duration: 0.35, ease: "power3.out" }, 0.2);
+          Reel.rows(tl, [q(".c1"), q(".c2")], [0.45, 0.6]);
+          Reel.words(tl, q(".rl-hd"), [0.5, 1.4, 1.5, 1.6]);
+          tl.to(q(".hlr"), { opacity: 1, duration: 0.2 }, 1.55);
+          tl.fromTo(q(".cap"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 1.7);
+          // the timeline: the bookmark, Tuesday's scheduled run
+          tl.fromTo(axis, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.4, ease: "power2.out" }, 2.3);
+          fade([q(".flag"), q(".d1"), q(".t1")], 2.4);
+          fade([q(".d2"), q(".t2")], 2.8);
+          // "So even if a run is late"
+          fade([q(".d3"), q(".t3")], 3.3);
+          // without a bookmark: 24 hours back from 9:10 leaves a gap
+          fade(q(".l1"), 3.55);
+          tl.to(q(".sp.gray"), { scaleX: 1, duration: 0.4, ease: "power2.inOut" }, 3.6);
+          tl.to(q(".sp.gap"), { scaleX: 1, duration: 0.25, ease: "power2.out" }, 4.0);
+          Egg.stamp(tl, q(".miss"), 4.15);
+          // "it starts right there": from the bookmark
+          fade(q(".l2"), 4.35);
+          tl.to(q(".sp.good"), { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, 4.4);
+          // "and nothing slips through"
+          Egg.stamp(tl, q(".ok"), 6.1);
+          tl.to([q(".l1"), q(".sp.gray"), q(".sp.gap"), q(".miss")], { opacity: 0.45, duration: 0.3, ease: "none" }, 6.3);
+          Reel.whip(tl, cam, blur, 6.92, "out");
+
+          window.__timelines["s08-bookmark"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

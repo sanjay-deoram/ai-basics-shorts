@@ -22,7 +22,7 @@
     },
     {
       "scene": "s01",
-      "at": 4.6,
+      "at": 4.55,
       "text": "A daily brief agent reads your Slack and GitHub on a schedule, and posts one short summary."
     },
     {
@@ -37,8 +37,8 @@
     },
     {
       "scene": "s03",
-      "at": 6.56,
-      "text": "The key rule: only what you'd act on today earns a line."
+      "at": 6.52,
+      "text": "The key rule: only put something in the brief if you need to act on it today."
     },
     {
       "scene": "s04",
@@ -48,17 +48,22 @@
     {
       "scene": "s05",
       "at": 0.18,
-      "text": "Step three: memory. Your preferences, which it can't edit, and bookmarks, so a late run misses nothing."
+      "text": "Step three: memory: two folders kept between runs. Your preferences, which it can read but never change. And its own notes, like a bookmark for each source."
     },
     {
       "scene": "s06",
       "at": 0.18,
-      "text": "Then run ant apply. Each morning, a fresh session reads from every bookmark, re-checks each item, and posts the brief."
+      "text": "A bookmark marks where it stopped reading. So even if a run is late, it starts right there, and nothing slips through."
     },
     {
-      "scene": "s06",
-      "at": 7.45,
-      "text": "No server to keep alive. And a source it can't read says unreadable, never a quiet day."
+      "scene": "s07",
+      "at": 0.18,
+      "text": "Then run ant apply, and every weekday morning, the brief arrives."
+    },
+    {
+      "scene": "s07",
+      "at": 4.37,
+      "text": "If a source can't be read, the brief says so, instead of looking like a quiet day."
     }
   ]
 }

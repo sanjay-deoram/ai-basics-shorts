@@ -3,7 +3,7 @@
 // the same file. It reads index.html for its cues:
 //   · the root duration (the file is exactly that long),
 //   · every <audio id="vo-…"> window, to duck the bed under the voice (−7 dB, 60 ms in, 300 ms out),
-//   · the s09 slot (the black beat: drums drop out, the bed thins to bass + pluck and a riser builds),
+//   · the s10 slot (the black beat: drums drop out, the bed thins to bass + pluck and a riser builds),
 //   · the end of the last voice line + 0.1 s (one hit, kick + chord stab + crash, ringing out to the hard stop).
 // The hook (s01) has no bass or clap; the band comes in on the first whip (the s02 slot).
 //
@@ -17,7 +17,7 @@ const project = join(dirname(fileURLToPath(import.meta.url)), "..");
 const index = readFileSync(join(project, "index.html"), "utf8");
 const LEN = +index.match(/data-composition-id="main"[^>]*?data-duration="([\d.]+)"/)[1];
 const slot = (id) => +index.match(new RegExp(`<div id="${id}"[^>]*data-start="([\\d.]+)"`))[1];
-const BAND = slot("s02"), BREAK = slot("s09");
+const BAND = slot("s02"), BREAK = slot("s10");
 const VO = [...index.matchAll(/<audio[^>]*id="vo-[^"]*"[^>]*>/g)].map((m) => {
   const a = +m[0].match(/data-start="([\d.]+)"/)[1];
   return [a, a + +m[0].match(/data-duration="([\d.]+)"/)[1]];
