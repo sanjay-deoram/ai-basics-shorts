@@ -20,10 +20,13 @@ HyperFrames (HTML + GSAP → MP4).
     gitignored `fish.env` at the repo root).
   - `tools/lipsync.mjs` — loudness per frame and one mouth beat per syllable for the avatar.
   - `tools/build-sfx.mjs` — writes each scene's sound cues into `index.html`.
+  - `tools/compare-variants.mjs` — snapshots style variants at the same times into one grid (`renders/compare/`).
   - `tools/cut-flipbook.py`, `tools/cut-expressions.py` — rebuild `assets/avatar` from the source sheets.
 - `episodes/<slug>/` — one HyperFrames project per episode.
 - `.claude/skills/under-60/SKILL.md` — the *Under 60 seconds* series (`/under-60 <topic>`): script formula, look and
   production steps, from a topic to a rendered MP4. Worked example: `episodes/ep13-rag-60s`.
+- `.claude/skills/style-variants/SKILL.md` — one episode in several looks (`/style-variants <episode> <styles>`):
+  compare by snapshot grid, render only the styles the user keeps. Worked example: `episodes/ep14-skill-60s-*`.
 - `explorations/` — design explorations: the original storyboards, `narrator-auditions.html`, and the
   avatar test clips `avatar-peek` (v1), `avatar-peek-v2`, `avatar-peek-v3` (the chosen look).
 

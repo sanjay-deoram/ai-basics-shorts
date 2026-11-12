@@ -80,8 +80,14 @@ Map its beats onto the formula above and write our own lines. Record the referen
 7. `node tools/lipsync.mjs`, `node tools/build-sfx.mjs`, `npx hyperframes check` (0 errors; short-hold warnings are
    expected at this pace), then snapshot every scene and every avatar stop and look at them. Fix overlaps and
    re-snapshot.
-8. `npx hyperframes render -o renders/<slug>.mp4`, then confirm it has an audio stream.
+8. `npx hyperframes render -o renders/<slug>-hq.mp4`, then shrink it (about 30 s; it halves the size with no visible loss,
+   VMAF ~96) and delete the `-hq` file:
+   `ffmpeg -i renders/<slug>-hq.mp4 -c:v libx264 -preset slow -crf 22 -c:a copy -movflags +faststart renders/<slug>.mp4`.
+   Don't pass `--crf` to `hyperframes render` instead: it encodes with a faster preset and the file comes out bigger.
+   Confirm the final MP4 has an audio stream.
 9. Update `STORYBOARD.md` (scene table, voiceover as placed) and commit on the branch.
+
+For the same episode in several looks, use `/style-variants` (compare by snapshot, render only the kept styles).
 
 **Done when** the MP4 is rendered, under 60 s, has audio, every scene was checked in snapshots, and the user has the
 path to the video.
