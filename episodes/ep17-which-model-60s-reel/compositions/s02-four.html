@@ -11,8 +11,8 @@
       {"t":3.79,"sfx":"pop","vol":0.2},
       {"t":4.41,"sfx":"pop","vol":0.24},
       {"t":5.28,"sfx":"zoom","vol":0.16},
-      {"t":5.5,"sfx":"thud","vol":0.24},
-      {"t":7.4,"sfx":"thud","vol":0.26},
+      {"t":5.5,"sfx":"pop","vol":0.22},
+      {"t":7.4,"sfx":"pop","vol":0.22},
       {"t":8.61,"sfx":"whip","vol":0.32}
     ]</script>
   </head>
@@ -20,7 +20,7 @@
     <template>
       <!-- s02 · The four models. Yellow: "Four, small to big." word by word; the four model tiles land as a staircase,
            each on its name (Haiku, Sonnet, Opus, Fable). "Smaller is cheaper and faster": a black scale bar under the
-           stairs, Haiku stamped CHEAP + FAST; "bigger handles harder work": Fable stamped HARDER WORK. Whip out.
+           stairs, a "Cheap + fast" badge at its small end; "bigger handles harder work": a "Harder work" badge at its big end. Whip out.
            Badge bottom-left (narrator): x < 290 / y > 1290 stays empty.
            Voiceover: 0.31 "Four, from small to big: Haiku, Sonnet, Opus and Fable. Smaller is cheaper and faster;
            bigger handles harder work." -->
@@ -32,9 +32,16 @@
         #s02-root .scale::before, #s02-root .scale::after { content: ""; position: absolute; top: -12px; width: 0; height: 0; border-top: 17px solid transparent; border-bottom: 17px solid transparent; }
         #s02-root .scale::before { left: -14px; border-right: 26px solid #0d0d0c; }
         #s02-root .scale::after { right: -14px; border-left: 26px solid #0d0d0c; }
-        #s02-root .rstamp { font-size: 30px; padding: 6px 18px; border-width: 5px; background: #fff; }
-        #s02-root .st1 { left: 76px; top: 770px; color: #12a150; }
-        #s02-root .st2 { left: 690px; top: 590px; color: #2d4bff; }
+        /* badge pills (shadcn Badge, icon + label) labelling the two ends of the scale */
+        #s02-root .pill { position: absolute; top: 1136px; height: 68px; display: flex; align-items: center; gap: 14px; padding: 0 28px 0 10px; border-radius: 9999px;
+          background: #fff; box-shadow: 0 18px 36px -18px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.05); font: 500 34px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        #s02-root .pill i { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; }
+        #s02-root .pill svg { width: 30px; height: 30px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+        #s02-root .st1 { left: 90px; }
+        #s02-root .st1 i { background: #12a150; }
+        #s02-root .st1 svg { fill: #fff; }
+        #s02-root .st2 { right: 130px; }
+        #s02-root .st2 i { background: #2d4bff; }
       </style>
       <div id="s02-root" data-composition-id="s02-four" data-width="1080" data-height="1920">
         <div class="rl">
@@ -50,8 +57,8 @@
             <div class="mt" style="left:530px;height:320px"><img src="assets/claude-logo.svg" alt=""><span class="n">Opus</span><span class="v">5.5</span></div>
             <div class="mt" style="left:750px;height:380px"><img src="assets/claude-logo.svg" alt=""><span class="n">Fable</span><span class="v">5.2</span></div>
             <div class="scale"></div>
-            <div class="rstamp st1" data-layout-allow-overlap="">Cheap + fast</div>
-            <div class="rstamp st2" data-layout-allow-overlap="">Harder work</div>
+            <div class="pill st1"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></i>Cheap + fast</div>
+            <div class="pill st2"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.5 6.5v11M17.5 6.5v11M3 9.5v5M21 9.5v5M6.5 12h11" /></svg></i>Harder work</div>
           </div>
         </div>
       </div>
@@ -76,9 +83,11 @@
           });
           // "Smaller is cheaper and faster"
           tl.fromTo(q(".scale"), { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power3.out" }, 5.28);
-          Egg.stamp(tl, q(".st1"), 5.5, tiles[0]);
-          // "bigger handles harder work"
-          Egg.stamp(tl, q(".st2"), 7.4, tiles[3]);
+          // a badge pops at each end of the scale on its words ("bigger handles harder work" at 7.4)
+          [[q(".st1"), 5.5], [q(".st2"), 7.4]].forEach(([el, t]) => {
+            tl.fromTo(el, { opacity: 0, y: 24, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, t);
+            tl.fromTo(el.querySelector("i"), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, t + 0.08);
+          });
           Reel.whip(tl, cam, blur, 8.65, "out");
 
           window.__timelines["s02-four"] = tl;
