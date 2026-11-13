@@ -14,19 +14,24 @@
   </head>
   <body>
     <template>
-      <!-- s01 · Hook. Frame 0 already shows the four Claude models side by side under `// claude models`. "Which
-           Claude model?" builds word by word, "model?" the italic accent; "in under sixty seconds": an UNDER 60 SEC
-           stamp thuds onto the row; a yellow bloom grows out of the Haiku tile and fills the frame (the next beat is
+      <!-- s01 · Hook. Frame 0 is the whole title: `// claude models`, "Which Claude model?" ("model?" the italic
+           accent, it punches on its word), "in under 60 seconds" big under it (the red 60 punches on "sixty") and the
+           four Claude models side by side; a yellow bloom grows out of the Haiku tile and fills the frame (the next beat is
            yellow), whip-pan out. Avatar BIG at the bottom (narrator), so everything stays above y 980.
            Voiceover: 0.05 "Here's how to pick the right Claude model, in under sixty seconds." -->
       <style>
         #s01-root .bg { background: #fdfcfc; }
-        #s01-root .bloom { position: absolute; left: 190px; top: 720px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #ffd84d; }
+        #s01-root .bloom { position: absolute; left: 190px; top: 892px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #ffd84d; }
         #s01-root .rl-hd { --acc: #2d4bff; font-size: 108px; line-height: 110px; }
-        #s01-root .mt { top: 620px; height: 200px; }
-        #s01-root .rstamp { left: 520px; top: 510px; height: 80px; gap: 14px; padding: 0 32px 0 12px; font-size: 42px; --acc: #e11d48; }
-        #s01-root .rstamp i { width: 56px; height: 56px; }
-        #s01-root .rstamp svg { width: 34px; height: 34px; }
+        #s01-root .mt { top: 820px; height: 180px; }
+        /* the "60 seconds" lockup: the point of the series, big from frame 0 */
+        #s01-root .c60 { position: absolute; left: 90px; top: 540px; }
+        #s01-root .c60 .k { display: flex; align-items: center; gap: 14px; font: 500 46px/1 var(--f-display); letter-spacing: -0.02em; color: #5f5b55; }
+        #s01-root .c60 .k i { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #e11d48; }
+        #s01-root .c60 .k svg { width: 34px; height: 34px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+        #s01-root .c60 .big { display: flex; align-items: baseline; gap: 34px; margin-top: 6px; white-space: nowrap; }
+        #s01-root .c60 .num { font: 600 240px/0.84 var(--f-display); letter-spacing: -0.06em; color: #e11d48; transform-origin: 0% 80%; }
+        #s01-root .c60 em { font: italic 400 132px/1 var(--f-serif); letter-spacing: -0.015em; color: #0d0d0c; }
       </style>
       <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
         <div class="rl">
@@ -36,7 +41,7 @@
             <div class="mt" style="left:310px"><img src="assets/claude-logo.svg" alt=""><span class="n">Sonnet</span><span class="v">5.5</span></div>
             <div class="mt" style="left:530px"><img src="assets/claude-logo.svg" alt=""><span class="n">Opus</span><span class="v">5.5</span></div>
             <div class="mt" style="left:750px"><img src="assets/claude-logo.svg" alt=""><span class="n">Fable</span><span class="v">5.2</span></div>
-            <div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5" /><path d="M12 13.5l3-3M10 2.5h4" /></svg></i>Under 60 sec</div>
+            <div class="c60"><div class="k"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5" /><path class="hand" d="M12 13.5V9M10 2.5h4" /></svg></i>in under</div><div class="big"><span class="num">60</span><em>seconds</em></div></div>
             <div class="bloom" data-layout-allow-overflow=""></div>
             <div class="rl-eye">// claude models</div>
             <div class="rl-hd">
@@ -56,11 +61,12 @@
 
           // frame 0: the four models are already there and settle with a thump
           tl.fromTo(tiles, { scale: 1.08, y: 20 }, { scale: 1, y: 0, duration: 0.35, ease: Egg.EASE.stamp, stagger: 0.04 }, 0);
-          // "pick the right Claude model"
-          Reel.words(tl, hd, [0.6, 1.35, 1.8]);
+          // "pick the right Claude model": the title is up from frame 0; the accent punches on its word
+          tl.to(hd.querySelector("em"), { scale: 1.12, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 80%" }, 1.8);
           tl.to(tiles, { y: -14, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.07 }, 1.85);
-          // "in under sixty seconds"
-          Reel.badge(tl, root.querySelector(".rstamp"), 2.9);
+          // "in under sixty seconds": the lockup (up since frame 0) punches, its stopwatch hand sweeps
+          tl.to(root.querySelector(".c60 .num"), { scale: 1.12, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1 }, 2.9);
+          tl.fromTo(root.querySelector(".c60 .hand"), { rotation: 0 }, { rotation: 360, svgOrigin: "12 13.5", duration: 1.2, ease: "none" }, 2.6);
           // Haiku blooms yellow and fills the frame (the next beat is yellow)
           tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.1);
           Reel.whip(tl, cam, blur, 3.54, "out");

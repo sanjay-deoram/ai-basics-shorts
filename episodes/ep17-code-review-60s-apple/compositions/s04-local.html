@@ -50,7 +50,9 @@
         .s04 .tok { height: 44px; padding: 0 18px; }
         .s04 .diff { display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 14px; background: rgba(0, 113, 227, 0.08); }
         .s04 .diff b { font: 600 28px/1 var(--f-t); color: var(--blue); }
-        .s04 .diff i { display: block; height: 12px; border-radius: 6px; background: rgba(0, 113, 227, 0.35); }
+        .s04 .diff code { font: 400 17px/1.2 var(--f-m); color: var(--ink); white-space: pre; }
+        .s04 .diff code.del { color: var(--faint); text-decoration: line-through; }
+        .s04 .diff code.add { color: var(--blue); }
         .s04 .scan { position: absolute; left: 0; top: 0; width: 8px; height: 176px; border-radius: 4px; background: var(--blue); }
         .s04 .ft { margin: 0; font: 500 28px/1.25 var(--f-t); color: var(--mu); }
       </style>
@@ -76,7 +78,7 @@
           <div class="a-card pan rv" style="left:540px">
             <div class="ph"><span class="cc-spark rvl"></span>Reviewer</div>
             <p class="k">Its context</p>
-            <div class="ctx"><div class="diff"><b>the change</b><i style="width:88%"></i><i style="width:64%"></i></div><span class="scan"></span></div>
+            <div class="ctx"><div class="diff"><b>the change</b><code class="del">− theme.name</code><code class="add">+ theme?.name ?? "light"</code></div><span class="scan"></span></div>
             <p class="ft"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Fresh eyes:</span><span class="on" data-layout-allow-overlap="">Fresh eyes:</span></span> only the change</p>
           </div>
           <div class="a-fix"><i class="ic" data-ic="bug" data-stroke="#fff"></i>Fix: empty config crash</div>

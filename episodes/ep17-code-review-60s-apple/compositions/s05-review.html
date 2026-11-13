@@ -34,7 +34,7 @@
   <body>
     <template>
       <!-- s05 · Layer 2 · AI review. The fix chip gets a blue "In review" tag and its pull request window opens below (the
-           diff as bars). Four Claude marks appear above it ("several agents") and on "hunt for bugs at once" each probes
+           diff in real code). Four Claude marks appear above it ("several agents") and on "hunt for bugs at once" each probes
            its own band of the diff in parallel; four numbered findings pin to lines. "Another group votes": the window
            folds away and the pins fly into a vote table under three voter marks; each finding gets three ballots (blue ✓ /
            gray ✕). Only the ones enough voters agree on are posted (blue ring) and tagged Important / Pre-existing; the
@@ -53,9 +53,12 @@
         .s05 .band { position: absolute; left: 112px; width: 816px; border-radius: 14px; background: rgba(0, 113, 227, 0.07); }
         .s05 .dl { position: absolute; left: 0; top: 0; height: 40px; display: flex; align-items: center; gap: 14px; }
         .s05 .dl b { width: 22px; font: 400 28px/1 var(--f-m); color: var(--faint); text-align: center; }
-        .s05 .dl i { display: block; height: 14px; border-radius: 7px; background: var(--line); transform-origin: 0 50%; }
-        .s05 .dl.del i { background: #d2d2d7; }
-        .s05 .dl.add i { background: rgba(0, 113, 227, 0.35); }
+        .s05 .dl code { font: 400 24px/1 var(--f-m); color: var(--ink); white-space: pre; }
+        .s05 .dl.del code { color: var(--faint); text-decoration: line-through; text-decoration-color: var(--faint); }
+        .s05 .dl.add b, .s05 .dl.add code { color: var(--blue); }
+        .s05 .dls { position: absolute; inset: 0; z-index: 1; }   /* the code reads over the probe lines */
+        .s05 .dl code { text-shadow: 0 0 3px #eef5fd, 0 0 3px #eef5fd, 0 0 6px #eef5fd; }
+        .s05 .pins { position: absolute; inset: 0; z-index: 2; }
         .s05 .probe { fill: none; stroke: var(--blue); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 12; }
         .s05 .pd { fill: var(--blue); }
         .s05 .pin { position: absolute; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%; background: var(--blue); color: #fff;
@@ -109,10 +112,14 @@
           const all = (s) => [...root.querySelectorAll(s)];
           const NS = "http://www.w3.org/2000/svg";
           Apple.icons(root);
-          // the diff: nine lines on a 52 px pitch from y 780, [mark, bar width]
-          const DL = [["", 520], ["−", 430], ["+", 560], ["", 380], ["", 610], ["+", 470], ["", 300], ["−", 540], ["", 420]];
+          // the diff, real code: nine lines on a 52 px pitch from y 780, [mark, code]. Each finding below pins to the line
+          // it is about (1 the old unsafe read, 3 the vague name t, 5 the cache, 7 the setTimeout)
+          const DL = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", 'const theme = config.theme?.name ?? "light";'],
+            ["", "const t = themes[theme];"], ["", "const cache = new Map();"], ["", "cache.set(path, t);"], ["+", 'log.info("theme", theme);'],
+            ["", "setTimeout(() => apply(t));"], ["", "return t;"]];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
           const rowY = (r) => 780 + r * 52;
-          q(".dls").innerHTML = DL.map(([m, w]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><i style="width:${w}px"></i></div>`).join("");
+          q(".dls").innerHTML = DL.map(([m, c]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
           const dls = all(".dl");
           dls.forEach((d, r) => gsap.set(d, { x: 124, y: rowY(r) }));
           // each agent probes its own band of lines: agent centre x, first row, rows
@@ -148,7 +155,7 @@
           Apple.zoom(tl, q(".inr"), 1.08, { from: 0.7, dur: 0.5 });
           Apple.tint(tl, q(".hd .a-tint"), 1.08, { dur: 0.5 });
           Apple.rise(tl, q(".prw"), 1.1, { y: 30, dur: 0.7 });
-          tl.fromTo(all(".dl i"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "expo.out", stagger: 0.04 }, 1.35);
+          tl.fromTo(all(".dl code"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.45, ease: "power2.out", stagger: 0.05 }, 1.35);
           tl.fromTo(all(".dl b"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 1.35);
           // "several agents"
           Apple.zoom(tl, all(".ag"), 2.2, { from: 0.6, dur: 0.6, stagger: 0.12 });

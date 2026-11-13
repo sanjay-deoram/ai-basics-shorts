@@ -18,46 +18,52 @@
   <body>
     <template>
       <!-- s01 · Cold open. "How the Claude Code team does code review" in whisper type under the Claude mark, on screen from frame 0 as the thumbnail (the mark pulses
-           on "Claude Code"), "code review" highlighted as it is said. On "in under sixty seconds" a stopwatch chip pops
-           and its hand sweeps; beside the avatar a small pull request is read by a lens and a Claude comment pops off
+           on "Claude Code"), "code review" highlighted as it is said. Big under the title from frame 0: "in under 60 seconds" (the ember 60
+           punches on "sixty", the stopwatch hand sweeps); beside the avatar a small pull request is read by a lens and a Claude comment pops off
            it: the topic in one picture. Avatar: large peek bottom right (x ≥ 620, y ≥ 800); everything here stays
            left of x 600 below y 790. Voiceover: 0.15 "Here's how the Claude Code team does code review, in under
            sixty seconds." -->
       <style>
         #root { position: absolute; inset: 0; }
-        .s01 .logo { left: 90px; top: 290px; width: 130px; height: 130px; }
-        .s01 .ttl { position: absolute; left: 90px; top: 440px; width: 880px; }
+        .s01 .logo { left: 90px; top: 236px; width: 100px; height: 100px; }
+        .s01 .ttl { position: absolute; left: 90px; top: 356px; width: 880px; }
+        /* the "60 seconds" lockup: the point of the series, big from frame 0 (left of x 600: the avatar peeks right) */
+        .s01 .c60 { position: absolute; left: 90px; top: 748px; }
+        .s01 .c60 .k { display: flex; align-items: center; gap: 12px; font: 400 32px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--smoke); }
+        .s01 .c60 .big { display: flex; align-items: baseline; gap: 26px; margin-top: 6px; white-space: nowrap; }
+        .s01 .c60 .num { font: 500 250px/0.84 var(--f-display); letter-spacing: -0.05em; color: var(--ember); transform-origin: 0% 80%; }
+        .s01 .c60 .u { font: 300 72px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
         .s01 .ttl span.l { display: block; }
-        .s01 .sw { position: absolute; left: 90px; top: 830px; }
-        .s01 .sw svg { width: 34px; height: 34px; }
-        .s01 .sw .ring { fill: none; stroke: var(--ink); stroke-width: 3.5; }
-        .s01 .sw .hand { stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; }
-        .s01 .pr { position: absolute; left: 90px; top: 950px; width: 470px; height: 410px; padding: 30px 34px; gap: 0; }
+        .s01 .c60 svg { width: 38px; height: 38px; }
+        .s01 .c60 .ring { fill: none; stroke: var(--ink); stroke-width: 3.5; }
+        .s01 .c60 .hand { stroke: var(--ink); stroke-width: 3.5; stroke-linecap: round; }
+        .s01 .pr { position: absolute; left: 90px; top: 1036px; width: 470px; height: 300px; padding: 30px 34px; gap: 0; }
         .s01 .pr .egg-card-top { margin-bottom: 26px; }
         .s01 .pr .st { font: 400 24px/1 var(--f-mono); color: var(--graphite); }
         .s01 .row { position: relative; height: 40px; display: flex; align-items: center; gap: 14px; }
         .s01 .row b { width: 18px; font: 400 24px/1 var(--f-mono); color: var(--smoke); text-align: center; }
-        .s01 .row i { display: block; height: 14px; border-radius: 7px; background: var(--stone); transform-origin: 0 50%; }
-        .s01 .row.add i { background: var(--graphite); }
+        .s01 .row code { font: 400 18px/1 var(--f-mono); color: var(--graphite); white-space: pre; }
+        .s01 .row.del code { color: var(--smoke); text-decoration: line-through; }
+        .s01 .row.add code { color: var(--ink); font-weight: 500; background: var(--stone); border-radius: 4px; padding: 3px 4px; }
         .s01 .lens { position: absolute; left: 0; top: 0; width: 120px; height: 120px; }
         .s01 .lens circle { fill: rgba(253, 252, 252, 0.35); stroke: var(--ink); stroke-width: 6; }
         .s01 .lens path { stroke: var(--ink); stroke-width: 9; stroke-linecap: round; }
-        .s01 .cmt { position: absolute; left: 300px; top: 1250px; display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+        .s01 .cmt { position: absolute; left: 300px; top: 1288px; display: flex; align-items: center; gap: 12px; padding: 14px 18px;
           background: var(--eggshell); border: 2px solid var(--ink); border-radius: 22px; box-shadow: var(--shadow); transform-origin: 0 100%; }
         .s01 .cmt img { width: 40px; height: 40px; }
-        .s01 .cmt i { display: block; width: 150px; height: 12px; border-radius: 6px; background: var(--graphite); }
+        .s01 .cmt span { font: 500 30px/1 var(--f-body); color: var(--ink); white-space: nowrap; }
       </style>
       <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
         <div class="egg-scene s01">
           <img class="cl logo" src="assets/claude-logo.svg" alt="Claude">
           <h1 class="egg-display ttl"><span class="l">How the Claude</span><span class="l">Code team does</span><span class="l"><span class="egg-hl">code review</span></span></h1>
-          <span class="egg-chip sw"><svg viewBox="0 0 34 34"><circle class="ring" cx="17" cy="19" r="13" /><line class="hand" x1="17" y1="19" x2="17" y2="10" /><line class="hand" x1="14" y1="3" x2="20" y2="3" /></svg>Under 60 seconds</span>
+          <div class="c60"><div class="k"><svg viewBox="0 0 34 34"><circle class="ring" cx="17" cy="19" r="13" /><line class="hand" x1="17" y1="19" x2="17" y2="10" /><line class="hand" x1="14" y1="3" x2="20" y2="3" /></svg>in under</div><div class="big"><span class="num">60</span><span class="u">seconds</span></div></div>
           <div class="egg-card pr">
-            <div class="egg-card-top"><span class="egg-card-kicker">Pull request</span><span class="st">+12 −3</span></div>
+            <div class="egg-card-top"><span class="egg-card-kicker">Pull request</span><span class="st">+2 −1</span></div>
             <div class="rows"></div>
           </div>
           <svg class="lens" viewBox="0 0 120 120" aria-hidden="true"><circle cx="48" cy="48" r="34" /><path d="M73 73 L106 106" /></svg>
-          <div class="cmt"><img src="assets/claude-logo.svg" alt=""><i></i></div>
+          <div class="cmt"><img src="assets/claude-logo.svg" alt=""><span>Add a test?</span></div>
         </div>
       </div>
       <script>
@@ -66,10 +72,11 @@
           const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
           const q = (s) => root.querySelector(s);
           const all = (s) => [...root.querySelectorAll(s)];
-          // [gutter mark, bar width]: a small diff, two lines removed and three added
-          const ROWS = [["", 300], ["", 220], ["−", 260], ["+", 330], ["+", 180], ["", 280], ["−", 200]];
-          q(".rows").innerHTML = ROWS.map(([m, w]) => `<div class="row${m === "+" ? " add" : ""}"><b>${m}</b><i style="width:${w}px"></i></div>`).join("");
-          const lines = all(".ttl .l"), bars = all(".row i"), lens = q(".lens");
+          // the fix's diff, real code (the same lines as s03's config.ts): [gutter mark, code]
+          const ROWS = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", "const theme = config.theme?.name"], ["+", '  ?? "light";']];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          q(".rows").innerHTML = ROWS.map(([m, c]) => `<div class="row${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
+          const lines = all(".ttl .l"), code = all(".row code"), lens = q(".lens");
 
           const tl = gsap.timeline({ paused: true });
           // "Here's how the Claude Code team…": the hook is on screen from frame 0 (it is the thumbnail); the mark turns
@@ -78,15 +85,15 @@
           Egg.highlight(tl, q(".ttl .egg-hl"), 1.85);
           // a pull request is read, and a review comment pops off it
           Egg.fadeUp(tl, q(".pr"), 2.0, { y: 24 });
-          Egg.bars(tl, bars, 2.1, { dur: 0.4, stagger: 0.05 });
-          tl.fromTo(lens, { x: 140, y: 1030, opacity: 0 }, { x: 140, y: 1030, opacity: 1, duration: 0.25, ease: "none" }, 2.55);
-          tl.to(lens, { keyframes: [{ x: 320, y: 1030, duration: 0.45 }, { x: 160, y: 1110, duration: 0.4 }, { x: 330, y: 1150, duration: 0.45 }], ease: "power1.inOut" }, 2.8);
+          tl.fromTo(code, { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out", stagger: 0.07 }, 2.1);
+          tl.fromTo(lens, { x: 140, y: 1076, opacity: 0 }, { x: 140, y: 1076, opacity: 1, duration: 0.25, ease: "none" }, 2.55);
+          tl.to(lens, { keyframes: [{ x: 320, y: 1086, duration: 0.45 }, { x: 160, y: 1136, duration: 0.4 }, { x: 330, y: 1166, duration: 0.45 }], ease: "power1.inOut" }, 2.8);
           Egg.pop(tl, q(".cmt"), 3.5, { dur: 0.45 });
-          // "…in under sixty seconds": the stopwatch chip, its hand sweeping
-          Egg.pop(tl, q(".sw"), 2.64, { dur: 0.45 });
-          tl.fromTo(all(".sw .hand")[0], { rotation: 0 }, { rotation: 360, svgOrigin: "17 19", duration: 1.5, ease: "none" }, 2.75);
+          // "…in under sixty seconds": the lockup (up since frame 0) punches, its stopwatch hand sweeps
+          tl.to(q(".c60 .num"), { scale: 1.1, duration: 0.18, ease: "power2.out", yoyo: true, repeat: 1 }, 2.64);
+          tl.fromTo(all(".c60 .hand")[0], { rotation: 0 }, { rotation: 360, svgOrigin: "17 19", duration: 1.5, ease: "none" }, 2.34);
 
-          Egg.fadeOut(tl, [q(".logo"), q(".ttl"), q(".sw"), q(".pr"), q(".cmt")], DUR - 0.35);
+          Egg.fadeOut(tl, [q(".logo"), q(".ttl"), q(".c60"), q(".pr"), q(".cmt")], DUR - 0.35);
           Egg.fadeOut(tl, lens, DUR - 0.35, { y: "-=20" });
           window.__timelines["s01-hook"] = tl;
         })();

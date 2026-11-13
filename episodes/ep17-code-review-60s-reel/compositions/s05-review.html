@@ -53,9 +53,12 @@
         #s05-root .band { position: absolute; left: 112px; width: 816px; border-radius: 14px; background: rgba(225, 29, 72, 0.1); }
         #s05-root .dl { position: absolute; left: 0; top: 0; height: 40px; display: flex; align-items: center; gap: 14px; }
         #s05-root .dl b { width: 22px; font: 400 28px/1 var(--f-mono); font-weight: 400; color: #8a857d; text-align: center; }
-        #s05-root .dl i { display: block; height: 14px; border-radius: 7px; background: #e6e3de; transform-origin: 0 50%; }
-        #s05-root .dl.add i { background: #9be3b4; }
-        #s05-root .dl.del i { background: #ffb3b3; }
+        #s05-root .dl code { font: 400 24px/30px var(--f-mono); color: #0d0d0c; white-space: pre; padding: 0 6px; border-radius: 4px; }
+        #s05-root .dl.add code { background: #c9f2d6; color: #0f5c2e; }
+        #s05-root .dl.del code { background: #ffd6d6; color: #9b1c1c; }
+        #s05-root .dls { position: absolute; inset: 0; z-index: 1; }   /* the code reads over the probe lines */
+        #s05-root .dl code { text-shadow: 0 0 3px #fdeef1, 0 0 3px #fdeef1, 0 0 6px #fdeef1; }
+        #s05-root .pins { position: absolute; inset: 0; z-index: 2; }
         #s05-root .probe { fill: none; stroke: #0d0d0c; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 12; }
         #s05-root .pd { fill: #0d0d0c; }
         #s05-root .pin { position: absolute; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%; background: #0d0d0c; color: #fff;
@@ -123,9 +126,13 @@
             pre: `<div class="rstamp sm" style="--acc:#5f5b55">${ic('<circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" />')}Pre-existing</div>`,
           };
           // the diff: nine lines on a 58 px pitch from y 690, [mark, bar width]
-          const DL = [["", 520], ["−", 430], ["+", 560], ["", 380], ["", 610], ["+", 470], ["", 300], ["−", 540], ["", 420]];
+          // real code: each finding pins to the line it is about (1 the old unsafe read, 3 the vague name t, 5 the cache, 7 the setTimeout)
+          const DL = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", 'const theme = config.theme?.name ?? "light";'],
+            ["", "const t = themes[theme];"], ["", "const cache = new Map();"], ["", "cache.set(path, t);"], ["+", 'log.info("theme", theme);'],
+            ["", "setTimeout(() => apply(t));"], ["", "return t;"]];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
           const rowY = (r) => 690 + r * 58;
-          q(".dls").innerHTML = DL.map(([m, w]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><i style="width:${w}px"></i></div>`).join("");
+          q(".dls").innerHTML = DL.map(([m, c]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
           const dls = all(".dl");
           dls.forEach((d, r) => gsap.set(d, { x: 124, y: rowY(r) }));
           // each agent probes its own band of lines: agent centre x, first row, rows
@@ -160,7 +167,7 @@
           Reel.words(tl, q(".h1"), [1.12, 1.32]);
           tl.fromTo(prc, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 1.44);
           Reel.badge(tl, q(".fix"), 1.6);
-          tl.fromTo(all(".dl i"), { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out", stagger: 0.04 }, 1.71);
+          tl.fromTo(all(".dl code"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out", stagger: 0.05 }, 1.71);
           tl.fromTo(all(".dl b"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 1.71);
           // "several agents"
           tl.fromTo(all(".ag"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.12 }, 2.56);

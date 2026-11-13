@@ -49,7 +49,9 @@
         #s04-root .tok:nth-child(3n + 3) { background: var(--tok-3); }
         #s04-root .diff { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 14px; background: var(--tok-1); width: 100%; }
         #s04-root .diff b { font: 400 28px/1 var(--f-mono); font-weight: 400; }
-        #s04-root .diff i { display: block; height: 12px; border-radius: 6px; background: #5f5b55; }
+        #s04-root .diff code { font: 400 17px/1.25 var(--f-mono); color: #0d0d0c; white-space: pre; }
+        #s04-root .diff code.del { color: #9b1c1c; }
+        #s04-root .diff code.add { color: #0f5c2e; }
         #s04-root .scan { position: absolute; left: 0; top: 0; width: 8px; height: 200px; border-radius: 4px; background: #0d0d0c; }
         #s04-root .ft { font: 400 30px/1.3 var(--f-body); color: #5f5b55; }
       </style>
@@ -82,7 +84,7 @@
             <div class="wc pan rv" style="left:530px">
               <div class="hd"><img class="rvl" src="assets/claude-logo.svg" alt="">Reviewer</div>
               <span class="k">// its context</span>
-              <div class="ctx"><div class="diff"><b>the change</b><i style="width:88%"></i><i style="width:64%"></i></div><span class="scan"></span></div>
+              <div class="ctx"><div class="diff"><b>the change</b><code class="del">− theme.name</code><code class="add">+ theme?.name ?? "light"</code></div><span class="scan"></span></div>
               <p class="ft"><span class="egg-hl">Fresh eyes</span>: only the change</p>
             </div>
           </div>

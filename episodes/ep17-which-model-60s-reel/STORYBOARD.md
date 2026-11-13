@@ -14,7 +14,7 @@ Slots overlap by 0.36 s at each whip (the outgoing scene slides out as the next 
 
 | Slot | Time | Canvas | What you see |
 |---|---|---|---|
-| s01 hook | 0–3.9 | white → yellow | Frame 0: `// claude models` and the four model tiles. "Which Claude *model?*" word by word; UNDER 60 SEC stamp on the row; a yellow bloom grows out of the Haiku tile. Avatar BIG at the bottom. |
+| s01 hook | 0–3.9 | white → yellow | Frame 0 is the whole title: `// claude models`, "Which Claude *model?*", big "in under 60 *seconds*" (red 60, 240 px) and the four model tiles; the accent punches on "model", the 60 on "sixty"; a yellow bloom grows out of the Haiku tile. Avatar BIG at the bottom. |
 | s02 four | 3.54–12.55 | yellow | "Four, small to *big.*"; the tiles land as a staircase, each on its name; a black scale bar; CHEAP + FAST stamped on Haiku, HARDER WORK on Fable. Avatar shrinks into the badge. |
 | s03 jobs | 12.19–20.75 | peach | "Four *jobs.*"; job cards slide in as said (tickets count to 10,000), each stamped MODEL?. |
 | s04 opus | 20.39–29.15 | light blue | "Start on *Opus.*"; the dark window: Opus 5.5 `// the daily driver`; the effort switch snaps to medium, steps to max as the thinking bar grows, back to medium; job 3 Fix a tricky bug, OPUS ✓. |
