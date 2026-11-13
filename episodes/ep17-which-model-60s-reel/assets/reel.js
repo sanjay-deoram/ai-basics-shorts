@@ -65,5 +65,12 @@
     return at + dur;
   }
 
-  window.Reel = { blurFor, whip, words, rows, clock, spin, DUR };
+  // A badge pill pops in, its icon disc spinning up a beat later.
+  function badge(tl, el, at) {
+    tl.fromTo(el, { opacity: 0, y: 24, scale: 0.85 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(2)" }, at);
+    tl.fromTo(el.querySelector("i"), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2.4)" }, at + 0.08);
+    return at + 0.45;
+  }
+
+  window.Reel = { blurFor, whip, words, rows, clock, spin, badge, DUR };
 })();

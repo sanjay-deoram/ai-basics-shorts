@@ -7,12 +7,12 @@
       {"t":0.95,"sfx":"tick","vol":0.16},
       {"t":1.55,"sfx":"pop","vol":0.22},
       {"t":2.2,"sfx":"pop","vol":0.16},
-      {"t":2.95,"sfx":"thud","vol":0.24},
+      {"t":2.95,"sfx":"pop","vol":0.24},
       {"t":3.57,"sfx":"pop","vol":0.18},
       {"t":4.95,"sfx":"zoom","vol":0.14},
-      {"t":5.9,"sfx":"thud","vol":0.24},
+      {"t":5.9,"sfx":"pop","vol":0.24},
       {"t":7.1,"sfx":"zoom","vol":0.14},
-      {"t":7.45,"sfx":"thud","vol":0.34},
+      {"t":7.45,"sfx":"pop","vol":0.34},
       {"t":7.5,"sfx":"success","vol":0.2},
       {"t":8.16,"sfx":"thud","vol":0.5}
     ]</script>
@@ -39,10 +39,9 @@
         #s08-root .light { top: 712px; height: 430px; background: #fff; }
         #s08-root .light .k { color: var(--grey); }
         #s08-root .light .k2 { position: absolute; left: 32px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: #8a857d; }
-        #s08-root .rstamp { font-size: 30px; padding: 6px 18px; border-width: 5px; }
-        #s08-root .x2 { left: 570px; top: 62px; color: #a39e95; background: #1c1b19; }
-        #s08-root .same { left: 300px; top: 66px; color: #2d4bff; background: #fff; }
-        #s08-root .half { left: 530px; top: 334px; font-size: 40px; color: #12a150; background: #fff; }
+        #s08-root .x2 { left: 600px; top: 62px; --acc: #5f5b55; color: #efece6; background: #2a2825; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08); }
+        #s08-root .same { left: 300px; top: 66px; --acc: #2d4bff; }
+        #s08-root .half { left: 530px; top: 334px; --acc: #12a150; }
       </style>
       <div id="s08-root" data-composition-id="s08-black" data-width="1080" data-height="1920">
         <div class="rl">
@@ -58,7 +57,7 @@
               <div class="br" style="top:0"><span class="m">Opus 5.5</span><span class="b p1" style="width:200px;background:#5f5b55"></span><span class="v" style="right:auto;left:500px">$4</span></div>
               <div class="br" style="top:56px"><span class="m">Fable 5.2</span><span class="b p2" style="width:400px;background:#a39e95"></span><span class="v" style="right:auto;left:700px">$8</span></div>
             </div>
-            <div class="rstamp x2" data-layout-allow-overlap="">2× per token</div>
+            <div class="rstamp sm x2" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6" /></svg></i>2× per token</div>
           </div>
           <div class="card light">
             <div class="k">// frontiercode 2.0 · one coding test</div>
@@ -72,8 +71,8 @@
               <div class="br" style="top:0"><span class="m">Opus <b>· max</b></span><span class="b c1" style="width:470px;background:#0d0d0c"></span></div>
               <div class="br" style="top:60px"><span class="m">Fable <b>· high</b></span><span class="b c2" style="width:235px;background:#12a150"></span></div>
             </div>
-            <div class="rstamp same" data-layout-allow-overlap="">Same score</div>
-            <div class="rstamp half" data-layout-allow-overlap="">½ the cost</div>
+            <div class="rstamp sm same" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h14M5 15h14" /></svg></i>Same score</div>
+            <div class="rstamp half" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 17 13.5 8.5 8.5 13.5 2 7M16 17h6v-6" /></svg></i>½ the cost</div>
           </div>
         </div>
       </div>
@@ -93,17 +92,17 @@
           Reel.words(tl, q(".rl-hd"), [0.95, 1.28, 1.55, 2.2, 2.5, 2.9]);
           tl.fromTo(dark, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 2.2);
           grow([q(".p1"), q(".p2")], 2.35);
-          Egg.stamp(tl, q(".x2"), 2.95, dark);
+          Reel.badge(tl, q(".x2"), 2.95);
           // "on one coding test"
           tl.fromTo(light, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.57);
           // "Fable matched Opus at max effort"
           tl.fromTo([k2[0], rowsL[0]], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 4.9);
           grow([q(".s1"), q(".s2")], 4.95);
-          Egg.stamp(tl, q(".same"), 5.9);
+          Reel.badge(tl, q(".same"), 5.9);
           // "for about half the cost"
           tl.fromTo([k2[1], rowsL[1]], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 7.05);
           grow([q(".c1"), q(".c2")], 7.1);
-          Egg.stamp(tl, q(".half"), 7.45, light);
+          Reel.badge(tl, q(".half"), 7.45);
           // the music hit: the card punches, then the frame holds to the hard stop
           tl.to(light, { scale: 1.03, duration: 0.12, ease: "power2.out" }, 8.16);
           tl.to(light, { scale: 1, duration: 0.3, ease: "power2.out" }, 8.28);

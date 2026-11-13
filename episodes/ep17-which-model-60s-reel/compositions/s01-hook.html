@@ -7,7 +7,7 @@
       {"t":0.6,"sfx":"tick","vol":0.16},
       {"t":1.35,"sfx":"tick","vol":0.16},
       {"t":1.8,"sfx":"pop","vol":0.22},
-      {"t":2.9,"sfx":"thud","vol":0.36},
+      {"t":2.9,"sfx":"pop","vol":0.36},
       {"t":3.1,"sfx":"bloom","vol":0.3},
       {"t":3.5,"sfx":"whip","vol":0.34}
     ]</script>
@@ -24,7 +24,9 @@
         #s01-root .bloom { position: absolute; left: 190px; top: 720px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #ffd84d; }
         #s01-root .rl-hd { --acc: #2d4bff; font-size: 108px; line-height: 110px; }
         #s01-root .mt { top: 620px; height: 200px; }
-        #s01-root .rstamp { left: 560px; top: 560px; color: #e11d48; background: #fdfcfc; }
+        #s01-root .rstamp { left: 520px; top: 510px; height: 80px; gap: 14px; padding: 0 32px 0 12px; font-size: 42px; --acc: #e11d48; }
+        #s01-root .rstamp i { width: 56px; height: 56px; }
+        #s01-root .rstamp svg { width: 34px; height: 34px; }
       </style>
       <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
         <div class="rl">
@@ -34,7 +36,7 @@
             <div class="mt" style="left:310px"><img src="assets/claude-logo.svg" alt=""><span class="n">Sonnet</span><span class="v">5.5</span></div>
             <div class="mt" style="left:530px"><img src="assets/claude-logo.svg" alt=""><span class="n">Opus</span><span class="v">5.5</span></div>
             <div class="mt" style="left:750px"><img src="assets/claude-logo.svg" alt=""><span class="n">Fable</span><span class="v">5.2</span></div>
-            <div class="rstamp" data-layout-allow-overlap="">Under 60 sec</div>
+            <div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5" /><path d="M12 13.5l3-3M10 2.5h4" /></svg></i>Under 60 sec</div>
             <div class="bloom" data-layout-allow-overflow=""></div>
             <div class="rl-eye">// claude models</div>
             <div class="rl-hd">
@@ -58,7 +60,7 @@
           Reel.words(tl, hd, [0.6, 1.35, 1.8]);
           tl.to(tiles, { y: -14, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.07 }, 1.85);
           // "in under sixty seconds"
-          Egg.stamp(tl, root.querySelector(".rstamp"), 2.9, tiles[2]);
+          Reel.badge(tl, root.querySelector(".rstamp"), 2.9);
           // Haiku blooms yellow and fills the frame (the next beat is yellow)
           tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.1);
           Reel.whip(tl, cam, blur, 3.54, "out");

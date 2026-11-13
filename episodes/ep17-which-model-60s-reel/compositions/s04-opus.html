@@ -15,7 +15,7 @@
       {"t":5.65,"sfx":"click","vol":0.18},
       {"t":6.2,"sfx":"zoom","vol":0.14},
       {"t":7.02,"sfx":"pop","vol":0.2},
-      {"t":7.9,"sfx":"thud","vol":0.24},
+      {"t":7.9,"sfx":"pop","vol":0.24},
       {"t":7.95,"sfx":"success","vol":0.18},
       {"t":8.36,"sfx":"whip","vol":0.32}
     ]</script>
@@ -41,7 +41,7 @@
         #s04-root .think { position: absolute; left: 0; top: 270px; width: 790px; height: 30px; border-radius: 15px; background: var(--term-2); overflow: hidden; }
         #s04-root .think i { position: absolute; inset: 0; border-radius: 15px; background: var(--claude); transform-origin: 0 50%; }
         #s04-root .wc { top: 1006px; }
-        #s04-root .wc .rstamp { color: #12a150; }
+        #s04-root .wc .rstamp { --acc: #12a150; }
       </style>
       <div id="s04-root" data-composition-id="s04-opus" data-width="1080" data-height="1920">
         <div class="rl">
@@ -64,7 +64,7 @@
                 <div class="think"><i></i></div>
               </div>
             </div>
-            <div class="wc"><div class="k">// job 3</div><div class="v">Fix a tricky bug</div><div class="rstamp" data-layout-allow-overlap="">Opus ✓</div></div>
+            <div class="wc"><div class="k">// job 3</div><div class="v">Fix a tricky bug</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></i>Opus</div></div>
           </div>
         </div>
       </div>
@@ -103,7 +103,7 @@
           level(1, 6.2, 0.35);
           // "The tricky bug stays here"
           tl.fromTo(wc, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 7.02);
-          Egg.stamp(tl, q(".wc .rstamp"), 7.9, wc);
+          Reel.badge(tl, q(".wc .rstamp"), 7.9);
           Reel.whip(tl, cam, blur, 8.4, "out");
 
           window.__timelines["s04-opus"] = tl;

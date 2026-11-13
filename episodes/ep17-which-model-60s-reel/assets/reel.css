@@ -58,13 +58,16 @@
 .term .msg { color: var(--term-text); background: var(--term-2); border-radius: 12px; padding: 10px 16px; white-space: normal; height: auto; }
 .term .msg b { color: var(--term-dim); font-weight: 400; margin-right: 12px; }
 
-/* status chip */
-.chip { position: absolute; height: 60px; padding: 0 24px; border-radius: 30px; background: #fff; border: 2px solid var(--line); display: flex; align-items: center; gap: 12px;
-  font: 400 28px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
-.chip svg { width: 28px; height: 28px; }
-
-/* rubber stamp */
-.rstamp { position: absolute; padding: 12px 26px; border: 6px solid currentColor; border-radius: 14px; font: 400 40px/1.1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+/* badge pill (shadcn Badge with a leading icon): white, soft ring shadow like the tiles, the icon disc in --acc.
+   Markup: <div class="rstamp" style="--acc:…"><i><svg viewBox="0 0 24 24">…</svg></i>Label</div>. .sm (and on a .wc card) is the compact size. */
+.rstamp { position: absolute; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 26px 0 10px; border-radius: 9999px; background: #fff;
+  box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.05); font: 500 32px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+.rstamp i { flex: none; width: 44px; height: 44px; border-radius: 50%; background: var(--acc, var(--ink)); display: grid; place-items: center; }
+.rstamp svg { width: 28px; height: 28px; fill: none; stroke: #fff; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.rstamp svg.fill { fill: #fff; stroke-width: 1.5; }
+.rstamp.sm, .wc .rstamp { height: 54px; gap: 10px; padding: 0 22px 0 8px; font-size: 28px; }
+.rstamp.sm i, .wc .rstamp i { width: 38px; height: 38px; }
+.rstamp.sm svg, .wc .rstamp svg { width: 24px; height: 24px; }
 
 /* section canvas: a flat colour with a faint dot grid (the camera whips across it) */
 .rl-bg.grid { background-image: radial-gradient(rgba(0, 0, 0, 0.09) 1.6px, rgba(0, 0, 0, 0) 2.2px); background-size: 36px 36px; }
@@ -90,4 +93,4 @@
 .wc { position: absolute; left: 90px; width: 860px; padding: 24px 32px; border-radius: 26px; background: #fff; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.25); }
 .wc .k { font: 400 26px/32px var(--f-mono); color: var(--grey); }
 .wc .v { margin-top: 8px; font: 500 40px/48px var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
-.wc .rstamp { right: 26px; top: -26px; font-size: 30px; padding: 6px 18px; border-width: 5px; background: #fff; }
+.wc .rstamp { right: 26px; top: -27px; }

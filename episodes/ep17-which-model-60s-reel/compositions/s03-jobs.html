@@ -7,13 +7,13 @@
       {"t":1.6,"sfx":"pop","vol":0.22},
       {"t":2.38,"sfx":"pop","vol":0.2},
       {"t":2.5,"sfx":"flurry","vol":0.14},
-      {"t":2.75,"sfx":"thud","vol":0.18},
+      {"t":2.75,"sfx":"pop","vol":0.18},
       {"t":4.3,"sfx":"pop","vol":0.2},
-      {"t":4.67,"sfx":"thud","vol":0.18},
+      {"t":4.67,"sfx":"pop","vol":0.18},
       {"t":6.23,"sfx":"pop","vol":0.2},
-      {"t":6.6,"sfx":"thud","vol":0.18},
+      {"t":6.6,"sfx":"pop","vol":0.18},
       {"t":7.2,"sfx":"pop","vol":0.2},
-      {"t":7.57,"sfx":"thud","vol":0.2},
+      {"t":7.57,"sfx":"pop","vol":0.2},
       {"t":8.16,"sfx":"whip","vol":0.32}
     ]</script>
   </head>
@@ -27,7 +27,7 @@
       <style>
         #s03-root .bg { background-color: #ffe1cc; }
         #s03-root .rl-hd { --acc: #c2410c; }
-        #s03-root .wc .rstamp { color: #5f5b55; }
+        #s03-root .wc .rstamp { --acc: #5f5b55; }
       </style>
       <div id="s03-root" data-composition-id="s03-jobs" data-width="1080" data-height="1920">
         <div class="rl">
@@ -35,10 +35,10 @@
             <div class="rl-bg grid bg"></div>
             <div class="rl-eye">// say your app has</div>
             <div class="rl-hd"><span class="ln"><span class="w">Four </span><em class="w">jobs.</em></span></div>
-            <div class="wc" style="top:470px"><div class="k">// job 1 · tickets</div><div class="v">Tag <span class="cnt">10,000</span> tickets</div><div class="rstamp" data-layout-allow-overlap="">Model?</div></div>
-            <div class="wc" style="top:640px"><div class="k">// job 2 · a customer waits</div><div class="v">Reply in chat</div><div class="rstamp" data-layout-allow-overlap="">Model?</div></div>
-            <div class="wc" style="top:810px"><div class="k">// job 3 · somewhere in the code</div><div class="v">Fix a tricky bug</div><div class="rstamp" data-layout-allow-overlap="">Model?</div></div>
-            <div class="wc" style="top:980px"><div class="k">// job 4 · many steps</div><div class="v">Migrate the database</div><div class="rstamp" data-layout-allow-overlap="">Model?</div></div>
+            <div class="wc" style="top:470px"><div class="k">// job 1 · tickets</div><div class="v">Tag <span class="cnt">10,000</span> tickets</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" /></svg></i>Model?</div></div>
+            <div class="wc" style="top:640px"><div class="k">// job 2 · a customer waits</div><div class="v">Reply in chat</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" /></svg></i>Model?</div></div>
+            <div class="wc" style="top:810px"><div class="k">// job 3 · somewhere in the code</div><div class="v">Fix a tricky bug</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" /></svg></i>Model?</div></div>
+            <div class="wc" style="top:980px"><div class="k">// job 4 · many steps</div><div class="v">Migrate the database</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01" /></svg></i>Model?</div></div>
           </div>
         </div>
       </div>
@@ -59,7 +59,7 @@
           // each job as it is said, stamped MODEL?
           [2.38, 4.3, 6.23, 7.2].forEach((t, i) => {
             tl.fromTo(cards[i], { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, t);
-            Egg.stamp(tl, cards[i].querySelector(".rstamp"), t + 0.37);
+            Reel.badge(tl, cards[i].querySelector(".rstamp"), t + 0.37);
           });
           Egg.count(tl, q(".cnt"), 0, 10000, 2.45, { dur: 0.9, fmt: (v) => (Math.round(v / 50) * 50).toLocaleString("en-US") });
           Reel.whip(tl, cam, blur, 8.2, "out");
