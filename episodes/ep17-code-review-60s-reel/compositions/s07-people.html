@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.56,"sfx":"pop","vol":0.16},
+      {"t":0.66,"sfx":"pop","vol":0.16},
+      {"t":0.76,"sfx":"pop","vol":0.16},
+      {"t":1.62,"sfx":"zoom","vol":0.14},
+      {"t":2.27,"sfx":"pen","vol":0.14,"dur":0.6},
+      {"t":2.66,"sfx":"pop","vol":0.16},
+      {"t":2.78,"sfx":"pop","vol":0.16},
+      {"t":2.9,"sfx":"pop","vol":0.16},
+      {"t":3.58,"sfx":"zoom","vol":0.14},
+      {"t":4.08,"sfx":"thud","vol":0.16},
+      {"t":4.46,"sfx":"pop","vol":0.2},
+      {"t":5.06,"sfx":"zoom","vol":0.14},
+      {"t":5.56,"sfx":"thud","vol":0.16},
+      {"t":5.89,"sfx":"pop","vol":0.22},
+      {"t":6.31,"sfx":"zoom","vol":0.14},
+      {"t":6.69,"sfx":"thud","vol":0.16},
+      {"t":6.92,"sfx":"pop","vol":0.22},
+      {"t":7.04,"sfx":"pop","vol":0.22}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Layer 4 · People, by risk. Lavender: three changes wait in a queue (badges: a docs typo, our fix, a change to
+           the riskiest code); "People, by risk." word by word; a risk classifier (a funnel) on the right and three bins
+           below it, LOW · MEDIUM · HIGH, each with its approver slots (dashed people) over a lower → higher risk arrow.
+           Each change drops through the classifier as it is named: the docs typo into LOW (no approver), our fix into
+           MEDIUM (one person turns solid), the riskiest change into HIGH (two people). Foot: the classifier rates the
+           change, not who wrote it. No whip: a hard cut to the black payoff. Badge bottom-left (narrator).
+           Voiceover (scene-local, +0.36 for the whip): 0.54 "Layer four: people, scaled by risk. Docs need no approver,
+           normal changes one, the riskiest two." -->
+      <style>
+        #s07-root .bg { background-color: #e6dcff; }
+        #s07-root .rl-hd { --acc: #7c3aed; }
+        #s07-root .q { transform-origin: 0 0; }
+        #s07-root .fn { fill: none; stroke: #0d0d0c; stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+        #s07-root .fk { position: absolute; left: 560px; width: 340px; top: 642px; text-align: center; font: 400 28px/32px var(--f-mono); color: #5f5b55; }
+        #s07-root .bin { top: 690px; width: 266px; height: 470px; padding: 0; }
+        #s07-root .bin .rstamp { left: 16px; top: 18px; right: auto; }
+        #s07-root .bin .ex { position: absolute; left: 22px; top: 92px; width: 222px; font: 400 30px/1.2 var(--f-body); color: #5f5b55; }
+        #s07-root .bin .zone { position: absolute; left: 18px; top: 170px; width: 230px; height: 100px; border: 2px dashed #c9c4bd; border-radius: 20px; }
+        #s07-root .bin .ppl { position: absolute; left: 0; width: 266px; top: 292px; display: flex; justify-content: center; gap: 14px; }
+        #s07-root .slot { position: relative; width: 84px; height: 84px; }
+        #s07-root .slot svg { position: absolute; inset: 0; width: 84px; height: 84px; }
+        #s07-root .slot .ghost { stroke: #c9c4bd; stroke-dasharray: 6 8; }
+        #s07-root .zero { position: absolute; inset: 0; display: grid; place-items: center; font: 600 64px/1 var(--f-display); color: #0d0d0c; }
+        #s07-root .bin .lab { position: absolute; left: 0; width: 266px; top: 408px; text-align: center; font: 600 36px/1 var(--f-display); letter-spacing: -0.02em; color: #0d0d0c; }
+        #s07-root .risk { fill: none; stroke: #0d0d0c; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+        #s07-root .rk { position: absolute; top: 1208px; font: 400 28px/32px var(--f-mono); color: #5f5b55; }
+        #s07-root .foot { position: absolute; left: 320px; top: 1262px; width: 630px; font: 400 30px/1.3 var(--f-body); color: #5f5b55; }
+        #s07-root .egg-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="s07-root" data-composition-id="s07-people" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// layer 4 · people, by risk</div>
+            <span class="trk"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+            <div class="rl-hd"><span class="ln"><span class="w">People, </span><span class="w">by </span><em class="w">risk.</em></span></div>
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path class="fn f0" d="M632 430 H828" />
+              <path class="fn f1" d="M640 434 L715 570 V630" />
+              <path class="fn f2" d="M820 434 L745 570 V630" />
+              <path class="risk ra" d="M100 1190 H940 M918 1176 L940 1190 L918 1204" />
+            </svg>
+            <span class="fk">// risk classifier</span>
+            <span class="rk" style="left:90px">// lower risk</span>
+            <span class="rk" style="left:690px;width:260px;text-align:right">// higher risk</span>
+            <div class="bins"></div>
+            <p class="foot">The classifier rates the change, not who wrote it.</p>
+            <div class="rstamp q dc" style="--acc:#8a857d" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3h7l4 4v14H7zM14 3v4h4M10 12h5M10 16h5" /></svg></i>Docs: fix a typo</div>
+            <div class="rstamp q fx" style="--acc:#0d0d0c" data-layout-allow-overlap=""><i><svg class="thin" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="13.8" rx="4.8" ry="6" /><path d="M12 8.4V19.8M9 5.4l1.5 2.7M15 5.4l-1.5 2.7M7.2 11.4H3M7.2 15.6H3M16.8 11.4H21M16.8 15.6H21M8.1 18.6l-3.3 2.7M15.9 18.6l3.3 2.7" /></svg></i>Fix: empty config crash</div>
+            <div class="rstamp q rs" style="--acc:#e11d48" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 21 19.5H3zM12 10v4.5M12 17h.01" /></svg></i>Riskiest code path</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s07-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const PERSON = (cls) => `<svg class="person ${cls}" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="27" r="15" /><path d="M13 78 C13 56 26 47 42 47 C58 47 71 56 71 78" /></svg>`;
+          const BARS = (n) => `<i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="${["M6 19v-4", "M12 19v-8", "M18 19v-12"].slice(0, n + 1).join("")}" /></svg></i>`;
+          // [x, tag colour, tag, examples, approvers, label]
+          const BIN = [
+            [90, "#12a150", "Low", "Docs, copy", 0, "No approver"],
+            [387, "#e8590c", "Medium", "Normal changes", 1, "1 approver"],
+            [684, "#e11d48", "High", "Riskiest code", 2, "2 approvers"],
+          ];
+          q(".bins").innerHTML = BIN.map(([x, c, t, ex, n, lab], b) => `<div class="wc bin" style="left:${x}px"><div class="rstamp" style="--acc:${c}" data-layout-allow-overlap="">${BARS(b)}${t}</div><p class="ex">${ex}</p><i class="zone"></i>` +
+            `<div class="ppl">${n === 0 ? `<span class="slot">${PERSON("ghost")}<span class="zero">0</span></span>` : Array.from({ length: n }, () => `<span class="slot">${PERSON("ghost")}${PERSON("solid")}</span>`).join("")}</div>` +
+            `<span class="lab">${lab}</span></div>`).join("");
+          const bins = all(".bin");
+          // queue: [badge, y, bin]
+          const CH = [[q(".dc"), 420, 0], [q(".fx"), 500, 1], [q(".rs"), 580, 2]];
+          CH.forEach(([el, y]) => gsap.set(el, { x: 90, y }));
+          const S = 0.42, H = 64 * S;
+          ["f0", "f1", "f2", "ra"].forEach((c) => { const p = q("." + c); p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          gsap.set([q(".trk"), q(".fk"), ...all(".rk"), q(".foot"), ...bins, ...all(".solid"), ...all(".bin .lab")], { opacity: 0 });
+          Reel.whip(tl, q(".rl-cam"), Reel.blurFor(q(".rl-cam"), "s07-mb"), 0, "in");
+
+          tl.fromTo([q(".rl-eye"), q(".trk")], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          CH.forEach(([el], i) => tl.fromTo(el, { opacity: 0, scale: 0.85 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2)" }, 0.56 + i * 0.1));
+          // "people,": the bins and their approver slots
+          tl.fromTo(bins, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out", stagger: 0.1 }, 1.62);
+          Reel.words(tl, q(".rl-hd"), [1.62, 2.5, 2.66]);
+          // "scaled by risk": the classifier draws, the bins get their risk
+          tl.to([q(".f0"), q(".f1"), q(".f2")], { strokeDashoffset: 0, duration: 0.5, ease: "power3.out", stagger: 0.08 }, 2.27);
+          tl.fromTo(q(".fk"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 2.56);
+          tl.to(q(".ra"), { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 2.46);
+          tl.fromTo(all(".rk"), { opacity: 0 }, { opacity: 1, duration: 0.25, stagger: 0.1 }, 2.76);
+          bins.forEach((b, i) => Reel.badge(tl, b.querySelector(".rstamp"), 2.66 + i * 0.12));
+          tl.fromTo(q(".foot"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 2.96);
+          // each change drops through the classifier into its bin as it's named
+          const drop = ([el, , b], T, k = 1) => {
+            const w = el.offsetWidth, mx = 730 - (w * S) / 2;
+            tl.to(el, { x: mx, y: 430 - H - 2, scale: S, duration: 0.35 * k, ease: "power2.in" }, T);
+            tl.to(el, { opacity: 0, duration: 0.06, ease: "none" }, T + 0.35 * k);
+            tl.set(el, { x: mx, y: 600 }, T + 0.42 * k);
+            tl.to(el, { opacity: 1, duration: 0.08, ease: "none" }, T + 0.42 * k);
+            tl.to(el, { x: BIN[b][0] + 133 - (w * S) / 2, y: 690 + 220 - H / 2, duration: 0.4 * k, ease: "power2.out" }, T + 0.48 * k);
+            return T + 0.88 * k;
+          };
+          // "Docs need no approver"
+          const t0 = drop(CH[0], 3.58);
+          tl.to(bins[0].querySelector(".ghost"), { opacity: 0.35, duration: 0.25, ease: "none" }, t0);
+          tl.fromTo(bins[0].querySelector(".zero"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)" }, t0);
+          // "normal changes one"
+          const t1 = drop(CH[1], 5.06);
+          tl.fromTo(bins[1].querySelector(".solid"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)" }, t1 - 0.05);
+          // "the riskiest two"
+          const t2 = drop(CH[2], 6.31, 0.75);
+          tl.fromTo(bins[2].querySelectorAll(".solid"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2.2)", stagger: 0.12 }, t2 - 0.05);
+          [t0, t1, t2].forEach((t, i) => tl.fromTo(bins[i].querySelector(".lab"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, t + 0.05));
+          tl.to({}, { duration: 7.56 }, 0);
+
+          window.__timelines["s07-people"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
