@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"tick","vol":0.14},
+      {"t":1.4,"sfx":"tick","vol":0.16},
+      {"t":1.89,"sfx":"pop","vol":0.22},
+      {"t":2.0,"sfx":"enter","vol":0.18},
+      {"t":2.46,"sfx":"pen","vol":0.14},
+      {"t":3.64,"sfx":"click","vol":0.22},
+      {"t":4.75,"sfx":"click","vol":0.14},
+      {"t":5.05,"sfx":"click","vol":0.14},
+      {"t":5.35,"sfx":"click","vol":0.16},
+      {"t":5.65,"sfx":"click","vol":0.18},
+      {"t":6.2,"sfx":"zoom","vol":0.14},
+      {"t":7.02,"sfx":"pop","vol":0.2},
+      {"t":7.9,"sfx":"thud","vol":0.24},
+      {"t":7.95,"sfx":"success","vol":0.18},
+      {"t":8.36,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Rule 1 · Opus. Light blue: "Start on Opus." word by word; the dark window opens on Opus 5.5 with
+           `// the daily driver` lighting on its words. "at medium effort": the effort switch (low · medium · high ·
+           xhigh · max) snaps to medium. "Effort is how long it thinks first": the thinking bar grows as the switch
+           steps up to max, then settles back on medium. "The tricky bug stays here": job 3 slides in under the window,
+           stamped OPUS ✓. Whip out. Badge bottom-left (narrator).
+           Voiceover: 0.46 "Rule one: start on Opus, the daily driver, at medium effort. Effort is how long it thinks
+           first. The tricky bug stays here." -->
+      <style>
+        #s04-root .bg { background-color: #d6e4ff; }
+        #s04-root .rl-hd { --acc: #1f6feb; }
+        #s04-root .term { top: 530px; height: 440px; }
+        #s04-root .term .hdr .t2 { padding: 4px 8px; border-radius: 8px; }
+        #s04-root .lab { position: absolute; left: 0; font: 400 28px/40px var(--f-mono); color: var(--term-dim); }
+        #s04-root .seg { position: absolute; left: 0; top: 140px; width: 790px; height: 72px; border: 2px solid var(--term-line); border-radius: 18px; }
+        #s04-root .seg span { position: absolute; top: 0; width: 158px; height: 68px; text-align: center; font: 400 28px/68px var(--f-mono); color: var(--term-dim); }
+        #s04-root .seg .hi { position: absolute; left: 0; top: 6px; width: 146px; height: 56px; border-radius: 12px; background: #1f6feb; }
+        #s04-root .think { position: absolute; left: 0; top: 270px; width: 790px; height: 30px; border-radius: 15px; background: var(--term-2); overflow: hidden; }
+        #s04-root .think i { position: absolute; inset: 0; border-radius: 15px; background: var(--claude); transform-origin: 0 50%; }
+        #s04-root .wc { top: 1006px; }
+        #s04-root .wc .rstamp { color: #12a150; }
+      </style>
+      <div id="s04-root" data-composition-id="s04-opus" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// rule 1</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Start </span><span class="w">on</span></span>
+              <span class="ln"><em class="w">Opus.</em></span>
+            </div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>model</span></div>
+              <div class="tb">
+                <div class="hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">Opus 5.5</span><span class="t2">// the daily driver</span></div>
+                <div class="lab" style="top:86px">effort</div>
+                <div class="seg"><div class="hi"></div>
+                  <span style="left:0">low</span><span style="left:158px">medium</span><span style="left:316px">high</span><span style="left:474px">xhigh</span><span style="left:632px">max</span>
+                </div>
+                <div class="lab tl2" style="top:224px">✻ thinks before it answers</div>
+                <div class="think"><i></i></div>
+              </div>
+            </div>
+            <div class="wc"><div class="k">// job 3</div><div class="v">Fix a tricky bug</div><div class="rstamp" data-layout-allow-overlap="">Opus ✓</div></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s04-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s04-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const term = q(".term"), hi = q(".seg .hi"), fill = q(".think i"), labs = all(".seg span"), wc = q(".wc");
+          gsap.set([term, wc, q(".tl2"), q(".think")], { opacity: 0 });
+          gsap.set(hi, { x: 6 }); gsap.set(fill, { scaleX: 0.2 });
+          // the switch snaps to effort level i (0 low … 4 max); the bar follows
+          const level = (i, at, d = 0.22) => {
+            tl.to(hi, { x: 6 + i * 158, duration: d, ease: "power3.out" }, at);
+            tl.to(fill, { scaleX: (i + 1) / 5, duration: d + 0.1, ease: "power3.out" }, at);
+            labs.forEach((l, j) => tl.to(l, { color: j === i ? "#ffffff" : "#a39e95", duration: 0.1 }, at));
+          };
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.4);
+          // "start on Opus"
+          Reel.words(tl, q(".rl-hd"), [1.4, 1.6, 1.89]);
+          tl.fromTo(term, { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 1.95);
+          tl.fromTo(q(".hdr img"), { rotation: -90 }, { rotation: 0, duration: 0.5, ease: "power3.out" }, 2.0);
+          // "the daily driver"
+          tl.to(q(".hdr .t2"), { backgroundColor: "#1f6feb", color: "#ffffff", duration: 0.15 }, 2.46);
+          // "at medium effort"
+          level(1, 3.64);
+          // "Effort is how long it thinks first": step up to max, then back to medium
+          tl.fromTo([q(".tl2"), q(".think")], { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.25, ease: "power3.out" }, 4.7);
+          level(2, 4.75); level(3, 5.05); level(4, 5.35);
+          tl.to(q(".think"), { scaleY: 1.4, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, 5.65);
+          level(1, 6.2, 0.35);
+          // "The tricky bug stays here"
+          tl.fromTo(wc, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 7.02);
+          Egg.stamp(tl, q(".wc .rstamp"), 7.9, wc);
+          Reel.whip(tl, cam, blur, 8.4, "out");
+
+          window.__timelines["s04-opus"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.3,"sfx":"tap","vol":0.16},
+      {"t":1.2,"sfx":"marker","vol":0.16},
+      {"t":2.1,"sfx":"pop","vol":0.14},
+      {"t":2.3,"sfx":"stream","vol":0.1,"dur":0.5},
+      {"t":2.9,"sfx":"tick","vol":0.16},
+      {"t":3.47,"sfx":"paper","vol":0.14},
+      {"t":4.85,"sfx":"stream","vol":0.1,"dur":0.6},
+      {"t":5.7,"sfx":"pop","vol":0.16},
+      {"t":7.0,"sfx":"stream","vol":0.1,"dur":0.5},
+      {"t":7.45,"sfx":"chime","vol":0.22,"dur":1.4},
+      {"t":7.55,"sfx":"sparkle","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Payoff: cost per task, not price per token. "price per token": Opus 5.5 $4 vs Fable 5.2 $8 input per
+           million tokens, Fable "2× per token". "on one coding test": FrontierCode 2.0. "Fable matched Opus at max
+           effort": scores Opus 5.5 · max 45.5%, Fable 5.2 · high 45.3%, "Same score". "for about half the cost": cost
+           per task bars, Fable about half of Opus, "≈ ½ the cost" rings. Hard stop: no exit, the last frame holds
+           ~1.7 s. Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.17 "And compare cost per task, not price per token: on one coding test, Fable matched Opus at
+           max effort, for about half the cost." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .hd .l2 { color: var(--faint); }
+        .s06 .box { left: 90px; width: 860px; }
+        .s06 .box .t { position: absolute; left: 36px; top: 28px; margin: 0; font: 700 30px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s06 .box .t span { font: 500 28px/1 var(--f-t); color: var(--mu); letter-spacing: 0; }
+        .s06 .box .k { position: absolute; left: 36px; margin: 0; font: 600 26px/1 var(--f-t); letter-spacing: 0.02em; text-transform: uppercase; color: var(--faint); }
+        .s06 .r { position: absolute; left: 36px; right: 36px; height: 52px; }
+        .s06 .r .m { position: absolute; left: 0; top: 0; font: 600 30px/52px var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s06 .r .m b { font-weight: 500; color: var(--mu); }
+        .s06 .r .b { position: absolute; left: 264px; top: 13px; height: 26px; border-radius: 13px; transform-origin: 0 50%; }
+        .s06 .r .b.g { background: #c7c7cc; }
+        .s06 .r .b.u { background: linear-gradient(90deg, #2997ff, #0071e3); }
+        .s06 .r .v { position: absolute; right: 0; top: 0; font: 700 30px/52px var(--f-d); color: var(--ink); white-space: nowrap; }
+        .s06 .tag { position: absolute; right: 36px; }
+        .s06 .ring { left: 0; top: 0; width: 1px; height: 1px; }
+      </style>
+      <div id="root" data-composition-id="s06-cost" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">The payoff</p>
+          <h2 class="a-h2 hd"><span class="l l1">Cost per <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">task,</span><span class="on" data-layout-allow-overlap="">task,</span></span></span><span class="l l2">not per token</span></h2>
+
+          <div class="a-card box ca" style="top:560px;height:220px">
+            <p class="t">Price per token <span>· input, per million</span></p>
+            <div class="r" style="top:84px"><span class="m">Opus 5.5</span><span class="b g p1" style="width:200px"></span><span class="v" style="right:auto;left:484px">$4</span></div>
+            <div class="r" style="top:146px"><span class="m">Fable 5.2</span><span class="b g p2" style="width:400px"></span><span class="v" style="right:auto;left:684px">$8</span></div>
+            <span class="a-tag gray tag x2" style="top:24px">2× per token</span>
+          </div>
+
+          <div class="a-card box cb" style="top:810px;height:430px">
+            <p class="t">FrontierCode 2.0 <span>· one coding test</span></p>
+            <p class="k" style="top:86px">Score</p>
+            <div class="r" style="top:114px"><span class="m">Opus 5.5 <b>· max</b></span><span class="b g s1" style="width:364px"></span><span class="v">45.5%</span></div>
+            <div class="r" style="top:174px"><span class="m">Fable 5.2 <b>· high</b></span><span class="b u s2" style="width:362px"></span><span class="v">45.3%</span></div>
+            <span class="a-tag gray tag same" style="top:24px">Same score</span>
+            <p class="k" style="top:256px">Cost per task</p>
+            <div class="r" style="top:284px"><span class="m">Opus 5.5 <b>· max</b></span><span class="b g c1" style="width:460px"></span></div>
+            <div class="r" style="top:344px"><span class="m">Fable 5.2 <b>· high</b></span><span class="b u c2" style="width:230px"></span></div>
+            <span class="a-tag blue half" style="position:absolute;left:548px;top:345px">≈ ½ the cost</span>
+            <div class="a-ring ring" data-layout-allow-overlap=""></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s06-cost"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const ca = q(".ca"), cb = q(".cb"), ring = q(".ring");
+          gsap.set([q(".l2"), ca, cb, q(".x2"), q(".same"), q(".half"), ...all(".cb .k"), ...all(".cb .r")], { opacity: 0 });
+          gsap.set(ring, { left: 536, top: 334, width: 230, height: 76, borderRadius: 38 });
+          const tl = gsap.timeline({ paused: true });
+          const grow = (els, at) => tl.fromTo(els, { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out", stagger: 0.12 }, at);
+
+          // "And compare cost per task"
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".l1"), 0.3, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".l1 .a-tint"), 1.2, { dur: 0.5 });
+          // "not price per token": Fable costs twice as much per token
+          Apple.rise(tl, q(".l2"), 2.1, { y: 16, dur: 0.6 });
+          Apple.rise(tl, ca, 2.2, { y: 30, dur: 0.6 });
+          grow([q(".p1"), q(".p2")], 2.35);
+          Apple.zoom(tl, q(".x2"), 2.9, { from: 0.8, dur: 0.4 });
+          // "on one coding test"
+          Apple.rise(tl, cb, 3.47, { y: 30, dur: 0.6 });
+          // "Fable matched Opus at max effort"
+          Apple.fade(tl, [all(".cb .k")[0], ...all(".cb .r").slice(0, 2)], 4.75, { dur: 0.3 });
+          grow([q(".s1"), q(".s2")], 4.85);
+          Apple.zoom(tl, q(".same"), 5.7, { from: 0.8, dur: 0.4 });
+          // "for about half the cost"
+          Apple.fade(tl, [all(".cb .k")[1], ...all(".cb .r").slice(2)], 6.9, { dur: 0.3 });
+          grow([q(".c1"), q(".c2")], 7.0);
+          Apple.zoom(tl, q(".half"), 7.45, { from: 0.8, dur: 0.45 });
+          tl.fromTo(ring, { opacity: 0, scale: 1.08 }, { opacity: 1, scale: 1, duration: 0.5, ease: "expo.out" }, 7.55);
+          // hard stop: no exit; the last frame holds to the end
+          window.__timelines["s06-cost"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

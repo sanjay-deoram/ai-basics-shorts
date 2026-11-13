@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.28},
+      {"t":0.6,"sfx":"tick","vol":0.16},
+      {"t":1.35,"sfx":"tick","vol":0.16},
+      {"t":1.8,"sfx":"pop","vol":0.22},
+      {"t":2.9,"sfx":"thud","vol":0.36},
+      {"t":3.1,"sfx":"bloom","vol":0.3},
+      {"t":3.5,"sfx":"whip","vol":0.34}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. Frame 0 already shows the four Claude models side by side under `// claude models`. "Which
+           Claude model?" builds word by word, "model?" the italic accent; "in under sixty seconds": an UNDER 60 SEC
+           stamp thuds onto the row; a yellow bloom grows out of the Haiku tile and fills the frame (the next beat is
+           yellow), whip-pan out. Avatar BIG at the bottom (narrator), so everything stays above y 980.
+           Voiceover: 0.05 "Here's how to pick the right Claude model, in under sixty seconds." -->
+      <style>
+        #s01-root .bg { background: #fdfcfc; }
+        #s01-root .bloom { position: absolute; left: 190px; top: 720px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #ffd84d; }
+        #s01-root .rl-hd { --acc: #2d4bff; font-size: 108px; line-height: 110px; }
+        #s01-root .mt { top: 620px; height: 200px; }
+        #s01-root .rstamp { left: 560px; top: 560px; color: #e11d48; background: #fdfcfc; }
+      </style>
+      <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="mt" style="left:90px"><img src="assets/claude-logo.svg" alt=""><span class="n">Haiku</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:310px"><img src="assets/claude-logo.svg" alt=""><span class="n">Sonnet</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:530px"><img src="assets/claude-logo.svg" alt=""><span class="n">Opus</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:750px"><img src="assets/claude-logo.svg" alt=""><span class="n">Fable</span><span class="v">5.2</span></div>
+            <div class="rstamp" data-layout-allow-overlap="">Under 60 sec</div>
+            <div class="bloom" data-layout-allow-overflow=""></div>
+            <div class="rl-eye">// claude models</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Which </span><span class="w">Claude</span></span>
+              <span class="ln"><em class="w">model?</em></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s01-root");
+          const cam = root.querySelector(".rl-cam"), hd = root.querySelector(".rl-hd");
+          const tiles = [...root.querySelectorAll(".mt")];
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s01-mb");
+
+          // frame 0: the four models are already there and settle with a thump
+          tl.fromTo(tiles, { scale: 1.08, y: 20 }, { scale: 1, y: 0, duration: 0.35, ease: Egg.EASE.stamp, stagger: 0.04 }, 0);
+          // "pick the right Claude model"
+          Reel.words(tl, hd, [0.6, 1.35, 1.8]);
+          tl.to(tiles, { y: -14, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.07 }, 1.85);
+          // "in under sixty seconds"
+          Egg.stamp(tl, root.querySelector(".rstamp"), 2.9, tiles[2]);
+          // Haiku blooms yellow and fills the frame (the next beat is yellow)
+          tl.fromTo(root.querySelector(".bloom"), { scale: 0 }, { scale: 46, duration: 0.4, ease: "power2.in" }, 3.1);
+          Reel.whip(tl, cam, blur, 3.54, "out");
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

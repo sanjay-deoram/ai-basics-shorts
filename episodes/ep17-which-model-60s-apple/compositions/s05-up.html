@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.3,"sfx":"tap","vol":0.16},
+      {"t":1.18,"sfx":"tap","vol":0.16},
+      {"t":1.5,"sfx":"error","vol":0.1},
+      {"t":2.28,"sfx":"marker","vol":0.14},
+      {"t":3.62,"sfx":"pop","vol":0.16},
+      {"t":5.03,"sfx":"tick","vol":0.18},
+      {"t":5.94,"sfx":"pop","vol":0.16},
+      {"t":6.2,"sfx":"click","vol":0.18},
+      {"t":7.3,"sfx":"pop","vol":0.16},
+      {"t":7.7,"sfx":"whoosh-short","vol":0.12},
+      {"t":8.51,"sfx":"whoosh-short","vol":0.14},
+      {"t":8.7,"sfx":"claude","vol":0.14},
+      {"t":9.25,"sfx":"chime","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Rule 3 · Up to Fable. "if it falls short": the migration job on Opus gets a red "Falls short" tag.
+           "don't jump yet": the three steps, in order, each as it is said: 1 check its own work ("like a test":
+           Tests pass ✓), 2 raise the effort (medium → high), 3 then move up (Opus → Fable). "the migration goes to
+           Fable": the job's chip swaps Opus for Fable and the red tag turns into a ✓. Narrator: small tile bottom right
+           (x > 750, y > 1300 stays empty).
+           Voiceover: 0.17 "Rule three: if it falls short, don't jump yet. Give it a way to check its work, like a test,
+           then raise the effort. Only then move up: the migration goes to Fable." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; white-space: nowrap; }
+        .s05 .job { top: 446px; }
+        .s05 .job .end { gap: 14px; }
+        .s05 .job .slot { position: relative; width: 196px; height: 64px; }
+        .s05 .job .slot .a-mod { position: absolute; right: 0; top: 0; }
+        .s05 .job .res { position: relative; width: 44px; height: 44px; }
+        .s05 .job .res > * { position: absolute; left: 0; top: 0; }
+        .s05 .x { width: 44px; height: 44px; border-radius: 50%; background: #ff3b30; }
+        .s05 .x::before, .s05 .x::after { content: ""; position: absolute; left: 20px; top: 11px; width: 5px; height: 22px; border-radius: 2px; background: #fff; transform: rotate(45deg); }
+        .s05 .x::after { transform: rotate(-45deg); }
+        .s05 .short { position: absolute; left: 132px; top: 592px; margin: 0; font: 700 28px/1 var(--f-t); color: #d70015; white-space: nowrap; }
+        .s05 .sub { top: 664px; white-space: nowrap; }
+        .s05 .st { position: absolute; left: 90px; width: 860px; height: 150px; padding: 0 28px 0 128px; display: flex; flex-direction: column; justify-content: center; }
+        .s05 .st .no { position: absolute; left: 32px; top: 43px; width: 64px; height: 64px; border-radius: 50%; background: var(--line); font: 700 32px/64px var(--f-d); text-align: center; color: var(--mu); }
+        .s05 .st .no .on { position: absolute; inset: 0; border-radius: 50%; background: var(--blue); color: #fff; opacity: 0; }
+        .s05 .st .n { font: 700 40px/1.1 var(--f-d); letter-spacing: -0.025em; color: var(--ink); white-space: nowrap; }
+        .s05 .st .s { margin-top: 6px; font: 500 28px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s05 .st .end { position: absolute; right: 28px; top: 0; bottom: 0; display: flex; align-items: center; gap: 12px; }
+        .s05 .st .ar { font: 600 30px/1 var(--f-t); color: var(--faint); }
+        .s05 .st .a-mod { height: 56px; font-size: 28px; padding: 0 22px 0 14px; }
+        .s05 .st .a-mod .cc-spark { width: 32px; height: 32px; }
+      </style>
+      <div id="root" data-composition-id="s05-up" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">Rule 3 · Fable</p>
+          <h2 class="a-h2 hd">Falls <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">short?</span><span class="on" data-layout-allow-overlap="">short?</span></span></h2>
+          <div class="a-card a-job job"><i class="ic" data-ic="db"></i><span class="n">Migrate the database</span><span class="s">big, with many steps</span>
+            <div class="end"><div class="slot"><span class="a-mod mo"><span class="cc-spark"></span>Opus 5.5</span><span class="a-mod blue mf"><span class="cc-spark"></span>Fable 5.2</span></div><div class="res"><span class="x"></span><span class="a-check ok"></span></div></div>
+          </div>
+          <p class="short">Falls short</p>
+          <p class="a-sub sub">Don't jump yet. In this order:</p>
+          <div class="a-card st s1" style="top:740px"><span class="no">1<span class="on">1</span></span><span class="n">Check its own work</span><span class="s">a test, a build, a script</span><div class="end"><span class="a-tag blue e1">Tests pass</span><span class="a-check e1c"></span></div></div>
+          <div class="a-card st s2" style="top:910px"><span class="no">2<span class="on">2</span></span><span class="n">Raise the effort</span><span class="s">one level at a time</span><div class="end"><span class="a-tag gray e2a">medium</span><span class="ar e2b">→</span><span class="a-tag blue e2c">high</span></div></div>
+          <div class="a-card st s3" style="top:1080px"><span class="no">3<span class="on">3</span></span><span class="n">Then move up</span><span class="s">to the next model</span><div class="end"><span class="ar e3b">→</span><span class="a-mod blue e3c"><span class="cc-spark"></span>Fable</span></div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.08;
+          const root = document.querySelector('[data-composition-id="s05-up"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const job = q(".job"), mo = q(".mo"), mf = q(".mf"), x = q(".x"), ok = q(".ok");
+          const st = all(".st"), on = all(".st .no .on");
+          gsap.set([job, x, ok, mf, q(".short"), q(".sub"), ...st, ...all(".st .end > *")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+
+          // "Rule three: if it falls short"
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.3, { y: 24, dur: 0.8 });
+          Apple.rise(tl, job, 1.18, { y: 40, dur: 0.7 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.3, { dur: 0.4 });
+          Apple.zoom(tl, x, 1.5, { from: 0.5, dur: 0.4 });
+          Apple.rise(tl, q(".short"), 1.55, { y: 10, dur: 0.5 });
+          tl.to(job, { x: 8, duration: 0.06, ease: "sine.inOut", yoyo: true, repeat: 3 }, 1.5);
+          // "don't jump yet": the three steps, in order
+          Apple.rise(tl, q(".sub"), 2.28, { y: 14, dur: 0.6 });
+          Apple.rise(tl, st, 2.5, { y: 30, dur: 0.6, stagger: 0.1 });
+          // 1 "check its work, like a test"
+          Apple.fade(tl, on[0], 3.62, { dur: 0.3 });
+          tl.to(st[0], { scale: 1.02, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 3.62);
+          Apple.zoom(tl, all(".e1, .e1c"), 5.03, { from: 0.7, dur: 0.45, stagger: 0.12 });
+          // 2 "then raise the effort"
+          Apple.fade(tl, on[1], 5.94, { dur: 0.3 });
+          tl.to(st[1], { scale: 1.02, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 5.94);
+          Apple.zoom(tl, all(".e2a, .e2b, .e2c"), 6.0, { from: 0.7, dur: 0.4, stagger: 0.18 });
+          // 3 "Only then move up"
+          Apple.fade(tl, on[2], 7.3, { dur: 0.3 });
+          tl.to(st[2], { scale: 1.02, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1 }, 7.3);
+          Apple.zoom(tl, all(".e3b, .e3c"), 7.5, { from: 0.7, dur: 0.4, stagger: 0.15 });
+          // "the migration goes to Fable": the chip swaps, the red ✕ turns into a ✓
+          Apple.out(tl, [mo, x, q(".short")], 8.51, { dur: 0.25, y: -10 });
+          Apple.zoom(tl, mf, 8.6, { from: 0.8, dur: 0.5 });
+          tl.fromTo(mf.querySelector(".cc-spark"), { rotation: -60 }, { rotation: 0, duration: 0.7, ease: "expo.out" }, 8.65);
+          Apple.zoom(tl, ok, 9.25, { from: 0.5, dur: 0.45 });
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd"), job, q(".sub"), ...st], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s05-up"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

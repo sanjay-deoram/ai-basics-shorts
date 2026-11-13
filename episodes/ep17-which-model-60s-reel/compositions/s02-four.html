@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.44,"sfx":"tick","vol":0.16},
+      {"t":1.08,"sfx":"tick","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.2},
+      {"t":2.23,"sfx":"pop","vol":0.2},
+      {"t":3.02,"sfx":"pop","vol":0.2},
+      {"t":3.79,"sfx":"pop","vol":0.2},
+      {"t":4.41,"sfx":"pop","vol":0.24},
+      {"t":5.28,"sfx":"zoom","vol":0.16},
+      {"t":5.5,"sfx":"thud","vol":0.24},
+      {"t":7.4,"sfx":"thud","vol":0.26},
+      {"t":8.61,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The four models. Yellow: "Four, small to big." word by word; the four model tiles land as a staircase,
+           each on its name (Haiku, Sonnet, Opus, Fable). "Smaller is cheaper and faster": a black scale bar under the
+           stairs, Haiku stamped CHEAP + FAST; "bigger handles harder work": Fable stamped HARDER WORK. Whip out.
+           Badge bottom-left (narrator): x < 290 / y > 1290 stays empty.
+           Voiceover: 0.31 "Four, from small to big: Haiku, Sonnet, Opus and Fable. Smaller is cheaper and faster;
+           bigger handles harder work." -->
+      <style>
+        #s02-root .bg { background-color: #ffd84d; }
+        #s02-root .rl-hd { --acc: #0d0d0c; }
+        #s02-root .mt { bottom: 860px; }
+        #s02-root .scale { position: absolute; left: 90px; top: 1090px; width: 860px; height: 10px; border-radius: 5px; background: #0d0d0c; transform-origin: 50% 50%; }
+        #s02-root .scale::before, #s02-root .scale::after { content: ""; position: absolute; top: -12px; width: 0; height: 0; border-top: 17px solid transparent; border-bottom: 17px solid transparent; }
+        #s02-root .scale::before { left: -14px; border-right: 26px solid #0d0d0c; }
+        #s02-root .scale::after { right: -14px; border-left: 26px solid #0d0d0c; }
+        #s02-root .rstamp { font-size: 30px; padding: 6px 18px; border-width: 5px; background: #fff; }
+        #s02-root .st1 { left: 76px; top: 770px; color: #12a150; }
+        #s02-root .st2 { left: 690px; top: 590px; color: #2d4bff; }
+      </style>
+      <div id="s02-root" data-composition-id="s02-four" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// four models</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Four, </span><span class="w">small</span></span>
+              <span class="ln"><span class="w">to </span><em class="w">big.</em></span>
+            </div>
+            <div class="mt" style="left:90px;height:200px"><img src="assets/claude-logo.svg" alt=""><span class="n">Haiku</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:310px;height:260px"><img src="assets/claude-logo.svg" alt=""><span class="n">Sonnet</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:530px;height:320px"><img src="assets/claude-logo.svg" alt=""><span class="n">Opus</span><span class="v">5.5</span></div>
+            <div class="mt" style="left:750px;height:380px"><img src="assets/claude-logo.svg" alt=""><span class="n">Fable</span><span class="v">5.2</span></div>
+            <div class="scale"></div>
+            <div class="rstamp st1" data-layout-allow-overlap="">Cheap + fast</div>
+            <div class="rstamp st2" data-layout-allow-overlap="">Harder work</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s02-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tiles = [...root.querySelectorAll(".mt")];
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s02-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          gsap.set([...tiles, q(".scale"), q(".st1"), q(".st2")], { opacity: 0 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          // "Four, from small to big"
+          Reel.words(tl, q(".rl-hd"), [0.44, 1.08, 1.3, 1.5]);
+          // each model lands on its name, smallest to biggest
+          [2.23, 3.02, 3.79, 4.41].forEach((t, i) => {
+            tl.fromTo(tiles[i], { opacity: 0, y: 120, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.8)", transformOrigin: "50% 100%" }, t);
+            tl.fromTo(tiles[i].querySelector("img"), { rotation: -90 }, { rotation: 0, duration: 0.5, ease: "power3.out" }, t + 0.05);
+          });
+          // "Smaller is cheaper and faster"
+          tl.fromTo(q(".scale"), { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power3.out" }, 5.28);
+          Egg.stamp(tl, q(".st1"), 5.5, tiles[0]);
+          // "bigger handles harder work"
+          Egg.stamp(tl, q(".st2"), 7.4, tiles[3]);
+          Reel.whip(tl, cam, blur, 8.65, "out");
+
+          window.__timelines["s02-four"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

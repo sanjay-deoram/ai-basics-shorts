@@ -1,0 +1,93 @@
+/* ep15 · "Reel" look: a fast product reel. Full-bleed color per section, white panels on a canvas that the camera
+   whips across, tight grotesk headlines built word by word with one italic serif accent word, `// mono` eyebrows,
+   one dark Claude Code terminal that changes between beats, and Sanjay's avatar in a halftone treatment.
+   Canvas px on the 1080×1920 frame. Text and key UI stay inside the safe box x 90–950 / y 220–1500. */
+
+@font-face { font-family: "Instrument Serif"; src: url("fonts/InstrumentSerif-400-italic.woff2") format("woff2"); font-weight: 400; font-style: italic; font-display: block; }
+
+:root {
+  --paper: #fdfcfc;
+  --ink: #0d0d0c;
+  --grey: #5f5b55;
+  --line: #e6e3de;
+  --term: #171615;
+  --term-2: #24221f;
+  --term-line: #3a3733;
+  --term-text: #efece6;
+  --term-dim: #a39e95;
+  --claude: #d97757;
+  --ok: #3fbf74;
+  --bad: #ff5d5d;
+  --f-serif: "Instrument Serif", serif;
+}
+
+.rl { position: absolute; inset: 0; overflow: hidden; }
+.rl-cam { position: absolute; inset: 0; }
+.rl-bg { position: absolute; inset: -40px; }
+.rl-panel { position: absolute; left: 40px; top: 150px; width: 1000px; height: 1420px; border-radius: 56px; background: var(--paper); }
+
+/* eyebrow + headline */
+.rl-eye { position: absolute; left: 90px; top: 232px; font: 400 30px/36px var(--f-mono); letter-spacing: 0.02em; color: var(--grey); }
+.rl-hd { position: absolute; left: 90px; width: 860px; top: 284px; font: 500 100px/104px var(--f-display); letter-spacing: -0.045em; color: var(--ink); }
+.rl-hd .w { display: inline-block; white-space: pre; }
+.rl-hd em { font-family: var(--f-serif); font-style: italic; font-weight: 400; font-size: 1.16em; letter-spacing: -0.015em; color: var(--acc, #2d4bff); padding-right: 0.06em; }
+.rl-hd .ln { display: block; }
+
+/* the Claude Code terminal */
+.term { position: absolute; left: 90px; width: 860px; top: 680px; height: 590px; border-radius: 30px; background: var(--term); overflow: hidden;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.35), 0 0 0 2px rgba(0, 0, 0, 0.06); }
+.term .tbar { position: absolute; left: 0; right: 0; top: 0; height: 64px; background: var(--term-2); display: flex; align-items: center; gap: 12px; padding: 0 26px; }
+.term .tbar i { width: 16px; height: 16px; border-radius: 50%; background: #4a4641; }
+.term .tbar span { margin-left: 18px; font: 400 28px/30px var(--f-mono); color: var(--term-dim); }
+.term .tb { position: absolute; left: 34px; right: 34px; top: 92px; bottom: 30px; font: 400 28px/40px var(--f-mono); color: var(--term-text); }
+.term .r { position: relative; white-space: pre; height: 40px; }
+.term .r.gap { height: 16px; }
+.term .dot { color: var(--ok); }
+.term .dot.c { color: var(--claude); }
+.term .dot.red { color: var(--bad); }
+.term .sub { color: var(--term-dim); }
+.term .tool { color: var(--term-text); font-weight: 400; }
+.term .arg { color: var(--term-dim); }
+.term .add { color: #9be3b4; background: rgba(63, 191, 116, 0.16); display: inline-block; padding-right: 10px; }
+.term .del { color: #ffb3b3; background: rgba(255, 93, 93, 0.16); display: inline-block; padding-right: 10px; }
+.term .okc { color: var(--ok); }
+.term .badc { color: var(--bad); }
+.term .prompt { position: relative; border: 2px solid var(--term-line); border-radius: 16px; padding: 14px 20px; white-space: normal; height: auto; min-height: 72px; font: 400 28px/40px var(--f-mono); }
+.term .prompt b { color: var(--claude); font-weight: 400; margin-right: 14px; }
+.term .caret { display: inline-block; width: 15px; height: 32px; background: var(--term-text); vertical-align: -6px; margin-left: 2px; }
+.term .msg { color: var(--term-text); background: var(--term-2); border-radius: 12px; padding: 10px 16px; white-space: normal; height: auto; }
+.term .msg b { color: var(--term-dim); font-weight: 400; margin-right: 12px; }
+
+/* status chip */
+.chip { position: absolute; height: 60px; padding: 0 24px; border-radius: 30px; background: #fff; border: 2px solid var(--line); display: flex; align-items: center; gap: 12px;
+  font: 400 28px/1 var(--f-mono); color: var(--ink); white-space: nowrap; }
+.chip svg { width: 28px; height: 28px; }
+
+/* rubber stamp */
+.rstamp { position: absolute; padding: 12px 26px; border: 6px solid currentColor; border-radius: 14px; font: 400 40px/1.1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
+
+/* section canvas: a flat colour with a faint dot grid (the camera whips across it) */
+.rl-bg.grid { background-image: radial-gradient(rgba(0, 0, 0, 0.09) 1.6px, rgba(0, 0, 0, 0) 2.2px); background-size: 36px 36px; }
+
+/* compact terminal header row, shared by every feature beat */
+.term .hdr { display: flex; align-items: center; gap: 16px; height: 56px; white-space: nowrap; margin-bottom: 14px; }
+.term .hdr img { width: 42px; height: 42px; }
+.term .hdr .t1 { font: 600 32px/1 var(--f-display); letter-spacing: -0.02em; color: var(--term-text); }
+.term .hdr .t2 { font: 400 28px/1 var(--f-mono); color: var(--term-dim); }
+
+/* ep17 · a model tile (Claude logo, name, version) and a bar row (label, bar, value), shared by the beats. */
+.mt { position: absolute; width: 200px; border-radius: 28px; background: #fff; box-shadow: 0 24px 44px -20px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.05); }
+.mt img { position: absolute; left: 22px; top: 22px; width: 54px; height: 54px; }
+.mt .n { position: absolute; left: 22px; bottom: 50px; font: 600 42px/1 var(--f-display); letter-spacing: -0.035em; color: var(--ink); white-space: nowrap; }
+.mt .v { position: absolute; left: 22px; bottom: 18px; font: 400 28px/1 var(--f-mono); color: var(--grey); }
+.br { position: absolute; left: 0; right: 0; height: 52px; }
+.br .m { position: absolute; left: 0; top: 0; font: 500 32px/52px var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+.br .m b { font: 400 28px/52px var(--f-mono); color: var(--grey); }
+.br .b { position: absolute; left: 280px; top: 12px; height: 28px; border-radius: 14px; transform-origin: 0 50%; }
+.br .v { position: absolute; right: 0; top: 0; font: 400 32px/52px var(--f-mono); color: var(--ink); white-space: nowrap; }
+
+/* white example card (weak / better) */
+.wc { position: absolute; left: 90px; width: 860px; padding: 24px 32px; border-radius: 26px; background: #fff; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.25); }
+.wc .k { font: 400 26px/32px var(--f-mono); color: var(--grey); }
+.wc .v { margin-top: 8px; font: 500 40px/48px var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+.wc .rstamp { right: 26px; top: -26px; font-size: 30px; padding: 6px 18px; border-width: 5px; background: #fff; }

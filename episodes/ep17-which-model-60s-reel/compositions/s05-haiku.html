@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.4,"sfx":"tick","vol":0.14},
+      {"t":1.3,"sfx":"tick","vol":0.16},
+      {"t":1.47,"sfx":"zoom","vol":0.18},
+      {"t":2.13,"sfx":"pop","vol":0.2},
+      {"t":3.24,"sfx":"pop","vol":0.2},
+      {"t":4.72,"sfx":"pop","vol":0.2},
+      {"t":5.5,"sfx":"thud","vol":0.24},
+      {"t":5.55,"sfx":"success","vol":0.16},
+      {"t":6.0,"sfx":"pop","vol":0.16},
+      {"t":6.6,"sfx":"thud","vol":0.3},
+      {"t":7.41,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Rule 2 · Down to Haiku. Pink: "Move down." word by word, the accent word drops; "for simple jobs" and
+           "or when someone's waiting": two chips. "Tagging goes to Haiku": job 1 slides in, stamped HAIKU ✓. "at a
+           fortieth of the price": input price per million tokens, Opus 5.5 $4.00 vs Haiku 5.5 $0.10 (prompts under
+           100K tokens), bars to scale, stamped 1/40 THE PRICE. Whip out (Sonnet's half of the rule is its own beat).
+           Badge bottom-left (narrator).
+           Voiceover: 0.46 "Rule two: move down for simple jobs, or when someone's waiting. Tagging goes to Haiku, at a
+           fortieth of the price." (continues into s06) -->
+      <style>
+        #s05-root .bg { background-color: #ffdbe4; }
+        #s05-root .rl-hd { --acc: #e11d48; }
+        #s05-root .c1, #s05-root .c2 { top: 420px; }
+        #s05-root .wc { top: 520px; }
+        #s05-root .wc .rstamp { color: #12a150; }
+        #s05-root .pc { position: absolute; left: 90px; top: 700px; width: 860px; height: 290px; padding: 26px 32px; border-radius: 26px; background: #fff; box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.25); }
+        #s05-root .pc .k { font: 400 28px/32px var(--f-mono); color: var(--grey); white-space: nowrap; }
+        #s05-root .pc .rows { position: absolute; left: 32px; right: 32px; top: 90px; }
+        #s05-root .pc .rstamp { left: 300px; top: 196px; font-size: 32px; padding: 6px 18px; border-width: 5px; color: #e11d48; background: #fff; }
+      </style>
+      <div id="s05-root" data-composition-id="s05-haiku" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// rule 2</div>
+            <div class="rl-hd"><span class="ln"><span class="w">Move </span><em class="w">down.</em></span></div>
+            <div class="chip c1" style="left:90px">// simple jobs</div>
+            <div class="chip c2" style="left:380px">// someone's waiting</div>
+            <div class="wc"><div class="k">// job 1</div><div class="v">Tag 10,000 tickets</div><div class="rstamp" data-layout-allow-overlap="">Haiku ✓</div></div>
+            <div class="pc">
+              <div class="k">// input price, per million tokens</div>
+              <div class="rows">
+                <div class="br" style="top:0"><span class="m">Opus 5.5</span><span class="b bo" style="width:400px;background:#0d0d0c"></span><span class="v">$4.00</span></div>
+                <div class="br" style="top:66px"><span class="m">Haiku 5.5</span><span class="b bh" style="width:10px;background:#e11d48"></span><span class="v">$0.10</span></div>
+              </div>
+              <div class="rstamp" data-layout-allow-overlap="">1/40 the price</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s05-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s05-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const wc = q(".wc"), pc = q(".pc");
+          gsap.set([q(".c1"), q(".c2"), wc, pc], { opacity: 0 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.4);
+          // "move down"
+          Reel.words(tl, q(".rl-hd"), [1.3, 1.47]);
+          tl.to(q(".rl-hd em"), { y: 24, duration: 0.18, yoyo: true, repeat: 1, ease: "power2.out" }, 1.9);
+          // "for simple jobs, or when someone's waiting"
+          tl.fromTo(q(".c1"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 2.13);
+          tl.fromTo(q(".c2"), { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 3.24);
+          // "Tagging goes to Haiku"
+          tl.fromTo(wc, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 4.72);
+          Egg.stamp(tl, q(".wc .rstamp"), 5.5, wc);
+          // "at a fortieth of the price": bars to scale
+          tl.fromTo(pc, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 5.95);
+          tl.fromTo([q(".bo"), q(".bh")], { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power3.out" }, 6.1);
+          Egg.stamp(tl, q(".pc .rstamp"), 6.6, pc);
+          Reel.whip(tl, cam, blur, 7.45, "out");
+
+          window.__timelines["s05-haiku"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

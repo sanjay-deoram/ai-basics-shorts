@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.3,"sfx":"tap","vol":0.16},
+      {"t":1.18,"sfx":"whoosh-short","vol":0.12},
+      {"t":1.84,"sfx":"pop","vol":0.16},
+      {"t":2.95,"sfx":"pop","vol":0.16},
+      {"t":4.43,"sfx":"tap","vol":0.16},
+      {"t":5.2,"sfx":"pop","vol":0.18},
+      {"t":5.35,"sfx":"tick","vol":0.16},
+      {"t":5.9,"sfx":"paper","vol":0.12},
+      {"t":6.2,"sfx":"stream","vol":0.1,"dur":0.5},
+      {"t":6.9,"sfx":"marker","vol":0.16},
+      {"t":7.4,"sfx":"tap","vol":0.16},
+      {"t":8.5,"sfx":"pop","vol":0.18},
+      {"t":8.65,"sfx":"tick","vol":0.16},
+      {"t":8.8,"sfx":"click-soft","vol":0.16},
+      {"t":9.05,"sfx":"send","vol":0.16},
+      {"t":9.3,"sfx":"sparkle","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Rule 2 · Down to Haiku and Sonnet. "move down": the headline; "for simple jobs" and "when someone's
+           waiting": two pills. "Tagging goes to Haiku": the ticket job takes the Haiku chip; "at a fortieth of the
+           price": input price per million tokens, Opus $4.00 vs Haiku $0.10 (prompts under 100K tokens), bars to scale,
+           "1/40 the price". "The chat reply goes to Sonnet": the chat job takes the Sonnet chip; "it's fast": a
+           customer's question gets its reply at once, "Fast". Narrator: small tile bottom right (x > 750, y > 1300 empty).
+           Voiceover: 0.17 "Rule two: move down for simple jobs, or when someone's waiting. Tagging goes to Haiku, at a
+           fortieth of the price. The chat reply goes to Sonnet: it's fast." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; white-space: nowrap; }
+        .s04 .why { position: absolute; top: 440px; }
+        .s04 .job .end { gap: 16px; }
+        .s04 .price { left: 90px; top: 702px; width: 860px; height: 232px; }
+        .s04 .price .t { position: absolute; left: 36px; top: 28px; margin: 0; font: 600 28px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s04 .price .r { position: absolute; left: 36px; right: 36px; height: 56px; }
+        .s04 .price .r .m { position: absolute; left: 0; top: 0; font: 700 32px/56px var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s04 .price .r .b { position: absolute; left: 196px; top: 14px; height: 28px; border-radius: 14px; transform-origin: 0 50%; }
+        .s04 .price .r .v { position: absolute; top: 0; font: 700 32px/56px var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s04 .price .x40 { position: absolute; left: 366px; top: 160px; }
+        .s04 .bub { position: absolute; top: 1110px; height: 72px; padding: 0 30px; border-radius: 36px; font: 500 30px/72px var(--f-t); white-space: nowrap; }
+        .s04 .bub.q { left: 90px; background: var(--line); color: var(--ink); }
+        .s04 .bub.a { left: 434px; background: var(--blue); color: #fff; }
+        .s04 .fast { position: absolute; left: 434px; top: 1204px; gap: 6px; }
+        .s04 .fast i { display: inline-block; width: 30px; height: 30px; }
+        .s04 .fast i svg { width: 30px; height: 30px; }
+      </style>
+      <div id="root" data-composition-id="s04-down" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">Rule 2 · Haiku and Sonnet</p>
+          <h2 class="a-h2 hd">Move <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">down</span><span class="on" data-layout-allow-overlap="">down</span></span></h2>
+          <span class="a-pill a-glass why w1" style="left:90px">Simple jobs</span>
+          <span class="a-pill a-glass why w2" style="left:350px">Someone's waiting</span>
+
+          <div class="a-card a-job job ja" style="top:560px"><i class="ic" data-ic="tag"></i><span class="n">Tag 10,000 tickets</span><span class="s">sort each one by topic</span><div class="end"><span class="a-mod chip ca"><span class="cc-spark"></span>Haiku 5.5</span><span class="a-check oka"></span></div></div>
+          <div class="a-card price">
+            <p class="t">Input price, per million tokens</p>
+            <div class="r ro" style="top:68px"><span class="m">Opus 5.5</span><span class="b bo" style="width:440px;background:#c7c7cc"></span><span class="v" style="left:656px">$4.00</span></div>
+            <div class="r rh" style="top:144px"><span class="m">Haiku 5.5</span><span class="b bh" style="width:14px;background:var(--blue)"></span><span class="v vh" style="left:226px">$0.10</span></div>
+            <span class="a-tag blue x40">1/40 the price</span>
+          </div>
+          <div class="a-card a-job job jb" style="top:960px"><i class="ic" data-ic="chat"></i><span class="n">Reply in chat</span><span class="s">a customer is waiting</span><div class="end"><span class="a-mod chip cb"><span class="cc-spark"></span>Sonnet 5.5</span><span class="a-check okb"></span></div></div>
+          <span class="bub q">Where's my order?</span>
+          <span class="bub a">It ships today.</span>
+          <span class="a-tag blue fast"><i data-ic="bolt" data-stroke="#0071e3"></i>Fast</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.17;
+          const root = document.querySelector('[data-composition-id="s04-down"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const x40 = q(".x40");
+          const els = [q(".w1"), q(".w2"), q(".ja"), q(".ca"), q(".oka"), q(".price"), q(".ro"), q(".rh"), x40, q(".jb"), q(".cb"), q(".okb"), q(".bub.q"), q(".bub.a"), q(".fast")];
+          gsap.set(els, { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+
+          // "Rule two: move down"
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.3, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.18, { dur: 0.4 });
+          tl.fromTo(q(".hd .a-tint"), { y: 0 }, { y: 12, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 1.18);
+          // "for simple jobs, or when someone's waiting"
+          Apple.zoom(tl, q(".w1"), 1.84, { from: 0.85, dur: 0.5 });
+          Apple.zoom(tl, q(".w2"), 2.95, { from: 0.85, dur: 0.5 });
+          // "Tagging goes to Haiku"
+          Apple.rise(tl, q(".ja"), 4.43, { y: 40, dur: 0.7 });
+          Apple.zoom(tl, q(".ca"), 5.2, { from: 0.8, dur: 0.5 });
+          Apple.zoom(tl, q(".oka"), 5.35, { from: 0.5, dur: 0.45 });
+          // "at a fortieth of the price": bars to scale ($4.00 vs $0.10)
+          Apple.rise(tl, q(".price"), 5.9, { y: 30, dur: 0.6 });
+          Apple.fade(tl, [q(".ro"), q(".rh")], 6.1, { dur: 0.3 });
+          tl.fromTo([q(".bo"), q(".bh")], { scaleX: 0 }, { scaleX: 1, duration: 0.7, ease: "expo.out" }, 6.2);
+          Apple.zoom(tl, x40, 6.9, { from: 0.8, dur: 0.5 });
+          // "The chat reply goes to Sonnet: it's fast"
+          Apple.rise(tl, q(".jb"), 7.4, { y: 40, dur: 0.7 });
+          Apple.zoom(tl, q(".cb"), 8.5, { from: 0.8, dur: 0.5 });
+          Apple.zoom(tl, q(".okb"), 8.65, { from: 0.5, dur: 0.45 });
+          Apple.rise(tl, q(".bub.q"), 8.8, { y: 16, dur: 0.4 });
+          Apple.zoom(tl, q(".bub.a"), 9.05, { from: 0.85, dur: 0.4 });
+          Apple.zoom(tl, q(".fast"), 9.3, { from: 0.8, dur: 0.4 });
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd"), ...els], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s04-down"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
