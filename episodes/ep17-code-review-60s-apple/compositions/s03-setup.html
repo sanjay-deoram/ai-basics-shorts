@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.12,"sfx":"send","vol":0.14},
+      {"t":0.3,"sfx":"typing","vol":0.16,"dur":1.1},
+      {"t":0.94,"sfx":"pop","vol":0.18},
+      {"t":1.3,"sfx":"claude","vol":0.14,"dur":1.2},
+      {"t":1.45,"sfx":"typing","vol":0.12,"dur":0.6},
+      {"t":2.55,"sfx":"whoosh-short","vol":0.14},
+      {"t":2.75,"sfx":"pop","vol":0.18},
+      {"t":2.9,"sfx":"click-soft","vol":0.14},
+      {"t":3.05,"sfx":"click-soft","vol":0.14},
+      {"t":3.2,"sfx":"click-soft","vol":0.14},
+      {"t":3.35,"sfx":"click-soft","vol":0.14},
+      {"t":3.55,"sfx":"tick","vol":0.14},
+      {"t":3.68,"sfx":"tick","vol":0.14},
+      {"t":3.81,"sfx":"tick","vol":0.14},
+      {"t":3.94,"sfx":"tick","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The example. You ask Claude to fix a bug: the request types into a blue message bubble, the Claude mark
+           pops on "Claude", and its one-line fix appears in a light editor window (config.ts: the unsafe read becomes a
+           safe one with a default; illustrative, see the base STORYBOARD.md). "Let's follow the fix": the window shrinks
+           into the fix chip, the object that travels through every layer, "Follow the fix." lands as the headline and a
+           four-stop route appears under the chip with the layers' names; "through each layer" runs the path through
+           all four (each stop turns blue). The chip stays at (90, 430): s04 opens on it. Narrator: small tile bottom
+           right (x > 750, y > 1300 stays empty). Voiceover: 0.18 "Say you ask Claude to fix a bug. Let's follow the
+           fix through each layer." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .ask { position: absolute; right: 130px; top: 320px; max-width: 700px; margin: 0; padding: 22px 32px; border-radius: 40px 40px 12px 40px;
+          background: var(--blue); color: #fff; font: 500 38px/1.3 var(--f-t); letter-spacing: -0.01em; }
+        .s03 .me { position: absolute; left: 90px; top: 500px; width: 72px; height: 72px; }
+        .s03 .mek { position: absolute; left: 184px; top: 520px; margin: 0; font: 600 32px/1.1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s03 .code { left: 90px; top: 604px; width: 860px; }
+        .s03 .code .tg { position: absolute; right: 20px; top: 7px; }
+        .s03 .code .body { font-size: 28px; }
+        .s03 .code .ln { padding-left: 64px; }
+        .s03 .code .ln > .no { width: 40px; font-size: 28px; }
+        .s03 .code .del .tx { text-decoration: line-through; text-decoration-color: var(--faint); color: var(--faint); }
+        .s03 .code .add { background: rgba(0, 113, 227, 0.08); }
+        .s03 .code .add > .no { color: var(--blue); }
+        .s03 .hd { top: 300px; white-space: nowrap; }
+        .s03 .route { fill: none; stroke: var(--blue); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 14; }
+        .s03 .stop { position: absolute; left: 100px; width: 64px; height: 64px; border-radius: 50%; background: var(--line); font: 700 32px/64px var(--f-d); text-align: center; color: var(--mu); }
+        .s03 .stop .on { position: absolute; inset: 0; border-radius: 50%; background: var(--blue); color: #fff; opacity: 0; }
+        .s03 .sl { position: absolute; left: 196px; margin: 0; font: 700 48px/64px var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s03-setup" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">Example · one bug fix</p>
+          <p class="ask typed">Fix the crash when the config file is empty.</p>
+          <span class="cc-spark me"></span>
+          <p class="mek">Claude writes the fix</p>
+          <div class="a-win a-code code">
+            <div class="bar"><i></i><i></i><i></i><span class="ttl">config.ts</span><span class="a-tag gray tg">+1 −1</span></div>
+            <div class="body">
+              <div class="ln del"><span class="no">−</span><span class="tx">const theme = config.theme.name;</span></div>
+              <div class="ln add"><span class="no">+</span><span class="tx">const theme = config.theme?.name ?? "light";</span></div>
+            </div>
+          </div>
+          <h2 class="a-h2 hd">Follow the <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">fix.</span><span class="on" data-layout-allow-overlap="">fix.</span></span></h2>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="route" d="M132 540 V1104" /></svg>
+          <span class="stop" style="top:560px">1<span class="on">1</span></span><p class="sl" style="top:560px">On your machine</p>
+          <span class="stop" style="top:720px">2<span class="on">2</span></span><p class="sl" style="top:720px">AI review</p>
+          <span class="stop" style="top:880px">3<span class="on">3</span></span><p class="sl" style="top:880px">Blocking checks</p>
+          <span class="stop" style="top:1040px">4<span class="on">4</span></span><p class="sl" style="top:1040px">People, by risk</p>
+          <div class="a-fix"><i class="ic" data-ic="bug" data-stroke="#fff"></i>Fix: empty config crash</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.46;
+          const root = document.querySelector('[data-composition-id="s03-setup"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const route = q(".route"), stops = all(".stop"), labs = all(".sl"), fix = q(".a-fix");
+          gsap.set([q(".a-eyebrow"), q(".ask"), q(".me"), q(".mek"), q(".code"), q(".hd"), route, ...stops, ...labs], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Say you ask Claude to fix a bug."
+          Apple.rise(tl, q(".a-eyebrow"), 0.05, { y: 16 });
+          Apple.zoom(tl, q(".ask"), 0.12, { from: 0.9, dur: 0.5 });
+          Egg.typeOn(tl, q(".typed"), 0.3, { cps: 40 });
+          Apple.zoom(tl, q(".me"), 0.94, { from: 0.6, dur: 0.6 });
+          tl.fromTo(q(".me"), { rotation: 0 }, { rotation: 120, duration: 2.0, ease: "none" }, 0.94);
+          Apple.rise(tl, q(".mek"), 1.1, { y: 10, dur: 0.5 });
+          Apple.rise(tl, q(".code"), 1.3, { y: 30, dur: 0.6 });
+          Egg.typeOn(tl, all(".code .tx")[0], 1.45, { cps: 90 });
+          Egg.typeOn(tl, all(".code .tx")[1], 1.7, { cps: 90 });
+          // "Let's follow the fix": the window folds into the fix chip; the headline and the route appear
+          Apple.out(tl, [q(".a-eyebrow"), q(".ask"), q(".me"), q(".mek")], 2.5, { dur: 0.3 });
+          tl.to(q(".code"), { scale: 0.3, x: 0, y: -180, opacity: 0, transformOrigin: "0 0", duration: 0.45, ease: "power3.inOut" }, 2.55);
+          tl.fromTo(fix, { x: 90, y: 430, scale: 0.6, opacity: 0 }, { x: 90, y: 430, scale: 1, opacity: 1, duration: 0.6, ease: "expo.out" }, 2.75);
+          Apple.rise(tl, q(".hd"), 2.6, { y: 24, dur: 0.7 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.9, { dur: 0.4 });
+          stops.forEach((s, i) => {
+            Apple.zoom(tl, s, 2.9 + i * 0.15, { from: 0.6, dur: 0.5 });
+            Apple.rise(tl, labs[i], 2.95 + i * 0.15, { y: 12, dur: 0.5 });
+          });
+          // "through each layer": the path runs through all four stops
+          tl.fromTo(route, { opacity: 0, attr: { d: "M132 540 V540" } }, { opacity: 1, attr: { d: "M132 540 V1104" }, duration: 0.6, ease: "power2.inOut" }, 3.55);
+          stops.forEach((s, i) => Apple.fade(tl, s.querySelector(".on"), 3.6 + i * 0.13, { dur: 0.2 }));
+
+          // the chip stays where it is: s04 opens on it
+          Apple.out(tl, [q(".hd"), route, ...stops, ...labs], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s03-setup"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

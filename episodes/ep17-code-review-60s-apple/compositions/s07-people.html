@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.08,"sfx":"tap","vol":0.14},
+      {"t":0.2,"sfx":"air","vol":0.12},
+      {"t":1.26,"sfx":"pop","vol":0.14},
+      {"t":1.91,"sfx":"pen","vol":0.12,"dur":0.6},
+      {"t":2.3,"sfx":"click-soft","vol":0.14},
+      {"t":2.42,"sfx":"click-soft","vol":0.14},
+      {"t":2.54,"sfx":"click-soft","vol":0.14},
+      {"t":3.22,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.72,"sfx":"tap","vol":0.16},
+      {"t":4.7,"sfx":"whoosh-short","vol":0.12},
+      {"t":5.2,"sfx":"tap","vol":0.16},
+      {"t":5.6,"sfx":"pop","vol":0.18},
+      {"t":5.95,"sfx":"whoosh-short","vol":0.12},
+      {"t":6.3,"sfx":"tap","vol":0.16},
+      {"t":6.55,"sfx":"pop","vol":0.18},
+      {"t":6.67,"sfx":"pop","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Layer 4 · People, by risk. Three changes wait in a queue on the left (a docs typo, our fix, a change to
+           the riskiest code); a risk classifier (a funnel) sits on the right, three cards below it: Low · Medium · High,
+           each with its approver slots (dashed circles) and a risk arrow under them. Each change drops through the
+           classifier as it is named: the docs typo into Low (no approver), our fix into Medium (one slot turns into a
+           blue person), the riskiest change into High (two). Narrator: small tile bottom right (x > 750, y > 1300 stays
+           empty). Voiceover: 0.18 "Layer four: people, scaled by risk. Docs need no approver, normal changes one, the
+           riskiest two." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .hd { top: 300px; white-space: nowrap; }
+        .s07 .q { width: 470px; }
+        .s07 .q.dc .ic { background: #8e8e93; }
+        .s07 .q.rs .ic { background: var(--ink); }
+        .s07 .fn { fill: none; stroke: var(--ink); stroke-width: 7; stroke-linecap: round; stroke-linejoin: round; }
+        .s07 .fk { position: absolute; left: 610px; width: 240px; top: 656px; margin: 0; text-align: center; font: 600 28px/1.1 var(--f-t); color: var(--faint); }
+        .s07 .bin { top: 712px; width: 266px; height: 450px; }
+        .s07 .bin .a-sev { position: absolute; left: 22px; top: 22px; }
+        .s07 .bin .ex { position: absolute; left: 22px; top: 86px; width: 230px; margin: 0; font: 500 30px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s07 .bin .zone { position: absolute; left: 18px; top: 136px; width: 230px; height: 96px; border: 2px dashed #d2d2d7; border-radius: 20px; }
+        .s07 .bin .ppl { position: absolute; left: 0; width: 266px; top: 252px; display: flex; justify-content: center; gap: 14px; }
+        .s07 .slot { position: relative; width: 84px; height: 84px; }
+        .s07 .slot > i { position: absolute; inset: 0; border-radius: 50%; }
+        .s07 .slot svg { position: absolute; inset: 16px; width: 52px; height: 52px; fill: none; stroke-width: 3.2; stroke-linecap: round; }
+        .s07 .slot .gh { border: 3px dashed #c7c7cc; }
+        .s07 .slot .gh svg { stroke: #c7c7cc; }
+        .s07 .slot .so { background: var(--blue); }
+        .s07 .slot .so svg { stroke: #fff; }
+        .s07 .zero { position: absolute; inset: 0; font: 700 56px/84px var(--f-d); text-align: center; color: var(--ink); }
+        .s07 .bin .lab { position: absolute; left: 0; width: 266px; top: 372px; margin: 0; text-align: center; font: 700 36px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s07 .risk { fill: none; stroke: #c7c7cc; stroke-width: 5; stroke-linecap: round; stroke-linejoin: round; }
+        .s07 .rk { position: absolute; top: 1216px; margin: 0; font: 600 28px/1.1 var(--f-t); color: var(--faint); white-space: nowrap; }
+        .s07 .foot { position: absolute; left: 90px; top: 1264px; margin: 0; font: 500 28px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s07-people" data-width="1080" data-height="1920">
+        <div class="a-scene s07">
+          <p class="a-eyebrow">Layer 4 of 4</p>
+          <span class="a-trk"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i></span>
+          <h2 class="a-h2 hd">People, by <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">risk</span><span class="on" data-layout-allow-overlap="">risk</span></span></h2>
+          <svg class="a-svg lines" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="fn f0" d="M632 440 H828" />
+            <path class="fn f1" d="M640 444 L715 580 V640" />
+            <path class="fn f2" d="M820 444 L745 580 V640" />
+            <path class="risk ra" d="M100 1192 H940 M918 1178 L940 1192 L918 1206" />
+          </svg>
+          <p class="fk">Risk classifier</p>
+          <p class="rk" style="left:90px">Lower risk</p>
+          <p class="rk" style="right:130px">Higher risk</p>
+          <div class="bins"></div>
+          <p class="foot">The classifier rates the change, not who wrote it</p>
+          <div class="a-fix q dc"><i class="ic" data-ic="doc" data-stroke="#fff"></i>Docs: fix a typo</div>
+          <div class="a-fix q fx"><i class="ic" data-ic="bug" data-stroke="#fff"></i>Fix: empty config crash</div>
+          <div class="a-fix q rs"><i class="ic" data-ic="warn" data-stroke="#fff"></i>Riskiest code path</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.2;
+          const root = document.querySelector('[data-composition-id="s07-people"] .s07');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const PERSON = '<svg viewBox="0 0 40 40" aria-hidden="true"><circle cx="20" cy="13" r="7" /><path d="M6 36 C6 26 12 22 20 22 C28 22 34 26 34 36" /></svg>';
+          // [x, tag, examples, approvers, label]
+          const BIN = [
+            [90, ["nit", "Low"], "Docs, copy", 0, "No approver"],
+            [387, ["pre", "Medium"], "Normal changes", 1, "1 approver"],
+            [684, ["imp", "High"], "Riskiest code", 2, "2 approvers"],
+          ];
+          q(".bins").innerHTML = BIN.map(([x, [c, t], ex, n, lab]) => `<div class="a-card bin" style="left:${x}px"><span class="a-sev ${c}">${t}</span><p class="ex">${ex}</p><i class="zone"></i>` +
+            `<div class="ppl">${n === 0 ? `<span class="slot"><i class="gh">${PERSON}</i><span class="zero">0</span></span>` : Array.from({ length: n }, () => `<span class="slot"><i class="gh">${PERSON}</i><i class="so">${PERSON}</i></span>`).join("")}</div>` +
+            `<p class="lab">${lab}</p></div>`).join("");
+          Apple.icons(root);
+          const bins = all(".bin");
+          // queue: [chip, y, width, bin]; chips scale from their left-middle, so y + 32 is a chip's vertical centre
+          const W = 470, S = 0.42;
+          const CH = [[q(".dc"), 430, W, 0], [q(".fx"), 512, W, 1], [q(".rs"), 594, W, 2]];
+          CH.forEach(([el, y]) => gsap.set(el, { x: 90, y }));
+          ["f0", "f1", "f2", "ra"].forEach((c) => { const p = q("." + c); p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          gsap.set([q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".fk"), ...all(".rk"), ...bins, q(".foot"), ...all(".bin .a-sev"), ...all(".so"), ...all(".zero"), ...all(".bin .lab")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, [q(".a-eyebrow"), q(".a-trk")], 0.05, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.1, { y: 24, dur: 0.8 });
+          CH.forEach(([el, y], i) => tl.fromTo(el, { opacity: 0, y: y + 20 }, { opacity: 1, y, duration: 0.7, ease: "expo.out" }, 0.2 + i * 0.1));
+          // "people": the cards and their approver slots
+          Apple.rise(tl, bins, 1.26, { y: 30, dur: 0.7, stagger: 0.1 });
+          // "scaled by risk": the classifier draws, the cards get their risk
+          Apple.tint(tl, q(".hd .a-tint"), 1.91, { dur: 0.5 });
+          tl.to([q(".f0"), q(".f1"), q(".f2")], { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut", stagger: 0.08 }, 1.91);
+          Apple.rise(tl, q(".fk"), 2.2, { y: 10, dur: 0.5 });
+          tl.to(q(".ra"), { strokeDashoffset: 0, duration: 0.7, ease: "power2.inOut" }, 2.1);
+          Apple.rise(tl, all(".rk"), 2.4, { y: 10, dur: 0.5, stagger: 0.1 });
+          Apple.zoom(tl, all(".bin .a-sev"), 2.3, { from: 0.7, dur: 0.45, stagger: 0.12 });
+          Apple.rise(tl, q(".foot"), 2.6, { y: 10, dur: 0.5 });
+          // each change drops through the classifier into its card as it's named
+          const drop = ([el, , w, b], T, k = 1) => {
+            const half = (w * S) / 2;
+            tl.to(el, { x: 730 - half, y: 421, scale: S, duration: 0.35 * k, ease: "power2.in" }, T);
+            tl.to(el, { opacity: 0, duration: 0.06, ease: "none" }, T + 0.35 * k);
+            tl.set(el, { x: 730 - half, y: 610 }, T + 0.42 * k);
+            tl.to(el, { opacity: 1, duration: 0.08, ease: "none" }, T + 0.42 * k);
+            tl.to(el, { x: BIN[b][0] + 133 - half, y: 864, duration: 0.4 * k, ease: "power2.out" }, T + 0.48 * k);
+            return T + 0.88 * k;
+          };
+          // "Docs need no approver"
+          const t0 = drop(CH[0], 3.22);
+          tl.to(bins[0].querySelector(".gh"), { opacity: 0.35, duration: 0.25, ease: "none" }, t0);
+          Apple.zoom(tl, bins[0].querySelector(".zero"), t0, { from: 0.6, dur: 0.45 });
+          // "normal changes one"
+          const t1 = drop(CH[1], 4.7);
+          Apple.zoom(tl, bins[1].querySelector(".so"), t1 - 0.05, { from: 0.5, dur: 0.45 });
+          // "the riskiest two"
+          const t2 = drop(CH[2], 5.95, 0.75);
+          Apple.zoom(tl, bins[2].querySelectorAll(".so"), t2 - 0.05, { from: 0.5, dur: 0.45, stagger: 0.12 });
+          [t0, t1, t2].forEach((t, i) => Apple.rise(tl, bins[i].querySelector(".lab"), t + 0.05, { y: 10, dur: 0.4 }));
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".lines"), q(".fk"), ...all(".rk"), ...bins, q(".foot")], DUR - 0.24, { dur: 0.24 });
+          tl.to(CH.map((c) => c[0]), { opacity: 0, duration: 0.24, ease: "power2.in" }, DUR - 0.24);
+          window.__timelines["s07-people"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

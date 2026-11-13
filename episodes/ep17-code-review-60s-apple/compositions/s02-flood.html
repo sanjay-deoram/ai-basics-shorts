@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.12},
+      {"t":0.44,"sfx":"pop","vol":0.16},
+      {"t":0.56,"sfx":"pop","vol":0.16},
+      {"t":0.68,"sfx":"pop","vol":0.16},
+      {"t":2.0,"sfx":"pen","vol":0.1,"dur":0.5},
+      {"t":3.4,"sfx":"tap","vol":0.14},
+      {"t":3.6,"sfx":"tap","vol":0.12},
+      {"t":3.8,"sfx":"tap","vol":0.14},
+      {"t":5.0,"sfx":"stream","vol":0.12,"dur":1.1},
+      {"t":6.3,"sfx":"pop","vol":0.18},
+      {"t":6.55,"sfx":"whoosh-short","vol":0.14},
+      {"t":7.35,"sfx":"error","vol":0.1},
+      {"t":7.98,"sfx":"click-soft","vol":0.16},
+      {"t":8.1,"sfx":"click-soft","vol":0.16},
+      {"t":8.22,"sfx":"click-soft","vol":0.16},
+      {"t":8.34,"sfx":"click-soft","vol":0.16},
+      {"t":8.75,"sfx":"tick","vol":0.14},
+      {"t":8.95,"sfx":"tick","vol":0.14},
+      {"t":9.15,"sfx":"tick","vol":0.14},
+      {"t":9.36,"sfx":"marker","vol":0.16},
+      {"t":9.45,"sfx":"pen","vol":0.1,"dur":0.35}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The flood, then the name of the idea. Three Claude marks (agents writing code) send changes into a block
+           chart of changes landing per day in Anthropic's monorepo: May 2,500 (5 gray blocks) and Sept 30,000+ (60 blue
+           blocks), 1 block = 500 changes, so the columns are to scale. "Nobody can read all that": the Sept pile slides
+           left and jams against one gate with one reviewer. "So they stack layers": four dashed layers draw on the right
+           and changes fall through them, a few caught at each. "Not one gate": the gate dims and its label is struck,
+           "Layers" tints blue. Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.18 "With agents writing code, Anthropic's daily changes jumped from twenty-five hundred to over
+           thirty thousand." 6.49 "Nobody can read all that, so they stack layers, not one gate." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .ag { position: absolute; top: 320px; width: 84px; height: 84px; }
+        .s02 .agk { top: 342px; left: 470px; width: 480px; white-space: nowrap; }
+        .s02 .col { position: absolute; inset: 0; }
+        .s02 .blk { position: absolute; width: 44px; height: 44px; border-radius: 12px; background: var(--blue); }
+        .s02 .may .blk { background: #c7c7cc; }
+        .s02 .num { position: absolute; text-align: center; font: 700 72px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); font-variant-numeric: tabular-nums; }
+        .s02 .mon { position: absolute; width: 260px; top: 1256px; text-align: center; margin: 0; font: 600 32px/1 var(--f-t); color: var(--mu); }
+        .s02 .foot { position: absolute; left: 90px; top: 1330px; width: 660px; margin: 0; font: 500 28px/1.3 var(--f-t); color: var(--faint); }
+        .s02 .lab { position: absolute; top: 1262px; margin: 0; font: 700 56px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s02 .who { position: absolute; left: 436px; top: 856px; width: 88px; height: 88px; border-radius: 50%; background: var(--white); box-shadow: var(--shadow); }
+        .s02 .who svg { position: absolute; inset: 18px; width: 52px; height: 52px; }
+        .s02 .gl { fill: none; stroke: var(--ink); stroke-linecap: round; }
+        .s02 .base { stroke: #d2d2d7; stroke-width: 4; }
+        .s02 .wall { stroke-width: 8; }
+        .s02 .strike { stroke-width: 5; }
+        .s02 .sieve { fill: none; stroke: var(--blue); stroke-width: 7; stroke-linecap: round; stroke-dasharray: 34 16; }
+        .s02 .ln { font: 600 30px var(--f-t); fill: var(--faint); }
+        .s02 .fb { position: absolute; width: 34px; height: 34px; border-radius: 9px; background: var(--blue); border: 4px solid var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s02-flood" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">Changes landing per day · Anthropic</p>
+          <span class="cc-spark ag" style="left:110px"></span>
+          <span class="cc-spark ag" style="left:230px"></span>
+          <span class="cc-spark ag" style="left:350px"></span>
+          <p class="a-sub agk">Agents writing code</p>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="gl base" d="M130 1236 H830" />
+            <path class="gl wall" d="M420 560 V836 M420 964 V1240" />
+            <path class="gl strike" d="M100 1294 H336" />
+            <g class="layers">
+              <path class="sieve" d="M590 640 H900" /><text class="ln" x="916" y="651">1</text>
+              <path class="sieve" d="M590 790 H900" /><text class="ln" x="916" y="801">2</text>
+              <path class="sieve" d="M590 940 H900" /><text class="ln" x="916" y="951">3</text>
+              <path class="sieve" d="M590 1090 H900" /><text class="ln" x="916" y="1101">4</text>
+            </g>
+          </svg>
+          <div class="col may"></div>
+          <div class="col jam"><div class="col sep"></div></div>
+          <span class="num n1" style="left:170px;width:260px;top:1086px">0</span>
+          <span class="num n2" style="left:450px;width:400px;top:512px">0</span>
+          <p class="mon m1" style="left:170px">May</p>
+          <p class="mon m2" style="left:520px">Sept</p>
+          <p class="foot">1 block = 500 changes a day · Anthropic, 2026</p>
+          <span class="who"><i data-ic="person"></i></span>
+          <p class="lab l1" style="left:110px">One gate</p>
+          <p class="lab l2" style="left:600px"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Layers</span><span class="on" data-layout-allow-overlap="">Layers</span></span></p>
+          <div class="falls"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.3;
+          const root = document.querySelector('[data-composition-id="s02-flood"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          // block chart: 44 px blocks on a 52 px pitch, 5 per row, bottom row top at y 1182
+          const slot = (x0, i) => [x0 + (i % 5) * 52, 1182 - Math.floor(i / 5) * 52];
+          const AG = [[152, 362], [272, 362], [392, 362]];   // agent centres the changes fly out of
+          const mk = (box, x0, n) => {
+            box.innerHTML = Array.from({ length: n }, (_, i) => { const [x, y] = slot(x0, i); return `<i class="blk" style="left:${x}px;top:${y}px"></i>`; }).join("");
+            return [...box.children];
+          };
+          const may = mk(q(".may"), 170, 5), sep = mk(q(".sep"), 520, 60);
+          // falling changes for the layers: [x, layer that catches it (4 = gets through)]
+          const FALL = [[606, 0], [650, 1], [694, 2], [738, 0], [782, 3], [826, 1], [862, 0], [628, 2], [760, 4], [716, 4]];
+          const SLAB = [640, 790, 940, 1090];
+          q(".falls").innerHTML = FALL.map(([x]) => `<i class="fb" style="left:${x}px;top:0px"></i>`).join("");
+          const falls = all(".fb");
+          ["base", "wall", "strike"].forEach((c) => { const p = q("." + c); p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          gsap.set([q(".a-eyebrow"), q(".agk"), q(".n1"), q(".n2"), q(".m1"), q(".m2"), q(".foot"), q(".who"), q(".l1"), q(".l2")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "With agents writing code,"
+          Apple.rise(tl, q(".a-eyebrow"), 0.05, { y: 16 });
+          Apple.zoom(tl, all(".ag"), 0.44, { from: 0.6, dur: 0.6, stagger: 0.12 });
+          all(".ag").forEach((a, i) => tl.fromTo(a, { rotation: 0 }, { rotation: 90 + i * 20, duration: 6.0, ease: "none" }, 0.44));
+          Apple.rise(tl, q(".agk"), 1.0, { y: 12, dur: 0.6 });
+          // "Anthropic's daily changes jumped"
+          tl.to(q(".base"), { strokeDashoffset: 0, duration: 0.6, ease: "power2.inOut" }, 2.0);
+          Apple.rise(tl, [q(".m1"), q(".m2")], 2.3, { y: 14, dur: 0.6 });
+          // "from twenty-five hundred": each change flies out of an agent into its slot
+          const fly = (els, x0, at, stagger, dur) => els.forEach((b, i) => {
+            const [x, y] = slot(x0, i), [ax, ay] = AG[i % 3];
+            tl.fromTo(b, { x: ax - x - 22, y: ay - y - 22, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: dur, ease: "expo.out" }, at + i * stagger);
+          });
+          fly(may, 170, 3.4, 0.1, 0.6);
+          Egg.count(tl, q(".n1"), 0, 2500, 3.4, { dur: 0.9 });
+          Apple.rise(tl, q(".n1"), 3.4, { y: 12, dur: 0.4 });
+          // "to over thirty thousand": twelve times the pile
+          fly(sep, 520, 5.0, 0.016, 0.5);
+          Apple.rise(tl, q(".n2"), 5.0, { y: 12, dur: 0.4 });
+          Egg.count(tl, q(".n2"), 0, 30000, 5.0, { dur: 1.3, fmt: (v) => Math.round(v).toLocaleString("en-US") + (v > 29999 ? "+" : "") });
+          tl.to(q(".n2"), { scale: 1.06, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 6.3);
+          Apple.rise(tl, q(".foot"), 3.5, { y: 10, dur: 0.6 });
+
+          // "Nobody can read all that": the pile slides against one gate with one reviewer, and jams
+          Apple.out(tl, [q(".a-eyebrow"), ...all(".ag"), q(".agk"), q(".base"), q(".n1"), q(".n2"), q(".m1"), q(".m2"), q(".foot"), q(".may")], 6.45);
+          tl.to(q(".sep"), { x: -410, duration: 0.7, ease: "power3.inOut" }, 6.55);
+          tl.to(q(".wall"), { strokeDashoffset: 0, duration: 0.5, ease: "power2.inOut" }, 6.75);
+          Apple.zoom(tl, q(".who"), 7.0, { from: 0.7, dur: 0.5 });
+          Apple.rise(tl, q(".l1"), 7.1, { y: 14, dur: 0.6 });
+          tl.to(q(".jam"), { x: 8, duration: 0.06, ease: "sine.inOut", yoyo: true, repeat: 3 }, 7.35);
+          tl.to(q(".who"), { keyframes: { rotation: [0, -8, 7, -5, 0] }, transformOrigin: "50% 92%", duration: 0.4, ease: "none" }, 7.35);
+          // "so they stack layers": four layers, and changes fall through them, a few caught at each
+          all(".layers > *").forEach((el, i) => tl.fromTo(el, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out" }, 7.98 + Math.floor(i / 2) * 0.12));
+          Apple.rise(tl, q(".l2"), 8.4, { y: 14, dur: 0.6 });
+          falls.forEach((b, i) => {
+            const [, k] = FALL[i];
+            const stop = (k < 4 ? SLAB[k] : 1236) - 38;
+            const t0 = 8.3 + (i % 5) * 0.07;
+            tl.fromTo(b, { y: 470, opacity: 0 }, { y: 470, opacity: 1, duration: 0.12, ease: "none" }, t0);
+            tl.to(b, { y: stop, duration: 0.3 + k * 0.12, ease: "power2.in" }, t0 + 0.1);
+            if (k < 4) tl.to(b, { backgroundColor: "rgba(0,113,227,0)", duration: 0.15, ease: "none" }, t0 + 0.4 + k * 0.12);
+          });
+          // "not one gate"
+          Apple.tint(tl, q(".l2 .a-tint"), 9.36, { dur: 0.4 });
+          tl.to([q(".sep"), q(".wall"), q(".who"), q(".l1")], { opacity: 0.3, duration: 0.3, ease: "none" }, 9.36);
+          tl.to(q(".strike"), { strokeDashoffset: 0, duration: 0.35, ease: "power2.inOut" }, 9.45);
+
+          tl.to([q(".sep"), q(".wall"), q(".who"), q(".l1"), q(".strike"), q(".layers"), q(".l2"), q(".falls")], { opacity: 0, duration: 0.3, ease: "power2.in" }, DUR - 0.35);
+          window.__timelines["s02-flood"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
