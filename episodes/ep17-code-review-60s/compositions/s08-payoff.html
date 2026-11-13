@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.25,"sfx":"pen","vol":0.12,"dur":0.6},
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.45,"sfx":"tick","vol":0.14},
+      {"t":0.6,"sfx":"tick","vol":0.14},
+      {"t":0.75,"sfx":"tick","vol":0.14},
+      {"t":1.1,"sfx":"whoosh-short","vol":0.14},
+      {"t":1.4,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.5,"sfx":"pop","vol":0.18},
+      {"t":2.8,"sfx":"marker","vol":0.14},
+      {"t":3.15,"sfx":"whoosh-short","vol":0.14},
+      {"t":3.93,"sfx":"whoosh-short","vol":0.16},
+      {"t":4.3,"sfx":"pop","vol":0.18},
+      {"t":4.7,"sfx":"marker","vol":0.14},
+      {"t":6.08,"sfx":"pop","vol":0.2},
+      {"t":6.82,"sfx":"tap","vol":0.16},
+      {"t":7.05,"sfx":"pen","vol":0.14,"dur":0.35},
+      {"t":7.35,"sfx":"click","vol":0.18},
+      {"t":7.7,"sfx":"pop","vol":0.2},
+      {"t":7.95,"sfx":"pop","vol":0.2},
+      {"t":8.6,"sfx":"sparkle","vol":0.16},
+      {"t":8.6,"sfx":"chime","vol":0.22,"dur":2.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · The payoff, hard stop. "In three months": a June → Sept strip, one dot a month. Two bar charts of the
+           Claude Code repo: merged pull requests (Sept bar grows to twice June's: "More than 2×") and the share of
+           changes rolled back (Sept's bar starts level with June's and shrinks to 60% on "fell", the lost part left as
+           a dashed ghost: "Down over 40%"). Bars are drawn at the minimum the article states (STORYBOARD.md). Then two
+           lanes: the AI reviewer (Claude mark) whose Approve button is dashed and struck on "never approves", and a
+           person whose Approve button is real; on "it only posts findings" the two findings from s05 post as comments
+           under the AI, and "Findings, not approvals." lands on top. No exit: the last frame holds ~2.0 s. Avatar:
+           corner, smiling at the end. Voiceover: 0.18 "In three months, merged changes more than doubled, and the
+           rollback rate fell over forty percent." 6.02 "The AI never approves. It only posts findings." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s08 .strip { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
+        .s08 .sd { fill: var(--ink); }
+        .s08 .mo { position: absolute; top: 352px; width: 120px; text-align: center; font: 400 28px/1 var(--f-mono); color: var(--graphite); }
+        .s08 .ck { position: absolute; left: 90px; }
+        .s08 .rl { position: absolute; left: 90px; font: 400 34px/56px var(--f-body); color: var(--graphite); }
+        .s08 .bar { position: absolute; left: 230px; height: 56px; border-radius: 14px; background: var(--ink); transform-origin: 0 50%; }
+        .s08 .bar.soft { background: var(--stone); }
+        .s08 .ghost { position: absolute; left: 578px; top: 930px; width: 232px; height: 56px; border: 3px dashed var(--ash); border-radius: 14px;
+          display: grid; place-items: center; font: 400 28px/1 var(--f-mono); color: var(--ink); }
+        .s08 .vl { position: absolute; font: 300 44px/56px var(--f-display); letter-spacing: -0.02em; color: var(--ink); }
+        .s08 .res { position: absolute; left: 90px; font: 300 64px/1.1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s08 .foot { position: absolute; left: 90px; top: 1130px; width: 860px; }
+        .s08 .ttl { position: absolute; left: 90px; top: 296px; width: 740px; }
+        .s08 .who { position: absolute; display: flex; align-items: center; font: 300 54px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s08 .av { left: 90px; top: 572px; width: 110px; height: 110px; }
+        .s08 .pp { position: absolute; left: 96px; top: 1062px; width: 100px; height: 100px; }
+        .s08 .ap { position: absolute; left: 230px; display: flex; align-items: center; gap: 14px; padding: 18px 30px; border-radius: 9999px; font: 400 32px/1 var(--f-mono); letter-spacing: 0.04em; white-space: nowrap; }
+        .s08 .ap svg { width: 30px; height: 30px; fill: none; stroke: currentColor; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+        .s08 .ap.no { top: 706px; border: 3px dashed var(--ash); color: var(--smoke); background: var(--eggshell); }
+        .s08 .ap.yes { top: 1180px; border: 3px solid var(--ink); color: var(--eggshell); background: var(--ink); }
+        .s08 .apn { position: absolute; left: 520px; top: 726px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--graphite); }
+        .s08 .stk { fill: none; stroke: var(--ink); stroke-width: 6; stroke-linecap: round; }
+        .s08 .cm { position: absolute; left: 230px; display: flex; flex-direction: row; align-items: center; gap: 16px; padding: 16px 24px; border-radius: 26px; }
+        .s08 .cm p { margin: 0; font: 400 34px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s08 .div { position: absolute; left: 90px; top: 1022px; width: 860px; height: 2px; background: var(--stone); }
+      </style>
+      <div id="root" data-composition-id="s08-payoff" data-width="1080" data-height="1920">
+        <div class="egg-scene s08">
+          <span class="egg-eyebrow">Results · Claude Code, 2026</span>
+          <svg class="egg-svg a" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="strip" d="M150 326 H780" />
+            <circle class="sd" cx="150" cy="326" r="11" /><circle class="sd" cx="360" cy="326" r="11" /><circle class="sd" cx="570" cy="326" r="11" /><circle class="sd" cx="780" cy="326" r="11" />
+          </svg>
+          <span class="mo" style="left:90px">June</span><span class="mo" style="left:300px">July</span><span class="mo" style="left:510px">Aug</span><span class="mo" style="left:720px">Sept</span>
+          <span class="egg-card-kicker ck k1" style="top:448px">Merged pull requests</span>
+          <span class="rl r1" style="top:490px">June</span><span class="rl r2" style="top:570px">Sept</span>
+          <i class="bar soft b1" style="top:490px;width:290px"></i><i class="bar b2" style="top:570px;width:580px"></i>
+          <span class="vl v1" style="left:536px;top:490px">1×</span><span class="vl v2" style="left:826px;top:570px">2×</span>
+          <span class="res x1" style="top:660px"><span class="egg-hl">More than 2×</span></span>
+          <span class="egg-card-kicker ck k2" style="top:808px">Share of changes rolled back</span>
+          <span class="rl r3" style="top:850px">June</span><span class="rl r4" style="top:930px">Sept</span>
+          <i class="bar soft b3" style="top:850px;width:580px"></i><i class="bar b4" style="top:930px;width:580px"></i>
+          <span class="ghost">−40%</span>
+          <span class="res x2" style="top:1020px"><span class="egg-hl">Down over 40%</span></span>
+          <span class="egg-foot foot">Bars at the stated minimum</span>
+
+          <h2 class="egg-title ttl"><span class="egg-hl">Findings</span>, not approvals.</h2>
+          <img class="cl av" src="assets/claude-logo.svg" alt="Claude">
+          <span class="who wa" style="left:230px;top:600px">The AI reviewer</span>
+          <span class="ap no"><svg viewBox="0 0 30 30"><path d="M6 15.5 L12 21.5 L24 9" /></svg>Approve</span>
+          <svg class="egg-svg b" viewBox="0 0 1080 1920" aria-hidden="true"><path class="stk" d="M222 742 L494 742" /></svg>
+          <span class="apn">never</span>
+          <div class="egg-card cm c1" style="top:806px"><span class="sev imp">Important</span><p>Same crash, another file</p></div>
+          <div class="egg-card cm c2" style="top:906px"><span class="sev">Pre-existing</span><p>Cache never clears</p></div>
+          <i class="div"></i>
+          <svg class="person pp" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="27" r="15" /><path d="M13 78 C13 56 26 47 42 47 C58 47 71 56 71 78" /></svg>
+          <span class="who wp" style="left:230px;top:1084px">A person</span>
+          <span class="ap yes"><svg viewBox="0 0 30 30"><path d="M6 15.5 L12 21.5 L24 9" /></svg>Approve</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s08-payoff"] .s08');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const strip = q(".strip"), stk = q(".stk");
+          [strip, stk].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          // "In three months": June → Sept, a dot a month
+          tl.to(strip, { strokeDashoffset: 0, duration: 0.65, ease: Egg.EASE.draw }, 0.25);
+          all(".sd").forEach((d, i) => tl.fromTo(d, { scale: 0 }, { scale: 1, svgOrigin: `${150 + i * 210} 326`, duration: 0.35, ease: Egg.EASE.pop }, 0.3 + i * 0.15));
+          Egg.fadeUp(tl, all(".mo"), 0.35, { y: 10, stagger: 0.15 });
+          // "merged changes more than doubled"
+          Egg.fadeUp(tl, [q(".k1"), q(".r1"), q(".r2")], 1.0, { y: 10, stagger: 0.06 });
+          Egg.bars(tl, [q(".b1")], 1.1, { dur: 0.6 });
+          Egg.fadeUp(tl, q(".v1"), 1.55, { y: 8, dur: 0.35 });
+          tl.fromTo(q(".b2"), { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power2.inOut" }, 1.4);
+          Egg.fadeUp(tl, q(".v2"), 2.4, { y: 8, dur: 0.35 });
+          Egg.fadeUp(tl, q(".x1"), 2.5, { y: 14 });
+          Egg.highlight(tl, q(".x1 .egg-hl"), 2.8);
+          // "and the rollback rate fell over forty percent"
+          Egg.fadeUp(tl, [q(".k2"), q(".r3"), q(".r4")], 3.12, { y: 10, stagger: 0.06 });
+          Egg.bars(tl, [q(".b3"), q(".b4")], 3.15, { dur: 0.55, stagger: 0.1 });
+          tl.to(q(".b4"), { scaleX: 0.6, duration: 0.6, ease: "power2.inOut" }, 3.93);
+          tl.fromTo(q(".ghost"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 4.3);
+          Egg.fadeUp(tl, q(".x2"), 4.3, { y: 14 });
+          Egg.highlight(tl, q(".x2 .egg-hl"), 4.7);
+          Egg.fadeUp(tl, q(".foot"), 3.3, { y: 10 });
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".a"), ...all(".mo"), q(".k1"), q(".k2"), ...all(".rl"), ...all(".bar"), ...all(".vl"), q(".ghost"), q(".x1"), q(".x2"), q(".foot")], 5.75);
+
+          // "The AI never approves."
+          Egg.pop(tl, q(".av"), 6.08);
+          tl.fromTo(q(".av"), { rotation: 0 }, { rotation: 140, duration: 4.7, ease: "none" }, 6.08);
+          Egg.fadeUp(tl, q(".wa"), 6.2, { y: 14 });
+          Egg.fadeUp(tl, q(".ap.no"), 6.82, { y: 12 });
+          tl.to(stk, { strokeDashoffset: 0, duration: 0.3, ease: Egg.EASE.draw }, 7.05);
+          Egg.fadeUp(tl, q(".apn"), 7.1, { y: 8, dur: 0.35 });
+          // approval stays with a person
+          tl.fromTo(q(".div"), { scaleX: 0 }, { scaleX: 1, transformOrigin: "0 50%", duration: 0.5, ease: Egg.EASE.enter }, 7.1);
+          Egg.pop(tl, q(".pp"), 7.2, { dur: 0.45 });
+          Egg.fadeUp(tl, q(".wp"), 7.25, { y: 14 });
+          Egg.pop(tl, q(".ap.yes"), 7.35, { dur: 0.45 });
+          // "It only posts findings."
+          tl.fromTo([q(".c1"), q(".c2")], { opacity: 0, x: -30, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, transformOrigin: "0 50%", duration: 0.45, ease: Egg.EASE.pop, stagger: 0.25 }, 7.7);
+          Egg.fadeUp(tl, q(".ttl"), 8.35, { y: 20 });
+          Egg.highlight(tl, q(".ttl .egg-hl"), 8.6);
+          // hard stop: no exit, the last frame holds
+          window.__timelines["s08-payoff"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,30 @@
+/* ep17 · shared parts for the code-review episode (Eggshell tokens from eggshell.css; no new colours).
+   .fix   the example change that travels through every layer (the through-line object)
+   .trk   the 4-layer tracker beside each layer eyebrow
+   .cl    the Claude mark (assets/claude-logo.svg); .person an ink teammate glyph (never the avatar)
+   .sev   severity tags on posted findings; .vote a reviewer's ballot (ink ✓ filled, ✕ outlined) */
+
+.fix { position: absolute; left: 0; top: 0; display: flex; align-items: center; gap: 16px; padding: 16px 28px 16px 20px;
+  background: var(--eggshell); border: 3px solid var(--ink); border-radius: 26px; box-shadow: var(--shadow);
+  font: 400 32px/1 var(--f-mono); color: var(--ink); white-space: nowrap; transform-origin: 0 50%; }
+.fix svg { flex: none; width: 40px; height: 40px; }
+.fix .bugi { fill: none; stroke: var(--ink); stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.trk { position: absolute; left: 650px; top: 243px; display: flex; gap: 10px; }
+.trk i { display: block; width: 40px; height: 9px; border-radius: 5px; background: var(--stone); }
+.trk i.on { background: var(--ink); }
+
+.cl { position: absolute; display: block; }
+.person { display: block; fill: none; stroke: var(--ink); stroke-width: 4.5; stroke-linecap: round; }
+
+.sev { display: inline-flex; align-items: center; font: 400 24px/1 var(--f-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  border: 2px solid var(--ink); border-radius: 9999px; padding: 10px 16px; white-space: nowrap; color: var(--ink); background: var(--eggshell); }
+.sev.imp { background: var(--ink); color: var(--eggshell); }
+.sev.nit { background: var(--taupe); border-color: var(--btn-border); color: var(--graphite); }
+
+.vote { display: grid; place-items: center; width: 50px; height: 50px; border-radius: 50%; border: 3px solid var(--ink); background: var(--eggshell); }
+.vote svg { width: 26px; height: 26px; fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.vote.y { background: var(--ink); }
+.vote.y svg { stroke: var(--eggshell); }
+.vote.n { border-color: var(--ash); }
+.vote.n svg { stroke: var(--graphite); }
