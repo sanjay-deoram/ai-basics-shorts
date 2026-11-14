@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.3},
+      {"t":0.95,"sfx":"tick","vol":0.16},
+      {"t":1.55,"sfx":"pop","vol":0.22},
+      {"t":2.2,"sfx":"pop","vol":0.16},
+      {"t":2.95,"sfx":"pop","vol":0.24},
+      {"t":3.57,"sfx":"pop","vol":0.18},
+      {"t":4.95,"sfx":"zoom","vol":0.14},
+      {"t":5.9,"sfx":"pop","vol":0.24},
+      {"t":7.1,"sfx":"zoom","vol":0.14},
+      {"t":7.45,"sfx":"pop","vol":0.34},
+      {"t":7.5,"sfx":"success","vol":0.2},
+      {"t":8.16,"sfx":"thud","vol":0.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Payoff. Hard cut to black: "Cost per task, not per token." word by word. "price per token": Opus 5.5 $4
+           vs Fable 5.2 $8 (input, per million), stamped 2× PER TOKEN. "on one coding test": the FrontierCode 2.0 card;
+           "Fable matched Opus at max effort": scores Opus · max 45.5%, Fable · high 45.3%, stamped SAME SCORE; "for
+           about half the cost": cost-per-task bars, Fable about half of Opus, stamped ½ THE COST. On the music hit
+           (8.16) the card punches; the frame holds to the hard stop. Avatar BIG under the cards (everything above y 1150).
+           Voiceover: 0.10 "And compare cost per task, not price per token: on one coding test, Fable matched Opus at
+           max effort, for about half the cost." -->
+      <style>
+        #s08-root .bg { background: #0b0b0b; }
+        #s08-root .rl-eye { color: #9b968e; }
+        #s08-root .rl-hd { --acc: #f08a63; color: #fdfcfc; font-size: 84px; line-height: 90px; }
+        #s08-root .card { position: absolute; left: 90px; width: 860px; padding: 24px 32px; border-radius: 26px; }
+        #s08-root .card .k { font: 400 28px/32px var(--f-mono); white-space: nowrap; }
+        #s08-root .card .rows { position: absolute; left: 32px; right: 32px; }
+        #s08-root .dark { top: 494px; height: 190px; background: #1c1b19; border: 2px solid #3a3733; }
+        #s08-root .dark .k { color: #a39e95; }
+        #s08-root .dark .br .m, #s08-root .dark .br .v { color: #fdfcfc; }
+        #s08-root .light { top: 712px; height: 430px; background: #fff; }
+        #s08-root .light .k { color: var(--grey); }
+        #s08-root .light .k2 { position: absolute; left: 32px; font: 400 26px/1 var(--f-mono); letter-spacing: 0.06em; text-transform: uppercase; color: #8a857d; }
+        #s08-root .x2 { left: 600px; top: 62px; --acc: #5f5b55; color: #efece6; background: #2a2825; box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.08); }
+        #s08-root .same { left: 300px; top: 66px; --acc: #2d4bff; }
+        #s08-root .half { left: 530px; top: 334px; --acc: #12a150; }
+      </style>
+      <div id="s08-root" data-composition-id="s08-black" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-bg bg"></div>
+          <div class="rl-eye">// the payoff</div>
+          <div class="rl-hd">
+            <span class="ln"><span class="w">Cost </span><span class="w">per </span><em class="w">task,</em></span>
+            <span class="ln"><span class="w">not </span><span class="w">per </span><span class="w">token.</span></span>
+          </div>
+          <div class="card dark">
+            <div class="k">// price per token · input, per million</div>
+            <div class="rows" style="top:70px">
+              <div class="br" style="top:0"><span class="m">Opus 5.5</span><span class="b p1" style="width:200px;background:#5f5b55"></span><span class="v" style="right:auto;left:500px">$4</span></div>
+              <div class="br" style="top:56px"><span class="m">Fable 5.2</span><span class="b p2" style="width:400px;background:#a39e95"></span><span class="v" style="right:auto;left:700px">$8</span></div>
+            </div>
+            <div class="rstamp sm x2" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6" /></svg></i>2× per token</div>
+          </div>
+          <div class="card light">
+            <div class="k">// frontiercode 2.0 · one coding test</div>
+            <div class="k2" style="top:84px">score</div>
+            <div class="rows" style="top:112px">
+              <div class="br" style="top:0"><span class="m">Opus <b>· max</b></span><span class="b s1" style="width:380px;background:#0d0d0c"></span><span class="v">45.5%</span></div>
+              <div class="br" style="top:60px"><span class="m">Fable <b>· high</b></span><span class="b s2" style="width:378px;background:#2d4bff"></span><span class="v">45.3%</span></div>
+            </div>
+            <div class="k2" style="top:254px">cost per task</div>
+            <div class="rows" style="top:282px">
+              <div class="br" style="top:0"><span class="m">Opus <b>· max</b></span><span class="b c1" style="width:470px;background:#0d0d0c"></span></div>
+              <div class="br" style="top:60px"><span class="m">Fable <b>· high</b></span><span class="b c2" style="width:235px;background:#12a150"></span></div>
+            </div>
+            <div class="rstamp sm same" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9h14M5 15h14" /></svg></i>Same score</div>
+            <div class="rstamp half" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 17 13.5 8.5 8.5 13.5 2 7M16 17h6v-6" /></svg></i>½ the cost</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const dark = q(".dark"), light = q(".light");
+          const rowsL = all(".light .rows"), k2 = all(".light .k2");
+          gsap.set([dark, light, ...rowsL, ...k2], { opacity: 0 });
+          const grow = (els, at) => tl.fromTo(els, { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power3.out", stagger: 0.1 }, at);
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.1);
+          // "And compare cost per task, not price per token"
+          Reel.words(tl, q(".rl-hd"), [0.95, 1.28, 1.55, 2.2, 2.5, 2.9]);
+          tl.fromTo(dark, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 2.2);
+          grow([q(".p1"), q(".p2")], 2.35);
+          Reel.badge(tl, q(".x2"), 2.95);
+          // "on one coding test"
+          tl.fromTo(light, { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.57);
+          // "Fable matched Opus at max effort"
+          tl.fromTo([k2[0], rowsL[0]], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 4.9);
+          grow([q(".s1"), q(".s2")], 4.95);
+          Reel.badge(tl, q(".same"), 5.9);
+          // "for about half the cost"
+          tl.fromTo([k2[1], rowsL[1]], { opacity: 0 }, { opacity: 1, duration: 0.15 }, 7.05);
+          grow([q(".c1"), q(".c2")], 7.1);
+          Reel.badge(tl, q(".half"), 7.45);
+          // the music hit: the card punches, then the frame holds to the hard stop
+          tl.to(light, { scale: 1.03, duration: 0.12, ease: "power2.out" }, 8.16);
+          tl.to(light, { scale: 1, duration: 0.3, ease: "power2.out" }, 8.28);
+          tl.to(q(".rl-hd em"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, 8.16);
+          tl.to({}, { duration: 9.76 }, 0);
+          window.__timelines["s08-black"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

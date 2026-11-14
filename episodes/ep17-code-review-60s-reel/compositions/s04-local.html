@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.55,"sfx":"pop","vol":0.2},
+      {"t":1.15,"sfx":"tick","vol":0.16},
+      {"t":1.48,"sfx":"pop","vol":0.18},
+      {"t":1.86,"sfx":"zoom","vol":0.14},
+      {"t":2.75,"sfx":"typing","vol":0.16,"dur":0.35},
+      {"t":3.42,"sfx":"success","vol":0.16},
+      {"t":3.6,"sfx":"tick","vol":0.16},
+      {"t":3.78,"sfx":"tick","vol":0.16},
+      {"t":3.96,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":4.12,"sfx":"zoom","vol":0.14},
+      {"t":4.46,"sfx":"pop","vol":0.2},
+      {"t":5.31,"sfx":"pop","vol":0.18},
+      {"t":5.66,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":6.36,"sfx":"zoom","vol":0.12},
+      {"t":7.22,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Layer 1 · On your machine. Light blue: the fix badge under "On your machine." (word by word). "Claude runs
+           the tests": the dark window runs tests, build and lint, each ticked, beside "who wrote it" (Claude) and a card:
+           it shows the output, not just "done". "Then a second Claude, with fresh eyes": two context cards. The writer's
+           is full of how it got there (token chips: the ask, the plan, tries, errors); the reviewer's holds only the
+           change. On "rereads the change" a scan bar sweeps it. Whip out. Badge bottom-left (narrator).
+           Voiceover (scene-local, +0.36 for the whip): 0.54 "Layer one, on your machine: Claude runs the tests, then a
+           second Claude, with fresh eyes, rereads the change." -->
+      <style>
+        #s04-root .bg { background-color: #d6e4ff; }
+        #s04-root .rl-hd { --acc: #1f6feb; }
+        #s04-root .fix { left: 90px; top: 412px; --acc: #0d0d0c; }
+        #s04-root .term { left: 90px; width: 520px; top: 500px; height: 290px; }
+        #s04-root .term .tb { top: 88px; font-size: 30px; }
+        #s04-root .wl { position: absolute; left: 650px; top: 506px; width: 96px; height: 96px; }
+        #s04-root .wk { position: absolute; left: 650px; top: 622px; font: 400 28px/32px var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s04-root .call { left: 640px; width: 310px; top: 670px; padding: 20px 24px; font: 500 32px/40px var(--f-display); letter-spacing: -0.02em; color: #0d0d0c; }
+        #s04-root .pan { top: 816px; width: 420px; height: 450px; padding: 26px 28px; display: flex; flex-direction: column; gap: 14px; }
+        #s04-root .pan .hd { display: flex; align-items: center; gap: 14px; font: 600 44px/1 var(--f-display); letter-spacing: -0.03em; color: #0d0d0c; }
+        #s04-root .pan .hd img { width: 54px; height: 54px; }
+        #s04-root .ctx { position: relative; height: 200px; border: 2px dashed #c9c4bd; border-radius: 20px; padding: 14px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; overflow: hidden; }
+        #s04-root .tok { display: block; font: 400 28px/1 var(--f-mono); padding: 11px 13px; border-radius: 12px; color: #0d0d0c; white-space: nowrap; }
+        #s04-root .tok:nth-child(3n + 1) { background: var(--tok-1); }
+        #s04-root .tok:nth-child(3n + 2) { background: var(--tok-2); }
+        #s04-root .tok:nth-child(3n + 3) { background: var(--tok-3); }
+        #s04-root .diff { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: 14px; background: var(--tok-1); width: 100%; }
+        #s04-root .diff b { font: 400 28px/1 var(--f-mono); font-weight: 400; }
+        #s04-root .diff code { font: 400 17px/1.25 var(--f-mono); color: #0d0d0c; white-space: pre; }
+        #s04-root .diff code.del { color: #9b1c1c; }
+        #s04-root .diff code.add { color: #0f5c2e; }
+        #s04-root .scan { position: absolute; left: 0; top: 0; width: 8px; height: 200px; border-radius: 4px; background: #0d0d0c; }
+        #s04-root .ft { font: 400 30px/1.3 var(--f-body); color: #5f5b55; }
+      </style>
+      <div id="s04-root" data-composition-id="s04-local" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// layer 1 · on your machine</div>
+            <span class="trk"><i class="on"></i><i></i><i></i><i></i></span>
+            <div class="rl-hd"><span class="ln"><span class="w">On </span><span class="w">your </span><em class="w">machine.</em></span></div>
+            <div class="rstamp sm fix" data-layout-allow-overlap=""><i><svg class="thin" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="13.8" rx="4.8" ry="6" /><path d="M12 8.4V19.8M9 5.4l1.5 2.7M15 5.4l-1.5 2.7M7.2 11.4H3M7.2 15.6H3M16.8 11.4H21M16.8 15.6H21M8.1 18.6l-3.3 2.7M15.9 18.6l3.3 2.7" /></svg></i>Fix: empty config crash</div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>~/app</span></div>
+              <div class="tb">
+                <div class="r t1"><span class="sub">$</span> run tests</div>
+                <div class="r t2"><span class="okc">✓</span> all tests passed</div>
+                <div class="r t3"><span class="sub">$</span> build  <span class="okc">✓</span></div>
+                <div class="r t4"><span class="sub">$</span> lint   <span class="okc">✓</span></div>
+              </div>
+            </div>
+            <img class="wl" src="assets/claude-logo.svg" alt="Claude">
+            <span class="wk">// who wrote it</span>
+            <div class="wc call">Shows <span class="egg-hl">the output</span>, not just “done”.</div>
+            <div class="wc pan wr" style="left:90px">
+              <div class="hd"><img src="assets/claude-logo.svg" alt="">Writer</div>
+              <span class="k">// its context</span>
+              <div class="ctx"><span class="tok">your ask</span><span class="tok">plan</span><span class="tok">try 1</span><span class="tok">error log</span><span class="tok">try 2</span><span class="tok">notes</span><span class="tok">…</span></div>
+              <p class="ft">Full of how it got there</p>
+            </div>
+            <div class="wc pan rv" style="left:530px">
+              <div class="hd"><img class="rvl" src="assets/claude-logo.svg" alt="">Reviewer</div>
+              <span class="k">// its context</span>
+              <div class="ctx"><div class="diff"><b>the change</b><code class="del">− theme.name</code><code class="add">+ theme?.name ?? "light"</code></div><span class="scan"></span></div>
+              <p class="ft"><span class="egg-hl">Fresh eyes</span>: only the change</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s04-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cam = q(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s04-mb");
+          const wr = q(".wr"), rv = q(".rv"), term = q(".term");
+          gsap.set([q(".trk"), term, q(".wl"), q(".wk"), q(".call"), wr, rv, q(".t2"), q(".t3"), q(".t4"), q(".scan")], { opacity: 0 });
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          tl.fromTo([q(".rl-eye"), q(".trk")], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          Reel.badge(tl, q(".fix"), 0.55);
+          // "Layer one, on your machine:"
+          Reel.words(tl, q(".rl-hd"), [1.15, 1.3, 1.48]);
+          // "Claude runs the tests": the window runs, each step ticked
+          tl.fromTo(term, { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 1.86);
+          tl.fromTo(q(".wl"), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 1.86);
+          tl.fromTo(q(".wl"), { rotation: 0 }, { rotation: 90, duration: 5.3, ease: "none" }, 1.86);
+          tl.fromTo(q(".wk"), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 2.11);
+          Egg.typeOn(tl, q(".t1"), 2.75, { cps: 40 });
+          Reel.rows(tl, [q(".t2"), q(".t3"), q(".t4")], [3.42, 3.6, 3.78]);
+          tl.fromTo(q(".call"), { opacity: 0, x: 60 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 3.66);
+          Egg.highlight(tl, q(".call .egg-hl"), 3.96);
+          // "then a second Claude": the writer's context is full; the reviewer's holds only the change
+          tl.fromTo(wr, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.12);
+          tl.fromTo(all(".wr .tok"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2.2)", stagger: 0.06 }, 4.26);
+          tl.fromTo(rv, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 4.36);
+          tl.fromTo(q(".rvl"), { scale: 0, rotation: -90 }, { scale: 1, rotation: 0, duration: 0.45, ease: "back.out(2)" }, 4.46);
+          // "with fresh eyes"
+          tl.fromTo(q(".diff"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 5.31);
+          tl.fromTo(all(".pan .ft"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", stagger: 0.12 }, 5.36);
+          Egg.highlight(tl, q(".rv .egg-hl"), 5.66);
+          // "rereads the change": a scan bar sweeps it, there and back
+          tl.fromTo(q(".scan"), { x: 6, opacity: 0 }, { x: 6, opacity: 1, duration: 0.1, ease: "none" }, 6.36);
+          tl.to(q(".scan"), { keyframes: [{ x: 320, duration: 0.4 }, { x: 6, duration: 0.4 }], ease: "power1.inOut" }, 6.41);
+          tl.to(q(".scan"), { opacity: 0, duration: 0.12, ease: "none" }, 7.12);
+          Reel.whip(tl, cam, blur, 7.26, "out");
+
+          window.__timelines["s04-local"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

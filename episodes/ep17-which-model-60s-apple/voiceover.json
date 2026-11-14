@@ -1,0 +1,54 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.05,
+      "text": "Here's how to pick the right Claude model, in under sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 3.85,
+      "text": "Four, from small to big: Haiku, Sonnet, Opus and Fable. Smaller is cheaper and faster; bigger handles harder work."
+    },
+    {
+      "scene": "s02",
+      "at": 0.17,
+      "text": "Say your app has four jobs: tagging ten thousand tickets, a chat reply a customer waits on, a tricky bug, and a big migration."
+    },
+    {
+      "scene": "s03",
+      "at": 0.17,
+      "text": "Rule one: start on Opus, the daily driver, at medium effort. Effort is how long it thinks first. The tricky bug stays here."
+    },
+    {
+      "scene": "s04",
+      "at": 0.17,
+      "text": "Rule two: move down for simple jobs, or when someone's waiting. Tagging goes to Haiku, at a fortieth of the price. The chat reply goes to Sonnet: it's fast."
+    },
+    {
+      "scene": "s05",
+      "at": 0.17,
+      "text": "Rule three: if it falls short, don't jump yet. Give it a way to check its work, like a test, then raise the effort. Only then move up: the migration goes to Fable."
+    },
+    {
+      "scene": "s06",
+      "at": 0.17,
+      "text": "And compare cost per task, not price per token: on one coding test, Fable matched Opus at max effort, for about half the cost."
+    }
+  ]
+}

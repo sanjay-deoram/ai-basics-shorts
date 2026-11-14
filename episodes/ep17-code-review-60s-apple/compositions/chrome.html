@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html data-composition-variables="[{&quot;id&quot;:&quot;duration&quot;,&quot;type&quot;:&quot;number&quot;,&quot;label&quot;:&quot;Episode length (s)&quot;,&quot;default&quot;:59.6,&quot;min&quot;:5,&quot;max&quot;:60,&quot;step&quot;:0.1,&quot;unit&quot;:&quot;s&quot;}]">
+  <head><meta charset="UTF-8"></head>
+  <body>
+    <template>
+      <!-- Persistent overlay: a slim rounded progress track at the top of the safe box (like a media scrubber). -->
+      <style>
+        #root { position: absolute; inset: 0; pointer-events: none; }
+        .chr .track { position: absolute; left: 90px; top: 220px; width: 860px; height: 6px; border-radius: 3px; background: rgba(0, 0, 0, 0.08); overflow: hidden; }
+        .chr .track i { position: absolute; inset: 0; border-radius: 3px; background: #1d1d1f; transform-origin: 0 50%; }
+      </style>
+      <div id="root" data-composition-id="chrome" data-width="1080" data-height="1920">
+        <div class="chr"><div class="track"><i></i></div></div>
+      </div>
+      <script>
+        (() => {
+          const chr = document.querySelector('[data-composition-id="chrome"] .chr');
+          const { duration } = window.__hyperframes.getVariables();
+          const tl = gsap.timeline({ paused: true });
+          tl.fromTo(chr.querySelector(".track i"), { scaleX: 0 }, { scaleX: 1, duration, ease: "none" }, 0);
+          window.__timelines["chrome"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

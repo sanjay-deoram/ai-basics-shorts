@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.08,"sfx":"tap","vol":0.14},
+      {"t":0.3,"sfx":"air","vol":0.12},
+      {"t":1.3,"sfx":"marker","vol":0.1},
+      {"t":1.9,"sfx":"tick","vol":0.18},
+      {"t":2.2,"sfx":"tick","vol":0.16},
+      {"t":2.33,"sfx":"tick","vol":0.16},
+      {"t":2.46,"sfx":"tick","vol":0.16},
+      {"t":2.59,"sfx":"tick","vol":0.16},
+      {"t":2.72,"sfx":"tick","vol":0.16},
+      {"t":2.9,"sfx":"pop","vol":0.14},
+      {"t":3.5,"sfx":"pop","vol":0.18},
+      {"t":4.47,"sfx":"click","vol":0.2},
+      {"t":4.55,"sfx":"error","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Layer 3 · Blocking checks. The fix chip under the headline; under it, the pull request's checks card:
+           security review, lint, type checks, tests on every platform, build, "and dozens more", and Claude's review.
+           Each starts as a spinning ring; security review passes on its name, the rest tick through on "and checks".
+           Claude's review shows "1 open finding" (the Important one from s05). On "blocks the merge" the blue Merge
+           button's lock snaps shut, it greys out and shakes: blocked until the finding is fixed or answered. Narrator:
+           small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.18 "Layer three: security review and checks. Any open finding blocks the merge." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 300px; white-space: nowrap; }
+        .s06 .pnl { left: 90px; top: 530px; width: 860px; height: 600px; }
+        .s06 .pk { position: absolute; left: 126px; top: 556px; margin: 0; font: 600 28px/1.1 var(--f-t); color: var(--faint); }
+        .s06 .ck { position: absolute; left: 110px; width: 820px; height: 64px; }
+        .s06 .ck .hl { position: absolute; inset: 0; border-radius: 16px; background: var(--gray); opacity: 0; }
+        .s06 .ck .nm { position: absolute; left: 18px; top: 12px; display: flex; align-items: center; gap: 14px; font: 500 34px/40px var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s06 .ck .nm.mute { color: var(--faint); }
+        .s06 .ck .nm i, .s06 .ck .nm .cc-spark { position: relative; display: block; width: 36px; height: 36px; }
+        .s06 .ck .nm i svg { position: absolute; inset: 0; width: 36px; height: 36px; }
+        .s06 .ck .sts { position: absolute; left: 756px; top: 10px; width: 44px; height: 44px; }
+        .s06 .ck .sts > * { position: absolute; left: 0; top: 0; }
+        .s06 .ring { width: 44px; height: 44px; }
+        .s06 .ring circle { fill: none; stroke: #c7c7cc; stroke-width: 4; stroke-dasharray: 8 8; }
+        .s06 .open { width: 44px; height: 44px; border-radius: 50%; background: #ff9f0a; font: 700 28px/44px var(--f-d); text-align: center; color: #fff; }
+        .s06 .ck .of { position: absolute; right: 86px; top: 9px; background: rgba(255, 159, 10, 0.16); color: #b25000; height: 46px; }
+        .s06 .ln { position: absolute; left: 128px; width: 784px; height: 2px; background: var(--line); }
+        .s06 .mg { position: absolute; left: 90px; top: 1170px; display: flex; align-items: center; gap: 14px; height: 76px; padding: 0 36px 0 30px; border-radius: 999px;
+          background: var(--blue); color: #fff; font: 600 34px/1 var(--f-t); letter-spacing: -0.01em; }
+        .s06 .mg svg { width: 34px; height: 34px; fill: none; stroke: currentColor; stroke-width: 3.2; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+        .s06 .why { position: absolute; left: 340px; top: 1172px; width: 590px; margin: 0; font: 500 34px/1.3 var(--f-t); letter-spacing: -0.01em; color: var(--mu); text-wrap: balance; }
+      </style>
+      <div id="root" data-composition-id="s06-gates" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">Layer 3 of 4</p>
+          <span class="a-trk"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span>
+          <h2 class="a-h2 hd">Blocking <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">checks</span><span class="on" data-layout-allow-overlap="">checks</span></span></h2>
+          <div class="a-card pnl"></div>
+          <p class="pk">Checks on this pull request</p>
+          <div class="cks"></div>
+          <div class="mg"><svg viewBox="0 0 34 34" aria-hidden="true"><rect x="6" y="15" width="22" height="16" rx="3" /><path class="shk" d="M11 15 V10 A6 6 0 0 1 23 10 V15" /></svg>Merge</div>
+          <p class="why">Blocked until it's <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">fixed or answered</span><span class="on" data-layout-allow-overlap="">fixed or answered</span></span></p>
+          <div class="a-fix"><i class="ic" data-ic="bug" data-stroke="#fff"></i>Fix: empty config crash</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.48;
+          const root = document.querySelector('[data-composition-id="s06-gates"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          // [name, icon, when it resolves (s), result]
+          const CK = [
+            ["Security review", '<i data-ic="shield"></i>', 1.9, "pass"],
+            ["Lint", "", 2.2, "pass"],
+            ["Type checks", "", 2.33, "pass"],
+            ["Tests, every platform", "", 2.46, "pass"],
+            ["Build", "", 2.59, "pass"],
+            ["…and dozens more", "", 2.72, "pass"],
+            ["Claude review", '<span class="cc-spark"></span>', 3.5, "open"],
+          ];
+          const TOP = (i) => 606 + i * 72;
+          q(".cks").innerHTML = CK.map(([n, ic, , r], i) => `<div class="ck" style="top:${TOP(i)}px"><i class="hl"></i><span class="nm${i === 5 ? " mute" : ""}">${ic}${n}</span>` +
+            (r === "open" ? `<span class="a-tag of">1 open finding</span>` : "") +
+            `<span class="sts"><svg class="ring" viewBox="0 0 44 44"><circle cx="22" cy="22" r="18" /></svg>${r === "pass" ? `<span class="a-check pass"></span>` : `<span class="open">!</span>`}</span></div>` +
+            (i < CK.length - 1 ? `<i class="ln" style="top:${TOP(i) + 68}px"></i>` : "")).join("");
+          Apple.icons(root);
+          const cks = all(".ck");
+          gsap.set(q(".a-fix"), { x: 90, y: 430, opacity: 0 });
+          gsap.set([q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".pnl"), q(".pk"), ...cks, ...all(".ln"), ...all(".pass, .open, .of"), q(".mg"), q(".why")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, [q(".a-eyebrow"), q(".a-trk")], 0.05, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.1, { y: 24, dur: 0.8 });
+          Apple.fade(tl, q(".a-fix"), 0.05, { dur: 0.4 });
+          // the checks card, every check pending
+          Apple.rise(tl, [q(".pnl"), q(".pk")], 0.3, { y: 30, dur: 0.7 });
+          Apple.rise(tl, [...cks, ...all(".ln")], 0.4, { y: 14, dur: 0.6, stagger: 0.04 });
+          all(".ring").forEach((r) => tl.fromTo(r, { rotation: 0 }, { rotation: 360, transformOrigin: "50% 50%", duration: 4.0, ease: "none" }, 0.4));
+          // "security review and checks": each resolves in turn
+          Apple.fade(tl, cks[0].querySelector(".hl"), 1.3, { dur: 0.25 });
+          tl.to(cks[0].querySelector(".hl"), { opacity: 0, duration: 0.3, ease: "none" }, 2.2);
+          Apple.tint(tl, q(".hd .a-tint"), 2.1, { dur: 0.5 });
+          CK.forEach(([, , t, r], i) => {
+            tl.to(cks[i].querySelector(".ring"), { opacity: 0, duration: 0.12, ease: "none" }, t);
+            Apple.zoom(tl, cks[i].querySelector(r === "pass" ? ".pass" : ".open"), t, { from: 0.5, dur: 0.4 });
+          });
+          // "Any open finding": Claude's review is still open
+          Apple.fade(tl, cks[6].querySelector(".hl"), 3.36, { dur: 0.25 });
+          Apple.zoom(tl, cks[6].querySelector(".of"), 3.6, { from: 0.8, dur: 0.4 });
+          Apple.rise(tl, q(".mg"), 2.9, { y: 16, dur: 0.6 });
+          gsap.set(q(".shk"), { y: -5 });
+          // "blocks the merge": the lock snaps shut, the button greys out
+          tl.to(q(".shk"), { y: 0, duration: 0.18, ease: "power3.in" }, 4.47);
+          tl.to(q(".mg"), { backgroundColor: "#e8e8ed", color: "#86868b", duration: 0.25, ease: "none" }, 4.55);
+          tl.to(q(".mg"), { x: 8, duration: 0.06, ease: "sine.inOut", yoyo: true, repeat: 3 }, 4.55);
+          Apple.rise(tl, q(".why"), 4.7, { y: 12, dur: 0.5 });
+          Apple.tint(tl, q(".why .a-tint"), 4.95, { dur: 0.35 });
+
+          tl.to(q(".a-fix"), { opacity: 0, duration: 0.35, ease: "power2.in" }, DUR - 0.35);
+          Apple.out(tl, [q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".pnl"), q(".pk"), q(".cks"), q(".mg"), q(".why")], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s06-gates"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

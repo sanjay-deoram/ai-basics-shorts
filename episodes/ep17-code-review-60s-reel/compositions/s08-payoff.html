@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.3},
+      {"t":0.25,"sfx":"pen","vol":0.12,"dur":0.6},
+      {"t":0.3,"sfx":"tick","vol":0.12},
+      {"t":0.45,"sfx":"tick","vol":0.12},
+      {"t":0.6,"sfx":"tick","vol":0.12},
+      {"t":0.75,"sfx":"tick","vol":0.12},
+      {"t":1.0,"sfx":"zoom","vol":0.14},
+      {"t":1.6,"sfx":"tick","vol":0.16},
+      {"t":2.0,"sfx":"pop","vol":0.18},
+      {"t":2.5,"sfx":"pop","vol":0.24},
+      {"t":3.12,"sfx":"zoom","vol":0.14},
+      {"t":3.93,"sfx":"zoom","vol":0.16},
+      {"t":4.3,"sfx":"pop","vol":0.24},
+      {"t":5.75,"sfx":"zoom","vol":0.12},
+      {"t":6.08,"sfx":"pop","vol":0.2},
+      {"t":6.55,"sfx":"tick","vol":0.16},
+      {"t":6.9,"sfx":"pop","vol":0.18},
+      {"t":7.05,"sfx":"click","vol":0.2},
+      {"t":7.35,"sfx":"pop","vol":0.2},
+      {"t":7.7,"sfx":"pop","vol":0.22},
+      {"t":7.86,"sfx":"pop","vol":0.22},
+      {"t":8.3,"sfx":"tick","vol":0.16},
+      {"t":8.6,"sfx":"pop","vol":0.22},
+      {"t":8.8,"sfx":"success","vol":0.18},
+      {"t":9.15,"sfx":"thud","vol":0.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Payoff. Hard cut to black. "In three months": a June → Sept strip; "More than doubled." word by word. Merged
+           pull requests (dark card): Sept's bar twice June's, badge "More than 2×". Share of changes rolled back (white
+           card): Sept's bar starts level with June's and shrinks to 60% on "fell", leaving a dashed −40% ghost, badge
+           "Down over 40%". Bars are drawn at the stated minimum. Then "Never approves.": the AI reviewer (Claude logo) and
+           its dashed, struck Approve; a person and a real Approve. On "It only posts findings" the two findings from s05
+           post as comments and "Findings, not approvals." lands; the accent and the real Approve punch on the music hit
+           (9.15). No exit: the frame holds to the hard stop. Avatar BIG under the cards (everything above y 1100).
+           Voiceover: 0.18 "In three months, merged changes more than doubled, and the rollback rate fell over forty
+           percent." 6.02 "The AI never approves. It only posts findings." -->
+      <style>
+        #s08-root .bg { background: #0b0b0b; }
+        #s08-root .rl-eye { color: #9b968e; }
+        #s08-root .rl-hd { --acc: #f08a63; color: #fdfcfc; font-size: 84px; line-height: 90px; }
+        #s08-root .strip { fill: none; stroke: #fdfcfc; stroke-width: 5; stroke-linecap: round; }
+        #s08-root .sd { fill: #fdfcfc; }
+        #s08-root .mo { position: absolute; top: 432px; width: 120px; text-align: center; font: 400 28px/1 var(--f-mono); color: #9b968e; }
+        #s08-root .card { position: absolute; left: 90px; width: 860px; padding: 24px 32px; border-radius: 26px; }
+        #s08-root .card .k { font: 400 28px/32px var(--f-mono); white-space: nowrap; }
+        #s08-root .card .rstamp { right: 24px; left: auto; top: 18px; }
+        #s08-root .dark { top: 490px; height: 220px; background: #1c1b19; border: 2px solid #3a3733; }
+        #s08-root .dark .k { color: #a39e95; }
+        #s08-root .light { top: 740px; height: 220px; background: #fff; }
+        #s08-root .light .k { color: var(--grey); }
+        #s08-root .rl2 { position: absolute; left: 32px; font: 500 32px/52px var(--f-display); letter-spacing: -0.02em; white-space: nowrap; }
+        #s08-root .bar { position: absolute; left: 160px; height: 40px; border-radius: 12px; transform-origin: 0 50%; }
+        #s08-root .vl { position: absolute; font: 400 32px/52px var(--f-mono); white-space: nowrap; }
+        #s08-root .dark .rl2, #s08-root .dark .vl { color: #fdfcfc; }
+        #s08-root .light .rl2, #s08-root .light .vl { color: #0d0d0c; }
+        #s08-root .ghost { position: absolute; left: 508px; top: 152px; width: 232px; height: 40px; border: 3px dashed #a39e95; border-radius: 12px;
+          display: grid; place-items: center; font: 400 28px/1 var(--f-mono); color: #0d0d0c; }
+        #s08-root .foot { position: absolute; left: 90px; top: 990px; font: 400 28px/1 var(--f-mono); color: #9b968e; }
+        #s08-root .av { position: absolute; left: 90px; top: 500px; width: 80px; height: 80px; }
+        #s08-root .who { position: absolute; left: 196px; font: 600 44px/1 var(--f-display); letter-spacing: -0.03em; color: #fdfcfc; white-space: nowrap; }
+        #s08-root .pp { position: absolute; left: 90px; top: 900px; width: 80px; height: 80px; stroke: #fdfcfc; }
+        #s08-root .ap { position: absolute; left: 196px; display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 28px 0 22px; border-radius: 9999px;
+          font: 600 32px/1 var(--f-display); letter-spacing: -0.02em; white-space: nowrap; }
+        #s08-root .ap svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+        #s08-root .ap.no { top: 594px; border: 3px dashed #5f5b55; color: #8a857d; }
+        #s08-root .ap.yes { top: 998px; background: #12a150; color: #fff; }
+        #s08-root .apn { position: absolute; left: 450px; top: 612px; font: 400 28px/1 var(--f-mono); color: #9b968e; }
+        #s08-root .stk { fill: none; stroke: #fdfcfc; stroke-width: 6; stroke-linecap: round; }
+        #s08-root .cm { position: absolute; left: 196px; height: 72px; display: flex; align-items: center; gap: 16px; padding: 0 26px 0 10px; border-radius: 9999px; background: #fff; }
+        #s08-root .cm .rstamp { position: relative; box-shadow: none; padding-left: 0; }
+        #s08-root .cm p { margin: 0; font: 500 32px/1 var(--f-display); letter-spacing: -0.02em; color: #0d0d0c; white-space: nowrap; }
+        #s08-root .div { position: absolute; left: 90px; top: 870px; width: 860px; height: 2px; background: #3a3733; }
+        #s08-root .egg-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="s08-root" data-composition-id="s08-payoff" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-bg bg"></div>
+          <div class="rl-eye eA">// results · claude code repo</div>
+          <div class="rl-eye eB">// who approves</div>
+          <div class="rl-hd hA"><span class="ln"><span class="w">More </span><span class="w">than </span><em class="w">doubled.</em></span></div>
+          <div class="beatA">
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path class="strip" d="M150 410 H780" />
+              <circle class="sd" cx="150" cy="410" r="10" /><circle class="sd" cx="360" cy="410" r="10" /><circle class="sd" cx="570" cy="410" r="10" /><circle class="sd" cx="780" cy="410" r="10" />
+            </svg>
+            <span class="mo" style="left:90px">jun</span><span class="mo" style="left:300px">jul</span><span class="mo" style="left:510px">aug</span><span class="mo" style="left:720px">sep</span>
+            <div class="card dark">
+              <div class="k">// merged pull requests</div>
+              <span class="rl2" style="top:80px">June</span><i class="bar b1" style="top:86px;width:290px;background:#5f5b55"></i><span class="vl" style="left:470px;top:80px">1×</span>
+              <span class="rl2" style="top:140px">Sept</span><i class="bar b2" style="top:146px;width:580px;background:#fdfcfc"></i><span class="vl" style="left:760px;top:140px">2×</span>
+              <div class="rstamp sm x1" style="--acc:#12a150"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 7 13.5 15.5 8.5 10.5 2 17M16 7h6v6" /></svg></i>More than 2×</div>
+            </div>
+            <div class="card light">
+              <div class="k">// share of changes rolled back</div>
+              <span class="rl2" style="top:80px">June</span><i class="bar b3" style="top:86px;width:580px;background:#a39e95"></i>
+              <span class="rl2" style="top:146px">Sept</span><i class="bar b4" style="top:152px;width:580px;background:#0d0d0c"></i>
+              <span class="ghost">−40%</span>
+              <div class="rstamp sm x2" style="--acc:#12a150"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M22 17 13.5 8.5 8.5 13.5 2 7M16 17h6v-6" /></svg></i>Down over 40%</div>
+            </div>
+            <span class="foot">// bars at the stated minimum</span>
+          </div>
+
+          <div class="rl-hd hB"><span class="ln"><span class="w">Never </span><em class="w">approves.</em></span></div>
+          <div class="rl-hd hC"><span class="ln"><span class="w">Findings,</span></span><span class="ln"><span class="w">not </span><em class="w">approvals.</em></span></div>
+          <img class="av" src="assets/claude-logo.svg" alt="Claude">
+          <span class="who wa" style="top:518px">The AI reviewer</span>
+          <span class="ap no"><svg viewBox="0 0 30 30"><path d="M6 15.5 L12 21.5 L24 9" /></svg>Approve</span>
+          <svg class="egg-svg sv" viewBox="0 0 1080 1920" aria-hidden="true"><path class="stk" d="M186 626 L420 626" /></svg>
+          <span class="apn">never</span>
+          <div class="cm c1" style="top:680px"><div class="rstamp sm" style="--acc:#e11d48"><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 6.5v7M12 17.5h.01" /></svg></i>Important</div><p>Same crash, another file</p></div>
+          <div class="cm c2" style="top:770px"><div class="rstamp sm" style="--acc:#5f5b55"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></svg></i>Pre-existing</div><p>Cache never clears</p></div>
+          <i class="div"></i>
+          <svg class="person pp" viewBox="0 0 84 84" aria-hidden="true"><circle cx="42" cy="27" r="15" /><path d="M13 78 C13 56 26 47 42 47 C58 47 71 56 71 78" /></svg>
+          <span class="who wp" style="top:918px">A person</span>
+          <span class="ap yes"><svg viewBox="0 0 30 30"><path d="M6 15.5 L12 21.5 L24 9" /></svg>Approve</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s08-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tl = gsap.timeline({ paused: true });
+          const strip = q(".strip"), stk = q(".stk");
+          [strip, stk].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          const B = [q(".av"), q(".wa"), q(".ap.no"), q(".apn"), q(".c1"), q(".c2"), q(".div"), q(".pp"), q(".wp"), q(".ap.yes")];
+          gsap.set([...all(".mo"), q(".dark"), q(".light"), q(".ghost"), q(".foot"), ...B], { opacity: 0 });
+
+          tl.fromTo(q(".eA"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.1);
+          // "In three months": June → Sept, a dot a month
+          tl.to(strip, { strokeDashoffset: 0, duration: 0.65, ease: "power2.inOut" }, 0.25);
+          all(".sd").forEach((d, i) => tl.fromTo(d, { scale: 0 }, { scale: 1, svgOrigin: `${150 + i * 210} 410`, duration: 0.3, ease: "back.out(2.4)" }, 0.3 + i * 0.15));
+          tl.fromTo(all(".mo"), { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out", stagger: 0.15 }, 0.35);
+          // "merged changes more than doubled"
+          tl.fromTo(q(".dark"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 1.0);
+          tl.fromTo(q(".b1"), { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out" }, 1.1);
+          tl.fromTo(q(".b2"), { scaleX: 0 }, { scaleX: 1, duration: 1.0, ease: "power2.inOut" }, 1.4);
+          Reel.words(tl, q(".hA"), [1.6, 1.8, 2.0]);
+          Reel.badge(tl, q(".x1"), 2.5);
+          // "and the rollback rate fell over forty percent"
+          tl.fromTo(q(".light"), { opacity: 0, y: 40 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.12);
+          tl.fromTo([q(".b3"), q(".b4")], { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power3.out", stagger: 0.1 }, 3.2);
+          tl.to(q(".b4"), { scaleX: 0.6, duration: 0.6, ease: "power2.inOut" }, 3.93);
+          tl.fromTo(q(".ghost"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 4.3);
+          Reel.badge(tl, q(".x2"), 4.3);
+          tl.fromTo(q(".foot"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.3);
+          tl.to([q(".hA"), q(".beatA"), q(".eA")], { opacity: 0, y: "-=20", duration: 0.3, ease: "power2.in" }, 5.75);
+
+          // "The AI never approves."
+          tl.fromTo(q(".eB"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 6.05);
+          Reel.words(tl, q(".hB"), [6.55, 6.9]);
+          tl.fromTo(q(".av"), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.45, ease: "back.out(2)" }, 6.08);
+          tl.fromTo(q(".av"), { rotation: 0 }, { rotation: 140, duration: 5.0, ease: "none" }, 6.08);
+          tl.fromTo(q(".wa"), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 6.2);
+          tl.fromTo(q(".ap.no"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 6.82);
+          tl.to(stk, { strokeDashoffset: 0, duration: 0.3, ease: "power3.out" }, 7.05);
+          tl.fromTo(q(".apn"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 7.1);
+          // approval stays with a person
+          tl.fromTo(q(".div"), { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, transformOrigin: "0 50%", duration: 0.5, ease: "power3.out" }, 7.1);
+          tl.fromTo(q(".pp"), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2)" }, 7.2);
+          tl.fromTo(q(".wp"), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 7.25);
+          tl.fromTo(q(".ap.yes"), { opacity: 0, scale: 0.6 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 7.35);
+          // "It only posts findings."
+          [q(".c1"), q(".c2")].forEach((c, i) => tl.fromTo(c, { opacity: 0, x: -30, scale: 0.9 }, { opacity: 1, x: 0, scale: 1, transformOrigin: "0 50%", duration: 0.4, ease: "back.out(2)" }, 7.7 + i * 0.16));
+          tl.to(q(".hB"), { opacity: 0, y: -20, duration: 0.2, ease: "power2.in" }, 8.08);
+          Reel.words(tl, q(".hC"), [8.3, 8.45, 8.6]);
+          // the music hit: the accent and the real Approve punch, then the frame holds to the hard stop
+          tl.to(q(".hC em"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, 9.15);
+          tl.to(q(".ap.yes"), { scale: 1.08, duration: 0.12, yoyo: true, repeat: 1, ease: "power2.out" }, 9.15);
+          tl.to({}, { duration: 11.08 }, 0);
+          window.__timelines["s08-payoff"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

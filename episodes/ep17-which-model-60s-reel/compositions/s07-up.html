@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":1.2,"sfx":"tick","vol":0.16},
+      {"t":1.36,"sfx":"pop","vol":0.2},
+      {"t":1.6,"sfx":"pop","vol":0.26},
+      {"t":1.65,"sfx":"error","vol":0.18},
+      {"t":2.46,"sfx":"enter","vol":0.18},
+      {"t":3.8,"sfx":"key","vol":0.2},
+      {"t":5.21,"sfx":"success","vol":0.16},
+      {"t":6.12,"sfx":"key","vol":0.2},
+      {"t":6.5,"sfx":"click","vol":0.18},
+      {"t":7.48,"sfx":"key","vol":0.2},
+      {"t":7.85,"sfx":"zoom","vol":0.16},
+      {"t":8.69,"sfx":"pop","vol":0.18},
+      {"t":9.5,"sfx":"pop","vol":0.3},
+      {"t":9.55,"sfx":"success","vol":0.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Rule 3 · Up to Fable. Lavender: "Falls short?" word by word; job 4 (the migration, on Opus) slides in
+           and is stamped FALLS SHORT. "don't jump yet": the dark window lists the order, one step as each is said:
+           1 check its own work ("like a test": ✓ tests pass), 2 raise the effort (medium → high), 3 then move up
+           (opus → fable). "the migration goes to Fable": the red stamp lifts off and the card is stamped FABLE ✓.
+           No whip: a hard cut to the black payoff. Badge bottom-left (narrator).
+           Voiceover: 0.18 "Rule three: if it falls short, don't jump yet. Give it a way to check its work, like a test,
+           then raise the effort. Only then move up: the migration goes to Fable." -->
+      <style>
+        #s07-root .bg { background-color: #e6dcff; }
+        #s07-root .rl-hd { --acc: #7c3aed; }
+        #s07-root .wc { top: 424px; }
+        #s07-root .wc .bad { --acc: #e11d48; }
+        #s07-root .wc .good { --acc: #12a150; }
+        #s07-root .term { top: 610px; height: 500px; }
+        #s07-root .term .n { color: #b79bff; }
+        #s07-root .term .hl { padding: 0 6px; margin: 0 -6px; border-radius: 6px; }
+      </style>
+      <div id="s07-root" data-composition-id="s07-up" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// rule 3</div>
+            <div class="rl-hd"><span class="ln"><span class="w">Falls </span><em class="w">short?</em></span></div>
+            <div class="wc"><div class="k">// job 4 · on opus</div><div class="v">Migrate the database</div><div class="rstamp bad" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12" /></svg></i>Falls short</div><div class="rstamp good" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></i>Fable</div></div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>don't jump yet</span></div>
+              <div class="tb">
+                <div class="hdr"><img src="assets/claude-logo.svg" alt=""><span class="t1">In this order</span></div>
+                <div class="r r1"><span class="n">1</span>  check its own work</div>
+                <div class="r r1b">   <span class="okc">✓ tests pass</span></div>
+                <div class="r gap"></div>
+                <div class="r r2"><span class="n">2</span>  raise the effort</div>
+                <div class="r r2b">   <span class="sub">medium →</span> high</div>
+                <div class="r gap"></div>
+                <div class="r r3"><span class="n">3</span>  then move up</div>
+                <div class="r r3b">   <span class="sub">opus →</span> <span class="hl">fable</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s07-root");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const wc = q(".wc"), term = q(".term");
+          const rows = ["r1", "r1b", "r2", "r2b", "r3", "r3b"].map((c) => q("." + c));
+          gsap.set([wc, term, q(".good"), ...rows], { opacity: 0 });
+          Reel.whip(tl, q(".rl-cam"), Reel.blurFor(q(".rl-cam"), "s07-mb"), 0, "in");
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "if it falls short"
+          Reel.words(tl, q(".rl-hd"), [1.2, 1.36]);
+          tl.fromTo(wc, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 1.0);
+          Reel.badge(tl, q(".bad"), 1.6);
+          // "don't jump yet": the order, one step as it is said
+          tl.fromTo(term, { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 2.46);
+          Reel.rows(tl, rows, [3.8, 5.21, 6.12, 6.5, 7.48, 7.85]);
+          // "the migration goes to Fable"
+          tl.to(q(".r3b .hl"), { backgroundColor: "#7c3aed", color: "#ffffff", duration: 0.15 }, 8.69);
+          tl.to(q(".bad"), { opacity: 0, y: -30, duration: 0.25, ease: "power2.in" }, 8.69);
+          Reel.badge(tl, q(".good"), 9.5);
+          tl.to({}, { duration: 10.16 }, 0);
+
+          window.__timelines["s07-up"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

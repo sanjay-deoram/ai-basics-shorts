@@ -1,0 +1,9 @@
+{
+  "assets/vo/s01-b6d7e3ca.mp3": "Here's how to pick the right Claude model, in under sixty seconds.",
+  "assets/vo/s01-5e10ebff.mp3": "Four, from small to big: Haiku, Sonnet, Opus and Fable. Smaller is cheaper and faster; bigger handles harder work.",
+  "assets/vo/s02-63c4a5a6.mp3": "Say your app has four jobs: tagging ten thousand tickets, a chat reply a customer waits on, a tricky bug, and a big migration.",
+  "assets/vo/s03-bec6b13c.mp3": "Rule one: start on Opus, the daily driver, at medium effort. Effort is how long it thinks first. The tricky bug stays here.",
+  "assets/vo/s04-e8ca12b3.mp3": "Rule two: move down for simple jobs, or when someone's waiting. Tagging goes to Haiku, at a fortieth of the price. The chat reply goes to Sonnet: it's fast.",
+  "assets/vo/s05-b3543b19.mp3": "Rule three: if it falls short, don't jump yet. Give it a way to check its work, like a test, then raise the effort. Only then move up: the migration goes to Fable.",
+  "assets/vo/s06-065c6c2e.mp3": "And compare cost per task, not price per token: on one coding test, Fable matched Opus at max effort, for about half the cost."
+}

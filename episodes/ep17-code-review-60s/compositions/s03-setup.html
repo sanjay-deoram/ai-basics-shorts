@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"typing","vol":0.18,"dur":1.1},
+      {"t":0.94,"sfx":"pop","vol":0.2},
+      {"t":1.3,"sfx":"claude","vol":0.14,"dur":1.2},
+      {"t":1.45,"sfx":"typing","vol":0.14,"dur":0.6},
+      {"t":2.55,"sfx":"whoosh-short","vol":0.16},
+      {"t":2.75,"sfx":"pop","vol":0.2},
+      {"t":2.9,"sfx":"click-soft","vol":0.16},
+      {"t":3.05,"sfx":"click-soft","vol":0.16},
+      {"t":3.2,"sfx":"click-soft","vol":0.16},
+      {"t":3.35,"sfx":"click-soft","vol":0.16},
+      {"t":3.55,"sfx":"pen","vol":0.12,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The example. You ask Claude to fix a bug: the request types into a prompt card, the Claude mark pops on
+           "Claude", and its one-line fix appears in a code card (config.ts: the unsafe read becomes a safe one with a
+           default; illustrative, see STORYBOARD.md). "Let's follow the fix": the card shrinks into the fix chip, the
+           object that travels through every layer, and a four-stop route draws under it with the layers' names;
+           "through each layer" draws the path through all four. The chip stays at (90, 330): s04 opens on it.
+           Avatar: corner (cards stay left of x 830 above y 485). Voiceover: 0.18 "Say you ask Claude to fix a bug.
+           Let's follow the fix through each layer." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s03 .ask { position: absolute; left: 90px; top: 300px; width: 740px; }
+        .s03 .ask .egg-mono { font-size: 38px; }
+        .s03 .me { width: 104px; height: 104px; left: 90px; top: 590px; }
+        .s03 .mek { position: absolute; left: 216px; top: 632px; }
+        .s03 .code { position: absolute; left: 90px; top: 740px; width: 860px; }
+        .s03 .code .ln > .no { color: #ebe8e4; font-size: 26px; }
+        .s03 .code .del .tx { text-decoration: line-through; text-decoration-color: #a59f97; }
+        .s03 .code .del { opacity: 0.55; }
+        .s03 .route { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 2 14; }
+        .s03 .stop { position: absolute; left: 100px; width: 64px; height: 64px; border-radius: 50%; border: 4px solid var(--ink); background: var(--eggshell);
+          display: grid; place-items: center; font: 400 30px/1 var(--f-mono); color: var(--ink); }
+        .s03 .sl { position: absolute; left: 196px; font: 300 56px/1 var(--f-display); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s03-setup" data-width="1080" data-height="1920">
+        <div class="egg-scene s03">
+          <span class="egg-eyebrow">Example · one bug fix</span>
+          <div class="egg-card ask">
+            <div class="egg-card-top"><span class="egg-card-kicker">You → Claude</span></div>
+            <p class="egg-mono typed">Fix the crash when the config file is empty.</p>
+          </div>
+          <img class="cl me" src="assets/claude-logo.svg" alt="Claude">
+          <span class="egg-card-kicker mek">Claude writes the fix</span>
+          <div class="egg-code sm code">
+            <div class="egg-code-top"><i></i><i></i><i></i>config.ts<span class="tag">+1 −1</span></div>
+            <div class="egg-code-body">
+              <div class="ln del"><span class="no">−</span><span class="tx"><span class="t-kw">const</span> theme = config.theme.name;</span></div>
+              <div class="ln add"><span class="no">+</span><span class="tx"><span class="t-kw">const</span> theme = config.theme?.name ?? <span class="t-s">"light"</span>;</span></div>
+            </div>
+          </div>
+          <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="route" d="M132 420 V1170" /></svg>
+          <span class="stop" style="top:520px">1</span><span class="sl" style="top:524px">On your machine</span>
+          <span class="stop" style="top:710px">2</span><span class="sl" style="top:714px">AI review</span>
+          <span class="stop" style="top:900px">3</span><span class="sl" style="top:904px">Blocking checks</span>
+          <span class="stop" style="top:1090px">4</span><span class="sl" style="top:1094px">People, by risk</span>
+          <div class="fix"><svg viewBox="0 0 40 40" aria-hidden="true"><g class="bugi"><ellipse cx="20" cy="23" rx="8" ry="10" /><path d="M20 14 V33 M15 9 L17.5 13.5 M25 9 L22.5 13.5 M12 19 H5 M12 26 H5 M28 19 H35 M28 26 H35 M13.5 31 L8 35.5 M26.5 31 L32 35.5" /></g></svg>Fix: empty config crash</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.46;
+          const root = document.querySelector('[data-composition-id="s03-setup"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const route = q(".route");
+          const stops = all(".stop"), labs = all(".sl"), fix = q(".fix");
+
+          const tl = gsap.timeline({ paused: true });
+          // "Say you ask Claude to fix a bug."
+          Egg.fadeUp(tl, q(".egg-eyebrow"), 0.05);
+          Egg.fadeUp(tl, q(".ask"), 0.12, { y: 24 });
+          Egg.typeOn(tl, q(".typed"), 0.3, { cps: 40 });
+          Egg.pop(tl, q(".me"), 0.94);
+          tl.fromTo(q(".me"), { rotation: 0 }, { rotation: 120, duration: 2.0, ease: "none" }, 0.94);
+          Egg.fadeUp(tl, q(".mek"), 1.1, { y: 10 });
+          Egg.fadeUp(tl, q(".code"), 1.3, { y: 24 });
+          Egg.typeOn(tl, all(".code .tx")[0], 1.45, { cps: 90 });
+          Egg.typeOn(tl, all(".code .tx")[1], 1.7, { cps: 90 });
+          // "Let's follow the fix": everything folds into the fix chip, and the route draws under it
+          Egg.fadeOut(tl, [q(".ask"), q(".me"), q(".mek")], 2.5);
+          tl.to(q(".code"), { scale: 0.3, x: -60, y: -400, opacity: 0, transformOrigin: "0 0", duration: 0.45, ease: Egg.EASE.move }, 2.55);
+          tl.fromTo(fix, { x: 90, y: 330, scale: 0.6, opacity: 0 }, { x: 90, y: 330, scale: 1, opacity: 1, duration: 0.45, ease: Egg.EASE.pop }, 2.75);
+          stops.forEach((s, i) => {
+            Egg.pop(tl, s, 2.9 + i * 0.15, { dur: 0.4 });
+            Egg.fadeUp(tl, labs[i], 2.95 + i * 0.15, { y: 12, dur: 0.4 });
+          });
+          // "through each layer": the path runs through all four stops
+          tl.fromTo(route, { opacity: 0, attr: { d: "M132 420 V420" } }, { opacity: 1, attr: { d: "M132 420 V1170" }, duration: 0.6, ease: Egg.EASE.draw }, 3.55);
+          stops.forEach((s, i) => tl.to(s, { backgroundColor: "#000", color: "#fdfcfc", duration: 0.12, ease: "none" }, 3.6 + i * 0.13));
+
+          // the chip stays where it is: s04 opens on it
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), route, ...stops, ...labs], DUR - 0.35);
+          window.__timelines["s03-setup"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

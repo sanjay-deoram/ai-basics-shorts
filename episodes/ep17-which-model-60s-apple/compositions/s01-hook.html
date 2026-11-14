@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"impact-bass-1","vol":0.2},
+      {"t":0.02,"sfx":"air","vol":0.18},
+      {"t":1.1,"sfx":"marker","vol":0.16},
+      {"t":2.35,"sfx":"pop","vol":0.18},
+      {"t":2.85,"sfx":"tick","vol":0.2},
+      {"t":3.98,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.62,"sfx":"stream","vol":0.12,"dur":0.6},
+      {"t":5.77,"sfx":"pop","vol":0.18},
+      {"t":6.56,"sfx":"pop","vol":0.18},
+      {"t":7.33,"sfx":"pop","vol":0.18},
+      {"t":7.95,"sfx":"pop","vol":0.2},
+      {"t":8.05,"sfx":"claude","vol":0.14},
+      {"t":8.82,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":9.0,"sfx":"tap","vol":0.16},
+      {"t":10.85,"sfx":"tap","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Cold open, keynote style. Frame 0 already reads "Which Claude model?" and, big under it, "in under 60
+           seconds" (nothing fades in); "model" tints on "pick the right Claude model", the blue 60 punches on "sixty". "Four": four gray tiles;
+           "from small to big": they grow, smallest to biggest; each turns into its model card as it is named (Haiku,
+           Sonnet, Opus, Fable: Claude mark, name, version). "Smaller is cheaper and faster": a scale line under the row,
+           its left end "Cheaper · faster" lights with Haiku; "bigger handles harder work": the right end "Harder work"
+           with Fable. Everything stays above y 1110: the narrator tile sits large and centred below ("hero").
+           Voiceover: 0.05 "Here's how to pick the right Claude model, in under sixty seconds."
+           3.85 "Four, from small to big: Haiku, Sonnet, Opus and Fable. Smaller is cheaper and faster; bigger handles
+           harder work." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        /* the "60 seconds" lockup: the point of the series, big from frame 0 */
+        .s01 .c60 { position: absolute; left: 90px; top: 496px; margin: 0; transform-origin: 0 50%; }
+        .s01 .c60 .k { display: flex; align-items: center; gap: 12px; margin: 0; font: 600 44px/1 var(--f-t); letter-spacing: -0.01em; color: var(--mu); }
+        .s01 .c60 svg { width: 44px; height: 44px; fill: none; stroke: var(--blue); stroke-width: 3.2; stroke-linecap: round; }
+        .s01 .c60 .big { display: flex; align-items: baseline; gap: 36px; margin: 4px 0 0; white-space: nowrap; }
+        .s01 .c60 .num { font: 800 230px/0.86 var(--f-d); letter-spacing: -0.06em; color: var(--blue); }
+        .s01 .c60 .u { font: 700 104px/1 var(--f-d); letter-spacing: -0.045em; color: var(--ink); }
+        .s01 .hook { top: 236px; }
+        .s01 .hook .l { display: block; white-space: nowrap; }
+        .s01 .t { position: absolute; bottom: 902px; width: 200px; height: 170px; border-radius: 30px; background: var(--line); }
+        .s01 .t .card { position: absolute; inset: 0; border-radius: 30px; background: var(--white); box-shadow: var(--shadow); opacity: 0; }
+        .s01 .t .cc-spark { position: absolute; left: 24px; top: 24px; width: 50px; height: 50px; }
+        .s01 .t .n { position: absolute; left: 24px; bottom: 54px; margin: 0; font: 700 40px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s01 .t .v { position: absolute; left: 24px; bottom: 22px; margin: 0; font: 500 28px/1 var(--f-t); color: var(--mu); }
+        .s01 .scale { fill: none; stroke: #c7c7cc; stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+        .s01 .lab { position: absolute; top: 1066px; margin: 0; font: 600 32px/1.1 var(--f-t); letter-spacing: -0.01em; color: var(--mu); white-space: nowrap; }
+        .s01 .lab.r { right: 130px; }
+        .s01 .lab.l { left: 90px; }
+      </style>
+      <div id="root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="a-scene white s01">
+          <div class="c60"><p class="k"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="19" r="12.5" /><path class="hand" d="M17 19 V11" /><path d="M13 3.5 H21" /></svg>in under</p><p class="big"><span class="num">60</span><span class="u">seconds</span></p></div>
+          <h1 class="a-h hook"><span class="l">Which Claude</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">model?</span><span class="on" data-layout-allow-overlap="">model?</span></span></span></h1>
+
+          <div class="t" style="left:90px"><div class="card"><div class="cc-spark"></div><p class="n">Haiku</p><p class="v">5.5</p></div></div>
+          <div class="t" style="left:310px"><div class="card"><div class="cc-spark"></div><p class="n">Sonnet</p><p class="v">5.5</p></div></div>
+          <div class="t" style="left:530px"><div class="card"><div class="cc-spark"></div><p class="n">Opus</p><p class="v">5.5</p></div></div>
+          <div class="t" style="left:750px"><div class="card"><div class="cc-spark"></div><p class="n">Fable</p><p class="v">5.2</p></div></div>
+
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="scale line" d="M112 1036 H928" />
+            <path class="scale hl" d="M128 1020 L110 1036 L128 1052" />
+            <path class="scale hr" d="M912 1020 L930 1036 L912 1052" />
+          </svg>
+          <p class="lab l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Cheaper · faster</span><span class="on" data-layout-allow-overlap="">Cheaper · faster</span></span></p>
+          <p class="lab r"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Harder work</span><span class="on" data-layout-allow-overlap="">Harder work</span></span></p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 12.5;
+          const root = document.querySelector('[data-composition-id="s01-hook"] .s01');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const tiles = all(".t"), cards = all(".t .card");
+          const line = q(".line"), hl = q(".hl"), hr = q(".hr");
+          [line, hl, hr].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          // frame 0 is the whole title: the question and the big "in under 60 seconds"
+          gsap.set([...tiles, line, hl, hr, ...all(".lab")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+
+          // "pick the right Claude model"
+          Apple.tint(tl, q(".hook .a-tint"), 1.1, { dur: 0.6 });
+          // "in under sixty seconds": the 60 punches, the stopwatch hand sweeps
+          tl.to(q(".c60 .num"), { scale: 1.1, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 80%" }, 2.85);
+          tl.fromTo(q(".c60 .hand"), { rotation: 0 }, { rotation: 360, svgOrigin: "17 19", duration: 1.5, ease: "none" }, 2.35);
+
+          // "Four": four equal gray tiles; "from small to big": they grow, smallest to biggest
+          Apple.rise(tl, tiles, 3.98, { y: 30, dur: 0.6, stagger: 0.07 });
+          tl.fromTo(tiles, { height: 170 }, { height: (i) => [170, 200, 230, 260][i], duration: 0.8, ease: "expo.out", stagger: 0.12, immediateRender: false }, 4.62);
+          // each turns into its model card as it is named
+          [5.77, 6.56, 7.33, 7.95].forEach((at, i) => {
+            Apple.zoom(tl, cards[i], at, { from: 0.9, dur: 0.6 });
+            tl.fromTo(cards[i].querySelector(".cc-spark"), { rotation: -60, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.7, ease: "expo.out" }, at + 0.05);
+          });
+
+          // "Smaller is cheaper and faster"
+          tl.fromTo(line, { strokeDashoffset: 1.02, opacity: 1 }, { strokeDashoffset: 0, opacity: 1, duration: 0.6, ease: "power2.inOut" }, 8.82);
+          tl.set([hl, hr], { strokeDashoffset: 0 }, 8.82);
+          Apple.fade(tl, hl, 9.0, { dur: 0.3 });
+          Apple.rise(tl, q(".lab.l"), 9.0, { y: 14, dur: 0.6 });
+          Apple.tint(tl, q(".lab.l .a-tint"), 9.4, { dur: 0.5 });
+          tl.to(tiles[0], { scale: 1.06, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 9.1);
+          // "bigger handles harder work"
+          Apple.fade(tl, hr, 10.85, { dur: 0.3 });
+          Apple.rise(tl, q(".lab.r"), 10.85, { y: 14, dur: 0.6 });
+          Apple.tint(tl, q(".lab.r .a-tint"), 11.2, { dur: 0.5 });
+          tl.to(tiles[3], { scale: 1.04, duration: 0.3, ease: "sine.inOut", yoyo: true, repeat: 1 }, 11.0);
+
+          Apple.out(tl, [q(".hook"), q(".c60"), ...tiles, line, hl, hr, ...all(".lab")], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

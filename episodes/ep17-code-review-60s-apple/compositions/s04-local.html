@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.08,"sfx":"tap","vol":0.14},
+      {"t":1.12,"sfx":"whoosh-short","vol":0.12},
+      {"t":1.5,"sfx":"pop","vol":0.16},
+      {"t":2.39,"sfx":"typing","vol":0.14,"dur":0.35},
+      {"t":3.06,"sfx":"tick","vol":0.16},
+      {"t":3.24,"sfx":"tick","vol":0.16},
+      {"t":3.42,"sfx":"tick","vol":0.16},
+      {"t":3.6,"sfx":"marker","vol":0.12},
+      {"t":3.76,"sfx":"air","vol":0.12},
+      {"t":3.9,"sfx":"tap","vol":0.12},
+      {"t":4.1,"sfx":"pop","vol":0.18},
+      {"t":4.95,"sfx":"pop","vol":0.16},
+      {"t":5.3,"sfx":"marker","vol":0.14},
+      {"t":6.0,"sfx":"air","vol":0.12},
+      {"t":6.85,"sfx":"chime","vol":0.12,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · Layer 1 · On your machine. The fix chip (carried from s03) sits under the headline. On "on your machine" a
+           dark terminal window on a laptop base appears; on "Claude runs the tests" it runs tests, build and lint, each
+           ticked, and "Shows the output, not just "done"" sits beside it under the Claude mark. "Then a second Claude,
+           with fresh eyes": two cards. The writer's context is full of how it got there (gray chips: the ask, the plan,
+           tries, errors); the reviewer's holds only the change. On "rereads the change" a blue read-bar sweeps it. The
+           chip stays: s05 opens on it. Narrator: small tile bottom right (x >750, y > 1300 stays empty).
+           Voiceover: 0.18 "Layer one, on your machine: Claude runs the tests, then a second Claude, with fresh eyes,
+           rereads the change." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 300px; white-space: nowrap; }
+        .s04 .term { left: 90px; top: 530px; width: 500px; height: 292px; }
+        .s04 .term .tb { padding: 22px 28px; font: 400 28px/46px var(--f-m); color: #f5f5f7; white-space: pre; }
+        .s04 .term .p { color: #8e8e93; }
+        .s04 .term .ok { color: #2997ff; }
+        .s04 .lap { fill: #d2d2d7; }
+        .s04 .wl { position: absolute; left: 737px; top: 542px; width: 96px; height: 96px; }
+        .s04 .wk { position: absolute; left: 620px; width: 330px; top: 654px; margin: 0; text-align: center; font: 600 28px/1.2 var(--f-t); color: var(--mu); }
+        .s04 .call { position: absolute; left: 620px; width: 330px; top: 702px; margin: 0; text-align: center; font: 700 36px/1.22 var(--f-d); letter-spacing: -0.02em; color: var(--ink); text-wrap: balance; }
+        .s04 .pan { top: 874px; width: 410px; height: 428px; padding: 28px; display: flex; flex-direction: column; gap: 12px; }
+        .s04 .pan .ph { display: flex; align-items: center; gap: 14px; height: 56px; font: 700 44px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); }
+        .s04 .pan .ph .cc-spark { width: 52px; height: 52px; }
+        .s04 .pan .k { margin: 0; font: 600 28px/1.1 var(--f-t); color: var(--faint); }
+        .s04 .ctx { position: relative; height: 180px; border: 2px dashed #d2d2d7; border-radius: 20px; padding: 12px; display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; overflow: hidden; }
+        .s04 .tok { height: 44px; padding: 0 18px; }
+        .s04 .diff { display: flex; flex-direction: column; gap: 12px; width: 100%; padding: 14px 16px; border-radius: 14px; background: rgba(0, 113, 227, 0.08); }
+        .s04 .diff b { font: 600 28px/1 var(--f-t); color: var(--blue); }
+        .s04 .diff code { font: 400 17px/1.2 var(--f-m); color: var(--ink); white-space: pre; }
+        .s04 .diff code.del { color: var(--faint); text-decoration: line-through; }
+        .s04 .diff code.add { color: var(--blue); }
+        .s04 .scan { position: absolute; left: 0; top: 0; width: 8px; height: 176px; border-radius: 4px; background: var(--blue); }
+        .s04 .ft { margin: 0; font: 500 28px/1.25 var(--f-t); color: var(--mu); }
+      </style>
+      <div id="root" data-composition-id="s04-local" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">Layer 1 of 4</p>
+          <span class="a-trk"><i class="on"></i><i></i><i></i><i></i></span>
+          <h2 class="a-h2 hd">On your <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">machine</span><span class="on" data-layout-allow-overlap="">machine</span></span></h2>
+          <svg class="a-svg lapb" viewBox="0 0 1080 1920" aria-hidden="true"><path class="lap" d="M60 828 H620 Q620 836 612 842 L600 850 H80 L68 842 Q60 836 60 828 Z" /></svg>
+          <div class="a-win dark term">
+            <div class="bar"><i></i><i></i><i></i><span class="ttl">Terminal</span></div>
+            <div class="tb"><div class="t1"><span class="p">$</span> run tests</div><div class="t2"><span class="ok">✓</span> all tests passed</div><div class="t3"><span class="p">$</span> build  <span class="ok">✓</span></div><div class="t4"><span class="p">$</span> lint   <span class="ok">✓</span></div></div>
+          </div>
+          <span class="cc-spark wl"></span>
+          <p class="wk">Claude, who wrote it</p>
+          <p class="call">Shows <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">the output,</span><span class="on" data-layout-allow-overlap="">the output,</span></span> not just “done”.</p>
+          <div class="a-card pan wr" style="left:90px">
+            <div class="ph"><span class="cc-spark"></span>Writer</div>
+            <p class="k">Its context</p>
+            <div class="ctx"><span class="a-tag gray tok">your ask</span><span class="a-tag gray tok">plan</span><span class="a-tag gray tok">try 1</span><span class="a-tag gray tok">error log</span><span class="a-tag gray tok">try 2</span><span class="a-tag gray tok">notes</span><span class="a-tag gray tok">…</span></div>
+            <p class="ft">Full of how it got there</p>
+          </div>
+          <div class="a-card pan rv" style="left:540px">
+            <div class="ph"><span class="cc-spark rvl"></span>Reviewer</div>
+            <p class="k">Its context</p>
+            <div class="ctx"><div class="diff"><b>the change</b><code class="del">− theme.name</code><code class="add">+ theme?.name ?? "light"</code></div><span class="scan"></span></div>
+            <p class="ft"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Fresh eyes:</span><span class="on" data-layout-allow-overlap="">Fresh eyes:</span></span> only the change</p>
+          </div>
+          <div class="a-fix"><i class="ic" data-ic="bug" data-stroke="#fff"></i>Fix: empty config crash</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.26;
+          const root = document.querySelector('[data-composition-id="s04-local"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const wr = q(".wr"), rv = q(".rv");
+          gsap.set(q(".a-fix"), { x: 90, y: 430 });   // carried from s03, same frame
+          gsap.set([q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".lapb"), q(".term"), q(".wl"), q(".wk"), q(".call"), wr, rv, ...all(".t2, .t3, .t4"), q(".diff"), q(".scan"), ...all(".pan .ft")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          // "Layer one, on your machine:"
+          Apple.rise(tl, [q(".a-eyebrow"), q(".a-trk")], 0.05, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.1, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.12, { dur: 0.5 });
+          Apple.rise(tl, q(".term"), 1.12, { y: 30, dur: 0.7 });
+          Apple.fade(tl, q(".lapb"), 1.25, { dur: 0.4 });
+          Apple.zoom(tl, q(".wl"), 1.5, { from: 0.6, dur: 0.6 });
+          tl.fromTo(q(".wl"), { rotation: 0 }, { rotation: 90, duration: 5.4, ease: "none" }, 1.5);
+          Apple.rise(tl, q(".wk"), 1.75, { y: 10, dur: 0.5 });
+          // "Claude runs the tests": the terminal runs, each step ticked
+          Egg.typeOn(tl, q(".t1"), 2.39, { cps: 40 });
+          [q(".t2"), q(".t3"), q(".t4")].forEach((el, i) => Apple.fade(tl, el, 3.06 + i * 0.18, { dur: 0.15 }));
+          Apple.rise(tl, q(".call"), 3.3, { y: 14, dur: 0.6 });
+          Apple.tint(tl, q(".call .a-tint"), 3.6, { dur: 0.4 });
+          // "then a second Claude": the writer's context is full; the reviewer's holds only the change
+          Apple.rise(tl, wr, 3.76, { y: 30, dur: 0.7 });
+          Apple.zoom(tl, all(".wr .tok"), 3.9, { from: 0.7, dur: 0.4, stagger: 0.06 });
+          Apple.rise(tl, rv, 4.0, { y: 30, dur: 0.7 });
+          tl.fromTo(q(".rvl"), { rotation: -60, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.7, ease: "expo.out" }, 4.1);
+          // "with fresh eyes"
+          Apple.zoom(tl, q(".diff"), 4.95, { from: 0.85, dur: 0.5 });
+          Apple.rise(tl, all(".pan .ft"), 5.0, { y: 10, dur: 0.5, stagger: 0.12 });
+          Apple.tint(tl, q(".rv .ft .a-tint"), 5.3, { dur: 0.4 });
+          // "rereads the change": a read-bar sweeps it, there and back
+          tl.fromTo(q(".scan"), { x: 6, opacity: 0 }, { x: 6, opacity: 1, duration: 0.1, ease: "none" }, 6.0);
+          tl.to(q(".scan"), { keyframes: [{ x: 330, duration: 0.42 }, { x: 6, duration: 0.42 }], ease: "power1.inOut" }, 6.05);
+          tl.to(q(".scan"), { opacity: 0, duration: 0.15, ease: "none" }, 6.85);
+
+          // the chip stays: s05 opens on it
+          Apple.out(tl, [q(".a-eyebrow"), q(".a-trk"), q(".hd"), q(".lapb"), q(".term"), q(".wl"), q(".wk"), q(".call"), wr, rv], DUR - 0.35, { dur: 0.35 });
+          window.__timelines["s04-local"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

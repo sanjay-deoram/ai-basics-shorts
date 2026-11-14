@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.3,"sfx":"tap","vol":0.16},
+      {"t":1.5,"sfx":"pop","vol":0.18},
+      {"t":1.6,"sfx":"claude","vol":0.14},
+      {"t":2.2,"sfx":"marker","vol":0.14},
+      {"t":3.0,"sfx":"pop","vol":0.14},
+      {"t":3.35,"sfx":"click","vol":0.2},
+      {"t":4.45,"sfx":"tap","vol":0.14},
+      {"t":4.7,"sfx":"click-soft","vol":0.16},
+      {"t":5.05,"sfx":"click-soft","vol":0.16},
+      {"t":5.4,"sfx":"click-soft","vol":0.16},
+      {"t":5.75,"sfx":"click-soft","vol":0.16},
+      {"t":6.2,"sfx":"click","vol":0.18},
+      {"t":6.75,"sfx":"whoosh-short","vol":0.12},
+      {"t":7.5,"sfx":"pop","vol":0.18},
+      {"t":7.65,"sfx":"chime","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · Rule 1 · Opus. "start on Opus": the Opus 5.5 card; "the daily driver" tints. "at medium effort": the
+           Effort control (low · medium · high · xhigh · max) slides to medium. "Effort is how long it thinks first":
+           a thinking bar under it grows with each level as the control steps up to max, then settles back on medium.
+           "The tricky bug stays here": the job card from s02 rises in and takes the Opus chip, ✓.
+           Narrator: small tile bottom right (x > 750, y > 1300 stays empty).
+           Voiceover: 0.17 "Rule one: start on Opus, the daily driver, at medium effort. Effort is how long it thinks
+           first. The tricky bug stays here." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; white-space: nowrap; }
+        .s03 .opus { left: 90px; top: 462px; width: 860px; height: 220px; }
+        .s03 .opus .cc-spark { position: absolute; left: 44px; top: 50px; width: 120px; height: 120px; }
+        .s03 .opus .n { position: absolute; left: 200px; top: 46px; margin: 0; font: 700 76px/1 var(--f-d); letter-spacing: -0.045em; color: var(--ink); white-space: nowrap; }
+        .s03 .opus .s { position: absolute; left: 202px; top: 140px; margin: 0; font: 600 36px/1.1 var(--f-t); letter-spacing: -0.015em; color: var(--mu); white-space: nowrap; }
+        .s03 .elab { position: absolute; left: 90px; top: 736px; margin: 0; font: 700 38px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s03 .seg { position: absolute; left: 90px; top: 794px; width: 860px; height: 96px; border-radius: 48px; background: var(--line); }
+        .s03 .seg .th { position: absolute; left: 0; top: 6px; width: 160px; height: 84px; border-radius: 42px; background: var(--white); box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12); }
+        .s03 .seg span { position: absolute; top: 0; width: 172px; height: 96px; text-align: center; font: 600 30px/96px var(--f-t); color: var(--mu); }
+        .s03 .seg span.on { color: var(--ink); }
+        .s03 .bar { position: absolute; left: 90px; top: 936px; width: 860px; height: 22px; border-radius: 11px; background: var(--line); overflow: hidden; }
+        .s03 .bar i { position: absolute; inset: 0; border-radius: 11px; background: linear-gradient(90deg, #2997ff, #0071e3); transform-origin: 0 50%; }
+        .s03 .cap { position: absolute; left: 90px; top: 984px; margin: 0; font: 500 34px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s03 .cap b { font-weight: 700; color: var(--ink); }
+        .s03 .job { top: 1100px; }
+        .s03 .job .end { gap: 16px; }
+      </style>
+      <div id="root" data-composition-id="s03-opus" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">Rule 1 · Opus</p>
+          <h2 class="a-h2 hd">Start on <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Opus</span><span class="on" data-layout-allow-overlap="">Opus</span></span></h2>
+          <div class="a-card opus"><div class="cc-spark"></div><p class="n">Opus 5.5</p><p class="s"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">The daily driver</span><span class="on" data-layout-allow-overlap="">The daily driver</span></span></p></div>
+          <p class="elab">Effort</p>
+          <div class="seg"><div class="th"></div>
+            <span style="left:0">low</span><span style="left:172px">medium</span><span style="left:344px">high</span><span style="left:516px">xhigh</span><span style="left:688px">max</span>
+          </div>
+          <div class="bar"><i></i></div>
+          <p class="cap">How long it <b>thinks</b> before it answers</p>
+          <div class="a-card a-job job"><i class="ic" data-ic="bug"></i><span class="n">Fix a tricky bug</span><span class="s">somewhere in the codebase</span><div class="end"><span class="a-mod chip"><span class="cc-spark"></span>Opus 5.5</span><span class="a-check ok"></span></div></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.4;
+          const root = document.querySelector('[data-composition-id="s03-opus"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const opus = q(".opus"), th = q(".seg .th"), fill = q(".bar i"), labs = all(".seg span");
+          const job = q(".job"), chip = q(".chip"), ok = q(".ok");
+          gsap.set([opus, q(".elab"), q(".seg"), q(".bar"), q(".cap"), job, chip, ok], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          // control: thumb x and the thinking bar for effort level i (0 low … 4 max); the chosen label goes dark
+          const level = (i, at, dur = 0.35) => {
+            tl.to(th, { x: 6 + i * 172, duration: dur, ease: "power3.inOut" }, at);
+            tl.to(fill, { scaleX: (i + 1) / 5, duration: dur, ease: "power3.inOut" }, at);
+            labs.forEach((l, j) => tl.to(l, { color: j === i ? "#1d1d1f" : "#6e6e73", duration: 0.15 }, at + dur * 0.5));
+          };
+          gsap.set(th, { x: 6 }); gsap.set(fill, { scaleX: 0.2 });
+
+          // "Rule one: start on Opus, the daily driver"
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.3, { y: 24, dur: 0.8 });
+          Apple.zoom(tl, opus, 1.5, { from: 0.94, dur: 0.7 });
+          tl.fromTo(q(".opus .cc-spark"), { rotation: -60, scale: 0.6 }, { rotation: 0, scale: 1, duration: 0.8, ease: "expo.out" }, 1.55);
+          Apple.tint(tl, q(".hd .a-tint"), 1.6, { dur: 0.5 });
+          Apple.tint(tl, q(".opus .a-tint"), 2.2, { dur: 0.5 });
+          // "at medium effort"
+          Apple.rise(tl, [q(".elab"), q(".seg"), q(".bar")], 3.0, { y: 20, dur: 0.6, stagger: 0.06 });
+          level(1, 3.35);
+          // "Effort is how long it thinks first": step up to max, the bar grows; back to medium
+          Apple.rise(tl, q(".cap"), 4.45, { y: 14, dur: 0.6 });
+          level(2, 4.7); level(3, 5.05); level(4, 5.4);
+          level(1, 6.05, 0.5);
+          // "The tricky bug stays here"
+          Apple.rise(tl, job, 6.75, { y: 50, dur: 0.7 });
+          Apple.zoom(tl, chip, 7.5, { from: 0.8, dur: 0.5 });
+          Apple.zoom(tl, ok, 7.65, { from: 0.5, dur: 0.45 });
+
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd"), opus, q(".elab"), q(".seg"), q(".bar"), q(".cap"), job], DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s03-opus"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "assets/vo/s01-fb1fb486.mp3": "Here's how the Claude Code team does code review, in under sixty seconds.",
+  "assets/vo/s02-649e6bbd.mp3": "With agents writing code, Anthropic's daily changes jumped from twenty-five hundred to over thirty thousand.",
+  "assets/vo/s02-0884c620.mp3": "Nobody can read all that, so they stack layers, not one gate.",
+  "assets/vo/s03-c161c070.mp3": "Say you ask Claude to fix a bug. Let's follow the fix through each layer.",
+  "assets/vo/s04-e750017a.mp3": "Layer one, on your machine: Claude runs the tests and shows the output.",
+  "assets/vo/s04-00230a79.mp3": "Then a second Claude, with fresh eyes, rereads the change.",
+  "assets/vo/s05-c44e999c.mp3": "Layer two: the fix goes up for review, and several agents hunt for bugs at once.",
+  "assets/vo/s05-ec443221.mp3": "Another group votes on each finding, and it's only posted if enough agree it's real.",
+  "assets/vo/s06-f720e7cb.mp3": "Layer three: security review and checks. Any open finding blocks the merge.",
+  "assets/vo/s07-f98951fa.mp3": "Layer four: people, scaled by risk. Docs need no approver, normal changes one, the riskiest two.",
+  "assets/vo/s08-03f266c0.mp3": "In three months, merged changes more than doubled, and the rollback rate fell over forty percent.",
+  "assets/vo/s08-f809d3c6.mp3": "The AI never approves. It only posts findings.",
+  "assets/vo/s04-4eb61f9a.mp3": "Layer one, on your machine: Claude runs the tests, then a second Claude, with fresh eyes, rereads the change.",
+  "assets/vo/s05-25930bf3.mp3": "Layer two, in review: several agents hunt for bugs at once."
+}

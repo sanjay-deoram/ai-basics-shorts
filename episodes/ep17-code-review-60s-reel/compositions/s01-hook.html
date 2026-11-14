@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.0,"sfx":"thud","vol":0.28},
+      {"t":0.62,"sfx":"tick","vol":0.16},
+      {"t":1.85,"sfx":"pop","vol":0.22},
+      {"t":2.0,"sfx":"zoom","vol":0.14},
+      {"t":2.64,"sfx":"pop","vol":0.26},
+      {"t":2.85,"sfx":"tick","vol":0.12},
+      {"t":3.15,"sfx":"tick","vol":0.12},
+      {"t":3.5,"sfx":"pop","vol":0.2},
+      {"t":3.7,"sfx":"bloom","vol":0.28},
+      {"t":3.9,"sfx":"whip","vol":0.34}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s01 · Hook. Frame 0 is the thumbnail: `// claude code` and "How the Claude Code team does code review" and, big under it, "in
+           under 60 seconds" are already on screen (nothing fades in, so the topic is clear at once), "code review" the italic accent
+           (it punches on its word). "in under sixty seconds": the red 60 punches; a small pull request slides in with the
+           fix's real diff (config.ts), a lens reads it and a Claude comment pops off it. The comment
+           blooms yellow and fills the frame (the next beat is yellow), whip-pan out. Avatar BIG at the bottom (narrator),
+           so everything stays above y 970.
+           Voiceover: 0.15 "Here's how the Claude Code team does code review, in under sixty seconds." -->
+      <style>
+        #s01-root .bg { background: #fdfcfc; }
+        #s01-root .rl-hd { --acc: #2d4bff; }
+        /* the "60 seconds" lockup: the point of the series, big from frame 0 */
+        #s01-root .c60 { position: absolute; left: 90px; top: 636px; }
+        #s01-root .c60 .k { display: flex; align-items: center; gap: 14px; font: 500 46px/1 var(--f-display); letter-spacing: -0.02em; color: #5f5b55; }
+        #s01-root .c60 .k i { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 50%; background: #e11d48; }
+        #s01-root .c60 .k svg { width: 34px; height: 34px; fill: none; stroke: #fff; stroke-width: 2.4; stroke-linecap: round; }
+        #s01-root .c60 .big { display: flex; align-items: baseline; gap: 34px; margin-top: 6px; white-space: nowrap; }
+        #s01-root .c60 .num { font: 600 240px/0.84 var(--f-display); letter-spacing: -0.06em; color: #e11d48; transform-origin: 0% 80%; }
+        #s01-root .c60 em { font: italic 400 132px/1 var(--f-serif); letter-spacing: -0.015em; color: #0d0d0c; }
+        #s01-root .pr { top: 904px; height: 190px; }
+        #s01-root .pr .k { display: flex; justify-content: space-between; }
+        #s01-root .row { position: absolute; left: 32px; height: 26px; display: flex; align-items: center; gap: 14px; }
+        #s01-root .row b { width: 18px; font: 400 26px/1 var(--f-mono); color: #8a857d; text-align: center; }
+        #s01-root .row code { font: 400 22px/26px var(--f-mono); color: #0d0d0c; white-space: pre; padding: 0 6px; border-radius: 4px; }
+        #s01-root .row.add code { background: #c9f2d6; color: #0f5c2e; }
+        #s01-root .row.del code { background: #ffd6d6; color: #9b1c1c; }
+        #s01-root .lens { position: absolute; left: 0; top: 0; width: 110px; height: 110px; }
+        #s01-root .lens circle { fill: rgba(255, 255, 255, 0.35); stroke: #0d0d0c; stroke-width: 6; }
+        #s01-root .lens path { stroke: #0d0d0c; stroke-width: 9; stroke-linecap: round; }
+        #s01-root .cmt { position: absolute; left: 650px; top: 962px; display: flex; align-items: center; gap: 14px; padding: 14px 22px 14px 14px; border-radius: 9999px;
+          background: #fff; box-shadow: 0 16px 32px -16px rgba(0, 0, 0, 0.3), 0 0 0 2px rgba(0, 0, 0, 0.05); transform-origin: 0 100%; }
+        #s01-root .cmt img { width: 46px; height: 46px; }
+        #s01-root .cmt span { font: 500 30px/1 var(--f-display); letter-spacing: -0.01em; color: #0d0d0c; white-space: nowrap; }
+        #s01-root .bloom { position: absolute; left: 790px; top: 997px; width: 100px; height: 100px; margin: -50px 0 0 -50px; border-radius: 50%; background: #ffd84d; }
+      </style>
+      <div id="s01-root" data-composition-id="s01-hook" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg bg"></div>
+            <div class="rl-eye">// claude code</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">How the Claude</span></span>
+              <span class="ln"><span class="w">Code team does</span></span>
+              <span class="ln"><em class="w">code review</em></span>
+            </div>
+            <div class="c60"><div class="k"><i><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="13.5" r="7.5" /><path class="hand" d="M12 13.5V9M10 2.5h4" /></svg></i>in under</div><div class="big"><span class="num">60</span><em>seconds</em></div></div>
+            <div class="wc pr">
+              <div class="k"><span>// pull request</span><span>config.ts +1 −1</span></div>
+              <div class="rows"></div>
+            </div>
+            <svg class="lens" viewBox="0 0 110 110" aria-hidden="true"><circle cx="44" cy="44" r="31" /><path d="M67 67 L98 98" /></svg>
+            <div class="cmt"><img src="assets/claude-logo.svg" alt=""><span>Add a test?</span></div>
+            <div class="bloom" data-layout-allow-overflow=""></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s01-root");
+          const q = (s) => root.querySelector(s);
+          const cam = q(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s01-mb");
+          // the fix's diff, real code (the same lines as s03's config.ts): [mark, code], four rows on a 34 px pitch
+          const ROWS = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", 'const theme = config.theme?.name ?? "light";']];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          q(".rows").innerHTML = ROWS.map(([m, c], i) => `<div class="row${m === "+" ? " add" : m ? " del" : ""}" style="top:${74 + i * 34}px"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
+          const lens = q(".lens"), pr = q(".pr");
+          gsap.set([pr, q(".cmt")], { opacity: 0 });
+
+          // frame 0: the title is already there (thumbnail) and settles with a thump
+          tl.fromTo(q(".rl-hd"), { scale: 1.04, y: 14 }, { scale: 1, y: 0, duration: 0.35, ease: Egg.EASE.stamp, transformOrigin: "0% 50%" }, 0);
+          // "Claude Code team"
+          tl.to(root.querySelectorAll(".rl-hd .ln:not(:last-child)"), { y: -10, duration: 0.14, ease: "power2.out", yoyo: true, repeat: 1, stagger: 0.08 }, 0.62);
+          // "does code review": the accent punches
+          tl.to(q(".rl-hd em"), { scale: 1.12, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1, transformOrigin: "0% 80%" }, 1.85);
+          // a pull request slides in and is read
+          tl.fromTo(pr, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 2.0);
+          tl.fromTo(root.querySelectorAll(".row code"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out", stagger: 0.07 }, 2.1);
+          tl.fromTo(lens, { x: 150, y: 930, opacity: 0 }, { x: 150, y: 930, opacity: 1, duration: 0.2, ease: "none" }, 2.55);
+          tl.to(lens, { keyframes: [{ x: 400, y: 935, duration: 0.4 }, { x: 180, y: 975, duration: 0.35 }, { x: 440, y: 985, duration: 0.35 }], ease: "power1.inOut" }, 2.75);
+          // "in under sixty seconds": the lockup (up since frame 0) punches, its stopwatch hand sweeps
+          tl.to(root.querySelector(".c60 .num"), { scale: 1.12, duration: 0.16, ease: "power2.out", yoyo: true, repeat: 1 }, 2.64);
+          tl.fromTo(root.querySelector(".c60 .hand"), { rotation: 0 }, { rotation: 360, svgOrigin: "12 13.5", duration: 1.2, ease: "none" }, 2.34);
+          // Claude comments on it
+          tl.fromTo(q(".cmt"), { opacity: 0, scale: 0.5 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, 3.5);
+          // the comment blooms yellow and fills the frame (the next beat is yellow)
+          tl.fromTo(q(".bloom"), { scale: 0 }, { scale: 46, duration: 0.26, ease: "power2.in" }, 3.7);
+          Reel.whip(tl, cam, blur, 3.94, "out");
+
+          window.__timelines["s01-hook"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

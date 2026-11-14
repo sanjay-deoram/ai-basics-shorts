@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":1.12,"sfx":"tick","vol":0.16},
+      {"t":1.32,"sfx":"pop","vol":0.18},
+      {"t":1.44,"sfx":"zoom","vol":0.14},
+      {"t":2.56,"sfx":"pop","vol":0.18},
+      {"t":2.68,"sfx":"pop","vol":0.18},
+      {"t":2.8,"sfx":"pop","vol":0.18},
+      {"t":2.92,"sfx":"pop","vol":0.18},
+      {"t":3.49,"sfx":"zoom","vol":0.14},
+      {"t":3.86,"sfx":"tick","vol":0.18},
+      {"t":4.01,"sfx":"tick","vol":0.18},
+      {"t":4.16,"sfx":"tick","vol":0.18},
+      {"t":4.31,"sfx":"tick","vol":0.18},
+      {"t":4.86,"sfx":"zoom","vol":0.14},
+      {"t":5.2,"sfx":"tick","vol":0.16},
+      {"t":5.45,"sfx":"pop","vol":0.18},
+      {"t":5.66,"sfx":"click","vol":0.14},
+      {"t":5.96,"sfx":"click","vol":0.14},
+      {"t":6.26,"sfx":"click","vol":0.14},
+      {"t":6.56,"sfx":"click","vol":0.14},
+      {"t":7.04,"sfx":"click","vol":0.18},
+      {"t":7.66,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":8.25,"sfx":"pop","vol":0.24},
+      {"t":8.41,"sfx":"pop","vol":0.24},
+      {"t":8.56,"sfx":"success","vol":0.16},
+      {"t":9.48,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Layer 2 · AI review. Pink: "In review." word by word; the pull request (the fix badge in its header, the
+           diff as bars). Four Claude marks pop above it ("several agents") and on "hunt for bugs at once" each probes its
+           own band of the diff in parallel; four numbered findings pin to lines. "Another group votes": the review clears,
+           "Group votes." lands, the pins fly into a vote table under three voter marks and each finding gets three
+           ballots (filled ✓ / outlined ✕). The two everyone agrees on are posted (ink ring) and get their tag badges
+           (Important, Pre-existing); the style nit and the false alarm are struck and dropped. A legend shows the three
+           tags. Agent and voter counts are illustrative. Whip out. Badge bottom-left (narrator).
+           Voiceover (scene-local, +0.36 for the whip): 0.54 "Layer two, in review: several agents hunt for bugs at once."
+           4.95 "Another group votes on each finding, and it's only posted if enough agree it's real." -->
+      <style>
+        #s05-root .bg { background-color: #ffdbe4; }
+        #s05-root .rl-hd { --acc: #e11d48; }
+        #s05-root .agk { position: absolute; left: 620px; top: 336px; font: 400 28px/32px var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s05-root .ag { position: absolute; top: 420px; width: 96px; height: 96px; }
+        #s05-root .prc { top: 590px; height: 680px; }
+        #s05-root .prc .k { position: absolute; right: 32px; bottom: 22px; }
+        #s05-root .fix { left: 114px; top: 612px; --acc: #0d0d0c; }
+        #s05-root .band { position: absolute; left: 112px; width: 816px; border-radius: 14px; background: rgba(225, 29, 72, 0.1); }
+        #s05-root .dl { position: absolute; left: 0; top: 0; height: 40px; display: flex; align-items: center; gap: 14px; }
+        #s05-root .dl b { width: 22px; font: 400 28px/1 var(--f-mono); font-weight: 400; color: #8a857d; text-align: center; }
+        #s05-root .dl code { font: 400 24px/30px var(--f-mono); color: #0d0d0c; white-space: pre; padding: 0 6px; border-radius: 4px; }
+        #s05-root .dl.add code { background: #c9f2d6; color: #0f5c2e; }
+        #s05-root .dl.del code { background: #ffd6d6; color: #9b1c1c; }
+        #s05-root .dls { position: absolute; inset: 0; z-index: 1; }   /* the code reads over the probe lines */
+        #s05-root .dl code { text-shadow: 0 0 3px #fdeef1, 0 0 3px #fdeef1, 0 0 6px #fdeef1; }
+        #s05-root .pins { position: absolute; inset: 0; z-index: 2; }
+        #s05-root .probe { fill: none; stroke: #0d0d0c; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 12; }
+        #s05-root .pd { fill: #0d0d0c; }
+        #s05-root .pin { position: absolute; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%; background: #0d0d0c; color: #fff;
+          display: grid; place-items: center; font: 400 26px/1 var(--f-mono); }
+        #s05-root .fk { position: absolute; left: 90px; top: 452px; font: 400 28px/32px var(--f-mono); color: #5f5b55; }
+        #s05-root .vt { position: absolute; top: 432px; width: 56px; height: 56px; }
+        #s05-root .row { left: 90px; width: 860px; height: 128px; padding: 0; }
+        #s05-root .row .ring { position: absolute; inset: 0; border-radius: 26px; border: 4px solid #0d0d0c; opacity: 0; }
+        #s05-root .row .tx { position: absolute; left: 88px; top: 20px; font: 500 36px/1.2 var(--f-display); letter-spacing: -0.02em; color: #0d0d0c; white-space: nowrap; }
+        #s05-root .row .sub { position: absolute; left: 88px; top: 66px; display: flex; gap: 12px; align-items: center; }
+        #s05-root .row .sub .rstamp { position: relative; top: 0; right: auto; }
+        #s05-root .row .drop { font: 400 28px/1 var(--f-mono); color: #8a857d; }
+        #s05-root .row .st { position: absolute; left: 84px; top: 42px; height: 4px; border-radius: 2px; background: #0d0d0c; transform-origin: 0 50%; }
+        #s05-root .row .vote { position: absolute; top: 39px; }
+        #s05-root .leg { position: absolute; left: 90px; top: 1104px; display: flex; flex-direction: column; gap: 14px; }
+        #s05-root .leg .k { font: 400 28px/32px var(--f-mono); color: #5f5b55; }
+        #s05-root .leg div { display: flex; gap: 14px; }
+        #s05-root .leg .rstamp { position: relative; }
+        #s05-root .egg-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="s05-root" data-composition-id="s05-review" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// layer 2 · ai review</div>
+            <span class="trk"><i class="on"></i><i class="on"></i><i></i><i></i></span>
+            <div class="rl-hd h1"><span class="ln"><span class="w">In </span><em class="w">review.</em></span></div>
+            <div class="rl-hd h2"><span class="ln"><span class="w">Group </span><em class="w">votes.</em></span></div>
+            <span class="agk">// several agents</span>
+            <div class="wc prc">
+              <span class="k">// pull request</span>
+            </div>
+            <div class="bands"></div>
+            <div class="dls"></div>
+            <img class="ag" style="left:132px" src="assets/claude-logo.svg" alt="">
+            <img class="ag" style="left:332px" src="assets/claude-logo.svg" alt="">
+            <img class="ag" style="left:532px" src="assets/claude-logo.svg" alt="">
+            <img class="ag" style="left:732px" src="assets/claude-logo.svg" alt="">
+            <svg class="egg-svg probes" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+            <div class="rstamp sm fix" data-layout-allow-overlap=""><i><svg class="thin" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="13.8" rx="4.8" ry="6" /><path d="M12 8.4V19.8M9 5.4l1.5 2.7M15 5.4l-1.5 2.7M7.2 11.4H3M7.2 15.6H3M16.8 11.4H21M16.8 15.6H21M8.1 18.6l-3.3 2.7M15.9 18.6l3.3 2.7" /></svg></i>Fix: empty config crash</div>
+            <span class="fk">// finding</span>
+            <img class="vt" style="left:652px" src="assets/claude-logo.svg" alt="">
+            <img class="vt" style="left:732px" src="assets/claude-logo.svg" alt="">
+            <img class="vt" style="left:812px" src="assets/claude-logo.svg" alt="">
+            <div class="rows"></div>
+            <div class="leg"><span class="k">// every posted finding gets a tag</span><div class="tags"></div></div>
+            <div class="pins"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s05-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cam = q(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s05-mb");
+          const NS = "http://www.w3.org/2000/svg";
+          // tag badges (icon disc colour, icon, label)
+          const ic = (d) => `<i><svg viewBox="0 0 24 24" aria-hidden="true">${d}</svg></i>`;
+          const TAG = {
+            imp: `<div class="rstamp sm" style="--acc:#e11d48">${ic('<path d="M12 6.5v7M12 17.5h.01" />')}Important</div>`,
+            nit: `<div class="rstamp sm" style="--acc:#a39e95">${ic('<path d="M8 12h8" />')}Nit</div>`,
+            pre: `<div class="rstamp sm" style="--acc:#5f5b55">${ic('<circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" />')}Pre-existing</div>`,
+          };
+          // the diff: nine lines on a 58 px pitch from y 690, [mark, bar width]
+          // real code: each finding pins to the line it is about (1 the old unsafe read, 3 the vague name t, 5 the cache, 7 the setTimeout)
+          const DL = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", 'const theme = config.theme?.name ?? "light";'],
+            ["", "const t = themes[theme];"], ["", "const cache = new Map();"], ["", "cache.set(path, t);"], ["+", 'log.info("theme", theme);'],
+            ["", "setTimeout(() => apply(t));"], ["", "return t;"]];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          const rowY = (r) => 690 + r * 58;
+          q(".dls").innerHTML = DL.map(([m, c]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
+          const dls = all(".dl");
+          dls.forEach((d, r) => gsap.set(d, { x: 124, y: rowY(r) }));
+          // each agent probes its own band of lines: agent centre x, first row, rows
+          const BAND = [[180, 0, 2], [380, 2, 2], [580, 4, 2], [780, 6, 3]];
+          q(".bands").innerHTML = BAND.map(([, r, n]) => `<i class="band" style="top:${rowY(r) - 9}px;height:${n * 58}px"></i>`).join("");
+          BAND.forEach(([x, r, n]) => {
+            const y = rowY(r) + (n * 58) / 2 - 9;
+            const p = document.createElementNS(NS, "path"); p.setAttribute("class", "probe"); p.setAttribute("d", `M${x} 518 V${y}`);
+            const c = document.createElementNS(NS, "circle"); c.setAttribute("class", "pd"); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 9);
+            q(".probes").append(p, c);
+          });
+          // findings: [diff row it pins to, text, votes, posted tag or drop reason]
+          const F = [
+            [1, "Same crash, another file", "yyy", "imp"],
+            [3, "Rename a variable", "nyn", "dropped · style"],
+            [5, "Cache never clears", "yyy", "pre"],
+            [7, "Maybe a race condition?", "ynn", "dropped · not real"],
+          ];
+          const TOP = [520, 666, 812, 958];
+          const ICON = { y: '<path d="M6 13.5 L11 18.5 L20 8" />', n: '<path d="M7.5 7.5 L18.5 18.5 M18.5 7.5 L7.5 18.5" />' };
+          q(".rows").innerHTML = F.map(([, t, v, s], k) => `<div class="wc row" style="top:${TOP[k]}px"><i class="ring"></i><span class="tx">${t}</span>` +
+            (TAG[s] ? `<span class="sub">${TAG[s]}</span>` : `<i class="st" style="width:${t.length * 18 + 8}px"></i><span class="sub"><span class="drop">${s}</span></span>`) +
+            [...v].map((c, j) => `<span class="vote ${c}" style="left:${565 + j * 80}px"><svg viewBox="0 0 26 26">${ICON[c]}</svg></span>`).join("") + `</div>`).join("");
+          q(".tags").innerHTML = TAG.imp + TAG.nit + TAG.pre;
+          q(".pins").innerHTML = F.map((_, k) => `<span class="pin">${k + 1}</span>`).join("");
+          const pins = all(".pin"), rows = all(".row"), prc = q(".prc");
+          gsap.set([q(".trk"), q(".agk"), prc, q(".bands"), ...all(".band"), q(".fk"), ...all(".vt"), ...rows, q(".leg"), ...all(".row .vote"), ...all(".row .sub"), ...all(".row .st")], { opacity: 0 });
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          tl.fromTo([q(".rl-eye"), q(".trk")], { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "Layer two, in review:" the fix opens as a pull request
+          Reel.words(tl, q(".h1"), [1.12, 1.32]);
+          tl.fromTo(prc, { opacity: 0, y: 60 }, { opacity: 1, y: 0, duration: 0.35, ease: "power3.out" }, 1.44);
+          Reel.badge(tl, q(".fix"), 1.6);
+          tl.fromTo(all(".dl code"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out", stagger: 0.05 }, 1.71);
+          tl.fromTo(all(".dl b"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 1.71);
+          // "several agents"
+          tl.fromTo(all(".ag"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.12 }, 2.56);
+          all(".ag").forEach((a, i) => tl.fromTo(a, { rotation: 0 }, { rotation: 100 + i * 15, duration: 2.3, ease: "none" }, 2.56));
+          tl.fromTo(q(".agk"), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 2.86);
+          // "hunt for bugs at once": every agent probes its band in parallel, findings pin to lines
+          tl.set(q(".bands"), { opacity: 1 }, 3.45);
+          tl.fromTo(all(".band"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 3.49);
+          all(".probe").forEach((p, i) => tl.fromTo(p, { opacity: 0, attr: { d: `M${BAND[i][0]} 518 V518` } }, { opacity: 1, attr: { d: p.getAttribute("d") }, duration: 0.4, ease: "power2.out" }, 3.49));
+          tl.fromTo(all(".pd"), { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, 3.86);
+          tl.to(all(".band"), { keyframes: { opacity: [1, 0.45, 1, 0.45, 1] }, duration: 1.0, ease: "none" }, 3.76);
+          pins.forEach((p, k) => {
+            gsap.set(p, { x: 858, y: rowY(F[k][0]) - 3 });
+            tl.fromTo(p, { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: "back.out(2.2)" }, 3.86 + k * 0.15);
+          });
+
+          // "Another group votes on each finding": the review clears and the pins fly into a vote table
+          tl.to([q(".h1"), ...all(".ag"), q(".agk"), q(".probes"), q(".bands"), q(".dls"), prc, q(".fix")], { opacity: 0, y: "-=20", duration: 0.25, ease: "power2.in" }, 4.81);
+          Reel.words(tl, q(".h2"), [5.2, 5.45]);
+          tl.fromTo(q(".fk"), { opacity: 0 }, { opacity: 1, duration: 0.25 }, 5.01);
+          tl.fromTo(all(".vt"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(2)", stagger: 0.12 }, 5.06);
+          tl.fromTo(rows, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out", stagger: 0.1 }, 5.11);
+          pins.forEach((p, k) => tl.to(p, { x: 112, y: TOP[k] + 41, duration: 0.5, ease: "power3.inOut" }, 4.96 + k * 0.08));
+          F.forEach((_, k) => tl.fromTo(rows[k].querySelectorAll(".vote"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.3, ease: "back.out(2.2)", stagger: 0.08 }, 5.66 + k * 0.3));
+          // "and it's only posted": the agreed ones are posted
+          [0, 2].forEach((k) => tl.to(rows[k].querySelector(".ring"), { opacity: 1, duration: 0.2, ease: "none" }, 7.04));
+          // "if enough agree": the others are struck and dropped
+          [1, 3].forEach((k) => {
+            tl.fromTo(rows[k].querySelector(".st"), { scaleX: 0, opacity: 1 }, { scaleX: 1, opacity: 1, duration: 0.35, ease: "power3.out" }, 7.66);
+            tl.to([rows[k], pins[k]], { opacity: 0.4, duration: 0.3, ease: "none" }, 7.81);
+            tl.fromTo(rows[k].querySelector(".sub"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 7.81);
+          });
+          // "it's real": the posted ones get their tags
+          [0, 2].forEach((k, i) => {
+            tl.set(rows[k].querySelector(".sub"), { opacity: 1 }, 8.2);
+            Reel.badge(tl, rows[k].querySelector(".rstamp"), 8.25 + i * 0.16);
+          });
+          tl.fromTo(q(".leg"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 8.56);
+          all(".tags .rstamp").forEach((b, i) => Reel.badge(tl, b, 8.62 + i * 0.1));
+          Reel.whip(tl, cam, blur, 9.52, "out");
+
+          window.__timelines["s05-review"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.08,"sfx":"tap","vol":0.16},
+      {"t":1.08,"sfx":"whoosh-short","vol":0.14},
+      {"t":1.2,"sfx":"paper","vol":0.14},
+      {"t":2.2,"sfx":"pop","vol":0.18},
+      {"t":2.32,"sfx":"pop","vol":0.18},
+      {"t":2.44,"sfx":"pop","vol":0.18},
+      {"t":2.56,"sfx":"pop","vol":0.18},
+      {"t":3.13,"sfx":"air","vol":0.16},
+      {"t":3.5,"sfx":"tick","vol":0.18},
+      {"t":3.65,"sfx":"tick","vol":0.18},
+      {"t":3.8,"sfx":"tick","vol":0.18},
+      {"t":3.95,"sfx":"tick","vol":0.18},
+      {"t":4.5,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.7,"sfx":"pop","vol":0.16},
+      {"t":4.82,"sfx":"pop","vol":0.16},
+      {"t":4.94,"sfx":"pop","vol":0.16},
+      {"t":5.3,"sfx":"tap","vol":0.16},
+      {"t":5.6,"sfx":"tap","vol":0.16},
+      {"t":5.9,"sfx":"tap","vol":0.16},
+      {"t":6.2,"sfx":"tap","vol":0.16},
+      {"t":6.68,"sfx":"click","vol":0.16},
+      {"t":7.3,"sfx":"pen","vol":0.12,"dur":0.4},
+      {"t":7.89,"sfx":"pop","vol":0.2},
+      {"t":8.05,"sfx":"pop","vol":0.2},
+      {"t":8.2,"sfx":"sparkle","vol":0.14,"dur":1.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Layer 2 · AI review. The fix chip drops into the header of a pull request (the diff as bars). Four Claude
+           marks pop above it ("several agents") and on "hunt for bugs at once" each probes its own band of the diff in
+           parallel; four numbered findings pin to lines. "Another group votes": the pins fly into a vote table under
+           three voter marks; each finding gets three ballots (filled ✓ / outlined ✕). Only the ones enough voters agree
+           on are posted (border goes ink) and tagged IMPORTANT / PRE-EXISTING; the style nit and the false alarm are
+           struck and dropped. A legend shows the three tags (Important · Nit · Pre-existing). Number of agents and
+           voters is illustrative (the article doesn't give them). Avatar: out (the scene fills the box). Voiceover:
+           0.18 "Layer two, in review: several agents hunt for bugs at once." 4.59 "Another group votes on each finding,
+           and it's only posted if enough agree it's real." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .egg-eyebrow { position: absolute; left: 90px; top: 232px; }
+        .s05 .ag { top: 332px; width: 96px; height: 96px; }
+        .s05 .agk { position: absolute; left: 90px; top: 292px; }
+        .s05 .prc { position: absolute; left: 90px; top: 600px; width: 860px; height: 690px; }
+        .s05 .prk { position: absolute; left: 726px; top: 1254px; }
+        .s05 .band { position: absolute; left: 112px; width: 816px; height: 100px; border-radius: 14px; background: var(--taupe); }
+        .s05 .dl { position: absolute; left: 0; top: 0; height: 40px; display: flex; align-items: center; gap: 14px; }
+        .s05 .dl b { width: 22px; font: 400 26px/1 var(--f-mono); color: var(--smoke); text-align: center; }
+        .s05 .dl code { font: 400 24px/1 var(--f-mono); color: var(--graphite); white-space: pre; text-shadow: 0 0 3px var(--taupe), 0 0 3px var(--taupe), 0 0 6px var(--taupe); }
+        .s05 .dl.del code { color: var(--smoke); text-decoration: line-through; }
+        .s05 .dl.add code { color: var(--ink); font-weight: 500; }
+        .s05 .dls { position: absolute; inset: 0; z-index: 1; }   /* the code reads over the probe lines */
+        .s05 .pins { position: absolute; inset: 0; z-index: 2; }
+        .s05 .probe { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 2 12; }
+        .s05 .pd { fill: var(--ink); }
+        .s05 .pin { position: absolute; left: 0; top: 0; width: 46px; height: 46px; border-radius: 50%; background: var(--ink); color: var(--eggshell);
+          display: grid; place-items: center; font: 400 24px/1 var(--f-mono); }
+        .s05 .vt { top: 436px; width: 56px; height: 56px; }
+        .s05 .vk { position: absolute; left: 652px; top: 404px; width: 216px; text-align: center; }
+        .s05 .fk { position: absolute; left: 90px; top: 452px; }
+        .s05 .row { position: absolute; left: 90px; width: 860px; height: 136px; padding: 0; border-radius: 30px; }
+        .s05 .row .tx { position: absolute; left: 88px; top: 22px; font: 400 36px/1.2 var(--f-body); color: var(--ink); white-space: nowrap; }
+        .s05 .row .sub { position: absolute; left: 88px; top: 76px; display: flex; gap: 12px; align-items: center; }
+        .s05 .row .drop { font: 400 26px/1 var(--f-mono); letter-spacing: 0.04em; color: var(--smoke); }
+        .s05 .row .st { position: absolute; left: 84px; top: 46px; height: 4px; border-radius: 2px; background: var(--ink); transform-origin: 0 50%; }
+        .s05 .row .vote { position: absolute; top: 43px; }
+        .s05 .leg { position: absolute; left: 90px; top: 1176px; display: flex; flex-direction: column; gap: 18px; }
+        .s05 .leg div { display: flex; gap: 14px; }
+      </style>
+      <div id="root" data-composition-id="s05-review" data-width="1080" data-height="1920">
+        <div class="egg-scene s05">
+          <span class="egg-eyebrow">Layer 2 · AI review</span>
+          <span class="trk"><i class="on"></i><i class="on"></i><i></i><i></i></span>
+          <div class="egg-card prc"></div>
+          <span class="egg-card-kicker prk">Pull request</span>
+          <div class="bands"></div>
+          <div class="dls"></div>
+          <img class="cl ag" style="left:132px" src="assets/claude-logo.svg" alt="">
+          <img class="cl ag" style="left:332px" src="assets/claude-logo.svg" alt="">
+          <img class="cl ag" style="left:532px" src="assets/claude-logo.svg" alt="">
+          <img class="cl ag" style="left:732px" src="assets/claude-logo.svg" alt="">
+          <span class="egg-card-kicker agk">Several agents, at the same time</span>
+          <svg class="egg-svg probes" viewBox="0 0 1080 1920" aria-hidden="true"></svg>
+          <span class="egg-card-kicker fk">Finding</span>
+          <span class="egg-card-kicker vk">Votes</span>
+          <img class="cl vt" style="left:652px" src="assets/claude-logo.svg" alt="">
+          <img class="cl vt" style="left:732px" src="assets/claude-logo.svg" alt="">
+          <img class="cl vt" style="left:812px" src="assets/claude-logo.svg" alt="">
+          <div class="rows"></div>
+          <div class="leg"><span class="egg-card-kicker">Every posted finding gets a tag</span><div><span class="sev imp">Important</span><span class="sev nit">Nit</span><span class="sev">Pre-existing</span></div></div>
+          <div class="pins"></div>
+          <div class="fix"><svg viewBox="0 0 40 40" aria-hidden="true"><g class="bugi"><ellipse cx="20" cy="23" rx="8" ry="10" /><path d="M20 14 V33 M15 9 L17.5 13.5 M25 9 L22.5 13.5 M12 19 H5 M12 26 H5 M28 19 H35 M28 26 H35 M13.5 31 L8 35.5 M26.5 31 L32 35.5" /></g></svg>Fix: empty config crash</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.52;
+          const root = document.querySelector('[data-composition-id="s05-review"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const NS = "http://www.w3.org/2000/svg";
+          // the diff: nine lines on a 58 px pitch from y 740, [mark, bar width]
+          // real code: each finding pins to the line it is about (1 the old unsafe read, 3 the vague name t, 5 the cache, 7 the setTimeout)
+          const DL = [["", "const config = readConfig(path);"], ["−", "const theme = config.theme.name;"], ["+", 'const theme = config.theme?.name ?? "light";'],
+            ["", "const t = themes[theme];"], ["", "const cache = new Map();"], ["", "cache.set(path, t);"], ["+", 'log.info("theme", theme);'],
+            ["", "setTimeout(() => apply(t));"], ["", "return t;"]];
+          const esc = (t) => t.replace(/&/g, "&amp;").replace(/</g, "&lt;");
+          const rowY = (r) => 740 + r * 58;
+          q(".dls").innerHTML = DL.map(([m, c]) => `<div class="dl${m === "+" ? " add" : m ? " del" : ""}"><b>${m}</b><code>${esc(c)}</code></div>`).join("");
+          const dls = all(".dl");
+          dls.forEach((d, r) => gsap.set(d, { x: 124, y: rowY(r) }));
+          // each agent probes its own band of lines: agent centre x, first row, rows
+          const BAND = [[180, 0, 2], [380, 2, 2], [580, 4, 2], [780, 6, 3]];
+          q(".bands").innerHTML = BAND.map(([, r, n]) => `<i class="band" style="top:${rowY(r) - 9}px;height:${n * 58}px"></i>`).join("");
+          BAND.forEach(([x, r, n]) => {
+            const y = rowY(r) + (n * 58) / 2 - 9;
+            const p = document.createElementNS(NS, "path"); p.setAttribute("class", "probe"); p.setAttribute("d", `M${x} 438 V${y}`);
+            const c = document.createElementNS(NS, "circle"); c.setAttribute("class", "pd"); c.setAttribute("cx", x); c.setAttribute("cy", y); c.setAttribute("r", 9);
+            q(".probes").append(p, c);
+          });
+          // findings: [diff row it pins to, text, votes, posted tag or drop reason]
+          const F = [
+            [1, "Same crash, another file", "yyy", ["imp", "Important"]],
+            [3, "Rename a variable", "nyn", "dropped · style"],
+            [5, "Cache never clears", "yyy", ["", "Pre-existing"]],
+            [7, "Maybe a race condition?", "ynn", "dropped · not real"],
+          ];
+          const TOP = [530, 690, 850, 1010];
+          const ICON = { y: '<path d="M6 13.5 L11 18.5 L20 8" />', n: '<path d="M7.5 7.5 L18.5 18.5 M18.5 7.5 L7.5 18.5" />' };
+          q(".rows").innerHTML = F.map(([, t, v, s], k) => `<div class="egg-card row" style="top:${TOP[k]}px"><span class="tx">${t}</span>` +
+            (typeof s === "string" ? `<i class="st" style="width:${t.length * 18.6 + 8}px"></i><span class="sub"><span class="drop">${s}</span></span>` : `<span class="sub"><span class="sev ${s[0]}">${s[1]}</span></span>`) +
+            [...v].map((c, j) => `<span class="vote ${c}" style="left:${565 + j * 80}px"><svg viewBox="0 0 26 26">${ICON[c]}</svg></span>`).join("") + `</div>`).join("");
+          q(".pins").innerHTML = F.map((_, k) => `<span class="pin">${k + 1}</span>`).join("");
+          const pins = all(".pin"), rows = all(".row"), fix = q(".fix");
+          gsap.set(fix, { x: 90, y: 330 });   // carried from s04, same frame
+
+          const tl = gsap.timeline({ paused: true });
+          Egg.fadeUp(tl, [q(".egg-eyebrow"), q(".trk")], 0.05);
+          // "in review": the fix opens as a pull request
+          tl.to(fix, { x: 124, y: 628, scale: 0.9, duration: 0.55, ease: Egg.EASE.move }, 1.08);
+          Egg.fadeUp(tl, [q(".prc"), q(".prk")], 1.1, { y: 30 });
+          tl.fromTo(all(".dl code"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out", stagger: 0.05 }, 1.35);
+          tl.fromTo(all(".dl b"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 1.35);
+          // "several agents"
+          Egg.pop(tl, all(".ag"), 2.2, { stagger: 0.12 });
+          all(".ag").forEach((a, i) => tl.fromTo(a, { rotation: 0 }, { rotation: 100 + i * 15, duration: 2.3, ease: "none" }, 2.2));
+          Egg.fadeUp(tl, q(".agk"), 2.5, { y: 10 });
+          // "hunt for bugs at once": every agent probes its band in parallel, findings pin to lines
+          tl.fromTo(all(".band"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 3.13);
+          all(".probe").forEach((p, i) => tl.fromTo(p, { opacity: 0, attr: { d: `M${BAND[i][0]} 438 V438` } }, { opacity: 1, attr: { d: p.getAttribute("d") }, duration: 0.4, ease: Egg.EASE.draw }, 3.13));
+          tl.fromTo(all(".pd"), { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "none" }, 3.5);
+          tl.to(all(".band"), { keyframes: { opacity: [1, 0.45, 1, 0.45, 1] }, duration: 1.0, ease: "none" }, 3.4);
+          pins.forEach((p, k) => {
+            gsap.set(p, { x: 858, y: rowY(F[k][0]) - 3 });
+            Egg.pop(tl, p, 3.5 + k * 0.15, { dur: 0.4 });
+          });
+
+          // "Another group votes on each finding": the review folds away and the pins fly into a vote table
+          Egg.fadeOut(tl, [...all(".ag"), q(".agk"), q(".probes"), q(".bands"), q(".dls"), q(".prc"), q(".prk")], 4.45);
+          tl.to(fix, { x: 90, y: 330, scale: 1, duration: 0.5, ease: Egg.EASE.move }, 4.5);
+          Egg.fadeUp(tl, [q(".fk"), q(".vk")], 4.65, { y: 10 });
+          Egg.pop(tl, all(".vt"), 4.7, { stagger: 0.12, dur: 0.45 });
+          Egg.fadeUp(tl, rows, 4.75, { y: 24, stagger: 0.1 });
+          tl.set(all(".row .vote, .row .sub, .row .st"), { opacity: 0 }, 0);
+          pins.forEach((p, k) => tl.to(p, { x: 112, y: TOP[k] + 45, duration: 0.5, ease: Egg.EASE.move }, 4.6 + k * 0.08));
+          F.forEach((_, k) => Egg.pop(tl, rows[k].querySelectorAll(".vote"), 5.3 + k * 0.3, { stagger: 0.08, dur: 0.35 }));
+          // "and it's only posted": the agreed ones are posted
+          [0, 2].forEach((k) => tl.to(rows[k], { borderColor: "#000", duration: 0.25, ease: "none" }, 6.68));
+          // "if enough agree": the others are struck and dropped
+          [1, 3].forEach((k) => {
+            tl.fromTo(rows[k].querySelector(".st"), { scaleX: 0, opacity: 1 }, { scaleX: 1, opacity: 1, duration: 0.35, ease: Egg.EASE.draw }, 7.3);
+            tl.to([rows[k], pins[k]], { opacity: 0.38, duration: 0.3, ease: "none" }, 7.45);
+            tl.fromTo(rows[k].querySelector(".sub"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "none" }, 7.45);
+          });
+          // "it's real": the posted ones get their tags
+          [0, 2].forEach((k, i) => tl.fromTo(rows[k].querySelector(".sub"), { opacity: 0, scale: 1.6, rotation: -8 }, { opacity: 1, scale: 1, rotation: 0, transformOrigin: "0 50%", duration: 0.32, ease: Egg.EASE.stamp }, 7.89 + i * 0.16));
+          Egg.fadeUp(tl, q(".leg"), 8.2, { y: 16 });
+
+          Egg.fadeOut(tl, [q(".egg-eyebrow"), q(".trk"), q(".fk"), q(".vk"), ...all(".vt"), ...rows, q(".leg")], DUR - 0.35);
+          Egg.fadeOut(tl, [...pins, fix], DUR - 0.35, { y: "-=20" });
+          window.__timelines["s05-review"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

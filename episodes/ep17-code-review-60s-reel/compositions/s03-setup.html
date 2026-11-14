@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.48,"sfx":"zoom","vol":0.14},
+      {"t":0.66,"sfx":"typing","vol":0.18,"dur":1.1},
+      {"t":1.3,"sfx":"pop","vol":0.2},
+      {"t":1.6,"sfx":"tick","vol":0.16},
+      {"t":1.9,"sfx":"pop","vol":0.18},
+      {"t":2.05,"sfx":"typing","vol":0.14,"dur":0.6},
+      {"t":2.91,"sfx":"zoom","vol":0.16},
+      {"t":3.11,"sfx":"pop","vol":0.24},
+      {"t":3.26,"sfx":"click","vol":0.16},
+      {"t":3.41,"sfx":"click","vol":0.16},
+      {"t":3.56,"sfx":"click","vol":0.16},
+      {"t":3.71,"sfx":"click","vol":0.16},
+      {"t":3.91,"sfx":"pen","vol":0.12,"dur":0.6},
+      {"t":4.42,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The example. Peach: "Say you ask Claude to fix a bug": the request types into a You → Claude card, "Fix a
+           bug." lands word by word, and the dark window shows Claude's one-line fix (config.ts: the unsafe read becomes a
+           safe one with a default; illustrative, see the base STORYBOARD.md). "Let's follow the fix": the card and window
+           fold into the fix badge (the bug icon), the object every layer gets; a four-stop route lists the layers, and
+           "through each layer" runs the path through all four. Whip out. Badge bottom-left (narrator).
+           Voiceover (scene-local, +0.36 for the whip): 0.54 "Say you ask Claude to fix a bug. Let's follow the fix
+           through each layer." -->
+      <style>
+        #s03-root .bg { background-color: #ffe1cc; }
+        #s03-root .rl-hd { --acc: #c2410c; }
+        #s03-root .ask { top: 420px; }
+        #s03-root .ask .v { white-space: normal; font-size: 38px; line-height: 46px; }
+        #s03-root .term { top: 640px; height: 300px; }
+        #s03-root .term .tb { top: 84px; }
+        #s03-root .term .r { font-size: 27px; }
+        #s03-root .fix { left: 90px; top: 420px; --acc: #0d0d0c; }
+        #s03-root .route { fill: none; stroke: #0d0d0c; stroke-width: 6; stroke-linecap: round; stroke-dasharray: 2 16; }
+        #s03-root .stop { position: absolute; left: 100px; width: 64px; height: 64px; border-radius: 50%; background: #fff; display: grid; place-items: center;
+          font: 400 30px/1 var(--f-mono); color: #0d0d0c; box-shadow: 0 10px 22px -12px rgba(0, 0, 0, 0.4), 0 0 0 3px #0d0d0c; }
+        #s03-root .sl { position: absolute; left: 196px; font: 600 56px/1 var(--f-display); letter-spacing: -0.035em; color: #0d0d0c; white-space: nowrap; }
+        #s03-root .egg-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="s03-root" data-composition-id="s03-setup" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// one example</div>
+            <div class="rl-hd"><span class="ln"><span class="w">Fix </span><span class="w">a </span><em class="w">bug.</em></span></div>
+            <div class="wc ask"><div class="k">// you → claude</div><div class="v typed">Fix the crash when the config file is empty.</div></div>
+            <div class="term">
+              <div class="tbar"><i></i><i></i><i></i><span>config.ts</span></div>
+              <div class="tb">
+                <div class="hdr"><img class="cl" src="assets/claude-logo.svg" alt=""><span class="t1">Claude writes the fix</span><span class="t2">+1 −1</span></div>
+                <div class="r"><span class="del">- const theme = config.theme.name;</span></div>
+                <div class="r"><span class="add">+ const theme = config.theme?.name ?? "light";</span></div>
+              </div>
+            </div>
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="route" d="M132 540 V1060" /></svg>
+            <span class="stop" style="top:540px">1</span><span class="sl" style="top:544px">On your machine</span>
+            <span class="stop" style="top:700px">2</span><span class="sl" style="top:704px">AI review</span>
+            <span class="stop" style="top:860px">3</span><span class="sl" style="top:864px">Blocking checks</span>
+            <span class="stop" style="top:1020px">4</span><span class="sl" style="top:1024px">People, by risk</span>
+            <div class="rstamp fix" data-layout-allow-overlap=""><i><svg class="thin" viewBox="0 0 24 24" aria-hidden="true"><ellipse cx="12" cy="13.8" rx="4.8" ry="6" /><path d="M12 8.4V19.8M9 5.4l1.5 2.7M15 5.4l-1.5 2.7M7.2 11.4H3M7.2 15.6H3M16.8 11.4H21M16.8 15.6H21M8.1 18.6l-3.3 2.7M15.9 18.6l3.3 2.7" /></svg></i>Fix: empty config crash</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s03-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cam = q(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s03-mb");
+          const ask = q(".ask"), term = q(".term"), fix = q(".fix"), route = q(".route");
+          const stops = all(".stop"), labs = all(".sl"), code = all(".term .r");
+          gsap.set([ask, term, ...code, ...stops, ...labs, fix], { opacity: 0 });
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "Say you ask Claude to fix a bug."
+          tl.fromTo(ask, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 0.48);
+          Egg.typeOn(tl, q(".typed"), 0.66, { cps: 40 });
+          tl.fromTo(term, { opacity: 0, y: 60, scale: 0.94 }, { opacity: 1, y: 0, scale: 1, duration: 0.35, ease: "power3.out" }, 1.3);
+          tl.fromTo(q(".term .cl"), { rotation: -90 }, { rotation: 0, duration: 0.5, ease: "power3.out" }, 1.35);
+          Reel.words(tl, q(".rl-hd"), [1.6, 1.76, 1.9]);
+          Reel.rows(tl, code, [2.05, 2.3]);
+          // "Let's follow the fix": everything folds into the fix badge, and the route lists the layers
+          tl.to([ask, term], { scale: 0.3, x: -60, y: -300, opacity: 0, transformOrigin: "0 0", duration: 0.4, ease: "power3.in", stagger: 0.05 }, 2.91);
+          Reel.badge(tl, fix, 3.11);
+          stops.forEach((s, i) => {
+            tl.fromTo(s, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.35, ease: "back.out(2.2)" }, 3.26 + i * 0.15);
+            tl.fromTo(labs[i], { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 3.3 + i * 0.15);
+          });
+          // "through each layer": the path runs through all four stops
+          tl.fromTo(route, { opacity: 0, attr: { d: "M132 540 V540" } }, { opacity: 1, attr: { d: "M132 540 V1060" }, duration: 0.6, ease: "power2.inOut" }, 3.91);
+          stops.forEach((s, i) => tl.to(s, { backgroundColor: "#0d0d0c", color: "#ffffff", duration: 0.12, ease: "none" }, 3.96 + i * 0.13));
+          Reel.whip(tl, cam, blur, 4.46, "out");
+
+          window.__timelines["s03-setup"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

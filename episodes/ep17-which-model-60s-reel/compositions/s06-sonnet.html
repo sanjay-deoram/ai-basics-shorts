@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.39,"sfx":"tick","vol":0.16},
+      {"t":0.5,"sfx":"pop","vol":0.18},
+      {"t":1.35,"sfx":"pop","vol":0.22},
+      {"t":1.5,"sfx":"pop","vol":0.24},
+      {"t":1.85,"sfx":"pop","vol":0.16},
+      {"t":2.12,"sfx":"enter","vol":0.2},
+      {"t":2.3,"sfx":"pop","vol":0.28},
+      {"t":2.96,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Rule 2, the other half · Sonnet. Mint: "Chat goes to Sonnet." word by word; job 2 slides in, stamped
+           SONNET ✓. "it's fast": a customer's question gets its reply at once, stamped FAST. Whip out.
+           Badge bottom-left (narrator).
+           Voiceover (the end of the s05 line): "The chat reply goes to Sonnet: it's fast." -->
+      <style>
+        #s06-root .bg { background-color: #d3f5df; }
+        #s06-root .rl-hd { --acc: #12a150; }
+        #s06-root .wc { top: 520px; }
+        #s06-root .wc .rstamp { --acc: #12a150; }
+        #s06-root .bub { position: absolute; height: 84px; padding: 0 34px; border-radius: 42px; font: 500 36px/84px var(--f-display); letter-spacing: -0.02em; white-space: nowrap; }
+        #s06-root .bq { left: 90px; top: 720px; background: #fff; color: var(--ink); border-bottom-left-radius: 10px; }
+        #s06-root .ba { right: 130px; top: 830px; background: #12a150; color: #fff; border-bottom-right-radius: 10px; }
+        #s06-root .rstamp.fast { left: 420px; top: 950px; --acc: #12a150; }
+      </style>
+      <div id="s06-root" data-composition-id="s06-sonnet" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// rule 2 · someone's waiting</div>
+            <div class="rl-hd">
+              <span class="ln"><span class="w">Chat </span><span class="w">goes </span><span class="w">to</span></span>
+              <span class="ln"><em class="w">Sonnet.</em></span>
+            </div>
+            <div class="wc"><div class="k">// job 2</div><div class="v">Reply in chat</div><div class="rstamp" data-layout-allow-overlap=""><i><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12.5l4.5 4.5L19 7.5" /></svg></i>Sonnet</div></div>
+            <div class="bub bq">Where's my order?</div>
+            <div class="bub ba">It ships today.</div>
+            <div class="rstamp fast" data-layout-allow-overlap=""><i><svg class="fill" viewBox="0 0 24 24" aria-hidden="true"><path d="M13 2 3 14h9l-1 8 10-12h-9l1-8z" /></svg></i>Fast</div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s06-root");
+          const cam = root.querySelector(".rl-cam");
+          const q = (s) => root.querySelector(s);
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s06-mb");
+          Reel.whip(tl, cam, blur, 0, "in");
+          const wc = q(".wc");
+          gsap.set([wc, q(".bq"), q(".ba")], { opacity: 0 });
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.2);
+          // "The chat reply goes to Sonnet"
+          Reel.words(tl, q(".rl-hd"), [0.39, 0.8, 1.0, 1.35]);
+          tl.fromTo(wc, { opacity: 0, x: -80 }, { opacity: 1, x: 0, duration: 0.28, ease: "power3.out" }, 0.5);
+          Reel.badge(tl, q(".wc .rstamp"), 1.5);
+          // "it's fast": the question gets its answer at once
+          tl.fromTo(q(".bq"), { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.25, ease: "back.out(2)", transformOrigin: "0% 100%" }, 1.85);
+          tl.fromTo(q(".ba"), { opacity: 0, y: 30, scale: 0.8 }, { opacity: 1, y: 0, scale: 1, duration: 0.22, ease: "back.out(2)", transformOrigin: "100% 100%" }, 2.12);
+          Reel.badge(tl, q(".fast"), 2.3);
+          Reel.whip(tl, cam, blur, 3.0, "out");
+
+          window.__timelines["s06-sonnet"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -20,7 +20,7 @@ Write the voiceover first. Every episode follows these beats, in this order:
 
 | Beat | ~Time | What the voice does | ep13 (RAG) |
 |---|---|---|---|
-| Cold open | 0–3 s | States the topic and the promise in one line. No title card, channel name or "in this video". | "Here's how rag works, in sixty seconds." |
+| Cold open | 0–3 s | Says the title in one line, starting at once (≤ 0.15 s), while the full title is already on screen. No channel name or "in this video". | "Here's how rag works, in sixty seconds." / "Which Claude model to use, in under sixty seconds." |
 | Name it | 3–10 s | Unpacks the name (an acronym, or the term itself) and promises to take it apart **by watching it work**. | "Rag stands for retrieval-augmented generation. Let's take it one word at a time, by watching it work." |
 | Set up the example | 10–16 s | "Say you…": one concrete, everyday example that the rest of the video follows from start to finish. | "Say you have a question. That's your query. And the answer is buried somewhere in a pile of documents." |
 | Mechanism | 3–4 beats, 5–10 s each | One step of how it works per beat, done to the example. Each piece of the name is **named at the moment it happens** ("That's X: …"). | "That's retrieval: the database hands back the documents closest in meaning to your query." |
@@ -51,6 +51,13 @@ Map its beats onto the formula above and write our own lines. Record the referen
 
 ## The look of the series
 
+- **Frame 0 is the title.** The first frame already shows the whole title and, big under it, "in under 60 seconds" (the 60
+  at ~230–250 px in the accent colour, "seconds" beside it: the series' promise, in the viewer's face, never a small
+  pill). It is also the thumbnail: nothing fades, types or builds in. The voice says the title over it from the first instant, so
+  the viewer knows the topic before they can scroll. Motion on the title (a tint on the key word, a punch on "sixty
+  seconds") comes after. Check with a snapshot `--at 0`.
+- **Files show real content.** A file, diff, pull request, doc or terminal shows real, legible lines (code, text,
+  output) from the episode's example, never grey placeholder bars, and the same lines wherever that file reappears.
 - **New animations every episode.** Design each scene for this topic. Earlier episodes on the same subject are
   references for facts only; their scenes are not reused (user rule).
 - **One scene per beat**, cut on the voice's pauses: hook (~9 s, includes "Name it"), setup (~6 s), one scene per

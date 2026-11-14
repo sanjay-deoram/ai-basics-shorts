@@ -37,6 +37,13 @@ HyperFrames (HTML + GSAP → MP4).
 - Every new episode is narrated by the Sanjay avatar in Sanjay's voice. Spark is retired: don't use it in
   new episodes. Stage the avatar only on empty paper (check each stop with snapshots); show Claude with
   the Claude logo, never with the avatar.
+- **Title on the first frame, topic in the first line.** At 0 s the whole title is already on screen, including the
+  "60 seconds", set big (the 60 at ~230–250 px, in the accent colour) under the title, never a small pill: no fade-in, typing or word-by-word build. The voice starts at once (first line at
+  ≤ 0.15 s) and says the title, e.g. "Which Claude model to use, in under sixty seconds." The viewer knows what the
+  video is about before they can scroll. Movement on the title (a tint, a punch) comes after, never its entrance.
+- **Files show their contents.** Any file, diff, pull request, doc or terminal on screen shows real, legible content
+  (code, text, output) that fits the episode's example, never grey placeholder bars. Keep it consistent with the
+  through-line (the same lines of code in every scene that shows that file).
 - Load the `/hyperframes` and `/hyperframes-core` skills before writing composition HTML.
 - After any change: `node tools/lipsync.mjs` (if the voice changed), `node tools/build-sfx.mjs`, then
   `npx hyperframes check` (0 errors), then snapshot the changed scenes and look at them before rendering.

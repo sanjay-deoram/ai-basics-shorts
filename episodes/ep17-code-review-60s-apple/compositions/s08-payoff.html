@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- Sound cues (seconds from scene start). Run node tools/build-sfx.mjs after editing. -->
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.12},
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.45,"sfx":"tick","vol":0.14},
+      {"t":0.6,"sfx":"tick","vol":0.14},
+      {"t":0.75,"sfx":"tick","vol":0.14},
+      {"t":1.1,"sfx":"whoosh-short","vol":0.12},
+      {"t":1.4,"sfx":"stream","vol":0.12,"dur":1.0},
+      {"t":2.5,"sfx":"pop","vol":0.18},
+      {"t":2.8,"sfx":"marker","vol":0.12},
+      {"t":3.15,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.93,"sfx":"whoosh-short","vol":0.14},
+      {"t":4.3,"sfx":"pop","vol":0.18},
+      {"t":4.7,"sfx":"marker","vol":0.12},
+      {"t":6.08,"sfx":"claude","vol":0.14},
+      {"t":6.82,"sfx":"tap","vol":0.16},
+      {"t":7.05,"sfx":"pen","vol":0.12,"dur":0.35},
+      {"t":7.35,"sfx":"click","vol":0.18},
+      {"t":7.7,"sfx":"pop","vol":0.18},
+      {"t":7.95,"sfx":"pop","vol":0.18},
+      {"t":8.35,"sfx":"impact-bass-1","vol":0.14},
+      {"t":8.6,"sfx":"chime","vol":0.2,"dur":2.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · The payoff, hard stop. "In three months": a June → Sept strip, one dot a month. Two cards of the Claude
+           Code repo: merged pull requests (Sept's blue bar grows to twice June's: "More than 2×") and the share of changes
+           rolled back (Sept's bar starts level with June's and shrinks to 60% on "fell", the lost part left as a dashed
+           ghost: "Down over 40%"). Bars are drawn at the minimum the article states (see the base STORYBOARD.md). Then two
+           cards: the AI reviewer (Claude mark) whose Approve button is dashed and struck on "never approves", and a person
+           whose Approve button is real; on "it only posts findings" the two findings from s05 post as comments under the
+           AI, and "Findings, not approvals." lands on top. No exit: the last frame holds ~2.0 s. Narrator: small tile
+           bottom right (x > 750, y > 1300 stays empty), smiling at the end.
+           Voiceover: 0.18 "In three months, merged changes more than doubled, and the rollback rate fell over forty
+           percent." 6.02 "The AI never approves. It only posts findings." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .strip { fill: none; stroke: #d2d2d7; stroke-width: 4; stroke-linecap: round; }
+        .s08 .sd { fill: var(--blue); }
+        .s08 .mo { position: absolute; top: 352px; width: 120px; margin: 0; text-align: center; font: 600 28px/1 var(--f-t); color: var(--mu); }
+        .s08 .ch { left: 90px; width: 860px; height: 260px; }
+        .s08 .ch .t { position: absolute; left: 36px; top: 30px; margin: 0; font: 700 32px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s08 .ch .tg { position: absolute; right: 30px; top: 22px; }
+        .s08 .ch .rl { position: absolute; left: 36px; margin: 0; font: 600 30px/56px var(--f-t); color: var(--mu); }
+        .s08 .ch .bar { position: absolute; left: 180px; height: 32px; margin-top: 12px; border-radius: 16px; background: #c7c7cc; transform-origin: 0 50%; }
+        .s08 .ch .bar.u { background: linear-gradient(90deg, #2997ff, #0071e3); }
+        .s08 .ch .vl { position: absolute; margin: 0; font: 700 36px/56px var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s08 .ghost { position: absolute; left: 528px; top: 180px; width: 232px; height: 40px; border: 3px dashed #c7c7cc; border-radius: 20px;
+          font: 600 28px/34px var(--f-t); text-align: center; color: var(--mu); }
+        .s08 .foot { position: absolute; left: 90px; top: 1010px; margin: 0; font: 500 28px/1.2 var(--f-t); color: var(--faint); }
+        .s08 .ttl { top: 300px; }
+        .s08 .ttl .l { display: block; white-space: nowrap; }
+        .s08 .ca { left: 90px; top: 530px; width: 860px; height: 400px; }
+        .s08 .cb { left: 90px; top: 960px; width: 860px; height: 206px; }
+        .s08 .av { position: absolute; left: 32px; top: 28px; width: 80px; height: 80px; }
+        .s08 .pp { position: absolute; left: 32px; top: 28px; width: 80px; height: 80px; border-radius: 50%; background: var(--gray); }
+        .s08 .pp svg { position: absolute; inset: 16px; width: 48px; height: 48px; }
+        .s08 .who { position: absolute; left: 132px; top: 46px; margin: 0; font: 700 44px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s08 .ap { position: absolute; left: 132px; display: flex; align-items: center; gap: 12px; height: 64px; padding: 0 30px 0 24px; border-radius: 999px; font: 600 30px/1 var(--f-t); white-space: nowrap; }
+        .s08 .ap svg { width: 28px; height: 28px; fill: none; stroke: currentColor; stroke-width: 3.6; stroke-linecap: round; stroke-linejoin: round; }
+        .s08 .ap.no { top: 132px; border: 3px dashed #c7c7cc; color: var(--faint); }
+        .s08 .ap.yes { top: 112px; background: var(--blue); color: #fff; }
+        .s08 .apn { position: absolute; left: 396px; top: 150px; margin: 0; font: 700 30px/1 var(--f-d); color: var(--ink); }
+        .s08 .stk { fill: none; stroke: var(--ink); stroke-width: 5; stroke-linecap: round; }
+        .s08 .cm { position: absolute; left: 132px; display: flex; align-items: center; gap: 16px; height: 66px; padding: 0 22px 0 10px; border-radius: 33px; background: var(--gray); }
+        .s08 .cm p { margin: 0; font: 500 32px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s08-payoff" data-width="1080" data-height="1920">
+        <div class="a-scene s08">
+          <p class="a-eyebrow">Results · Claude Code, 2026</p>
+          <svg class="a-svg a" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="strip" d="M150 326 H780" />
+            <circle class="sd" cx="150" cy="326" r="11" /><circle class="sd" cx="360" cy="326" r="11" /><circle class="sd" cx="570" cy="326" r="11" /><circle class="sd" cx="780" cy="326" r="11" />
+          </svg>
+          <p class="mo" style="left:90px">June</p><p class="mo" style="left:300px">July</p><p class="mo" style="left:510px">Aug</p><p class="mo" style="left:720px">Sept</p>
+          <div class="a-card ch c1" style="top:430px">
+            <p class="t">Merged pull requests</p>
+            <span class="a-tag blue tg x1">More than 2×</span>
+            <p class="rl" style="top:100px">June</p><p class="rl" style="top:172px">Sept</p>
+            <i class="bar b1" style="top:100px;width:290px"></i><i class="bar u b2" style="top:172px;width:580px"></i>
+            <p class="vl v1" style="left:490px;top:100px">1×</p><p class="vl v2" style="left:780px;top:172px">2×</p>
+          </div>
+          <div class="a-card ch c2" style="top:720px">
+            <p class="t">Share of changes rolled back</p>
+            <span class="a-tag blue tg x2">Down over 40%</span>
+            <p class="rl" style="top:100px">June</p><p class="rl" style="top:172px">Sept</p>
+            <i class="bar b3" style="top:100px;width:580px"></i><i class="bar u b4" style="top:172px;width:580px"></i>
+            <span class="ghost">−40%</span>
+          </div>
+          <p class="foot">Bars at the stated minimum</p>
+
+          <h2 class="a-h2 ttl"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Findings,</span><span class="on" data-layout-allow-overlap="">Findings,</span></span></span><span class="l">not approvals.</span></h2>
+          <div class="a-card ca">
+            <span class="cc-spark av"></span>
+            <p class="who wa">The AI reviewer</p>
+            <span class="ap no"><svg viewBox="0 0 28 28"><path d="M5 14.5 L11 20.5 L23 8" /></svg>Approve</span>
+            <svg class="b" viewBox="0 0 860 400" aria-hidden="true" style="position:absolute;left:0;top:0;width:860px;height:400px;overflow:visible"><path class="stk" d="M122 164 L352 164" /></svg>
+            <p class="apn">never</p>
+            <div class="cm m1" style="top:222px"><span class="a-sev imp">Important</span><p>Same crash, another file</p></div>
+            <div class="cm m2" style="top:304px"><span class="a-sev pre">Pre-existing</span><p>Cache never clears</p></div>
+          </div>
+          <div class="a-card cb">
+            <span class="pp"><i data-ic="person"></i></span>
+            <p class="who wp">A person</p>
+            <span class="ap yes"><svg viewBox="0 0 28 28"><path d="M5 14.5 L11 20.5 L23 8" /></svg>Approve</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s08-payoff"] .s08');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          Apple.icons(root);
+          const strip = q(".strip"), stk = q(".stk");
+          [strip, stk].forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          gsap.set([q(".a-eyebrow"), ...all(".mo"), q(".c1"), q(".c2"), ...all(".vl"), q(".x1"), q(".x2"), q(".ghost"), q(".foot"),
+            q(".ttl"), q(".ca"), q(".cb"), q(".wa"), q(".ap.no"), q(".apn"), q(".m1"), q(".m2"), q(".pp"), q(".wp"), q(".ap.yes")], { opacity: 0 });
+
+          const tl = gsap.timeline({ paused: true });
+          const grow = (els, at, dur = 0.7) => tl.fromTo(els, { scaleX: 0 }, { scaleX: 1, duration: dur, ease: "expo.out", stagger: 0.1 }, at);
+          Apple.rise(tl, q(".a-eyebrow"), 0.05, { y: 16 });
+          // "In three months": June → Sept, a dot a month
+          tl.to(strip, { strokeDashoffset: 0, duration: 0.65, ease: "power2.inOut" }, 0.25);
+          all(".sd").forEach((d, i) => tl.fromTo(d, { scale: 0 }, { scale: 1, svgOrigin: `${150 + i * 210} 326`, duration: 0.45, ease: "expo.out" }, 0.3 + i * 0.15));
+          Apple.rise(tl, all(".mo"), 0.35, { y: 10, dur: 0.5, stagger: 0.15 });
+          // "merged changes more than doubled"
+          Apple.rise(tl, q(".c1"), 1.0, { y: 30, dur: 0.7 });
+          grow(q(".b1"), 1.1, 0.6);
+          Apple.rise(tl, q(".v1"), 1.55, { y: 8, dur: 0.4 });
+          tl.fromTo(q(".b2"), { scaleX: 0 }, { scaleX: 1, duration: 1.1, ease: "power2.inOut" }, 1.4);
+          Apple.rise(tl, q(".v2"), 2.4, { y: 8, dur: 0.4 });
+          Apple.zoom(tl, q(".x1"), 2.5, { from: 0.7, dur: 0.5 });
+          tl.to(q(".x1"), { scale: 1.06, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 2.8);
+          // "and the rollback rate fell over forty percent"
+          Apple.rise(tl, q(".c2"), 3.12, { y: 30, dur: 0.7 });
+          grow([q(".b3"), q(".b4")], 3.15, 0.55);
+          tl.to(q(".b4"), { scaleX: 0.6, duration: 0.6, ease: "power2.inOut" }, 3.93);
+          Apple.fade(tl, q(".ghost"), 4.3, { dur: 0.3 });
+          Apple.zoom(tl, q(".x2"), 4.3, { from: 0.7, dur: 0.5 });
+          tl.to(q(".x2"), { scale: 1.06, duration: 0.2, ease: "sine.inOut", yoyo: true, repeat: 1 }, 4.7);
+          Apple.rise(tl, q(".foot"), 3.3, { y: 10, dur: 0.5 });
+          Apple.out(tl, [q(".a-eyebrow"), q(".a"), ...all(".mo"), q(".c1"), q(".c2"), q(".foot")], 5.75, { dur: 0.3 });
+
+          // "The AI never approves."
+          Apple.rise(tl, q(".ca"), 6.0, { y: 30, dur: 0.7 });
+          tl.fromTo(q(".av"), { scale: 0.6, rotation: -60 }, { scale: 1, rotation: 0, duration: 0.7, ease: "expo.out" }, 6.08);
+          tl.to(q(".av"), { rotation: 90, duration: 4.3, ease: "none" }, 6.78);
+          Apple.rise(tl, q(".wa"), 6.2, { y: 14, dur: 0.6 });
+          Apple.rise(tl, q(".ap.no"), 6.82, { y: 12, dur: 0.5 });
+          tl.to(stk, { strokeDashoffset: 0, duration: 0.3, ease: "power2.inOut" }, 7.05);
+          Apple.rise(tl, q(".apn"), 7.1, { y: 8, dur: 0.4 });
+          // approval stays with a person
+          Apple.rise(tl, q(".cb"), 7.1, { y: 30, dur: 0.7 });
+          Apple.zoom(tl, q(".pp"), 7.2, { from: 0.6, dur: 0.5 });
+          Apple.rise(tl, q(".wp"), 7.25, { y: 14, dur: 0.6 });
+          Apple.zoom(tl, q(".ap.yes"), 7.35, { from: 0.7, dur: 0.5 });
+          // "It only posts findings."
+          tl.fromTo([q(".m1"), q(".m2")], { opacity: 0, x: -30 }, { opacity: 1, x: 0, duration: 0.6, ease: "expo.out", stagger: 0.25 }, 7.7);
+          Apple.rise(tl, q(".ttl"), 8.35, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".ttl .a-tint"), 8.6, { dur: 0.5 });
+          // hard stop: no exit, the last frame holds
+          window.__timelines["s08-payoff"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,74 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.15,
+      "text": "Here's how the Claude Code team does code review, in under sixty seconds."
+    },
+    {
+      "scene": "s02",
+      "at": 0.18,
+      "text": "With agents writing code, Anthropic's daily changes jumped from twenty-five hundred to over thirty thousand."
+    },
+    {
+      "scene": "s02",
+      "at": 6.49,
+      "text": "Nobody can read all that, so they stack layers, not one gate."
+    },
+    {
+      "scene": "s03",
+      "at": 0.18,
+      "text": "Say you ask Claude to fix a bug. Let's follow the fix through each layer."
+    },
+    {
+      "scene": "s04",
+      "at": 0.18,
+      "text": "Layer one, on your machine: Claude runs the tests, then a second Claude, with fresh eyes, rereads the change."
+    },
+    {
+      "scene": "s05",
+      "at": 0.18,
+      "text": "Layer two, in review: several agents hunt for bugs at once."
+    },
+    {
+      "scene": "s05",
+      "at": 4.59,
+      "text": "Another group votes on each finding, and it's only posted if enough agree it's real."
+    },
+    {
+      "scene": "s06",
+      "at": 0.18,
+      "text": "Layer three: security review and checks. Any open finding blocks the merge."
+    },
+    {
+      "scene": "s07",
+      "at": 0.18,
+      "text": "Layer four: people, scaled by risk. Docs need no approver, normal changes one, the riskiest two."
+    },
+    {
+      "scene": "s08",
+      "at": 0.18,
+      "text": "In three months, merged changes more than doubled, and the rollback rate fell over forty percent."
+    },
+    {
+      "scene": "s08",
+      "at": 6.02,
+      "text": "The AI never approves. It only posts findings."
+    }
+  ]
+}

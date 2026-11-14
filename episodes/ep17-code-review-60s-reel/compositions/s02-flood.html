@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.3,"sfx":"tick","vol":0.14},
+      {"t":0.8,"sfx":"pop","vol":0.18},
+      {"t":0.92,"sfx":"pop","vol":0.18},
+      {"t":1.04,"sfx":"pop","vol":0.18},
+      {"t":2.36,"sfx":"pen","vol":0.12,"dur":0.5},
+      {"t":2.96,"sfx":"tick","vol":0.16},
+      {"t":3.31,"sfx":"tick","vol":0.16},
+      {"t":3.76,"sfx":"tick","vol":0.14},
+      {"t":3.86,"sfx":"tick","vol":0.14},
+      {"t":3.96,"sfx":"tick","vol":0.14},
+      {"t":4.06,"sfx":"tick","vol":0.14},
+      {"t":4.16,"sfx":"tick","vol":0.14},
+      {"t":5.36,"sfx":"flurry","vol":0.2},
+      {"t":6.66,"sfx":"pop","vol":0.22},
+      {"t":6.91,"sfx":"zoom","vol":0.16},
+      {"t":7.36,"sfx":"pop","vol":0.18},
+      {"t":7.71,"sfx":"thud","vol":0.26},
+      {"t":8.34,"sfx":"tick","vol":0.14},
+      {"t":8.46,"sfx":"tick","vol":0.14},
+      {"t":8.58,"sfx":"tick","vol":0.14},
+      {"t":8.7,"sfx":"tick","vol":0.14},
+      {"t":8.75,"sfx":"pop","vol":0.2},
+      {"t":8.8,"sfx":"flurry","vol":0.14},
+      {"t":9.72,"sfx":"click","vol":0.18},
+      {"t":9.81,"sfx":"pen","vol":0.12,"dur":0.35},
+      {"t":10.26,"sfx":"whip","vol":0.32}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The flood, then the idea. Yellow: three Claude marks (agents writing code) throw changes into a block chart
+           of changes landing per day in Anthropic's monorepo, 1 block = 500 changes, to scale: May 2,500 (5 blocks), Sept
+           30,000+ (60 blocks), counted up; "Changes jumped." word by word. "Nobody can read all that": the headline and
+           chart clear, the Sept pile slides left and jams against one gate with one reviewer. "so they stack layers":
+           "Stack layers." lands, four sieve layers draw on the right and changes fall through them, a few caught at each.
+           "not one gate": the gate dims and its label is struck. Whip out. Badge bottom-left (narrator): x < 290 /
+           y > 1290 stays empty. Voiceover (scene-local, +0.36 for the whip): 0.54 "With agents writing code, Anthropic's
+           daily changes jumped from twenty-five hundred to over thirty thousand." 6.85 "Nobody can read all that, so
+           they stack layers, not one gate." -->
+      <style>
+        #s02-root .bg { background-color: #ffd84d; }
+        #s02-root .rl-hd { --acc: #0d0d0c; }
+        #s02-root .h2 { position: absolute; }
+        #s02-root .ag { position: absolute; top: 420px; width: 92px; height: 92px; }
+        #s02-root .agk { position: absolute; left: 430px; top: 452px; font: 400 28px/32px var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s02-root .col { position: absolute; inset: 0; }
+        #s02-root .blk { position: absolute; width: 44px; height: 44px; border-radius: 10px; background: #0d0d0c; }
+        #s02-root .num { position: absolute; text-align: center; font: 600 72px/1 var(--f-display); letter-spacing: -0.04em; color: #0d0d0c; font-variant-numeric: tabular-nums; }
+        #s02-root .mon { position: absolute; width: 260px; top: 1252px; text-align: center; font: 400 30px/1 var(--f-mono); color: #5f5b55; }
+        #s02-root .foot { position: absolute; left: 320px; top: 1330px; font: 400 28px/1 var(--f-mono); color: #5f5b55; white-space: nowrap; }
+        #s02-root .lab { position: absolute; top: 1226px; font: 600 54px/1 var(--f-display); letter-spacing: -0.035em; color: #0d0d0c; white-space: nowrap; }
+        #s02-root .who { position: absolute; left: 440px; top: 862px; width: 76px; height: 76px; }
+        #s02-root .ink { fill: none; stroke: #0d0d0c; stroke-width: 8; stroke-linecap: round; }
+        #s02-root .thin { stroke-width: 5; }
+        #s02-root .sieve { fill: none; stroke: #0d0d0c; stroke-width: 7; stroke-linecap: round; stroke-dasharray: 34 16; }
+        #s02-root .lnum { font: 400 30px var(--f-mono); fill: #5f5b55; }
+        #s02-root .fb { position: absolute; width: 34px; height: 34px; border-radius: 8px; background: #0d0d0c; border: 4px solid #0d0d0c; }
+        #s02-root .egg-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+      </style>
+      <div id="s02-root" data-composition-id="s02-flood" data-width="1080" data-height="1920">
+        <div class="rl">
+          <div class="rl-cam">
+            <div class="rl-bg grid bg"></div>
+            <div class="rl-eye">// changes per day · anthropic</div>
+            <div class="rl-hd h1"><span class="ln"><span class="w">Changes </span><em class="w">jumped.</em></span></div>
+            <div class="rl-hd h2"><span class="ln"><span class="w">Stack </span><em class="w">layers.</em></span></div>
+            <img class="ag" style="left:90px" src="assets/claude-logo.svg" alt="">
+            <img class="ag" style="left:200px" src="assets/claude-logo.svg" alt="">
+            <img class="ag" style="left:310px" src="assets/claude-logo.svg" alt="">
+            <span class="agk">// agents writing code</span>
+            <svg class="egg-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+              <path class="ink thin base" d="M130 1236 H830" />
+              <path class="ink wall" d="M420 560 V836 M420 964 V1200" />
+              <path class="ink thin strike" d="M100 1254 H330" />
+              <g class="layers">
+                <path class="sieve" d="M590 640 H900" /><text class="lnum" x="914" y="651">1</text>
+                <path class="sieve" d="M590 790 H900" /><text class="lnum" x="914" y="801">2</text>
+                <path class="sieve" d="M590 940 H900" /><text class="lnum" x="914" y="951">3</text>
+                <path class="sieve" d="M590 1090 H900" /><text class="lnum" x="914" y="1101">4</text>
+              </g>
+            </svg>
+            <div class="col may"></div>
+            <div class="col jam"><div class="col sep"></div></div>
+            <span class="num n1" style="left:170px;width:260px;top:1086px">0</span>
+            <span class="num n2" style="left:450px;width:400px;top:520px">0</span>
+            <span class="mon m1" style="left:170px">may</span>
+            <span class="mon m2" style="left:520px">sept</span>
+            <span class="foot">// 1 block = 500 changes a day</span>
+            <svg class="person who" viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="24" r="13" /><path d="M12 70 C12 50 24 42 38 42 C52 42 64 50 64 70" /></svg>
+            <span class="lab l1" style="left:110px">One gate</span>
+            <span class="lab l2" style="left:600px">Layers</span>
+            <div class="falls"></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.getElementById("s02-root");
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const cam = q(".rl-cam");
+          const tl = gsap.timeline({ paused: true });
+          const blur = Reel.blurFor(cam, "s02-mb");
+          // block chart: 44 px blocks on a 52 px pitch, 5 per row, bottom row top at y 1182
+          const slot = (x0, i) => [x0 + (i % 5) * 52, 1182 - Math.floor(i / 5) * 52];
+          const AG = [[136, 466], [246, 466], [356, 466]];   // agent centres the changes fly out of
+          const mk = (box, x0, n) => {
+            box.innerHTML = Array.from({ length: n }, (_, i) => { const [x, y] = slot(x0, i); return `<i class="blk" style="left:${x}px;top:${y}px"></i>`; }).join("");
+            return [...box.children];
+          };
+          const may = mk(q(".may"), 170, 5), sep = mk(q(".sep"), 520, 60);
+          // falling changes for the layers: [x, layer that catches it (4 = gets through)]
+          const FALL = [[606, 0], [650, 1], [694, 2], [738, 0], [782, 3], [826, 1], [862, 0], [628, 2], [760, 4], [716, 4]];
+          const SLAB = [640, 790, 940, 1090];
+          q(".falls").innerHTML = FALL.map(([x]) => `<i class="fb" style="left:${x}px;top:0px"></i>`).join("");
+          const falls = all(".fb");
+          ["base", "wall", "strike"].forEach((c) => { const p = q("." + c); p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; gsap.set(p, { strokeDashoffset: 1.02 }); });
+          gsap.set([q(".n1"), q(".n2"), q(".m1"), q(".m2"), q(".foot"), q(".agk"), q(".who"), q(".l1"), q(".l2"), q(".layers")], { opacity: 0 });
+          Reel.whip(tl, cam, blur, 0, "in");
+
+          tl.fromTo(q(".rl-eye"), { opacity: 0 }, { opacity: 1, duration: 0.2 }, 0.3);
+          // "With agents writing code,"
+          tl.fromTo(all(".ag"), { scale: 0, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(2)", stagger: 0.12 }, 0.8);
+          all(".ag").forEach((a, i) => tl.fromTo(a, { rotation: 0 }, { rotation: 90 + i * 20, duration: 6.0, ease: "none" }, 0.8));
+          tl.fromTo(q(".agk"), { opacity: 0, x: -20 }, { opacity: 1, x: 0, duration: 0.3, ease: "power3.out" }, 1.36);
+          // "Anthropic's daily changes jumped"
+          tl.to(q(".base"), { strokeDashoffset: 0, duration: 0.5, ease: "power3.out" }, 2.36);
+          tl.fromTo([q(".m1"), q(".m2")], { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 2.66);
+          Reel.words(tl, q(".h1"), [2.96, 3.31]);
+          // "from twenty-five hundred": each change flies out of an agent into its slot
+          const fly = (els, x0, at, stagger, dur) => els.forEach((b, i) => {
+            const [x, y] = slot(x0, i), [ax, ay] = AG[i % 3];
+            tl.fromTo(b, { x: ax - x - 22, y: ay - y - 22, scale: 0.3, opacity: 0 }, { x: 0, y: 0, scale: 1, opacity: 1, duration: dur, ease: "power3.out" }, at + i * stagger);
+          });
+          fly(may, 170, 3.76, 0.1, 0.5);
+          tl.fromTo(q(".n1"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 3.76);
+          Egg.count(tl, q(".n1"), 0, 2500, 3.76, { dur: 0.9 });
+          tl.fromTo(q(".foot"), { opacity: 0 }, { opacity: 1, duration: 0.3 }, 3.86);
+          // "to over thirty thousand": twelve times the pile
+          fly(sep, 520, 5.36, 0.016, 0.45);
+          tl.fromTo(q(".n2"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 5.36);
+          Egg.count(tl, q(".n2"), 0, 30000, 5.36, { dur: 1.3, fmt: (v) => Math.round(v).toLocaleString("en-US") + (v > 29999 ? "+" : "") });
+          tl.to(q(".n2"), { scale: 1.1, duration: 0.15, ease: "power2.out", yoyo: true, repeat: 1 }, 6.66);
+
+          // "Nobody can read all that": the chart clears, the pile slides against one gate with one reviewer, and jams
+          tl.to([q(".h1"), ...all(".ag"), q(".agk"), q(".base"), q(".n1"), q(".n2"), q(".m1"), q(".m2"), q(".foot"), q(".may")], { opacity: 0, y: "-=20", duration: 0.25, ease: "power2.in" }, 6.81);
+          tl.to(q(".sep"), { x: -410, duration: 0.6, ease: "power3.inOut" }, 6.91);
+          tl.to(q(".wall"), { strokeDashoffset: 0, duration: 0.5, ease: "power3.out" }, 7.11);
+          tl.fromTo(q(".who"), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 7.36);
+          tl.fromTo(q(".l1"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 7.46);
+          Egg.shake(tl, q(".jam"), 7.71);
+          tl.to(q(".who"), { keyframes: { rotation: [0, -8, 7, -5, 0] }, transformOrigin: "50% 92%", duration: 0.4, ease: "none" }, 7.71);
+          // "so they stack layers": four sieves, and changes fall through them, a few caught at each
+          tl.set(q(".layers"), { opacity: 1 }, 8.3);
+          all(".layers > *").forEach((el, i) => tl.fromTo(el, { opacity: 0, x: 40 }, { opacity: 1, x: 0, duration: 0.4, ease: "power3.out" }, 8.34 + Math.floor(i / 2) * 0.12));
+          Reel.words(tl, q(".h2"), [8.4, 8.75]);
+          tl.fromTo(q(".l2"), { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.3, ease: "power3.out" }, 8.76);
+          falls.forEach((b, i) => {
+            const [, k] = FALL[i];
+            const stop = (k < 4 ? SLAB[k] : 1170) - 38;
+            const t0 = 8.66 + (i % 5) * 0.07;
+            tl.fromTo(b, { y: 470, opacity: 0 }, { y: 470, opacity: 1, duration: 0.12, ease: "none" }, t0);
+            tl.to(b, { y: stop, duration: 0.3 + k * 0.12, ease: "power2.in" }, t0 + 0.1);
+            if (k < 4) tl.to(b, { backgroundColor: "rgba(0,0,0,0)", duration: 0.15, ease: "none" }, t0 + 0.4 + k * 0.12);
+          });
+          // "not one gate"
+          tl.to([q(".sep"), q(".wall"), q(".who"), q(".l1")], { opacity: 0.3, duration: 0.3, ease: "none" }, 9.72);
+          tl.to(q(".strike"), { strokeDashoffset: 0, duration: 0.35, ease: "power3.out" }, 9.81);
+          Reel.whip(tl, cam, blur, 10.3, "out");
+
+          window.__timelines["s02-flood"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
