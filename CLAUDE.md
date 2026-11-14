@@ -51,7 +51,13 @@ HyperFrames (HTML + GSAP → MP4).
   `%LOCALAPPDATA%\Microsoft\WinGet\Packages\Gyan.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\ffmpeg-9.0.2-full_build\bin`
   to PATH.
 - Feedback refers to scenes by slot and time, e.g. `s03 @ 4.2s · slower dot`.
-- GitHub: this repo belongs to the **personal** account `sanjay-deoram`, not the work account. Keep the remote as
-  `https://sanjay-deoram@github.com/sanjay-deoram/ai-basics-shorts.git` (lowercase name, so git uses the saved login
-  with no browser sign-in). Run `gh` through `sh studio/tools/gh-personal.sh ...` (personal login; pages open in Edge),
-  never bare `gh`, which is signed in to the work account.
+- GitHub: this repo belongs to the **personal** account `sanjay-deoram`, not the work account. The user works on both
+  Windows and macOS, and each machine has its own clone with its own saved login, so the remote differs per machine.
+  Check the OS before touching the remote and leave each machine's URL as it is:
+  - **Windows** (Git Credential Manager): `https://sanjay-deoram@github.com/sanjay-deoram/ai-basics-shorts.git`
+    (lowercase name, so git uses the saved login with no browser sign-in). Run `gh` through
+    `sh studio/tools/gh-personal.sh ...` (personal login; pages open in Edge), never bare `gh`, which is signed in to
+    the work account.
+  - **macOS** (keychain): `https://github.com/sanjay-deoram/ai-basics-shorts.git`, with no username. Adding
+    `sanjay-deoram@` breaks the push here ("could not read Password"), and `gh-personal.sh` finds no login, so plain
+    `git push` works but `gh` commands need a personal login set up first.
