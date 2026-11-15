@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.85,"sfx":"pop","vol":0.14},
+      {"t":3.2,"sfx":"key","vol":0.14,"dur":1.1},
+      {"t":4.75,"sfx":"tick","vol":0.18},
+      {"t":5.6,"sfx":"stream","vol":0.1,"dur":0.7},
+      {"t":6.35,"sfx":"ping","vol":0.16},
+      {"t":7.0,"sfx":"drop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 2 · Timer. The agent writes itself a timer (follow-up · acme-quote · due Wed 09:00); the week strip runs
+           to Wed 09:00; the scheduler fires and ev-102 lands in the inbox under ev-101.
+           Voiceover: 0.17 "Second, a timer makes it proactive. The agent sets itself a follow-up timer for Wednesday,
+           and when it's due, an event lands in the inbox." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .tm { left: 90px; top: 560px; width: 860px; }
+        .s04 .wkx { position: absolute; left: 90px; top: 770px; width: 860px; height: 150px; }
+        .s04 .day { position: absolute; top: 0; width: 200px; height: 150px; border-radius: 26px; background: var(--white); box-shadow: var(--shadow); }
+        .s04 .day b { position: absolute; left: 24px; top: 22px; font: 700 40px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s04 .day s { position: absolute; left: 24px; bottom: 24px; text-decoration: none; font: 400 28px/1 var(--f-m); color: var(--faint); }
+        .s04 .day .lit { position: absolute; inset: 0; border-radius: 26px; background: var(--blue); opacity: 0; }
+        .s04 .day .lit b, .s04 .day .lit s { color: #fff; }
+        .s04 .ph { position: absolute; left: 100px; top: -40px; width: 6px; height: 30px; margin-left: -3px; border-radius: 3px; background: var(--red); }
+        .s04 .ib { left: 90px; top: 980px; width: 860px; }
+        .s04 .nt { left: 90px; top: 1214px; }
+      </style>
+      <div id="root" data-composition-id="s04-timer" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">2 · Timer</p>
+          <h2 class="a-h2 hd"><span class="l">A timer makes it</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">proactive</span><span class="on" data-layout-allow-overlap="">proactive</span></span></span></h2>
+          <div class="a-win tm"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">timers</span></div>
+            <div class="a-txt"><span class="ln"><span class="ty">follow-up · acme-quote · due <span class="k">Wed 09:00</span></span></span></div>
+          </div>
+          <div class="wkx">
+            <div class="day" style="left:0"><b>Mon</b><s>quote sent</s></div>
+            <div class="day" style="left:220px"><b>Tue</b><s>no reply</s></div>
+            <div class="day wed" style="left:440px"><b data-layout-allow-overlap="">Wed</b><s data-layout-allow-overlap="">09:00</s><div class="lit" data-layout-allow-overlap=""><b data-layout-allow-overlap="">Wed</b><s data-layout-allow-overlap="">09:00 due</s></div></div>
+            <div class="day" style="left:660px"><b>Thu</b><s>&nbsp;</s></div>
+            <div class="ph"></div>
+          </div>
+          <div class="a-win ib"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">INBOX</span></div>
+            <div class="a-row done"><span class="id">ev-101</span><span class="who">you</span><span>"Chase Acme about the quote…"</span></div>
+            <div class="a-row new hot"><span class="id">ev-102</span><span class="who">timer</span><span>follow-up acme-quote</span></div>
+          </div>
+          <p class="a-lab nt">A follow-up is a deadline the agent sets for itself.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.31;
+          const root = document.querySelector('[data-composition-id="s04-timer"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          gsap.set([q(".tm"), q(".wkx"), q(".ib"), q(".new"), q(".nt")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.85, { dur: 0.5 });
+          // "The agent sets itself a follow-up timer for Wednesday"
+          Apple.rise(tl, q(".tm"), 2.9, { y: 30, dur: 0.6 });
+          Egg.typeOn(tl, q(".ty"), 3.2, { cps: 32 });
+          Apple.rise(tl, q(".wkx"), 3.4, { y: 30, dur: 0.6 });
+          tl.to(q(".wed"), { scale: 1.05, duration: 0.2, yoyo: true, repeat: 1 }, 4.75);
+          // "and when it's due": the playhead runs to Wed 09:00
+          tl.fromTo(q(".ph"), { x: 0 }, { x: 415, duration: 0.75, ease: "power2.inOut" }, 5.6);
+          Apple.fade(tl, q(".wed .lit"), 6.3, { dur: 0.25 });
+          // "an event lands in the inbox"
+          Apple.rise(tl, q(".ib"), 6.4, { y: 30, dur: 0.5 });
+          tl.fromTo(q(".new"), { opacity: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.55, ease: "expo.out" }, 7.0);
+          Apple.fade(tl, q(".nt"), 7.4, { dur: 0.5 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .tm, .wkx, .ib, .nt"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-timer"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

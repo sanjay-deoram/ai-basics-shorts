@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"pen","vol":0.12,"dur":0.6},
+      {"t":1.2,"sfx":"pop","vol":0.12},
+      {"t":2.3,"sfx":"pop","vol":0.14},
+      {"t":2.45,"sfx":"pop","vol":0.14},
+      {"t":2.6,"sfx":"pop","vol":0.14},
+      {"t":3.3,"sfx":"error","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 4 · File boundaries. Three sessions behind dashed walls ("Sessions don't know about each other"), each
+           touching its own file: src/ttl-cache.js, docs/API.md, src/logger.js. A fourth job that edits two of them is
+           struck with a clash (illustrative).
+           Voiceover: 0.17 "The sessions can't see each other, so split the work along file boundaries." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; white-space: nowrap; }
+        .s06 .rw { position: absolute; left: 90px; width: 860px; height: 110px; }
+        .s06 .rw .n { position: absolute; left: 0; top: 36px; font: 700 34px/1 var(--f-d); color: var(--ink); white-space: nowrap; }
+        .s06 .rw .a-chip { position: absolute; left: 330px; top: 28px; }
+        .s06 .wl { position: absolute; left: 90px; width: 860px; height: 0; border-top: 4px dashed var(--line); }
+        .s06 .nt { left: 90px; top: 830px; }
+        .s06 .cl { left: 90px; top: 900px; width: 860px; height: 110px; display: flex; align-items: center; gap: 18px; padding: 0 30px; font: 600 30px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s06 .cl .a-stamp { right: 24px; top: 22px; height: 62px; }
+      </style>
+      <div id="root" data-composition-id="s06-files" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">4 · File boundaries</p>
+          <h2 class="a-h2 hd">Split by <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">file</span><span class="on" data-layout-allow-overlap="">file</span></span></h2>
+          <div class="rw" style="top:450px"><span class="n">Session 1</span><span class="a-chip">src/ttl-cache.js</span></div>
+          <div class="wl" style="top:575px"></div>
+          <div class="rw" style="top:590px"><span class="n">Session 2</span><span class="a-chip">docs/API.md</span></div>
+          <div class="wl" style="top:715px"></div>
+          <div class="rw" style="top:730px"><span class="n">Session 3</span><span class="a-chip">src/logger.js</span></div>
+          <p class="a-lab nt">Sessions don't know about each other.</p>
+          <div class="a-card cl"><span class="a-strike">Job 4: logger + docs<i></i></span><span class="a-stamp red">Clash</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.42;
+          const root = document.querySelector('[data-composition-id="s06-files"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          gsap.set([...all(".rw"), ...all(".rw .a-chip"), ...all(".wl"), q(".nt"), q(".cl"), q(".cl .a-stamp")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          // "The sessions can't see each other"
+          Apple.rise(tl, all(".rw"), 0.4, { y: 20, dur: 0.4, stagger: 0.1 });
+          tl.fromTo(all(".wl"), { opacity: 0, scaleX: 0, transformOrigin: "0% 50%" }, { opacity: 1, scaleX: 1, duration: 0.5, ease: "power2.out", stagger: 0.1 }, 0.5);
+          Apple.fade(tl, q(".nt"), 1.2, { dur: 0.4 });
+          // "so split the work along file boundaries"
+          Apple.zoom(tl, all(".rw .a-chip"), 2.3, { from: 0.8, dur: 0.4, stagger: 0.15 });
+          Apple.tint(tl, q(".hd .a-tint"), 3.1, { dur: 0.4 });
+          Apple.rise(tl, q(".cl"), 2.9, { y: 20, dur: 0.4 });
+          tl.fromTo(q(".cl .a-strike i"), { scaleX: 0 }, { scaleX: 1, duration: 0.3 }, 3.3);
+          Egg.stamp(tl, q(".cl .a-stamp"), 3.35);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .rw, .wl, .nt, .cl"), DUR - 0.25, { dur: 0.25 });
+          window.__timelines["s06-files"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

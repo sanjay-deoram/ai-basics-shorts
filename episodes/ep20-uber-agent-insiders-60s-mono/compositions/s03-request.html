@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"pop","vol":0.14},
+      {"t":1.4,"sfx":"key","vol":0.12,"dur":1.0},
+      {"t":2.75,"sfx":"whoosh-short","vol":0.12},
+      {"t":3.3,"sfx":"error","vol":0.07}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The example: the agent's tool call (the through-line card): tool upload, file customers.csv, to
+           unknown-site.example (illustrative). A dashed arrow heads out of Uber's boundary toward the unknown site.
+           Voiceover: 0.17 "Say an agent is about to send customer data to a site Uber doesn't want." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; }
+        .s03 .hd .l { display: block; white-space: nowrap; }
+        .s03 .tc { left: 90px; top: 560px; width: 860px; }
+        .s03 .ill { position: absolute; left: 90px; top: 822px; }
+        .s03 .bd { position: absolute; left: 90px; top: 900px; width: 470px; height: 300px; border: 4px dashed var(--line); border-radius: 30px; }
+        .s03 .bd span { position: absolute; left: 26px; top: 22px; font: 600 30px/1 var(--f-t); color: var(--mu); }
+        .s03 .site { position: absolute; left: 610px; top: 990px; width: 340px; height: 120px; border-radius: 26px; background: var(--white); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; font: 400 28px/1.2 var(--f-m); color: var(--red); text-align: center; white-space: nowrap; }
+        .s03 .doc { position: absolute; left: 200px; top: 1010px; width: 160px; height: 80px; border-radius: 16px; background: var(--white); box-shadow: var(--shadow); display: flex; align-items: center; justify-content: center; font: 400 28px/1 var(--f-m); color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s03-request" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 hd"><span class="l">An agent sends</span><span class="l">data out</span></h2>
+          <div class="a-win tc"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">agent · tool call</span></div>
+            <div class="a-txt"><span class="ln"><span class="cm">tool:</span> upload</span><span class="ln"><span class="cm">file:</span> customers.csv</span><span class="ln"><span class="cm">to:</span>   <span class="r">unknown-site.example</span></span></div>
+          </div>
+          <span class="a-tag gray ill">illustrative</span>
+          <div class="bd"><span>Uber</span></div>
+          <div class="doc">.csv</div>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="a-ink red dash ar" d="M370 1050 L600 1050" /><path class="a-ink red hd2" d="M580 1032 L602 1050 L580 1068" /></svg>
+          <div class="site">unknown-site.example</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.38;
+          const root = document.querySelector('[data-composition-id="s03-request"] .s03');
+          const q = (s) => root.querySelector(s);
+          const lns = [...root.querySelectorAll(".tc .ln")];
+          gsap.set([q(".tc"), ...lns, q(".ill"), q(".bd"), q(".doc"), q(".site"), q(".ar"), q(".hd2")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          // "Say an agent is about to send customer data"
+          Apple.rise(tl, q(".tc"), 0.5, { y: 30, dur: 0.6 });
+          Apple.rise(tl, lns, 1.3, { y: 10, dur: 0.4, stagger: 0.35 });
+          Apple.fade(tl, q(".ill"), 1.6, { dur: 0.4 });
+          Apple.fade(tl, [q(".bd"), q(".doc")], 1.7, { dur: 0.4 });
+          // "to a site Uber doesn't want"
+          Apple.zoom(tl, q(".site"), 2.7, { from: 0.85, dur: 0.4 });
+          tl.set([q(".ar"), q(".hd2")], { opacity: 1 }, 2.75);
+          tl.fromTo(q(".ar"), { strokeDashoffset: 220 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out" }, 2.75);
+          tl.to(q(".doc"), { x: 90, duration: 0.6, ease: "power2.inOut" }, 3.0);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ill, .bd, .doc, .a-svg, .site"), DUR - 0.25, { dur: 0.25 });
+          tl.to(q(".tc"), { y: 60, scale: 0.92, opacity: 0, duration: 0.25, ease: "power2.in" }, DUR - 0.25);
+          window.__timelines["s03-request"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.35,"sfx":"pop","vol":0.14},
+      {"t":2.0,"sfx":"tap","vol":0.14},
+      {"t":3.55,"sfx":"key","vol":0.12,"dur":0.6},
+      {"t":3.65,"sfx":"tick","vol":0.14},
+      {"t":4.75,"sfx":"key","vol":0.12,"dur":0.6},
+      {"t":4.85,"sfx":"tick","vol":0.14},
+      {"t":6.45,"sfx":"key","vol":0.12,"dur":0.6},
+      {"t":6.55,"sfx":"tick","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Habit 1 · first message. The claude.ai composer (Claude mark, Opus 5.5 chip, both files attached) fills with
+           the one first message, in three parts, each tagged as it is said: Goal, Finished output, When to stop and ask.
+           Voiceover: 0.17 "Habit one: put everything in your first message. Say what the goal is, what the finished output
+           looks like, and when to stop and ask." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .hd .l { display: block; white-space: nowrap; }
+        .s02 .cp { left: 90px; top: 540px; width: 860px; height: 700px; }
+        .s02 .cp .bar .ttl .cc-spark { width: 30px; height: 30px; }
+        .s02 .seg { position: absolute; left: 34px; right: 34px; padding: 0 0 0 26px; }
+        .s02 .seg::before { content: ""; position: absolute; left: 0; top: 56px; bottom: 4px; width: 6px; border-radius: 3px; background: var(--line); }
+        .s02 .seg .a-tag { height: 44px; font-size: 28px; padding: 0 18px; }
+        .s02 .seg p { margin: 10px 0 0; font: 500 33px/1.36 var(--f-t); color: var(--ink); }
+        .s02 .att { position: absolute; left: 34px; bottom: 30px; display: flex; gap: 14px; }
+        .s02 .md { position: absolute; right: 30px; bottom: 30px; }
+      </style>
+      <div id="root" data-composition-id="s02-first" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">Habit 1</p>
+          <h2 class="a-h2 hd"><span class="l">Put it all in your</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">first message</span><span class="on" data-layout-allow-overlap="">first message</span></span></span></h2>
+          <div class="a-win cp"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>New chat</span><span class="side"><span class="a-tag blue" style="height:44px">Opus 5.5</span></span></div>
+            <div class="seg g1" style="top:94px"><span class="a-tag blue">Goal</span><p>Growth slowed a lot this year. Test each of the four theories against the data and tell me which ones hold up.</p></div>
+            <div class="seg g2" style="top:294px"><span class="a-tag blue">Finished output</span><p>I need a doc I can share, then slides for the board.</p></div>
+            <div class="seg g3" style="top:454px"><span class="a-tag blue">When to stop and ask</span><p>Stop and ask me if a store's data looks wrong.</p></div>
+            <div class="att"><span class="a-chip flat">sales-by-store.xlsx</span><span class="a-chip flat">leadership-offsite.pdf</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.82;
+          const root = document.querySelector('[data-composition-id="s02-first"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const segs = all(".seg");
+          gsap.set([q(".cp"), ...segs, ...all(".att .a-chip"), ...all(".seg .a-tag")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "put everything in your first message"
+          Apple.rise(tl, q(".cp"), 1.3, { y: 40, dur: 0.7 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.0, { dur: 0.5 });
+          Apple.zoom(tl, all(".att .a-chip"), 2.0, { from: 0.85, dur: 0.4, stagger: 0.1 });
+          // each part as it is said
+          [3.55, 4.75, 6.45].forEach((at, i) => {
+            Apple.rise(tl, segs[i], at, { y: 16, dur: 0.5 });
+            Apple.zoom(tl, segs[i].querySelector(".a-tag"), at + 0.1, { from: 0.8, dur: 0.4 });
+          });
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd")], DUR - 0.3, { dur: 0.3 });
+          tl.to(q(".cp"), { y: -40, opacity: 0, duration: 0.3, ease: "power2.in" }, DUR - 0.3);
+          window.__timelines["s02-first"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

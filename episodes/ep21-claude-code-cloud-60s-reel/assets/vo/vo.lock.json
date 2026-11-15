@@ -1,0 +1,10 @@
+{
+  "assets/vo/s01-3df91b2f.mp3": "Here's how Claude Code runs in the cloud, in under sixty seconds.",
+  "assets/vo/s02-6d3d3bfd.mp3": "Say your app has a test that fails at random, out-of-date docs, and a logger that should print JSON. You hand each job to Claude in the cloud.",
+  "assets/vo/s03-e2bdbd1d.mp3": "Each task gets a fresh virtual machine, with your repository cloned onto a new branch, so push your commits first.",
+  "assets/vo/s04-d21fcdf2.mp3": "Your GitHub token never enters that machine. A proxy holds it and gives the session a short-lived credential that can push only to its own branch.",
+  "assets/vo/s05-35a79dd0.mp3": "Because every task has its own machine, all three run at once. In one experiment, all three finished within eighty-seven seconds of the first one starting.",
+  "assets/vo/s06-36728ae2.mp3": "The sessions can't see each other, so split the work along file boundaries.",
+  "assets/vo/s07-bb87fdf3.mp3": "Each job comes back as a branch you can turn into a pull request.",
+  "assets/vo/s07-f9958978.mp3": "For a local database, a V P N only service, or a G P U, stay on your laptop."
+}

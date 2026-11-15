@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.25,"sfx":"pop","vol":0.14},
+      {"t":1.4,"sfx":"pop","vol":0.14},
+      {"t":1.55,"sfx":"pop","vol":0.14},
+      {"t":3.2,"sfx":"stream","vol":0.1,"dur":0.7},
+      {"t":4.55,"sfx":"tick","vol":0.14},
+      {"t":4.7,"sfx":"tick","vol":0.14},
+      {"t":4.85,"sfx":"tick","vol":0.14},
+      {"t":5.8,"sfx":"key","vol":0.12,"dur":0.7},
+      {"t":6.6,"sfx":"send","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 1 · A machine per task. Three fresh VMs (about 4 vCPUs, 16 GB RAM, 30 GB disk), tidepool cloned into each,
+           each on its own claude/ branch (names after claude/ illustrative). Then the terminal: git push origin main
+           ("push first: the VM clones your GitHub remote").
+           Voiceover: 0.17 "Each task gets a fresh virtual machine, with your repository cloned onto a new branch, so push
+           your commits first." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; }
+        .s03 .hd .l { display: block; white-space: nowrap; }
+        .s03 .vm { left: 90px; width: 860px; height: 150px; }
+        .s03 .vm .t { position: absolute; left: 30px; top: 26px; font: 700 36px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s03 .vm .sp { position: absolute; right: 30px; top: 30px; font: 400 28px/1 var(--f-m); color: var(--faint); white-space: nowrap; }
+        .s03 .vm .rp { position: absolute; left: 30px; top: 84px; }
+        .s03 .vm .br { position: absolute; left: 260px; top: 84px; }
+        .s03 .tm { left: 90px; top: 1060px; width: 860px; }
+        .s03 .nt { left: 90px; top: 1236px; }
+      </style>
+      <div id="root" data-composition-id="s03-vm" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">1 · A machine per task</p>
+          <h2 class="a-h2 hd"><span class="l">A fresh machine</span><span class="l">for <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">each task</span><span class="on" data-layout-allow-overlap="">each task</span></span></span></h2>
+          <div class="a-card vm" style="top:550px"><span class="t">VM 1 · test</span><span class="sp">4 vCPU · 16 GB · 30 GB</span><span class="a-chip flat rp">tidepool/</span><span class="a-chip br">claude/fix-flaky-ttl-test</span></div>
+          <div class="a-card vm" style="top:718px"><span class="t">VM 2 · docs</span><span class="sp">4 vCPU · 16 GB · 30 GB</span><span class="a-chip flat rp">tidepool/</span><span class="a-chip br">claude/rewrite-api-docs</span></div>
+          <div class="a-card vm" style="top:886px"><span class="t">VM 3 · logger</span><span class="sp">4 vCPU · 16 GB · 30 GB</span><span class="a-chip flat rp">tidepool/</span><span class="a-chip br">claude/json-logger</span></div>
+          <div class="a-win tm"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">terminal · your laptop</span></div>
+            <div class="a-txt"><span class="ln"><span class="ty"><span class="cm">$</span> git push origin main</span></span></div>
+          </div>
+          <p class="a-lab nt">Push first: each VM clones your GitHub remote.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.35;
+          const root = document.querySelector('[data-composition-id="s03-vm"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const vms = all(".vm");
+          gsap.set([...vms, ...all(".vm .rp"), ...all(".vm .br"), q(".tm"), q(".nt")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "a fresh virtual machine"
+          Apple.rise(tl, vms, 1.25, { y: 30, dur: 0.5, stagger: 0.15 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.8, { dur: 0.4 });
+          // "with your repository cloned"
+          Apple.zoom(tl, all(".vm .rp"), 3.2, { from: 0.8, dur: 0.4, stagger: 0.12 });
+          // "onto a new branch"
+          Apple.rise(tl, all(".vm .br"), 4.55, { y: 10, dur: 0.4, stagger: 0.15 });
+          // "so push your commits first"
+          Apple.rise(tl, q(".tm"), 5.7, { y: 30, dur: 0.5 });
+          Egg.typeOn(tl, q(".ty"), 5.85, { cps: 34 });
+          Apple.fade(tl, q(".nt"), 6.4, { dur: 0.4 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .vm, .tm, .nt"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s03-vm"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

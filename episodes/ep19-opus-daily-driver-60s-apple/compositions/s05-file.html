@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.0,"sfx":"paper","vol":0.14},
+      {"t":2.25,"sfx":"sparkle","vol":0.12,"dur":1.2},
+      {"t":3.3,"sfx":"marker","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · Habit 4 · the finished file. Left an outline (bullets), right the finished file: the doc "Why growth
+           slowed" with a chart and a distance slider, and the board deck behind it. The file rings on "finished file", the
+           outline is struck on "not an outline".
+           Voiceover: 0.17 "Habit four: ask for the finished file, not an outline." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .ol { left: 90px; top: 560px; width: 340px; height: 520px; }
+        .s05 .ol .t { position: absolute; left: 28px; top: 28px; font: 600 28px/1 var(--f-t); color: var(--mu); }
+        .s05 .ol ul { position: absolute; left: 28px; right: 20px; top: 78px; margin: 0; padding: 0 0 0 30px; font: 500 30px/1.5 var(--f-t); color: var(--ink); }
+        .s05 .ol .x { position: absolute; inset: 0; }
+        .s05 .ol .x i { position: absolute; left: 20px; right: 20px; top: 50%; height: 6px; border-radius: 3px; background: var(--red); transform-origin: 0 50%; }
+        .s05 .dk { left: 520px; top: 560px; width: 400px; height: 250px; }
+        .s05 .dk .t { position: absolute; left: 24px; top: 24px; font: 700 28px/1.15 var(--f-d); color: var(--ink); }
+        .s05 .dc { left: 470px; top: 640px; width: 480px; height: 560px; }
+        .s05 .dc .t { position: absolute; left: 30px; top: 30px; font: 700 40px/1.1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s05 .dc .s { position: absolute; left: 30px; top: 84px; font: 400 26px/1 var(--f-m); color: var(--faint); }
+        .s05 .dc .bars { position: absolute; left: 30px; right: 30px; top: 140px; height: 220px; display: flex; align-items: flex-end; gap: 16px; border-bottom: 2px solid var(--line); }
+        .s05 .dc .bars i { flex: 1; border-radius: 10px 10px 0 0; background: var(--blue); }
+        .s05 .dc .sl { position: absolute; left: 30px; right: 30px; top: 410px; height: 8px; border-radius: 4px; background: var(--line); }
+        .s05 .dc .sl b { position: absolute; left: 38%; top: -14px; width: 36px; height: 36px; border-radius: 50%; background: var(--white); box-shadow: 0 0 0 4px var(--blue); }
+        .s05 .dc .sll { position: absolute; left: 30px; top: 450px; font: 500 28px/1 var(--f-t); color: var(--mu); }
+        .s05 .dc .tg { position: absolute; left: 30px; bottom: 30px; }
+      </style>
+      <div id="root" data-composition-id="s05-file" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">Habit 4</p>
+          <h2 class="a-h2 hd"><span class="l">Ask for the</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">finished file</span><span class="on" data-layout-allow-overlap="">finished file</span></span></span></h2>
+          <div class="a-card ol"><span class="t">Outline</span><ul><li>Intro</li><li>Theories</li><li>Data?</li><li>Next steps</li></ul><div class="x"><i></i></div></div>
+          <div class="a-card dk"><span class="t">Board slides</span></div>
+          <div class="a-card dc"><span class="t">Why growth slowed</span><span class="s">doc · 6 pages</span>
+            <div class="bars"><i style="height:90%"></i><i style="height:72%"></i><i style="height:58%"></i><i style="height:40%"></i><i style="height:30%"></i></div>
+            <div class="sl"><b></b></div><span class="sll">Distance to a new store</span>
+            <span class="a-tag blue tg">Finished file</span>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.42;
+          const root = document.querySelector('[data-composition-id="s05-file"] .s05');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".ol"), q(".dk"), q(".dc"), q(".tg")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          Apple.rise(tl, q(".ol"), 0.95, { y: 30, dur: 0.6 });
+          // "ask for the finished file"
+          Apple.rise(tl, q(".dk"), 1.6, { y: 30, dur: 0.6 });
+          Apple.rise(tl, q(".dc"), 1.8, { y: 40, dur: 0.7 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.2, { dur: 0.4 });
+          Apple.zoom(tl, q(".tg"), 2.4, { from: 0.8, dur: 0.4 });
+          tl.fromTo(q(".dc .sl b"), { x: 0 }, { x: 90, duration: 0.8, ease: "sine.inOut" }, 2.6);
+          // "not an outline"
+          tl.fromTo(q(".ol .x i"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 3.3);
+          tl.to(q(".ol"), { opacity: 0.45, duration: 0.3 }, 3.6);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ol, .dk, .dc"), DUR - 0.25, { dur: 0.25 });
+          window.__timelines["s05-file"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

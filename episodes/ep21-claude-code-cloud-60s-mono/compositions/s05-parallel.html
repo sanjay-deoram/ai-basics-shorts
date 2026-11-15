@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.5,"sfx":"pop","vol":0.14},
+      {"t":2.9,"sfx":"tap","vol":0.14},
+      {"t":3.1,"sfx":"tap","vol":0.14},
+      {"t":3.3,"sfx":"tap","vol":0.14},
+      {"t":3.6,"sfx":"stream","vol":0.08,"dur":3.6},
+      {"t":6.2,"sfx":"pop","vol":0.14},
+      {"t":7.0,"sfx":"pop","vol":0.14},
+      {"t":7.55,"sfx":"pop","vol":0.16},
+      {"t":7.7,"sfx":"chime","vol":0.16,"dur":1.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 3 · In parallel. A stopwatch counts from the first start to 1:27; three lanes start within 16 s of each
+           other (0:00 · 0:09 · 0:16, illustrative offsets) and all tick ✓ by 1:27, with the real results: test suite ran
+           40× with 0 failures, API.md 5 errors fixed, logger emits JSON lines. "All three done 87 s after the first began."
+           Voiceover: 0.17 "Because every task has its own machine, all three run at once. In one experiment, all three
+           finished within eighty-seven seconds of the first one starting." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .sw { position: absolute; left: 90px; top: 540px; margin: 0; font: 800 120px/1 var(--f-d); letter-spacing: -0.04em; color: var(--ink); }
+        .s05 .swl { left: 400px; top: 590px; }
+        .s05 .ln { left: 90px; top: 700px; width: 860px; height: 420px; }
+        .s05 .ln .r { position: absolute; left: 30px; right: 30px; height: 120px; }
+        .s05 .ln .n { position: absolute; left: 0; top: 0; font: 700 32px/1 var(--f-d); color: var(--ink); white-space: nowrap; }
+        .s05 .ln .res { position: absolute; left: 0; top: 86px; font: 400 28px/1 var(--f-m); color: var(--mu); white-space: nowrap; }
+        .s05 .ln .tr { position: absolute; left: 0; right: 70px; top: 46px; height: 28px; border-radius: 14px; background: var(--gray); }
+        .s05 .ln .b { position: absolute; top: 0; bottom: 0; border-radius: 14px; background: var(--blue); transform-origin: 0 50%; }
+        .s05 .ln .a-check { position: absolute; right: 0; top: 38px; }
+        .s05 .ft { left: 90px; top: 1150px; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s05-parallel" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">3 · In parallel</p>
+          <h2 class="a-h2 hd"><span class="l">All three</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">at once</span><span class="on" data-layout-allow-overlap="">at once</span></span></span></h2>
+          <p class="sw"><span class="t">0:00</span></p>
+          <p class="a-lab swl">from the first start</p>
+          <div class="a-card ln">
+            <div class="r" style="top:30px"><span class="n">1 · flaky test</span><div class="tr"><div class="b" style="left:0%;width:89.7%"></div></div><i class="a-check"></i><span class="res">suite ran 40× · 0 failures</span></div>
+            <div class="r" style="top:160px"><span class="n">2 · docs/API.md</span><div class="tr"><div class="b" style="left:10.3%;width:89.7%"></div></div><i class="a-check"></i><span class="res">5 errors fixed</span></div>
+            <div class="r" style="top:290px"><span class="n">3 · src/logger.js</span><div class="tr"><div class="b" style="left:18.4%;width:70.1%"></div></div><i class="a-check"></i><span class="res">emits JSON lines</span></div>
+          </div>
+          <p class="a-sub ft">All three done 87 s after the first began.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.75;
+          const root = document.querySelector('[data-composition-id="s05-parallel"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const bs = all(".ln .b"), ck = all(".ln .a-check"), rs = all(".ln .res");
+          gsap.set([q(".sw"), q(".swl"), q(".ln"), ...ck, ...rs, q(".ft")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Because every task has its own machine"
+          Apple.rise(tl, q(".ln"), 1.5, { y: 30, dur: 0.6 });
+          Apple.rise(tl, [q(".sw"), q(".swl")], 1.7, { y: 20, dur: 0.5 });
+          // "all three run at once": the clock runs 0 → 87 s over 3.6–7.55 (about 22 s of run per second of video)
+          Apple.tint(tl, q(".hd .a-tint"), 3.5, { dur: 0.4 });
+          const T0 = 3.0, K = 4.55 / 87;   // video seconds per run second
+          const clk = { v: 0 };
+          const show = () => { const v = Math.round(clk.v); q(".sw .t").textContent = Math.floor(v / 60) + ":" + String(v % 60).padStart(2, "0"); };
+          tl.fromTo(clk, { v: 0 }, { v: 87, duration: 87 * K, ease: "none", onUpdate: show }, T0);
+          const lanes = [[0, 78], [9, 87], [16, 77]];   // start, finish in run seconds
+          lanes.forEach(([s, f], i) => {
+            tl.fromTo(bs[i], { scaleX: 0 }, { scaleX: 1, duration: (f - s) * K, ease: "none" }, T0 + s * K);
+            Apple.zoom(tl, ck[i], T0 + f * K, { from: 0.5, dur: 0.35 });
+            Apple.fade(tl, rs[i], T0 + f * K + 0.1, { dur: 0.3 });
+          });
+          // "within eighty-seven seconds of the first one starting"
+          Apple.rise(tl, q(".ft"), 7.8, { y: 16, dur: 0.6 });
+          tl.to(q(".sw"), { scale: 1.06, duration: 0.2, yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 7.6);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .sw, .swl, .ln, .ft"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-parallel"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

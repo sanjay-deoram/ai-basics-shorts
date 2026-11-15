@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":2.1,"sfx":"pop","vol":0.14},
+      {"t":2.9,"sfx":"tap","vol":0.12},
+      {"t":4.3,"sfx":"stream","vol":0.1,"dur":1.5},
+      {"t":4.9,"sfx":"ping","vol":0.14},
+      {"t":6.0,"sfx":"error","vol":0.12},
+      {"t":7.1,"sfx":"marker","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 3 · Detection. The panel "AI Detection and Response (ADR) · open-sourced" fills with live agent telemetry
+           rows; a chip shows the safeguards feeding in as one data source; a "real time" ping; the upload row lands red,
+           "agent acted outside its bounds".
+           Voiceover: 0.17 "Third, a system called A I Detection and Response watches in real time and catches the agent
+           acting outside its bounds." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .src { position: absolute; left: 90px; top: 548px; }
+        .s06 .rt { position: absolute; right: 130px; top: 548px; display: flex; align-items: center; gap: 14px; }
+        .s06 .rt .pg { position: relative; width: 22px; height: 22px; border-radius: 50%; background: var(--red); }
+        .s06 .fd { left: 90px; top: 636px; width: 860px; }
+        .s06 .fd .bar .ttl { justify-content: flex-start; padding-left: 128px; }
+        .s06 .fd .body { position: relative; height: 360px; overflow: hidden; }
+        .s06 .fd .a-row { position: absolute; left: 0; right: 0; }
+        .s06 .out { left: 90px; top: 1086px; color: var(--red); }
+      </style>
+      <div id="root" data-composition-id="s06-detect" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">3 · Detection</p>
+          <h2 class="a-h2 hd"><span class="l">AI Detection</span><span class="l">and <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Response</span><span class="on" data-layout-allow-overlap="">Response</span></span></span></h2>
+          <span class="a-chip flat src">safeguards → one data source</span>
+          <span class="a-chip rt"><span class="pg"></span>real time</span>
+          <div class="a-win fd"><div class="bar"><i></i><i></i><i></i><span class="ttl">ADR · agent telemetry · open-sourced</span></div>
+            <div class="body">
+              <div class="a-row done" style="top:0"><span class="id">10:41:02</span><span>read tickets.db</span></div>
+              <div class="a-row done" style="top:72px"><span class="id">10:41:05</span><span>call search_docs</span></div>
+              <div class="a-row done" style="top:144px"><span class="id">10:41:07</span><span>safeguard fired · destination</span></div>
+              <div class="a-row done" style="top:216px"><span class="id">10:41:08</span><span>write summary.md</span></div>
+              <div class="a-row bad" style="top:288px"><span class="id">10:41:09</span><span>upload customers.csv → unknown-site…</span></div>
+            </div>
+          </div>
+          <p class="a-lab out">Caught: the agent acted outside its bounds.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.8;
+          const root = document.querySelector('[data-composition-id="s06-detect"] .s06');
+          const q = (s) => root.querySelector(s);
+          const rows = [...root.querySelectorAll(".fd .a-row")];
+          gsap.set([q(".src"), q(".rt"), q(".fd"), ...rows, q(".out")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "a system called AI Detection and Response"
+          Apple.rise(tl, q(".fd"), 2.05, { y: 30, dur: 0.6 });
+          Apple.tint(tl, q(".hd .a-tint"), 3.3, { dur: 0.4 });
+          Apple.zoom(tl, q(".src"), 2.9, { from: 0.85, dur: 0.4 });
+          // "watches in real time": rows stream in
+          [4.3, 4.65, 5.0, 5.35].forEach((at, i) => Apple.rise(tl, rows[i], at, { y: 20, dur: 0.3 }));
+          Apple.zoom(tl, q(".rt"), 4.9, { from: 0.8, dur: 0.4 });
+          tl.fromTo(q(".rt .pg"), { scale: 1 }, { scale: 1.4, duration: 0.3, yoyo: true, repeat: 5, ease: "sine.inOut" }, 5.0);
+          // "and catches the agent acting outside its bounds"
+          Apple.rise(tl, rows[4], 5.95, { y: 20, dur: 0.3 });
+          Egg.shake(tl, rows[4], 6.3);
+          Apple.fade(tl, q(".out"), 7.05, { dur: 0.4 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .src, .rt, .fd, .out"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s06-detect"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,59 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.1,
+      "text": "Here's how to use Opus five point five as your daily driver, in under sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 5.79,
+      "text": "Say growth slowed at your retail company, and your manager has four theories to test."
+    },
+    {
+      "scene": "s02",
+      "at": 0.17,
+      "text": "Habit one: put everything in your first message. Say what the goal is, what the finished output looks like, and when to stop and ask."
+    },
+    {
+      "scene": "s03",
+      "at": 0.17,
+      "text": "Habit two: drop \"think hard.\" Thinking is always on, and removing the phrase made replies start sooner, with no clear drop in quality."
+    },
+    {
+      "scene": "s04",
+      "at": 0.17,
+      "text": "Habit three: leave effort on Medium, the default. In testing, Medium matched or beat Opus five at High, so move up only when Medium stalls."
+    },
+    {
+      "scene": "s05",
+      "at": 0.17,
+      "text": "Habit four: ask for the finished file, not an outline."
+    },
+    {
+      "scene": "s06",
+      "at": 0.17,
+      "text": "Claude tested all four theories against your sales data, and none held up, though one couldn't be fully ruled out."
+    },
+    {
+      "scene": "s06",
+      "at": 6.56,
+      "text": "It also found what nobody had raised. New stores opened too close to old ones and pulled sales away."
+    }
+  ]
+}

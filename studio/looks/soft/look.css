@@ -1,0 +1,25 @@
+/* SOFT look: calm editorial type on drifting pastel colour fields, frosted white cards, lilac accent. */
+@font-face { font-family: "Source Serif 4"; src: url("fonts/SourceSerif4-var.woff2") format("woff2"); font-weight: 200 900; font-display: block; }
+:root { --white: rgba(255, 255, 255, 0.86); --gray: #f4f1fb; --line: rgba(17, 18, 20, 0.08); --ink: #111214; --mu: #585c64; --faint: #6f747d; --blue: #6a4fd6; --red: #b9502b; --green: #0e7a66; --code: #111214;
+  --shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(17, 18, 20, 0.05), 0 40px 80px -30px rgba(40, 50, 90, 0.28);
+  --shadow-lg: 0 0 0 1.5px rgba(255, 255, 255, 0.95), 0 0 0 3px rgba(17, 18, 20, 0.05), 0 50px 100px -30px rgba(40, 50, 90, 0.32);
+  --nar-bg: linear-gradient(160deg, #e9e2ff, #ffe3d6); --nar-rim: 8px solid rgba(255, 255, 255, 0.95); }
+.a-scene, .a-scene.white { background:
+  radial-gradient(60% 40% at 15% 20%, rgba(186, 166, 255, 0.55), transparent 70%),
+  radial-gradient(55% 40% at 90% 45%, rgba(255, 190, 160, 0.55), transparent 70%),
+  radial-gradient(60% 45% at 30% 90%, rgba(150, 225, 205, 0.5), transparent 70%), #f7f5fb; }
+.a-scene.s02, .a-scene.s04, .a-scene.s06, .a-scene.s08 { background:
+  radial-gradient(60% 40% at 85% 18%, rgba(160, 200, 255, 0.55), transparent 70%),
+  radial-gradient(55% 40% at 10% 55%, rgba(255, 186, 214, 0.5), transparent 70%),
+  radial-gradient(60% 45% at 70% 92%, rgba(186, 166, 255, 0.45), transparent 70%), #f7f5fb; }
+.a-h, .a-h2 { font-family: "Source Serif 4", serif; font-weight: 500; letter-spacing: -0.03em; line-height: 1.12; }
+.a-eyebrow { font-weight: 500; color: var(--blue); }
+.a-card, .a-win { background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)); }
+.a-win .bar { background: rgba(255, 255, 255, 0.55); border-bottom-color: rgba(17, 18, 20, 0.06); }
+.a-win .bar > i { background: #d9d3ee; } .a-win .bar > i:nth-of-type(2) { background: #e9dcd3; } .a-win .bar > i:nth-of-type(3) { background: #d0e7df; }
+.a-tag.blue { background: rgba(106, 79, 214, 0.12); }
+.a-row.hot { background: rgba(106, 79, 214, 0.08); }
+.a-chip { background: rgba(255, 255, 255, 0.8); }
+.a-chip.flat { background: rgba(255, 255, 255, 0.6); }
+.a-dot { box-shadow: 0 0 0 12px rgba(106, 79, 214, 0.16); }
+.a-stamp { background: rgba(255, 255, 255, 0.85); border-width: 3px; border-radius: 999px; }

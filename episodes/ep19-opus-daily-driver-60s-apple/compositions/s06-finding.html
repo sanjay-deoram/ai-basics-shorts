@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.6,"sfx":"claude","vol":0.14},
+      {"t":1.1,"sfx":"pop","vol":0.12},
+      {"t":2.8,"sfx":"stream","vol":0.1,"dur":0.7},
+      {"t":3.5,"sfx":"impact-bass-1","vol":0.12},
+      {"t":3.75,"sfx":"tap","vol":0.14},
+      {"t":4.0,"sfx":"tap","vol":0.14},
+      {"t":4.9,"sfx":"tick","vol":0.16},
+      {"t":6.8,"sfx":"whoosh-short","vol":0.12},
+      {"t":9.3,"sfx":"ping","vol":0.14},
+      {"t":10.8,"sfx":"error","vol":0.06},
+      {"t":11.7,"sfx":"chime","vol":0.18,"dur":2.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Payoff · the finding. The four theory cards are stamped as they are tested: three "Doesn't hold up", theory
+           3 "Can't rule it out". Then what nobody raised: the store map; the new store rings, the two old stores beside it
+           go red (sales pulled away), the far ones don't. Last line: "New stores opened too close to old ones." Hard stop.
+           Voiceover: 0.17 "Claude tested all four theories against your sales data, and none held up, though one couldn't
+           be fully ruled out." 6.56 "It also found what nobody had raised. New stores opened too close to old ones and
+           pulled sales away." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; white-space: nowrap; display: flex; align-items: center; gap: 22px; }
+        .s06 .hd .cc-spark { display: inline-block; width: 78px; height: 78px; }
+        .s06 .th { left: 90px; width: 860px; height: 80px; display: flex; align-items: center; gap: 20px; padding: 0 28px; border-radius: 22px; font: 500 32px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s06 .th b { font: 700 28px/1 var(--f-d); color: var(--mu); }
+        .s06 .th .a-stamp { right: 18px; top: 10px; height: 56px; padding: 0 18px; border-width: 4px; font-size: 26px; }
+        .s06 .th .a-stamp.mu { border-color: var(--mu); color: var(--mu); }
+        .s06 .mp { left: 90px; top: 830px; width: 860px; height: 350px; }
+        .s06 .mp .tt { position: absolute; left: 30px; top: 24px; font: 600 28px/1 var(--f-t); color: var(--mu); }
+        .s06 .st { position: absolute; width: 40px; height: 40px; margin: -20px 0 0 -20px; border-radius: 12px; background: var(--line); }
+        .s06 .st .rd { position: absolute; inset: 0; border-radius: 12px; background: var(--red); opacity: 0; }
+        .s06 .nw { position: absolute; width: 52px; height: 52px; margin: -26px 0 0 -26px; border-radius: 50%; background: var(--blue); }
+        .s06 .rg { position: absolute; width: 230px; height: 230px; margin: -115px 0 0 -115px; border-radius: 50%; border: 4px dashed var(--blue); }
+        .s06 .pc { position: absolute; margin: 0; font: 700 28px/1 var(--f-d); color: var(--red); white-space: nowrap; }
+        .s06 .nl { position: absolute; margin: 0; font: 600 28px/1 var(--f-t); color: var(--blue); white-space: nowrap; }
+        .s06 .fin { left: 90px; top: 1212px; width: 860px; white-space: nowrap; color: var(--ink); font-weight: 700; }
+      </style>
+      <div id="root" data-composition-id="s06-finding" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">The result</p>
+          <h2 class="a-h2 hd"><span class="cc-spark"></span>What Claude found</h2>
+          <div class="a-card th" style="top:440px"><b>1</b>We raised prices too much<span class="a-stamp red">Doesn't hold up</span></div>
+          <div class="a-card th" style="top:534px"><b>2</b>Online rivals took our shoppers<span class="a-stamp red">Doesn't hold up</span></div>
+          <div class="a-card th" style="top:628px"><b>3</b>We ran fewer promotions<span class="a-stamp mu">Can't rule it out</span></div>
+          <div class="a-card th" style="top:722px"><b>4</b>Our best staff left<span class="a-stamp red">Doesn't hold up</span></div>
+          <div class="a-card mp"><span class="tt">What nobody raised · sales by store</span>
+            <div class="st" style="left:110px;top:140px"></div>
+            <div class="st" style="left:150px;top:270px"></div>
+            <div class="st" style="left:780px;top:150px"></div>
+            <div class="st" style="left:740px;top:280px"></div>
+            <div class="rg" style="left:440px;top:210px"></div>
+            <div class="st cl" style="left:370px;top:150px"><div class="rd"></div></div>
+            <div class="st cl" style="left:520px;top:270px"><div class="rd"></div></div>
+            <div class="nw" style="left:440px;top:210px"></div>
+            <p class="pc" style="left:300px;top:96px">−12%</p>
+            <p class="pc" style="left:562px;top:256px">−9%</p>
+            <p class="nl" style="left:470px;top:150px">new store</p>
+          </div>
+          <p class="a-sub fin"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">New stores opened too close to old ones.</span><span class="on" data-layout-allow-overlap="">New stores opened too close to old ones.</span></span></p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s06-finding"] .s06');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const ths = all(".th"), stamps = all(".th .a-stamp");
+          gsap.set([...ths, ...stamps, q(".mp"), q(".rg"), q(".nw"), ...all(".pc"), q(".nl"), q(".fin")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          tl.fromTo(q(".hd .cc-spark"), { rotation: -60 }, { rotation: 0, duration: 0.8, ease: "expo.out" }, 0.3);
+          // "tested all four theories"
+          Apple.rise(tl, ths, 1.05, { y: 20, dur: 0.5, stagger: 0.12 });
+          tl.to(ths, { x: 8, duration: 0.12, yoyo: true, repeat: 1, stagger: 0.12 }, 2.75);
+          // "none held up"
+          [3.5, 3.75, 4.0].forEach((at, i) => Egg.stamp(tl, stamps[[0, 1, 3][i]], at));
+          // "though one couldn't be fully ruled out"
+          Egg.stamp(tl, stamps[2], 4.9);
+          // "It also found what nobody had raised"
+          tl.to(ths, { opacity: 0.5, duration: 0.4 }, 6.7);
+          Apple.rise(tl, q(".mp"), 6.8, { y: 40, dur: 0.7 });
+          // "New stores": the new one rings
+          Apple.zoom(tl, q(".nw"), 9.3, { from: 0.4, dur: 0.5 });
+          Apple.fade(tl, q(".nl"), 9.4, { dur: 0.4 });
+          tl.fromTo(q(".rg"), { opacity: 0, scale: 0.4 }, { opacity: 1, scale: 1, duration: 0.7, ease: "expo.out" }, 9.8);
+          // "too close to old ones and pulled sales away"
+          tl.to(all(".cl .rd"), { opacity: 1, duration: 0.3, stagger: 0.15 }, 10.8);
+          tl.to(all(".cl"), { scale: 0.8, duration: 0.4, ease: "power2.inOut", stagger: 0.15 }, 11.6);
+          Apple.rise(tl, all(".pc"), 11.65, { y: 10, dur: 0.4, stagger: 0.12 });
+          Apple.rise(tl, q(".fin"), 11.9, { y: 16, dur: 0.6 });
+          Apple.tint(tl, q(".fin .a-tint"), 12.5, { dur: 0.5 });
+          window.__timelines["s06-finding"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
