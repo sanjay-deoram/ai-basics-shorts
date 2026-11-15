@@ -1,0 +1,37 @@
+key,topic,episode,style,kind,hook,notes
+ep16-daily-brief-60s,daily-brief-agent,,,,how-to,
+ep17-code-review-60s,claude-code-review,,,,insider,"how a named team does X, like the git reel"
+ep17-which-model-60s,which-model,,,,how-to,
+DfrC7EcpikJ,claude-skill,ep14-skill-60s,mono,,how-to,style matched from the cover frame
+DfqyV9qhcpG,claude-skill,ep14-skill-60s,papercut,,how-to,style matched from the cover frame
+DfqxhXCOy2X,claude-skill,ep14-skill-60s,whiteboard,,how-to,style matched from the cover frame
+DfqhR4CAShk,claude-skill,ep14-skill-60s,soft,,how-to,style matched from the cover frame
+DfpPgdUxV7y,claude-skill,ep14-skill-60s,sketch,,how-to,style matched from the cover frame
+DfoNbvJultq,claude-skill,ep14-skill-60s,reel,,how-to,style matched from the cover frame
+DfoMvX-uKtk,claude-skill,ep14-skill-60s,apple,,how-to,style matched from the cover frame
+Dflv5tLt8Nr,rag,ep13-rag-60s,eggshell,,how-it-works,
+DflGBMovyIN,shot-prompting,ep12-shot-prompting,,,list,episode inferred from caption
+DfiyRmCyz7r,shot-prompting,ep12-shot-prompting,,,list,episode inferred from caption
+DesN_xCu8qT,shot-prompting,ep12-shot-prompting,eggshell,,list,episode inferred from caption
+DeqAP9CJkxX,react-loop,ep10-react-loop,eggshell,,how-it-works,episode inferred from caption
+Dep0Hvtt7Bn,react-loop,ep10-react-loop,eggshell,,what-is,episode inferred from caption
+Dene4XCss8Z,tool-use,ep09-tool-use,eggshell,,what-is,episode inferred from caption
+DekU9OPtSLi,llm-vs-agent,ep08-llm-vs-agent,eggshell,,versus,episode inferred from caption
+DehOQ8DscNX,rag,ep06-rag,eggshell,,how-it-works,episode inferred from caption
+DeeaQpNMe1_,git-at-anthropic,ep07-source-control,eggshell,,why-news,episode inferred from caption
+DebAh8ap070,rag,ep06-rag,eggshell,,what-is,episode inferred from caption
+DeaPo5UuoQF,context-rot,ep04-context-rot,eggshell,,what-is,episode inferred from caption
+DeVBfxdt3t-,context,ep03-context,eggshell,,what-is,episode inferred from caption
+DeSi5FMuhGW,embeddings,ep02-embeddings-part2,eggshell,,how-it-works,episode inferred from caption
+DePczjFhjM5,embeddings,ep02-embeddings-part1,eggshell,,what-is,episode inferred from caption
+DeLe5Squar4,tokens,ep01-tokens,eggshell,,what-is,episode inferred from caption
+DeJrOxaOo5S,resource,,,,other,not an episode
+6af779afa7d86ff4cdc1c04e,shot-prompting,ep12-shot-prompting,eggshell,main,list,
+6af779d2da6488688125dec2,shot-prompting,ep12-shot-prompting,eggshell,main,list,topic matched by post time
+6af779d2da6488688125ded2,react-loop,ep10-react-loop,eggshell,main,how-it-works,topic matched by post time
+6af779afa7d86ff4cdc1c062,react-loop,ep10-react-loop,eggshell,main,how-it-works,
+6af779d2da6488688125deee,tool-use,ep09-tool-use,eggshell,main,what-is,topic matched by post time
+6af779d2da6488688125de96,llm-vs-agent,ep08-llm-vs-agent,eggshell,main,versus,topic matched by post time
+6af779afa7d86ff4cdc1c050,llm-vs-agent,ep08-llm-vs-agent,eggshell,main,versus,
+6af779d2da6488688125deba,rag,ep06-rag,eggshell,main,how-it-works,topic matched by post time
+6af779afa7d86ff4cdc1c054,rag,ep06-rag,eggshell,main,how-it-works,
