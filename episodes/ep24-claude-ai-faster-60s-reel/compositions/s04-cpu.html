@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.6,"sfx":"pop","vol":0.14},
+      {"t":2.85,"sfx":"pop","vol":0.14},
+      {"t":4.3,"sfx":"error","vol":0.08}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · CPU instructions, not milliseconds. Two benchmark logs of the same four runs: CPU instructions stay at
+           1.90M every run; milliseconds jump 41 · 38 · 52 · 44 (all numbers illustrative). Clock timing is too noisy.
+           Voiceover: 0.17 "The benchmark counts CPU instructions, not milliseconds, because clock timing is too noisy." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .ci { left: 90px; top: 548px; width: 410px; }
+        .s04 .ms { left: 540px; top: 548px; width: 410px; }
+        .s04 .v { position: absolute; top: 880px; margin: 0; font: 800 48px/1 var(--f-d); letter-spacing: -0.03em; white-space: nowrap; }
+        .s04 .v.ok { left: 90px; color: var(--ink); }
+        .s04 .v .g { color: var(--green); } .s04 .v .x { color: var(--red); }
+        .s04 .v.no { left: 540px; color: var(--ink); }
+        .s04 .ft { left: 90px; top: 990px; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s04-cpu" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">What the benchmark counts</p>
+          <h2 class="a-h2 hd"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Instructions,</span><span class="on" data-layout-allow-overlap="">Instructions,</span></span></span><span class="l">not milliseconds</span></h2>
+          <div class="a-win ci"><div class="bar"><i></i><i></i><i></i><span class="ttl l">CPU instructions</span></div>
+            <div class="a-txt"><span class="ln"><span class="cm">run 1</span>  1.90M</span><span class="ln"><span class="cm">run 2</span>  1.90M</span><span class="ln"><span class="cm">run 3</span>  1.90M</span><span class="ln"><span class="cm">run 4</span>  1.90M</span></div>
+          </div>
+          <div class="a-win ms"><div class="bar"><i></i><i></i><i></i><span class="ttl l">Milliseconds</span></div>
+            <div class="a-txt"><span class="ln"><span class="cm">run 1</span>  41 ms</span><span class="ln"><span class="cm">run 2</span>  38 ms</span><span class="ln"><span class="cm">run 3</span>  <span class="r">52 ms</span></span><span class="ln"><span class="cm">run 4</span>  44 ms</span></div>
+          </div>
+          <p class="v ok"><span class="g">✓</span> steady</p>
+          <p class="v no"><span class="x">✕</span> noisy</p>
+          <p class="a-sub ft">Clock timing jumps around from run to run.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.91;
+          const root = document.querySelector('[data-composition-id="s04-cpu"] .s04');
+          const q = (s) => root.querySelector(s);
+          const l1 = [...root.querySelectorAll(".ci .ln")], l2 = [...root.querySelectorAll(".ms .ln")];
+          gsap.set([q(".ci"), q(".ms"), ...l1, ...l2, q(".ok"), q(".no"), q(".ft")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "counts CPU instructions"
+          Apple.rise(tl, q(".ci"), 1.1, { y: 24, dur: 0.5 });
+          l1.forEach((l, i) => Apple.fade(tl, l, 1.5 + i * 0.15, { dur: 0.2 }));
+          Apple.tint(tl, q(".hd .a-tint"), 1.6, { dur: 0.4 });
+          Apple.zoom(tl, q(".ok"), 2.3, { from: 0.7, dur: 0.3 });
+          // "not milliseconds"
+          Apple.rise(tl, q(".ms"), 2.8, { y: 24, dur: 0.5 });
+          l2.forEach((l, i) => Apple.fade(tl, l, 3.1 + i * 0.15, { dur: 0.2 }));
+          // "because clock timing is too noisy"
+          Apple.zoom(tl, q(".no"), 4.3, { from: 1.4, dur: 0.3 });
+          tl.to(q(".ms"), { x: 10, duration: 0.07, yoyo: true, repeat: 7 }, 4.4);
+          Apple.rise(tl, q(".ft"), 4.6, { y: 14, dur: 0.5 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ci, .ms, .v, .ft"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-cpu"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

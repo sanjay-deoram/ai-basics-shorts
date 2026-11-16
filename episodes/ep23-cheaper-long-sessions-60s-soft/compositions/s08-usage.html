@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.35,"sfx":"typing","vol":0.12,"dur":0.6},
+      {"t":1.1,"sfx":"send","vol":0.12},
+      {"t":1.5,"sfx":"stream","vol":0.08,"dur":0.8},
+      {"t":3.0,"sfx":"pop","vol":0.16},
+      {"t":4.4,"sfx":"pop","vol":0.12},
+      {"t":6.1,"sfx":"chime","vol":0.18,"dur":2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s08 · Payoff · measure yours. The terminal runs /usage; a panel shows the share of usage by kind, cached reads
+           first (panel layout and numbers are an illustrative example, marked "example"). Last lines: no single number
+           holds for every codebase · measure yours. Hard stop.
+           Voiceover: 0.17 "Run slash usage to see how much of yours is cached reads, because no single number holds for
+           every codebase." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s08 .hd { top: 316px; }
+        .s08 .hd .l { display: block; white-space: nowrap; }
+        .s08 .tm { left: 90px; top: 470px; width: 860px; }
+        .s08 .tm .bar .cc-spark { width: 34px; height: 34px; }
+        .s08 .br { display: inline-block; height: 22px; margin-left: 24px; border-radius: 6px; background: var(--faint); vertical-align: -2px; transform-origin: 0 50%; }
+        .s08 .br.hi { background: var(--blue); }
+        .s08 .hl { position: absolute; left: 0; right: 0; top: 66px; height: 46px; background: var(--blue); opacity: 0; }
+        .s08 .ns { left: 90px; top: 880px; color: var(--ink); }
+        .s08 .my { position: absolute; left: 90px; top: 1040px; margin: 0; font: 800 88px/1 var(--f-d); letter-spacing: -0.04em; color: var(--blue); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s08-usage" data-width="1080" data-height="1920">
+        <div class="a-scene s08">
+          <p class="a-eyebrow">Measure yours</p>
+          <h2 class="a-h2 hd"><span class="l">Run <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">/usage</span><span class="on" data-layout-allow-overlap="">/usage</span></span></span></h2>
+          <div class="a-win tm"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>claude · ~/app</span><span class="side"><span class="a-tag gray">example</span></span></div>
+            <div class="a-txt"><i class="hl"></i><span class="ln"><span class="k">&gt;</span> <span class="ty">/usage</span></span><span class="ln l1">cached reads  81%<i class="br hi" style="width:324px"></i></span><span class="ln l2">other input   12%<i class="br" style="width:48px"></i></span><span class="ln l3">output         7%<i class="br" style="width:28px"></i></span></div>
+          </div>
+          <p class="a-sub ns">No single number holds for every codebase.</p>
+          <p class="my">Measure yours.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.33;
+          const root = document.querySelector('[data-composition-id="s08-usage"] .s08');
+          const q = (s) => root.querySelector(s);
+          const ls = [q(".l1"), q(".l2"), q(".l3")], brs = [...root.querySelectorAll(".br")];
+          gsap.set([q(".tm"), ...ls, q(".ns"), q(".my")], { opacity: 0 });
+          gsap.set(brs, { scaleX: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.1, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.15, { y: 24, dur: 0.7 });
+          // "Run slash usage"
+          Apple.rise(tl, q(".tm"), 0.25, { y: 30, dur: 0.5 });
+          Egg.typeOn(tl, q(".ty"), 0.4, { cps: 12 });
+          Apple.tint(tl, q(".hd .a-tint"), 0.9, { dur: 0.4 });
+          // "to see how much of yours"
+          ls.forEach((l, i) => { Apple.fade(tl, l, 1.5 + i * 0.25, { dur: 0.25 }); tl.to(brs[i], { scaleX: 1, duration: 0.5, ease: "power2.out" }, 1.55 + i * 0.25); });
+          // "is cached reads"
+          tl.to(q(".hl"), { opacity: 0.1, duration: 0.3 }, 3.0);
+          // "because no single number holds for every codebase"
+          Apple.rise(tl, q(".ns"), 4.4, { y: 16, dur: 0.6 });
+          Apple.zoom(tl, q(".my"), 6.1, { from: 0.9, dur: 0.5 });
+          window.__timelines["s08-usage"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

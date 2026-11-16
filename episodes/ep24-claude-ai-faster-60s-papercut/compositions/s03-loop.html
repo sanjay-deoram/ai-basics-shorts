@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.0,"sfx":"ping","vol":0.12},
+      {"t":3.2,"sfx":"pop","vol":0.14},
+      {"t":5.3,"sfx":"tick","vol":0.14},
+      {"t":6.6,"sfx":"pop","vol":0.14},
+      {"t":7.7,"sfx":"key","vol":0.12,"dur":0.7},
+      {"t":10.15,"sfx":"click","vol":0.18},
+      {"t":11.4,"sfx":"stream","vol":0.08,"dur":1.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The loop. Three steps down the page: 1 someone reports the slow spot (message wording illustrative),
+           2 Claude builds a benchmark that reproduces it, 3 a small pull request behind a flag (flag name and diff
+           illustrative); the flag switch turns on, then "watching: deploy + field data".
+           Voiceover: 0.17 "First, someone reports the slow spot. Second, Claude builds a benchmark that reproduces it.
+           Third, Claude opens small pull requests behind a flag, an on-off switch, and watches real-world timings." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; }
+        .s03 .hd .l { display: block; white-space: nowrap; }
+        .s03 .rp { left: 90px; top: 548px; width: 860px; height: 190px; }
+        .s03 .rp .t { position: absolute; left: 30px; top: 28px; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s03 .rp .q { position: absolute; left: 30px; top: 80px; width: 790px; margin: 0; font: 500 30px/1.35 var(--f-t); color: var(--mu); }
+        .s03 .bn { left: 90px; top: 768px; width: 860px; }
+        .s03 .pr { left: 90px; top: 1000px; width: 860px; }
+        .s03 .sw { position: relative; display: inline-block; width: 84px; height: 46px; margin-left: 14px; border-radius: 23px; background: var(--faint); }
+        .s03 .sw .f { position: absolute; inset: 0; border-radius: 23px; background: var(--blue); opacity: 0; }
+        .s03 .sw .kb { position: absolute; left: 4px; top: 4px; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+        .s03 .wt { position: absolute; left: 90px; top: 1272px; }
+        .s03 .wt svg { width: 90px; height: 34px; }
+      </style>
+      <div id="root" data-composition-id="s03-loop" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">The loop</p>
+          <h2 class="a-h2 hd"><span class="l">One slow spot,</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">three steps</span><span class="on" data-layout-allow-overlap="">three steps</span></span></span></h2>
+          <div class="a-card rp"><span class="t">1 · Someone reports it</span><p class="q">"The message box takes about 3 seconds before it accepts typing."</p></div>
+          <div class="a-win bn"><div class="bar"><i></i><i></i><i></i><span class="ttl l">2 · Claude builds a benchmark</span></div>
+            <div class="a-txt"><span class="ln b1"><span class="k">bench:</span> fresh load → first input</span><span class="ln b2"><span class="cm">replays the slow spot</span>  <span class="g">✓ reproduced</span></span></div>
+          </div>
+          <div class="a-win pr"><div class="bar"><i></i><i></i><i></i><span class="ttl l">3 · Small PR · behind a flag</span><span class="side"><span class="a-tag gray">flag</span><span class="sw"><i class="f"></i><i class="kb"></i></span></span></div>
+            <div class="a-txt"><span class="ln d1"><span class="g">+ if (flags.staticComposer) {</span></span><span class="ln d2"><span class="g">+   hydrateFrom("composer-static");</span></span><span class="ln d3"><span class="g">+ }</span></span></div>
+          </div>
+          <span class="a-chip wt"><svg viewBox="0 0 90 34" aria-hidden="true"><path class="a-ink blue" d="M4 8 L22 12 L38 10 L54 22 L70 26 L86 28" /></svg>watching: deploy + field data</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 13.25;
+          const root = document.querySelector('[data-composition-id="s03-loop"] .s03');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".rp"), q(".bn"), q(".b1"), q(".b2"), q(".pr"), q(".d1"), q(".d2"), q(".d3"), q(".wt")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "First, someone reports the slow spot."
+          Apple.rise(tl, q(".rp"), 1.0, { y: 24, dur: 0.5 });
+          // "Second, Claude builds a benchmark that reproduces it."
+          Apple.rise(tl, q(".bn"), 3.2, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".b1"), 4.2, { dur: 0.3 });
+          Apple.fade(tl, q(".b2"), 5.3, { dur: 0.3 });
+          Apple.tint(tl, q(".hd .a-tint"), 6.6, { dur: 0.4 });
+          // "Third, Claude opens small pull requests behind a flag"
+          Apple.rise(tl, q(".pr"), 6.6, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".d1"), 7.7, { dur: 0.2 });
+          Apple.fade(tl, q(".d2"), 7.95, { dur: 0.2 });
+          Apple.fade(tl, q(".d3"), 8.2, { dur: 0.2 });
+          // "an on-off switch": the flag turns on
+          tl.to(q(".sw .kb"), { x: 38, duration: 0.25, ease: "power2.out" }, 10.15);
+          tl.to(q(".sw .f"), { opacity: 1, duration: 0.25 }, 10.15);
+          // "and watches real-world timings"
+          Apple.rise(tl, q(".wt"), 11.35, { y: 16, dur: 0.5 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .rp, .bn, .pr, .wt"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s03-loop"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

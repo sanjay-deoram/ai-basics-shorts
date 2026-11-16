@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.8,"sfx":"pop","vol":0.12},
+      {"t":2.5,"sfx":"stream","vol":0.08,"dur":0.7},
+      {"t":3.1,"sfx":"pop","vol":0.16},
+      {"t":5.5,"sfx":"stream","vol":0.08,"dur":0.6},
+      {"t":6.45,"sfx":"tick","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 2 · The ratio. One token written (a small square), then two bars to scale, tokens read per token
+           written: now 324 : 1, March 189 : 1 (the March bar is 189/324 of the other). Foot: a session is mostly reading.
+           Voiceover: 0.17 "For every token Claude writes, it now reads three hundred twenty-four, up from one hundred
+           eighty-nine in March." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .one { position: absolute; left: 90px; top: 572px; width: 44px; height: 44px; border-radius: 8px; background: var(--ink); }
+        .s04 .onel { left: 156px; top: 576px; }
+        .s04 .v { position: absolute; left: 90px; margin: 0; font: 700 40px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s04 .v .k { color: var(--blue); }
+        .s04 .cb { position: absolute; left: 90px; height: 84px; border-radius: 18px; transform-origin: 0 50%; }
+        .s04 .cb.now { top: 762px; width: 860px; background: var(--blue); }
+        .s04 .cb.mar { top: 962px; width: 502px; background: var(--faint); }
+        .s04 .ft { left: 90px; top: 1110px; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s04-ratio" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">2 · Mostly reading</p>
+          <h2 class="a-h2 hd"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">324 read</span><span class="on" data-layout-allow-overlap="">324 read</span></span></span><span class="l">per 1 written</span></h2>
+          <i class="one"></i><p class="a-lab onel">1 token written</p>
+          <p class="v vn" style="top:700px">Now · <span class="k">324</span> read : 1 written</p>
+          <i class="cb now"></i>
+          <p class="v vm" style="top:900px">March · 189 : 1</p>
+          <i class="cb mar"></i>
+          <p class="a-sub ft">A long session is mostly reading.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.29;
+          const root = document.querySelector('[data-composition-id="s04-ratio"] .s04');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".one"), q(".onel"), q(".vn"), q(".vm"), q(".ft")], { opacity: 0 });
+          gsap.set([q(".now"), q(".mar")], { scaleX: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "For every token Claude writes"
+          Apple.zoom(tl, q(".one"), 0.8, { from: 0.5, dur: 0.35 });
+          Apple.fade(tl, q(".onel"), 1.0, { dur: 0.3 });
+          // "it now reads three hundred twenty-four"
+          Apple.fade(tl, q(".vn"), 2.3, { dur: 0.3 });
+          tl.to(q(".now"), { scaleX: 1, duration: 0.8, ease: "power2.out" }, 2.5);
+          Apple.tint(tl, q(".hd .a-tint"), 3.1, { dur: 0.4 });
+          // "up from one hundred eighty-nine in March"
+          Apple.fade(tl, q(".vm"), 5.0, { dur: 0.3 });
+          tl.to(q(".mar"), { scaleX: 1, duration: 0.6, ease: "power2.out" }, 5.5);
+          Apple.rise(tl, q(".ft"), 6.4, { y: 16, dur: 0.5 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .one, .onel, .v, .cb, .ft"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-ratio"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

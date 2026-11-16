@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.0,"sfx":"pop","vol":0.12},
+      {"t":3.0,"sfx":"whoosh-short","vol":0.1},
+      {"t":3.45,"sfx":"pop","vol":0.16},
+      {"t":5.9,"sfx":"pop","vol":0.12},
+      {"t":6.7,"sfx":"whoosh-short","vol":0.1},
+      {"t":7.2,"sfx":"chime","vol":0.16,"dur":1.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · Payoff · results. Left: leads that became real sales opportunities, old form 1× vs agent hand-offs
+           "more than 2×" (drawn at 2×). Right: time to close, the agent bar shorter by "about 5 days" (bar lengths are
+           illustrative; the article gives only the difference). Foot, on screen only: conversations that needed a
+           person to close fell by about half. Hard stop.
+           Voiceover: 0.17 "Those hand-offs become real sales opportunities more than twice as often as the old form's
+           leads, and they close about five days faster." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .g1, .s06 .g2 { top: 560px; }
+        .s06 .g1 { left: 90px; }
+        .s06 .g2 { left: 540px; }
+        .s06 .cb { position: absolute; width: 150px; bottom: 820px; border-radius: 18px 18px 0 0; background: var(--faint); transform-origin: 50% 100%; }
+        .s06 .cb.hi { background: var(--blue); }
+        .s06 .v { position: absolute; width: 260px; margin: 0; text-align: center; font: 800 44px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s06 .v.hi { color: var(--blue); }
+        .s06 .n { position: absolute; top: 1120px; width: 200px; margin: 0; text-align: center; font: 600 28px/1.2 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s06 .base { position: absolute; left: 90px; top: 1100px; width: 860px; height: 3px; background: var(--line); }
+        .s06 .ft { left: 90px; top: 1200px; width: 640px; font-size: 32px; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s06-results" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">The result</p>
+          <h2 class="a-h2 hd"><span class="l">More than <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">twice</span><span class="on" data-layout-allow-overlap="">twice</span></span></span><span class="l">as often</span></h2>
+          <p class="a-lab g1">Became opportunities</p>
+          <p class="a-lab g2">Time to close</p>
+          <i class="base"></i>
+          <i class="cb b1" style="left:110px;height:170px"></i>
+          <i class="cb hi b2" style="left:290px;height:340px"></i>
+          <i class="cb b3" style="left:560px;height:340px"></i>
+          <i class="cb hi b4" style="left:740px;height:250px"></i>
+          <p class="v v1" style="left:55px;top:860px">1×</p>
+          <p class="v hi v2" style="left:235px;top:690px">2×+</p>
+          <p class="v v4" style="left:685px;top:780px">−5 days</p>
+          <p class="n" style="left:85px">Old form</p>
+          <p class="n" style="left:265px">Agent</p>
+          <p class="n" style="left:535px">Old form</p>
+          <p class="n" style="left:715px">Agent</p>
+          <p class="a-sub ft">Conversations that needed a person to close: down about half</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.27;
+          const root = document.querySelector('[data-composition-id="s06-results"] .s06');
+          const q = (s) => root.querySelector(s);
+          const ns = [...root.querySelectorAll(".n")];
+          gsap.set([q(".g1"), q(".g2"), q(".base"), q(".v1"), q(".v2"), q(".v4"), q(".ft"), ...ns], { opacity: 0 });
+          gsap.set([q(".b1"), q(".b2"), q(".b3"), q(".b4")], { scaleY: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Those hand-offs become real sales opportunities"
+          Apple.fade(tl, [q(".g1"), q(".base"), ns[0], ns[1]], 0.9, { dur: 0.4 });
+          tl.to(q(".b1"), { scaleY: 1, duration: 0.6, ease: "power2.out" }, 1.0);
+          Apple.fade(tl, q(".v1"), 1.5, { dur: 0.3 });
+          // "more than twice as often as the old form's leads"
+          tl.to(q(".b2"), { scaleY: 1, duration: 0.7, ease: "power2.out" }, 3.0);
+          Apple.zoom(tl, q(".v2"), 3.45, { from: 0.7, dur: 0.4 });
+          Apple.tint(tl, q(".hd .a-tint"), 3.4, { dur: 0.4 });
+          // "and they close about five days faster"
+          Apple.fade(tl, [q(".g2"), ns[2], ns[3]], 5.6, { dur: 0.4 });
+          tl.to(q(".b3"), { scaleY: 1, duration: 0.5, ease: "power2.out" }, 5.9);
+          tl.fromTo(q(".b4"), { scaleY: 0 }, { scaleY: 340 / 250, duration: 0.4, ease: "power2.out" }, 6.2);
+          tl.to(q(".b4"), { scaleY: 1, duration: 0.5, ease: "power2.inOut" }, 6.7);
+          Apple.zoom(tl, q(".v4"), 7.0, { from: 0.7, dur: 0.4 });
+          // on screen only: the share needing a person fell by about half
+          Apple.rise(tl, q(".ft"), 7.8, { y: 16, dur: 0.6 });
+          window.__timelines["s06-results"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

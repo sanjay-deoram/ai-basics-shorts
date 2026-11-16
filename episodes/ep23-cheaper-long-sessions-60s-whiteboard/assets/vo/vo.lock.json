@@ -1,0 +1,10 @@
+{
+  "assets/vo/s01-403e70cf.mp3": "Here's why long Claude Code sessions got cheaper, in under sixty seconds.",
+  "assets/vo/s02-b69ca892.mp3": "Say you ask Claude Code to fix a bug.",
+  "assets/vo/s03-b1b8af9d.mp3": "Every turn, it re-sends the whole conversation in tokens, small pieces of words, including your ask, the files it read, and every tool result.",
+  "assets/vo/s04-533daedc.mp3": "For every token Claude writes, it now reads three hundred twenty-four, up from one hundred eighty-nine in March.",
+  "assets/vo/s05-dc58cb7d.mp3": "Reading a cached token, one saved from an earlier turn, is now sixty percent cheaper.",
+  "assets/vo/s06-e6554212.mp3": "Claude Code also breaks the cache less often. Refreshing your login or adding instructions mid-conversation are less likely to reset it, so input that misses the cache fell by more than half.",
+  "assets/vo/s07-fc0c5b11.mp3": "And Opus five point five needs fewer turns for the same job. Together, that's an estimated forty percent cheaper than Opus five.",
+  "assets/vo/s08-0d5ca44d.mp3": "Run slash usage to see how much of yours is cached reads, because no single number holds for every codebase."
+}

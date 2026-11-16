@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"typing","vol":0.12,"dur":1.4},
+      {"t":2.0,"sfx":"send","vol":0.12},
+      {"t":2.2,"sfx":"pop","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Setup · the bug. A Claude Code terminal (Claude mark): "> fix the failing test in auth.test.ts"
+           (illustrative), and the conversation's first block appears: Turn 1 · your ask.
+           Voiceover: 0.17 "Say you ask Claude Code to fix a bug." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .hd .l { display: block; white-space: nowrap; }
+        .s02 .tm { left: 90px; top: 548px; width: 860px; }
+        .s02 .tm .bar .cc-spark { width: 34px; height: 34px; }
+        .s02 .t1 { left: 90px; top: 736px; }
+        .s02 .blk { position: absolute; left: 90px; top: 800px; width: 270px; height: 60px; display: flex; align-items: center; padding: 0 20px; border-radius: 14px; background: var(--white); box-shadow: var(--shadow); font: 600 28px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s02-bug" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 hd"><span class="l">Fix a <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">bug</span><span class="on" data-layout-allow-overlap="">bug</span></span></span></h2>
+          <div class="a-win tm"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>claude · ~/app</span></div>
+            <div class="a-txt"><span class="ln"><span class="k">&gt;</span> <span class="ty">fix the failing test in auth.test.ts</span></span></div>
+          </div>
+          <p class="a-lab t1">Turn 1</p>
+          <div class="blk">your ask</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 3.01;
+          const root = document.querySelector('[data-composition-id="s02-bug"] .s02');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".tm"), q(".t1"), q(".blk")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.1, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.15, { y: 24, dur: 0.7 });
+          Apple.rise(tl, q(".tm"), 0.3, { y: 30, dur: 0.5 });
+          Egg.typeOn(tl, q(".ty"), 0.5, { cps: 26 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.0, { dur: 0.35 });
+          Apple.fade(tl, q(".t1"), 2.1, { dur: 0.3 });
+          tl.fromTo(q(".blk"), { opacity: 0, y: -170, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: "power2.out" }, 2.15);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .tm"), DUR - 0.25, { dur: 0.25 });
+          window.__timelines["s02-bug"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

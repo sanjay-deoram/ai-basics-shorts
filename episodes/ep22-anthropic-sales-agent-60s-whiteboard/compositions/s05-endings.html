@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":2.05,"sfx":"marker","vol":0.12},
+      {"t":3.3,"sfx":"pop","vol":0.14},
+      {"t":3.75,"sfx":"click","vol":0.16},
+      {"t":4.65,"sfx":"pop","vol":0.14},
+      {"t":5.9,"sfx":"pop","vol":0.14},
+      {"t":7.6,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":9.0,"sfx":"key","vol":0.12,"dur":0.5}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 2 · Three endings. Every conversation ends one of three ways: 1 Checkout (Buy Team), 2 Quick answer
+           (the plan-cost question, answered), 3 Hand-off to a rep with the full conversation and the reason it escalated.
+           The escalation reason is illustrative.
+           Voiceover: 0.17 "Every conversation ends one of three ways. You can buy at checkout, get a quick answer, or be
+           handed to a person, with the full conversation and the reason it escalated." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .e { left: 90px; width: 860px; height: 130px; }
+        .s05 .e .t { position: absolute; left: 30px; top: 30px; font: 700 38px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s05 .e .s { position: absolute; left: 30px; top: 82px; font: 500 28px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s05 .e .end { position: absolute; right: 26px; top: 0; bottom: 0; display: flex; align-items: center; gap: 14px; }
+        .s05 .e1 { top: 560px; }
+        .s05 .e2 { top: 720px; }
+        .s05 .ho { left: 90px; top: 880px; width: 860px; }
+        .s05 .ok { font: 700 30px/1 var(--f-t); color: var(--green); }
+      </style>
+      <div id="root" data-composition-id="s05-endings" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">2 · Three endings</p>
+          <h2 class="a-h2 hd"><span class="l">Every chat ends</span><span class="l">one of <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">three ways</span><span class="on" data-layout-allow-overlap="">three ways</span></span></span></h2>
+          <div class="a-card e e1"><span class="t">1 · Checkout</span><span class="s">buy it straight away</span><span class="end"><span class="a-btn blue buy">Buy Team</span></span></div>
+          <div class="a-card e e2"><span class="t">2 · Quick answer</span><span class="s">What does a plan cost?</span><span class="end"><span class="ok">✓ answered</span></span></div>
+          <div class="a-win ho"><div class="bar"><i></i><i></i><i></i><span class="ttl l">3 · Hand-off to a person</span></div>
+            <div class="a-txt"><span class="ln l1"><span class="cm">to:</span> account exec</span><span class="ln l2"><span class="cm">attached:</span> the full conversation <span class="g">✓</span></span><span class="ln l3"><span class="cm">reason:</span> <span class="k">needs a custom security review</span></span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.27;
+          const root = document.querySelector('[data-composition-id="s05-endings"] .s05');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".e1"), q(".e2"), q(".ho"), q(".ok"), q(".l1"), q(".l2"), q(".l3")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.05, { dur: 0.4 });
+          // "You can buy at checkout"
+          Apple.rise(tl, q(".e1"), 3.3, { y: 24, dur: 0.5 });
+          tl.to(q(".buy"), { scale: 0.92, duration: 0.12, yoyo: true, repeat: 1 }, 3.75);
+          // "get a quick answer"
+          Apple.rise(tl, q(".e2"), 4.65, { y: 24, dur: 0.5 });
+          Apple.zoom(tl, q(".ok"), 5.1, { from: 0.7, dur: 0.35 });
+          // "or be handed to a person, with the full conversation and the reason it escalated"
+          Apple.rise(tl, q(".ho"), 5.9, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".l1"), 6.4, { dur: 0.3 });
+          Apple.fade(tl, q(".l2"), 7.6, { dur: 0.3 });
+          Apple.fade(tl, q(".l3"), 9.0, { dur: 0.3 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .e, .ho"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-endings"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

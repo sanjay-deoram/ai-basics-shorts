@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.8,"sfx":"pop","vol":0.12},
+      {"t":1.4,"sfx":"key","vol":0.12,"dur":0.7},
+      {"t":2.6,"sfx":"tick","vol":0.14},
+      {"t":3.3,"sfx":"stream","vol":0.08,"dur":1.0},
+      {"t":4.7,"sfx":"pop","vol":0.16},
+      {"t":5.0,"sfx":"stream","vol":0.07,"dur":0.8}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · The fix · static composer. An HTML copy of the message box is baked into the page (markup illustrative).
+           Two page-load timelines on throttled 4G: before, you can type at 2.93 s; with the HTML copy, at 0.36 s, while
+           React keeps loading underneath (the article's figures).
+           Voiceover: 0.17 "One fix bakes an HTML copy of the message box into the page, so you can type while the rest
+           loads." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .ix { left: 90px; top: 548px; width: 860px; }
+        .s06 .ix .hl { position: absolute; left: 0; right: 0; top: 20px; height: 138px; background: var(--blue); opacity: 0; }
+        .s06 .lb { left: 90px; }
+        .s06 .cb { position: absolute; left: 90px; height: 50px; border-radius: 12px; transform-origin: 0 50%; }
+        .s06 .cb.old { top: 944px; width: 840px; background: var(--faint); }
+        .s06 .cb.now { top: 1124px; width: 103px; background: var(--blue); }
+        .s06 .cb.rx { top: 1124px; left: 199px; width: 731px; background: var(--line); display: flex; align-items: center; padding-left: 20px; font: 400 28px/1 var(--f-m); color: var(--mu); white-space: nowrap; }
+        .s06 .t { position: absolute; margin: 0; font: 700 30px/1 var(--f-t); white-space: nowrap; }
+        .s06 .t.o { left: 650px; top: 1010px; color: var(--ink); }
+        .s06 .t.n { left: 90px; top: 1190px; color: var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s06-static" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">One fix · a static message box</p>
+          <h2 class="a-h2 hd"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Type while</span><span class="on" data-layout-allow-overlap="">Type while</span></span></span><span class="l">the rest loads</span></h2>
+          <div class="a-win ix"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">index.html</span></div>
+            <div class="a-txt"><i class="hl"></i><span class="ln x1"><span class="k">&lt;div</span> id="composer-static"<span class="k">&gt;</span></span><span class="ln x2">  <span class="k">&lt;textarea</span> placeholder="Type a message"<span class="k">&gt;</span></span><span class="ln x3"><span class="k">&lt;/div&gt;</span></span></div>
+          </div>
+          <p class="a-lab lb l1" style="top:890px">Before · throttled 4G</p>
+          <i class="cb old"></i>
+          <p class="t o">can type at 2.93 s</p>
+          <p class="a-lab lb l2" style="top:1070px">With the HTML copy</p>
+          <i class="cb now"></i>
+          <span class="cb rx">React loading…</span>
+          <p class="t n">can type at 0.36 s</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.46;
+          const root = document.querySelector('[data-composition-id="s06-static"] .s06');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".ix"), q(".x1"), q(".x2"), q(".x3"), q(".l1"), q(".l2"), q(".o"), q(".n"), q(".rx")], { opacity: 0 });
+          gsap.set([q(".old"), q(".now")], { scaleX: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "One fix bakes an HTML copy of the message box into the page"
+          Apple.rise(tl, q(".ix"), 0.6, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".x1"), 1.4, { dur: 0.2 });
+          Apple.fade(tl, q(".x2"), 1.7, { dur: 0.2 });
+          Apple.fade(tl, q(".x3"), 2.0, { dur: 0.2 });
+          tl.to(q(".ix .hl"), { opacity: 0.1, duration: 0.3 }, 2.6);
+          // the old page: input accepted at 2.93 s
+          Apple.fade(tl, q(".l1"), 3.2, { dur: 0.3 });
+          tl.to(q(".old"), { scaleX: 1, duration: 1.0, ease: "none" }, 3.3);
+          Apple.fade(tl, q(".o"), 4.2, { dur: 0.3 });
+          // "so you can type": 0.36 s
+          Apple.fade(tl, q(".l2"), 4.4, { dur: 0.3 });
+          tl.to(q(".now"), { scaleX: 1, duration: 0.2, ease: "none" }, 4.6);
+          Apple.zoom(tl, q(".n"), 4.75, { from: 0.8, dur: 0.3 });
+          Apple.tint(tl, q(".hd .a-tint"), 4.75, { dur: 0.4 });
+          // "while the rest loads"
+          tl.fromTo(q(".rx"), { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.8, ease: "none" }, 5.0);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ix, .lb, .cb, .t"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s06-static"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

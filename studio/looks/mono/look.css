@@ -13,6 +13,7 @@
 .a-tag.gray { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10, 10, 10, 0.3); color: var(--ink); }
 .a-tag.blue { background: var(--ink); color: #f7f7f5; }
 .a-win .bar .a-tag.blue { background: #f7f7f5; color: var(--ink); }
+.a-win .bar .a-tag.gray { box-shadow: inset 0 0 0 1.5px rgba(247, 247, 245, 0.5); color: #f7f7f5; }
 .a-row.hot { background: rgba(217, 119, 87, 0.1); }
 .a-row .who { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10, 10, 10, 0.25); }
 .a-btn { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink); }

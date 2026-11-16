@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.6,"sfx":"sparkle","vol":0.1},
+      {"t":3.2,"sfx":"whoosh-short","vol":0.1},
+      {"t":4.4,"sfx":"whoosh-short","vol":0.1},
+      {"t":5.6,"sfx":"whoosh-short","vol":0.1},
+      {"t":7.0,"sfx":"tick","vol":0.14},
+      {"t":7.2,"sfx":"tick","vol":0.14},
+      {"t":7.4,"sfx":"tick","vol":0.14},
+      {"t":10.2,"sfx":"whoosh-short","vol":0.12},
+      {"t":10.9,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 4 · The harness breaks the cache less. Three events approach the cached block: refresh your login, add
+           instructions mid-conversation, load a tool on demand (the third is on screen only). The block stays lit and
+           each gets "✓ kept". Then the bar for input that misses the cache falls by more than half (drawn at 45%).
+           Voiceover: 0.17 "Claude Code also breaks the cache less often. Refreshing your login or adding instructions
+           mid-conversation are less likely to reset it, so input that misses the cache fell by more than half." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .cb { position: absolute; left: 90px; top: 548px; width: 860px; height: 84px; display: flex; align-items: center; padding: 0 28px; border-radius: 18px; background: var(--white); box-shadow: var(--shadow); font: 600 30px/1 var(--f-t); color: var(--blue); white-space: nowrap; }
+        .s06 .cb .gl { position: absolute; inset: -4px; border: 4px solid var(--blue); border-radius: 21px; }
+        .s06 .ev { position: absolute; left: 90px; }
+        .s06 .kp { position: absolute; left: 790px; margin: 0; font: 700 30px/1 var(--f-t); color: var(--green); white-space: nowrap; }
+        .s06 .ll { left: 90px; top: 950px; color: var(--ink); }
+        .s06 .ml { left: 90px; top: 1050px; }
+        .s06 .gh { position: absolute; left: 90px; top: 1104px; width: 860px; height: 76px; border-radius: 18px; background: var(--line); }
+        .s06 .mb { position: absolute; left: 90px; top: 1104px; width: 860px; height: 76px; border-radius: 18px; background: var(--faint); transform-origin: 0 50%; }
+        .s06 .hf { position: absolute; left: 520px; top: 1126px; margin: 0; font: 700 32px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s06-harness" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">4 · The cache breaks less</p>
+          <h2 class="a-h2 hd"><span class="l">It breaks the cache</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">less often</span><span class="on" data-layout-allow-overlap="">less often</span></span></span></h2>
+          <div class="cb"><i class="gl"></i>cached: turns 1–2 · your ask · auth.ts · test output</div>
+          <span class="a-chip ev e1" style="top:680px">refresh your login</span>
+          <span class="a-chip ev e2" style="top:770px">add instructions mid-conversation</span>
+          <span class="a-chip ev e3" style="top:860px">load a tool on demand</span>
+          <p class="kp k1" style="top:692px">✓ kept</p><p class="kp k2" style="top:782px">✓ kept</p><p class="kp k3" style="top:872px">✓ kept</p>
+          <p class="a-lab ll">Each is now less likely to reset the cache.</p>
+          <p class="a-lab ml">Input that misses the cache</p>
+          <i class="gh"></i><i class="mb"></i>
+          <p class="hf">more than half gone</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 11.6;
+          const root = document.querySelector('[data-composition-id="s06-harness"] .s06');
+          const q = (s) => root.querySelector(s);
+          const ev = [q(".e1"), q(".e2"), q(".e3")], kp = [q(".k1"), q(".k2"), q(".k3")];
+          gsap.set([q(".cb"), ...ev, ...kp, q(".ll"), q(".ml"), q(".gh"), q(".mb"), q(".hf")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Claude Code also breaks the cache less often"
+          Apple.rise(tl, q(".cb"), 0.6, { y: 20, dur: 0.5 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.2, { dur: 0.4 });
+          // "Refreshing your login or adding instructions mid-conversation"
+          [3.2, 4.4, 5.6].forEach((t, i) => {
+            tl.fromTo(ev[i], { opacity: 0, x: 300 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, t);
+            tl.to(q(".cb"), { scale: 1.02, duration: 0.15, yoyo: true, repeat: 1 }, t + 0.45);
+          });
+          // "are less likely to reset it"
+          kp.forEach((k, i) => Apple.zoom(tl, k, 7.0 + i * 0.2, { from: 0.6, dur: 0.3 }));
+          Apple.rise(tl, q(".ll"), 7.4, { y: 14, dur: 0.4 });
+          // "so input that misses the cache fell by more than half"
+          Apple.fade(tl, [q(".ml"), q(".gh"), q(".mb")], 8.6, { dur: 0.4 });
+          tl.to(q(".mb"), { scaleX: 0.45, duration: 0.8, ease: "power2.inOut" }, 10.2);
+          Apple.fade(tl, q(".hf"), 10.9, { dur: 0.3 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .cb, .ev, .kp, .ll, .ml, .gh, .mb, .hf"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s06-harness"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

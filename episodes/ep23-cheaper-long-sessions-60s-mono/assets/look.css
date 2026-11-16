@@ -1,0 +1,25 @@
+/* MONO look: off-white and true black, 1.5 px hairlines, no shadows, one terracotta accent. */
+:root { --white: #ffffff; --gray: #f7f7f5; --line: rgba(10, 10, 10, 0.12); --ink: #0a0a0a; --mu: #6b6b68; --faint: #8f8f8b; --blue: #c05a36; --red: #c4331b; --green: #2f7d4f; --code: #0a0a0a;
+  --shadow: 0 0 0 1.5px rgba(10, 10, 10, 0.16); --shadow-lg: 0 0 0 1.5px rgba(10, 10, 10, 0.9); --nar-bg: #f7f7f5; --nar-rim: 2px solid #0a0a0a; }
+.a-scene, .a-scene.white { background: var(--gray); }
+.a-h, .a-h2 { font-weight: 600; letter-spacing: -0.05em; }
+.a-eyebrow { font: 400 28px/1.2 var(--f-m); letter-spacing: 0.06em; text-transform: uppercase; color: var(--mu); }
+.a-card { border-radius: 36px; }
+.a-win { border-radius: 36px; }
+.a-win .bar { background: var(--ink); border-bottom: 0; }
+.a-win .bar > i, .a-win .bar > i:nth-of-type(2), .a-win .bar > i:nth-of-type(3) { background: #3a3a3a; }
+.a-win .bar .ttl { color: #f7f7f5; font-family: var(--f-m); font-weight: 400; letter-spacing: 0.04em; }
+.a-tag { font: 400 26px/1 var(--f-m); letter-spacing: 0.04em; text-transform: uppercase; }
+.a-tag.gray { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10, 10, 10, 0.3); color: var(--ink); }
+.a-tag.blue { background: var(--ink); color: #f7f7f5; }
+.a-win .bar .a-tag.blue { background: #f7f7f5; color: var(--ink); }
+.a-win .bar .a-tag.gray { box-shadow: inset 0 0 0 1.5px rgba(247, 247, 245, 0.5); color: #f7f7f5; }
+.a-row.hot { background: rgba(217, 119, 87, 0.1); }
+.a-row .who { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10, 10, 10, 0.25); }
+.a-btn { background: transparent; box-shadow: inset 0 0 0 1.5px var(--ink); }
+.a-btn.blue { background: var(--ink); color: #f7f7f5; box-shadow: none; }
+.a-chip.flat { background: transparent; box-shadow: inset 0 0 0 1.5px rgba(10, 10, 10, 0.3); }
+.a-stamp { border-width: 3px; border-radius: 999px; background: #f7f7f5; }
+.a-dot { background: var(--ink); box-shadow: 0 0 0 10px rgba(10, 10, 10, 0.08); }
+.a-check { background: var(--ink); }
+.a-ink { stroke-width: 3; } .a-ink.mu { stroke: rgba(10, 10, 10, 0.3); }

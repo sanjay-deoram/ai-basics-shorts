@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.9,"sfx":"pop","vol":0.12},
+      {"t":1.85,"sfx":"sparkle","vol":0.1},
+      {"t":4.0,"sfx":"whoosh-short","vol":0.1},
+      {"t":4.5,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 3 · Cache reads. Turn 3 of the stack: the blocks already stored from turn 2 light up as the cache. A price
+           bar for reading a cached token drops from 100 to 40 (60% cheaper). Foot: cache reads are most of what coding
+           work costs.
+           Voiceover: 0.17 "Reading a cached token, one saved from an earlier turn, is now sixty percent cheaper." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .h { left: 90px; top: 548px; }
+        .s05 .blk { position: absolute; left: 90px; width: 300px; height: 60px; display: flex; align-items: center; padding: 0 20px; border-radius: 14px; background: var(--white); box-shadow: var(--shadow); font: 400 28px/1 var(--f-m); color: var(--ink); white-space: nowrap; }
+        .s05 .blk.t { font: 600 28px/1 var(--f-t); }
+        .s05 .blk .gl { position: absolute; inset: -4px; border: 4px solid var(--blue); border-radius: 17px; opacity: 0; }
+        .s05 .cl { left: 90px; top: 960px; color: var(--blue); }
+        .s05 .pl { left: 470px; top: 548px; }
+        .s05 .pt { position: absolute; left: 470px; top: 610px; width: 480px; height: 76px; border-radius: 18px; background: var(--line); }
+        .s05 .pb { position: absolute; left: 470px; top: 610px; width: 480px; height: 76px; border-radius: 18px; background: var(--faint); transform-origin: 0 50%; }
+        .s05 .pv { position: absolute; left: 470px; top: 712px; margin: 0; font: 800 64px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s05 .pv .k { color: var(--blue); }
+        .s05 .ft { left: 90px; top: 1080px; width: 760px; color: var(--ink); }
+      </style>
+      <div id="root" data-composition-id="s05-cache" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">3 · Cheaper cache reads</p>
+          <h2 class="a-h2 hd"><span class="l">Cached reads:</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">60% cheaper</span><span class="on" data-layout-allow-overlap="">60% cheaper</span></span></span></h2>
+          <p class="a-lab h">Turn 3</p>
+          <div class="blk t c" style="top:610px"><i class="gl"></i>your ask</div>
+          <div class="blk c" style="top:680px"><i class="gl"></i>auth.ts</div>
+          <div class="blk c" style="top:750px"><i class="gl"></i>test output</div>
+          <div class="blk t" style="top:820px">the edit</div>
+          <div class="blk" style="top:890px">test output</div>
+          <p class="a-lab cl">cached: saved from turn 2</p>
+          <p class="a-lab pl">Price to read a cached token</p>
+          <i class="pt"></i><i class="pb"></i>
+          <p class="pv"><span class="o">100</span><span class="nw"> → <span class="k">40</span></span></p>
+          <p class="a-sub ft">Cache reads are most of what coding work costs.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.75;
+          const root = document.querySelector('[data-composition-id="s05-cache"] .s05');
+          const q = (s) => root.querySelector(s);
+          const bl = [...root.querySelectorAll(".blk")];
+          gsap.set([q(".h"), ...bl, q(".cl"), q(".pl"), q(".pt"), q(".pb"), q(".pv"), q(".nw"), q(".ft")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Reading a cached token"
+          Apple.fade(tl, q(".h"), 0.5, { dur: 0.3 });
+          Apple.rise(tl, bl, 0.6, { y: 14, dur: 0.4, stagger: 0.06 });
+          Apple.fade(tl, [q(".pl"), q(".pt"), q(".pb"), q(".pv")], 0.9, { dur: 0.4 });
+          // "one saved from an earlier turn": turns 1–2 light up
+          tl.to([...root.querySelectorAll(".c .gl")], { opacity: 1, duration: 0.4, stagger: 0.1 }, 1.85);
+          Apple.rise(tl, q(".cl"), 2.4, { y: 14, dur: 0.4 });
+          // "is now sixty percent cheaper"
+          tl.to(q(".pb"), { scaleX: 0.4, duration: 0.6, ease: "power2.inOut" }, 4.0);
+          Apple.fade(tl, q(".nw"), 4.2, { dur: 0.3 });
+          Apple.tint(tl, q(".hd .a-tint"), 4.0, { dur: 0.4 });
+          Apple.rise(tl, q(".ft"), 4.6, { y: 16, dur: 0.5 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .h, .blk, .cl, .pl, .pt, .pb, .pv, .ft"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-cache"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

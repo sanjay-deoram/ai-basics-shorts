@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.0,"sfx":"pop","vol":0.12},
+      {"t":3.2,"sfx":"stream","vol":0.08,"dur":1.8},
+      {"t":5.0,"sfx":"pop","vol":0.18},
+      {"t":5.6,"sfx":"pop","vol":0.12},
+      {"t":6.1,"sfx":"impact-bass-1","vol":0.12},
+      {"t":7.4,"sfx":"pop","vol":0.12},
+      {"t":7.9,"sfx":"chime","vol":0.18,"dur":1.2}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Payoff · result. A counter runs 3.1 s → 0.55 s (fresh load of claude.ai until you can type, p75, all fixes
+           together). The static-composer PR gets an "Approved by a person" stamp. Foot: employees → 1% of users →
+           everyone; 3.1× faster on average across 13 measurements. Hard stop.
+           Voiceover: 0.17 "Overall, the wait before you can type fell from three point one seconds to about half a
+           second, and a person approved every change." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .hd { top: 316px; }
+        .s07 .hd .l { display: block; white-space: nowrap; }
+        .s07 .ct { position: absolute; left: 90px; top: 450px; margin: 0; font: 800 200px/1 var(--f-d); letter-spacing: -0.05em; color: var(--blue); white-space: nowrap; }
+        .s07 .cl { left: 90px; top: 670px; }
+        .s07 .pr { left: 90px; top: 760px; width: 860px; }
+        .s07 .ap { left: 420px; top: 940px; }
+        .s07 .ro { left: 90px; top: 1060px; color: var(--ink); }
+        .s07 .gm { left: 90px; top: 1116px; }
+      </style>
+      <div id="root" data-composition-id="s07-result" data-width="1080" data-height="1920">
+        <div class="a-scene s07">
+          <p class="a-eyebrow">All the fixes together</p>
+          <h2 class="a-h2 hd"><span class="l">Time until you <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">type</span><span class="on" data-layout-allow-overlap="">type</span></span></span></h2>
+          <p class="ct">3.1 s</p>
+          <p class="a-lab cl">fresh load of claude.ai, until you can type</p>
+          <div class="a-win pr"><div class="bar"><i></i><i></i><i></i><span class="ttl l">PR · Static composer</span></div>
+            <div class="a-txt"><span class="ln"><span class="g">+ if (flags.staticComposer) {</span></span><span class="ln"><span class="g">+   hydrateFrom("composer-static");</span></span><span class="ln"><span class="g">+ }</span></span></div>
+          </div>
+          <span class="a-stamp green ap">✓ Approved by a person</span>
+          <p class="a-lab ro">Employees → 1% of users → everyone</p>
+          <p class="a-lab gm">3.1× faster on average across 13 measurements</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.16;
+          const root = document.querySelector('[data-composition-id="s07-result"] .s07');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".ct"), q(".cl"), q(".pr"), q(".ap"), q(".ro"), q(".gm")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Overall, the wait before you can type"
+          Apple.rise(tl, q(".ct"), 0.9, { y: 24, dur: 0.6 });
+          Apple.fade(tl, q(".cl"), 1.2, { dur: 0.4 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.1, { dur: 0.4 });
+          // "fell from three point one seconds to about half a second"
+          const c = { v: 3.1 };
+          const show = () => { q(".ct").textContent = (c.v >= 1 ? c.v.toFixed(1) : c.v.toFixed(2)) + " s"; };
+          tl.fromTo(c, { v: 3.1 }, { v: 0.55, duration: 1.8, ease: "power2.inOut", onUpdate: show }, 3.2);
+          tl.to(q(".ct"), { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 5.0);
+          // "and a person approved every change"
+          Apple.rise(tl, q(".pr"), 5.5, { y: 24, dur: 0.5 });
+          Apple.zoom(tl, q(".ap"), 6.1, { from: 1.5, dur: 0.3 });
+          Apple.rise(tl, q(".ro"), 7.4, { y: 14, dur: 0.4 });
+          Apple.rise(tl, q(".gm"), 7.9, { y: 14, dur: 0.4 });
+          window.__timelines["s07-result"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

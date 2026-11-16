@@ -1,0 +1,59 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.1,
+      "text": "Here's why long Claude Code sessions got cheaper, in under sixty seconds."
+    },
+    {
+      "scene": "s02",
+      "at": 0.17,
+      "text": "Say you ask Claude Code to fix a bug."
+    },
+    {
+      "scene": "s03",
+      "at": 0.17,
+      "text": "Every turn, it re-sends the whole conversation in tokens, small pieces of words, including your ask, the files it read, and every tool result."
+    },
+    {
+      "scene": "s04",
+      "at": 0.17,
+      "text": "For every token Claude writes, it now reads three hundred twenty-four, up from one hundred eighty-nine in March."
+    },
+    {
+      "scene": "s05",
+      "at": 0.17,
+      "text": "Reading a cached token, one saved from an earlier turn, is now sixty percent cheaper."
+    },
+    {
+      "scene": "s06",
+      "at": 0.17,
+      "text": "Claude Code also breaks the cache less often. Refreshing your login or adding instructions mid-conversation are less likely to reset it, so input that misses the cache fell by more than half."
+    },
+    {
+      "scene": "s07",
+      "at": 0.17,
+      "text": "And Opus five point five needs fewer turns for the same job. Together, that's an estimated forty percent cheaper than Opus five."
+    },
+    {
+      "scene": "s08",
+      "at": 0.17,
+      "text": "Run slash usage to see how much of yours is cached reads, because no single number holds for every codebase."
+    }
+  ]
+}
