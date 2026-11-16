@@ -17,9 +17,8 @@
 .a-card, .a-win { background: linear-gradient(180deg, rgba(255, 255, 255, 0.86), rgba(255, 255, 255, 0.72)); }
 .a-win .bar { background: rgba(255, 255, 255, 0.55); border-bottom-color: rgba(17, 18, 20, 0.06); }
 .a-win .bar > i { background: #d9d3ee; } .a-win .bar > i:nth-of-type(2) { background: #e9dcd3; } .a-win .bar > i:nth-of-type(3) { background: #d0e7df; }
-.a-tag.blue { background: rgba(106, 79, 214, 0.12); }
 .a-row.hot { background: rgba(106, 79, 214, 0.08); }
 .a-chip { background: rgba(255, 255, 255, 0.8); }
 .a-chip.flat { background: rgba(255, 255, 255, 0.6); }
 .a-dot { box-shadow: 0 0 0 12px rgba(106, 79, 214, 0.16); }
-.a-stamp { background: rgba(255, 255, 255, 0.85); border-width: 3px; border-radius: 999px; }
+.a-stamp { border-radius: 14px; box-shadow: 0 24px 40px -18px color-mix(in srgb, var(--st) 80%, transparent); }

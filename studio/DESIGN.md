@@ -58,8 +58,8 @@ spacing:
 components:
   egg-card:   { background: eggshell, border: "2px solid stone", radius: card, shadow: whisper, description: "Prompt card. Kicker top-left, stamp top-right, Geist Mono text." }
   egg-card.taupe: { background: taupe, border: none, shadow: none, description: "Weak or neutral answer." }
-  egg-stamp:  { radius: pill, description: "VAGUE (bad, ✕ icon) or CLEAR (good, ✓ icon). Lands rotated −4° with a card shake." }
-  egg-chip:   { radius: pill, border: "2px solid btn-border", description: "Tip label: 'TIP · BE SPECIFIC'." }
+  egg-stamp:  { radius: "10px", description: "VAGUE (bad, ✕ icon) or CLEAR (good, ✓ icon). A flat solid status banner with an icon; drops in level (no tilt). Labels v2, 2026-11-15." }
+  egg-chip:   { radius: "8px", border: "1.5px solid btn-border", description: "Tip label: 'TIP · BE SPECIFIC'. Never a 9999px capsule." }
   egg-pill-dark: { background: ink, text: eggshell, description: "The only filled button: the follow CTA." }
   egg-hl:     { description: "Blush highlighter that sweeps under the one key phrase of a good prompt." }
   egg-progress: { description: "6px ink bar on a stone track at y 186, fills across the whole episode." }
@@ -75,7 +75,7 @@ motion:
   rise: "back.out(1.4) · 0.8s · iso blocks rise 90px"
   draw: "power2.inOut · 0.7s per stroke · 0.4s between strokes"
   type: "34–42 characters per second"
-  stamp: "back.out(3) · 0.32s · scale 1.8→1, −12°→−4°, card shake 0.32s"
+  stamp: "back.out(2.2) · 0.32s · y −14→0, scale 1.08→1, rotation 0 (Labels v2: no tilt), optional card shake"
   zoom: "power2.inOut · 0.6s · scale ≤ 1.04, then back"
   move: "power2.inOut · 1.0s · the iso dot between blocks"
 ---
@@ -365,3 +365,12 @@ Don't
 - Measure layout (`getBoundingClientRect`, `offsetTop`, `getComputedStyle`) to place or color animated
   elements; scenes are hidden while they build, so measurements come back empty. Use fixed
   coordinates for anything that flies.
+
+## Labels v2 and showing UI (2026-11-15)
+
+- No capsule pills and no tilted outline stamps: they read as AI-made. Status tags are small labels with a dot and 8 px
+  corners, chips are inline-code tokens, stamps are flat solid banners with an icon, lists of attributes are a checklist
+  (`.a-li`), buttons are 14 px rounded rectangles. The W47 kit carries this at the end of each episode's `assets/apple.css`
+  (+ the `Egg.stamp` override in `assets/apple.js`); the looks in `studio/looks/` restyle it.
+- Viewers are visual learners: whenever a scene shows code for UI work, also show what it renders (e.g. ep24 s06,
+  index.html + the claude.ai windows it draws). Prefer a real interface (chat, app, browser) over an abstract diagram.

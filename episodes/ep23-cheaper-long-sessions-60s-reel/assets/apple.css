@@ -125,3 +125,32 @@
 .a-strike { position: relative; display: inline-block; }
 .a-strike > i { position: absolute; left: -4px; right: -4px; top: 52%; height: 5px; border-radius: 3px; background: var(--red); transform-origin: 0 50%; }
 .a-win .bar .ttl.l { justify-content: flex-start; padding-left: 128px; }
+
+/* ── Labels v2 (2026-11-15) ── No capsules: the round "AI" pills are gone. Tags read like real product status labels
+   (a dot, square-ish 8 px corners, a tint of their own colour); chips read like inline code; stamps are flat solid
+   status banners with an icon that drop in level, never tilted; buttons are rounded rectangles like a real app. */
+.a-tag { gap: 10px; height: 46px; padding: 0 16px 0 14px; border-radius: 8px; font: 600 28px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink);
+  background: color-mix(in srgb, currentColor 8%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, currentColor 24%, transparent); }
+.a-tag::before { content: ""; flex: none; width: 12px; height: 12px; border-radius: 50%; background: currentColor; }
+.a-tag.gray { color: var(--mu); background: color-mix(in srgb, currentColor 6%, transparent); }
+.a-tag.blue { color: var(--blue); }
+.a-chip { gap: 10px; height: 48px; padding: 0 14px; border-radius: 8px; font: 400 28px/1 var(--f-m); color: var(--code);
+  background: color-mix(in srgb, var(--ink) 4%, var(--white)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 12%, transparent); }
+.a-chip.flat { background: transparent; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 14%, transparent); }
+.a-stamp { --st: var(--blue); gap: 14px; height: 62px; padding: 0 24px 0 20px; border: 0; border-radius: 10px; background: var(--st); color: #fff;
+  font: 700 30px/1 var(--f-t); letter-spacing: -0.01em; text-transform: none; box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--st) 70%, transparent); }
+.a-stamp.red { --st: var(--red); border-color: transparent; color: #fff; }
+.a-stamp.green { --st: var(--green); border-color: transparent; color: #fff; }
+.a-stamp.mu { --st: var(--mu); border-color: transparent; color: #fff; }
+.a-stamp::before { content: ""; flex: none; width: 28px; height: 28px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2.5 4 5.5v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-6z'/%3E%3Cpath d='m8.5 12 2.5 2.5 4.5-5'/%3E%3C/svg%3E") center / contain no-repeat; }
+.a-stamp.red::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='m8.5 8.5 7 7m0-7-7 7'/%3E%3C/svg%3E"); }
+.a-stamp.green::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='m7.5 12.5 3 3 6-6.5'/%3E%3C/svg%3E"); }
+.a-stamp.mu::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M8 12h8'/%3E%3C/svg%3E"); }
+.a-btn { border-radius: 14px; }
+.a-pill { border-radius: 14px; }
+.a-row .who { border-radius: 8px; }
+/* a checklist item: a ticked box and plain text, no container */
+.a-li { display: inline-flex; align-items: center; gap: 14px; height: 48px; font: 500 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-li::before { content: ""; flex: none; width: 30px; height: 30px; border-radius: 7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6.5 12.5 3.6 3.6L17.5 8.6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat, var(--blue); }

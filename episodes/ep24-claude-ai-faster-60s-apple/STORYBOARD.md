@@ -29,12 +29,12 @@ ep21 apple look plus the W47 kit (end of `assets/apple.css`). Other looks: `node
 | s03 loop | 10.76–24.01 | "One slow spot, three steps": 1 the report, 2 Claude's benchmark (fresh load → first input, ✓ reproduced), 3 a small PR behind a flag (diff), the flag switch turns on; "watching: deploy + field data". |
 | s04 cpu | 24.01–29.92 | "Instructions, not milliseconds": CPU instructions 1.90M every run (steady) vs 41 / 38 / 52 / 44 ms (noisy). |
 | s05 ratchet | 29.92–39.62 | "The limit only goes down": ceiling 1.90M → 1.88M, daily job lowered ✓, a PR raising it to 1.93M → FAILED CI; if it isn't faster, the flag switches off, "Claude tries again". |
-| s06 static | 39.62–46.08 | "Type while the rest loads": index.html with the static composer markup; throttled 4G, before: can type at 2.93 s; with the HTML copy: 0.36 s while React keeps loading. |
+| s06 static | 39.62–46.08 | "Type while the rest loads": index.html with the static composer markup, then what it renders: two claude.ai windows on one throttled-4G clock. Before: a spinner until 2.93 s. With the HTML copy: the message box is live at 0.36 s and "Plan a 3-day trip to Lisbon" types in while the greeting, sidebar and send button load around it. |
 | s07 result | 46.08–55.24 | "Time until you type": 3.1 s → 0.55 s (fresh load of claude.ai); the PR stamped "Approved by a person"; Employees → 1% of users → everyone; 3.1× faster on average across 13 measurements. Hard stop. |
 
 ## Illustrative parts
 
 The report's wording, the flag name (static-composer / flags.staticComposer), the diff and the index.html markup, the
-ceiling numbers (1.90M → 1.88M, 1.93M), the instruction and millisecond samples, and the "Type a message" placeholder.
+ceiling numbers (1.90M → 1.88M, 1.93M), the instruction and millisecond samples, the "Type a message" placeholder, and the rendered windows' contents ("Good evening", the recents list, "Plan a 3-day trip to Lisbon").
 Everything else (3.1× over 13 measurements, 3.1 s → 0.55 s, 2.93 s → 0.36 s on throttled 4G, the loop, CPU instructions,
 the daily ratchet, human approval, the rollout) comes from the article.

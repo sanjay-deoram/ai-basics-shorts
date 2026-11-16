@@ -20,12 +20,15 @@
 .a-txt, .a-row { font-weight: 700; }
 .a-tag.blue { background: #f3b930; color: var(--ink); }
 .a-tag.gray { background: #fbf0d9; color: var(--ink); box-shadow: var(--shadow); }
+.a-tag { border-radius: 6px; }
 .a-row .who { background: #f3b930; color: var(--ink); }
 .a-row.hot { background: rgba(243, 185, 48, 0.3); }
 .a-chip { background-color: #fbf0d9; background-image: var(--grain); border-radius: 10px; }
 .a-chip.flat { background-color: #f3b930; box-shadow: var(--shadow); }
 .a-btn { background: #e9dcc0; } .a-btn.blue { background: #dc4e39; }
-.a-stamp { background: #fbf0d9; border-radius: 10px; }
+.a-stamp { background-color: var(--st); background-image: var(--grain); border-radius: 6px; box-shadow: var(--shadow); }
 .a-dot { background: #dc4e39; box-shadow: var(--shadow); }
 .a-ink { stroke: #1f2d52; stroke-width: 5; } .a-ink.mu { stroke: rgba(31, 45, 82, 0.55); }
 .a-win .msg, .a-card .m { background: rgba(43, 33, 24, 0.07); }
+.a-tag.blue { box-shadow: var(--shadow); }
+.a-chip { box-shadow: var(--shadow); }

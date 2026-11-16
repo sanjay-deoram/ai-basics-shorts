@@ -24,17 +24,19 @@
 .a-win .msg, .a-card .m, .a-card .msg { background: #f1f1f1; }
 .a-win p, .a-win .lbl { color: #e6e6e6; }
 .a-win .msg { color: var(--ink); }
-.a-tag { border: 3px solid var(--ink); font-weight: 800; }
-.a-tag.gray { background: #ffffff; color: var(--ink); }
+.a-tag { box-shadow: inset 0 0 0 3px var(--ink); font-weight: 800; }
+.a-tag.gray, .a-tag:not(.blue) { background: #ffffff; color: var(--ink); }
 .a-tag.blue { background: var(--blue); color: #fff; }
-.a-chip { border: 3px solid var(--ink); border-radius: 12px; box-shadow: 4px 4px 0 var(--ink); color: var(--ink); }
+.a-chip { background: #ffffff; border: 3px solid var(--ink); border-radius: 8px; box-shadow: 4px 4px 0 var(--ink); color: var(--ink); }
 .a-chip.flat { background: #ffffff; box-shadow: none; }
 .a-btn { border: 3px solid var(--ink); font-weight: 800; background: #fff; }
 .a-btn.blue { background: var(--blue); }
-.a-stamp { border-width: 6px; transform-origin: 50% 50%; }
+.a-stamp { border: 4px solid var(--ink); box-shadow: 5px 5px 0 var(--ink); transform-origin: 50% 50%; }
 .a-lab { color: var(--ink); font-weight: 700; }
 .a-ink { stroke: var(--ink); stroke-width: 6; } .a-ink.mu { stroke: var(--ink); }
 .a-dot { background: var(--blue); border: 4px solid var(--ink); box-shadow: none; }
 .a-check { background: var(--green); }
 .a-scene .a-win .lbl { color: #e6e6e6; }
 .a-win p:not(.msg), .a-win .who { color: #f2f2f2 !important; }
+.a-win .a-tag.gray, .a-win .a-tag:not(.blue) { background: #2a2a2a; color: #f2f2f2; box-shadow: inset 0 0 0 2px #444; }
+.a-li::before { box-shadow: 0 0 0 3px var(--ink); }

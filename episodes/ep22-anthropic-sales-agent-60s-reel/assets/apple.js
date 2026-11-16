@@ -27,3 +27,10 @@ window.Apple = (() => {
   });
   return { rise, zoom, fade, out, tint, icons };
 })();
+
+// Labels v2 (2026-11-15): stamps drop in level and settle, never tilted like a rubber stamp.
+Egg.stamp = function (tl, el, at, shakeTarget) {
+  tl.fromTo(el, { opacity: 0, y: -14, scale: 1.08, rotation: 0 }, { opacity: 1, y: 0, scale: 1, rotation: 0, duration: 0.32, ease: "back.out(2.2)" }, at);
+  if (shakeTarget) Egg.shake(tl, shakeTarget, at + 0.12);
+  return at + 0.32;
+};
