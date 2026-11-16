@@ -1,0 +1,34 @@
+/* PAPERCUT look: a kraft tabletop from above; every card is cut from cream construction paper with grain and a soft
+   drop shadow. Fredoka for type, Courier Prime for code, tomato / mustard / teal paper accents. */
+@font-face { font-family: "Fredoka"; src: url("fonts/Fredoka-var.woff2") format("woff2"); font-weight: 300 700; font-display: block; }
+@font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+@font-face { font-family: "Courier Prime"; src: url("fonts/CourierPrime-700.woff2") format("woff2"); font-weight: 700; font-display: block; }
+:root { --white: #fbf0d9; --gray: #c59a64; --line: rgba(43, 33, 24, 0.16); --ink: #2b2118; --mu: #5a4632; --faint: #8a7356; --blue: #7a1a0f; --red: #b8301f; --green: #1c8580; --code: #2b2118;
+  --f-d: "Fredoka", sans-serif; --f-t: "Fredoka", sans-serif; --f-m: "Courier Prime", monospace;
+  --shadow: 0 2px 1px rgba(52, 28, 6, 0.35), 4px 10px 12px rgba(52, 28, 6, 0.3); --shadow-lg: 0 3px 1px rgba(52, 28, 6, 0.38), 6px 14px 16px rgba(52, 28, 6, 0.32);
+  --grain: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPSczMDAnIGhlaWdodD0nMzAwJz48ZmlsdGVyIGlkPSduJyB4PScwJyB5PScwJyB3aWR0aD0nMTAwJScgaGVpZ2h0PScxMDAlJz48ZmVUdXJidWxlbmNlIHR5cGU9J2ZyYWN0YWxOb2lzZScgYmFzZUZyZXF1ZW5jeT0nLjg1JyBudW1PY3RhdmVzPSczJyBzZWVkPSc3JyBzdGl0Y2hUaWxlcz0nc3RpdGNoJy8+PGZlQ29sb3JNYXRyaXggdmFsdWVzPScwIDAgMCAwIDAuMjIgIDAgMCAwIDAgMC4xMyAgMCAwIDAgMCAwLjA1ICAwIDAgMCAuMzQgMCcvPjwvZmlsdGVyPjxyZWN0IHdpZHRoPSczMDAnIGhlaWdodD0nMzAwJyBmaWx0ZXI9J3VybCgjbiknLz48L3N2Zz4="); --nar-bg: #f3b930; --nar-rim: 8px solid #fbf0d9; }
+.a-scene, .a-scene.white { background-color: #c59a64; background-image: radial-gradient(ellipse at 50% 45%, rgba(255, 236, 190, 0.28), rgba(70, 38, 8, 0.3) 100%), var(--grain); }
+.a-h, .a-h2 { font-weight: 600; letter-spacing: -0.02em; color: #1f2d52; }
+.a-tint > .on { color: var(--blue); }
+.a-eyebrow { font-weight: 600; color: #1f2d52; }
+.a-sub { color: #1f2d52; font-weight: 600; }
+.a-lab { color: #1f2d52; font-weight: 600; }
+.a-card, .a-win { background-color: #fbf0d9; background-image: var(--grain); border-radius: 14px; }
+.a-win .bar { background: #1c8580; border-bottom: 0; }
+.a-win .bar > i { background: #fbf0d9; } .a-win .bar > i:nth-of-type(2) { background: #f3b930; } .a-win .bar > i:nth-of-type(3) { background: #dc4e39; }
+.a-win .bar .ttl { color: #fbf0d9; font-weight: 600; }
+.a-txt, .a-row { font-weight: 700; }
+.a-tag.blue { background: #f3b930; color: var(--ink); }
+.a-tag.gray { background: #fbf0d9; color: var(--ink); box-shadow: var(--shadow); }
+.a-tag { border-radius: 6px; }
+.a-row .who { background: #f3b930; color: var(--ink); }
+.a-row.hot { background: rgba(243, 185, 48, 0.3); }
+.a-chip { background-color: #fbf0d9; background-image: var(--grain); border-radius: 10px; }
+.a-chip.flat { background-color: #f3b930; box-shadow: var(--shadow); }
+.a-btn { background: #e9dcc0; } .a-btn.blue { background: #dc4e39; }
+.a-stamp { background-color: var(--st); background-image: var(--grain); border-radius: 6px; box-shadow: var(--shadow); }
+.a-dot { background: #dc4e39; box-shadow: var(--shadow); }
+.a-ink { stroke: #1f2d52; stroke-width: 5; } .a-ink.mu { stroke: rgba(31, 45, 82, 0.55); }
+.a-win .msg, .a-card .m { background: rgba(43, 33, 24, 0.07); }
+.a-tag.blue { box-shadow: var(--shadow); }
+.a-chip { box-shadow: var(--shadow); }

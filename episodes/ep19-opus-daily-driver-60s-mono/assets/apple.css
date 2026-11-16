@@ -1,0 +1,156 @@
+/* Apple-style keynote theme for this variant: white and #F5F5F7 surfaces, near-black type, one accent blue used
+   sparingly, huge tight bold headlines, large soft-shadowed cards, macOS-window code panels. A design language
+   only: no logos or trademarks. Fonts are local stand-ins (Inter Tight / Inter for SF Pro, Geist Mono for SF Mono). */
+@font-face { font-family: "Inter"; src: url("fonts/Inter-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Inter Tight"; src: url("fonts/InterTight-var.woff2") format("woff2"); font-weight: 100 900; font-display: block; }
+@font-face { font-family: "Geist Mono"; src: url("fonts/GeistMono-400.woff2") format("woff2"); font-weight: 400; font-display: block; }
+
+:root {
+  --white: #ffffff; --gray: #f5f5f7; --line: #e8e8ed; --ink: #1d1d1f; --mu: #6e6e73; --faint: #86868b; --blue: #0071e3;
+  --f-d: "Inter Tight", "Inter", sans-serif; --f-t: "Inter", sans-serif; --f-m: "Geist Mono", monospace;
+  --shadow: 0 2px 6px rgba(0, 0, 0, 0.04), 0 18px 48px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.05), 0 30px 80px rgba(0, 0, 0, 0.12);
+}
+
+.a-scene { position: absolute; inset: 0; overflow: hidden; background: var(--gray); color: var(--ink); font-family: var(--f-t); -webkit-font-smoothing: antialiased; }
+.a-scene.white { background: var(--white); }
+.a-svg { position: absolute; inset: 0; width: 1080px; height: 1920px; overflow: visible; }
+
+/* type */
+.a-eyebrow { position: absolute; left: 90px; top: 252px; margin: 0; font: 600 34px/1.2 var(--f-t); letter-spacing: -0.01em; color: var(--mu); white-space: nowrap; }
+.a-h { position: absolute; left: 90px; width: 860px; margin: 0; font: 700 112px/1.02 var(--f-d); letter-spacing: -0.045em; color: var(--ink); }
+.a-h2 { position: absolute; left: 90px; width: 860px; margin: 0; font: 700 92px/1.04 var(--f-d); letter-spacing: -0.04em; color: var(--ink); }
+.a-sub { position: absolute; left: 90px; width: 860px; margin: 0; font: 500 40px/1.25 var(--f-t); letter-spacing: -0.015em; color: var(--mu); }
+
+/* accent tint: a blue copy of the word fades in over it (opacity only) */
+.a-tint { position: relative; display: inline-block; }
+.a-tint > .on { position: absolute; left: 0; top: 0; color: var(--blue); opacity: 0; white-space: nowrap; }
+.a-tint.ink > .on { color: var(--ink); }
+
+/* surfaces */
+.a-card { position: absolute; background: var(--white); border-radius: 32px; box-shadow: var(--shadow); }
+.a-tile { position: absolute; background: var(--gray); border-radius: 32px; }
+.a-glass { background: rgba(255, 255, 255, 0.72); border: 1px solid rgba(0, 0, 0, 0.06); box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06); }
+.a-pill { display: inline-flex; align-items: center; gap: 12px; height: 64px; padding: 0 30px; border-radius: 999px; font: 600 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-pill.mono { font: 400 28px/1 var(--f-m); letter-spacing: 0; }
+.a-tag { display: inline-flex; align-items: center; height: 50px; padding: 0 22px; border-radius: 999px; font: 600 28px/1 var(--f-t); white-space: nowrap; }
+.a-tag.gray { background: var(--line); color: var(--mu); }
+.a-tag.blue { background: rgba(0, 113, 227, 0.1); color: var(--blue); }
+.a-ring { position: absolute; border-radius: 40px; box-shadow: 0 0 0 4px var(--blue), 0 0 0 12px rgba(0, 113, 227, 0.14); opacity: 0; }
+
+/* macOS-style window: title bar with the three traffic-light dots */
+.a-win { position: absolute; background: var(--white); border-radius: 30px; box-shadow: var(--shadow-lg); overflow: hidden; }
+.a-win .bar { position: relative; height: 64px; display: flex; align-items: center; gap: 12px; padding: 0 26px; background: #fbfbfd; border-bottom: 1px solid var(--line); }
+.a-win .bar > i { width: 18px; height: 18px; border-radius: 50%; background: #ff5f57; }
+.a-win .bar > i:nth-of-type(2) { background: #febc2e; }
+.a-win .bar > i:nth-of-type(3) { background: #28c840; }
+.a-win .bar .ttl { position: absolute; left: 0; right: 0; top: 0; height: 64px; display: flex; align-items: center; justify-content: center; gap: 12px; font: 600 26px/1 var(--f-t); color: var(--mu); }
+.a-win.dark { background: #1d1d1f; }
+.a-win.dark .bar { background: #2c2c2e; border-bottom-color: #3a3a3c; }
+.a-win.dark .bar .ttl { color: #a1a1a6; }
+
+/* code (light editor); .egg-code-bar / .ln names kept for Egg.codeRun */
+.a-code .body { position: relative; padding: 24px 0 26px; font: 400 30px/52px var(--f-m); color: var(--ink); }
+.a-code .ln .tx { white-space: pre; }
+.a-code .ln { position: relative; height: 52px; padding-left: 84px; }
+.a-code .ln > .no { position: absolute; left: 0; top: 0; width: 56px; text-align: right; font-size: 24px; color: #b0b0b5; }
+.a-code .egg-code-bar { position: absolute; left: 0; right: 0; top: 24px; height: 52px; background: rgba(0, 113, 227, 0.08); opacity: 0; }
+.a-code .egg-code-bar::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--blue); }
+.a-code .t-k { color: var(--blue); }
+.a-code .t-s { color: var(--ink); }
+.a-code .t-p, .a-code .t-c { color: var(--faint); }
+.a-code .t-kw { color: var(--mu); }
+.a-code .t-fn { color: var(--ink); }
+
+/* the Claude mark, only where Claude itself is shown */
+.cc-spark { background: url("claude-logo.svg") center / contain no-repeat; }
+
+/* avatar: 540×629 cut-outs, mirrored to face left (Egg.mountAvatar) */
+.avatar .av-bob, .avatar .av-flip { position: absolute; inset: 0; }
+.avatar .av-frames { position: absolute; inset: 0; transform: scaleX(-1); }
+.avatar img { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; }
+.avatar img.av-face { opacity: 1; }
+
+/* ep17 · the four jobs (.a-job) and a model chip (.a-mod: Claude mark + name). Shared by s02–s06. */
+.a-job { position: absolute; left: 90px; width: 860px; height: 124px; padding: 0 28px 0 132px; display: flex; flex-direction: column; justify-content: center; }
+.a-job .ic { position: absolute; left: 28px; top: 24px; width: 76px; height: 76px; border-radius: 22px; background: var(--gray); }
+.a-job .ic svg { position: absolute; inset: 16px; width: 44px; height: 44px; }
+.a-job .n { display: block; font: 700 38px/1.1 var(--f-d); letter-spacing: -0.025em; color: var(--ink); white-space: nowrap; }
+.a-job .s { display: block; margin-top: 6px; font: 500 28px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+.a-job .end { position: absolute; right: 28px; top: 0; bottom: 0; display: flex; align-items: center; }
+.a-mod { display: inline-flex; align-items: center; gap: 14px; height: 64px; padding: 0 26px 0 18px; border-radius: 999px; background: var(--white); box-shadow: var(--shadow); font: 700 30px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+.a-mod .cc-spark { width: 36px; height: 36px; }
+.a-mod.blue { background: var(--blue); color: #fff; }
+.a-mod.gray { background: var(--line); box-shadow: none; color: var(--mu); }
+.a-check { display: inline-block; width: 44px; height: 44px; border-radius: 50%; background: var(--blue); position: relative; }
+.a-check::after { content: ""; position: absolute; left: 15px; top: 9px; width: 10px; height: 19px; border: solid #fff; border-width: 0 5px 5px 0; transform: rotate(45deg); }
+
+/* ---- W47 kit (ep18–ep21): shared pieces every look restyles through the variables above ---- */
+:root { --red: #e3342f; --green: #1a9a4b; --code: #1d1d1f; }
+/* plain text file body (no line numbers): .a-txt inside .a-win */
+.a-txt { position: relative; padding: 20px 30px 22px; font: 400 28px/46px var(--f-m); color: var(--code); }
+.a-txt .ln { display: block; white-space: pre; height: 46px; }
+.a-txt .cm { color: var(--faint); }
+.a-txt .k { color: var(--blue); }
+.a-txt .r { color: var(--red); }
+.a-txt .g { color: var(--green); }
+.a-win .bar .ttl.mono { font: 400 28px/1 var(--f-m); }
+.a-win .bar .side { position: absolute; right: 22px; top: 0; height: 64px; display: flex; align-items: center; }
+/* table rows (an inbox, a feed, a list) */
+.a-row { position: relative; height: 72px; display: flex; align-items: center; gap: 18px; padding: 0 26px; border-top: 1px solid var(--line); font: 400 28px/1 var(--f-m); color: var(--code); white-space: nowrap; }
+.a-row:first-child { border-top: 0; }
+.a-row .id { color: var(--faint); }
+.a-row .who { font: 600 28px/1 var(--f-t); padding: 8px 14px; border-radius: 999px; background: var(--gray); color: var(--mu); }
+.a-row.hot { background: rgba(0, 113, 227, 0.07); }
+.a-row.bad { background: rgba(227, 52, 47, 0.08); color: var(--red); }
+.a-row.done { color: var(--faint); }
+/* buttons, stamps, chips */
+.a-btn { display: inline-flex; align-items: center; justify-content: center; height: 72px; padding: 0 36px; border-radius: 999px; font: 600 30px/1 var(--f-t); white-space: nowrap; background: var(--line); color: var(--ink); }
+.a-btn.blue { background: var(--blue); color: #fff; }
+.a-stamp { position: absolute; display: inline-flex; align-items: center; height: 70px; padding: 0 26px; border: 5px solid var(--blue); border-radius: 16px; font: 800 32px/1 var(--f-d); letter-spacing: 0.02em; text-transform: uppercase; color: var(--blue); white-space: nowrap; background: rgba(255, 255, 255, 0.9); }
+.a-stamp.red { border-color: var(--red); color: var(--red); }
+.a-stamp.green { border-color: var(--green); color: var(--green); }
+.a-chip { display: inline-flex; align-items: center; gap: 10px; height: 52px; padding: 0 20px; border-radius: 14px; background: var(--white); box-shadow: var(--shadow); font: 400 28px/1 var(--f-m); color: var(--code); white-space: nowrap; }
+.a-chip.flat { box-shadow: none; background: var(--line); }
+.a-lab { position: absolute; margin: 0; font: 600 30px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+.a-ink { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.a-ink.mu { stroke: #c7c7cc; }
+.a-ink.blue { stroke: var(--blue); }
+.a-ink.red { stroke: var(--red); }
+.a-ink.dash { stroke-dasharray: 10 12; }
+.a-fill-blue { fill: var(--blue); }
+.a-fill-ink { fill: var(--ink); }
+.a-dot { position: absolute; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 10px rgba(0, 113, 227, 0.14); }
+.a-x { color: var(--red); font-weight: 800; }
+.a-strike { position: relative; display: inline-block; }
+.a-strike > i { position: absolute; left: -4px; right: -4px; top: 52%; height: 5px; border-radius: 3px; background: var(--red); transform-origin: 0 50%; }
+.a-win .bar .ttl.l { justify-content: flex-start; padding-left: 128px; }
+
+/* ── Labels v2 (2026-11-15) ── No capsules: the round "AI" pills are gone. Tags read like real product status labels
+   (a dot, square-ish 8 px corners, a tint of their own colour); chips read like inline code; stamps are flat solid
+   status banners with an icon that drop in level, never tilted; buttons are rounded rectangles like a real app. */
+.a-tag { gap: 10px; height: 46px; padding: 0 16px 0 14px; border-radius: 8px; font: 600 28px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink);
+  background: color-mix(in srgb, currentColor 8%, transparent); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, currentColor 24%, transparent); }
+.a-tag::before { content: ""; flex: none; width: 12px; height: 12px; border-radius: 50%; background: currentColor; }
+.a-tag.gray { color: var(--mu); background: color-mix(in srgb, currentColor 6%, transparent); }
+.a-tag.blue { color: var(--blue); }
+.a-chip { gap: 10px; height: 48px; padding: 0 14px; border-radius: 8px; font: 400 28px/1 var(--f-m); color: var(--code);
+  background: color-mix(in srgb, var(--ink) 4%, var(--white)); box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 12%, transparent); }
+.a-chip.flat { background: transparent; box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--ink) 14%, transparent); }
+.a-stamp { --st: var(--blue); gap: 14px; height: 62px; padding: 0 24px 0 20px; border: 0; border-radius: 10px; background: var(--st); color: #fff;
+  font: 700 30px/1 var(--f-t); letter-spacing: -0.01em; text-transform: none; box-shadow: 0 10px 24px -10px color-mix(in srgb, var(--st) 70%, transparent); }
+.a-stamp.red { --st: var(--red); border-color: transparent; color: #fff; }
+.a-stamp.green { --st: var(--green); border-color: transparent; color: #fff; }
+.a-stamp.mu { --st: var(--mu); border-color: transparent; color: #fff; }
+.a-stamp::before { content: ""; flex: none; width: 28px; height: 28px; background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2.5 4 5.5v6c0 5 3.4 8.6 8 10 4.6-1.4 8-5 8-10v-6z'/%3E%3Cpath d='m8.5 12 2.5 2.5 4.5-5'/%3E%3C/svg%3E") center / contain no-repeat; }
+.a-stamp.red::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='m8.5 8.5 7 7m0-7-7 7'/%3E%3C/svg%3E"); }
+.a-stamp.green::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='m7.5 12.5 3 3 6-6.5'/%3E%3C/svg%3E"); }
+.a-stamp.mu::before { -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.6' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.5'/%3E%3Cpath d='M8 12h8'/%3E%3C/svg%3E"); }
+.a-btn { border-radius: 14px; }
+.a-pill { border-radius: 14px; }
+.a-row .who { border-radius: 8px; }
+/* a checklist item: a ticked box and plain text, no container */
+.a-li { display: inline-flex; align-items: center; gap: 14px; height: 48px; font: 500 30px/1 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+.a-li::before { content: ""; flex: none; width: 30px; height: 30px; border-radius: 7px;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6.5 12.5 3.6 3.6L17.5 8.6' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / 100% no-repeat, var(--blue); }

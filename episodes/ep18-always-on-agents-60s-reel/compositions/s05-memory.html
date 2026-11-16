@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":2.0,"sfx":"pop","vol":0.14},
+      {"t":2.95,"sfx":"tick","vol":0.16},
+      {"t":5.2,"sfx":"paper","vol":0.16},
+      {"t":6.75,"sfx":"paper","vol":0.16},
+      {"t":8.5,"sfx":"paper","vol":0.16},
+      {"t":9.9,"sfx":"click-soft","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 3 · Memory (files). Three files in agent-memory/, each opening as it is named, with what it holds:
+           instructions.md (how to behave), progress/acme-quote.md (done · left), reported.md (what you've
+           already been told). A pill: durable storage, it outlives each run.
+           Voiceover: 0.17 "Third, memory lives in files, so it outlives each run. The agent keeps an instructions file, a
+           progress file for each task, and a record of what you've already been told." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; white-space: nowrap; }
+        .s05 .pl { position: absolute; left: 90px; top: 436px; }
+        .s05 .f { left: 90px; width: 860px; }
+        .s05 .f .bar .side .a-tag { height: 44px; font-size: 28px; padding: 0 18px; }
+      </style>
+      <div id="root" data-composition-id="s05-memory" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">3 · Memory</p>
+          <h2 class="a-h2 hd">Memory is <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">files</span><span class="on" data-layout-allow-overlap="">files</span></span></h2>
+          <span class="a-chip flat pl">agent-memory/ · outlives each run</span>
+          <div class="a-win f f1" style="top:520px"><div class="bar"><i></i><i></i><i></i><span class="ttl mono l">instructions.md</span></div>
+            <div class="a-txt"><span class="ln">You chase quotes for Dana's studio.</span><span class="ln">- Follow up once after 2 silent days.</span><span class="ln">- Never offer a discount.</span><span class="ln">- Ask me before sending anything.</span></div>
+          </div>
+          <div class="a-win f f2" style="top:836px"><div class="bar"><i></i><i></i><i></i><span class="ttl mono l">progress/acme-quote.md</span></div>
+            <div class="a-txt"><span class="ln">Quote sent Mon 09:02.</span><span class="ln"><span class="g">Done:</span> PDF sent to Acme.</span><span class="ln"><span class="k">Left:</span> follow up Wed if no reply.</span></div>
+          </div>
+          <div class="a-win f f3" style="top:1108px"><div class="bar"><i></i><i></i><i></i><span class="ttl mono l">reported.md</span></div>
+            <div class="a-txt"><span class="ln">Mon: told Dana the quote went to Acme.</span></div>
+          </div>
+          <p class="a-lab t1" style="right:90px;top:520px">how to behave</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.69;
+          const root = document.querySelector('[data-composition-id="s05-memory"] .s05');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const fs = all(".f");
+          // the "what it holds" label sits in each title bar, right side
+          const tags = ["how to behave", "done · left", "what you were told"];
+          fs.forEach((f, i) => { const s = document.createElement("span"); s.className = "side"; s.innerHTML = `<span class="a-tag blue">${tags[i]}</span>`; f.querySelector(".bar").appendChild(s); });
+          q(".t1").remove();
+          gsap.set([q(".pl"), ...fs], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.0, { dur: 0.5 });
+          // "so it outlives each run"
+          Apple.rise(tl, q(".pl"), 2.9, { y: 16, dur: 0.6 });
+          // each file opens as it is named
+          [5.2, 6.75, 8.5].forEach((at, i) => {
+            Apple.rise(tl, fs[i], at, { y: 50, dur: 0.7 });
+            tl.fromTo(fs[i].querySelectorAll(".a-txt .ln"), { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.35, ease: "power2.out", stagger: 0.12 }, at + 0.25);
+            Apple.zoom(tl, fs[i].querySelector(".side .a-tag"), at + 0.4, { from: 0.8, dur: 0.4 });
+          });
+          // the run ends; the files stay
+          tl.to(fs, { y: -6, duration: 0.25, ease: "sine.inOut", yoyo: true, repeat: 1, stagger: 0.08 }, 9.9);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .pl, .f"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-memory"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

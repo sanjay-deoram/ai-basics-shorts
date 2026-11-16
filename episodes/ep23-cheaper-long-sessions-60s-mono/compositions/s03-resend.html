@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.9,"sfx":"whoosh-short","vol":0.1},
+      {"t":2.85,"sfx":"pop","vol":0.12},
+      {"t":3.6,"sfx":"pop","vol":0.12},
+      {"t":5.45,"sfx":"tick","vol":0.14},
+      {"t":6.3,"sfx":"pop","vol":0.14},
+      {"t":7.5,"sfx":"pop","vol":0.14},
+      {"t":8.0,"sfx":"tick","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 1 · Every turn re-sends everything. Tokens explained (small pieces of words: fix · the · fail ing · test).
+           Three turns side by side; each holds everything before it: your ask, then auth.ts (a file it read) and the
+           test output (a tool result), then the edit and a new test run. Token totals ≈4k / 11k / 19k are illustrative.
+           Voiceover: 0.17 "Every turn, it re-sends the whole conversation in tokens, small pieces of words, including
+           your ask, the files it read, and every tool result." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; }
+        .s03 .hd .l { display: block; white-space: nowrap; }
+        .s03 .tl { left: 90px; top: 548px; }
+        .s03 .tk { position: absolute; left: 90px; top: 598px; display: flex; gap: 6px; }
+        .s03 .tk .a-chip { padding: 0 14px; }
+        .s03 .tk .gap { margin-left: 10px; }
+        .s03 .h { top: 700px; }
+        .s03 .n { position: absolute; top: 746px; margin: 0; font: 400 28px/1 var(--f-m); color: var(--ink); white-space: nowrap; }
+        .s03 .blk { position: absolute; width: 270px; height: 60px; display: flex; align-items: center; padding: 0 20px; border-radius: 14px; background: var(--white); box-shadow: var(--shadow); font: 600 28px/1 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s03 .blk.f { font: 400 28px/1 var(--f-m); }
+        .s03 .blk .gl { position: absolute; inset: -4px; border: 4px solid var(--blue); border-radius: 17px; opacity: 0; }
+      </style>
+      <div id="root" data-composition-id="s03-resend" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">1 · Every turn re-sends it all</p>
+          <h2 class="a-h2 hd"><span class="l">Every turn</span><span class="l">re-sends <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">it all</span><span class="on" data-layout-allow-overlap="">it all</span></span></span></h2>
+          <p class="a-lab tl">Tokens = pieces of words:</p>
+          <div class="tk"><span class="a-chip flat">fix</span><span class="a-chip flat">the</span><span class="a-chip flat gap">fail</span><span class="a-chip flat">ing</span><span class="a-chip flat gap">test</span></div>
+          <p class="a-lab h" style="left:90px">Turn 1</p><p class="a-lab h" style="left:385px">Turn 2</p><p class="a-lab h" style="left:680px">Turn 3</p>
+          <p class="n" style="left:90px">≈4k tokens</p><p class="n" style="left:385px">≈11k tokens</p><p class="n" style="left:680px">≈19k tokens</p>
+          <div class="blk ask a1" style="left:90px;top:800px"><i class="gl"></i>your ask</div>
+          <div class="blk ask a2" style="left:385px;top:800px"><i class="gl"></i>your ask</div>
+          <div class="blk ask a3" style="left:680px;top:800px"><i class="gl"></i>your ask</div>
+          <div class="blk f fl" style="left:385px;top:870px">auth.ts</div>
+          <div class="blk f fl" style="left:680px;top:870px">auth.ts</div>
+          <div class="blk f tr" style="left:385px;top:940px">test output</div>
+          <div class="blk f tr" style="left:680px;top:940px">test output</div>
+          <div class="blk tr" style="left:680px;top:1010px">the edit</div>
+          <div class="blk f tr" style="left:680px;top:1080px">test output</div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.91;
+          const root = document.querySelector('[data-composition-id="s03-resend"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const hs = all(".h"), ns = all(".n"), tks = all(".tk .a-chip"), fl = all(".fl"), tr = all(".tr");
+          gsap.set([q(".tl"), ...tks, ...hs.slice(1), ...ns, q(".a2"), q(".a3"), ...fl, ...tr], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Every turn, it re-sends the whole conversation": your ask is copied into every later turn
+          Apple.fade(tl, [hs[1], hs[2]], 0.7, { dur: 0.3 });
+          tl.fromTo(q(".a2"), { opacity: 0, x: -295 }, { opacity: 1, x: 0, duration: 0.5, ease: "power2.out" }, 0.9);
+          tl.fromTo(q(".a3"), { opacity: 0, x: -590 }, { opacity: 1, x: 0, duration: 0.6, ease: "power2.out" }, 1.0);
+          Apple.tint(tl, q(".hd .a-tint"), 1.6, { dur: 0.4 });
+          // "in tokens, small pieces of words"
+          Apple.fade(tl, q(".tl"), 2.8, { dur: 0.3 });
+          tks.forEach((c, i) => Apple.zoom(tl, c, 2.9 + i * 0.25, { from: 0.7, dur: 0.3 }));
+          // "including your ask"
+          tl.to(all(".ask .gl"), { opacity: 1, duration: 0.25, yoyo: true, repeat: 1 }, 5.45);
+          // "the files it read"
+          fl.forEach((b, i) => Apple.rise(tl, b, 6.3 + i * 0.12, { y: -20, dur: 0.4 }));
+          // "and every tool result"
+          tr.forEach((b, i) => Apple.rise(tl, b, 7.45 + i * 0.12, { y: -20, dur: 0.4 }));
+          ns.forEach((n, i) => Apple.fade(tl, n, 7.9 + i * 0.15, { dur: 0.3 }));
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .tl, .tk, .h, .n, .blk"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s03-resend"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

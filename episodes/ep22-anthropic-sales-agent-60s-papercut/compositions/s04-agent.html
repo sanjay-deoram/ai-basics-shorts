@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"pop","vol":0.12},
+      {"t":1.2,"sfx":"pop","vol":0.12},
+      {"t":1.4,"sfx":"pop","vol":0.12},
+      {"t":1.6,"sfx":"pop","vol":0.12},
+      {"t":2.3,"sfx":"claude","vol":0.12},
+      {"t":2.7,"sfx":"pop","vol":0.14},
+      {"t":3.6,"sfx":"send","vol":0.12},
+      {"t":4.7,"sfx":"pop","vol":0.12},
+      {"t":6.3,"sfx":"typing","vol":0.1,"dur":1.2},
+      {"t":9.2,"sfx":"pen","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 1 · The buying agent. The Contact Sales page offers "Talk to the buying agent" or "Talk to a rep"
+           (opt-in, from the article). A chat with the agent (Claude mark): it asks what you're trying to solve, answers
+           from the docs and the knowledge base, and suggests Team instead of Enterprise. Below, what the one engineer
+           brought: the prompt, the tools, the knowledge base. The buyer's reply and the agent's wording are illustrative.
+           Voiceover: 0.17 "So one engineer built a buying agent. It asks what you're trying to solve, then answers
+           from the docs. It recommends a plan, sometimes the Team plan instead of Enterprise." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .bt { position: absolute; left: 90px; top: 548px; display: flex; gap: 20px; }
+        .s04 .ch { left: 90px; top: 660px; width: 860px; height: 470px; }
+        .s04 .ch .bar .cc-spark { width: 34px; height: 34px; }
+        .s04 .msg { position: absolute; margin: 0; padding: 16px 24px; border-radius: 26px; background: var(--gray); font: 500 30px/1.3 var(--f-t); letter-spacing: -0.01em; color: var(--ink); white-space: nowrap; }
+        .s04 .msg.me { right: 26px; background: var(--blue); color: #fff; }
+        .s04 .m1 { left: 26px; top: 90px; }
+        .s04 .m2 { top: 180px; }
+        .s04 .src { position: absolute; left: 26px; top: 275px; display: flex; gap: 14px; }
+        .s04 .m3 { left: 26px; top: 350px; }
+        .s04 .m3 > .l { display: block; }
+        .s04 .bl { left: 90px; top: 1160px; }
+        .s04 .bc { position: absolute; left: 90px; top: 1210px; display: flex; gap: 14px; }
+      </style>
+      <div id="root" data-composition-id="s04-agent" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">1 · The buying agent</p>
+          <h2 class="a-h2 hd"><span class="l">One engineer built</span><span class="l">a <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">buying agent</span><span class="on" data-layout-allow-overlap="">buying agent</span></span></span></h2>
+          <div class="bt"><span class="a-btn blue b1">Talk to the buying agent</span><span class="a-btn b2">Talk to a rep</span></div>
+          <div class="a-win ch"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>Buying agent</span></div>
+            <p class="msg m1">What are you trying to solve?</p>
+            <p class="msg me m2">Support tickets for a team of 15.</p>
+            <div class="src"><span class="a-chip flat">docs</span><span class="a-chip flat">knowledge base</span></div>
+            <p class="msg m3"><span class="l">For a team your size, I'd suggest <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Team</span><span class="on" data-layout-allow-overlap="">Team</span></span>,</span><span class="l">not <span class="a-strike ent">Enterprise<i></i></span>.</span></p>
+          </div>
+          <p class="a-lab bl">Built by one engineer from:</p>
+          <div class="bc"><span class="a-chip">the prompt</span><span class="a-chip">the tools</span><span class="a-chip">the knowledge base</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.09;
+          const root = document.querySelector('[data-composition-id="s04-agent"] .s04');
+          const q = (s) => root.querySelector(s);
+          const bc = [...root.querySelectorAll(".bc .a-chip")];
+          const sc = [...root.querySelectorAll(".src .a-chip")];
+          gsap.set([q(".bt"), q(".ch"), q(".m1"), q(".m2"), q(".m3"), q(".bl"), ...bc, ...sc], { opacity: 0 });
+          gsap.set(q(".ent i"), { scaleX: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "So one engineer built": what the builder brought
+          Apple.rise(tl, q(".bl"), 0.5, { y: 14, dur: 0.4 });
+          bc.forEach((c, i) => Apple.zoom(tl, c, 1.2 + i * 0.2, { from: 0.8, dur: 0.35 }));
+          // "a buying agent": opt-in, on the Contact Sales page
+          Apple.tint(tl, q(".hd .a-tint"), 1.8, { dur: 0.4 });
+          Apple.rise(tl, q(".bt"), 1.9, { y: 20, dur: 0.5 });
+          tl.to(q(".b1"), { scale: 0.94, duration: 0.12, yoyo: true, repeat: 1 }, 2.3);
+          Apple.rise(tl, q(".ch"), 2.35, { y: 30, dur: 0.5 });
+          // "It asks what you're trying to solve"
+          Apple.rise(tl, q(".m1"), 2.7, { y: 14, dur: 0.4 });
+          Apple.rise(tl, q(".m2"), 3.6, { y: 14, dur: 0.4 });
+          // "then answers from the docs"
+          sc.forEach((c, i) => Apple.zoom(tl, c, 4.7 + i * 0.6, { from: 0.8, dur: 0.35 }));
+          // "It recommends a plan, sometimes the Team plan instead of Enterprise."
+          Apple.rise(tl, q(".m3"), 6.3, { y: 14, dur: 0.4 });
+          Apple.tint(tl, q(".m3 .a-tint"), 8.05, { dur: 0.35 });
+          tl.to(q(".ent i"), { scaleX: 1, duration: 0.35, ease: "power2.out" }, 9.2);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .bt, .ch, .bl, .bc"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-agent"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

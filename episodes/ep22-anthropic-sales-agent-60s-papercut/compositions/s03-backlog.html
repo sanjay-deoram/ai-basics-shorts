@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"stream","vol":0.08,"dur":2.2},
+      {"t":3.1,"sfx":"error","vol":0.08},
+      {"t":4.6,"sfx":"pop","vol":0.14},
+      {"t":5.4,"sfx":"pop","vol":0.14},
+      {"t":6.4,"sfx":"pop","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · The backlog. The Contact Sales inbox fills ("tens of thousands / month"), the sales team "can't keep up",
+           then three requests are tagged "in the docs": plan cost, seat minimum, HIPAA (the article's three examples).
+           The other request wording and the ids are illustrative.
+           Voiceover: 0.17 "With tens of thousands of requests a month, the team couldn't keep up, yet most questions
+           were simple, like what a plan costs." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; }
+        .s03 .hd .l { display: block; white-space: nowrap; }
+        .s03 .ib { left: 90px; top: 548px; width: 860px; }
+        .s03 .ib .a-row .a-tag { margin-left: auto; }
+        .s03 .hl { position: absolute; inset: 0; background: var(--blue); opacity: 0; }
+        .s03 .tm { left: 90px; top: 1150px; width: 600px; height: 110px; }
+        .s03 .tm .t { position: absolute; left: 30px; top: 36px; font: 700 38px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s03 .tm .tg { position: absolute; right: 26px; top: 30px; background: rgba(227, 52, 47, 0.1); color: var(--red); }
+      </style>
+      <div id="root" data-composition-id="s03-backlog" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">The backlog</p>
+          <h2 class="a-h2 hd"><span class="l">Tens of thousands</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">a month</span><span class="on" data-layout-allow-overlap="">a month</span></span></span></h2>
+          <div class="a-win ib"><div class="bar"><i></i><i></i><i></i><span class="ttl">Contact Sales requests</span></div>
+            <div class="a-row r1"><i class="hl"></i><span class="id">#1</span>What does a plan cost?<span class="a-tag blue">in the docs</span></div>
+            <div class="a-row r2"><span class="id">#2</span>Need a custom contract</div>
+            <div class="a-row r3"><span class="id">#3</span>Is there a seat minimum?<span class="a-tag blue">in the docs</span></div>
+            <div class="a-row r4"><span class="id">#4</span>Volume pricing for 900 seats</div>
+            <div class="a-row r5"><span class="id">#5</span>Can we meet HIPAA requirements?<span class="a-tag blue">in the docs</span></div>
+            <div class="a-row r6"><span class="id">#6</span>...</div>
+          </div>
+          <div class="a-card tm"><span class="t">Sales team</span><span class="a-tag tg">can't keep up</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.48;
+          const root = document.querySelector('[data-composition-id="s03-backlog"] .s03');
+          const q = (s) => root.querySelector(s);
+          const rows = [...root.querySelectorAll(".ib .a-row")];
+          const tags = [...root.querySelectorAll(".ib .a-tag")];
+          gsap.set([q(".ib"), q(".tm"), q(".tm .tg"), ...rows, ...tags], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "With tens of thousands of requests a month": the inbox fills
+          Apple.rise(tl, q(".ib"), 0.4, { y: 30, dur: 0.5 });
+          rows.forEach((r, i) => Apple.rise(tl, r, 0.6 + i * 0.3, { y: 14, dur: 0.35 }));
+          Apple.tint(tl, q(".hd .a-tint"), 2.3, { dur: 0.4 });
+          // "the team couldn't keep up"
+          Apple.rise(tl, q(".tm"), 2.8, { y: 20, dur: 0.5 });
+          Apple.zoom(tl, q(".tm .tg"), 3.1, { from: 1.4, dur: 0.35 });
+          tl.to(q(".tm"), { x: -10, duration: 0.06, yoyo: true, repeat: 5 }, 3.5);
+          // "yet most questions were simple, like what a plan costs": three tagged
+          [[2, 4.6], [1, 5.4], [0, 6.4]].forEach(([i, t]) => Apple.zoom(tl, tags[i], t, { from: 0.7, dur: 0.35 }));
+          tl.to(q(".hl"), { opacity: 0.08, duration: 0.3 }, 6.4);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ib, .tm"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s03-backlog"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

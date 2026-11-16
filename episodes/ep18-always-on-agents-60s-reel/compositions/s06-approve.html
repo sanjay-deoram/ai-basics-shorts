@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.6,"sfx":"key","vol":0.12,"dur":0.6},
+      {"t":2.3,"sfx":"error","vol":0.06},
+      {"t":3.1,"sfx":"pop","vol":0.16},
+      {"t":4.05,"sfx":"click","vol":0.2},
+      {"t":4.55,"sfx":"send","vol":0.16},
+      {"t":5.9,"sfx":"marker","vol":0.12},
+      {"t":7.6,"sfx":"tick","vol":0.14},
+      {"t":8.85,"sfx":"chime","vol":0.18,"dur":2.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · 4 · Approval, then payoff. The Wednesday run hits send_email and pauses; an approval card asks "Send this
+           to Acme?"; you tap Approve; one line leaves through the OUTBOX: "Followed up with Acme. Waiting on a reply."
+           A struck "live stream" chip; last line: "Start quiet. Earn more of your attention." Hard stop, no exit.
+           Voiceover: 0.17 "Last, a risky step like sending the follow-up waits for your approval."
+           4.47 "You get the outcome, not a live stream, so a good one starts quiet and earns more of your attention." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .call { position: absolute; left: 90px; top: 548px; }
+        .s06 .call .a-tag { margin-left: 4px; }
+        .s06 .ap { left: 90px; top: 640px; width: 860px; height: 330px; }
+        .s06 .ap .t { position: absolute; left: 36px; top: 34px; font: 700 44px/1 var(--f-d); letter-spacing: -0.025em; color: var(--ink); }
+        .s06 .ap .m { position: absolute; left: 36px; right: 36px; top: 102px; padding: 20px 24px; border-radius: 20px; background: var(--gray); font: 500 30px/1.3 var(--f-t); color: var(--ink); }
+        .s06 .ap .bt { position: absolute; right: 30px; bottom: 30px; display: flex; gap: 16px; }
+        .s06 .tap { position: absolute; left: 820px; top: 896px; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 5px solid var(--blue); }
+        .s06 .ob { left: 90px; top: 1010px; width: 860px; height: 150px; }
+        .s06 .ob .k { position: absolute; left: 36px; top: 26px; font: 400 28px/1 var(--f-m); color: var(--faint); }
+        .s06 .ob .tx { position: absolute; left: 36px; top: 70px; display: flex; align-items: center; gap: 16px; font: 600 34px/1.2 var(--f-t); color: var(--ink); white-space: nowrap; }
+        .s06 .ls { position: absolute; right: 130px; top: 1204px; }
+        .s06 .fin { top: 1196px; width: 640px; color: var(--ink); font-weight: 700; }
+      </style>
+      <div id="root" data-composition-id="s06-approve" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">4 · Approval</p>
+          <h2 class="a-h2 hd"><span class="l">Risky steps</span><span class="l">wait for <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">you</span><span class="on" data-layout-allow-overlap="">you</span></span></span></h2>
+          <div class="call"><span class="a-chip">send_email(to: "Acme")</span> <span class="a-tag gray">paused · needs you</span></div>
+          <div class="a-card ap"><span class="t">Send this to Acme?</span>
+            <p class="m">"Hi, just checking you got the quote on Monday…"</p>
+            <div class="bt"><span class="a-btn">Don't send</span><span class="a-btn blue">Approve</span></div>
+          </div>
+          <div class="tap"></div>
+          <div class="a-card ob"><span class="k">OUTBOX · Wed 09:04</span><span class="tx"><i class="a-check"></i>Followed up with Acme. Waiting on a reply.</span></div>
+          <span class="a-chip flat ls"><span class="a-strike">live stream<i></i></span></span>
+          <p class="a-sub fin">Start quiet. <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Earn more of your attention.</span><span class="on" data-layout-allow-overlap="">Earn more of your attention.</span></span></p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s06-approve"] .s06');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".call"), q(".ap"), q(".tap"), q(".ob"), q(".ls"), q(".fin")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "a risky step like sending the follow-up"
+          Apple.rise(tl, q(".call"), 1.5, { y: 20, dur: 0.6 });
+          // "waits for your approval"
+          Apple.tint(tl, q(".hd .a-tint"), 3.2, { dur: 0.4 });
+          Apple.rise(tl, q(".ap"), 3.05, { y: 40, dur: 0.7 });
+          // you tap Approve
+          tl.fromTo(q(".tap"), { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 1.4, duration: 0.6, ease: "power2.out" }, 4.05);
+          tl.to(q(".ap .a-btn.blue"), { scale: 0.94, duration: 0.1, yoyo: true, repeat: 1 }, 4.05);
+          // "You get the outcome"
+          Apple.rise(tl, q(".ob"), 4.55, { y: 40, dur: 0.7 });
+          tl.to(q(".ap"), { opacity: 0.45, duration: 0.4 }, 4.55);
+          // "not a live stream"
+          Apple.zoom(tl, q(".ls"), 5.85, { from: 0.85, dur: 0.4 });
+          tl.fromTo(q(".ls .a-strike i"), { scaleX: 0 }, { scaleX: 1, duration: 0.35, ease: "power2.out" }, 6.25);
+          // "so a good one starts quiet and earns more of your attention"
+          Apple.rise(tl, q(".fin"), 7.6, { y: 20, dur: 0.8 });
+          Apple.tint(tl, q(".fin .a-tint"), 9.0, { dur: 0.5 });
+          window.__timelines["s06-approve"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

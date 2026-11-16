@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.1,"sfx":"pop","vol":0.14},
+      {"t":2.0,"sfx":"tap","vol":0.12},
+      {"t":3.4,"sfx":"key","vol":0.12,"dur":0.6},
+      {"t":4.1,"sfx":"error","vol":0.1},
+      {"t":4.45,"sfx":"pop","vol":0.14},
+      {"t":6.1,"sfx":"click","vol":0.2},
+      {"t":6.4,"sfx":"tick","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · 2 · Safeguards. The panel "Enterprise Frontier Safeguards · built with Anthropic" reads the model's output
+           (the upload line) and fires: "destination not on the allowed list". "Uber decides": allow · warn · block
+           (illustrative), block picked on "fires". Foot: Anthropic can't see Uber's data without permission.
+           Voiceover: 0.17 "Second, safeguards built with Anthropic check what the models produce, and Uber decides what
+           happens when one fires." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .pn { left: 90px; top: 550px; width: 860px; }
+        .s05 .pn .bar .ttl { justify-content: flex-start; padding-left: 128px; }
+        .s05 .dc { left: 90px; top: 880px; width: 860px; height: 200px; }
+        .s05 .dc .t { position: absolute; left: 34px; top: 30px; font: 700 40px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s05 .seg { position: absolute; left: 34px; right: 34px; top: 96px; height: 76px; display: flex; border-radius: 999px; background: var(--gray); }
+        .s05 .seg span { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; font: 600 32px/1 var(--f-t); color: var(--mu); z-index: 1; }
+        .s05 .seg .kn { position: absolute; left: 6px; top: 6px; width: calc((100% - 12px) / 3); height: 64px; border-radius: 999px; background: var(--white); box-shadow: var(--shadow); }
+        .s05 .seg .on { color: var(--red); }
+        .s05 .ill { position: absolute; right: 34px; top: 26px; }
+        .s05 .ft { left: 90px; top: 1116px; width: 860px; white-space: normal; }
+      </style>
+      <div id="root" data-composition-id="s05-safeguards" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">2 · Safeguards</p>
+          <h2 class="a-h2 hd"><span class="l">Safeguards check</span><span class="l">the <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">output</span><span class="on" data-layout-allow-overlap="">output</span></span></span></h2>
+          <div class="a-win pn"><div class="bar"><i></i><i></i><i></i><span class="ttl">Enterprise Frontier Safeguards · built with Anthropic</span></div>
+            <div class="a-row"><span>upload customers.csv → unknown-site.example</span></div>
+            <div class="a-row bad fr"><span>⚠ fired: destination not on the allowed list</span></div>
+          </div>
+          <div class="a-card dc"><span class="t">Uber decides</span><span class="a-tag gray ill">illustrative</span>
+            <div class="seg"><div class="kn"></div><span>allow</span><span>warn</span><span class="bk">block</span></div>
+          </div>
+          <p class="a-lab ft">Anthropic can't see Uber's data without permission.</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 7.02;
+          const root = document.querySelector('[data-composition-id="s05-safeguards"] .s05');
+          const q = (s) => root.querySelector(s);
+          const rows = [...root.querySelectorAll(".pn .a-row")];
+          gsap.set([q(".pn"), ...rows, q(".dc"), q(".ft")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "safeguards built with Anthropic"
+          Apple.rise(tl, q(".pn"), 1.05, { y: 30, dur: 0.6 });
+          // "check what the models produce"
+          Apple.tint(tl, q(".hd .a-tint"), 3.4, { dur: 0.4 });
+          Apple.rise(tl, rows[0], 3.3, { y: 10, dur: 0.4 });
+          Apple.rise(tl, rows[1], 4.05, { y: 10, dur: 0.4 });
+          Egg.shake(tl, q(".pn"), 4.15);
+          // "and Uber decides what happens when one fires"
+          Apple.rise(tl, q(".dc"), 4.4, { y: 30, dur: 0.6 });
+          tl.fromTo(q(".seg .kn"), { xPercent: 0 }, { xPercent: 100, duration: 0.35, ease: "power2.inOut" }, 5.2);
+          tl.to(q(".seg .kn"), { xPercent: 200, duration: 0.35, ease: "power2.inOut" }, 6.0);
+          tl.to(q(".seg .bk"), { color: "#e3342f", duration: 0.2 }, 6.3);
+          Apple.fade(tl, q(".ft"), 6.4, { dur: 0.4 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .pn, .dc, .ft"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-safeguards"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.6,"sfx":"typing","vol":0.12,"dur":1.3},
+      {"t":2.05,"sfx":"click","vol":0.18},
+      {"t":2.6,"sfx":"whoosh-short","vol":0.1},
+      {"t":4.1,"sfx":"whoosh-short","vol":0.1},
+      {"t":5.6,"sfx":"tick","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Setup · the old path. You fill in the Contact Sales form (field values illustrative) and submit; the
+           question card "What does a plan cost?" moves Form → Sales rep (qualifies you) → Account exec, and a clock
+           reads "waiting: multiple days".
+           Voiceover: 0.17 "Say you fill in the Contact Sales form. A rep qualifies you, then passes you on, and you
+           could wait days." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .hd .l { display: block; white-space: nowrap; }
+        .s02 .fm { left: 90px; top: 548px; width: 860px; }
+        .s02 .fm .a-row .id { width: 270px; }
+        .s02 .fm .sub { position: absolute; right: 22px; bottom: 14px; }
+        .s02 .fm .foot { height: 100px; border-top: 1px solid var(--line); }
+        .s02 .st { position: absolute; top: 980px; width: 260px; height: 150px; }
+        .s02 .st .t { position: absolute; left: 24px; top: 30px; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s02 .st .s { position: absolute; left: 24px; top: 84px; font: 500 28px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s02 .qc { position: absolute; left: 90px; top: 1150px; }
+        .s02 .clk { position: absolute; left: 90px; top: 1240px; display: flex; align-items: center; gap: 16px; margin: 0; font: 700 40px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s02 .clk svg { width: 52px; height: 52px; fill: none; stroke: var(--red); stroke-width: 3.2; stroke-linecap: round; }
+      </style>
+      <div id="root" data-composition-id="s02-form" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The old way</p>
+          <h2 class="a-h2 hd"><span class="l">Fill in a form,</span><span class="l">then <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">wait</span><span class="on" data-layout-allow-overlap="">wait</span></span></span></h2>
+          <div class="a-win fm"><div class="bar"><i></i><i></i><i></i><span class="ttl">Contact Sales</span></div>
+            <div class="a-row"><span class="id">Name</span>Dana Lee</div>
+            <div class="a-row"><span class="id">Work email</span>dana@northwind.io</div>
+            <div class="a-row"><span class="id">How can we help?</span><span class="ty">What does a plan cost?</span></div>
+            <div class="foot"><span class="a-btn blue sub">Submit</span></div>
+          </div>
+          <div class="a-card st st1" style="left:90px"><span class="t">Form</span><span class="s">your question</span></div>
+          <div class="a-card st st2" style="left:390px"><span class="t">Sales rep</span><span class="s">qualifies you</span></div>
+          <div class="a-card st st3" style="left:690px"><span class="t">Account exec</span><span class="s">takes you on</span></div>
+          <svg class="a-svg arw" viewBox="0 0 1080 1920" aria-hidden="true"><path class="a-ink mu" d="M356 1055 H384 M656 1055 H684" /></svg>
+          <span class="a-chip qc">What does a plan cost?</span>
+          <p class="clk"><svg viewBox="0 0 34 34" aria-hidden="true"><circle cx="17" cy="19" r="12.5" /><path class="hand" d="M17 19 V11" /><path d="M13 3.5 H21" /></svg>waiting: multiple days</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.35;
+          const root = document.querySelector('[data-composition-id="s02-form"] .s02');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".fm"), q(".st1"), q(".st2"), q(".st3"), q(".arw"), q(".qc"), q(".clk")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Say you fill in the Contact Sales form."
+          Apple.rise(tl, q(".fm"), 0.35, { y: 30, dur: 0.6 });
+          Egg.typeOn(tl, q(".ty"), 0.6, { cps: 18 });
+          tl.to(q(".sub"), { scale: 0.92, duration: 0.12, yoyo: true, repeat: 1 }, 2.05);
+          Apple.rise(tl, [q(".st1"), q(".st2"), q(".st3"), q(".arw")], 2.1, { y: 20, dur: 0.5, stagger: 0.08 });
+          tl.fromTo(q(".qc"), { opacity: 0, x: 0, y: -60 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 2.2);
+          // "A rep qualifies you, then passes you on"
+          tl.to(q(".qc"), { x: 220, duration: 0.6, ease: "power2.inOut" }, 2.6);
+          tl.to(q(".st2"), { scale: 1.05, duration: 0.18, yoyo: true, repeat: 1 }, 3.2);
+          tl.to(q(".qc"), { x: 440, duration: 0.6, ease: "power2.inOut" }, 4.1);
+          tl.to(q(".st3"), { scale: 1.05, duration: 0.18, yoyo: true, repeat: 1 }, 4.7);
+          // "and you could wait days."
+          Apple.rise(tl, q(".clk"), 5.2, { y: 16, dur: 0.5 });
+          Apple.tint(tl, q(".hd .a-tint"), 5.6, { dur: 0.4 });
+          tl.fromTo(q(".clk .hand"), { rotation: 0 }, { rotation: 720, svgOrigin: "17 19", duration: 1.0, ease: "none" }, 5.2);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .fm, .st, .arw, .qc, .clk"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s02-form"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

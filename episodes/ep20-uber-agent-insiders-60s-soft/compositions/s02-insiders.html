@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":1.0,"sfx":"pop","vol":0.14},
+      {"t":1.6,"sfx":"pop","vol":0.12},
+      {"t":2.9,"sfx":"impact-bass-1","vol":0.1},
+      {"t":4.4,"sfx":"whoosh-short","vol":0.1},
+      {"t":5.2,"sfx":"error","vol":0.06},
+      {"t":6.3,"sfx":"pop","vol":0.14},
+      {"t":8.9,"sfx":"pop","vol":0.12},
+      {"t":9.5,"sfx":"impact-bass-1","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Name it · insiders. Employees: badge, activity logged, data retained, monitored, stamped "Insider threat
+           program". A dot (a person) steps out of its dashed "role" box ("act outside their role"). Then AI agents
+           (frontier models): "?", and on "carry the same risk" the same four chips and the same stamp.
+           Voiceover: 0.17 "Every company watches its people for insider threats, because staff sometimes act outside their
+           role. Frontier models, the most capable A I, carry the same risk." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; white-space: nowrap; }
+        .s02 .rw { left: 90px; width: 860px; height: 320px; }
+        .s02 .rw .t { position: absolute; left: 34px; top: 30px; font: 700 44px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s02 .rw .t small { margin-left: 14px; font: 500 28px/1 var(--f-t); color: var(--mu); letter-spacing: 0; }
+        .s02 .rw .cs { position: absolute; left: 34px; top: 96px; display: flex; flex-direction: column; gap: 6px; }
+        .s02 .rw .a-stamp { right: 30px; top: 150px; }
+        .s02 .rw .qm { position: absolute; left: 34px; top: 110px; font: 800 96px/1 var(--f-d); color: var(--faint); }
+        .s02 .role { position: absolute; left: 90px; top: 815px; width: 860px; height: 110px; }
+        .s02 .role .bx { position: absolute; left: 0; top: 0; width: 420px; height: 110px; border: 4px dashed var(--line); border-radius: 22px; }
+        .s02 .role .bx span { position: absolute; left: 24px; top: 36px; font: 600 30px/1 var(--f-t); color: var(--mu); }
+        .s02 .role .p { position: absolute; left: 300px; top: 33px; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); }
+        .s02 .role .p .rd { position: absolute; inset: 0; border-radius: 50%; background: var(--red); opacity: 0; }
+        .s02 .role .lb { position: absolute; left: 530px; top: 38px; margin: 0; font: 600 30px/1.1 var(--f-t); color: var(--red); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s02-insiders" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">Insider threats</p>
+          <h2 class="a-h2 hd">Same <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">risk</span><span class="on" data-layout-allow-overlap="">risk</span></span></h2>
+          <div class="a-card rw r1" style="top:460px"><span class="t">Employees</span>
+            <div class="cs"><span class="a-li">badge</span><span class="a-li">activity logged</span><span class="a-li">data retained</span><span class="a-li">monitored</span></div>
+            <span class="a-stamp">Insider threat program</span></div>
+          <div class="role"><div class="bx"><span>their role</span></div><div class="p"><i class="rd"></i></div><p class="lb">acts outside it</p></div>
+          <div class="a-card rw r2" style="top:960px"><span class="t">AI agents<small>frontier models</small></span><span class="qm">?</span>
+            <div class="cs"><span class="a-li">badge</span><span class="a-li">activity logged</span><span class="a-li">data retained</span><span class="a-li">monitored</span></div>
+            <span class="a-stamp">Insider threat program</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 10.65;
+          const root = document.querySelector('[data-composition-id="s02-insiders"] .s02');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const r1 = q(".r1"), r2 = q(".r2");
+          const c1 = [...r1.querySelectorAll(".a-li")], c2 = [...r2.querySelectorAll(".a-li")];
+          gsap.set([r1, r2, q(".role"), q(".role .lb"), ...c1, ...c2, r1.querySelector(".a-stamp"), r2.querySelector(".a-stamp")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Every company watches its people"
+          Apple.rise(tl, r1, 0.95, { y: 30, dur: 0.6 });
+          Apple.zoom(tl, c1, 1.55, { from: 0.85, dur: 0.4, stagger: 0.12 });
+          // "for insider threats"
+          Egg.stamp(tl, r1.querySelector(".a-stamp"), 2.9);
+          // "staff sometimes act outside their role"
+          Apple.fade(tl, q(".role"), 3.5, { dur: 0.4 });
+          tl.to(q(".role .p"), { x: 150, duration: 0.6, ease: "power2.inOut" }, 4.6);
+          tl.to(q(".role .p .rd"), { opacity: 1, duration: 0.3 }, 5.1);
+          Apple.fade(tl, q(".role .lb"), 5.2, { dur: 0.4 });
+          // "Frontier models, the most capable AI"
+          Apple.rise(tl, r2, 6.25, { y: 30, dur: 0.6 });
+          // "carry the same risk"
+          tl.to(r2.querySelector(".qm"), { opacity: 0, duration: 0.2 }, 8.8);
+          Apple.zoom(tl, c2, 8.85, { from: 0.85, dur: 0.4, stagger: 0.1 });
+          Apple.tint(tl, q(".hd .a-tint"), 9.4, { dur: 0.4 });
+          Egg.stamp(tl, r2.querySelector(".a-stamp"), 9.5);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .rw, .role"), DUR - 0.3, { dur: 0.3 });
+          window.__timelines["s02-insiders"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

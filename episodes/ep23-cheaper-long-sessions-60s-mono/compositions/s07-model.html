@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"pop","vol":0.12},
+      {"t":0.7,"sfx":"tap","vol":0.1},
+      {"t":1.9,"sfx":"tap","vol":0.12},
+      {"t":3.3,"sfx":"chime","vol":0.1,"dur":0.8},
+      {"t":4.2,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":4.6,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":5.0,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":6.1,"sfx":"pop","vol":0.18}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · 5 · The model, then the total. Two lanes run the same bug fix: Opus 5 takes more turns, Opus 5.5 fewer
+           (the counts 7 and 4 are illustrative). A total adds up the three changes: ≈ 40% cheaper than Opus 5, an
+           estimate. The 30%-faster output is not shown (it saves time, not money).
+           Voiceover: 0.17 "And Opus five point five needs fewer turns for the same job. Together, that's an estimated
+           forty percent cheaper than Opus five." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .hd { top: 316px; }
+        .s07 .hd .l { display: block; white-space: nowrap; }
+        .s07 .a-mod { position: absolute; left: 90px; }
+        .s07 .sq { position: absolute; width: 56px; height: 56px; border-radius: 12px; background: var(--faint); }
+        .s07 .sq.hi { background: var(--blue); }
+        .s07 .a-check { position: absolute; }
+        .s07 .sl { left: 600px; top: 836px; }
+        .s07 .tt { left: 90px; top: 930px; width: 860px; }
+      </style>
+      <div id="root" data-composition-id="s07-model" data-width="1080" data-height="1920">
+        <div class="a-scene s07">
+          <p class="a-eyebrow">5 · Fewer turns</p>
+          <h2 class="a-h2 hd"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Fewer turns</span><span class="on" data-layout-allow-overlap="">Fewer turns</span></span></span><span class="l">for the same job</span></h2>
+          <span class="a-mod gray m5" style="top:548px"><span class="cc-spark"></span>Opus 5</span>
+          <span class="a-mod m55" style="top:728px"><span class="cc-spark"></span>Opus 5.5</span>
+          <div class="r5"></div>
+          <p class="a-lab sl">same bug fixed</p>
+          <div class="a-win tt"><div class="bar"><i></i><i></i><i></i><span class="ttl l">Together</span></div>
+            <div class="a-txt"><span class="ln l1"><span class="cm">cache reads </span>  60% cheaper</span><span class="ln l2"><span class="cm">cache misses</span>  down by more than half</span><span class="ln l3"><span class="cm">turns       </span>  fewer</span><span class="ln l4"><span class="k">≈ 40% cheaper than Opus 5 · estimate</span></span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.0;
+          const root = document.querySelector('[data-composition-id="s07-model"] .s07');
+          const q = (s) => root.querySelector(s);
+          // turn squares: 7 for Opus 5 (row y 630), 4 for Opus 5.5 (row y 810)
+          const mk = (n, y, hi) => [...Array(n)].map((_, i) => { const s = document.createElement("i"); s.className = "sq" + (hi ? " hi" : ""); s.style.left = 90 + i * 72 + "px"; s.style.top = y + "px"; root.appendChild(s); return s; });
+          const a = mk(7, 630, false), b = mk(4, 810, true);
+          const c1 = document.createElement("i"); c1.className = "a-check"; c1.style.left = 90 + 7 * 72 + "px"; c1.style.top = "636px"; root.appendChild(c1);
+          const c2 = document.createElement("i"); c2.className = "a-check"; c2.style.left = 90 + 4 * 72 + "px"; c2.style.top = "816px"; root.appendChild(c2);
+          gsap.set([q(".m5"), q(".m55"), ...a, ...b, c1, c2, q(".sl"), q(".tt"), q(".l1"), q(".l2"), q(".l3"), q(".l4")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "And Opus five point five needs fewer turns"
+          Apple.rise(tl, [q(".m5"), q(".m55")], 0.45, { y: 16, dur: 0.4, stagger: 0.1 });
+          a.forEach((s, i) => Apple.zoom(tl, s, 0.7 + i * 0.17, { from: 0.5, dur: 0.25 }));
+          b.forEach((s, i) => Apple.zoom(tl, s, 1.9 + i * 0.17, { from: 0.5, dur: 0.25 }));
+          Apple.tint(tl, q(".hd .a-tint"), 2.0, { dur: 0.4 });
+          // "for the same job"
+          Apple.zoom(tl, [c1, c2], 3.3, { from: 0.5, dur: 0.3 });
+          Apple.fade(tl, q(".sl"), 3.5, { dur: 0.3 });
+          // "Together, that's an estimated forty percent cheaper than Opus five."
+          Apple.rise(tl, q(".tt"), 4.1, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".l1"), 4.3, { dur: 0.3 });
+          Apple.fade(tl, q(".l2"), 4.65, { dur: 0.3 });
+          Apple.fade(tl, q(".l3"), 5.0, { dur: 0.3 });
+          Apple.zoom(tl, q(".l4"), 6.05, { from: 0.9, dur: 0.4 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .a-mod, .sq, .a-check, .sl, .tt"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s07-model"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

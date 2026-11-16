@@ -1,0 +1,59 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.1,
+      "text": "What is an always-on agent? Here's the answer, in under sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 4.66,
+      "text": "It's not actually always on. It sleeps, wakes for a short run to do one job, saves what happened, and goes back to sleep."
+    },
+    {
+      "scene": "s02",
+      "at": 0.17,
+      "text": "Say you want an agent that chases a customer who hasn't answered your quote."
+    },
+    {
+      "scene": "s03",
+      "at": 0.17,
+      "text": "First, everything that wakes it, like your request, goes into one inbox."
+    },
+    {
+      "scene": "s04",
+      "at": 0.17,
+      "text": "Second, a timer makes it proactive. The agent sets itself a follow-up timer for Wednesday, and when it's due, an event lands in the inbox."
+    },
+    {
+      "scene": "s05",
+      "at": 0.17,
+      "text": "Third, memory lives in files, so it outlives each run. The agent keeps an instructions file, a progress file for each task, and a record of what you've already been told."
+    },
+    {
+      "scene": "s06",
+      "at": 0.17,
+      "text": "Last, a risky step like sending the follow-up waits for your approval."
+    },
+    {
+      "scene": "s06",
+      "at": 4.47,
+      "text": "You get the outcome, not a live stream, so a good one starts quiet and earns more of your attention."
+    }
+  ]
+}

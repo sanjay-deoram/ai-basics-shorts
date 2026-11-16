@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.5,"sfx":"stream","vol":0.07,"dur":3.3},
+      {"t":2.5,"sfx":"tap","vol":0.16},
+      {"t":2.65,"sfx":"error","vol":0.08},
+      {"t":3.8,"sfx":"tick","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · Setup · the slow box. claude.ai (Claude mark) while the page loads: the message box is greyed, "not
+           ready". You tap it and nothing happens. A load bar fills to 3.1 s, "fresh load, until you can type" (the
+           article's p75 before figure).
+           Voiceover: 0.17 "Say the message box is slow, because you can't type until the page loads." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .hd .l { display: block; white-space: nowrap; }
+        .s02 .w { left: 90px; top: 470px; width: 860px; height: 440px; }
+        .s02 .w .bar .cc-spark { width: 34px; height: 34px; }
+        .s02 .w .ld { position: absolute; left: 40px; top: 120px; margin: 0; font: 500 32px/1.2 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s02 .cp { position: absolute; left: 30px; right: 30px; top: 260px; height: 130px; border-radius: 26px; border: 3px solid var(--faint); background: var(--gray); }
+        .s02 .cp .ph { position: absolute; left: 30px; top: 30px; font: 400 32px/1 var(--f-t); color: var(--faint); white-space: nowrap; }
+        .s02 .cp .a-tag { position: absolute; right: 22px; bottom: 18px; background: rgba(227, 52, 47, 0.1); color: var(--red); }
+        .s02 .tap { left: 300px; top: 845px; }
+        .s02 .ll { left: 90px; top: 960px; }
+        .s02 .tr { position: absolute; left: 90px; top: 1014px; width: 860px; height: 30px; border-radius: 15px; background: var(--line); }
+        .s02 .fl { position: absolute; left: 90px; top: 1014px; width: 860px; height: 30px; border-radius: 15px; background: var(--red); transform-origin: 0 50%; }
+        .s02 .ct { position: absolute; left: 90px; top: 1080px; margin: 0; font: 800 96px/1 var(--f-d); letter-spacing: -0.04em; color: var(--ink); white-space: nowrap; }
+      </style>
+      <div id="root" data-composition-id="s02-slow" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 hd"><span class="l">The box is <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">slow</span><span class="on" data-layout-allow-overlap="">slow</span></span></span></h2>
+          <div class="a-win w"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>claude.ai</span></div>
+            <p class="ld">Loading the page…</p>
+            <div class="cp"><span class="ph">Type a message</span><span class="a-tag">not ready</span></div>
+          </div>
+          <i class="a-dot tap"></i>
+          <p class="a-lab ll">Fresh load, until you can type</p>
+          <i class="tr"></i><i class="fl"></i>
+          <p class="ct">0.0 s</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.42;
+          const root = document.querySelector('[data-composition-id="s02-slow"] .s02');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".w"), q(".cp .a-tag"), q(".tap"), q(".ll"), q(".tr"), q(".ct")], { opacity: 0 });
+          gsap.set(q(".fl"), { scaleX: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Say the message box is slow"
+          Apple.rise(tl, q(".w"), 0.35, { y: 30, dur: 0.5 });
+          Apple.fade(tl, [q(".ll"), q(".tr"), q(".ct")], 0.45, { dur: 0.3 });
+          const c = { v: 0 };
+          const show = () => { q(".ct").textContent = c.v.toFixed(1) + " s"; };
+          tl.fromTo(c, { v: 0 }, { v: 3.1, duration: 3.3, ease: "none", onUpdate: show }, 0.5);
+          tl.to(q(".fl"), { scaleX: 1, duration: 3.3, ease: "none" }, 0.5);
+          Apple.tint(tl, q(".hd .a-tint"), 1.7, { dur: 0.4 });
+          // "because you can't type": the tap does nothing
+          tl.fromTo(q(".tap"), { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: 0.25, ease: "power2.out" }, 2.4);
+          tl.to(q(".tap"), { opacity: 0, duration: 0.3 }, 2.9);
+          tl.to(q(".cp"), { x: 12, duration: 0.06, yoyo: true, repeat: 5 }, 2.6);
+          Apple.zoom(tl, q(".cp .a-tag"), 2.65, { from: 1.4, dur: 0.3 });
+          // "until the page loads"
+          tl.to(q(".ct"), { scale: 1.06, duration: 0.18, yoyo: true, repeat: 1, transformOrigin: "0% 50%" }, 3.8);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .w, .ll, .tr, .fl, .ct"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s02-slow"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

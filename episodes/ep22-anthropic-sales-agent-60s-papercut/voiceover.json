@@ -1,0 +1,54 @@
+{
+  "provider": "fish-audio",
+  "model": "s2.1-pro-free",
+  "voice": "sanjay",
+  "voices": {
+    "sanjay": {
+      "id": "0b9d378e633e45028e7b645089780fb6",
+      "name": "Sanjay (better mic)"
+    },
+    "sheldon": {
+      "id": "a23454fce8074ecdac3ff7b0e5471599",
+      "name": "Young Sheldon (Fish Audio community voice)"
+    }
+  },
+  "speed": 1,
+  "volume": 1,
+  "lines": [
+    {
+      "scene": "s01",
+      "at": 0.1,
+      "text": "Here's how Anthropic's sales team rebuilt inbound with an agent, in under sixty seconds."
+    },
+    {
+      "scene": "s01",
+      "at": 5.45,
+      "text": "Inbound means the people who contact sales first."
+    },
+    {
+      "scene": "s02",
+      "at": 0.17,
+      "text": "Say you fill in the Contact Sales form. A rep qualifies you, then passes you on, and you could wait days."
+    },
+    {
+      "scene": "s03",
+      "at": 0.17,
+      "text": "With tens of thousands of requests a month, the team couldn't keep up, yet most questions were simple, like what a plan costs."
+    },
+    {
+      "scene": "s04",
+      "at": 0.17,
+      "text": "So one engineer built a buying agent. It asks what you're trying to solve, then answers from the docs. It recommends a plan, sometimes the Team plan instead of Enterprise."
+    },
+    {
+      "scene": "s05",
+      "at": 0.17,
+      "text": "Every conversation ends one of three ways. You can buy at checkout, get a quick answer, or be handed to a person, with the full conversation and the reason it escalated."
+    },
+    {
+      "scene": "s06",
+      "at": 0.17,
+      "text": "Those hand-offs become real sales opportunities more than twice as often as the old form's leads, and they close about five days faster."
+    }
+  ]
+}

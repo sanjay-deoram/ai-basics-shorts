@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.45,"sfx":"pop","vol":0.14},
+      {"t":1.3,"sfx":"error","vol":0.08},
+      {"t":2.85,"sfx":"pop","vol":0.14},
+      {"t":3.3,"sfx":"click-soft","vol":0.16},
+      {"t":4.1,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.9,"sfx":"tick","vol":0.16},
+      {"t":6.4,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":6.7,"sfx":"chime","vol":0.1,"dur":0.8},
+      {"t":7.4,"sfx":"error","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 2 · The token stays out. Your GitHub token stays outside the VM (a red ✕ on the way in); the proxy holds
+           it and hands the session a short-lived credential that can push only to claude/fix-flaky-ttl-test. In the VM's
+           terminal the push to its own branch passes, a push to main is refused (illustrative attempt).
+           Voiceover: 0.17 "Your GitHub token never enters that machine. A proxy holds it and gives the session a
+           short-lived credential that can push only to its own branch." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .tk { left: 90px; top: 556px; width: 380px; height: 130px; }
+        .s04 .px { left: 530px; top: 556px; width: 420px; height: 130px; }
+        .s04 .tk .t, .s04 .px .t { position: absolute; left: 28px; top: 26px; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s04 .tk .s, .s04 .px .s { position: absolute; left: 28px; top: 78px; font: 400 28px/1 var(--f-m); color: var(--mu); white-space: nowrap; }
+        .s04 .px .lk { position: absolute; right: 26px; top: 30px; }
+        .s04 .vm { left: 90px; top: 790px; width: 860px; }
+        .s04 .vm .bar .ttl { justify-content: flex-start; padding-left: 128px; }
+        .s04 .key { position: absolute; left: 90px; top: 1180px; }
+        .s04 .xx { position: absolute; left: 250px; top: 712px; font: 800 52px/1 var(--f-d); color: var(--red); }
+      </style>
+      <div id="root" data-composition-id="s04-token" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">2 · The token stays out</p>
+          <h2 class="a-h2 hd"><span class="l">Your token never</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">gets in</span><span class="on" data-layout-allow-overlap="">gets in</span></span></span></h2>
+          <div class="a-card tk"><span class="t">GitHub token</span><span class="s">yours · full access</span></div>
+          <div class="a-card px"><span class="t">Proxy</span><span class="s">holds your token</span><span class="a-tag blue lk">locked</span></div>
+          <span class="xx">✕</span>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true"><path class="a-ink blue ar" d="M740 690 L740 784" /><path class="a-ink blue ah" d="M724 766 L740 786 L756 766" /></svg>
+          <div class="a-win vm"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">VM 1 · claude/fix-flaky-ttl-test</span></div>
+            <div class="a-txt"><span class="ln l1"><span class="cm">credential:</span> short-lived · own branch only</span><span class="ln l2"><span class="cm">$</span> git push origin claude/fix-flaky-ttl-test</span><span class="ln l3">  <span class="g">✓ pushed</span></span><span class="ln l4"><span class="cm">$</span> git push origin main</span><span class="ln l5">  <span class="r">✕ refused: not this session's branch</span></span></div>
+          </div>
+          <span class="a-chip key">short-lived credential</span>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 8.31;
+          const root = document.querySelector('[data-composition-id="s04-token"] .s04');
+          const q = (s) => root.querySelector(s);
+          const ln = (n) => q(".l" + n);
+          gsap.set([q(".tk"), q(".px"), q(".xx"), q(".vm"), q(".ar"), q(".ah"), q(".key"), ln(1), ln(2), ln(3), ln(4), ln(5)], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "Your GitHub token never enters that machine"
+          Apple.rise(tl, q(".tk"), 0.45, { y: 30, dur: 0.5 });
+          Apple.rise(tl, q(".vm"), 0.9, { y: 30, dur: 0.5 });
+          Apple.zoom(tl, q(".xx"), 1.3, { from: 1.6, dur: 0.35 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.6, { dur: 0.4 });
+          // "A proxy holds it"
+          Apple.rise(tl, q(".px"), 2.85, { y: 30, dur: 0.5 });
+          tl.to(q(".tk"), { x: 440, scale: 0.6, opacity: 0, duration: 0.5, ease: "power2.in" }, 3.3);
+          tl.to(q(".xx"), { opacity: 0, duration: 0.3 }, 3.3);
+          tl.to(q(".px"), { scale: 1.04, duration: 0.15, yoyo: true, repeat: 1 }, 3.8);
+          // "and gives the session a short-lived credential"
+          tl.set([q(".ar"), q(".ah")], { opacity: 1 }, 4.1);
+          tl.fromTo(q(".key"), { opacity: 0, x: 600, y: -480, scale: 0.7 }, { opacity: 1, x: 0, y: 0, scale: 1, duration: 0.7, ease: "power2.inOut" }, 4.1);
+          Apple.fade(tl, ln(1), 4.9, { dur: 0.4 });
+          // "that can push only to its own branch"
+          Apple.fade(tl, ln(2), 6.3, { dur: 0.25 });
+          Apple.fade(tl, ln(3), 6.7, { dur: 0.25 });
+          Apple.fade(tl, ln(4), 7.0, { dur: 0.25 });
+          Apple.fade(tl, ln(5), 7.4, { dur: 0.25 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .px, .a-svg, .vm, .key"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-token"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

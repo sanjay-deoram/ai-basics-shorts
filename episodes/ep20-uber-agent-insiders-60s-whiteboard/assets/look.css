@@ -1,0 +1,32 @@
+/* WHITEBOARD look: dry-erase marker on a gloss board in an aluminium frame. Caveat handwriting for headings and
+   labels, marker outlines instead of shadows, black ink with blue / red / green accents. Code stays in a mono font. */
+@font-face { font-family: "Caveat"; src: url("fonts/Caveat-var.woff2") format("woff2"); font-weight: 400 700; font-display: block; }
+:root { --white: #fafaf7; --gray: #fafaf7; --line: rgba(29, 33, 38, 0.18); --ink: #1d2126; --mu: #4a5058; --faint: #7a8088; --blue: #1f5ed4; --red: #d42a2f; --green: #17914a; --code: #1d2126;
+  --shadow: none; --shadow-lg: none; --f-d: "Caveat", cursive; --nar-bg: #fafaf7; --nar-rim: 5px solid #1d2126; }
+.a-scene, .a-scene.white { background: linear-gradient(118deg, rgba(255, 255, 255, 0) 30%, rgba(255, 255, 255, 0.85) 42%, rgba(255, 255, 255, 0) 55%), #f3f4f1; }
+.a-scene::after { content: ""; position: absolute; inset: 0; border: 22px solid #c4c9ce; box-shadow: inset 0 0 0 3px #9aa1a8; pointer-events: none; }
+.a-h, .a-h2 { font-family: "Caveat", cursive; font-weight: 700; letter-spacing: -0.01em; }
+.a-h { font-size: 120px; line-height: 1.06; } .a-h2 { font-size: 104px; line-height: 1.04; }
+.a-eyebrow { font: 700 46px/1 "Caveat", cursive; color: var(--red); }
+.a-sub { font-family: "Caveat", cursive; font-size: 50px; font-weight: 700; color: var(--ink); }
+.a-lab { font: 700 40px/1.1 "Caveat", cursive; color: var(--mu); }
+.a-card, .a-win { background: transparent; border: 4px solid var(--ink); border-radius: 26px 18px 24px 16px; }
+.a-win .bar { background: transparent; border-bottom: 3px solid var(--ink); }
+.a-win .bar > i { background: transparent; border: 3px solid var(--ink); } .a-win .bar > i:nth-of-type(2), .a-win .bar > i:nth-of-type(3) { background: transparent; }
+.a-win .bar .ttl { color: var(--ink); }
+.a-tag { background: transparent !important; box-shadow: none; border: 3px solid currentColor; border-radius: 12px 8px 11px 7px; font: 700 34px/1 "Caveat", cursive; }
+.a-tag.gray { color: var(--mu); } .a-tag.blue { color: var(--blue); }
+.a-row .who { background: transparent; border: 2px solid var(--line); }
+.a-row.hot { background: rgba(31, 94, 212, 0.08); }
+.a-chip { background: transparent; border: 3px solid var(--ink); border-radius: 14px 10px 14px 10px; }
+.a-chip.flat { border-color: var(--faint); }
+.a-btn { background: transparent; border: 3px solid var(--ink); font: 700 38px/1 "Caveat", cursive; }
+.a-btn.blue { background: transparent; border-color: var(--blue); color: var(--blue); }
+.a-stamp { background: transparent; color: var(--st); border: 4px solid var(--st); box-shadow: none; font: 700 44px/1 "Caveat", cursive; border-radius: 16px 10px 14px 9px; }
+.a-stamp.red, .a-stamp.green, .a-stamp.mu { color: var(--st); border-color: var(--st); }
+.a-dot { background: var(--blue); box-shadow: none; border: 4px solid var(--ink); }
+.a-check { background: transparent; border: 4px solid var(--green); } .a-check::after { border-color: var(--green); left: 11px; top: 5px; }
+.a-ink { stroke-width: 6; } .a-ink.mu { stroke: var(--ink); }
+.a-win .msg, .a-card .m { background: transparent; border: 3px dashed var(--line); }
+.a-li { font: 700 40px/1 "Caveat", cursive; }
+.a-li::before { background-color: transparent; border: 3px solid var(--blue); border-radius: 8px 5px 7px 5px; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m6 12.5 3.8 4L18 7.5' fill='none' stroke='%231f5ed4' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }

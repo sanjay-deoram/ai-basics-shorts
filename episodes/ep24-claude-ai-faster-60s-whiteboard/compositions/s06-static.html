@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.6,"sfx":"pop","vol":0.12},
+      {"t":1.3,"sfx":"key","vol":0.12,"dur":0.7},
+      {"t":2.3,"sfx":"whoosh-short","vol":0.1},
+      {"t":3.25,"sfx":"tick","vol":0.16},
+      {"t":3.4,"sfx":"typing","vol":0.12,"dur":1.4},
+      {"t":5.75,"sfx":"tick","vol":0.12}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s06 · The fix · static composer. The code and what it renders. index.html carries an HTML copy of the message
+           box (markup illustrative); below it, the page it draws: two claude.ai windows on throttled 4G, side by side, on
+           one clock. Before: the box stays "not ready" until 2.93 s. With the HTML copy: the box is live at 0.36 s and
+           you type ("Plan a 3-day trip to Lisbon", illustrative) while the rest of the page (sidebar, recents) loads in
+           around it (the article's figures).
+           Voiceover: 0.17 "One fix bakes an HTML copy of the message box into the page, so you can type while the rest
+           loads." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s06 .hd { top: 316px; }
+        .s06 .hd .l { display: block; white-space: nowrap; }
+        .s06 .ix { left: 90px; top: 540px; width: 860px; }
+        .s06 .ix .a-txt { position: relative; }
+        .s06 .ix .hl { position: absolute; left: 0; right: 0; top: 20px; height: 138px; background: var(--blue); opacity: 0; }
+        /* the rendered page: two browser windows */
+        .s06 .pg { position: absolute; top: 900px; width: 420px; height: 400px; overflow: hidden; }
+        .s06 .pg.a { left: 90px; } .s06 .pg.b { left: 530px; }
+        .s06 .pg .bar .ttl { font-size: 26px; gap: 8px; }
+        .s06 .pg .bar .cc-spark { width: 26px; height: 26px; }
+        .s06 .pg .bd { position: absolute; left: 0; right: 0; top: 64px; bottom: 0; }
+        .s06 .pg .side { position: absolute; left: 0; top: 0; bottom: 0; width: 142px; padding: 22px 0 0 18px; border-right: 1px solid var(--line); background: var(--gray); }
+        .s06 .pg .side b { display: block; margin-bottom: 16px; font: 700 28px/1 var(--f-t); color: var(--ink); }
+        .s06 .pg .side span { display: block; margin-bottom: 14px; font: 400 28px/1 var(--f-t); color: var(--mu); white-space: nowrap; }
+        .s06 .pg .main { position: absolute; left: 142px; right: 0; top: 0; bottom: 0; }
+        .s06 .pg .hi { position: absolute; left: 18px; top: 40px; display: flex; align-items: center; gap: 8px; font: 600 30px/1.1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s06 .pg .hi .cc-spark { width: 30px; height: 30px; }
+        .s06 .pg .cp { position: absolute; left: 14px; right: 14px; top: 116px; height: 150px; border-radius: 18px; background: var(--white); box-shadow: inset 0 0 0 2px var(--line); }
+        .s06 .pg .cp .ph { position: absolute; left: 18px; top: 20px; right: 14px; font: 400 28px/1.25 var(--f-t); color: var(--faint); }
+        .s06 .pg .cp .ty { position: absolute; left: 18px; top: 20px; right: 14px; font: 400 28px/1.25 var(--f-t); color: var(--ink); }
+        .s06 .pg .cp .go { position: absolute; right: 12px; bottom: 12px; width: 46px; height: 46px; border-radius: 12px; background: var(--blue); }
+        .s06 .pg .cp .go::after { content: ""; position: absolute; left: 15px; top: 13px; width: 12px; height: 12px; border: solid #fff; border-width: 4px 4px 0 0; transform: rotate(-45deg); }
+        .s06 .pg .cp .a-tag { position: absolute; left: 16px; bottom: 14px; }
+        .s06 .pg .ov { position: absolute; left: 0; right: 0; top: 64px; bottom: 0; background: var(--gray); }
+        .s06 .pg .ov p { position: absolute; left: 0; right: 0; top: 170px; margin: 0; text-align: center; font: 500 28px/1 var(--f-t); color: var(--faint); }
+        .s06 .pg .ov .sp { position: absolute; left: 186px; top: 100px; width: 48px; height: 48px; border-radius: 50%; border: 5px solid var(--line); border-top-color: var(--blue); }
+        /* clock + results under each window */
+        .s06 .lb { top: 848px; }
+        .s06 .lb.a { left: 90px; } .s06 .lb.b { left: 530px; }
+        .s06 .tm { position: absolute; top: 1320px; margin: 0; font: 800 52px/1 var(--f-d); letter-spacing: -0.03em; white-space: nowrap; }
+        .s06 .tm.a { left: 90px; color: var(--ink); } .s06 .tm.b { left: 530px; color: var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s06-static" data-width="1080" data-height="1920">
+        <div class="a-scene s06">
+          <p class="a-eyebrow">One fix · a static message box</p>
+          <h2 class="a-h2 hd"><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">Type while</span><span class="on" data-layout-allow-overlap="">Type while</span></span></span><span class="l">the rest loads</span></h2>
+          <div class="a-win ix"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">index.html</span></div>
+            <div class="a-txt"><i class="hl"></i><span class="ln x1"><span class="k">&lt;div</span> id="composer-static"<span class="k">&gt;</span></span><span class="ln x2">  <span class="k">&lt;textarea</span> placeholder="Type a message"<span class="k">&gt;</span></span><span class="ln x3"><span class="k">&lt;/div&gt;</span></span></div>
+          </div>
+
+          <!-- before: the box waits for the whole app -->
+          <div class="a-win pg a"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>claude.ai</span></div>
+            <div class="bd">
+              <div class="side"><b>Recents</b><span>Q3 deck</span><span>API docs</span><span>Lisbon</span></div>
+              <div class="main"><div class="hi"><span class="cc-spark"></span>Good evening</div>
+                <div class="cp"><span class="ph">Type a message</span><i class="go"></i></div></div>
+            </div>
+            <div class="ov"><i class="sp"></i><p>Loading…</p></div>
+          </div>
+
+          <!-- with the HTML copy: the box is there first, the rest fills in around it -->
+          <div class="a-win pg b"><div class="bar"><i></i><i></i><i></i><span class="ttl"><span class="cc-spark"></span>claude.ai</span></div>
+            <div class="bd">
+              <div class="side"><b>Recents</b><span>Q3 deck</span><span>API docs</span><span>Lisbon</span></div>
+              <div class="main"><div class="hi"><span class="cc-spark"></span>Good evening</div>
+                <div class="cp"><span class="ph">Type a message</span><span class="ty"><span class="tt">Plan a 3-day trip to Lisbon</span></span><i class="go"></i></div></div>
+            </div>
+          </div>
+
+          <p class="a-lab lb a">Before · throttled 4G</p>
+          <p class="a-lab lb b">With the HTML copy</p>
+          <p class="tm a"><span class="v">0.00 s</span></p>
+          <p class="tm b">0.36 s</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 6.46;
+          const root = document.querySelector('[data-composition-id="s06-static"] .s06');
+          const q = (s) => root.querySelector(s);
+          const A = q(".pg.a"), B = q(".pg.b");
+          const bSide = B.querySelector(".side"), bHi = B.querySelector(".hi"), bGo = B.querySelector(".go");
+          const bPh = B.querySelector(".ph"), bTy = B.querySelector(".tt");
+          gsap.set(A.querySelector(".bd"), { opacity: 0 });
+          gsap.set([q(".ix"), q(".x1"), q(".x2"), q(".x3"), A, B, q(".lb.a"), q(".lb.b"), q(".tm.a"), q(".tm.b"), bSide, bHi, bGo, B.querySelector(".cp")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "One fix bakes an HTML copy of the message box into the page"
+          Apple.rise(tl, q(".ix"), 0.5, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".x1"), 1.2, { dur: 0.2 });
+          Apple.fade(tl, q(".x2"), 1.5, { dur: 0.2 });
+          Apple.fade(tl, q(".x3"), 1.8, { dur: 0.2 });
+          tl.to(q(".ix .hl"), { opacity: 0.1, duration: 0.3 }, 2.1);
+          // what that code renders: two windows on one clock (2.93 run seconds over 2.75 s of video)
+          Apple.rise(tl, [A, B], 2.25, { y: 30, dur: 0.5, stagger: 0.08 });
+          Apple.fade(tl, [q(".lb.a"), q(".lb.b"), q(".tm.a")], 2.4, { dur: 0.3 });
+          const T0 = 2.9, K = 2.75 / 2.93;
+          const clk = { v: 0 };
+          const show = () => { q(".tm.a .v").textContent = clk.v.toFixed(2) + " s"; };
+          tl.fromTo(clk, { v: 0 }, { v: 2.93, duration: 2.93 * K, ease: "none", onUpdate: show }, T0);
+          tl.to(A.querySelector(".sp"), { rotation: 720, duration: 2.93 * K, ease: "none" }, T0);
+          // B at 0.36 s: the static box is on the page and takes input; the rest is still loading
+          const tB = T0 + 0.36 * K;
+          tl.to(B.querySelector(".cp"), { opacity: 1, duration: 0.15 }, tB);
+          Apple.zoom(tl, q(".tm.b"), tB, { from: 0.85, dur: 0.3 });
+          tl.to(q(".ix .hl"), { opacity: 0.22, duration: 0.15, yoyo: true, repeat: 1 }, tB);
+          // "so you can type"
+          tl.to(bPh, { opacity: 0, duration: 0.1 }, tB + 0.15);
+          Egg.typeOn(tl, bTy, tB + 0.15, { cps: 20 });
+          Apple.tint(tl, q(".hd .a-tint"), tB + 0.2, { dur: 0.4 });
+          // "while the rest loads": header, sidebar and send button arrive around the box
+          Apple.fade(tl, bHi, 4.3, { dur: 0.35 });
+          Apple.fade(tl, bSide, 4.8, { dur: 0.4 });
+          Apple.zoom(tl, bGo, 5.2, { from: 0.6, dur: 0.3 });
+          // A at 2.93 s: only now does the page (and its box) appear
+          tl.to(A.querySelector(".ov"), { opacity: 0, duration: 0.2 }, T0 + 2.93 * K);
+          tl.to(A.querySelector(".bd"), { opacity: 1, duration: 0.2 }, T0 + 2.93 * K);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ix, .pg, .lb, .tm"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s06-static"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

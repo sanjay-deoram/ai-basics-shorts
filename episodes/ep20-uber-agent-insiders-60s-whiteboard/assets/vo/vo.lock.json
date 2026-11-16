@@ -1,0 +1,11 @@
+{
+  "assets/vo/s01-f7d0a9cb.mp3": "Here's why Uber treats A I agents like insiders, in under sixty seconds.",
+  "assets/vo/s02-0d2a73a9.mp3": "Every company watches its people for insider threats, because staff sometimes act outside their role. Frontier models, the most capable A I, carry the same risk.",
+  "assets/vo/s03-9b6c09e5.mp3": "Say an agent is about to send customer data to a site Uber doesn't want.",
+  "assets/vo/s04-c57bc7a1.mp3": "First, every request passes through a gateway, a perimeter that controls how A I gets used.",
+  "assets/vo/s05-16283899.mp3": "Second, safeguards built with Anthropic check what the models produce, and Uber decides what happens when one fires.",
+  "assets/vo/s06-ab2d19bb.mp3": "Third, a system called A I Detection and Response watches in real time and catches the agent acting outside its bounds.",
+  "assets/vo/s07-8bfe6ce6.mp3": "It steps in, close to the person typing, with a nudge like, you probably don't want to do that.",
+  "assets/vo/s08-957c3a86.mp3": "Then analysts hunt for behavior nobody expected and feed it back into the safeguards.",
+  "assets/vo/s08-c4370b34.mp3": "But new limits create new behavior, so the loop never ends."
+}

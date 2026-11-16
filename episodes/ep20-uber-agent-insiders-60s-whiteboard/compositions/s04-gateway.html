@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.9,"sfx":"pop","vol":0.12},
+      {"t":1.05,"sfx":"pop","vol":0.12},
+      {"t":1.2,"sfx":"pop","vol":0.12},
+      {"t":1.8,"sfx":"stream","vol":0.1,"dur":0.8},
+      {"t":2.7,"sfx":"click","vol":0.18},
+      {"t":3.45,"sfx":"pen","vol":0.12,"dur":0.6}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s04 · 1 · Gateway. Three requests (a chat app, a coding agent, our upload) flow down through one door, the LLM
+           gateway, to the frontier models; a dashed perimeter draws around it all: "controls how AI is used inside Uber".
+           Voiceover: 0.17 "First, every request passes through a gateway, a perimeter that controls how A I gets used." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s04 .hd { top: 316px; }
+        .s04 .hd .l { display: block; white-space: nowrap; }
+        .s04 .rq { position: absolute; top: 590px; }
+        .s04 .gw { left: 130px; top: 780px; width: 780px; height: 110px; display: flex; align-items: center; justify-content: center; gap: 16px; font: 700 44px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); }
+        .s04 .gw small { font: 400 28px/1 var(--f-m); color: var(--mu); letter-spacing: 0; }
+        .s04 .md { left: 300px; top: 970px; width: 440px; height: 100px; display: flex; align-items: center; justify-content: center; font: 600 34px/1 var(--f-t); color: var(--ink); }
+        .s04 .pm { position: absolute; left: 90px; top: 560px; width: 860px; height: 550px; border: 4px dashed var(--blue); border-radius: 36px; }
+        .s04 .pl { left: 90px; top: 1140px; color: var(--blue); }
+        .s04 .dt { position: absolute; left: 0; top: 0; width: 24px; height: 24px; margin: -12px 0 0 -12px; border-radius: 50%; background: var(--blue); }
+      </style>
+      <div id="root" data-composition-id="s04-gateway" data-width="1080" data-height="1920">
+        <div class="a-scene s04">
+          <p class="a-eyebrow">1 · Gateway</p>
+          <h2 class="a-h2 hd"><span class="l">Every request, one</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">gateway</span><span class="on" data-layout-allow-overlap="">gateway</span></span></span></h2>
+          <span class="a-chip rq" style="left:124px">chat app</span>
+          <span class="a-chip rq" style="left:320px">IDE agent</span>
+          <span class="a-chip rq me" style="left:540px">upload customers.csv</span>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="a-ink mu ar" d="M210 650 L420 780" /><path class="a-ink mu ar" d="M410 650 L500 780" /><path class="a-ink mu ar" d="M728 650 L580 780" />
+            <path class="a-ink mu ar" d="M520 890 L520 970" />
+          </svg>
+          <div class="a-card gw">LLM gateway <small>one door</small></div>
+          <div class="a-card md">Frontier models</div>
+          <div class="pm"></div>
+          <p class="a-lab pl">Perimeter · controls how AI is used inside Uber</p>
+          <div class="dt"></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 5.95;
+          const root = document.querySelector('[data-composition-id="s04-gateway"] .s04');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const ars = all(".ar");
+          ars.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set([...all(".rq"), q(".gw"), q(".md"), q(".pm"), q(".pl"), q(".dt")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          // "every request"
+          Apple.zoom(tl, all(".rq"), 0.9, { from: 0.85, dur: 0.4, stagger: 0.15 });
+          Apple.rise(tl, [q(".gw"), q(".md")], 1.2, { y: 20, dur: 0.5, stagger: 0.15 });
+          // "passes through a gateway"
+          tl.fromTo(ars.slice(0, 3), { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out", stagger: 0.1 }, 1.75);
+          tl.fromTo(q(".dt"), { opacity: 1, x: 728, y: 650 }, { x: 560, y: 790, duration: 0.6, ease: "power2.inOut" }, 2.1);
+          Apple.tint(tl, q(".hd .a-tint"), 2.65, { dur: 0.4 });
+          tl.to(q(".gw"), { scale: 1.04, duration: 0.18, yoyo: true, repeat: 1 }, 2.7);
+          tl.fromTo(ars[3], { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.3 }, 2.8);
+          tl.to(q(".dt"), { x: 520, y: 980, duration: 0.4, ease: "power2.inOut" }, 2.8);
+          tl.to(q(".dt"), { opacity: 0, duration: 0.2 }, 3.2);
+          // "a perimeter that controls how AI gets used"
+          tl.fromTo(q(".pm"), { opacity: 0, scale: 1.05 }, { opacity: 1, scale: 1, duration: 0.6, ease: "expo.out" }, 3.4);
+          Apple.fade(tl, q(".pl"), 4.0, { dur: 0.4 });
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .rq, .a-svg, .gw, .md, .pm, .pl"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s04-gateway"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

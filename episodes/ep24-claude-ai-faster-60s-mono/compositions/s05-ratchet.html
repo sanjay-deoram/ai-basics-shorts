@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.7,"sfx":"pop","vol":0.12},
+      {"t":2.1,"sfx":"tick","vol":0.16},
+      {"t":2.7,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":4.0,"sfx":"key","vol":0.12,"dur":0.5},
+      {"t":5.8,"sfx":"error","vol":0.1},
+      {"t":6.6,"sfx":"pop","vol":0.12},
+      {"t":7.2,"sfx":"click","vol":0.18},
+      {"t":8.1,"sfx":"whoosh-short","vol":0.1}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s05 · The ratchet. If it got faster: the daily job lowers the composer path's ceiling (1.90M → 1.88M
+           instructions, illustrative numbers) and a pull request that raises it fails CI. If not: the flag switches off
+           and Claude tries again.
+           Voiceover: 0.17 "If it got faster, a daily job lowers the allowed count, and any pull request that raises it
+           fails. If not, the flag goes off and Claude tries again." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s05 .hd { top: 316px; }
+        .s05 .hd .l { display: block; white-space: nowrap; }
+        .s05 .ci { left: 90px; top: 548px; width: 860px; }
+        .s05 .fs { left: 640px; top: 736px; }
+        .s05 .nf { left: 90px; top: 890px; width: 860px; height: 250px; }
+        .s05 .nf .t { position: absolute; left: 30px; top: 30px; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s05 .nf .rw { position: absolute; left: 30px; top: 90px; display: flex; align-items: center; gap: 14px; font: 400 28px/1 var(--f-m); color: var(--ink); white-space: nowrap; }
+        .s05 .sw { position: relative; display: inline-block; width: 84px; height: 46px; border-radius: 23px; background: var(--faint); }
+        .s05 .sw .f { position: absolute; inset: 0; border-radius: 23px; background: var(--blue); }
+        .s05 .sw .kb { position: absolute; left: 4px; top: 4px; width: 38px; height: 38px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
+        .s05 .nf .st { position: absolute; left: 30px; top: 172px; display: flex; align-items: center; gap: 14px; margin: 0; font: 700 34px/1 var(--f-d); letter-spacing: -0.02em; color: var(--blue); white-space: nowrap; }
+        .s05 .nf .st svg { width: 44px; height: 44px; }
+      </style>
+      <div id="root" data-composition-id="s05-ratchet" data-width="1080" data-height="1920">
+        <div class="a-scene s05">
+          <p class="a-eyebrow">The ratchet</p>
+          <h2 class="a-h2 hd"><span class="l">The limit only</span><span class="l"><span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">goes down</span><span class="on" data-layout-allow-overlap="">goes down</span></span></span></h2>
+          <div class="a-win ci"><div class="bar"><i></i><i></i><i></i><span class="ttl l">If it got faster · CI</span></div>
+            <div class="a-txt"><span class="ln c1"><span class="cm">ceiling</span>  1.90M<span class="lo"> → <span class="k">1.88M</span></span> instructions</span><span class="ln c2"><span class="cm">daily job:</span> <span class="g">lowered ✓</span></span><span class="ln c3"><span class="cm">new PR:</span> raises it to <span class="r">1.93M</span></span><span class="ln c4"> </span></div>
+          </div>
+          <span class="a-stamp red fs">Failed CI</span>
+          <div class="a-card nf"><span class="t">If it isn't faster</span>
+            <span class="rw"><span class="a-tag gray">flag</span><span class="sw"><i class="f"></i><i class="kb"></i></span>static-composer</span>
+            <p class="st"><svg viewBox="0 0 44 44" aria-hidden="true"><path class="a-ink blue lp" d="M36 22 A14 14 0 1 1 30 10.5" /><path class="a-ink blue" d="M29 3 L31 11 L23 13" /></svg>Claude tries again</p>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 9.7;
+          const root = document.querySelector('[data-composition-id="s05-ratchet"] .s05');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".ci"), q(".c1"), q(".lo"), q(".c2"), q(".c3"), q(".fs"), q(".nf"), q(".st")], { opacity: 0 });
+          gsap.set(q(".sw .kb"), { x: 38 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.8 });
+          // "If it got faster, a daily job lowers the allowed count"
+          Apple.rise(tl, q(".ci"), 0.6, { y: 24, dur: 0.5 });
+          Apple.fade(tl, q(".c1"), 0.9, { dur: 0.3 });
+          Apple.fade(tl, q(".lo"), 2.1, { dur: 0.3 });
+          Apple.fade(tl, q(".c2"), 2.7, { dur: 0.3 });
+          Apple.tint(tl, q(".hd .a-tint"), 2.8, { dur: 0.4 });
+          // "and any pull request that raises it fails."
+          Apple.fade(tl, q(".c3"), 4.0, { dur: 0.3 });
+          Apple.zoom(tl, q(".fs"), 5.8, { from: 1.5, dur: 0.3 });
+          // "If not, the flag goes off"
+          Apple.rise(tl, q(".nf"), 6.55, { y: 24, dur: 0.5 });
+          tl.to(q(".sw .kb"), { x: 0, duration: 0.25, ease: "power2.out" }, 7.2);
+          tl.to(q(".sw .f"), { opacity: 0, duration: 0.25 }, 7.2);
+          // "and Claude tries again"
+          Apple.rise(tl, q(".st"), 8.05, { y: 14, dur: 0.4 });
+          tl.fromTo(q(".st svg"), { rotation: 0 }, { rotation: 360, transformOrigin: "50% 50%", duration: 1.0, ease: "power2.inOut" }, 8.1);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .ci, .fs, .nf"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s05-ratchet"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

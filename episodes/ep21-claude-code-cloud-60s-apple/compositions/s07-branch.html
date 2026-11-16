@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.6,"sfx":"pop","vol":0.12},
+      {"t":0.75,"sfx":"pop","vol":0.12},
+      {"t":0.9,"sfx":"pop","vol":0.12},
+      {"t":2.5,"sfx":"click","vol":0.2},
+      {"t":2.9,"sfx":"whoosh-short","vol":0.12},
+      {"t":4.2,"sfx":"air","vol":0.12},
+      {"t":4.45,"sfx":"pop","vol":0.14},
+      {"t":5.7,"sfx":"pop","vol":0.14},
+      {"t":8.2,"sfx":"pop","vol":0.14},
+      {"t":9.0,"sfx":"chime","vol":0.18,"dur":2.0}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s07 · Payoff · a branch back, and when to stay local. The three branches each with Create PR; the first is
+           clicked and its pull request opens. Then "Stay local for": local databases, VPN-only services, GPUs (each on its
+           word), plus simulators and tight visual loops. Hard stop.
+           Voiceover: 0.17 "Each job comes back as a branch you can turn into a pull request."
+           4.08 "For a local database, a V P N only service, or a G P U, stay on your laptop." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s07 .hd { top: 316px; white-space: nowrap; }
+        .s07 .bl { left: 90px; top: 450px; width: 860px; }
+        .s07 .bl .a-row { height: 84px; }
+        .s07 .bl .a-btn { position: absolute; right: 22px; top: 12px; height: 60px; padding: 0 24px; font-size: 28px; }
+        .s07 .pr { left: 90px; top: 790px; width: 860px; height: 130px; }
+        .s07 .pr .t { position: absolute; left: 30px; top: 26px; font: 700 36px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s07 .pr .s { position: absolute; left: 30px; top: 80px; font: 400 28px/1 var(--f-m); color: var(--mu); white-space: nowrap; }
+        .s07 .pr .a-tag { position: absolute; right: 26px; top: 24px; }
+        .s07 .tap { position: absolute; left: 850px; top: 538px; width: 90px; height: 90px; margin: -45px 0 0 -45px; border-radius: 50%; border: 5px solid var(--blue); }
+        .s07 .lc { left: 90px; top: 960px; width: 860px; height: 300px; }
+        .s07 .lc .t { position: absolute; left: 30px; top: 28px; font: 700 40px/1 var(--f-d); letter-spacing: -0.02em; color: var(--ink); white-space: nowrap; }
+        .s07 .lc .cs { position: absolute; left: 30px; right: 30px; top: 96px; display: flex; flex-wrap: wrap; gap: 14px; }
+      </style>
+      <div id="root" data-composition-id="s07-branch" data-width="1080" data-height="1920">
+        <div class="a-scene s07">
+          <p class="a-eyebrow">The payoff</p>
+          <h2 class="a-h2 hd">A <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">branch</span><span class="on" data-layout-allow-overlap="">branch</span></span> back</h2>
+          <div class="a-win bl"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">tidepool · branches</span></div>
+            <div class="a-row"><span>claude/fix-flaky-ttl-test</span><span class="a-btn blue">Create PR</span></div>
+            <div class="a-row"><span>claude/rewrite-api-docs</span><span class="a-btn">Create PR</span></div>
+            <div class="a-row"><span>claude/json-logger</span><span class="a-btn">Create PR</span></div>
+          </div>
+          <div class="tap"></div>
+          <div class="a-card pr"><span class="t">Fix flaky TtlCache.get test</span><span class="s">claude/fix-flaky-ttl-test → main</span><span class="a-tag blue">Pull request</span></div>
+          <div class="a-card lc"><span class="t">Stay on your laptop for</span>
+            <div class="cs"><span class="a-chip c1">local databases</span><span class="a-chip c2">VPN-only services</span><span class="a-chip c3">GPUs</span><span class="a-chip flat c4">simulators</span><span class="a-chip flat c5">tight visual loops</span></div>
+          </div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const root = document.querySelector('[data-composition-id="s07-branch"] .s07');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const rows = all(".bl .a-row");
+          gsap.set([q(".bl"), ...rows, q(".tap"), q(".pr"), q(".lc"), ...all(".lc .a-chip")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          // "Each job comes back as a branch"
+          Apple.rise(tl, q(".bl"), 0.45, { y: 30, dur: 0.5 });
+          Apple.rise(tl, rows, 0.6, { y: 14, dur: 0.4, stagger: 0.15 });
+          Apple.tint(tl, q(".hd .a-tint"), 1.75, { dur: 0.4 });
+          // "you can turn into a pull request"
+          tl.fromTo(q(".tap"), { opacity: 0.9, scale: 0.4 }, { opacity: 0, scale: 1.4, duration: 0.6, ease: "power2.out" }, 2.5);
+          tl.to(rows[0].querySelector(".a-btn"), { scale: 0.94, duration: 0.1, yoyo: true, repeat: 1 }, 2.5);
+          Apple.rise(tl, q(".pr"), 2.9, { y: 30, dur: 0.6 });
+          // "For a local database, a VPN-only service, or a GPU, stay on your laptop"
+          Apple.rise(tl, q(".lc"), 4.2, { y: 30, dur: 0.5 });
+          [4.45, 5.7, 8.2].forEach((at, i) => Apple.zoom(tl, q(".lc .c" + (i + 1)), at, { from: 0.8, dur: 0.4 }));
+          Apple.fade(tl, [q(".lc .c4"), q(".lc .c5")], 9.0, { dur: 0.5 });
+          window.__timelines["s07-branch"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

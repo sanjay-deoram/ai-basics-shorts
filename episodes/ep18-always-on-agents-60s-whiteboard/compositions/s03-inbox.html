@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.9,"sfx":"pop","vol":0.14},
+      {"t":1.05,"sfx":"pop","vol":0.14},
+      {"t":1.2,"sfx":"pop","vol":0.14},
+      {"t":2.4,"sfx":"drop","vol":0.16},
+      {"t":3.6,"sfx":"tick","vol":0.16},
+      {"t":3.85,"sfx":"click-soft","vol":0.16}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s03 · 1 · Inbox. Three sources (You, Webhooks, Scheduled jobs) feed one table, INBOX (a database table); your
+           request lands as row ev-101; one worker reads it.
+           Voiceover: 0.17 "First, everything that wakes it, like your request, goes into one inbox." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s03 .hd { top: 316px; white-space: nowrap; }
+        .s03 .src { position: absolute; top: 470px; }
+        .s03 .tb { left: 90px; top: 660px; width: 860px; }
+        .s03 .wk { position: absolute; left: 90px; top: 1010px; }
+        .s03 .wl { left: 300px; top: 1022px; }
+      </style>
+      <div id="root" data-composition-id="s03-inbox" data-width="1080" data-height="1920">
+        <div class="a-scene s03">
+          <p class="a-eyebrow">1 · Inbox</p>
+          <h2 class="a-h2 hd">One <span class="a-tint" data-layout-allow-overlap=""><span data-layout-allow-overlap="">inbox</span><span class="on" data-layout-allow-overlap="">inbox</span></span></h2>
+          <span class="a-chip src s1" style="left:90px">You</span>
+          <span class="a-chip src s2" style="left:330px">Webhooks</span>
+          <span class="a-chip src s3" style="left:630px">Scheduled jobs</span>
+          <svg class="a-svg" viewBox="0 0 1080 1920" aria-hidden="true">
+            <path class="a-ink mu ar" d="M150 530 C150 590 300 600 420 650" />
+            <path class="a-ink mu ar" d="M420 530 L460 650" />
+            <path class="a-ink mu ar" d="M760 530 C760 590 620 600 520 650" />
+          </svg>
+          <div class="a-win tb"><div class="bar"><i></i><i></i><i></i><span class="ttl mono">INBOX · a database table</span></div>
+            <div class="a-row done"><span class="id">ev-098</span><span class="who">webhook</span><span>invoice paid</span></div>
+            <div class="a-row done"><span class="id">ev-099</span><span class="who">schedule</span><span>daily digest</span></div>
+            <div class="a-row new"><span class="id">ev-101</span><span class="who">you</span><span>"Chase Acme about the quote…"</span></div>
+          </div>
+          <span class="a-chip wk"><span class="a-dot" style="position:relative;margin:0;width:22px;height:22px;box-shadow:none"></span>worker</span>
+          <p class="a-lab wl">One worker per inbox</p>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.66;
+          const root = document.querySelector('[data-composition-id="s03-inbox"] .s03');
+          const q = (s) => root.querySelector(s);
+          const all = (s) => [...root.querySelectorAll(s)];
+          const ars = all(".ar");
+          ars.forEach((p) => { p.setAttribute("pathLength", "1"); p.style.strokeDasharray = "1 1.1"; });
+          gsap.set([q(".new"), q(".wk"), q(".wl")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.12, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.2, { y: 24, dur: 0.7 });
+          Apple.rise(tl, q(".tb"), 0.4, { y: 40, dur: 0.7 });
+          // "everything that wakes it"
+          Apple.zoom(tl, all(".src"), 0.9, { from: 0.8, dur: 0.5, stagger: 0.15 });
+          tl.fromTo(ars, { strokeDashoffset: 1.02 }, { strokeDashoffset: 0, duration: 0.5, ease: "power2.out", stagger: 0.15 }, 1.2);
+          // "like your request": the task lands as ev-101
+          tl.fromTo(q(".new"), { opacity: 0, y: -200 }, { opacity: 1, y: 0, duration: 0.6, ease: "expo.out" }, 2.3);
+          tl.fromTo(q(".s1"), { scale: 1 }, { scale: 1.1, duration: 0.2, yoyo: true, repeat: 1 }, 2.15);
+          // "one inbox": one worker reads the row
+          Apple.tint(tl, q(".hd .a-tint"), 3.55, { dur: 0.4 });
+          Apple.rise(tl, q(".wk"), 3.6, { y: 20, dur: 0.5 });
+          Apple.fade(tl, q(".wl"), 3.8, { dur: 0.4 });
+          tl.fromTo(q(".new"), { backgroundColor: "rgba(0,113,227,0)" }, { backgroundColor: "rgba(0,113,227,0.1)", duration: 0.3 }, 3.85);
+          Apple.out(tl, root.querySelectorAll(".a-eyebrow, .hd, .src, .a-svg, .tb, .wk, .wl"), DUR - 0.28, { dur: 0.28 });
+          window.__timelines["s03-inbox"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <script type="application/json" class="sfx-cues">[
+      {"t":0.15,"sfx":"air","vol":0.14},
+      {"t":0.55,"sfx":"typing","vol":0.12,"dur":1.9},
+      {"t":2.55,"sfx":"send","vol":0.16},
+      {"t":3.3,"sfx":"pop","vol":0.16},
+      {"t":3.95,"sfx":"tick","vol":0.14}
+    ]</script>
+  </head>
+  <body>
+    <template>
+      <!-- s02 · The example. You type your request to the agent; the dot wakes; the message folds into the task card
+           "Task · Acme quote", the through-line (it drops into the inbox in s03).
+           Voiceover: 0.17 "Say you want an agent that chases a customer who hasn't answered your quote." -->
+      <style>
+        #root { position: absolute; inset: 0; }
+        .s02 .hd { top: 316px; }
+        .s02 .hd .l { display: block; white-space: nowrap; }
+        .s02 .win { left: 90px; top: 560px; width: 860px; height: 330px; }
+        .s02 .msg { position: absolute; left: 30px; right: 30px; top: 96px; padding: 26px 30px; border-radius: 26px; background: var(--gray); font: 500 36px/1.3 var(--f-t); letter-spacing: -0.01em; color: var(--ink); }
+        .s02 .who { position: absolute; left: 30px; top: 84px; }
+        .s02 .lbl { position: absolute; left: 30px; top: 92px; font: 600 26px/1 var(--f-t); color: var(--mu); }
+        .s02 .msg { top: 140px; }
+        .s02 .task { left: 90px; top: 960px; width: 860px; height: 190px; }
+        .s02 .task .t1 { position: absolute; left: 36px; top: 34px; font: 600 28px/1 var(--f-t); color: var(--mu); }
+        .s02 .task .t2 { position: absolute; left: 36px; top: 80px; font: 700 54px/1 var(--f-d); letter-spacing: -0.03em; color: var(--ink); white-space: nowrap; }
+        .s02 .task .t3 { position: absolute; left: 36px; top: 146px; font: 400 28px/1 var(--f-m); color: var(--faint); white-space: nowrap; }
+        .s02 .task .a-tag { position: absolute; right: 30px; top: 30px; }
+      </style>
+      <div id="root" data-composition-id="s02-ask" data-width="1080" data-height="1920">
+        <div class="a-scene s02">
+          <p class="a-eyebrow">The example</p>
+          <h2 class="a-h2 hd"><span class="l">Chase a quiet</span><span class="l">customer</span></h2>
+          <div class="a-win win"><div class="bar"><i></i><i></i><i></i><span class="ttl">You → your agent</span></div>
+            <span class="lbl">You</span>
+            <p class="msg"><span class="ty">Chase Acme about the quote if they haven't replied by Wednesday.</span></p>
+          </div>
+          <div class="a-card task"><span class="t1">Task</span><span class="t2">Acme quote</span><span class="t3">progress/acme-quote.md</span><span class="a-tag blue">waiting on Acme</span></div>
+        </div>
+      </div>
+      <script>
+        (() => {
+          const DUR = 4.89;
+          const root = document.querySelector('[data-composition-id="s02-ask"] .s02');
+          const q = (s) => root.querySelector(s);
+          gsap.set([q(".win"), q(".task")], { opacity: 0 });
+          const tl = gsap.timeline({ paused: true });
+          Apple.rise(tl, q(".a-eyebrow"), 0.15, { y: 16 });
+          Apple.rise(tl, q(".hd"), 0.25, { y: 24, dur: 0.8 });
+          Apple.rise(tl, q(".win"), 0.4, { y: 40, dur: 0.7 });
+          Egg.typeOn(tl, q(".ty"), 0.55, { cps: 34 });
+          // "...your quote": the request folds into the task card
+          tl.to(q(".msg"), { scale: 0.97, duration: 0.2, ease: "power2.out", yoyo: true, repeat: 1 }, 2.55);
+          Apple.rise(tl, q(".task"), 3.3, { y: -60, dur: 0.8 });
+          Apple.zoom(tl, q(".task .a-tag"), 3.95, { from: 0.8, dur: 0.45 });
+          Apple.out(tl, [q(".a-eyebrow"), q(".hd"), q(".win")], DUR - 0.3, { dur: 0.3 });
+          tl.to(q(".task"), { y: -200, scale: 0.9, opacity: 0, duration: 0.3, ease: "power2.in" }, DUR - 0.3);
+          window.__timelines["s02-ask"] = tl;
+        })();
+      </script>
+    </template>
+  </body>
+</html>
