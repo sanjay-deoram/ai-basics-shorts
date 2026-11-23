@@ -31,3 +31,6 @@ desktop.ini
 .DS_Store
 .vscode/
 *.log
+
+# YouTube API response cache (growth/tools/youtube.mjs)
+growth/.youtube-cache/
